@@ -2,7 +2,6 @@
  * @(#)SVGInputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -1020,7 +1019,7 @@ public class SVGInputFormat implements InputFormat {
             throw ex;
         }
     }
-    private final static HashSet<String> supportedFeatures = new HashSet<String>(
+    private static final HashSet<String> supportedFeatures = new HashSet<String>(
             Arrays.asList(new String[]{
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
                 //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",

@@ -36,7 +36,7 @@ import javax.swing.plaf.*;
  */
 public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
-    private final static boolean isFloatingAllowed = false;
+    private static final boolean isFloatingAllowed = false;
     protected JToolBar toolBar;
     private boolean floating;
     private int floatingX;
@@ -74,11 +74,11 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     /*private*/ static String IS_DIVIDER_DRAWN = "Palette.ToolBar.isDividerDrawn";
     // client properties
     /* The value of this client property must be an Icon or null. */
-    public final static String TOOLBAR_ICON_PROPERTY = "Palette.ToolBar.icon";
+    public static final String TOOLBAR_ICON_PROPERTY = "Palette.ToolBar.icon";
     /* The value of this client property must be an Integer or null, if it is null, the value 2 is used. */
-    public final static String TOOLBAR_TEXT_ICON_GAP_PROPERTY = "Palette.ToolBar.textIconGap";
+    public static final String TOOLBAR_TEXT_ICON_GAP_PROPERTY = "Palette.ToolBar.textIconGap";
     /* The value of this client property must be an Insets object or null, if it is null, the insets of the toolbar border are used */
-    public final static String TOOLBAR_INSETS_OVERRIDE_PROPERTY = "Palette.ToolBar.insetsOverride";
+    public static final String TOOLBAR_INSETS_OVERRIDE_PROPERTY = "Palette.ToolBar.insetsOverride";
     private static Border rolloverBorder;
     private static Border nonRolloverBorder;
     private static Border nonRolloverToggleBorder;
@@ -438,14 +438,14 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         Window window = SwingUtilities.getWindowAncestor(toolbar);
         JFrame frame = new JFrame(toolbar.getName(),
                 (window != null) ? window.getGraphicsConfiguration() : null) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
             // Override createRootPane() to automatically resize
             // the frame when contents change
 
             @Override
             protected JRootPane createRootPane() {
                 JRootPane rootPane = new JRootPane() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     private boolean packing = false;
 
@@ -477,7 +477,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
      */
     protected RootPaneContainer createFloatingWindow(JToolBar toolbar) {
         class ToolBarDialog extends JDialog {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             public ToolBarDialog(@Nullable Frame owner, String title, boolean modal) {
                 super(owner, title, modal);
@@ -492,7 +492,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             @Override
             protected JRootPane createRootPane() {
                 JRootPane rootPane = new JRootPane() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     private boolean packing = false;
 
@@ -1060,7 +1060,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     }
 
     private static class Actions extends /*UI*/ AbstractAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         private static final String NAVIGATE_RIGHT = "navigateRight";
         private static final String NAVIGATE_LEFT = "navigateLeft";
@@ -1402,7 +1402,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     }
 
     protected class DragWindow extends JWindow {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         Color borderColor = Color.gray;
         int orientation = toolBar.getOrientation();
@@ -1412,7 +1412,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             super(w);
 
             getContentPane().add(new JPanel() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void paintComponent(Graphics g) {

@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class ODGDrawing extends QuadTreeDrawing {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private String title;
     private String description;
     

@@ -1,8 +1,8 @@
 /*
  * @(#)StreamPosTokenizer.java
- *
- * Copyright (c) 1999-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * 
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.io;
@@ -19,7 +19,7 @@ import java.util.LinkedList;
  * The handling of numeric data is also different: a single dot
  * '.' and minus dot '-.' are not treated as numbers.
  *
- * @author  Werner Randelshofer, Hausmatt 10, Immensee, CH-6405, Switzerland
+ * @author Werner Randelshofer
  * @version $Id$
  */
 

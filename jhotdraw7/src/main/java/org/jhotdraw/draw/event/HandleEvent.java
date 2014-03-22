@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class HandleEvent extends EventObject {
     @Nullable private Rectangle invalidatedArea;
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
     
     /** Creates a new instance. */
     public HandleEvent(Handle src, @Nullable Rectangle invalidatedArea) {

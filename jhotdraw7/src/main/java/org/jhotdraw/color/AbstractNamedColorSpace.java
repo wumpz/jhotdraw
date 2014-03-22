@@ -18,6 +18,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public abstract class AbstractNamedColorSpace extends ColorSpace implements NamedColorSpace {
+    private static final long serialVersionUID = 1L;
 
     public AbstractNamedColorSpace(int type, int numcomponents) {
         super(type, numcomponents);

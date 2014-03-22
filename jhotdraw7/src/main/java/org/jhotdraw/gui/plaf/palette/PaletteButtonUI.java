@@ -20,7 +20,7 @@ import javax.swing.plaf.basic.*;
  */
 public class PaletteButtonUI extends BasicButtonUI {
     // Shared UI object
-    private final static PaletteButtonUI buttonUI = new PaletteButtonUI();
+    private static final PaletteButtonUI buttonUI = new PaletteButtonUI();
 
     // ********************************
     //          Create PLAF

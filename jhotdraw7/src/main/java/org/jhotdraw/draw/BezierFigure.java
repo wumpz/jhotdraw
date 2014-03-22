@@ -54,7 +54,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class BezierFigure extends AbstractAttributedFigure {
-                    private final static long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
     /**
      * The BezierPath.
@@ -650,7 +650,7 @@ public class BezierFigure extends AbstractAttributedFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-                    private final static long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {

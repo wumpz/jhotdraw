@@ -36,7 +36,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version 1.0 2011-09-08 Created.
  */
 public class JActivityIndicator extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private ArrayList<ActivityModel> models = new ArrayList<ActivityModel>();
 

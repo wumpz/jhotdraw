@@ -84,23 +84,23 @@ public interface DrawingEditor {
     /**
      * The property name for the active view property.
      */
-    public final static String ACTIVE_VIEW_PROPERTY = "activeView";
+    public static final String ACTIVE_VIEW_PROPERTY = "activeView";
     /**
      * The property name for the active tool property.
      */
-    public final static String TOOL_PROPERTY = "tool";
+    public static final String TOOL_PROPERTY = "tool";
     /**
      * The property name for the input map property.
      */
-    public final static String INPUT_MAP_PROPERTY = "inputMap";
+    public static final String INPUT_MAP_PROPERTY = "inputMap";
     /**
      * The property name for the action map property.
      */
-    public final static String ACTION_MAP_PROPERTY = "actionMap";
+    public static final String ACTION_MAP_PROPERTY = "actionMap";
     /**
      * The prefix for default attribute property changes.
      */
-    public final static String DEFAULT_ATTRIBUTE_PROPERTY_PREFIX = "defaultAttribute.";
+    public static final String DEFAULT_ATTRIBUTE_PROPERTY_PREFIX = "defaultAttribute.";
 
     /**
      * Gets the editor's current drawing.

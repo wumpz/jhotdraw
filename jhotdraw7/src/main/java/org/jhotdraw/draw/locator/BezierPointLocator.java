@@ -20,7 +20,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class BezierPointLocator extends AbstractLocator {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private int index;
     private int coord;
     

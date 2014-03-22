@@ -24,7 +24,7 @@ import org.jhotdraw.gui.ActivityModel;
  * @version 1.0 2011-09-08 Created.
  */
 public class ActivityMonitorSample extends javax.swing.JFrame {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 private int count;

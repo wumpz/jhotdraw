@@ -33,7 +33,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class ToolsToolBar extends AbstractToolBar {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Creates new instance. */
     public ToolsToolBar() {

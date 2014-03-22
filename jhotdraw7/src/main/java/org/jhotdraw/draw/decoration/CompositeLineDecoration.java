@@ -30,7 +30,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Huw Jones
  */
 public class CompositeLineDecoration implements LineDecoration, DOMStorable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 	private List<LineDecoration> decorations = new ArrayList<LineDecoration>();
 	
 	/**

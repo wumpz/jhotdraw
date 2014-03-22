@@ -47,9 +47,9 @@ import org.jhotdraw.gui.EditableComponent;
  * @version $Id$
  */
 public class SelectAllAction extends AbstractSelectionAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.selectAll";
+    public static final String ID = "edit.selectAll";
 
     /** Creates a new instance which acts on the currently focused component. */
     public SelectAllAction() {

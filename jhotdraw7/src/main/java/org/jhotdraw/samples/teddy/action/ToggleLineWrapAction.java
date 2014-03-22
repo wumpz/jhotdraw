@@ -2,7 +2,6 @@
  * @(#)ToggleLineWrapAction.java
  *
  * Copyright (c) 2005 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -24,8 +23,8 @@ import javax.swing.Action;
  * @version $Id$
  */
 public class ToggleLineWrapAction extends AbstractViewAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "view.toggleLineWrap";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "view.toggleLineWrap";
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
     
     /**

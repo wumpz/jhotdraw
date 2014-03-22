@@ -23,7 +23,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class EditGridPanel extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private ResourceBundleUtil labels;
     private GridConstrainer constrainer;
     

@@ -2,7 +2,6 @@
  * @(#)JHarmonicColorWheel.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -24,9 +23,9 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class JHarmonicColorWheel extends JColorWheel {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String SELECTED_INDEX_PROPERTY = "selectedIndex";
+    public static final String SELECTED_INDEX_PROPERTY = "selectedIndex";
     private HarmonicColorModel harmonicModel;
     private int selectedIndex = -1;
     private float handleRadius = 4f;

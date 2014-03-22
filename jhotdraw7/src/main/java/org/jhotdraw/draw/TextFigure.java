@@ -38,7 +38,7 @@ import org.jhotdraw.xml.DOMOutput;
  */
 public class TextFigure extends AbstractAttributedDecoratedFigure
         implements TextHolderFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;

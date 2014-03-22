@@ -20,7 +20,7 @@ import org.jhotdraw.geom.*;
  */
 public class ListFigure
 extends GraphicalCompositeFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /** Creates a new instance. */
     public ListFigure() {
         this(null);

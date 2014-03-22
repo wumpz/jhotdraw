@@ -1,14 +1,9 @@
 /*
  * @(#)PaletteRGBChooser.java
- *
- * Copyright (c) 2005-2010 Werner Randelshofer
- * Hausmatt 10, Immensee, CH-6405, Switzerland.
- * All rights reserved.
- *
- * The copyright of this software is owned by Werner Randelshofer. 
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * Werner Randelshofer. For details see accompanying license terms. 
+ * 
+ * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
+ * You may not use, copy or modify this file, except in compliance with the
+ * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
@@ -32,7 +27,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
  * @version $Id$
  */
 public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIResource {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private ColorSliderModel ccModel = new PaletteColorSliderModel(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB));
     private int updateRecursion;

@@ -21,7 +21,7 @@ import org.jhotdraw.gui.JSheet;
  * @version $Id$
  */
 public class SheetEvent extends EventObject {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private Object pane;
     private int option;
     @Nullable private Object value;

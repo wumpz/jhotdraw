@@ -2,7 +2,6 @@
  * @(#)PaletteHSBChooser.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -30,7 +29,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
 public class PaletteHSBChooser
         extends AbstractColorChooserPanel
         implements UIResource {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private ColorSliderModel ccModel = new PaletteColorSliderModel(new HSBColorSpace());
     private int updatingChooser;

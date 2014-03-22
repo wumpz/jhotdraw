@@ -21,7 +21,7 @@ import javax.swing.undo.UndoableEdit;
  * @version $Id$
  */
 public class PropertyChangeEdit extends AbstractUndoableEdit {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The object to be provided as the "source" of the JavaBeans property.

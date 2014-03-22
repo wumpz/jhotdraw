@@ -27,7 +27,7 @@ import java.util.*;
  * @version $Id$
  */
 public class FigureSelectionEvent extends java.util.EventObject {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     private Set<Figure> oldValue;
     private Set<Figure> newValue;

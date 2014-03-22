@@ -18,6 +18,7 @@ import org.jhotdraw.beans.*;
  * @version $Id$
  */
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {
+    private static final long serialVersionUID = 1L;
 
     /**
      * ChangeListener's listening to changes in this model.

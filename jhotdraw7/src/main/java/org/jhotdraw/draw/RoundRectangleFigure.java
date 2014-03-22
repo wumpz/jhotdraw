@@ -32,11 +32,11 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class RoundRectangleFigure extends AbstractAttributedFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /** Identifies the {@code arcWidth} JavaBeans property. */
-    public final static String ARC_WIDTH_PROPERTY = "arcWidth";
+    public static final String ARC_WIDTH_PROPERTY = "arcWidth";
     /** Identifies the {@code arcHeight} JavaBeans property. */
-    public final static String ARC_HEIGHT_PROPERTY = "arcHeight";
+    public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 
     protected RoundRectangle2D.Double roundrect;
     protected static final double DEFAULT_ARC = 20;

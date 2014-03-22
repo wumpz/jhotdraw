@@ -18,7 +18,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class GroupFigure extends AbstractCompositeFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /** Creates a new instance. */
     public GroupFigure() {
         setConnectable(false);

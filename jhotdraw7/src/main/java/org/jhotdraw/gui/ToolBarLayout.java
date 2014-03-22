@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @version $Id$
  */
 public class ToolBarLayout implements LayoutManager2, Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Specifies that components should be laid out left to right.

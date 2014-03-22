@@ -27,7 +27,7 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class JColorWheel extends JPanel {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private boolean isFlipX, isFlipY;
 
     public enum Type {

@@ -80,31 +80,31 @@ public interface View extends Disposable {
     /**
      * The name of the uri property.
      */
-    public final static String URI_PROPERTY = "uri";
+    public static final String URI_PROPERTY = "uri";
     /**
      * The name of the application property.
      */
-    public final static String APPLICATION_PROPERTY = "application";
+    public static final String APPLICATION_PROPERTY = "application";
     /**
      * The name of the title property.
      */
-    public final static String TITLE_PROPERTY = "title";
+    public static final String TITLE_PROPERTY = "title";
     /**
      * The name of the enabled property.
      */
-    public final static String ENABLED_PROPERTY = "enabled";
+    public static final String ENABLED_PROPERTY = "enabled";
     /**
      * The name of the hasUnsavedChanges property.
      */
-    public final static String HAS_UNSAVED_CHANGES_PROPERTY = "hasUnsavedChanges";
+    public static final String HAS_UNSAVED_CHANGES_PROPERTY = "hasUnsavedChanges";
     /**
      * The name of the multipleOpenId property.
      */
-    public final static String MULTIPLE_OPEN_ID_PROPERTY = "multipleOpenId";
+    public static final String MULTIPLE_OPEN_ID_PROPERTY = "multipleOpenId";
     /**
      * The name of the showing property.
      */
-    public final static String SHOWING_PROPERTY = "showing";
+    public static final String SHOWING_PROPERTY = "showing";
     /**
      * Gets the application to which this view belongs.
      */

@@ -24,6 +24,8 @@ import org.jhotdraw.gui.URIChooser;
 public abstract class AbstractApplicationModel extends AbstractBean
         implements ApplicationModel {
 
+    private static final long serialVersionUID = 1L;
+    
     protected String name;
     protected String version;
     protected String copyright;
@@ -31,11 +33,11 @@ public abstract class AbstractApplicationModel extends AbstractBean
     protected String viewClassName;
     protected boolean allowMultipleViewsForURI = true;
     protected boolean openLastURIOnLaunch = false;
-    public final static String NAME_PROPERTY = "name";
-    public final static String VERSION_PROPERTY = "version";
-    public final static String COPYRIGHT_PROPERTY = "copyright";
-    public final static String VIEW_CLASS_NAME_PROPERTY = "viewClassName";
-    public final static String VIEW_CLASS_PROPERTY = "viewClass";
+    public static final String NAME_PROPERTY = "name";
+    public static final String VERSION_PROPERTY = "version";
+    public static final String COPYRIGHT_PROPERTY = "copyright";
+    public static final String VIEW_CLASS_NAME_PROPERTY = "viewClassName";
+    public static final String VIEW_CLASS_PROPERTY = "viewClass";
 
     /** Creates a new instance. */
     public AbstractApplicationModel() {

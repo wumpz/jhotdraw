@@ -34,13 +34,13 @@ import javax.swing.*;
  */
 public interface ActivityModel extends BoundedRangeModel {
 
-    public final static String INDETERMINATE_PROPERTY = "indeterminate";
-    public final static String NOTE_PROPERTY = "note";
-    public final static String WARNING_PROPERTY = "warning";
-    public final static String ERROR_PROPERTY = "error";
-    public final static String CANCELABLE_PROPERTY = "cancelable";
-    public final static String CANCELED_PROPERTY = "canceled";
-    public final static String CLOSED_PROPERTY = "closed";
+    public static final String INDETERMINATE_PROPERTY = "indeterminate";
+    public static final String NOTE_PROPERTY = "note";
+    public static final String WARNING_PROPERTY = "warning";
+    public static final String ERROR_PROPERTY = "error";
+    public static final String CANCELABLE_PROPERTY = "cancelable";
+    public static final String CANCELED_PROPERTY = "canceled";
+    public static final String CLOSED_PROPERTY = "closed";
 
     /** Gets the owner of the progress model. This is typically a {@link org.jhotdraw.app.View}
      * or a {@link org.jhotdraw.app.Application}.

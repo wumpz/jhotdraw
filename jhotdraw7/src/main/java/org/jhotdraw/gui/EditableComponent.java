@@ -37,7 +37,7 @@ import java.beans.PropertyChangeListener;
 public interface EditableComponent {
 
     /** The name of the "selectionEmpty" property. */
-    public final static String SELECTION_EMPTY_PROPERTY = "selectionEmpty";
+    public static final String SELECTION_EMPTY_PROPERTY = "selectionEmpty";
 
     /**
      * Deletes the selected components or the component at (or after) the

@@ -35,8 +35,8 @@ import java.util.Arrays;
  */
 public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
 
-    private final static float eps = 0f;// 0.000001f;
-    private final static float ceps = 0f;
+    private static final float eps = 0f;// 0.000001f;
+    private static final float ceps = 0f;
     protected int[] pixels;
     protected int w, h;
     protected ColorSpace colorSpace;

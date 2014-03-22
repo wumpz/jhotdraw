@@ -24,11 +24,12 @@ import java.io.*;
  * @version $Id$
  */
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
-    private final static Object lock = new JPanel().getTreeLock();
+    private static final long serialVersionUID = 1L;
+    private static final Object lock = new JPanel().getTreeLock();
     private transient FontRenderContext fontRenderContext;
     private LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
     private LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     /** Creates a new instance. */
     public AbstractDrawing() {

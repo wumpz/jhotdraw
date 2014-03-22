@@ -2,7 +2,6 @@
  * @(#)FontChooserMain.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -18,7 +17,7 @@ import org.jhotdraw.gui.JFontChooser;
  * @version $Id$
  */
 public class FontChooserMain extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form FontChooserMain */
     public FontChooserMain() {

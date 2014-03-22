@@ -21,7 +21,7 @@ import javax.swing.plaf.basic.*;
  */
 public class PaletteLabelUI extends BasicLabelUI {
 
-    protected final static PaletteLabelUI labelUI = new PaletteLabelUI();
+    protected static final PaletteLabelUI labelUI = new PaletteLabelUI();
     /* These rectangles/insets are allocated once for this shared LabelUI
      * implementation.  Re-using rectangles rather than allocating
      * them in each getPreferredSize call sped up the method substantially.
@@ -36,9 +36,9 @@ public class PaletteLabelUI extends BasicLabelUI {
      * Pixels from colon and associated controls (RadioButton,
      * CheckBox)
      * /
-     * private final static Insets associatedRegularSpacing = new Insets(8,8,8,8);
-     * private final static Insets associatedSmallSpacing = new Insets(6,6,6,6);
-     * private final static Insets associatedMiniSpacing = new Insets(5,5,5,5);
+     * private static final Insets associatedRegularSpacing = new Insets(8,8,8,8);
+     * private static final Insets associatedSmallSpacing = new Insets(6,6,6,6);
+     * private static final Insets associatedMiniSpacing = new Insets(5,5,5,5);
      */
     public static ComponentUI createUI(JComponent c) {
         return labelUI;

@@ -17,17 +17,17 @@ import java.util.*;
  * @version $Id$
  */
 public class ODGConstants {
-    public final static String OFFICE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
-    public final static String DRAWING_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0";
-    public final static String SVG_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
-    public final static String STYLE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
-    public final static String TEXT_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+    public static final String OFFICE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+    public static final String DRAWING_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:drawing:1.0";
+    public static final String SVG_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0";
+    public static final String STYLE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+    public static final String TEXT_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
     
     public static enum StrokeStyle {
         NONE, DASH, SOLID
     }
     
-    public final static Map<String,StrokeStyle> STROKE_STYLES;
+    public static final Map<String,StrokeStyle> STROKE_STYLES;
     static {
         HashMap<String, StrokeStyle> m = new HashMap<String, StrokeStyle>();
         m.put("none", StrokeStyle.NONE);
@@ -40,7 +40,7 @@ public class ODGConstants {
         NONE, SOLID, BITMAP, GRADIENT, HATCH
     }
     
-    public final static Map<String,FillStyle> FILL_STYLES;
+    public static final Map<String,FillStyle> FILL_STYLES;
     static {
         HashMap<String, FillStyle> m = new HashMap<String, FillStyle>();
         m.put("none", FillStyle.NONE);

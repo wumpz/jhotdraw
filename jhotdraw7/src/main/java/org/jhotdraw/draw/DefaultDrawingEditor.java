@@ -39,7 +39,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     private HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
     private HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<AttributeKey<?>, Object>();

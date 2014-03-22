@@ -2,7 +2,6 @@
  * @(#)MessagePanel.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -27,7 +26,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class MessagePanel extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Nullable private EventListenerList listeners;
     private ResourceBundleUtil labels;
     

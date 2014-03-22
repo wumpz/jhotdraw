@@ -19,9 +19,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class BringToFrontAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.bringToFront";
+    public static final String ID = "edit.bringToFront";
 
     /** Creates a new instance. */
     public BringToFrontAction(DrawingEditor editor) {
@@ -38,7 +38,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
         final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());
         bringToFront(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

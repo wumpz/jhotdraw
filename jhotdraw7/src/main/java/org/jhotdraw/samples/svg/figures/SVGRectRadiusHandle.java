@@ -27,7 +27,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGRectRadiusHandle extends AbstractHandle {
 
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     private static final int OFFSET = 6;
     private Dimension2DDouble originalArc2D;
 

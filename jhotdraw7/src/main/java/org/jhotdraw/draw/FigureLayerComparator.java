@@ -16,7 +16,7 @@ import java.util.*;
  * @version $Id$
  */
 public class FigureLayerComparator implements Comparator<Figure> {
-    public final static FigureLayerComparator INSTANCE = new FigureLayerComparator();
+    public static final FigureLayerComparator INSTANCE = new FigureLayerComparator();
     
     /** Creates a new instance. */
     private FigureLayerComparator() {

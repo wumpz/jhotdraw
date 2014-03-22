@@ -39,10 +39,10 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class SVGView extends AbstractView {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String DRAWING_PROPERTY = "drawing";
-    public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
+    public static final String DRAWING_PROPERTY = "drawing";
+    public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
     /**
      * Each SVGView uses its own undo redo manager.

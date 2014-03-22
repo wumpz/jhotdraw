@@ -23,9 +23,9 @@ import org.jhotdraw.app.action.ActionUtil;
  * @version $Id$
  */
 public class ToggleViewPropertyAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     final private String propertyName;
-    private Class[] parameterClass;
+    private Class<?>[] parameterClass;
     private Object selectedPropertyValue;
     private Object deselectedPropertyValue;
     final private String setterName;

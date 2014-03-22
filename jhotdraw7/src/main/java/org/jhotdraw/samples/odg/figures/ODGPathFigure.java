@@ -33,14 +33,14 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * This cachedPath is used for drawing.
      */
     @Nullable private transient Path2D.Double cachedPath;
     //private transient Rectangle2D.Double cachedDrawingArea;
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     /** Creates a new instance. */
     public ODGPathFigure() {
@@ -330,7 +330,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -341,7 +341,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
             actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -349,7 +349,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                     //TransformEdit edit = new TransformEdit(ODGPathFigure.this, )
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                         @Override
                         public String getPresentationName() {
@@ -381,7 +381,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         }
         actions.add(new AbstractAction(labels.getString("closePath")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -394,7 +394,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("openPath")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -407,7 +407,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -418,7 +418,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {

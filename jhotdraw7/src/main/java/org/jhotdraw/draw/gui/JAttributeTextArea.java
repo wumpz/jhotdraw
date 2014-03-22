@@ -20,7 +20,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class JAttributeTextArea<T> extends JLifeFormattedTextArea implements AttributeEditor<T> {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * This variable is set to true, when the figures, which are currently

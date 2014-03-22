@@ -26,8 +26,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class AbstractPreferencesAction extends AbstractApplicationAction {
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.preferences";
+    public static final String ID = "application.preferences";
 
     /** Creates a new instance. */
     public AbstractPreferencesAction(Application app) {

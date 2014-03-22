@@ -33,13 +33,13 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class ViewSourceAction extends AbstractViewAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "view.viewSource";
+    public static final String ID = "view.viewSource";
     /**
      * We store the dialog as a client property in the view.
      */
-    private final static String DIALOG_CLIENT_PROPERTY = "view.viewSource.dialog";
+    private static final String DIALOG_CLIENT_PROPERTY = "view.viewSource.dialog";
 
     /** Creates a new instance. */
     public ViewSourceAction(Application app, @Nullable View view) {

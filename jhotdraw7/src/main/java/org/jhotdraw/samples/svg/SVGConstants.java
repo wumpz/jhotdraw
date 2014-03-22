@@ -20,9 +20,9 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGConstants {
-    public final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-    public final static String SVG_MIMETYPE = "image/svg+xml";
-    public final static Map<String,Color> SVG_COLORS;
+    public static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+    public static final String SVG_MIMETYPE = "image/svg+xml";
+    public static final Map<String,Color> SVG_COLORS;
     static {
         LinkedHashMap<String,Color> map = new LinkedHashMap<String,Color>();
         
@@ -226,14 +226,14 @@ public class SVGConstants {
         SVG_COLORS = Collections.unmodifiableMap(map);
     }
     
-    public final static Map<String,WindingRule> SVG_FILL_RULES;
+    public static final Map<String,WindingRule> SVG_FILL_RULES;
     static {
        HashMap<String, WindingRule> m = new HashMap<String, WindingRule>();
         m.put("nonzero", WindingRule.NON_ZERO);
         m.put("evenodd", WindingRule.EVEN_ODD);
         SVG_FILL_RULES = Collections.unmodifiableMap(m);
     }
-    public final static Map<String,Integer> SVG_STROKE_LINECAPS;
+    public static final Map<String,Integer> SVG_STROKE_LINECAPS;
     static {
         HashMap<String, Integer> m = new HashMap<String, Integer>();
         m.put("butt", BasicStroke.CAP_BUTT);
@@ -241,7 +241,7 @@ public class SVGConstants {
         m.put("square", BasicStroke.CAP_SQUARE);
         SVG_STROKE_LINECAPS = Collections.unmodifiableMap(m);
     }
-    public final static Map<String,Integer> SVG_STROKE_LINEJOINS;
+    public static final Map<String,Integer> SVG_STROKE_LINEJOINS;
     static {
         HashMap<String, Integer> m = new HashMap<String, Integer>();
         m.put("miter", BasicStroke.JOIN_MITER);
@@ -249,7 +249,7 @@ public class SVGConstants {
         m.put("bevel", BasicStroke.JOIN_BEVEL);
         SVG_STROKE_LINEJOINS = Collections.unmodifiableMap(m);
     }
-    public final static Map<String,Double> SVG_ABSOLUTE_FONT_SIZES;
+    public static final Map<String,Double> SVG_ABSOLUTE_FONT_SIZES;
     static {
         HashMap<String,Double> m = new HashMap<String,Double>();
         m.put("xx-small",6.944444);
@@ -261,14 +261,14 @@ public class SVGConstants {
         m.put("xx-large",20.736);
         SVG_ABSOLUTE_FONT_SIZES = Collections.unmodifiableMap(m);
     }
-    public final static Map<String,Double> SVG_RELATIVE_FONT_SIZES;
+    public static final Map<String,Double> SVG_RELATIVE_FONT_SIZES;
     static {
         HashMap<String,Double> m = new HashMap<String,Double>();
         m.put("larger", 1.2);
         m.put("smaller",0.83333333);
         SVG_RELATIVE_FONT_SIZES = Collections.unmodifiableMap(m);
     }
-    public final static Map<String,TextAnchor> SVG_TEXT_ANCHORS;
+    public static final Map<String,TextAnchor> SVG_TEXT_ANCHORS;
     static {
         HashMap<String, TextAnchor> m = new HashMap<String, TextAnchor>();
         m.put("start", TextAnchor.START);
@@ -276,7 +276,7 @@ public class SVGConstants {
         m.put("end", TextAnchor.END);
         SVG_TEXT_ANCHORS = Collections.unmodifiableMap(m);
     }
-    public final static Map<String,TextAlign> SVG_TEXT_ALIGNS;
+    public static final Map<String,TextAlign> SVG_TEXT_ALIGNS;
     static {
         HashMap<String, TextAlign> m = new HashMap<String, TextAlign>();
         m.put("start", TextAlign.START);

@@ -24,7 +24,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class LineFigure extends BezierFigure {
-        private final static long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
     /** Creates a new instance. */
     public LineFigure() {
@@ -68,7 +68,7 @@ public class LineFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();

@@ -2,7 +2,6 @@
  * @(#)ImageTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -35,7 +34,7 @@ import org.jhotdraw.samples.svg.io.SVGZInputFormat;
  */
 public class SVGCreateFromFileTool extends CreationTool {
 
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Nullable
     protected FileDialog fileDialog;
     @Nullable

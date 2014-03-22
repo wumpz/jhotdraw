@@ -17,7 +17,7 @@ import org.jhotdraw.gui.AttributeEditor;
  * @version $Id$
  */
 public class JAttributeSlider extends JSlider implements AttributeEditor<Double> {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private boolean isMultipleValues;
     private Double attributeValue;
     private double scaleFactor = 1d;

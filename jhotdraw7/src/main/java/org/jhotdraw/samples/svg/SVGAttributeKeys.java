@@ -20,7 +20,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class SVGAttributeKeys extends AttributeKeys {
-     private final static ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+     private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
    
     public enum TextAnchor {
         START, MIDDLE, END
@@ -30,35 +30,35 @@ public class SVGAttributeKeys extends AttributeKeys {
      * Specifies the title of an SVG drawing.
      * This attribute can be null, to indicate that the drawing has no title.
      */
-    public final static AttributeKey<String> TITLE = new AttributeKey<String>("title", String.class, null, true, labels);
+    public static final AttributeKey<String> TITLE = new AttributeKey<String>("title", String.class, null, true, labels);
     /**
      * Specifies the description of an SVG drawing.
      * This attribute can be null, to indicate that the drawing has no description.
      */
-    public final static AttributeKey<String> DESCRIPTION = new AttributeKey<String>("description", String.class, null, true, labels);
+    public static final AttributeKey<String> DESCRIPTION = new AttributeKey<String>("description", String.class, null, true, labels);
     /**
      * Specifies the viewport-fill of an SVG viewport.
      * This attribute can be null, to indicate that the viewport has no viewport-fill.
      */
-    public final static AttributeKey<Color> VIEWPORT_FILL = CANVAS_FILL_COLOR;
+    public static final AttributeKey<Color> VIEWPORT_FILL = CANVAS_FILL_COLOR;
     /**
      * Specifies the viewport-fill-opacity of an SVG viewport.
      */
-    public final static AttributeKey<Double> VIEWPORT_FILL_OPACITY = CANVAS_FILL_OPACITY;
+    public static final AttributeKey<Double> VIEWPORT_FILL_OPACITY = CANVAS_FILL_OPACITY;
     /**
      * Specifies the width of an SVG viewport.
      */
-    public final static AttributeKey<Double> VIEWPORT_WIDTH = CANVAS_WIDTH;
+    public static final AttributeKey<Double> VIEWPORT_WIDTH = CANVAS_WIDTH;
     /**
      * Specifies the height of an SVG viewport.
      */
-    public final static AttributeKey<Double> VIEWPORT_HEIGHT = CANVAS_HEIGHT;
+    public static final AttributeKey<Double> VIEWPORT_HEIGHT = CANVAS_HEIGHT;
     
     
     /**
      * Specifies the text anchor of a SVGText figure.
      */
-    public final static AttributeKey<TextAnchor> TEXT_ANCHOR = new AttributeKey<TextAnchor>("textAnchor", TextAnchor.class, TextAnchor.START, false, labels);
+    public static final AttributeKey<TextAnchor> TEXT_ANCHOR = new AttributeKey<TextAnchor>("textAnchor", TextAnchor.class, TextAnchor.START, false, labels);
     
     public enum TextAlign {
         START, CENTER, END
@@ -66,33 +66,33 @@ public class SVGAttributeKeys extends AttributeKeys {
     /**
      * Specifies the text alignment of a SVGText figure.
      */
-    public final static AttributeKey<TextAlign> TEXT_ALIGN = new AttributeKey<TextAlign>("textAlign",TextAlign.class,TextAlign.START, false, labels);
+    public static final AttributeKey<TextAlign> TEXT_ALIGN = new AttributeKey<TextAlign>("textAlign",TextAlign.class,TextAlign.START, false, labels);
     /**
      * Specifies the fill gradient of a SVG figure.
      */
-    public final static AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient",Gradient.class, null, true, labels);
+    public static final AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient",Gradient.class, null, true, labels);
     
     /**
      * Specifies the fill opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public final static AttributeKey<Double> FILL_OPACITY = new AttributeKey<Double>("fillOpacity", Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> FILL_OPACITY = new AttributeKey<Double>("fillOpacity", Double.class, 1d, false, labels);
     /**
      * Specifies the overall opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public final static AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity",Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity",Double.class, 1d, false, labels);
     
     
     /**
      * Specifies the stroke gradient of a SVG figure.
      */
-    public final static AttributeKey<Gradient> STROKE_GRADIENT = new AttributeKey<Gradient>("strokeGradient", Gradient.class, null, true, labels);
+    public static final AttributeKey<Gradient> STROKE_GRADIENT = new AttributeKey<Gradient>("strokeGradient", Gradient.class, null, true, labels);
     /**
      * Specifies the stroke opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public final static AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity",Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity",Double.class, 1d, false, labels);
     
     /**
      * Specifies a link.
@@ -100,14 +100,14 @@ public class SVGAttributeKeys extends AttributeKeys {
      * figure.
      * http://www.w3.org/TR/SVGMobile12/linking.html#AElement
      */
-    public final static AttributeKey<String> LINK = new AttributeKey<String>("link",String.class, null, true, labels);
+    public static final AttributeKey<String> LINK = new AttributeKey<String>("link",String.class, null, true, labels);
     /**
      * Specifies a link target.
      * In an SVG file, the link is stored in a "a" element which encloses the
      * figure.
      * http://www.w3.org/TR/SVGMobile12/linking.html#AElement
      */
-    public final static AttributeKey<String> LINK_TARGET = new AttributeKey<String>("linkTarget", String.class,null, true, labels);
+    public static final AttributeKey<String> LINK_TARGET = new AttributeKey<String>("linkTarget", String.class,null, true, labels);
     
     
     /**

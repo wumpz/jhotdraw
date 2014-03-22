@@ -58,7 +58,7 @@ public class ButtonFactory {
     /**
      * Mac OS X 'Apple Color Palette'. This palette has 8 columns.
      */
-    public final static java.util.List<ColorIcon> DEFAULT_COLORS;
+    public static final java.util.List<ColorIcon> DEFAULT_COLORS;
 
     static {
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
@@ -112,13 +112,13 @@ public class ButtonFactory {
         m.add(new ColorIcon(0xffffff, "Snow"));
         DEFAULT_COLORS = Collections.unmodifiableList(m);
     }
-    public final static int DEFAULT_COLORS_COLUMN_COUNT = 8;
+    public static final int DEFAULT_COLORS_COLUMN_COUNT = 8;
     /**
      * Websave color palette as used by Macromedia Fireworks. This palette has
      * 19 columns. The leftmost column contains a redundant set of color icons
      * to make selection of gray scales and of the primary colors easier.
      */
-    public final static java.util.List<ColorIcon> WEBSAVE_COLORS;
+    public static final java.util.List<ColorIcon> WEBSAVE_COLORS;
 
     static {
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
@@ -151,7 +151,7 @@ public class ButtonFactory {
         }
         WEBSAVE_COLORS = Collections.unmodifiableList(m);
     }
-    public final static int WEBSAVE_COLORS_COLUMN_COUNT = 19;
+    public static final int WEBSAVE_COLORS_COLUMN_COUNT = 19;
     /**
      * HSB color palette with a set of colors chosen based on a physical
      * criteria. <p> This is a 'human friendly' color palette which arranges the
@@ -171,14 +171,14 @@ public class ButtonFactory {
      * brightness ranging from 90% to 20% (this also makes for a range from 100%
      * to 20% if the 5th row is taken into account).
      */
-    public final static java.util.List<ColorIcon> HSB_COLORS;
-    public final static int HSB_COLORS_COLUMN_COUNT = 12;
+    public static final java.util.List<ColorIcon> HSB_COLORS;
+    public static final int HSB_COLORS_COLUMN_COUNT = 12;
     /**
      * This is the same palette as HSB_COLORS, but all color values are
      * specified in the sRGB color space.
      */
-    public final static java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
-    public final static int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
+    public static final java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
+    public static final int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
 
     static {
         ColorSpace grayCS = ColorSpace.getInstance(ColorSpace.CS_GRAY);
@@ -396,7 +396,7 @@ public class ButtonFactory {
             zoomPopupButton.add(
                     new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
 
-                        private final static long serialVersionUID = 1L;
+                        private static final long serialVersionUID = 1L;
 
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -440,7 +440,7 @@ public class ButtonFactory {
             zoomPopupButton.add(
                     new ZoomAction(view, factors[i], zoomPopupButton) {
 
-                        private final static long serialVersionUID = 1L;
+                        private static final long serialVersionUID = 1L;
 
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -908,7 +908,7 @@ public class ButtonFactory {
         // takes a lot of time.
         JComponentPopup popupMenu = new JComponentPopup() {
 
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
             private JColorChooser colorChooser;
 
             @Override
@@ -932,7 +932,7 @@ public class ButtonFactory {
                 colorChooser.setBackground(Color.WHITE);
                 if (uiclass != null) {
                     try {
-                        colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(uiclass, "createUI", new Class[]{JComponent.class}, new Object[]{colorChooser}));
+                        colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(uiclass, "createUI", new Class<?>[]{JComponent.class}, new Object[]{colorChooser}));
                     } catch (NoSuchMethodException ex) {
                         ex.printStackTrace();
                     }
@@ -1180,7 +1180,7 @@ public class ButtonFactory {
         // takes a lot of time.
         JComponentPopup popupMenu = new JComponentPopup() {
 
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
             private JColorChooser colorChooser;
 
             @Override
@@ -1204,7 +1204,7 @@ public class ButtonFactory {
                 colorChooser.setBackground(Color.WHITE);
                 if (uiclass != null) {
                     try {
-                        colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(uiclass, "createUI", new Class[]{JComponent.class}, new Object[]{colorChooser}));
+                        colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(uiclass, "createUI", new Class<?>[]{JComponent.class}, new Object[]{colorChooser}));
                     } catch (NoSuchMethodException ex) {
                         ex.printStackTrace();
                     }

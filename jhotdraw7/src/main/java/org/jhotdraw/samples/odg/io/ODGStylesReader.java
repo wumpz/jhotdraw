@@ -27,10 +27,10 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  */
 public class ODGStylesReader {
 
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     private static class Style extends HashMap<AttributeKey<?>, Object> {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public String name;
         public String family;

@@ -2,7 +2,6 @@
  * @(#)PaletteColorWheelChooser.java 
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -26,7 +25,7 @@ import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
  * @version $Id$
  */
 public class PaletteColorWheelChooser extends AbstractColorChooserPanel implements UIResource {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private JColorWheel colorWheel;
     private PaletteColorSliderModel ccModel = new PaletteColorSliderModel(new HSVColorSpace());

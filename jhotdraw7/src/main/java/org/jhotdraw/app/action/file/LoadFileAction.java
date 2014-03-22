@@ -61,9 +61,9 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.load";
+    public static final String ID = "file.load";
 
     /** Creates a new instance. */
     public LoadFileAction(Application app, @Nullable View view) {

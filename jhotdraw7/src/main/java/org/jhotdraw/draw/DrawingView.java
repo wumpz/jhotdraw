@@ -124,43 +124,43 @@ public interface DrawingView {
     /**
      * This constant is used to identify the drawing property of the DrawingView.
      */
-    public final static String DRAWING_PROPERTY = "drawing";
+    public static final String DRAWING_PROPERTY = "drawing";
     /**
      * This constant is used to identify the cursor property of the DrawingView.
      */
-    public final static String CURSOR_PROPERTY = "cursor";
+    public static final String CURSOR_PROPERTY = "cursor";
     /**
      * This constant is used to identify the constrainer property of the DrawingView.
      */
-    public final static String CONSTRAINER_PROPERTY = "constrainer";
+    public static final String CONSTRAINER_PROPERTY = "constrainer";
     /**
      * This constant is used to identify the visible constrainer property of the DrawingView.
      */
-    public final static String VISIBLE_CONSTRAINER_PROPERTY = "visibleConstrainer";
+    public static final String VISIBLE_CONSTRAINER_PROPERTY = "visibleConstrainer";
     /**
      * This constant is used to identify the invisible constrainer property of the DrawingView.
      */
-    public final static String INVISIBLE_CONSTRAINER_PROPERTY = "invisibleConstrainer";
+    public static final String INVISIBLE_CONSTRAINER_PROPERTY = "invisibleConstrainer";
     /**
      * This constant is used to identify the constrainer visible property of the DrawingView.
      */
-    public final static String CONSTRAINER_VISIBLE_PROPERTY = "constrainerVisible";
+    public static final String CONSTRAINER_VISIBLE_PROPERTY = "constrainerVisible";
     /**
      * This constant is used to identify the scale factor property of the DrawingView.
      */
-    public final static String SCALE_FACTOR_PROPERTY = "scaleFactor";
+    public static final String SCALE_FACTOR_PROPERTY = "scaleFactor";
     /**
      * This constant is used to identify the handle detail level property of the DrawingView.
      */
-    public final static String HANDLE_DETAIL_LEVEL_PROPERTY = "handleDetailLevel";
+    public static final String HANDLE_DETAIL_LEVEL_PROPERTY = "handleDetailLevel";
     /**
      * This constant is used to identify the enabled property of the DrawingView.
      */
-    public final static String ENABLED_PROPERTY = "enabled";
+    public static final String ENABLED_PROPERTY = "enabled";
     /**
      * This constant is used to identify the activeHandle property of the DrawingView.
      */
-    public final static String ACTIVE_HANDLE_PROPERTY = "activeHandle";
+    public static final String ACTIVE_HANDLE_PROPERTY = "activeHandle";
 
     /**
      * Gets the drawing.

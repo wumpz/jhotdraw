@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Builds the "JHotDraw" jar file. -->
-<project name="JHotdDraw" default="all" basedir=".">
+<project name="JHotDraw" default="all" basedir=".">
     <target name="init">
         <!-- properties for copyright and versioning -->
         <property name="name" value="${ant.project.name}"/>
@@ -23,9 +23,9 @@
         <property name="javac.source" value="1.6"/>
         <property name="javac.target" value="1.6"/>
         <property name="javac.bootclasspath" value="${j2se6}/Classes/classes.jar:${j2se6}/Classes/ui.jar" />
-        <property name="javac.classpath" value="${j2se6}/Classes/classes.jar:${j2se6}/Classes/ui.jar" />
-        <property name="javac.extdirs" value="" />
-        <property name="javac.endorseddirs" value="" />
+        <property name="javac.classpath" value="lib/java_30.zip:${j2se6}/Classes/classes.jar:${j2se6}/Classes/ui.jar" />
+        <property name="javac.extdirs" value="lib/ext" />
+        <property name="javac.endorseddirs" value="lib/endorsed" />
     </target>
     <target name="clean" depends="init">
         <delete dir="${classes}" />
@@ -66,7 +66,9 @@
                 target="${javac.target}"
                 bootclasspath="${javac.bootclasspath}"
                 classpath="${javac.classpath}"
+                extdirs="${javac.extdirs}"
          >
+            <compilerarg value="-version"/>
             <compilerarg value="-endorseddirs"/>
             <compilerarg value="${javac.endorseddirs}"/>
             <compilerarg value="-Xlint:all"/>

@@ -2,7 +2,6 @@
  * @(#)NumberedParagraphView.java
  *
  * Copyright (c) 2005 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -18,7 +17,7 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class NumberedParagraphView extends ParagraphView {
-    public final static short NUMBERS_WIDTH=30;
+    public static final short NUMBERS_WIDTH=30;
     private static Font numberFont = new Font("Dialog",Font.PLAIN,10);
     private NumberedViewFactory viewFactory;
     public NumberedParagraphView(Element e, NumberedViewFactory viewFactory) {

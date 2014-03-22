@@ -38,9 +38,9 @@ import org.jhotdraw.samples.pert.figures.*;
  * @version $Id$
  */
 public class PertApplicationModel extends DefaultApplicationModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
+    private static final double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
 
     private static class ToolButtonListener implements ItemListener {
 

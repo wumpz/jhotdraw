@@ -19,9 +19,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class SendToBackAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.sendToBack";
+    public static final String ID = "edit.sendToBack";
 
     /** Creates a new instance. */
     public SendToBackAction(DrawingEditor editor) {
@@ -38,7 +38,7 @@ public class SendToBackAction extends AbstractSelectedAction {
         final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());
         sendToBack(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

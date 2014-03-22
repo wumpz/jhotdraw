@@ -24,7 +24,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public class DefaultActivityModel extends DefaultBoundedRangeModel implements ActivityModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private boolean canceled, closed, cancelable = true;
     private Runnable doCancel;

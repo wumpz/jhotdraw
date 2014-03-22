@@ -21,7 +21,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class EllipseFigure extends AbstractAttributedFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected Ellipse2D.Double ellipse;
 

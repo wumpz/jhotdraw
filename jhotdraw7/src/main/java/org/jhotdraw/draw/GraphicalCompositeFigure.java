@@ -49,7 +49,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
     private HashSet<AttributeKey<?>> forbiddenAttributes;
@@ -66,7 +66,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
     private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener, Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         private GraphicalCompositeFigure owner;
 

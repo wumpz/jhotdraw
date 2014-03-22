@@ -38,9 +38,9 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class ExitAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.exit";
+    public static final String ID = "application.exit";
     private Component oldFocusOwner;
     private View unsavedView;
 

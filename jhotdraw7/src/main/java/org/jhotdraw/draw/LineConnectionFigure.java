@@ -38,10 +38,10 @@ import org.jhotdraw.xml.DOMOutput;
  */
 public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** The name of the JaveBeans property {@code liner}. */
-    public final static String LINER_PROPERTY = "liner";
+    public static final String LINER_PROPERTY = "liner";
     private Connector startConnector;
     private Connector endConnector;
     @Nullable private Liner liner;
@@ -52,7 +52,7 @@ public class LineConnectionFigure extends LineFigure
     private ConnectionHandler connectionHandler = new ConnectionHandler(this);
 
     private static class ConnectionHandler extends FigureAdapter implements Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         private LineConnectionFigure owner;
 
@@ -419,7 +419,7 @@ public class LineConnectionFigure extends LineFigure
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void redo() throws CannotRedoException {

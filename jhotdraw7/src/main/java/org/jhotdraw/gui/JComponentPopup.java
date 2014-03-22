@@ -30,7 +30,7 @@ import javax.swing.SwingUtilities;
  * @version $Id$
  */
 public class JComponentPopup extends JPopupMenu {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Wether we are permitted to listen on AWT events. */
     private boolean isAWTEventListenerPermitted = true;

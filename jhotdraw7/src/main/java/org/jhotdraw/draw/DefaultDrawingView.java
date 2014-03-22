@@ -43,12 +43,12 @@ import java.awt.image.VolatileImage;
 public class DefaultDrawingView
         extends JComponent
         implements DrawingView, EditableComponent {
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
     /**
      * Set this to true to turn on debugging output on System.out.
      */
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     @Nullable
     private Drawing drawing;
     /**
@@ -82,7 +82,7 @@ public class DefaultDrawingView
     };
     @Nullable
     private transient Rectangle2D.Double cachedDrawingArea;
-    public final static String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
+    public static final String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
     /** Whether the drawing is double buffered*/
     private boolean isDrawingDoubleBuffered = true;
     /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
@@ -96,7 +96,7 @@ public class DefaultDrawingView
     /** Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing buffer. */
     private Rectangle dirtyArea = new Rectangle(0, 0, -1, -1);
     private boolean paintEnabled = true;
-    private final static boolean isWindows;
+    private static final boolean isWindows;
 
     static {
         boolean b = false;
@@ -1382,7 +1382,7 @@ public class DefaultDrawingView
         getDrawing().removeAll(deletedFigures);
 
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
             @Override
             public String getPresentationName() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -1439,7 +1439,7 @@ public class DefaultDrawingView
         addToSelection(duplicates);
 
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

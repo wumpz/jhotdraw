@@ -23,9 +23,9 @@ import org.jhotdraw.app.action.ActionUtil;
  * @version $Id$
  */
 public class ViewPropertyAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private String propertyName;
-    private Class[] parameterClass;
+    private Class<?>[] parameterClass;
     private Object propertyValue;
     private String setterName;
     private String getterName;

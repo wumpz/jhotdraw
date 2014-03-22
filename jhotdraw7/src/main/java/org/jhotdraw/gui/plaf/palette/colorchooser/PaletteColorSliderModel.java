@@ -22,7 +22,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteColorSliderUI;
  * @version $Id$
  */
 public class PaletteColorSliderModel extends DefaultColorSliderModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     PaletteColorSliderModel(ColorSpace colorSpace) {
         super(colorSpace);

@@ -48,7 +48,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
      * Please see {@link java.beans.XMLEncoder}.
      */
     protected static class PaletteRootLayout implements LayoutManager2, Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         private JRootPane rootPane;
 

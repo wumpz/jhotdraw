@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
  * @version $Id$
  */
 public class PaletteListCellRenderer extends DefaultListCellRenderer {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
    /**
     * An empty <code>Border</code>. This field might not be used. To change the
     * <code>Border</code> used by this renderer override the

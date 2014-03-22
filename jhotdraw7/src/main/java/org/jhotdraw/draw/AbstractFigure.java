@@ -38,6 +38,7 @@ import org.jhotdraw.geom.*;
 public abstract class AbstractFigure
         extends AbstractBean
         implements Figure {
+    private static final long serialVersionUID = 1L;
 
     protected EventListenerList listenerList = new EventListenerList();
     @Nullable private Drawing drawing;

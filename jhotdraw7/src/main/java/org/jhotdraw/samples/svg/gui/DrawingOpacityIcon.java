@@ -2,7 +2,6 @@
  * @(#)DrawingOpacityIcon.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -21,7 +20,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class DrawingOpacityIcon extends javax.swing.ImageIcon {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;

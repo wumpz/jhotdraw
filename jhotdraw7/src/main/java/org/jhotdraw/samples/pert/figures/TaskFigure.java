@@ -32,7 +32,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class TaskFigure extends GraphicalCompositeFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private HashSet<DependencyFigure> dependencies;
 

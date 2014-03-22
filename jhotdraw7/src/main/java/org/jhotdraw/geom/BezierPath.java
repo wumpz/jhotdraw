@@ -27,21 +27,21 @@ import java.util.*;
  */
 public class BezierPath extends ArrayList<BezierPath.Node>
         implements Shape, Serializable, Cloneable {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     /** Constant for having only control point C0 in effect. C0 is the point
      * through whitch the curve passes. */
-    public final static int C0_MASK = 0;
+    public static final int C0_MASK = 0;
     /** Constant for having control point C1 in effect (in addition
      * to C0). C1 controls the curve going towards C0.
      * */
-    public final static int C1_MASK = 1;
+    public static final int C1_MASK = 1;
     /** Constant for having control point C2 in effect (in addition to C0).
      * C2 controls the curve going away from C0.
      */
-    public final static int C2_MASK = 2;
+    public static final int C2_MASK = 2;
     /** Constant for having control points C1 and C2 in effect (in addition to C0). */
-    public final static int C1C2_MASK = C1_MASK | C2_MASK;
+    public static final int C1C2_MASK = C1_MASK | C2_MASK;
     /**
      * We cache a Path2D.Double instance to speed up Shape operations.
      */
@@ -75,7 +75,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * </ul>
      */
     public static class Node implements Cloneable, Serializable {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
         /**
          * This mask is used to describe which control points in addition to

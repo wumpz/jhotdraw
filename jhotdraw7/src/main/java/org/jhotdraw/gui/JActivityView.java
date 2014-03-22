@@ -34,9 +34,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class JActivityView extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String REQUEST_REMOVE_PROPERTY = "requestRemove";
+    public static final String REQUEST_REMOVE_PROPERTY = "requestRemove";
     @Nullable private ActivityModel model;
 
     private class Handler implements PropertyChangeListener, ChangeListener {

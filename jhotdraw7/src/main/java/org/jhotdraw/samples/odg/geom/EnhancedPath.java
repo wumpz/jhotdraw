@@ -25,7 +25,7 @@ import java.util.Arrays;
  */
 public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         implements Shape {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public enum SegType {
         /* moveto x y */

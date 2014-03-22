@@ -26,8 +26,8 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class EditGridAction extends AbstractDrawingViewAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "view.editGrid";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "view.editGrid";
     private JDialog dialog;
     private EditGridPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;

@@ -34,7 +34,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * This rectangle describes the bounds into which we draw the image.
@@ -268,7 +268,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -283,7 +283,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             if (rectangle.width != bufferedImage.getWidth()
                     || rectangle.height != bufferedImage.getHeight()) {
                 actions.add(new AbstractAction(labels.getString("edit.setToImageSize.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
@@ -304,7 +304,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             double figureRatio = rectangle.height / rectangle.width;
             if (Math.abs(imageRatio - figureRatio) > 0.001) {
                 actions.add(new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
@@ -318,7 +318,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     }
                 });
                 actions.add(new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {

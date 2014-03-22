@@ -22,6 +22,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public abstract class AbstractLineDecoration implements LineDecoration {
+    private static final long serialVersionUID = 1L;
     /**
      * If this is true, the decoration is filled.
      */

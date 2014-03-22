@@ -19,11 +19,11 @@ import org.jhotdraw.gui.plaf.palette.*;
  * @version $Id$
  */
 public class JDisclosureToolBar extends JToolBar {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private JButton disclosureButton;
-    public final static String DISCLOSURE_STATE_PROPERTY = "disclosureState";
-    public final static String DISCLOSURE_STATE_COUNT_PROPERTY = "disclosureStateCount";
+    public static final String DISCLOSURE_STATE_PROPERTY = "disclosureState";
+    public static final String DISCLOSURE_STATE_COUNT_PROPERTY = "disclosureStateCount";
 
     /** Creates new form. */
     public JDisclosureToolBar() {

@@ -39,6 +39,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public abstract class AbstractCompositeFigure
         extends AbstractFigure
         implements CompositeFigure, DOMStorable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * A Layouter determines how the children of the CompositeFigure
@@ -66,7 +67,7 @@ public abstract class AbstractCompositeFigure
     protected EventHandler eventHandler;
 
     protected class EventHandler extends FigureAdapter implements UndoableEditListener, Serializable {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         @Override
         public void figureRequestRemove(FigureEvent e) {

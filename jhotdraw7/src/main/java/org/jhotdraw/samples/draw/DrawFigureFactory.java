@@ -26,7 +26,7 @@ import org.jhotdraw.xml.DefaultDOMFactory;
  * @version $Id$
  */
 public class DrawFigureFactory extends DefaultDOMFactory {
-    private final static Object[][] classTagArray = {
+    private static final Object[][] classTagArray = {
         { DefaultDrawing.class, "drawing" },
         { QuadTreeDrawing.class, "drawing" },
         { DiamondFigure.class, "diamond" },
@@ -54,7 +54,7 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { ElbowLiner.class, "elbowLiner" },
         { CurvedLiner.class, "curvedLiner" },
     };
-    private final static Object[][] enumTagArray = {
+    private static final Object[][] enumTagArray = {
         { AttributeKeys.StrokePlacement.class, "strokePlacement" },
         { AttributeKeys.StrokeType.class, "strokeType" },
         { AttributeKeys.Underfill.class, "underfill" },

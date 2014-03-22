@@ -40,7 +40,7 @@ import javax.swing.event.*;
 public class LabeledLineConnectionFigure extends LineConnectionFigure
         implements CompositeFigure {
     
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private Layouter layouter;
     private ArrayList<Figure> children = new ArrayList<Figure>();
     @Nullable private transient Rectangle2D.Double cachedDrawingArea;
@@ -50,7 +50,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      */
     private ChildHandler childHandler = new ChildHandler(this);
     private static class ChildHandler extends FigureAdapter implements UndoableEditListener, Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
         private LabeledLineConnectionFigure owner;
         private ChildHandler(LabeledLineConnectionFigure owner) {
             this.owner = owner;

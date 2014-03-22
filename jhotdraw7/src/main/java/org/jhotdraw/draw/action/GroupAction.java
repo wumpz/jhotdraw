@@ -19,9 +19,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class GroupAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.groupSelection";
+    public static final String ID = "edit.groupSelection";
     private CompositeFigure prototype;
     /**
      * If this variable is true, this action groups figures.
@@ -77,7 +77,7 @@ public class GroupAction extends AbstractSelectedAction {
                 final LinkedList<Figure> ungroupedFigures = new LinkedList<Figure>(view.getSelectedFigures());
                 final CompositeFigure group = (CompositeFigure) prototype.clone();
                 UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {
@@ -112,7 +112,7 @@ public class GroupAction extends AbstractSelectedAction {
                 final CompositeFigure group = (CompositeFigure) getView().getSelectedFigures().iterator().next();
                 final LinkedList<Figure> ungroupedFigures = new LinkedList<Figure>();
                 UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {

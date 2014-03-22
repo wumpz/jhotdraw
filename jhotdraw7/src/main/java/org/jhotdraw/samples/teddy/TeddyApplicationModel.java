@@ -25,7 +25,7 @@ import org.jhotdraw.samples.teddy.action.*;
  * @version $Id$
  */
 public class TeddyApplicationModel extends DefaultApplicationModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Creates a new instance. */
     public TeddyApplicationModel() {

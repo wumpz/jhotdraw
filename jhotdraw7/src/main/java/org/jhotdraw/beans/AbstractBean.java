@@ -19,7 +19,7 @@ import java.beans.*;
  */
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
 
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 

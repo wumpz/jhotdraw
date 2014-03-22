@@ -23,9 +23,9 @@ import javax.swing.border.*;
  */
 @Deprecated
 public class BorderRectangleFigure extends RectangleFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     protected Border border;
-    protected final static JComponent borderComponent = new JPanel();
+    protected static final JComponent borderComponent = new JPanel();
     
     /** Creates a new instance. */
     public BorderRectangleFigure(Border border) {

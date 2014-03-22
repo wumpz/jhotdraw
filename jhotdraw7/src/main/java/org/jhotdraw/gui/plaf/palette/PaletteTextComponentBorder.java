@@ -27,8 +27,8 @@ import javax.swing.plaf.UIResource;
  */
 public class PaletteTextComponentBorder implements Border, UIResource {
 
-    private final static float[] enabledStops = new float[]{0f, 0.2f};
-    private final static Color[] enabledStopColors = new Color[]{new Color(0xc8c8c8), new Color(0xffffff)};
+    private static final float[] enabledStops = new float[]{0f, 0.2f};
+    private static final Color[] enabledStopColors = new Color[]{new Color(0xc8c8c8), new Color(0xffffff)};
 
     @Override
     public void paintBorder(Component c, Graphics gr, int x, int y, int width, int height) {

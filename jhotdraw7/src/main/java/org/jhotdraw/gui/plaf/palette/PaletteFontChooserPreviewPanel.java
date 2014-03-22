@@ -2,7 +2,6 @@
  * @(#)PaletteFontChooserPreviewPanel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -18,7 +17,7 @@ import javax.swing.plaf.LabelUI;
  * @version $Id$
  */
 public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     /** Creates new form PaletteFontChooserPreviewPanel */
     public PaletteFontChooserPreviewPanel() {

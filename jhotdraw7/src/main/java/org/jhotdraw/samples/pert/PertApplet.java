@@ -28,9 +28,9 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class PertApplet extends JApplet {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static String NAME = "JHotDraw Pert";
+    private static final String NAME = "JHotDraw Pert";
     private PertPanel drawingPanel;
 
     /**

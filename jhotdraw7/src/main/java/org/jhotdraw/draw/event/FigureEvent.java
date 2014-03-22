@@ -33,7 +33,7 @@ import java.util.*;
  * @version $Id$
  */
 public class FigureEvent extends EventObject {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
     private Rectangle2D.Double invalidatedArea;
     private AttributeKey<?> attribute;
     @Nullable private Object oldValue;

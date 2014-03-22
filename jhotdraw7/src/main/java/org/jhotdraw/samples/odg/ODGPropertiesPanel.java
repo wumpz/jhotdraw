@@ -27,7 +27,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 @SuppressWarnings("rawtypes")
 public class ODGPropertiesPanel extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
     private DrawingEditor editor;
     private JAttributeSlider opacitySlider;

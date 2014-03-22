@@ -21,7 +21,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class ChopDiamondConnector extends ChopRectangleConnector {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     public ChopDiamondConnector() {
         // only used for Storable implementation

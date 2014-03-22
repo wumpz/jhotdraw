@@ -21,7 +21,7 @@ import javax.swing.JFileChooser;
  * @version $Id$
  */
 public class JFileURIChooser extends JFileChooser implements URIChooser {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void setSelectedURI(@Nullable URI uri) {

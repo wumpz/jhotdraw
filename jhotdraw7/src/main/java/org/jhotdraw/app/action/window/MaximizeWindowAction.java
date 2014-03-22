@@ -24,8 +24,8 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * @version $Id$
  */
 public class MaximizeWindowAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "window.maximize";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "window.maximize";
     
     /** Creates a new instance. */
     public MaximizeWindowAction(Application app, @Nullable View view) {

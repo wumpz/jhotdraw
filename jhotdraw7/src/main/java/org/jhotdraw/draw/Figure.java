@@ -116,13 +116,13 @@ import org.jhotdraw.geom.*;
 public interface Figure extends Cloneable, Serializable {
     // PROPERTIES
     /** The name of the "connectable" property. */
-    public final static String CONNECTABLE_PROPERTY="connectable";
+    public static final String CONNECTABLE_PROPERTY="connectable";
     /** The name of the "removable" property. */
-    public final static String REMOVABLE_PROPERTY="removable";
+    public static final String REMOVABLE_PROPERTY="removable";
     /** The name of the "selectable" property. */
-    public final static String SELECTABLE_PROPERTY="selectable";
+    public static final String SELECTABLE_PROPERTY="selectable";
     /** The name of the "transformable" property. */
-    public final static String TRANSFORMABLE_PROPERTY="transformable";
+    public static final String TRANSFORMABLE_PROPERTY="transformable";
 
 
     // DRAWING

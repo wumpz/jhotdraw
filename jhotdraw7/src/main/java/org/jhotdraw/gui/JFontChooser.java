@@ -28,7 +28,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
  * @version $Id$
  */
 public class JFontChooser extends JComponent {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * @see #getUIClassID
@@ -38,11 +38,11 @@ public class JFontChooser extends JComponent {
     /**
      * Identifies the "selectedFont" property.
      */
-    public final static String SELECTED_FONT_PROPERTY = "selectedFont";
+    public static final String SELECTED_FONT_PROPERTY = "selectedFont";
     /**
      * Identifies the "selectionPath" property.
      */
-    public final static String SELECTION_PATH_PROPERTY = "selectionPath";
+    public static final String SELECTION_PATH_PROPERTY = "selectionPath";
     /** Instruction to cancel the current selection. */
     public static final String CANCEL_SELECTION = "CancelSelection";
     /**
@@ -53,7 +53,7 @@ public class JFontChooser extends JComponent {
     /**
      * Identifies the "model" property.
      */
-    public final static String MODEL_PROPERTY = "model";
+    public static final String MODEL_PROPERTY = "model";
     /**
      * Holds the selected path of the JFontChooser.
      */

@@ -369,7 +369,7 @@ public class Methods {
      * @param obj The object on which to invoke the method.
      * @param methodName The name of the method.
      */
-    public static Object invoke(Object obj, String methodName, Class[] clazz, Object... newValue)
+    public static Object invoke(Object obj, String methodName, Class<?>[] clazz, Object... newValue)
     throws NoSuchMethodException {
         try {
             Method method =  obj.getClass().getMethod(methodName,  clazz );

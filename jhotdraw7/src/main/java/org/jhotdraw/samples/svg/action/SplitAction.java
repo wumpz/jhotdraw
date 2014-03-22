@@ -19,8 +19,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class SplitAction extends CombineAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "edit.splitPath";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "edit.splitPath";
     private ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
     

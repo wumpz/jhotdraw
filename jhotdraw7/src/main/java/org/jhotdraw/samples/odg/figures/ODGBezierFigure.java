@@ -27,7 +27,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable private transient Rectangle2D.Double cachedDrawingArea;
 
@@ -66,7 +66,7 @@ public class ODGBezierFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void redo() throws CannotRedoException {

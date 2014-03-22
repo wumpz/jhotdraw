@@ -32,9 +32,9 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class CopyAction extends AbstractSelectionAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.copy";
+    public static final String ID = "edit.copy";
 
     /** Creates a new instance which acts on the currently focused component. */
     public CopyAction() {

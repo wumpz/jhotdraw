@@ -22,8 +22,8 @@ import org.jhotdraw.app.Application;
  */
 public class Main {
 
-    public final static String NAME = "JHotDraw Teddy";
-    public final static String COPYRIGHT = "© 1996-2013 by the original authors of JHotDraw and all its contributors.";
+    public static final String NAME = "JHotDraw Teddy";
+    public static final String COPYRIGHT = "© 1996-2013 by the original authors of JHotDraw and all its contributors.";
 
     /**
      * Launches the application. <p> Supported command line parameters:

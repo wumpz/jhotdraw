@@ -23,7 +23,7 @@ import org.jhotdraw.gui.JFontChooser;
  */
 public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected AttributeKey<Font> key;
     protected JFontChooser fontChooser;
@@ -64,7 +64,7 @@ public class FontChooserHandler extends AbstractSelectedAction
         getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
         final Font undoValue = fontChooser.getSelectedFont();
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

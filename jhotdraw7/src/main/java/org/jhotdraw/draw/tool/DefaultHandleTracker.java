@@ -43,7 +43,7 @@ import org.jhotdraw.draw.event.HandleListener;
  * @version $Id$
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private class EventHandler implements HandleListener {
 

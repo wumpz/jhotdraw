@@ -19,7 +19,7 @@ import org.jhotdraw.gui.ActivityModel;
  * @version 1.0 2011-09-08 Created.
  */
 public class ActivityManagerEvent extends EventObject {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private ActivityModel activity;
 

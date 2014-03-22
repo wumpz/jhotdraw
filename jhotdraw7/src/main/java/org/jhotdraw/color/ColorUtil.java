@@ -27,7 +27,7 @@ import org.jhotdraw.text.ColorToolTipTextFormatter;
 public class ColorUtil {
 
     private static ColorToolTipTextFormatter formatter;
-    private final static ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+    private static final ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
 
     /**
      * Prevent instance creation.

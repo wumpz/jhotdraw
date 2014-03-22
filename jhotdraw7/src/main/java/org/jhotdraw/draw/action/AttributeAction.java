@@ -23,7 +23,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class AttributeAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected Map<AttributeKey<?>, Object> attributes;
 
@@ -96,7 +96,7 @@ public class AttributeAction extends AbstractSelectedAction {
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

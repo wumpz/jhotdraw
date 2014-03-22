@@ -20,9 +20,9 @@ import java.util.*;
  * @version $Id$
  */
 public class SplitAction extends UngroupAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.splitPath";
+    public static final String ID = "edit.splitPath";
     private ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
 

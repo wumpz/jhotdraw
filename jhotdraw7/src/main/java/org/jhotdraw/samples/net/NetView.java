@@ -42,9 +42,9 @@ import org.jhotdraw.gui.URIChooser;
  * @version $Id$
  */
 public class NetView extends AbstractView {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String GRID_VISIBLE_PROPERTY = "gridVisible";
+    public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     /**
      * Each NetView uses its own undo redo manager.
      * This allows for undoing and redoing actions per view.

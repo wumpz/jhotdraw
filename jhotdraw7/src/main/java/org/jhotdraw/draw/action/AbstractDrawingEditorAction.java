@@ -34,6 +34,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractDrawingEditorAction extends AbstractAction {
+    private static final long serialVersionUID = 1L;
 
     protected DrawingEditor editor;
 

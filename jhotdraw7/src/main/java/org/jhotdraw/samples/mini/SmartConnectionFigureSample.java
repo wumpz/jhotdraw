@@ -34,7 +34,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class SmartConnectionFigureSample {
 
     private static class SmartConnectionFigure extends LineConnectionFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public SmartConnectionFigure() {
             setAttributeEnabled(STROKE_TYPE, false);

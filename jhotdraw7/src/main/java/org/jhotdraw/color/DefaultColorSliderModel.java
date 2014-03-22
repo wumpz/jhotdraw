@@ -21,7 +21,7 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class DefaultColorSliderModel extends AbstractColorSlidersModel {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected ColorSpace colorSpace;
     /**

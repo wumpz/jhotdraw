@@ -31,7 +31,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private int updateRecursion = 0;
 
@@ -64,14 +64,14 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
      * maximal saturation and a brightness ranging from 90% to 20% (this also
      * makes for a range from 100% to 20% if the 5th row is taken into account).
      */
-    private final static java.util.List<ColorIcon> HSB_COLORS;
-    private final static int HSB_COLORS_COLUMN_COUNT = 12;
+    private static final java.util.List<ColorIcon> HSB_COLORS;
+    private static final int HSB_COLORS_COLUMN_COUNT = 12;
     /**
      * This is the same palette as HSB_COLORS, but all color values are
      * specified in the sRGB color space.
      */
-    private final static java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
-    private final static int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
+    private static final java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
+    private static final int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
 
     static {
         // FIXME - Move this into a lazy initializer

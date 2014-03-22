@@ -37,7 +37,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class DrawApplicationModel extends DefaultApplicationModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * This editor is shared by all views.

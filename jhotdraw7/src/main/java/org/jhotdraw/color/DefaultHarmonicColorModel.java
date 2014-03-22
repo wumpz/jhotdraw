@@ -21,7 +21,7 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
  * @version $Id$
  */
 public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel, Cloneable {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
     private ArrayList<Color> colors;

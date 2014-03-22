@@ -30,9 +30,9 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * @version $Id$
  */
 public class AboutAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.about";
+    public static final String ID = "application.about";
 
     /** Creates a new instance. */
     public AboutAction(Application app) {

@@ -22,21 +22,21 @@ public class PaletteToolBarBorder
         extends AbstractBorder
         implements SwingConstants {
 
-    private final static long serialVersionUID = 1L;
-    private final static float[] enabledStops = new float[]{0f, 0.5f, 1f};
-    private final static Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xc8c8c8), new Color(0xf8f8f8)};
-    private final static float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
-    private final static Color[] selectedStopColors = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
-    private final static Color bright = new Color(0x999999, true);
-    private final static Color dark = new Color(0x8c8c8c);
-    private final static Color divider = new Color(0x9f9f9f);
+    private static final long serialVersionUID = 1L;
+    private static final float[] enabledStops = new float[]{0f, 0.5f, 1f};
+    private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xc8c8c8), new Color(0xf8f8f8)};
+    private static final float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
+    private static final Color[] selectedStopColors = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
+    private static final Color bright = new Color(0x999999, true);
+    private static final Color dark = new Color(0x8c8c8c);
+    private static final Color divider = new Color(0x9f9f9f);
     /*
-    private final static Color dark = new Color(0x999999);
-    private final static Color bright = new Color(0xb3b3b3);
+    private static final Color dark = new Color(0x999999);
+    private static final Color bright = new Color(0xb3b3b3);
     /*
      *//*
-    private final static Color dark = new Color(0x808080);
-    private final static Color bright = new Color(0xcccccc);
+    private static final Color dark = new Color(0x808080);
+    private static final Color bright = new Color(0xcccccc);
      **/
 
 
@@ -188,6 +188,6 @@ public class PaletteToolBarBorder
     }
 
     public static class UIResource extends PaletteToolBarBorder implements javax.swing.plaf.UIResource {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     }
 }

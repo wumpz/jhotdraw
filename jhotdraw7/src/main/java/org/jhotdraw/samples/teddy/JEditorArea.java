@@ -2,7 +2,6 @@
  * @(#)JEditorArea.java
  *
  * Copyright (c) 2006 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -18,7 +17,7 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class JEditorArea extends JEditorPane {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private boolean wrap;
     
     /** Creates a new instance. */

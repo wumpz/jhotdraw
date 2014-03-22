@@ -24,6 +24,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class AlignAction extends AbstractSelectedAction {
+    private static final long serialVersionUID = 1L;
 
     protected ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -72,7 +73,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class North extends AlignAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public North(DrawingEditor editor) {
             super(editor);
@@ -102,7 +103,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class East extends AlignAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public East(DrawingEditor editor) {
             super(editor);
@@ -132,7 +133,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class West extends AlignAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public West(DrawingEditor editor) {
             super(editor);
@@ -162,7 +163,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class South extends AlignAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public South(DrawingEditor editor) {
             super(editor);
@@ -192,7 +193,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class Vertical extends AlignAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public Vertical(DrawingEditor editor) {
             super(editor);
@@ -222,7 +223,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class Horizontal extends AlignAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public Horizontal(DrawingEditor editor) {
             super(editor);

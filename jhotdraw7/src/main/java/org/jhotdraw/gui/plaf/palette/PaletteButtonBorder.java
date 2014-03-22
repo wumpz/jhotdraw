@@ -27,10 +27,10 @@ import javax.swing.plaf.UIResource;
  */
 public class PaletteButtonBorder implements Border, UIResource {
 
-    private final static float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
-    private final static Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
-    private final static float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
-    private final static Color[] selectedStopColors = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
+    private static final float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
+    private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
+    private static final float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
+    private static final Color[] selectedStopColors = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
 
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {

@@ -23,8 +23,8 @@ import javax.swing.*;
  * @version $Id$
  */
 public interface AttributeEditor<T> {
-    public final static String ATTRIBUTE_VALUE_PROPERTY = "attributeValue";
-    public final static String MULTIPLE_VALUES_PROPERTY = "multipleValues";
+    public static final String ATTRIBUTE_VALUE_PROPERTY = "attributeValue";
+    public static final String MULTIPLE_VALUES_PROPERTY = "multipleValues";
     /**
      * Returns the JComponent of the attribute field.
      */

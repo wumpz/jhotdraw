@@ -44,7 +44,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class TextEditingTool extends AbstractTool implements ActionListener {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable private FloatingTextField textField;
     @Nullable private TextHolderFigure typingTarget;
@@ -104,7 +104,7 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
                 typingTarget.changed();
             }
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {

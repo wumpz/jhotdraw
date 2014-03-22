@@ -30,7 +30,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class NodeFigure extends TextFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private LinkedList<Connector> connectors;
     private static LocatorConnector north;

@@ -27,7 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class DefaultDrawing
         extends AbstractDrawing {
 
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     private boolean needsSorting = false;
 

@@ -41,13 +41,14 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {
+    private static final long serialVersionUID = 1L;
 
     @Nullable
     private DrawingEditor editor;
     @Nullable transient private DrawingView activeView;
 
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {

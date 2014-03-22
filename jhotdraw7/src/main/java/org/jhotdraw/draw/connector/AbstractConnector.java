@@ -26,7 +26,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @version $Id$
  */
 public class AbstractConnector implements Connector, DOMStorable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /**
      * The owner of the connector
      */

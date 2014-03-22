@@ -20,7 +20,7 @@ import org.jhotdraw.app.action.ActionUtil;
  * @version $Id$
  */
 public class ToggleToolBarAction extends AbstractAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private JToolBar toolBar;
     private PropertyChangeListener propertyHandler;
     

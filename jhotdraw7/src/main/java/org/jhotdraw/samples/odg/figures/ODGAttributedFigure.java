@@ -26,6 +26,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public abstract class ODGAttributedFigure extends AbstractAttributedFigure implements ODGFigure {
+    private static final long serialVersionUID = 1L;
     
     /** Creates a new instance. */
     public ODGAttributedFigure() {
@@ -111,7 +112,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
         if (get(TRANSFORM) != null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
                     fireUndoableEditHappened(

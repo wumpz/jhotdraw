@@ -2,7 +2,6 @@
  * @(#)LoadDirectoryAction.java
  * 
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -27,12 +26,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@code LoadDirectoryAction} and {@code CloseFileAction}.
  * This action should not be used together with {@code OpenDirectoryAction}.
  *
- * @author Werner Randelshofer, Hausmatt 10, CH-6405 Immensee
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class LoadDirectoryAction extends LoadFileAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "file.loadDirectory";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "file.loadDirectory";
 
     /** Creates a new instance. */
     public LoadDirectoryAction(Application app, @Nullable View view) {

@@ -37,8 +37,8 @@ import javax.swing.text.View;
  */
 public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
 
-    private final static float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
-    private final static Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
+    private static final float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
+    private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
     private boolean tabsOverlapBorder;
     private Color selectedColor;
     private boolean tabsOpaque = true;

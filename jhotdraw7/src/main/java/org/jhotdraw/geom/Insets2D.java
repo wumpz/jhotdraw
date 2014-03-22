@@ -20,6 +20,7 @@ import java.io.Serializable;
  * idioms.
  */
 public abstract class Insets2D implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
     
     /** Creates a new instance. */
     protected Insets2D() {
@@ -221,7 +222,7 @@ public abstract class Insets2D implements Cloneable, Serializable {
      * <code>float</code> precision.
      */
     public static class Float extends Insets2D {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
         public float top;
         public float left;
         public float bottom;
@@ -290,7 +291,7 @@ public abstract class Insets2D implements Cloneable, Serializable {
      * <code>double</code> precision.
      */
     public static class Double extends Insets2D {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
         public double top;
         public double left;
         public double bottom;

@@ -146,7 +146,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class MDIApplication extends AbstractApplication {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private JFrame parentFrame;
     private JScrollPane scrollPane;
@@ -669,7 +669,7 @@ public class MDIApplication extends AbstractApplication {
 
     /** This transfer handler opens a new view for each dropped file. */
     private class DropFileTransferHandler extends TransferHandler {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         @Override
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {

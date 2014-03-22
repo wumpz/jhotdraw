@@ -22,12 +22,12 @@ public class DisclosureIcon implements Icon {
      * This client property needs to be set on the component.
      * The value must be a positive Integer. 
      */
-    public final static String STATE_COUNT_PROPERTY = "DisclosureIcon.numberOfStates";
+    public static final String STATE_COUNT_PROPERTY = "DisclosureIcon.numberOfStates";
     /**
      * This client property needs to be set on the component.
      * The value must be a positive Integer. 
      */
-    public final static String CURRENT_STATE_PROPERTY = "DisclosureIcon.currentState";
+    public static final String CURRENT_STATE_PROPERTY = "DisclosureIcon.currentState";
 
     @Override
     public void paintIcon(Component component, Graphics g, int x, int y) {

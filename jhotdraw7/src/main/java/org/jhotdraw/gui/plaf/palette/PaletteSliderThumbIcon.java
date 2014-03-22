@@ -20,12 +20,12 @@ import org.jhotdraw.util.Images;
  * @version $Id$
  */
 public class PaletteSliderThumbIcon extends MultiIcon {
-    private final static int E = 0;
-    private final static int EP = 1;
-    private final static int D = 2;
-    private final static int I = 3;
-    private final static int DI = 4;
-    private final static int FOCUS_RING = 5;
+    private static final int E = 0;
+    private static final int EP = 1;
+    private static final int D = 2;
+    private static final int I = 3;
+    private static final int DI = 4;
+    private static final int FOCUS_RING = 5;
     
     /**
      * Creates a new instance.

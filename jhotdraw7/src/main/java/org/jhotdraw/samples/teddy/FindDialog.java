@@ -24,7 +24,7 @@ import javax.swing.border.*;
  * @author  werni
  */
 public class FindDialog extends javax.swing.JDialog {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private Application app;
     @Nullable private Matcher matcher;
     private Preferences prefs;

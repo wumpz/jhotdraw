@@ -24,7 +24,7 @@ import javax.swing.plaf.basic.*;
  * @version $Id$
  */
 public class PaletteLookAndFeel extends BasicLookAndFeel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** 
      * Shared instance.

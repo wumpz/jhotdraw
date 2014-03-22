@@ -2,7 +2,6 @@
  * @(#)CharacterSetAccessory.java
  *
  * Copyright (c) 2005 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -22,9 +21,9 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
+    private static final Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
 
     /** Creates a new instance. */

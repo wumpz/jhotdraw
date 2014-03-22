@@ -22,7 +22,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class DrawingAttributeAction extends AbstractDrawingViewAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected Map<AttributeKey<?>, Object> attributes;
 
@@ -78,7 +78,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
         drawing.changed();
 
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

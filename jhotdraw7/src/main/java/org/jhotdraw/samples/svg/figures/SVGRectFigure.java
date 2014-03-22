@@ -27,11 +27,11 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /** Identifies the {@code arcWidth} JavaBeans property. */
-    public final static String ARC_WIDTH_PROPERTY = "arcWidth";
+    public static final String ARC_WIDTH_PROPERTY = "arcWidth";
     /** Identifies the {@code arcHeight} JavaBeans property. */
-    public final static String ARC_HEIGHT_PROPERTY = "arcHeight";
+    public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 
     /** The variable acv is used for generating the locations of the control
      * points for the rounded rectangle using path.curveTo. */

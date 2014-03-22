@@ -19,7 +19,7 @@ import java.io.IOException;
  * @version $Id$
  */
 public class CMYKGenericColorSpace extends ICC_ColorSpace {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private static CMYKGenericColorSpace instance;
 

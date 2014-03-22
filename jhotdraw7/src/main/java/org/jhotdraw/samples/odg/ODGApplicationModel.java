@@ -43,9 +43,9 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGApplicationModel extends DefaultApplicationModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
+    private static final double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     /**
      * This editor is shared by all views.
      */

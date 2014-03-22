@@ -25,7 +25,7 @@ import java.util.*;
  * @version $Id$
  */
 public class QuadTree<T> implements Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private HashMap<T,Rectangle2D.Double> outside = new HashMap<T,Rectangle2D.Double>();
     private QuadNode root;
     private int maxCapacity = 32;
@@ -111,7 +111,7 @@ public class QuadTree<T> implements Serializable {
     }
     
     private class QuadNode implements Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
         private Rectangle2D.Double bounds;
         /**
          * We store an object into this map, if 1) the bounds of the object

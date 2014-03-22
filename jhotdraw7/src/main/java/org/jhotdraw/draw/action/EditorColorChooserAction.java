@@ -25,7 +25,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class EditorColorChooserAction extends AttributeAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected AttributeKey<Color> key;
     protected static JColorChooser colorChooser;

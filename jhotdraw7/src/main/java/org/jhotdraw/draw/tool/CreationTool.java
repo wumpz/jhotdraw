@@ -53,7 +53,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class CreationTool extends AbstractTool {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Attributes to be applied to the created ConnectionFigure.
@@ -238,7 +238,7 @@ public class CreationTool extends AbstractTool {
                 final Figure addedFigure = createdFigure;
                 final Drawing addedDrawing = getDrawing();
                 getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {

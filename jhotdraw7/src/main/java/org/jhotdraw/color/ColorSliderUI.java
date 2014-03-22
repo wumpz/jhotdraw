@@ -27,8 +27,8 @@ import org.jhotdraw.gui.plaf.palette.*;
  */
 public class ColorSliderUI extends BasicSliderUI {
 
-    private final static Color foreground = new Color(0x949494);
-    private final static Color trackBackground = new Color(0xffffff);
+    private static final Color foreground = new Color(0x949494);
+    private static final Color trackBackground = new Color(0xffffff);
     private ColorTrackImageProducer colorTrackImageProducer;
     private Image colorTrackImage;
     private static final Dimension PREFERRED_HORIZONTAL_SIZE = new Dimension(160, 4);

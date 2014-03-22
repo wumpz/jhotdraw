@@ -33,7 +33,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class AttributeKey<T> implements Serializable {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     /**
      * Holds a String representation of the attribute key.
@@ -194,7 +194,7 @@ public class AttributeKey<T> implements Serializable {
         f.set(this, value);
 
         UndoableEdit edit = new AbstractUndoableEdit() {
-        private final static long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
             @Override
             public String getPresentationName() {
                 return AttributeKey.this.getPresentationName();

@@ -57,7 +57,7 @@ public interface CompositeFigure extends Figure {
     /**
      * The value of this attribute is a Insets2D.Double object.
      */
-    public final static AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("layoutInsets", Insets2D.Double.class, new Insets2D.Double());
+    public static final AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<Insets2D.Double>("layoutInsets", Insets2D.Double.class, new Insets2D.Double());
     
     /**
      * Adds a child to the figure.

@@ -50,9 +50,9 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public class DeleteAction extends TextAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /** The ID for this action. */
-    public final static String ID = "edit.delete";
+    public static final String ID = "edit.delete";
     /** The target of the action or null if the action acts on the currently
      * focused component.
      */

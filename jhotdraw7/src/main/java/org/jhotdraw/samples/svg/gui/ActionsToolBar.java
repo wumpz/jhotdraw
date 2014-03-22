@@ -38,7 +38,7 @@ import org.jhotdraw.samples.svg.figures.*;
  * @version $Id$
  */
 public class ActionsToolBar extends AbstractToolBar {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Nullable private UndoRedoManager undoManager;
     private ArrayList<Action> actions;
     private JPopupButton popupButton;

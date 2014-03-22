@@ -22,7 +22,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class AnimationSample extends javax.swing.JFrame {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Creates new form AnimationSample */
     public AnimationSample() {

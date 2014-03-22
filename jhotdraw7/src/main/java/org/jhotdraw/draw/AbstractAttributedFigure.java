@@ -26,6 +26,7 @@ import org.jhotdraw.xml.DOMStorable;
  * $
  */
 public abstract class AbstractAttributedFigure extends AbstractFigure implements DOMStorable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Holds the attributes of the figure.

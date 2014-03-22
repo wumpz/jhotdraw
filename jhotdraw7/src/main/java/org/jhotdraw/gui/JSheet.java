@@ -32,7 +32,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class JSheet extends JDialog {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Event listener list.

@@ -25,7 +25,7 @@ import org.jhotdraw.gui.plaf.palette.*;
  * @version $Id$
  */
 public class ArrangeToolBar extends AbstractToolBar {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable private SelectionComponentDisplayer displayer;
 

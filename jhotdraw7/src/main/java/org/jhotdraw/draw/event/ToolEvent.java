@@ -30,7 +30,7 @@ import java.util.*;
  * @version $Id$
  */
 public class ToolEvent extends EventObject {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
     private Rectangle invalidatedArea;
     private DrawingView view;
     

@@ -2,7 +2,6 @@
  * @(#)OpenDirectoryAction.java
  * 
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -31,12 +30,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@link NewFileAction}, {@link OpenFileAction} and {@link CloseFileAction}.
  * This action should not be used together with {@link LoadFileAction}.
  *
- * @author Werner Randelshofer, Hausmatt 10, CH-6405 Immensee
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class OpenDirectoryAction extends OpenFileAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "file.openDirectory";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "file.openDirectory";
 
     /** Creates a new instance. */
     public OpenDirectoryAction(Application app) {

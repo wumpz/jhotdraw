@@ -21,7 +21,7 @@ import javax.swing.text.Document;
  * @version $Id$
  */
 public class JLifeFormattedTextArea extends JTextArea {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** This adapter is used for adapting Formatters to the JTextArea. */
     private JLifeFormattedTextField formattedTextFieldAdapter;

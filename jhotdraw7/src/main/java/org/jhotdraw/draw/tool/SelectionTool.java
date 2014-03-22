@@ -48,7 +48,7 @@ import org.jhotdraw.draw.event.ToolAdapter;
  * @version $Id$
  */
 public class SelectionTool extends AbstractTool {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The tracker encapsulates the current state of the SelectionTool.
@@ -107,7 +107,7 @@ public class SelectionTool extends AbstractTool {
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
-    public final static String SELECT_BEHIND_ENABLED_PROPERTY = "selectBehindEnabled";
+    public static final String SELECT_BEHIND_ENABLED_PROPERTY = "selectBehindEnabled";
     /**
      * Represents the state of the selectBehindEnabled property.
      * By default, this property is set to true.

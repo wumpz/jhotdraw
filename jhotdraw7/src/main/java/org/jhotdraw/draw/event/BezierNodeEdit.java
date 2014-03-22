@@ -23,7 +23,7 @@ import javax.swing.undo.UndoableEdit;
  * @author Werner Randelshofer
  */
 public class BezierNodeEdit extends AbstractUndoableEdit {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private BezierFigure owner;
     private int index;

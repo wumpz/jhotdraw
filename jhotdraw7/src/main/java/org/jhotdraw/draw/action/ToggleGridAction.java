@@ -19,8 +19,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class ToggleGridAction extends AbstractDrawingViewAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "view.toggleGrid";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "view.toggleGrid";
     /**
      * Creates a new instance.
      */

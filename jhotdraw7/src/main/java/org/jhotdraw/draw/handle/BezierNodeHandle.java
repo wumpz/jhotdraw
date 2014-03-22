@@ -193,7 +193,7 @@ public class BezierNodeHandle extends AbstractHandle {
             fireHandleRequestSecondaryHandles();
         }
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldValue, newValue) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
@@ -233,7 +233,7 @@ public class BezierNodeHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -345,7 +345,7 @@ public class BezierNodeHandle extends AbstractHandle {
                 f.changed();
                 fireHandleRequestRemove(invalidatedArea);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

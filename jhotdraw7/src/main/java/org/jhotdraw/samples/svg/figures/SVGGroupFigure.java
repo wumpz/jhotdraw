@@ -24,7 +24,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
 

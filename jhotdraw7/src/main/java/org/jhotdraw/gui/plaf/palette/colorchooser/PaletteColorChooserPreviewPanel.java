@@ -2,7 +2,6 @@
  * @(#)PaletteColorChooserPreviewPanel.java  
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -21,9 +20,9 @@ import javax.swing.plaf.*;
  * @version $Id$
  */
 public class PaletteColorChooserPreviewPanel extends JPanel implements UIResource {
-    private final static long serialVersionUID = 1L;
-    private final static Color previewBorderColor = new Color(0x949494);
-    private final static Color previewBackgroundColor = new Color(0xffffff);
+    private static final long serialVersionUID = 1L;
+    private static final Color previewBorderColor = new Color(0x949494);
+    private static final Color previewBackgroundColor = new Color(0xffffff);
     /** Creates new form. */
     public PaletteColorChooserPreviewPanel() {
         initComponents();

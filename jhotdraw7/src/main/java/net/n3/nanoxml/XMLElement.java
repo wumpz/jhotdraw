@@ -953,6 +953,15 @@ public class XMLElement implements IXMLElement, Serializable {
         this.content = content;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.attributes != null ? this.attributes.hashCode() : 0);
+        hash = 97 * hash + (this.children != null ? this.children.hashCode() : 0);
+        hash = 97 * hash + (this.name != null ? this.name.hashCode() : 0);
+        return hash;
+    }
+
     /**
      * Returns true if the element equals another element.
      *

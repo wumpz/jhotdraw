@@ -22,17 +22,17 @@ import javax.swing.event.PopupMenuListener;
  * @version $Id$
  */
 public class JPopupButton extends javax.swing.JButton {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String CLOSE_AUTOMATICALLY_PROPERTY = "closeAutomatically";
-    public final static String COLUMN_COUNT_PROPERTY = "columnCount";
-    public final static String ITEM_FONT_PROPERTY = "itemFont";
+    public static final String CLOSE_AUTOMATICALLY_PROPERTY = "closeAutomatically";
+    public static final String COLUMN_COUNT_PROPERTY = "columnCount";
+    public static final String ITEM_FONT_PROPERTY = "itemFont";
     private JPopupMenu popupMenu;
     private int columnCount = 1;
     private Action action;
     private Rectangle actionArea;
     private Font itemFont;
-    public final static Font ITEM_FONT = new Font("Dialog", Font.PLAIN, 10);
+    public static final Font ITEM_FONT = new Font("Dialog", Font.PLAIN, 10);
     private int popupAnchor = SwingConstants.SOUTH_WEST;
     /** The time when the popup became invisible. */
     private long popupBecameInvisible;

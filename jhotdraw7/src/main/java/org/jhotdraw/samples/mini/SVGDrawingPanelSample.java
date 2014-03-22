@@ -33,7 +33,7 @@ import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
  * @version $Id$
  */
 public class SVGDrawingPanelSample extends javax.swing.JFrame {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Holds the file chooser for opening a file. */
     private JFileChooser openChooser;

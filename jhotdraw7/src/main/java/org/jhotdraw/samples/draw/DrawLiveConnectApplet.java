@@ -27,10 +27,10 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class DrawLiveConnectApplet extends JApplet {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static String VERSION = "7.0.8";
-    private final static String NAME = "JHotDraw Draw";
+    private static final String VERSION = "7.0.8";
+    private static final String NAME = "JHotDraw Draw";
 
     /** Initializes the applet DrawApplet */
     @Override

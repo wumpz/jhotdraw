@@ -25,7 +25,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class SelectionColorChooserAction extends EditorColorChooserAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     /** Creates a new instance. */
     public SelectionColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {

@@ -2,7 +2,6 @@
  * @(#)FigureToolBar.java
  *
  * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -34,7 +33,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class FigureToolBar extends AbstractToolBar {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable private SelectionComponentDisplayer displayer;
     private ResourceBundleUtil labels;

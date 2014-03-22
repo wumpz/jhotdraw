@@ -29,12 +29,12 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class BezierTool extends AbstractTool {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Set this to true to turn on debugging output on System.out.
      */
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     @Nullable private Boolean finishWhenMouseReleased;
     @Nullable protected Map<AttributeKey<?>, Object> attributes;
     private boolean isToolDoneAfterCreation;
@@ -219,7 +219,7 @@ public class BezierTool extends AbstractTool {
         final Drawing addedDrawing = creationView.getDrawing();
         final DrawingView addedView = creationView;
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

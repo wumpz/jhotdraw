@@ -2,7 +2,6 @@
  * @(#)AbstractApplication.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -63,6 +62,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
+    private static final long serialVersionUID = 1L;
 
     private LinkedList<View> views = new LinkedList<View>();
     private Collection<View> unmodifiableViews;
@@ -72,9 +72,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private Preferences prefs;
     @Nullable
     private View activeView;
-    public final static String VIEW_COUNT_PROPERTY = "viewCount";
+    public static final String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentURIs = new LinkedList<URI>();
-    private final static int maxRecentFilesCount = 10;
+    private static final int maxRecentFilesCount = 10;
     private ActionMap actionMap;
     private URIChooser openChooser;
     private URIChooser saveChooser;

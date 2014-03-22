@@ -235,7 +235,7 @@ public class BezierControlPointHandle extends AbstractHandle {
             figure.changed();
         }
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(figure, index, oldValue, newValue) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public void redo() throws CannotRedoException {

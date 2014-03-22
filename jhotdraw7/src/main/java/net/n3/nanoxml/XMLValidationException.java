@@ -37,7 +37,7 @@ package net.n3.nanoxml;
 public class XMLValidationException
         extends XMLException {
 
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /**
      * An element was missing.
      */

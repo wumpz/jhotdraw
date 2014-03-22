@@ -25,6 +25,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
+    private static final long serialVersionUID = 1L;
     
     /** Creates a new instance. */
     public SVGAttributedFigure() {
@@ -105,7 +106,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
         if (get(TRANSFORM) != null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     willChange();

@@ -21,6 +21,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
+    private static final long serialVersionUID = 1L;
 
     private TranslationDirection dir;
 
@@ -83,9 +84,9 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class East extends MoveConstrainedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveConstrainedEast";
+        public static final String ID = "edit.moveConstrainedEast";
 
         public East(DrawingEditor editor) {
             super(editor, TranslationDirection.EAST);
@@ -95,9 +96,9 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class West extends MoveConstrainedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveConstrainedWest";
+        public static final String ID = "edit.moveConstrainedWest";
 
         public West(DrawingEditor editor) {
             super(editor, TranslationDirection.WEST);
@@ -107,9 +108,9 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class North extends MoveConstrainedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveConstrainedNorth";
+        public static final String ID = "edit.moveConstrainedNorth";
 
         public North(DrawingEditor editor) {
             super(editor, TranslationDirection.NORTH);
@@ -119,9 +120,9 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class South extends MoveConstrainedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveConstrainedSouth";
+        public static final String ID = "edit.moveConstrainedSouth";
 
         public South(DrawingEditor editor) {
             super(editor, TranslationDirection.SOUTH);

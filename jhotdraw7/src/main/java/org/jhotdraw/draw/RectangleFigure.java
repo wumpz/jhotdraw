@@ -20,7 +20,7 @@ import org.jhotdraw.geom.Geom;
  * @version $Id$
  */
 public class RectangleFigure extends AbstractAttributedFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     protected Rectangle2D.Double rectangle;
     
     /** Creates a new instance. */

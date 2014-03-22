@@ -17,7 +17,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class GridConstrainer extends AbstractConstrainer {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The width of a minor grid cell.

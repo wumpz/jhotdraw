@@ -22,7 +22,7 @@ import javax.swing.*;
  */
 public class EmptyApplicationModel
         extends AbstractApplicationModel {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Returns an empty ActionMap. */
     @Override

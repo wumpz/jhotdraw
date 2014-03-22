@@ -31,7 +31,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * This cached path is used for drawing.
@@ -42,7 +42,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
      * This is used to perform faster hit testing.
      */
     @Nullable private transient Shape cachedHitShape;
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     /** Creates a new instance. */
     public SVGPathFigure() {
@@ -351,7 +351,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -362,7 +362,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
             actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -370,7 +370,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                     //TransformEdit edit = new TransformEdit(SVGPathFigure.this, )
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                         @Override
                         public String getPresentationName() {
@@ -403,7 +403,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         if (getChild(getChildCount() - 1).get(PATH_CLOSED)) {
             actions.add(new AbstractAction(labels.getString("attribute.openPath.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -417,7 +417,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         } else {
             actions.add(new AbstractAction(labels.getString("attribute.closePath.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -432,7 +432,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         if (get(WINDING_RULE) != WindingRule.EVEN_ODD) {
             actions.add(new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -444,7 +444,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         } else {
             actions.add(new AbstractAction(labels.getString("attribute.windingRule.nonZero.text")) {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {

@@ -62,7 +62,7 @@ public class SVGOutputFormat implements OutputFormat {
      * Set this to true for pretty printing.
      */
     private boolean isPrettyPrint;
-    private final static HashMap<Integer, String> strokeLinejoinMap;
+    private static final HashMap<Integer, String> strokeLinejoinMap;
 
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
@@ -70,7 +70,7 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinejoinMap.put(BasicStroke.JOIN_ROUND, "round");
         strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
-    private final static HashMap<Integer, String> strokeLinecapMap;
+    private static final HashMap<Integer, String> strokeLinecapMap;
 
     static {
         strokeLinecapMap = new HashMap<Integer, String>();
@@ -84,7 +84,7 @@ public class SVGOutputFormat implements OutputFormat {
      * Float precision is less accurate then double precision, but it uses
      * less storage space.
      */
-    private final static boolean isFloatPrecision = true;
+    private static final boolean isFloatPrecision = true;
 
     /** Creates a new instance. */
     public SVGOutputFormat() {

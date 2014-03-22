@@ -23,7 +23,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class ChopBezierConnector extends ChopRectangleConnector {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     /** Creates a new instance. */
     public ChopBezierConnector() {

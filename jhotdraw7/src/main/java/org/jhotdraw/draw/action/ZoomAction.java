@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class ZoomAction extends AbstractDrawingViewAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private double scaleFactor;
     @Nullable private AbstractButton button;
     private String label;

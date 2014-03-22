@@ -17,7 +17,7 @@ import javax.swing.*;
  * @version $Id$
  */
 public class PlacardScrollPaneLayout extends ScrollPaneLayout {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new instance.
@@ -42,7 +42,7 @@ public class PlacardScrollPaneLayout extends ScrollPaneLayout {
      * The UI resource version of <code>ScrollPaneLayout</code>.
      */
     public static class UIResource extends PlacardScrollPaneLayout implements javax.swing.plaf.UIResource {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     }
 }
 

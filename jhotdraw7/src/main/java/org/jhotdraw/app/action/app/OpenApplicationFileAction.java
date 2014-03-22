@@ -8,7 +8,6 @@
 package org.jhotdraw.app.action.app;
 
 import java.awt.Frame;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -54,9 +53,9 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class OpenApplicationFileAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.openFile";
+    public static final String ID = "application.openFile";
     private JFileChooser fileChooser;
     private int entries;
 

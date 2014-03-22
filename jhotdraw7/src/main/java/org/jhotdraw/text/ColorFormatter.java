@@ -84,7 +84,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class ColorFormatter extends DefaultFormatter {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Specifies the formats supported by ColorFormatter.
@@ -110,29 +110,29 @@ public class ColorFormatter extends DefaultFormatter {
     /**
      * This regular expression is used for parsing the RGB_HEX format.
      */
-    protected final static Pattern rgbHexPattern = Pattern.compile("^\\s*(?:[rR][gG][bB]\\s*#|#)\\s*([0-9a-fA-F]{3,6})\\s*$");
+    protected static final Pattern rgbHexPattern = Pattern.compile("^\\s*(?:[rR][gG][bB]\\s*#|#)\\s*([0-9a-fA-F]{3,6})\\s*$");
     /**
      * This regular expression is used for parsing the RGB_INTEGER format.
      */
-    protected final static Pattern rgbIntegerShortPattern = Pattern.compile("^\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
+    protected static final Pattern rgbIntegerShortPattern = Pattern.compile("^\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
     /**
      * This regular expression is used for parsing the RGB_INTEGER format.
      */
-    protected final static Pattern rgbIntegerPattern = Pattern.compile("^\\s*(?:[rR][gG][bB])?\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
+    protected static final Pattern rgbIntegerPattern = Pattern.compile("^\\s*(?:[rR][gG][bB])?\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
     /**
      * This regular expression is used for parsing the RGB_PERCENTAGE format.
      */
-    protected final static Pattern rgbPercentagePattern = Pattern.compile("^\\s*(?:[rR][gG][bB][%])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+    protected static final Pattern rgbPercentagePattern = Pattern.compile("^\\s*(?:[rR][gG][bB][%])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
     /**
      * This regular expression is used for parsing the HSB_PERCENTAGE format.
      * This format is recognized when the degree sign is present.
      */
-    protected final static Pattern hsbPercentagePattern = Pattern.compile("^\\s*(?:[hH][sS][bB])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+    protected static final Pattern hsbPercentagePattern = Pattern.compile("^\\s*(?:[hH][sS][bB])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
     /**
      * This regular expression is used for parsing the GRAY_PERCENTAGE format.
      * This format is recognized when the degree sign is present.
      */
-    protected final static Pattern grayPercentagePattern = Pattern.compile("^\\s*(?:[gG][rR][aA][yY])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+    protected static final Pattern grayPercentagePattern = Pattern.compile("^\\s*(?:[gG][rR][aA][yY])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
     /**
      * Specifies whether the formatter allows null values.
      */

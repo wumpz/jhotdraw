@@ -20,12 +20,12 @@ import java.util.*;
  * @version $Id$
  */
 public class PathTool extends BezierTool {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Set this to true to turn on debugging output on System.out.
      */
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     /**
      * The path prototype for new figures.
      */

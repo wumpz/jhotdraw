@@ -43,7 +43,7 @@ import org.jhotdraw.gui.Worker;
  * @version $Id$
  */
 public class ImageTool extends CreationTool {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable protected FileDialog fileDialog;
     @Nullable protected JFileChooser fileChooser;

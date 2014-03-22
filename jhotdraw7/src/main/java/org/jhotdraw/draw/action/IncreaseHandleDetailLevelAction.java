@@ -18,8 +18,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "view.increaseHandleDetailLevel";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "view.increaseHandleDetailLevel";
     /** Creates a new instance. */
     public IncreaseHandleDetailLevelAction(DrawingEditor editor) {
         super(editor);

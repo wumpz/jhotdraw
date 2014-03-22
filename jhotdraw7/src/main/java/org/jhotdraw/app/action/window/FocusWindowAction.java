@@ -24,9 +24,9 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class FocusWindowAction extends AbstractAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "window.focus";
+    public static final String ID = "window.focus";
     @Nullable private View view;
     private PropertyChangeListener ppc;
 

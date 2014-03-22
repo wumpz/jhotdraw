@@ -21,7 +21,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private Set<AttributeKey<?>> excludedAttributes = new HashSet<AttributeKey<?>>(
             Arrays.asList(new AttributeKey<?>[]{TRANSFORM, TEXT}));

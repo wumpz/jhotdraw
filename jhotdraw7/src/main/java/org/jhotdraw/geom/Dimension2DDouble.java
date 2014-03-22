@@ -17,7 +17,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class Dimension2DDouble extends Dimension2D implements java.io.Serializable {
-    private final static long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
     
     /**
      * The width dimension; negative values can be used. 

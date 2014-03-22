@@ -36,6 +36,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
+    private static final long serialVersionUID = 1L;
 
     @Nullable private Application app;
     @Nullable private PropertyChangeListener applicationListener;

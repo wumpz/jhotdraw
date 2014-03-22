@@ -23,13 +23,13 @@ import org.jhotdraw.geom.Geom;
  * @version $Id$
  */
 public class DiamondFigure extends AbstractAttributedFigure {
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
     /**
      * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have
      * the same length.
      */
-    public final static AttributeKey<Boolean> IS_QUADRATIC = new AttributeKey<Boolean>("isQuadratic", Boolean.class, false);
+    public static final AttributeKey<Boolean> IS_QUADRATIC = new AttributeKey<Boolean>("isQuadratic", Boolean.class, false);
     /**
      * The bounds of the diamond figure.
      */

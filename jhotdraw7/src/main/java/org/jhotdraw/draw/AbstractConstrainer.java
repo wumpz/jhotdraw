@@ -19,6 +19,7 @@ import org.jhotdraw.beans.*;
  * @version $Id$
  */
 public abstract class AbstractConstrainer extends AbstractBean implements Constrainer {
+    private static final long serialVersionUID = 1L;
     /** The listeners waiting for model changes. */
     protected EventListenerList listenerList = new EventListenerList();
     /**

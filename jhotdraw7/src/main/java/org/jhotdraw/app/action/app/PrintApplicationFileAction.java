@@ -38,9 +38,9 @@ import org.jhotdraw.gui.BackgroundTask;
  * @version $Id$
  */
 public class PrintApplicationFileAction extends PrintFileAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.printFile";
+    public static final String ID = "application.printFile";
     private JFileChooser fileChooser;
     private int entries;
 

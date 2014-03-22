@@ -28,7 +28,7 @@ import org.jhotdraw.draw.*;
 public class MovableChildFiguresSample {
 
     private static class LabeledEllipseFigure extends GraphicalCompositeFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         public LabeledEllipseFigure() {
             setPresentationFigure(new EllipseFigure());

@@ -27,7 +27,7 @@ public class LocatorLayouter implements Layouter {
      * LayoutLocator property used by the children to specify their location
      * relative to the compositeFigure.
      */
-    public final static AttributeKey<Locator> LAYOUT_LOCATOR = new AttributeKey<Locator>("layoutLocator",Locator.class,null);
+    public static final AttributeKey<Locator> LAYOUT_LOCATOR = new AttributeKey<Locator>("layoutLocator",Locator.class,null);
     
     /** Creates a new instance. */
     public LocatorLayouter() {

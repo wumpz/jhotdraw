@@ -36,8 +36,8 @@ import org.jhotdraw.gui.BackgroundTask;
  * @version $Id$
  */
 public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "file.clear";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "file.clear";
     
     /** Creates a new instance. */
     public ClearFileAction(Application app, @Nullable View view) {

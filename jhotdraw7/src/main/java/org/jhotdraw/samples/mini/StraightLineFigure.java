@@ -20,7 +20,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class StraightLineFigure extends AbstractAttributedFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private Line2D.Double line;
 

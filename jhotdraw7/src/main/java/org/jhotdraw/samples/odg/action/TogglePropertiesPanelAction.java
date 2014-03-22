@@ -23,7 +23,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class TogglePropertiesPanelAction extends AbstractViewAction {
-        private final static long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
     /** Creates a new instance. */
     public TogglePropertiesPanelAction(Application app, @Nullable View view) {

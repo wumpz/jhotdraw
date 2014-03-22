@@ -28,9 +28,9 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * @version $Id$
  */
 public class OpenApplicationAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.openApplication";
+    public static final String ID = "application.openApplication";
     /** Creates a new instance. */
     public OpenApplicationAction(Application app) {
         super(app);

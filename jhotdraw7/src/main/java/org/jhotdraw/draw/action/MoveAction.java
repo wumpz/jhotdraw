@@ -22,6 +22,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class MoveAction extends AbstractSelectedAction {
+    private static final long serialVersionUID = 1L;
 
     private int dx, dy;
 
@@ -53,9 +54,9 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class East extends MoveAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveEast";
+        public static final String ID = "edit.moveEast";
 
         public East(DrawingEditor editor) {
             super(editor, 1, 0);
@@ -65,9 +66,9 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class West extends MoveAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveWest";
+        public static final String ID = "edit.moveWest";
 
         public West(DrawingEditor editor) {
             super(editor, -1, 0);
@@ -77,9 +78,9 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class North extends MoveAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveNorth";
+        public static final String ID = "edit.moveNorth";
 
         public North(DrawingEditor editor) {
             super(editor, 0, -1);
@@ -89,9 +90,9 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class South extends MoveAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-        public final static String ID = "edit.moveSouth";
+        public static final String ID = "edit.moveSouth";
 
         public South(DrawingEditor editor) {
             super(editor, 0, 1);

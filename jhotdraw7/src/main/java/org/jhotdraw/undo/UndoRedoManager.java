@@ -23,9 +23,9 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     
     /**
      * The resource bundle used for internationalisation.
@@ -51,8 +51,8 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * Sending this UndoableEdit event to the UndoRedoManager
      * disables the Undo and Redo functions of the manager.
      */
-    public final static UndoableEdit DISCARD_ALL_EDITS = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    public static final UndoableEdit DISCARD_ALL_EDITS = new AbstractUndoableEdit() {
+    private static final long serialVersionUID = 1L;
     @Override
         public boolean canUndo() {
             return false;
@@ -68,7 +68,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      */
     private class UndoAction
             extends AbstractAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
         public UndoAction() {
             labels.configureAction(this, "edit.undo");
             setEnabled(false);
@@ -94,7 +94,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      */
     private class RedoAction
             extends AbstractAction {
-            private final static long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
         public RedoAction() {
             labels.configureAction(this, "edit.redo");

@@ -18,14 +18,14 @@ import java.util.*;
  */
 public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
 
-    private final static HashMap<Class<?>, String> classToNameMap = new HashMap<Class<?>, String>();
-    private final static HashMap<String, Object> nameToPrototypeMap = new HashMap<String, Object>();
-    private final static HashMap<Class<?>, String> enumClassToNameMap = new HashMap<Class<?>, String>();
-    private final static HashMap<String, Class<?>> nameToEnumClassMap = new HashMap<String, Class<?>>();
+    private static final HashMap<Class<?>, String> classToNameMap = new HashMap<Class<?>, String>();
+    private static final HashMap<String, Object> nameToPrototypeMap = new HashMap<String, Object>();
+    private static final HashMap<Class<?>, String> enumClassToNameMap = new HashMap<Class<?>, String>();
+    private static final HashMap<String, Class<?>> nameToEnumClassMap = new HashMap<String, Class<?>>();
     @SuppressWarnings("rawtypes")
-    private final static HashMap<Enum, String> enumToValueMap = new HashMap<Enum, String>();
+    private static final HashMap<Enum, String> enumToValueMap = new HashMap<Enum, String>();
     @SuppressWarnings("rawtypes")
-    private final static HashMap<String, Set<Enum>> valueToEnumMap = new HashMap<String, Set<Enum>>();
+    private static final HashMap<String, Set<Enum>> valueToEnumMap = new HashMap<String, Set<Enum>>();
 
     /**
      * Creates a new instance.

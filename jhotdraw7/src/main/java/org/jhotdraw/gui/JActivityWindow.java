@@ -51,7 +51,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class JActivityWindow extends javax.swing.JFrame {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private static JActivityWindow instance;
     private JPanel progressPanel;
@@ -139,7 +139,7 @@ public class JActivityWindow extends javax.swing.JFrame {
         setFocusable(false); // needed for Mac OS X
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         progressPanel = new javax.swing.JPanel() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public Dimension getPreferredSize() {

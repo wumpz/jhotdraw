@@ -19,7 +19,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class SetBoundsEdit extends AbstractUndoableEdit {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private AbstractFigure owner;
     private Point2D.Double oldAnchor, oldLead;
     private Point2D.Double newAnchor, newLead;

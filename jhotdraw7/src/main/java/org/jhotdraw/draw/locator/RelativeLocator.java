@@ -22,7 +22,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class RelativeLocator extends AbstractLocator {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /**
      * Relative x-coordinate on the bounds of the figure.
      * The value 0 is on the left boundary of the figure, the value 1 on

@@ -148,7 +148,7 @@ public class ConnectorHandle extends AbstractHandle {
             view.clearSelection();
             view.addToSelection(c);
             view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {

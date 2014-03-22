@@ -33,12 +33,12 @@ import org.jhotdraw.beans.AbstractBean;
  */
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Nullable
     private DrawingEditor target;
 
     private class Forwarder implements PropertyChangeListener, Serializable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {

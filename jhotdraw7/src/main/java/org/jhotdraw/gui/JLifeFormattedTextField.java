@@ -22,7 +22,7 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class JLifeFormattedTextField extends JFormattedTextField {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Last valid value.

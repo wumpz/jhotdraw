@@ -57,9 +57,9 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class OpenFileAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.open";
+    public static final String ID = "file.open";
 
     /** Creates a new instance. */
     public OpenFileAction(Application app) {

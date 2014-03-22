@@ -41,7 +41,7 @@ import java.util.*;
  * @version $Id$
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable
     protected Figure anchorFigure;

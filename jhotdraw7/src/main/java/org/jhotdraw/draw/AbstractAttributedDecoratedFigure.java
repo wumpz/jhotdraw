@@ -25,6 +25,7 @@ import org.jhotdraw.xml.*;
  */
 public abstract class AbstractAttributedDecoratedFigure
         extends AbstractAttributedFigure implements DecoratedFigure, DOMStorable {
+    private static final long serialVersionUID = 1L;
     @Nullable private Figure decorator;
     
     @Override

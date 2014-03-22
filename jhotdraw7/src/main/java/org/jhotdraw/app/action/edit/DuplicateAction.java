@@ -47,8 +47,8 @@ import org.jhotdraw.gui.EditableComponent;
  * @version $Id$
  */
 public class DuplicateAction extends AbstractSelectionAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "edit.duplicate";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "edit.duplicate";
     
     /** Creates a new instance which acts on the currently focused component. */
     public DuplicateAction() {

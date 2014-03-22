@@ -19,7 +19,7 @@ import java.awt.*;
  * @version $Id$
  */
 public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
-        private final static long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
     int hgap;
     int vgap;

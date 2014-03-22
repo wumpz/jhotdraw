@@ -2,7 +2,6 @@
  * @(#)AbstractToolBar.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -26,7 +25,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable protected DrawingEditor editor;
     @Nullable private JComponent[] panels;
@@ -135,7 +134,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
     }
 
     private class ProxyPanel extends JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         private Runnable runner;
 

@@ -30,7 +30,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class StickyRectangleConnector extends ChopRectangleConnector {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private float angle;
     
     /** Creates a new instance.

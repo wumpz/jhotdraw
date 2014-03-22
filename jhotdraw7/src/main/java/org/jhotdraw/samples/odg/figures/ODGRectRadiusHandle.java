@@ -25,7 +25,7 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  */
 public class ODGRectRadiusHandle extends AbstractHandle {
 
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     private static final int OFFSET = 6;
     private Dimension2DDouble originalArc2D;
     CompositeEdit edit;
@@ -93,7 +93,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         final Dimension2DDouble oldValue = originalArc2D;
         final Dimension2DDouble newValue = odgRect.getArc();
         view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {

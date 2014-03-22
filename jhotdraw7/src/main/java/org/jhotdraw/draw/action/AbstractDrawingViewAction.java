@@ -38,6 +38,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
+    private static final long serialVersionUID = 1L;
 
     @Nullable private DrawingEditor editor;
     @Nullable private DrawingView specificView;

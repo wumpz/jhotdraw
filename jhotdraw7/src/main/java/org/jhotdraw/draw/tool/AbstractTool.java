@@ -37,6 +37,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public abstract class AbstractTool extends AbstractBean implements Tool {
+    private static final long serialVersionUID = 1L;
 
     /**
      * This is set to true, if this is the active tool of the editor.

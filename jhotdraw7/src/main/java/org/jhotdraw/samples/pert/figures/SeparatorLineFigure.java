@@ -22,7 +22,7 @@ import org.jhotdraw.geom.*;
  */
 public class SeparatorLineFigure 
 extends RectangleFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Creates a new instance. */
     public SeparatorLineFigure() {

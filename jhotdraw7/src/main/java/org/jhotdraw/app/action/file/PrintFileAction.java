@@ -50,9 +50,9 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class PrintFileAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.print";
+    public static final String ID = "file.print";
 
     /** Creates a new instance. */
     public PrintFileAction(Application app, @Nullable View view) {

@@ -33,7 +33,7 @@ import javax.swing.undo.*;
  * @version $Id$
  */
 public class CompositeEdit extends CompoundEdit {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private String presentationName;
     private boolean isSignificant;
     private boolean isVerbose;

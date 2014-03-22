@@ -2,7 +2,6 @@
  * @(#)ResourceBundleUtil.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -54,13 +53,13 @@ import java.net.*;
  * </li>
  * </ul>
  *
- * @author  Werner Randelshofer, Hausmatt 10, CH-6405 Immensee, Switzerland
+ * @author  Werner Randelshofer
  * @version $Id$
  */
 public class ResourceBundleUtil implements Serializable {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static HashSet<String> acceleratorKeys = new HashSet<String>(
+    private static final HashSet<String> acceleratorKeys = new HashSet<String>(
             Arrays.asList(new String[]{
                 "shift", "control", "ctrl", "meta", "alt", "altGraph"
             }));

@@ -19,7 +19,7 @@ import javax.swing.undo.*;
  * @version $Id$
  */
 public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private Figure owner;
     private AttributeKey<T> name;
     private T oldValue;

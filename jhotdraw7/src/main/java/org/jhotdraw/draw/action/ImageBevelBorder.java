@@ -31,7 +31,7 @@ import java.awt.image.*;
  * @version $Id$
  */
 public class ImageBevelBorder implements Border {
-    private final static boolean VERBOSE = false;
+    private static final boolean VERBOSE = false;
     /**
      * The image to be used for drawing.
      */

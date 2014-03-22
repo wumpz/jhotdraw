@@ -19,9 +19,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class SelectSameAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.selectSame";
+    public static final String ID = "edit.selectSame";
 
     /** Creates a new instance. */
     public SelectSameAction(DrawingEditor editor) {

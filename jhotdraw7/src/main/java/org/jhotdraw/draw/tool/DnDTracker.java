@@ -35,7 +35,7 @@ import java.awt.geom.Rectangle2D;
  * @version $Id$
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable protected Figure anchorFigure;
     /**

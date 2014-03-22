@@ -26,7 +26,7 @@ import java.util.*;
  * @version $Id$
  */
 public class LabelFigure extends TextFigure implements FigureListener {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Nullable private TextHolderFigure target;
     
     /** Creates a new instance. */

@@ -2,7 +2,6 @@
  * @(#)AbstractFindAction.java
  *
  * Copyright (c) 2005 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -21,8 +20,8 @@ import org.jhotdraw.app.action.edit.AbstractFindAction;
  * @version $Id$
  */
 public class FindAction extends AbstractFindAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = AbstractFindAction.ID;
+    private static final long serialVersionUID = 1L;
+    public static final String ID = AbstractFindAction.ID;
     private FindDialog findDialog;
     
     /**

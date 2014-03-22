@@ -25,7 +25,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class QuadTreeDrawing extends AbstractDrawing {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
@@ -300,7 +300,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
      * Handles all figure events fired by Figures contained in the Drawing.
      */
     protected class QuadTreeEventHandler extends AbstractCompositeFigure.EventHandler {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         @Override
         public void figureChanged(FigureEvent e) {

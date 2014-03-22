@@ -32,9 +32,9 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * @version $Id$
  */
 public class ReOpenApplicationAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "application.reOpen";
+    public static final String ID = "application.reOpen";
 
     /** Creates a new instance. */
     public ReOpenApplicationAction(Application app) {

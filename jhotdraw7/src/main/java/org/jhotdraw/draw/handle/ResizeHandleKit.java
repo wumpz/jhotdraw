@@ -27,7 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ResizeHandleKit {
 
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     /** Creates a new instance. */
     public ResizeHandleKit() {

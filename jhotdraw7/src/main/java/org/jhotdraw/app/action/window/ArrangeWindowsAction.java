@@ -26,10 +26,10 @@ import javax.swing.*;
  * @version $Id$
  */
 public class ArrangeWindowsAction extends AbstractAction {
-    public final static long serialVersionUID = 1L;
-    public final static String VERTICAL_ID = "window.arrangeVertical";
-    public final static String HORIZONTAL_ID = "window.arrangeHorizontal";
-    public final static String CASCADE_ID = "window.arrangeCascade";
+    private static final long serialVersionUID = 1L;
+    public static final String VERTICAL_ID = "window.arrangeVertical";
+    public static final String HORIZONTAL_ID = "window.arrangeHorizontal";
+    public static final String CASCADE_ID = "window.arrangeCascade";
     private Arrangeable arrangeable;
     private Arrangeable.Arrangement arrangement;
     

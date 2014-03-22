@@ -56,11 +56,11 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     protected Rectangle2D.Double bounds = new Rectangle2D.Double();
     protected boolean editable = true;
-    private final static BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
+    private static final BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
     /**
      * This is a cached value to improve the performance of method isTextOverflow();
      */

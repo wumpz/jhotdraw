@@ -30,12 +30,12 @@ import org.jhotdraw.app.action.ActionUtil;
  * @version $Id$
  */
 public class DelegationSelectionTool extends SelectionTool {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Set this to true to turn on debugging output on System.out.
      */
-    private final static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
     /**
      * A set of actions which is applied to the drawing.
      */

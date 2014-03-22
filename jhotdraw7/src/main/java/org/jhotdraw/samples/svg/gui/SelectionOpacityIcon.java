@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Nullable
     private DrawingEditor editor;

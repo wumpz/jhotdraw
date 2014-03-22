@@ -57,9 +57,9 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class ExportFileAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.export";
+    public static final String ID = "file.export";
     private Component oldFocusOwner;
     private boolean proposeFileName;
 

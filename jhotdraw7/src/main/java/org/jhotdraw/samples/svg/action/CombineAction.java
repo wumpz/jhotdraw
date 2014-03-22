@@ -25,9 +25,9 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class CombineAction extends AbstractSelectedAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.combinePaths";
+    public static final String ID = "edit.combinePaths";
     private CompositeFigure prototype;
     /**
      * If this variable is true, this action groups figures.
@@ -115,7 +115,7 @@ public class CombineAction extends AbstractSelectedAction {
             final CompositeFigure group = (CompositeFigure) prototype.clone();
             combinePaths(view, group, ungroupedPaths, ungroupedPathsIndices[0]);
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -166,7 +166,7 @@ public class CombineAction extends AbstractSelectedAction {
             }
             splitPath(view, group, ungroupedPaths, ungroupedPathsIndices, ungroupedPathsChildCounts);
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {

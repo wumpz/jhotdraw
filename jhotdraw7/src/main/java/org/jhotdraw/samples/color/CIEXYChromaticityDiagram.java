@@ -22,7 +22,7 @@ import org.jhotdraw.color.CIEXYChromaticityDiagramImageProducer;
  * @version $Id$
  */
 public class CIEXYChromaticityDiagram extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private CIEXYChromaticityDiagramImageProducer imageProducer;
     private Image image;
 

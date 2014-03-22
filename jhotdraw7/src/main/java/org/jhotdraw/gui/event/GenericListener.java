@@ -169,11 +169,11 @@ public abstract class GenericListener {
         protected String proxyToString(Object proxy) {
             return proxy.getClass().getName() + '@' + Integer.toHexString(proxy.hashCode());
         }
-        private final static Character char_0 = (char) 0;
-        private final static Byte byte_0 = (byte) 0;
+        private static final Character char_0 = (char) 0;
+        private static final Byte byte_0 = (byte) 0;
 
         @Nullable
-        private final static Object nullValueOf(Class<?> rt) {
+        private static final Object nullValueOf(Class<?> rt) {
             if (!rt.isPrimitive()) {
                 return null;
             } else if (rt == void.class) {
@@ -213,7 +213,7 @@ public abstract class GenericListener {
     @Nullable
     private static Method getTargetMethod(Object target,
             String targetMethodName,
-            Class[] parameterTypes) {
+            Class<?>[] parameterTypes) {
         Method[] m = target.getClass().getMethods();
         Method result = null;
         eachMethod:
@@ -221,7 +221,7 @@ public abstract class GenericListener {
             if (!targetMethodName.equals(m[i].getName())) {
                 continue eachMethod;
             }
-            Class[] p = m[i].getParameterTypes();
+            Class<?>[] p = m[i].getParameterTypes();
             if (p.length != parameterTypes.length) {
                 continue eachMethod;
             }

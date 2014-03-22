@@ -22,7 +22,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class CrossPlatformApplication extends SDIApplication {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void init() {

@@ -22,7 +22,7 @@ import javax.swing.*;
  * @version $Id$
  */
 public class AppletApplication extends AbstractApplication {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private JApplet applet;
     @Nullable private View view;
     

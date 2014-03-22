@@ -36,13 +36,13 @@ import org.jhotdraw.gui.URIChooser;
  * @version $Id$
  */
 public class SVGApplicationModel extends DefaultApplicationModel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** Client property on the URIFileChooser. */
-    public final static String INPUT_FORMAT_MAP_CLIENT_PROPERTY = "InputFormatMap";
+    public static final String INPUT_FORMAT_MAP_CLIENT_PROPERTY = "InputFormatMap";
     /** Client property on the URIFileChooser. */
-    public final static String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY = "OutputFormatMap";
-    private final static double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
+    public static final String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY = "OutputFormatMap";
+    private static final double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     private GridConstrainer gridConstrainer;
     /**
      * This editor is shared by all views.

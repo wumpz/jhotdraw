@@ -28,8 +28,8 @@ import org.jhotdraw.app.View;
  * @version $Id$
  */
 public class SaveFileAsAction extends SaveFileAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "file.saveAs";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "file.saveAs";
 
     /** Creates a new instance. */
     public SaveFileAsAction(Application app, @Nullable View view) {

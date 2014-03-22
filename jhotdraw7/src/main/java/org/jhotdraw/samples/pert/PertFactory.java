@@ -22,7 +22,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class PertFactory extends DefaultDOMFactory {
-    private final static Object[][] classTagArray = {
+    private static final Object[][] classTagArray = {
         { DefaultDrawing.class, "PertDiagram" },
         { TaskFigure.class, "task" },
         { DependencyFigure.class, "dep" },

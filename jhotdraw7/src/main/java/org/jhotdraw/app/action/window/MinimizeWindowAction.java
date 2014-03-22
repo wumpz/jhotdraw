@@ -24,8 +24,8 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * @version $Id$
  */
 public class MinimizeWindowAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "window.minimize";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "window.minimize";
 
     /** Creates a new instance. */
     public MinimizeWindowAction(Application app, @Nullable View view) {

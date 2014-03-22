@@ -17,9 +17,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class UngroupAction extends GroupAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.ungroupSelection";
+    public static final String ID = "edit.ungroupSelection";
     /** Creates a new instance. */
     private CompositeFigure prototype;
 

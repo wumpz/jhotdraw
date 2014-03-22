@@ -32,9 +32,9 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class NetApplet extends JApplet {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private final static String NAME = "JHotDraw Net";
+    private static final String NAME = "JHotDraw Net";
     private NetPanel drawingPanel;
 
     /**

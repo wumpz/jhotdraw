@@ -28,6 +28,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public abstract class QuadTreeCompositeFigure 
         extends AbstractCompositeFigure {
+    private static final long serialVersionUID = 1L;
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
     private FigureHandler figureHandler;

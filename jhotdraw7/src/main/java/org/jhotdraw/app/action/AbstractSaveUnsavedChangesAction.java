@@ -40,6 +40,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
+    private static final long serialVersionUID = 1L;
 
     @Nullable
     private Component oldFocusOwner;

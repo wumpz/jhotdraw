@@ -2,7 +2,6 @@
  * @(#)SVGApplet.java
  *
  * Copyright (c) 2006-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -47,7 +46,7 @@ import org.jhotdraw.samples.svg.gui.*;
  * @version $Id$
  */
 public class SVGApplet extends JApplet {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private SVGDrawingPanel drawingComponent;
     /**

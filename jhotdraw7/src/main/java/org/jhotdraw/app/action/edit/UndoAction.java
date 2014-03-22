@@ -33,9 +33,9 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * @version $Id$
  */
 public class UndoAction extends AbstractViewAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "edit.undo";
+    public static final String ID = "edit.undo";
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
 

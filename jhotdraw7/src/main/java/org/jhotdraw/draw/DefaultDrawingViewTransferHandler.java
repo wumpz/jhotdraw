@@ -46,8 +46,8 @@ import org.jhotdraw.util.ReversedList;
  */
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
-    private final static long serialVersionUID = 1L;
-    private final static boolean DEBUG = false;
+    private static final long serialVersionUID = 1L;
+    private static final boolean DEBUG = false;
     /**
      * We keep the exported figures in this list, so that we don't need to rely
      * on figure selection, when method exportDone is called.
@@ -124,7 +124,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                         moveToDropPoint(comp, transferFigures, dropPoint);
                                         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
-                                            private final static long serialVersionUID = 1L;
+                                            private static final long serialVersionUID = 1L;
 
                                             @Override
                                             public String getPresentationName() {
@@ -183,7 +183,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                         moveToDropPoint(comp, transferFigures, dropPoint);
                                         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
-                                            private final static long serialVersionUID = 1L;
+                                            private static final long serialVersionUID = 1L;
 
                                             @Override
                                             public String getPresentationName() {
@@ -260,7 +260,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
                                     drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
-                                        private final static long serialVersionUID = 1L;
+                                        private static final long serialVersionUID = 1L;
 
                                         @Override
                                         public String getPresentationName() {
@@ -475,7 +475,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 drawing.removeAll(selectedFigures);
                 drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
 
-                    private final static long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {
@@ -713,7 +713,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     private static class SwingDragGestureRecognizer extends DragGestureRecognizer {
 
-        private final static long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
         SwingDragGestureRecognizer(DragGestureListener dgl) {
             super(DragSource.getDefaultDragSource(), null, NONE, dgl);

@@ -26,7 +26,7 @@ import javax.swing.text.DefaultFormatterFactory;
  * @version $Id$
  */
 public class JavaNumberFormatter extends DefaultFormatter {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Specifies whether the formatter allows null values.

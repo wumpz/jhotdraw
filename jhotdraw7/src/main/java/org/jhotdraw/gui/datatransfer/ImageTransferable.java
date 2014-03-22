@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
 public class ImageTransferable implements Transferable {
     private Image image;
     
-    public final static DataFlavor IMAGE_PNG_FLAVOR;
+    public static final DataFlavor IMAGE_PNG_FLAVOR;
     static {
         try {
             IMAGE_PNG_FLAVOR = new DataFlavor("image/png");

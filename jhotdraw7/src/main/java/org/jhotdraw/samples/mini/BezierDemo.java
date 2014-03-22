@@ -25,7 +25,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class BezierDemo extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private static class Example {
 
@@ -88,7 +88,7 @@ public class BezierDemo extends javax.swing.JPanel {
     private MouseHandler handler = new MouseHandler();
 
     private class Canvas extends JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         @Override
         public void paintComponent(Graphics gr) {

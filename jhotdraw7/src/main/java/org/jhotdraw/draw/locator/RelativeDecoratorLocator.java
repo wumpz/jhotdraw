@@ -29,7 +29,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class RelativeDecoratorLocator extends RelativeLocator {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private boolean isQuadratic;
     
     public RelativeDecoratorLocator() {

@@ -27,18 +27,18 @@ import static java.lang.Math.*;
  * @version $Id$
  */
 public class CIELCHabColorSpace extends AbstractNamedColorSpace {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /** The XYZ coordinates of the CIE Standard Illuminant D65 reference white.*/
-    private final static double[] D65 = {0.9505d, 1d, 1.0890d};
+    private static final double[] D65 = {0.9505d, 1d, 1.0890d};
     private double Xr;
     /** The Y coordinate of the D50 reference white.*/
     private double Yr;
     /** The Z coordinate of the D50 reference white.*/
     private double Zr;
-    private final static double eps = 216d / 24389d;
-    private final static double k = 24389d / 27d;
-    private final static ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+    private static final double eps = 216d / 24389d;
+    private static final double k = 24389d / 27d;
+    private static final ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
     /** By default, clamps non-displayable RGB values. */
     private boolean isClampRGB = true;
 

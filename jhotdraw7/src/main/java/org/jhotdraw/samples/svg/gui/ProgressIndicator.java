@@ -18,7 +18,7 @@ import javax.swing.*;
  * @version $Id$
  */
 public class ProgressIndicator extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     ProgressMonitor m;
     private BoundedRangeModel progressModel;

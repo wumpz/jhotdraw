@@ -30,7 +30,7 @@ import java.beans.*;
  * @version $Id$
  */
 public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private MDIDesktopManager manager;
     
     public JMDIDesktopPane() {
@@ -297,7 +297,7 @@ public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
  * Used to provide scrollbar functionality.
  */
 class MDIDesktopManager extends DefaultDesktopManager {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private JMDIDesktopPane desktop;
     
     public MDIDesktopManager(JMDIDesktopPane newDesktop) {

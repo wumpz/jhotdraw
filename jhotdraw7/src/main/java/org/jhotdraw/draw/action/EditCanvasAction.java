@@ -27,8 +27,8 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class EditCanvasAction extends AbstractDrawingViewAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "view.editCanvas";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "view.editCanvas";
     private JFrame frame;
     private EditCanvasPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;

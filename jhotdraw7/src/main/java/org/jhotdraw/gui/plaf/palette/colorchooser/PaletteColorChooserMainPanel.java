@@ -2,7 +2,6 @@
  * @(#)PaletteColorChooserMainPanel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- *
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -23,7 +22,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteTabbedPaneUI;
  * @version $Id$
  */
 public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     /**
      * We store here the name of the last selected chooser.
      * When the ColorChooserMainPanel is recreated multiple times in the same

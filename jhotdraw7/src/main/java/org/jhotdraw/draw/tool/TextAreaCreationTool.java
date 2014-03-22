@@ -74,7 +74,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private FloatingTextArea textArea;
     @Nullable private TextHolderFigure typingTarget;
@@ -204,7 +204,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
             }
 
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {

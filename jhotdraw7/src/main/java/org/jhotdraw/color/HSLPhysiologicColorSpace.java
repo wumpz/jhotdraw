@@ -19,7 +19,7 @@ import java.awt.color.ColorSpace;
  * $
  */
 public class HSLPhysiologicColorSpace extends AbstractNamedColorSpace {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private static HSLPhysiologicColorSpace instance;
 

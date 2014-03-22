@@ -22,6 +22,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public abstract class AbstractView extends JPanel implements View {
+    private static final long serialVersionUID = 1L;
 
     private Application application;
     /**

@@ -32,7 +32,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ImageFigure extends AbstractAttributedDecoratedFigure
         implements ImageHolderFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * This rectangle describes the bounds into which we draw the image.

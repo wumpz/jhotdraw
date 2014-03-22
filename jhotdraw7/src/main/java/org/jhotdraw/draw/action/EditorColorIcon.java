@@ -22,7 +22,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class EditorColorIcon extends javax.swing.ImageIcon {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<Color> key;
     private Shape colorShape;

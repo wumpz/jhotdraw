@@ -19,8 +19,8 @@ import javax.swing.*;
  * @version $Id$
  */
 public class ZoomEditorAction extends AbstractDrawingEditorAction {
-    private final static long serialVersionUID = 1L;
-    public final static String ID = "zoomEditor";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "zoomEditor";
     
     private double scaleFactor;
     private AbstractButton button;

@@ -50,9 +50,9 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class OpenRecentFileAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.openRecent";
+    public static final String ID = "file.openRecent";
     private URI uri;
 
     /** Creates a new instance. */

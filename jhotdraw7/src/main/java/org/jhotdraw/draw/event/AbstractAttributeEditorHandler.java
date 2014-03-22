@@ -112,7 +112,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     private EventHandler eventHandler;
 
     private static class UndoableAttributeEdit<T> extends AbstractUndoableEdit {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
         private Set<Figure> editedFigures;
         private AttributeKey<T> attributeKey;

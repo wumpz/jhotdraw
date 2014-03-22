@@ -28,8 +28,8 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * @version $Id$
  */
 public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
-    public final static long serialVersionUID = 1L;
-    public final static String ID = "file.clearRecentFiles";
+    private static final long serialVersionUID = 1L;
+    public static final String ID = "file.clearRecentFiles";
     
     private PropertyChangeListener applicationListener;
     

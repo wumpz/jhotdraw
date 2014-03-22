@@ -43,6 +43,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractSelectionAction extends AbstractAction {
+    private static final long serialVersionUID = 1L;
 
     /** The target of the action or null if the action acts on the currently
      * focused component.

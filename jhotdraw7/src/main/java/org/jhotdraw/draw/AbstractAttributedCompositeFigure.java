@@ -24,6 +24,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public abstract class AbstractAttributedCompositeFigure extends AbstractCompositeFigure {
+    private static final long serialVersionUID = 1L;
 
     private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
     /**

@@ -20,8 +20,8 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGPathOutlineHandle extends AbstractHandle {
-    private final static Color HANDLE_FILL_COLOR = new Color(0x00a8ff);
-    private final static Color HANDLE_STROKE_COLOR = Color.WHITE;
+    private static final Color HANDLE_FILL_COLOR = new Color(0x00a8ff);
+    private static final Color HANDLE_STROKE_COLOR = Color.WHITE;
     
     /** Creates a new instance. */
     public ODGPathOutlineHandle(ODGPathFigure owner) {

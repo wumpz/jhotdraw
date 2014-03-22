@@ -30,7 +30,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class AttributeToggler<T> extends AbstractAction {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<T> key;
     private T value1;
@@ -91,7 +91,7 @@ public class AttributeToggler<T> extends AbstractAction {
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
             @Override
             public String getPresentationName() {
                 String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);

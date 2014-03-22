@@ -50,9 +50,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.loadRecent";
+    public static final String ID = "file.loadRecent";
     private URI uri;
 
     /** Creates a new instance. */

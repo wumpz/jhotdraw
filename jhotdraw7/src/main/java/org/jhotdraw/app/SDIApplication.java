@@ -132,7 +132,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class SDIApplication extends AbstractApplication {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private Preferences prefs;
 

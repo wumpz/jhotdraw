@@ -35,9 +35,9 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
  * @version $Id$
  */
 public class CloseFileAction extends AbstractSaveUnsavedChangesAction {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    public final static String ID = "file.close";
+    public static final String ID = "file.close";
 
     /** Creates a new instance. */
     public CloseFileAction(Application app, @Nullable View view) {

@@ -44,7 +44,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class DrawView extends AbstractView {
-      private final static long serialVersionUID = 1L;
+      private static final long serialVersionUID = 1L;
   
     /**
      * Each DrawView uses its own undo redo manager.

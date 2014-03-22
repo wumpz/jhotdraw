@@ -26,7 +26,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id: ColorFormatter.java 632 2010-01-21 16:06:59Z rawcoder $
  */
 public class ColorToolTipTextFormatter extends ColorFormatter {
-    public final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private ResourceBundleUtil labels;
 

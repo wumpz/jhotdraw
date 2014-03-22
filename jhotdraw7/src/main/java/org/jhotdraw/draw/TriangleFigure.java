@@ -32,7 +32,7 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class TriangleFigure extends AbstractAttributedFigure {
-    private final static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     
     /**
      * The bounds of the triangle figure.

@@ -29,6 +29,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractViewAction extends AbstractAction {
+    private static final long serialVersionUID = 1L;
 
     private Application app;
     @Nullable
@@ -36,8 +37,8 @@ public abstract class AbstractViewAction extends AbstractAction {
     private String propertyName;
     /** Set this to true if the action may create a new view if none exists.*/
     private boolean mayCreateView;
-    public final static String VIEW_PROPERTY = "view";
-    public final static String ENABLED_PROPERTY = "enabled";
+    public static final String VIEW_PROPERTY = "view";
+    public static final String ENABLED_PROPERTY = "enabled";
     /** Combined enabled value consisting of the enabled state of this action and 
      * the enabled state of the view and the application.
      */
