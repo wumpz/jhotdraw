@@ -157,7 +157,7 @@ public interface URIChooser {
      * @see #getApproveButtonText
      * @see #setDialogType
      */
-    public void setApproveButtonText(String approveButtonText);
+    public void setApproveButtonText(@Nullable String approveButtonText);
 
     /**
      * Returns the approve button's mnemonic.

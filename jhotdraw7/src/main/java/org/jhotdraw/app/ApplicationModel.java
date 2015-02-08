@@ -106,7 +106,7 @@ public interface ApplicationModel {
      *
      * @param a Application.
      * @param v The view for which the toolbars need to be created, or null
-     * if the actions are shared by multiple views.
+     * if the actions are to be shared by multiple views.
      * @return the created map
      */
     public ActionMap createActionMap(Application a, @Nullable View v);

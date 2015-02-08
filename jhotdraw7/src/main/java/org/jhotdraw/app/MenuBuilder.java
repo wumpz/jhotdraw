@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.util.List;
 import javax.swing.JMenu;
 
@@ -29,7 +29,7 @@ import javax.swing.JMenu;
  * {@link OSXApplication}, need to create both kinds of menus.
  * <p>
  * During the lifetime of an application many menus may be created and destroyed.
- * Implementors must take care that menu items can be garbage collected.
+ * Implementors must ensure that menu items can be garbage collected.
  *
  * <hr>
  * <b>Design Patterns</b>
