@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleVisibleAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;

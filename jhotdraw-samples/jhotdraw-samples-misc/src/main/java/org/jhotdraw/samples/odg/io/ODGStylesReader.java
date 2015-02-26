@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Color;
 import java.io.*;
 import java.util.*;

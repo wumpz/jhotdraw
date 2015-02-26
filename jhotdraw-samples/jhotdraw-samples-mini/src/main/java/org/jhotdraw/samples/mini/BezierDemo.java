@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.samples.mini;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -15,6 +14,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import org.jhotdraw.geom.*;
 

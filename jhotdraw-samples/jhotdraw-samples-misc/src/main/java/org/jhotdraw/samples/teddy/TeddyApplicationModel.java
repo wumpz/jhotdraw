@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.teddy;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import javax.swing.*;
 import org.jhotdraw.app.*;

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.util.ResourceBundleUtil;

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.*;

@@ -8,7 +8,7 @@
 
 package org.jhotdraw.geom;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.geom.*;
 
 /**

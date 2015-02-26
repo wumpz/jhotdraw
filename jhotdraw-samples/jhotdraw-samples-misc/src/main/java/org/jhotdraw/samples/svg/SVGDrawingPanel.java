@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ContainerEvent;

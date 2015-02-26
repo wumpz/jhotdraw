@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.event.CompositeFigureEvent;

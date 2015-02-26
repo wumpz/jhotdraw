@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;

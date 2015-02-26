@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import org.jhotdraw.util.Images;

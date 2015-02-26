@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.gui.*;
 import java.util.HashSet;
 import java.util.Set;

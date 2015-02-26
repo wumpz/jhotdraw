@@ -1,7 +1,7 @@
 package org.jhotdraw.io;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Encodes and decodes to and from Base64 notation.

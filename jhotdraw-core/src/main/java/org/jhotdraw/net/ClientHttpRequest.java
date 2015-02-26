@@ -12,7 +12,7 @@
  */
 package org.jhotdraw.net;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.net.URLConnection;
 import java.net.URL;
 import java.io.IOException;

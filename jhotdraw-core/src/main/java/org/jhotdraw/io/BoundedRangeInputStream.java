@@ -12,7 +12,7 @@ import javax.swing.event.*;
 import javax.swing.BoundedRangeModel;
 import java.io.*;
 import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 /**
  * This input stream implements the BoundedRangeModel and allows
  * the observation of the input reading process.

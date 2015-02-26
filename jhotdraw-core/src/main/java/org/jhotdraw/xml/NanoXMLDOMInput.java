@@ -8,7 +8,7 @@
 
 package org.jhotdraw.xml;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;

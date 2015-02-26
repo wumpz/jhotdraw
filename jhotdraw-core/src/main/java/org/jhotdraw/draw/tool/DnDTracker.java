@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.*;
 import java.awt.Container;
 import java.awt.dnd.DnDConstants;

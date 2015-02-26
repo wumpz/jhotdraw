@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.osx;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;

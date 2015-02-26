@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.action.edit;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractViewAction;
 import org.jhotdraw.util.*;

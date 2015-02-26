@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.handle.Handle;

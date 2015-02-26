@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.*;

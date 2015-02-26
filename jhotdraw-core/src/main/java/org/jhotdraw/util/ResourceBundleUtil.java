@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.util;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;

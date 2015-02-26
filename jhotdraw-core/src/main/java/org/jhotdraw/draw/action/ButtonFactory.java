@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.CopyAction;

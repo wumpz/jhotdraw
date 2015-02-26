@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.geom.Dimension2DDouble;

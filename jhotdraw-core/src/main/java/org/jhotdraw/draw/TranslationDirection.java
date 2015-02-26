@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 

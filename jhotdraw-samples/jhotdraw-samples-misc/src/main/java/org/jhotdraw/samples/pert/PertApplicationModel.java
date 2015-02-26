@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.pert;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.action.view.ViewPropertyAction;
 import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
 import org.jhotdraw.app.action.file.ExportFileAction;

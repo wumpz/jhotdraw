@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.text;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Font;
 import java.text.ParseException;
 import java.util.HashMap;

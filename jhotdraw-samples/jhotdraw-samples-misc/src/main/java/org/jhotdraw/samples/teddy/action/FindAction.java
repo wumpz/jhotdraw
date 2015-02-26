@@ -8,7 +8,7 @@
 
 package org.jhotdraw.samples.teddy.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.*;
 import java.awt.event.*;
 import org.jhotdraw.app.action.edit.AbstractFindAction;

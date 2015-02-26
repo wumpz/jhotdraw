@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.BezierNodeHandle;

@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.action.file;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.*;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;

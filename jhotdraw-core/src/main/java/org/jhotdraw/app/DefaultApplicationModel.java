@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.NewFileAction;

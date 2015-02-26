@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.jhotdraw.app.action.file.ExportFileAction;

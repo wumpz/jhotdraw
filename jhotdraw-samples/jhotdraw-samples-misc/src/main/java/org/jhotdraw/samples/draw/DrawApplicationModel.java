@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.draw.tool.TextCreationTool;

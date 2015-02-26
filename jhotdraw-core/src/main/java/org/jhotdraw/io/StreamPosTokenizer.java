@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.LinkedList;
 

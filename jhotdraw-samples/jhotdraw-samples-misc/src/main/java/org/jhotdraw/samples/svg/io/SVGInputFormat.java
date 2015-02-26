@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;

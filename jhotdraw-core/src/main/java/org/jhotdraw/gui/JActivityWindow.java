@@ -9,7 +9,7 @@
  */
 package org.jhotdraw.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.*;

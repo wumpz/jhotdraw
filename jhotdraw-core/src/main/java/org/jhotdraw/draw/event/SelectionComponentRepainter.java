@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Disposable;

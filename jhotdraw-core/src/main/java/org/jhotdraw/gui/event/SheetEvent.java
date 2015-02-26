@@ -8,7 +8,7 @@
 
 package org.jhotdraw.gui.event;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.URIChooser;

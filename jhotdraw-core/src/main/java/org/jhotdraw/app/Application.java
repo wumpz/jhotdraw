@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Component;
 import java.awt.Window;
 import java.beans.PropertyChangeListener;

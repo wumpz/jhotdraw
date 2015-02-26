@@ -9,7 +9,7 @@
 
 package org.jhotdraw.draw.handle;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.HandleListener;
 import java.awt.*;

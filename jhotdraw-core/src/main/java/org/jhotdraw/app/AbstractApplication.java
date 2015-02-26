@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Container;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -15,7 +15,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URISyntaxException;
 import org.jhotdraw.beans.*;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.util.prefs.*;
 import javax.swing.*;

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import java.awt.*;

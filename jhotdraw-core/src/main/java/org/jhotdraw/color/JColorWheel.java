@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.color;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.*;

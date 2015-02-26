@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.event.*;

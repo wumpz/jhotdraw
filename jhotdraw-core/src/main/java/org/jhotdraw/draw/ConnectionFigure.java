@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.geom.*;

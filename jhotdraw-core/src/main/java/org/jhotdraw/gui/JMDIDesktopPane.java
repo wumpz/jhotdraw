@@ -9,7 +9,7 @@
 
 package org.jhotdraw.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.*;

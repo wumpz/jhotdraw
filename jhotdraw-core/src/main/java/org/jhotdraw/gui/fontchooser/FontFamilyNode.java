@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.fontchooser;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.text.Collator;
 import java.util.*;
 import javax.swing.tree.MutableTreeNode;

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.odg.geom;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import javax.annotation.Nullable;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.*;
