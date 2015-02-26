@@ -14,5 +14,10 @@
             <artifactId>jhotdraw-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.devzendo</groupId>
+            <artifactId>Quaqua</artifactId>
+            <version>7.3.4</version>
+        </dependency>
     </dependencies>
 </project>
