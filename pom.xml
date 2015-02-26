@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jhotdraw</groupId>
+    <artifactId>jhotdraw</artifactId>
+    <version>7.7-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <licenses>
+		<license>
+			<name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
+			<url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+		</license>
+	</licenses>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+    <description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
+    <modules>
+        <module>nanoxml-patched</module>
+        <module>jhotdraw-core</module>
+        <module>jhotdraw-samples</module>
+    </modules>
+</project>
