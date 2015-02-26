@@ -25,5 +25,8 @@
         <module>nanoxml-patched</module>
         <module>jhotdraw-core</module>
         <module>jhotdraw-samples</module>
+        <module>jhotdraw-xml</module>
+        <module>jhotdraw-api</module>
+        <module>jhotdraw-utils</module>
     </modules>
 </project>

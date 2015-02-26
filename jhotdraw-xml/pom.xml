@@ -6,7 +6,7 @@
         <artifactId>jhotdraw</artifactId>
         <version>7.7-SNAPSHOT</version>
     </parent>
-    <artifactId>jhotdraw-core</artifactId>
+    <artifactId>jhotdraw-xml</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -20,11 +20,6 @@
             <version>7.7-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
-            <artifactId>htmlunit</artifactId>
-            <version>2.14</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jhotdraw-api</artifactId>
             <version>${project.version}</version>
@@ -32,11 +27,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jhotdraw-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jhotdraw-xml</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

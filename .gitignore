@@ -5,3 +5,6 @@ jhotdraw7/nbproject/private/config.properties
 /jhotdraw-core/target/
 /jhotdraw-samples/jhotdraw-samples-misc/target/
 /jhotdraw-samples/jhotdraw-samples-mini/target/
+/jhotdraw-xml/target/
+/jhotdraw-api/target/
+/jhotdraw-utils/target/
