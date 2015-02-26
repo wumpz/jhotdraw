@@ -1,1 +1,0 @@
-javac -d classes -classpath c:\source\java\JHotDraw;. src\*.java

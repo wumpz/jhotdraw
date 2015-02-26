@@ -1,1 +1,0 @@
-java -classpath c:\source\java\JHotDraw;.\classes JModellerApplication
