@@ -12,8 +12,8 @@
 Provides interfaces and classes for reading and writing drawings from/to
 files, streams, the clipboard and drag-and-drop transfers.
 */
-@DefaultAnnotation(NonNull.class)
+@DefaultAnnotation(Nonnull.class)
 package org.jhotdraw.draw.io;
 
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;

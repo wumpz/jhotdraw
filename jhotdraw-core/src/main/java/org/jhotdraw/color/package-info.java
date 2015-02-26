@@ -11,10 +11,10 @@
 /**
 Classes for working with colors using a variety of color spaces.
 */
-@DefaultAnnotation(NonNull.class)
+@DefaultAnnotation(Nonnull.class)
 package org.jhotdraw.color;
 
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 

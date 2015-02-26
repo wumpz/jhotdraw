@@ -12,9 +12,9 @@
 Provides {@link org.jhotdraw.draw.handle.Handle}s for direct manipulation of
 figures on a drawing view.
 */
-@DefaultAnnotation(NonNull.class)
+@DefaultAnnotation(Nonnull.class)
 package org.jhotdraw.draw.handle;
 
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 

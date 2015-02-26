@@ -11,8 +11,8 @@
 /**
 Provides Actions which act on a file.
 */
-@DefaultAnnotation(NonNull.class)
+@DefaultAnnotation(Nonnull.class)
 package org.jhotdraw.app.action.file;
 
 import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;

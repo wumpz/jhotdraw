@@ -1,6 +1,6 @@
 package org.jhotdraw.io;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**

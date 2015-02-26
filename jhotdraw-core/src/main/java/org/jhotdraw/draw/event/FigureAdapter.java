@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 /**
  * An abstract adapter class for receiving {@link FigureEvent}s. This class

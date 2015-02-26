@@ -11,7 +11,7 @@ package org.jhotdraw.io;
 import javax.swing.event.*;
 import javax.swing.BoundedRangeModel;
 import java.io.*;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 /**
  * This input stream implements the BoundedRangeModel and allows
