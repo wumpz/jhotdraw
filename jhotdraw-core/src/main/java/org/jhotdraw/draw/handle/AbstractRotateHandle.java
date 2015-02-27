@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.geom.Geom;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
@@ -14,7 +15,6 @@ import org.jhotdraw.draw.event.TransformEdit;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 

@@ -8,12 +8,12 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Insets2D;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.*;
 
 /**

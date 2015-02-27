@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.pert.figures;
 
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -21,7 +22,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 

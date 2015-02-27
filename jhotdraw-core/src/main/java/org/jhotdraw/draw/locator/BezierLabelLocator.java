@@ -8,8 +8,8 @@
 
 package org.jhotdraw.draw.locator;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import java.awt.geom.*;
 import org.jhotdraw.xml.*;
 

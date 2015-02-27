@@ -8,6 +8,7 @@
 
 package org.jhotdraw.samples.svg.io;
 
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.geom.*;
@@ -15,7 +16,6 @@ import java.awt.image.*;
 import java.util.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.Gradient;
 
 /**

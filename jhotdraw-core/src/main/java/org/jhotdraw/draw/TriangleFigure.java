@@ -9,6 +9,9 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.draw.connector.ChopTriangleConnector;
 import org.jhotdraw.draw.handle.OrientationHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -17,7 +20,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 
 /**
  * Implements a {@link Figure} with a triangular shape.

@@ -8,13 +8,14 @@
 
 package org.jhotdraw.draw.liner;
 
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.ConnectionFigure;
 import java.util.*;
 import java.awt.geom.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;

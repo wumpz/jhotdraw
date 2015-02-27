@@ -8,10 +8,10 @@
 
 package org.jhotdraw.draw.layouter;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.CompositeFigure;
-import org.jhotdraw.geom.*;
 import java.awt.geom.*;
 
 /**

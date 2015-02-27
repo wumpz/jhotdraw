@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.draw.event.FigureAdapter;
@@ -23,7 +24,6 @@ import javax.swing.event.*;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;

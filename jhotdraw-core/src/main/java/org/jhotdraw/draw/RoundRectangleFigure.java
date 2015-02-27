@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
 import org.jhotdraw.draw.handle.RoundRectangleRadiusHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -15,7 +16,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 

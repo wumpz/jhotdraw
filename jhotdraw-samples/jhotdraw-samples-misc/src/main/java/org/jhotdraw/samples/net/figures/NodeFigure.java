@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.net.figures;
 
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -18,7 +20,6 @@ import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
-import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;

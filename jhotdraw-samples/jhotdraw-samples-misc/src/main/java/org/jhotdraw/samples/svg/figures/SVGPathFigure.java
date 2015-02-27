@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.geom.Shapes;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -18,7 +21,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import org.jhotdraw.util.*;

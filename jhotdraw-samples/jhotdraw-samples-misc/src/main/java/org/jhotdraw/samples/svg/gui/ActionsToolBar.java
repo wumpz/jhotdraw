@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import javax.annotation.Nullable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,7 +21,6 @@ import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import java.util.ArrayList;

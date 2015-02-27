@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Geom;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -20,7 +21,6 @@ import java.util.*;
 import javax.swing.event.*;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 

@@ -10,8 +10,8 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Insets2D;
 import java.awt.*;
-import org.jhotdraw.geom.*;
 
 /**
  * The interface of a {@link Figure} that has some editable text contents.

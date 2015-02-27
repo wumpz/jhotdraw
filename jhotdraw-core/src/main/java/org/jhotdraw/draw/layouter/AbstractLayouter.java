@@ -8,8 +8,8 @@
 
 package org.jhotdraw.draw.layouter;
 
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
  * This abstract class can be extended to implement a {@link Layouter}

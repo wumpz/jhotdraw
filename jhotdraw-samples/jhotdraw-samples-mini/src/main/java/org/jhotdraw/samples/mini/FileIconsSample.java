@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import java.awt.*;
@@ -16,7 +18,6 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**

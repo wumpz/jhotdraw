@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.connector.Connector;
@@ -19,7 +20,6 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
-import org.jhotdraw.geom.*;
 
 /**
  * A <em>figure</em> is a graphical element of a {@link Drawing}. A figure

@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Insets2D;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.tool.Tool;
@@ -21,7 +23,6 @@ import java.text.*;
 import java.util.*;
 import java.io.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 

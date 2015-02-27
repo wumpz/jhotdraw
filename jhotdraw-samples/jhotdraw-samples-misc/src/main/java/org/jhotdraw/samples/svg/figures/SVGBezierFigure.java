@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -17,7 +19,6 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 

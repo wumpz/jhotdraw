@@ -7,9 +7,9 @@
  */
 package org.jhotdraw.color;
 
+import org.jhotdraw.beans.AbstractBean;
 import java.util.*;
 import javax.swing.event.*;
-import org.jhotdraw.beans.*;
 
 /**
  * AbstractColorSlidersModel.

@@ -8,11 +8,11 @@
 
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.connector.LocatorConnector;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.decoration.ArrowTip;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.net.figures.NodeFigure;
 import org.jhotdraw.xml.*;

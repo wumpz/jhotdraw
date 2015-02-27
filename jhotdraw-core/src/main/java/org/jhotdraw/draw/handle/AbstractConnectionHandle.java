@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.*;
 import java.awt.event.InputEvent;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;

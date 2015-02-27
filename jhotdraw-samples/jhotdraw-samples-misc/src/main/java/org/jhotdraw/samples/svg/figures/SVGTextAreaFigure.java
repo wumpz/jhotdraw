@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Dimension2DDouble;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -23,7 +26,6 @@ import java.util.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 

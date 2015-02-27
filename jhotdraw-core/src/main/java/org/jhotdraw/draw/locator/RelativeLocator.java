@@ -8,10 +8,10 @@
 
 package org.jhotdraw.draw.locator;
 
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 /**

@@ -7,10 +7,10 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.Geom;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
  * Example showing the minimal amount of code needed to implement a

@@ -12,7 +12,6 @@ import java.beans.*;
 import java.util.prefs.*;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 
 import java.awt.*;

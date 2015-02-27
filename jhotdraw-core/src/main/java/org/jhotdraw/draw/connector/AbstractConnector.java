@@ -8,12 +8,12 @@
 
 package org.jhotdraw.draw.connector;
 
+import org.jhotdraw.geom.Geom;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;
 import java.awt.geom.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;

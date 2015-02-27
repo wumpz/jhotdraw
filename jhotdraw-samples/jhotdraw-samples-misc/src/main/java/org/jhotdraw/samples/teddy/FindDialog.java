@@ -6,12 +6,12 @@
 
 package org.jhotdraw.samples.teddy;
 
+import org.jhotdraw.undo.CompositeEdit;
 import javax.annotation.Nullable;
 import java.awt.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.*;
-import org.jhotdraw.undo.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.text.*;

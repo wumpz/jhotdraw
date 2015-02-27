@@ -7,13 +7,13 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.draw.locator.BezierLabelLocator;
 import org.jhotdraw.draw.layouter.LocatorLayouter;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
  * Example showing how to connect two rectangles with a labeled connection,

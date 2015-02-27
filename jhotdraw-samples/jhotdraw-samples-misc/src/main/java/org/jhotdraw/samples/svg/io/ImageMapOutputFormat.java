@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.OutputFormat;
 import java.awt.*;
@@ -17,7 +18,6 @@ import java.net.URI;
 import javax.swing.*;
 import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.gui.datatransfer.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;

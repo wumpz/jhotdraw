@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.draw.tool;
 
+import org.jhotdraw.geom.Bezier;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
@@ -15,7 +18,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.*;
-import org.jhotdraw.geom.*;
 
 /**
  * A {@link Tool} which allows to create a new {@link BezierFigure} by

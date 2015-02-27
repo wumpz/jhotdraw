@@ -7,11 +7,11 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
  * Example showing how to connect two text areas with an elbow connection.

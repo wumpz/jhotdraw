@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import javax.annotation.Nullable;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,7 +22,6 @@ import org.jhotdraw.draw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.ImageInputFormat;
 import java.lang.reflect.InvocationTargetException;
 import java.util.prefs.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;

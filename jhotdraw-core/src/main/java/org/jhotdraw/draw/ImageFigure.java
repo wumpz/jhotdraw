@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
@@ -17,7 +19,6 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.io.Base64;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;

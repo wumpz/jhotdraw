@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.draw;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
@@ -17,7 +18,6 @@ import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 
 import java.util.*;

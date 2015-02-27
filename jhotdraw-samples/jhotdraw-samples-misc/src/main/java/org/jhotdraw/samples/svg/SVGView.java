@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import javax.annotation.Nullable;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
@@ -15,7 +16,6 @@ import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import java.awt.print.Pageable;
 import java.util.HashMap;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.beans.*;
 import java.io.*;

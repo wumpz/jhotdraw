@@ -7,11 +7,11 @@
  */
 package org.jhotdraw.samples.teddy;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import java.awt.event.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.samples.teddy.text.*;
 import org.jhotdraw.samples.teddy.regex.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.samples.teddy.io.*;
 import java.lang.reflect.*;
 import java.awt.*;

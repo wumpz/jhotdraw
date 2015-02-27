@@ -7,13 +7,13 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**

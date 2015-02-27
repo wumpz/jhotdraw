@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.*;
@@ -14,12 +16,10 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**

@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;

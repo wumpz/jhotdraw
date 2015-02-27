@@ -7,9 +7,9 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.undo.CompositeEdit;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
-import org.jhotdraw.undo.*;
 import javax.swing.*;
 import java.beans.*;
 import java.util.*;

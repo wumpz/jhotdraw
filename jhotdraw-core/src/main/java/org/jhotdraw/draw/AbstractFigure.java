@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.Dimension2DDouble;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.connector.Connector;
@@ -26,7 +27,6 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.geom.*;
 
 /**
  * This abstract class can be extended to implement a {@link Figure}.

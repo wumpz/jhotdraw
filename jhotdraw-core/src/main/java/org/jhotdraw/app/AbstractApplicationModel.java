@@ -8,8 +8,8 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.beans.AbstractBean;
 import javax.annotation.Nullable;
-import org.jhotdraw.beans.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.JFileURIChooser;

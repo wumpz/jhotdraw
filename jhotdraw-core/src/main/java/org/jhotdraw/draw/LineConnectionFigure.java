@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.event.FigureAdapter;
@@ -22,7 +23,6 @@ import java.io.*;
 import org.jhotdraw.draw.handle.ConnectionEndHandle;
 import org.jhotdraw.draw.handle.ConnectionStartHandle;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 

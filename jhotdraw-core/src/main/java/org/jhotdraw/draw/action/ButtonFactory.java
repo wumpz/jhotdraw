@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.geom.DoubleStroke;
 import javax.annotation.Nullable;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
@@ -34,7 +35,6 @@ import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.color.HSBColorSpace;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolAdapter;
 import org.jhotdraw.gui.JComponentPopup;

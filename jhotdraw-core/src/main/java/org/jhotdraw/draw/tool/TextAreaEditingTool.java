@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import org.jhotdraw.geom.Insets2D;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
@@ -16,7 +17,6 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**

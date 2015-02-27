@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -16,7 +17,6 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 
 /**

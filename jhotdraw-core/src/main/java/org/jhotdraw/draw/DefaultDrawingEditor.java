@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.beans.AbstractBean;
 import javax.annotation.Nullable;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
@@ -17,7 +18,6 @@ import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.event.ToolEvent;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import org.jhotdraw.beans.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;

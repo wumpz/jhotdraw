@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
+import org.jhotdraw.io.StreamPosTokenizer;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.InputFormat;
@@ -20,7 +21,6 @@ import javax.swing.*;
 import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.io.*;
 import static org.jhotdraw.samples.odg.ODGConstants.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.figures.ODGBezierFigure;

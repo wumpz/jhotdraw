@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.geom.*;
 
 /**
  * Example showing how to create an editor that can edit figures on a drawing

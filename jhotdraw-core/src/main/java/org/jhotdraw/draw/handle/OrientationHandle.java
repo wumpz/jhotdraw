@@ -8,12 +8,12 @@
 
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.AttributeChangeEdit;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 
 /**
  * A {@link Handle} to change the value of the figure attribute

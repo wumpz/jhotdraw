@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.io.TextInputFormat;
@@ -18,7 +19,6 @@ import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import java.awt.print.Pageable;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.beans.*;

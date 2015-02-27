@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import org.jhotdraw.io.Base64;
+import org.jhotdraw.io.StreamPosTokenizer;
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
@@ -26,8 +29,6 @@ import net.n3.nanoxml.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.xml.css.StyleManager;
-import org.jhotdraw.geom.*;
-import org.jhotdraw.io.*;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.text.FontFormatter;
 import org.jhotdraw.util.LocaleUtil;

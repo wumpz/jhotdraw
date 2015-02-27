@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.BezierPath;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.connector.ChopBezierConnector;
@@ -23,7 +26,6 @@ import javax.swing.undo.*;
 import java.io.*;
 import org.jhotdraw.draw.handle.Handle;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 

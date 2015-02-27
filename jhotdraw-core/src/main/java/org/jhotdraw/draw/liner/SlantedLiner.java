@@ -8,6 +8,8 @@
 
 package org.jhotdraw.draw.liner;
 
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.connector.Connector;
@@ -17,7 +19,6 @@ import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 import java.util.*;
 import java.awt.geom.*;
-import org.jhotdraw.geom.*;
 
 /**
  * SlantedLiner.

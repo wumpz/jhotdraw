@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.GrowStroke;
 import javax.annotation.Nullable;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
@@ -17,7 +20,6 @@ import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
-import org.jhotdraw.geom.*;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.Gradient;
 

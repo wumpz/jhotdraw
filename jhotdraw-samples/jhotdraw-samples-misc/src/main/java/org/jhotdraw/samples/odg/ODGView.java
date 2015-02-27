@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.io.TextInputFormat;
@@ -22,7 +23,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.samples.odg.io.ODGInputFormat;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.beans.*;

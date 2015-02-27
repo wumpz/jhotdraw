@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Bezier;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Nullable;
 import javax.swing.*;
-import org.jhotdraw.geom.*;
 
 /**
  * Demonstration of the curve fitting algorithm of class {@link Bezier}. 

@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.samples.draw;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
@@ -18,7 +19,6 @@ import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import java.awt.geom.*;
 import java.awt.print.Pageable;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.beans.*;

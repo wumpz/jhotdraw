@@ -8,9 +8,9 @@
 
 package org.jhotdraw.draw;
 
+import org.jhotdraw.beans.AbstractBean;
 import javax.annotation.Nullable;
 import javax.swing.event.*;
-import org.jhotdraw.beans.*;
 
 /**
  * This abstract class can be extended to implement a {@link Constrainer}.

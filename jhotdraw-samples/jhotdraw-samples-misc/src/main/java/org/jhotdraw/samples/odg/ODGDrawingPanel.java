@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.DuplicateAction;
@@ -15,7 +16,6 @@ import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.undo.*;
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.util.*;
