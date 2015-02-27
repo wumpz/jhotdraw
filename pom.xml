@@ -5,6 +5,9 @@
     <artifactId>jhotdraw</artifactId>
     <version>7.7-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <organization>
+        <name>JHotDraw</name>
+    </organization>
     <licenses>
 		<license>
 			<name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
