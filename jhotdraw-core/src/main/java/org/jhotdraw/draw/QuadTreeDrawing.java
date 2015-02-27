@@ -27,7 +27,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class QuadTreeDrawing extends AbstractDrawing {
     private static final long serialVersionUID = 1L;
 
-    private QuadTree<Figure> quadTree = new QuadTree<Figure>();
+    private QuadTree<Figure> quadTree = new QuadTree<>();
     private boolean needsSorting = false;
 
     @Override

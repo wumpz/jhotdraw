@@ -7,12 +7,23 @@
  */
 package org.jhotdraw.draw;
 
-import java.awt.*;
-import java.awt.geom.*;
-import org.jhotdraw.util.*;
-import java.util.*;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.jhotdraw.geom.Geom;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.util.ReversedList;
 
 /**
  * A default implementation of {@link Drawing} useful for drawings which contain
@@ -47,7 +58,7 @@ public class DefaultDrawing
     public void draw(Graphics2D g) {
         synchronized (getLock()) {
             ensureSorted();
-            ArrayList<Figure> toDraw = new ArrayList<Figure>(getChildren().size());
+            List<Figure> toDraw = new ArrayList<>(getChildren().size());
             Rectangle clipRect = g.getClipBounds();
             for (Figure f : getChildren()) {
                 if (f.getDrawingArea().intersects(clipRect)) {
@@ -76,10 +87,10 @@ public class DefaultDrawing
     }
 
     @Override
-    public java.util.List<Figure> sort(Collection<? extends Figure> c) {
-        HashSet<Figure> unsorted = new HashSet<Figure>();
+    public List<Figure> sort(Collection<? extends Figure> c) {
+        Set<Figure> unsorted = new HashSet<>();
         unsorted.addAll(c);
-        ArrayList<Figure> sorted = new ArrayList<Figure>(c.size());
+        List<Figure> sorted = new ArrayList<>(c.size());
         for (Figure f : getChildren()) {
             if (unsorted.contains(f)) {
                 sorted.add(f);
@@ -158,8 +169,8 @@ public class DefaultDrawing
     }
 
     @Override
-    public java.util.List<Figure> findFigures(Rectangle2D.Double bounds) {
-        LinkedList<Figure> intersection = new LinkedList<Figure>();
+    public List<Figure> findFigures(Rectangle2D.Double bounds) {
+        List<Figure> intersection = new LinkedList<>();
         for (Figure f : getChildren()) {
             if (f.isVisible() && f.getBounds().intersects(bounds)) {
                 intersection.add(f);
@@ -169,8 +180,8 @@ public class DefaultDrawing
     }
 
     @Override
-    public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
-        LinkedList<Figure> contained = new LinkedList<Figure>();
+    public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
+        List<Figure> contained = new LinkedList<>();
         for (Figure f : getChildren()) {
             Rectangle2D.Double r = f.getBounds();
             if (f.get(TRANSFORM) != null) {
@@ -195,9 +206,9 @@ public class DefaultDrawing
      * children.
      */
     @Override
-    public java.util.List<Figure> getFiguresFrontToBack() {
+    public List<Figure> getFiguresFrontToBack() {
         ensureSorted();
-        return new ReversedList<Figure>(getChildren());
+        return new ReversedList<>(getChildren());
     }
 
     /**
@@ -230,12 +241,10 @@ public class DefaultDrawing
 
     @Override
     protected void drawFill(Graphics2D g) {
-        //  throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    protected void drawStroke(Graphics2D g) {
-        //  throw new UnsupportedOperationException("Not supported yet.");
+    protected void drawStroke(Graphics2D g) {      
     }
 
     @Override
