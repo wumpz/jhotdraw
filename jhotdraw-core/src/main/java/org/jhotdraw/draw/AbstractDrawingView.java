@@ -22,7 +22,6 @@ import static com.sun.java.accessibility.util.AWTEventMonitor.addFocusListener;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -35,6 +34,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -48,6 +48,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import javax.swing.JLabel;
@@ -108,15 +109,16 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     private final List<Handle> secondaryHandles = new LinkedList<>();
     private boolean handlesAreValid = true;
 
-    private double scaleFactor = 1;
-    private Point translation = new Point(0, 0);
-
+    //TODO replace with AffineTransform to support rotation and more complex transformations from
+    //document to view
+    //private double scaleFactor = 1;
+    //private Point translation = new Point(0, 0);
     private int detailLevel;
     @Nullable
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
     protected BufferedImage backgroundTile;
-    private FigureListener handleInvalidator = new FigureAdapter() {
+    private final FigureListener handleInvalidator = new FigureAdapter() {
 
         @Override
         public void figureHandlesChanged(FigureEvent e) {
@@ -124,16 +126,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         }
     };
 
-    /**
-     * Holds the drawing area (in view coordinates) which is in the drawing buffer.
-     */
-    private Rectangle bufferedArea = new Rectangle();
-    
-    /**
-     * Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing
-     * buffer.
-     */
-    private Rectangle dirtyArea = new Rectangle(0, 0, -1, -1);
     private boolean paintEnabled = true;
 
     @Override
@@ -271,8 +263,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             if (e.getSource() == drawing) {
                 AttributeKey<?> a = e.getAttribute();
                 if (a.equals(CANVAS_HEIGHT) || a.equals(CANVAS_WIDTH)) {
-                    validateViewTranslation();
-                    repaint(); // must repaint everything
+                    repaint();
                 }
                 if (e.getInvalidatedArea() != null) {
                     repaintDrawingArea(e.getInvalidatedArea());
@@ -404,8 +395,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
      */
     protected Rectangle getCanvasViewBounds() {
         // Position of the zero coordinate point on the view
-        int x = -translation.x;
-        int y = -translation.y;
+        int x = 0;
+        int y = 0;
 
         int w = getWidth();
         int h = getHeight();
@@ -434,8 +425,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         if (drawing != null) {
             Graphics2D g = (Graphics2D) gr.create();
             AffineTransform tx = g.getTransform();
-            tx.translate(-translation.x, -translation.y);
-            tx.scale(scaleFactor, scaleFactor);
             g.setTransform(tx);
 
             drawing.setFontRenderContext(g.getFontRenderContext());
@@ -462,8 +451,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             } else {
                 Graphics2D g = (Graphics2D) gr.create();
                 AffineTransform tx = g.getTransform();
-                tx.translate(-translation.x, -translation.y);
-                tx.scale(scaleFactor, scaleFactor);
+                tx.concatenate(getDrawingToViewTransform());
                 g.setTransform(tx);
 
                 drawing.setFontRenderContext(g.getFontRenderContext());
@@ -510,13 +498,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             this.drawing.addCompositeFigureListener(eventHandler);
             this.drawing.addFigureListener(eventHandler);
         }
-        dirtyArea.add(bufferedArea);
 
         firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
 
         // Revalidate without flickering
         revalidate();
-        validateViewTranslation();
+
         paintEnabled = false;
         javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
 
@@ -533,7 +520,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     protected void repaintDrawingArea(Rectangle2D.Double r) {
         Rectangle vr = drawingToView(r);
         vr.grow(2, 2);
-        dirtyArea.add(vr);
 
         repaint(vr);
     }
@@ -911,100 +897,32 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     protected Rectangle2D.Double getDrawingArea() {
-        return (Rectangle2D.Double)drawing.getDrawingArea().clone();
-    }
-
-    /**
-     * Side effect: Changes view Translation.
-     * TODO: should be called from Parent component
-     */
-    public void setBounds(int x, int y, int width, int height) {
-        validateViewTranslation();
-    }
-
-    /**
-     * Updates the view translation taking into account the current dimension of the view
-     * JComponent, the size of the drawing, and the scale factor.
-     */
-    private void validateViewTranslation() {
-        if (drawing == null) {
-            translation.x = translation.y = 0;
-            return;
-        }
-        Point oldTranslation = (Point) translation.clone();
-
-        int width = getWidth();
-        int height = getHeight();
-        Insets insets = getInsets();
-        Rectangle2D.Double da = getDrawingArea();
-        Rectangle r = new Rectangle((int) (da.x * scaleFactor), (int) (da.y * scaleFactor), (int) (da.width * scaleFactor), (int) (da.height * scaleFactor));
-
-        Double cwd = getDrawing().get(CANVAS_WIDTH);
-        Double chd = getDrawing().get(CANVAS_HEIGHT);
-        if (cwd == null || chd == null) {
-            // The canvas size is not explicitly specified.
-
-            //Place the canvas at the top left
-            translation.x = insets.top;
-            translation.y = insets.left;
-        } else {
-            // The canvas size is explicitly specified.
-            int cw, ch;
-            cw = (int) (cwd * scaleFactor);
-            ch = (int) (chd * scaleFactor);
-
-            //Place the canvas at the center
-            if (cw < width) {
-                translation.x = insets.left + (width - insets.left - insets.right - cw) / -2;
-            }
-            if (ch < height) {
-                translation.y = insets.top + (height - insets.top - insets.bottom - ch) / -2;
-            }
-        }
-
-        if (r.y + r.height - translation.y > (height - insets.bottom)) {
-            // We cut off the lower part of the drawing -> shift the canvas up
-            translation.y = r.y + r.height - (height - insets.bottom);
-        }
-        if (Math.min(0, r.y) - translation.y < insets.top) {
-            // We cut off the upper part of the drawing -> shift the canvas down
-            translation.y = Math.min(0, r.y) - insets.top;
-        }
-
-        if (r.x + r.width - translation.x > (width - insets.right)) {
-            // We cut off the right part of the drawing -> shift the canvas left
-            translation.x = r.x + r.width - (width - insets.right);
-        }
-        if (Math.min(0, r.x) - translation.x < insets.left) {
-            // We cut off the left part of the drawing -> shift the canvas right
-            translation.x = Math.min(0, r.x) - insets.left;
-        }
-
-        if (!oldTranslation.equals(translation)) {
-            bufferedArea.translate(oldTranslation.x - translation.x, oldTranslation.y - translation.y);
-            fireViewTransformChanged();
-        }
+        return (Rectangle2D.Double) drawing.getDrawingArea().clone();
     }
 
     /**
      * Converts drawing coordinates to view coordinates.
      */
     @Override
-    public Point drawingToView(
-            Point2D.Double p) {
-        return new Point(
-                (int) (p.x * scaleFactor) - translation.x,
-                (int) (p.y * scaleFactor) - translation.y);
+    public Point drawingToView(Point2D.Double p) {
+        AffineTransform transform = getDrawingToViewTransform();
+        Point2D pnt = transform.transform(p, null);
+        return new Point((int) pnt.getX(), (int) pnt.getY());
     }
 
+    /**
+     * Minimal rectangle that encloses drawing rectangle (could be rotated).
+     * @param r
+     * @return 
+     */
     @Override
-    public Rectangle drawingToView(
-            Rectangle2D.Double r) {
-        return new Rectangle(
-                (int) (r.x * scaleFactor) - translation.x,
-                (int) (r.y * scaleFactor) - translation.y,
-                (int) (r.width * scaleFactor),
-                (int) (r.height * scaleFactor));
+    public Rectangle drawingToView(Rectangle2D.Double r) {
+        Point pnt = drawingToView(new Point2D.Double(r.getMinX(), r.getMinY()));
+        Rectangle rect = new Rectangle(pnt.x, pnt.y, 1, 1);
+        rect.add(drawingToView(new Point2D.Double(r.getMaxX(), r.getMinY())));
+        rect.add(drawingToView(new Point2D.Double(r.getMaxX(), r.getMaxY())));
+        rect.add(drawingToView(new Point2D.Double(r.getMinX(), r.getMaxY())));
+        return rect;
     }
 
     /**
@@ -1012,36 +930,27 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
      */
     @Override
     public Point2D.Double viewToDrawing(Point p) {
-        return new Point2D.Double(
-                (p.x + translation.x) / scaleFactor,
-                (p.y + translation.y) / scaleFactor);
+        try {
+            AffineTransform transform = getDrawingToViewTransform().createInverse();
+            return (Point2D.Double) transform.transform(p, null);
+        } catch (NoninvertibleTransformException ex) {
+            Logger.getLogger(AbstractDrawingView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
+    /**
+     * Rectangles are not rotated. Therefore we deliver the smallest rectangle that encloses
+     * the rotated target rectangle.
+     */
     @Override
     public Rectangle2D.Double viewToDrawing(Rectangle r) {
-        return new Rectangle2D.Double(
-                (r.x + translation.x) / scaleFactor,
-                (r.y + translation.y) / scaleFactor,
-                r.width / scaleFactor,
-                r.height / scaleFactor);
-    }
-
-    @Override
-    public double getScaleFactor() {
-        return scaleFactor;
-    }
-
-    @Override
-    public void setScaleFactor(double newValue) {
-        double oldValue = scaleFactor;
-        scaleFactor = newValue;
-
-        validateViewTranslation();
-        dirtyArea.setBounds(bufferedArea);
-        invalidateHandles();
-        revalidate();
-        repaint();
-        firePropertyChange("scaleFactor", oldValue, newValue);
+        Point2D.Double pnt = viewToDrawing(new Point(r.x, r.y));
+        Rectangle2D.Double rect = new Rectangle2D.Double(pnt.x, pnt.y, 1, 1);
+        rect.add(viewToDrawing(new Point((int)r.getMaxX(), (int)r.getMinY())));
+        rect.add(viewToDrawing(new Point((int)r.getMaxX(), (int)r.getMaxY())));
+        rect.add(viewToDrawing(new Point((int)r.getMinX(), (int)r.getMaxY())));
+        return rect;
     }
 
     protected void fireViewTransformChanged() {
@@ -1069,12 +978,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     @Override
-    public AffineTransform getDrawingToViewTransform() {
-        AffineTransform t = new AffineTransform();
-        t.translate(-translation.x, -translation.y);
-        t.scale(scaleFactor, scaleFactor);
-        return t;
-    }
+    public abstract AffineTransform getDrawingToViewTransform();
 
     @Override
     public void delete() {
@@ -1259,7 +1163,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public DrawingEditor getEditor() {
         return editor;
     }
-            
 
     @Override
     public void setActiveHandle(@Nullable Handle newValue) {
@@ -1289,8 +1192,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         return paintEnabled;
     }
 
-    
-    
     private void repaint(Rectangle r) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -1312,10 +1213,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     private void revalidate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    private Insets getInsets() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
