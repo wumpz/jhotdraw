@@ -38,6 +38,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -912,8 +913,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
 
     /**
      * Minimal rectangle that encloses drawing rectangle (could be rotated).
+     *
      * @param r
-     * @return 
+     * @return
      */
     @Override
     public Rectangle drawingToView(Rectangle2D.Double r) {
@@ -932,7 +934,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public Point2D.Double viewToDrawing(Point p) {
         try {
             AffineTransform transform = getDrawingToViewTransform().createInverse();
-            return (Point2D.Double) transform.transform(p, null);
+            Point2D pnt = transform.transform(p, null);
+            return new Point2D.Double(pnt.getX(), pnt.getY());
         } catch (NoninvertibleTransformException ex) {
             Logger.getLogger(AbstractDrawingView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -940,16 +943,16 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     /**
-     * Rectangles are not rotated. Therefore we deliver the smallest rectangle that encloses
-     * the rotated target rectangle.
+     * Rectangles are not rotated. Therefore we deliver the smallest rectangle that encloses the
+     * rotated target rectangle.
      */
     @Override
     public Rectangle2D.Double viewToDrawing(Rectangle r) {
         Point2D.Double pnt = viewToDrawing(new Point(r.x, r.y));
         Rectangle2D.Double rect = new Rectangle2D.Double(pnt.x, pnt.y, 1, 1);
-        rect.add(viewToDrawing(new Point((int)r.getMaxX(), (int)r.getMinY())));
-        rect.add(viewToDrawing(new Point((int)r.getMaxX(), (int)r.getMaxY())));
-        rect.add(viewToDrawing(new Point((int)r.getMinX(), (int)r.getMaxY())));
+        rect.add(viewToDrawing(new Point((int) r.getMaxX(), (int) r.getMinY())));
+        rect.add(viewToDrawing(new Point((int) r.getMaxX(), (int) r.getMaxY())));
+        rect.add(viewToDrawing(new Point((int) r.getMinX(), (int) r.getMaxY())));
         return rect;
     }
 
@@ -1192,27 +1195,25 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         return paintEnabled;
     }
 
-    private void repaint(Rectangle r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    private Color getBackground() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    private void repaint() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract void repaint(Rectangle r);
 
-    private int getWidth() {
-        return 10;
-    }
+    public abstract Color getBackground();
 
-    private int getHeight() {
-        return 10;
-    }
+    public abstract void repaint();
 
-    private void revalidate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract int getWidth();
+
+    public abstract int getHeight();
+
+    public abstract void revalidate();
 }
