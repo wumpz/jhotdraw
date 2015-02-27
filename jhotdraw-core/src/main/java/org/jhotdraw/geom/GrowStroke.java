@@ -7,8 +7,12 @@
  */
 package org.jhotdraw.geom;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+
+
 
 /**
  * GrowStroke can be used to grow/shrink a figure by a specified line width.
