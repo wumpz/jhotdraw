@@ -956,7 +956,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         return rect;
     }
 
-    protected void fireViewTransformChanged() {
+    public void fireViewTransformChanged() {
         for (Handle handle : selectionHandles) {
             handle.viewTransformChanged();
         }

@@ -107,6 +107,14 @@ public class MovableChildFiguresSampleWithAbstractDrawingView {
                     protected void paintComponent(Graphics g) {
                         view.paintComponent(g);
                     }
+
+                    @Override
+                    public void setBounds(int x, int y, int width, int height) {
+                        super.setBounds(x, y, width, height); //To change body of generated methods, choose Tools | Templates.
+                        view.fireViewTransformChanged();
+                    }
+                    
+                    
                 };
                 drawPanel.setSize(500,500);
                 drawPanel.setOpaque(true);
