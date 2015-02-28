@@ -140,7 +140,7 @@ public class MovableChildFiguresSampleWithAbstractDrawingView {
                 @Override
                 public AffineTransform getDrawingToViewTransform() {
                     AffineTransform transform = new AffineTransform();
-                    transform.setToRotation(0.3, drawPanel.getWidth() / 2, drawPanel.getHeight() / 2);
+                    transform.setToRotation(0.9, drawPanel.getWidth() / 2, drawPanel.getHeight() / 2);
                     return transform;
                 }
 
