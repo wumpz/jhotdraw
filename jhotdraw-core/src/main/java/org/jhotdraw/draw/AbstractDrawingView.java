@@ -118,6 +118,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     @Nullable
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
+    private boolean paintBackground = true;
     protected BufferedImage backgroundTile;
     private final FigureListener handleInvalidator = new FigureAdapter() {
 
@@ -126,6 +127,14 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             invalidateHandles();
         }
     };
+
+    public boolean isPaintBackground() {
+        return paintBackground;
+    }
+
+    public void setPaintBackground(boolean paintBackground) {
+        this.paintBackground = paintBackground;
+    }
 
     private boolean paintEnabled = true;
 
@@ -347,7 +356,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
 
         Graphics2D g = (Graphics2D) gr;
         setViewRenderingHints(g);
-        drawBackground(g);
+        if (isPaintBackground()) {
+            drawBackground(g);
+        }
         drawCanvas(g);
         drawConstrainer(g);
         drawDrawing(g);
