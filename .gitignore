@@ -1,12 +1,8 @@
 /jhotdraw7/build/
 /jhotdraw7/dist/
 /jhotdraw7/nbproject/private/
-/nanoxml-patched/target/
-/jhotdraw-core/target/
-/jhotdraw-samples/jhotdraw-samples-misc/target/
-/jhotdraw-samples/jhotdraw-samples-mini/target/
-/jhotdraw-xml/target/
-/jhotdraw-api/target/
-/jhotdraw-utils/target/
-/target/
-/jhotdraw-samples/target/
+target
+*.patch
+*.class
+nb-configuration.xml
+*.*~

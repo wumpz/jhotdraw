@@ -13,10 +13,6 @@
 			<name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
 			<url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
 		</license>
-        <!-- <license>
-            <name>Creative Commons Attribution (by) 3.0</name>
-            <url>https://creativecommons.org/licenses/by/3.0/</url>
-        </license> -->
 	</licenses>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
