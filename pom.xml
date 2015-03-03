@@ -9,11 +9,17 @@
         <name>JHotDraw</name>
     </organization>
     <licenses>
-		<license>
-			<name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
-			<url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
-		</license>
-	</licenses>
+        <license>
+            <name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Tobias Warneke</name>
+            <email>t.warneke@gmx.net</email>
+        </developer>
+    </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
