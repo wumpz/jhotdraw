@@ -31,8 +31,7 @@ import org.jhotdraw.xml.DOMOutput;
 /**
  * A {@code TextHolderFigure} which holds a single line of text.
  * <p>
- * A DrawingEditor should provide the 
- * {@link org.jhotdraw.draw.tool.TextCreationTool} to create a
+ * A DrawingEditor should provide the {@link org.jhotdraw.draw.tool.TextCreationTool} to create a
  * {@code TextFigure}.
  *
  * @author Werner Randelshofer
@@ -40,14 +39,18 @@ import org.jhotdraw.xml.DOMOutput;
  */
 public class TextFigure extends AbstractAttributedDecoratedFigure
         implements TextHolderFigure {
+
     private static final long serialVersionUID = 1L;
 
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;
     // cache of the TextFigure's layout
-    @Nullable transient protected TextLayout textLayout;
+    @Nullable
+    transient protected TextLayout textLayout;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TextFigure() {
         this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("TextFigure.defaultText"));
@@ -71,7 +74,22 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     protected void drawText(java.awt.Graphics2D g) {
         if (getText() != null || isEditable()) {
             TextLayout layout = getTextLayout();
-            layout.draw(g, (float) origin.x, (float) (origin.y + layout.getAscent()));
+
+            Graphics2D g2 = (Graphics2D) g.create();
+            try {
+                //Test if world to screen transformation mirrors the text. If so it tries to
+                //unmirror it.
+                if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
+                    AffineTransform at = new AffineTransform();
+                    at.translate(0, origin.y + layout.getAscent() / 2);
+                    at.scale(1, -1);
+                    at.translate(0, -origin.y - layout.getAscent() / 2);
+                    g2.transform(at);
+                }
+                layout.draw(g2, (float) origin.x, (float) (origin.y + layout.getAscent()));
+            } finally {
+                g2.dispose();
+            }
         }
     }
 
@@ -179,8 +197,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     }
 
     /**
-     * Sets the text shown by the text figure.
-     * This is a convenience method for calling {@code set(TEXT,newText)}.
+     * Sets the text shown by the text figure. This is a convenience method for calling
+     * {@code set(TEXT,newText)}.
      */
     @Override
     public void setText(String newText) {
@@ -267,7 +285,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     /**
      * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
+     * <p>
+     * Returns null, if no specialized tool is available.
      */
     @Override
     public Tool getTool(Point2D.Double p) {
