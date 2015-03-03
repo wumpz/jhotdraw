@@ -463,7 +463,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             } else {
                 Graphics2D g = (Graphics2D) gr.create();
                 AffineTransform tx = g.getTransform();
-                tx.concatenate(getDrawingToViewTransform());
+                if (getDrawingToViewTransform() != null) {
+                    tx.concatenate(getDrawingToViewTransform());
+                }
                 g.setTransform(tx);
 
                 drawing.setFontRenderContext(g.getFontRenderContext());
