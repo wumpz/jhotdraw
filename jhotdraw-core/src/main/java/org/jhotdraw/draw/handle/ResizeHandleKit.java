@@ -173,7 +173,7 @@ public class ResizeHandleKit {
                 return;
             }
             Point2D.Double p = view.viewToDrawing(new Point(lead.x + sx, lead.y + sy));
-            view.getConstrainer().constrainPoint(p);
+            p = view.getConstrainer().constrainPoint(p);
 
             if (getOwner().get(TRANSFORM) != null) {
                 try {
