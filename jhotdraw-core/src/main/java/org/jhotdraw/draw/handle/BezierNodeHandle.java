@@ -143,7 +143,7 @@ public class BezierNodeHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getOwner();
         figure.willChange();
-        Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+        Point2D.Double p = view.getConstrainer()==null?view.viewToDrawing(lead):view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
 
         if (getTransformOwner().get(TRANSFORM) != null) {
             try {

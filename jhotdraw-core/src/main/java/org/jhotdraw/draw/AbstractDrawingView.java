@@ -446,13 +446,15 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     protected void drawConstrainer(Graphics2D g) {
-        Shape clip = g.getClip();
+        if (getConstrainer() != null) {
+            Shape clip = g.getClip();
 
-        Rectangle r = getCanvasViewBounds();
-        g.clipRect(r.x, r.y, r.width, r.height);
-        getConstrainer().draw(g, this);
+            Rectangle r = getCanvasViewBounds();
+            g.clipRect(r.x, r.y, r.width, r.height);
+            getConstrainer().draw(g, this);
 
-        g.setClip(clip);
+            g.setClip(clip);
+        }
     }
 
     protected void drawDrawing(Graphics2D gr) {
@@ -947,8 +949,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public Point2D.Double viewToDrawing(Point p) {
         try {
             AffineTransform transform = getDrawingToViewTransform().createInverse();
-            Point2D pnt = transform.transform(p, null);
-            return new Point2D.Double(pnt.getX(), pnt.getY());
+            Point2D.Double pint = new Point2D.Double();
+            transform.transform(p, pint);
+            return pint;
         } catch (NoninvertibleTransformException ex) {
             Logger.getLogger(AbstractDrawingView.class.getName()).log(Level.SEVERE, null, ex);
         }

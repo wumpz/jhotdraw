@@ -20,22 +20,23 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import static org.jhotdraw.draw.handle.HandleAttributeKeys.*;
 
 /**
- * A set of utility methods to create Handles which transform a Figure by using
- * its <code>transform</code> method.
- * 
- * 
+ * A set of utility methods to create Handles which transform a Figure by using its
+ * <code>transform</code> method.
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class TransformHandleKit {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TransformHandleKit() {
     }
 
     /**
-     * Creates handles for each corner of a
-     * figure and adds them to the provided collection.
+     * Creates handles for each corner of a figure and adds them to the provided collection.
      */
     static public void addCornerTransformHandles(Figure f, Collection<Handle> handles) {
         if (f.isTransformable()) {
@@ -47,8 +48,8 @@ public class TransformHandleKit {
     }
 
     /**
-     * Fills the given collection with handles at each
-     * the north, south, east, and west of the figure.
+     * Fills the given collection with handles at each the north, south, east, and west of the
+     * figure.
      */
     static public void addEdgeTransformHandles(Figure f, Collection<Handle> handles) {
         if (f.isTransformable()) {
@@ -142,7 +143,9 @@ public class TransformHandleKit {
 
         private int dx, dy;
         private Object geometry;
-        /** Caches the value returned by getOwner().isTransformable(): */
+        /**
+         * Caches the value returned by getOwner().isTransformable():
+         */
         private boolean isTransformableCache;
 
         TransformHandle(Figure owner, Locator loc) {
@@ -211,8 +214,9 @@ public class TransformHandleKit {
                 return;
             }
             Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
-            view.getConstrainer().constrainPoint(p);
-
+            if (view.getConstrainer() != null) {
+                p = view.getConstrainer().constrainPoint(p);
+            }
             trackStepNormalized(p);
         }
 

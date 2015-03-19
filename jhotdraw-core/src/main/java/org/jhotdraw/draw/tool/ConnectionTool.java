@@ -254,8 +254,9 @@ public class ConnectionTool extends AbstractTool {
         if (createdFigure != null) {
             createdFigure.willChange();
             Point2D.Double endPoint = viewToDrawing(new Point(e.getX(), e.getY()));
-            getView().getConstrainer().constrainPoint(endPoint);
-
+            if (getView().getConstrainer()!=null) {
+                endPoint = getView().getConstrainer().constrainPoint(endPoint);
+            }
             Figure endFigure = getDrawing().findFigureExcept(endPoint, createdFigure);
             endConnector = (endFigure == null) ? null : endFigure.findConnector(endPoint, prototype);
 

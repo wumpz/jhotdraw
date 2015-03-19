@@ -665,13 +665,16 @@ public class DefaultDrawingView
     }
 
     protected void drawConstrainer(Graphics2D g) {
-        Shape clip = g.getClip();
+        if (getConstrainer() != null) {
+            Shape clip = g.getClip();
 
-        Rectangle r = getCanvasViewBounds();
-        g.clipRect(r.x, r.y, r.width, r.height);
-        getConstrainer().draw(g, this);
+            Rectangle r = getCanvasViewBounds();
+            g.clipRect(r.x, r.y, r.width, r.height);
 
-        g.setClip(clip);
+            getConstrainer().draw(g, this);
+
+            g.setClip(clip);
+        }
     }
 
     protected void drawDrawing(Graphics2D gr) {

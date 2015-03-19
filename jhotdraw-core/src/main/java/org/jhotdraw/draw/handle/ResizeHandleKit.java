@@ -19,9 +19,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A set of utility methods to create handles which resize a Figure by
- * using its <code>setBounds</code> method, if the Figure is transformable.
- * 
+ * A set of utility methods to create handles which resize a Figure by using its
+ * <code>setBounds</code> method, if the Figure is transformable.
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -29,13 +29,14 @@ public class ResizeHandleKit {
 
     private static final boolean DEBUG = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ResizeHandleKit() {
     }
 
     /**
-     * Creates handles for each corner of a
-     * figure and adds them to the provided collection.
+     * Creates handles for each corner of a figure and adds them to the provided collection.
      */
     static public void addCornerResizeHandles(Figure f, Collection<Handle> handles) {
         if (f.isTransformable()) {
@@ -47,8 +48,8 @@ public class ResizeHandleKit {
     }
 
     /**
-     * Fills the given collection with handles at each
-     * the north, south, east, and west of the figure.
+     * Fills the given collection with handles at each the north, south, east, and west of the
+     * figure.
      */
     static public void addEdgeResizeHandles(Figure f, Collection<Handle> handles) {
         if (f.isTransformable()) {
@@ -60,8 +61,8 @@ public class ResizeHandleKit {
     }
 
     /**
-     * Fills the given collection with handles at each
-     * the north, south, east, and west of the figure.
+     * Fills the given collection with handles at each the north, south, east, and west of the
+     * figure.
      */
     static public void addResizeHandles(Figure f, Collection<Handle> handles) {
         handles.add(new BoundsOutlineHandle(f));
@@ -105,15 +106,25 @@ public class ResizeHandleKit {
 
     private static class ResizeHandle extends LocatorHandle {
 
-        /** Mouse coordinates on track start. */
+        /**
+         * Mouse coordinates on track start.
+         */
         private int sx, sy;
-        /** Geometry for undo. */
+        /**
+         * Geometry for undo.
+         */
         private Object geometry;
-        /** Figure bounds on track start. */
+        /**
+         * Figure bounds on track start.
+         */
         protected Rectangle2D.Double sb;
-        /** Aspect ratio on track start. */
+        /**
+         * Aspect ratio on track start.
+         */
         double aspectRatio;
-        /** Caches the value returned by getOwner().isTransformable(): */
+        /**
+         * Caches the value returned by getOwner().isTransformable():
+         */
         private boolean isTransformableCache;
 
         ResizeHandle(Figure owner, Locator loc) {
@@ -129,9 +140,8 @@ public class ResizeHandleKit {
         /**
          * Draws this handle.
          * <p>
-         * If the figure is transformable, the handle is drawn as a filled rectangle.
-         * If the figure is not transformable, the handle is drawn as an unfilled
-         * rectangle.
+         * If the figure is transformable, the handle is drawn as a filled rectangle. If the figure
+         * is not transformable, the handle is drawn as an unfilled rectangle.
          */
         @Override
         public void draw(Graphics2D g) {
@@ -173,7 +183,9 @@ public class ResizeHandleKit {
                 return;
             }
             Point2D.Double p = view.viewToDrawing(new Point(lead.x + sx, lead.y + sy));
-            p = view.getConstrainer().constrainPoint(p);
+            if (view.getConstrainer() != null) {
+                p = view.getConstrainer().constrainPoint(p);
+            }
 
             if (getOwner().get(TRANSFORM) != null) {
                 try {
