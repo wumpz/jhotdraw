@@ -23,8 +23,7 @@ import java.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A {@link Handle} which allows to interactively change a node of a bezier
- * path.
+ * A {@link Handle} which allows to interactively change a node of a bezier path.
  *
  *
  * @author Werner Randelshofer
@@ -143,7 +142,7 @@ public class BezierNodeHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getOwner();
         figure.willChange();
-        Point2D.Double p = view.getConstrainer()==null?view.viewToDrawing(lead):view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+        Point2D.Double p = view.getConstrainer() == null ? view.viewToDrawing(lead) : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
 
         if (getTransformOwner().get(TRANSFORM) != null) {
             try {
@@ -193,7 +192,8 @@ public class BezierNodeHandle extends AbstractHandle {
             fireHandleRequestSecondaryHandles();
         }
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldValue, newValue) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
@@ -233,7 +233,8 @@ public class BezierNodeHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestRemove(invalidatedArea);
             fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -300,7 +301,7 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierPath.Node node = getBezierNode();
         return (node == null) ? null : labels.getFormatted("handle.bezierNode.toolTipText",
                 labels.getFormatted(
-                (node.getMask() == 0) ? "handle.bezierNode.linear.value" : ((node.getMask() == BezierPath.C1C2_MASK) ? "handle.bezierNode.cubic.value" : "handle.bezierNode.quadratic.value")));
+                        (node.getMask() == 0) ? "handle.bezierNode.linear.value" : ((node.getMask() == BezierPath.C1C2_MASK) ? "handle.bezierNode.cubic.value" : "handle.bezierNode.quadratic.value")));
     }
 
     @Override
@@ -345,7 +346,8 @@ public class BezierNodeHandle extends AbstractHandle {
                 f.changed();
                 fireHandleRequestRemove(invalidatedArea);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
