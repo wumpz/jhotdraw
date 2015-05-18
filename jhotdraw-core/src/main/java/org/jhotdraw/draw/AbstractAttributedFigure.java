@@ -140,7 +140,12 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
 
     @Override
     public Rectangle2D.Double getDrawingArea() {
-        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+        return getDrawingArea(1.0);
+    }
+    
+    @Override
+    public Rectangle2D.Double getDrawingArea(double factor) {
+        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
         double width = strokeTotalWidth / 2d;
         if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
             width *= get(STROKE_MITER_LIMIT);

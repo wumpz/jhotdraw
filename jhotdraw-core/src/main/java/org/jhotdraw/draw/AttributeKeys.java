@@ -383,8 +383,17 @@ public class AttributeKeys {
      * @return 
      */
     public static double getScaleFactorFromGraphics(Graphics2D g) {
-        if (g.getTransform()==null) return 1.0;
-        double scale = g.getTransform().getScaleX();
+        return getScaleFactor(g.getTransform());
+    }
+    
+    /**
+     * Returns a scale factor derived from a AffineTransform.
+     * @param g
+     * @return 
+     */
+    public static double getScaleFactor(AffineTransform transform) {
+        if (transform==null) return 1.0;
+        double scale = transform.getScaleX();
         return scale!=0?1.0/scale:1.0;
     }
 

@@ -238,10 +238,10 @@ public class BezierFigure extends AbstractAttributedFigure {
         Rectangle2D.Double bounds = path.getBounds2D();
         return bounds;
     }
-
+    
     @Override
-    public Rectangle2D.Double getDrawingArea() {
-        Rectangle2D.Double r = super.getDrawingArea();
+    public Rectangle2D.Double getDrawingArea(double factor) {
+        Rectangle2D.Double r = super.getDrawingArea(factor);
 
         if (getNodeCount() > 1) {
             if (get(START_DECORATION) != null) {

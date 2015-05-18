@@ -651,15 +651,20 @@ public abstract class AbstractCompositeFigure
 
     @Override
     public Rectangle2D.Double getDrawingArea() {
+        return getDrawingArea(1.0);
+    }
+    
+    @Override
+    public Rectangle2D.Double getDrawingArea(double factor) {
         if (cachedDrawingArea == null) {
             if (getChildCount() == 0) {
                 cachedDrawingArea = new Rectangle2D.Double();
             } else {
                 for (Figure f : children) {
                     if (cachedDrawingArea == null) {
-                        cachedDrawingArea = f.getDrawingArea();
+                        cachedDrawingArea = f.getDrawingArea(factor);
                     } else {
-                        cachedDrawingArea.add(f.getDrawingArea());
+                        cachedDrawingArea.add(f.getDrawingArea(factor));
                     }
                 }
             }

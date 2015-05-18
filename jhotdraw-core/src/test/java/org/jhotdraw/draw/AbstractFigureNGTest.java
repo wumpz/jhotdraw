@@ -142,6 +142,11 @@ public class AbstractFigureNGTest {
         public void restoreAttributesTo(Object restoreData) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public Rectangle2D.Double getDrawingArea(double factor) {
+            return null;
+        }
     }
     
 }
