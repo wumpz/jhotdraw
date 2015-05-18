@@ -1203,7 +1203,7 @@ public class DefaultDrawingView
     protected Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
             if (drawing != null) {
-                cachedDrawingArea = drawing.getDrawingArea();
+                cachedDrawingArea = drawing.getDrawingArea(1.0);
             } else {
                 cachedDrawingArea = new Rectangle2D.Double();
             }

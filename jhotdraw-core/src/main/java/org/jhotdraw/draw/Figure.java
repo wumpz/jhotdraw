@@ -211,7 +211,7 @@ public interface Figure extends Cloneable, Serializable {
      * The drawing area needs to be large enough, to take line width, line caps
      * and other decorations into account that exceed the bounds of the Figure.
      */
-    public Rectangle2D.Double getDrawingArea();
+    public Rectangle2D.Double getDrawingArea(double factor);
 
     /**
      * The preferred size is used by Layouter to determine the preferred

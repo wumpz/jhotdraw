@@ -383,7 +383,9 @@ public class AttributeKeys {
      * @return 
      */
     public static double getScaleFactorFromGraphics(Graphics2D g) {
-        return g.getTransform()==null?1.0:g.getTransform().getScaleX();
+        if (g.getTransform()==null) return 1.0;
+        double scale = g.getTransform().getScaleX();
+        return scale!=0?1.0/scale:1.0;
     }
 
     /**
