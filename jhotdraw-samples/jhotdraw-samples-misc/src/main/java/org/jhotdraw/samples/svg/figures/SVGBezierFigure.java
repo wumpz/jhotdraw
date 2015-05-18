@@ -136,7 +136,7 @@ public class SVGBezierFigure extends BezierFigure {
                 p2.transform(get(TRANSFORM));
                 cachedDrawingArea = p2.getBounds2D();
             }
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this,1.0);
             double width = strokeTotalWidth / 2d;
             if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
                 width *= get(STROKE_MITER_LIMIT);

@@ -73,7 +73,7 @@ public class StraightLineFigure extends AbstractAttributedFigure {
                 line.x1, line.y1,
                 line.x2, line.y2,
                 p.x, p.y,
-                AttributeKeys.getStrokeTotalWidth(this));
+                AttributeKeys.getStrokeTotalWidth(this,1.0));
     }
 
     @Override

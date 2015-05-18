@@ -445,10 +445,10 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             switch (get(STROKE_PLACEMENT)) {
                 case CENTER:
                 default:
-                    grow = AttributeKeys.getStrokeTotalWidth(this);
+                    grow = AttributeKeys.getStrokeTotalWidth(this,1.0);
                     break;
                 case OUTSIDE:
-                    grow = AttributeKeys.getStrokeTotalWidth(this);
+                    grow = AttributeKeys.getStrokeTotalWidth(this,1.0);
                     break;
                 case INSIDE:
                     grow = 0d;

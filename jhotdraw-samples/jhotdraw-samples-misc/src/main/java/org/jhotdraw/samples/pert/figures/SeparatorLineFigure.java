@@ -42,7 +42,7 @@ extends RectangleFigure {
     @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
        Geom.grow(r, grow, grow);
 
         g.draw(new Line2D.Double(r.x,r.y,r.x+r.width-1,r.y));

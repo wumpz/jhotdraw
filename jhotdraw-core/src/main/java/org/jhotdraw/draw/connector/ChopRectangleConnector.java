@@ -83,10 +83,10 @@ public class ChopRectangleConnector extends AbstractConnector {
             switch (target.get(STROKE_PLACEMENT)) {
                 case CENTER:
                 default :
-                    grow = AttributeKeys.getStrokeTotalWidth(target) / 2d;
+                    grow = AttributeKeys.getStrokeTotalWidth(target, 1.0) / 2d;
                     break;
                 case OUTSIDE :
-                    grow = AttributeKeys.getStrokeTotalWidth(target);
+                    grow = AttributeKeys.getStrokeTotalWidth(target, 1.0);
                     break;
                 case INSIDE :
                     grow = 0d;

@@ -50,10 +50,10 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
             switch (target.get(STROKE_PLACEMENT)) {
                 case CENTER:
                  default :
-                    grow = getStrokeTotalWidth(target) / 2d;
+                    grow = getStrokeTotalWidth(target,1.0) / 2d;
                     break;
                 case OUTSIDE :
-                    grow = getStrokeTotalWidth(target);
+                    grow = getStrokeTotalWidth(target, 1.0);
                     break;
                 case INSIDE :
                     grow = 0f;
