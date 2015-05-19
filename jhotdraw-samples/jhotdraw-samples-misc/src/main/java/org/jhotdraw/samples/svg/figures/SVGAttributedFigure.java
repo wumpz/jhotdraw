@@ -87,7 +87,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
         paint = SVGAttributeKeys.getStrokePaint(this);
         if (paint != null && get(STROKE_WIDTH) > 0) {
             g.setPaint(paint);
-            g.setStroke(SVGAttributeKeys.getStroke(this));
+            g.setStroke(SVGAttributeKeys.getStroke(this,1.0));
             drawStroke(g);
         }
         if (get(TRANSFORM) != null) {

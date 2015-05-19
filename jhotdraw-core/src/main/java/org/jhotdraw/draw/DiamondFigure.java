@@ -23,11 +23,11 @@ import org.jhotdraw.geom.Geom;
  * @version $Id$
  */
 public class DiamondFigure extends AbstractAttributedFigure {
-            private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have
-     * the same length.
+     * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have the same length.
      */
     public static final AttributeKey<Boolean> IS_QUADRATIC = new AttributeKey<Boolean>("isQuadratic", Boolean.class, false);
     /**
@@ -35,7 +35,9 @@ public class DiamondFigure extends AbstractAttributedFigure {
      */
     private Rectangle2D.Double rectangle;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DiamondFigure() {
         this(0, 0, 0, 0);
     }
@@ -43,8 +45,8 @@ public class DiamondFigure extends AbstractAttributedFigure {
     public DiamondFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
         /*
-        setFillColor(Color.white);
-        setStrokeColor(Color.black);
+         setFillColor(Color.white);
+         setStrokeColor(Color.black);
          */
     }
 
@@ -59,7 +61,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
             r.width = r.height = side;
         }
 
-        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         if (grow != 0d) {
             double w = r.width / 2d;
             double h = r.height / 2d;
@@ -94,7 +96,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
             r.width = r.height = side;
         }
 
-        double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         if (grow != 0d) {
             double growx, growy;
             double w = r.width / 2d;
@@ -135,7 +137,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
             r.y -= (side - r.height) / 2;
             r.width = r.height = side;
         }
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         if (grow != 0d) {
             double w = r.width / 2d;
             double h = r.height / 2d;
@@ -168,7 +170,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
         }
         //   if (r.contains(p)) {
 
-        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this, 1.0);
         if (grow != 0d) {
             double w = r.width / 2d;
             double h = r.height / 2d;
@@ -203,6 +205,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
 
     /**
      * Moves the Figure to a new location.
+     *
      * @param tx the transformation matrix.
      */
     @Override
@@ -232,8 +235,9 @@ public class DiamondFigure extends AbstractAttributedFigure {
 // EDITING
 // CONNECTING
     /**
-     * Returns the Figures connector for the specified location.
-     * By default a ChopDiamondConnector is returned.
+     * Returns the Figures connector for the specified location. By default a ChopDiamondConnector
+     * is returned.
+     *
      * @see ChopDiamondConnector
      */
     @Override

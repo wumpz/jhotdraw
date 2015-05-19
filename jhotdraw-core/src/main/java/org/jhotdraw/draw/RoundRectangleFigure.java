@@ -57,7 +57,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     @Override
     protected void drawFill(Graphics2D g) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;
@@ -72,7 +72,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     @Override
     protected void drawStroke(Graphics2D g) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-        double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;
@@ -92,7 +92,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1;
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1;
         Geom.grow(r, grow, grow);
 
         return r;
@@ -133,7 +133,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     @Override
     public boolean contains(Point2D.Double p) {
         RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;

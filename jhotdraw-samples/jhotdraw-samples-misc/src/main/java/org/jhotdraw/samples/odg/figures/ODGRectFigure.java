@@ -110,10 +110,10 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         if (get(TRANSFORM) == null) {
-            double g = ODGAttributeKeys.getPerpendicularHitGrowth(this) * 2;
+            double g = ODGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2;
             Geom.grow(r, g, g);
         } else {
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
             double width = strokeTotalWidth / 2d;
             if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
                 width *= get(STROKE_MITER_LIMIT);
@@ -166,8 +166,8 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             cachedHitShape = new GrowStroke(
-                    (float) ODGAttributeKeys.getStrokeTotalWidth(this) / 2f,
-                    (float) ODGAttributeKeys.getStrokeTotalMiterLimit(this)).createStrokedShape(getTransformedShape());
+                    (float) ODGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
+                    (float) ODGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0)).createStrokedShape(getTransformedShape());
         }
         return cachedHitShape;
     }

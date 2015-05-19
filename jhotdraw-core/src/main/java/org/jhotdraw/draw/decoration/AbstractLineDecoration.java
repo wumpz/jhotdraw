@@ -77,7 +77,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
             color = f.get(STROKE_COLOR);
             if (color != null) {
                 g.setColor(color);
-                g.setStroke(AttributeKeys.getStroke(f));
+                g.setStroke(AttributeKeys.getStroke(f,AttributeKeys.getScaleFactorFromGraphics(g)));
                 g.draw(path);
             }
         }

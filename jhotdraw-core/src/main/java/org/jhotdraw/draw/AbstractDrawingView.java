@@ -100,7 +100,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
      * used to select the figures.
      */
     private final Set<Figure> selectedFigures = new LinkedHashSet<>();
-    private final List<Handle> selectionHandles = new LinkedList<Handle>();
+    private final List<Handle> selectionHandles = new LinkedList<>();
     private boolean isConstrainerVisible = false;
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
@@ -213,7 +213,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
                 repaint();
             } else {
-                repaintDrawingArea(evt.getInvalidatedArea());
+                repaintDrawingArea(evt.getCompositeFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
             }
         }
 
@@ -222,14 +222,14 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
                 repaint();
             } else {
-                repaintDrawingArea(evt.getInvalidatedArea());
+                repaintDrawingArea(evt.getCompositeFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
             }
             removeFromSelection(evt.getChildFigure());
         }
 
         @Override
         public void areaInvalidated(FigureEvent evt) {
-            repaintDrawingArea(evt.getInvalidatedArea());
+            repaintDrawingArea(evt.getFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
         }
 
         @Override
@@ -276,13 +276,13 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                     repaint();
                 }
                 if (e.getInvalidatedArea() != null) {
-                    repaintDrawingArea(e.getInvalidatedArea());
+                    repaintDrawingArea(e.getFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
                 } else {
                     repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
                 }
             } else {
                 if (e.getInvalidatedArea() != null) {
-                    repaintDrawingArea(e.getInvalidatedArea());
+                    repaintDrawingArea(e.getFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
                 }
             }
         }
@@ -293,7 +293,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
 
         @Override
         public void figureChanged(FigureEvent e) {
-            repaintDrawingArea(e.getInvalidatedArea());
+            repaintDrawingArea(e.getFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
         }
 
         @Override
