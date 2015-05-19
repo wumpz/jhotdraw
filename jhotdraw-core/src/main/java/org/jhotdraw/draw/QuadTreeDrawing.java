@@ -322,7 +322,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
                 quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
                 needsSorting = true;
                 invalidate();
-                fireAreaInvalidated(e.getInvalidatedArea());
+                fireAreaInvalidated(e);
             }
         }
     }
