@@ -60,8 +60,9 @@ public class DefaultDrawing
             ensureSorted();
             List<Figure> toDraw = new ArrayList<>(getChildren().size());
             Rectangle clipRect = g.getClipBounds();
+            double scale = AttributeKeys.getScaleFactorFromGraphics(g);
             for (Figure f : getChildren()) {
-                if (f.getDrawingArea().intersects(clipRect)) {
+                if (f.getDrawingArea(scale).intersects(clipRect)) {
                     toDraw.add(f);
                 }
             }
@@ -71,9 +72,10 @@ public class DefaultDrawing
 
     public void draw(Graphics2D g, Collection<Figure> children) {
         Rectangle2D clipBounds = g.getClipBounds();
+        double scale = AttributeKeys.getScaleFactorFromGraphics(g);
         if (clipBounds != null) {
             for (Figure f : children) {
-                if (f.isVisible() && f.getDrawingArea().intersects(clipBounds)) {
+                if (f.isVisible() && f.getDrawingArea(scale).intersects(clipBounds)) {
                     f.draw(g);
                 }
             }

@@ -12,7 +12,6 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Geom;
 import java.awt.*;
 import java.awt.geom.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A {@link Figure} with an elliptic shape.

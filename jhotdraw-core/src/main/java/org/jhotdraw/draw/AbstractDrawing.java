@@ -27,9 +27,9 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     private static final long serialVersionUID = 1L;
     private static final Object lock = new JPanel().getTreeLock();
     private transient FontRenderContext fontRenderContext;
-    private LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-    private LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-    private static final boolean DEBUG = false;
+    private LinkedList<InputFormat> inputFormats = new LinkedList<>();
+    private LinkedList<OutputFormat> outputFormats = new LinkedList<>();
+    private static boolean debugMode = false;
 
     /** Creates a new instance. */
     public AbstractDrawing() {
@@ -114,7 +114,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     @Override
     public void addOutputFormat(OutputFormat format) {
         outputFormats.add(format);
-        if (DEBUG) {
+        if (debugMode) {
             System.out.println(this + ".addOutputFormat(" + format + ")");
         }
     }
@@ -136,7 +136,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
 
     @Override
     public java.util.List<OutputFormat> getOutputFormats() {
-        if (DEBUG) {
+        if (debugMode) {
             System.out.println(this + ".getOutputFormats size:" + outputFormats.size());
         }
         return outputFormats;
@@ -172,5 +172,13 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         that.inputFormats =  (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
         that.outputFormats = (this.outputFormats == null) ? null : (LinkedList<OutputFormat>) this.outputFormats.clone();
         return that;
+    }
+
+    public static boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public static void setDebugMode(boolean debugMode) {
+        AbstractDrawing.debugMode = debugMode;
     }
 }
