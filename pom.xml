@@ -13,6 +13,10 @@
             <name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
             <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
         </license>
+        <license>
+            <name>Creative Commons Attribution 2.5 License</name>
+            <url>http://creativecommons.org/licenses/by/2.5/</url>
+        </license>
     </licenses>
     <developers>
         <developer>
