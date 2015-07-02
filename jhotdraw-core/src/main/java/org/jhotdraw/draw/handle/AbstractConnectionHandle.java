@@ -19,8 +19,8 @@ import java.awt.geom.*;
 import java.util.*;
 
 /**
- * This abstract class can be extended to implement a {@link Handle}
- * the start or end point of a {@link ConnectionFigure}.
+ * This abstract class can be extended to implement a {@link Handle} the start or end point of a
+ * {@link ConnectionFigure}.
  *
  * XXX - Undo/Redo is not implemented yet.
  *
@@ -30,14 +30,13 @@ import java.util.*;
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     private Connector savedTarget;
-    @Nullable private Connector connectableConnector;
+    @Nullable
+    private Connector connectableConnector;
     private Figure connectableFigure;
     private Point start;
     /**
-     * We temporarily remove the Liner from the connection figure, while the
-     * handle is being moved.
-     * We store the Liner here, and add it back when the user has finished
-     * the interaction.
+     * We temporarily remove the Liner from the connection figure, while the handle is being moved.
+     * We store the Liner here, and add it back when the user has finished the interaction.
      */
     private Liner savedLiner;
     /**
@@ -88,8 +87,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     protected abstract Point2D.Double getLocation();
 
     /**
-     * Gets the side of the connection that is unaffected by
-     * the change.
+     * Gets the side of the connection that is unaffected by the change.
      */
     protected Connector getSource() {
         if (getTarget() == getOwner().getStartConnector()) {
@@ -117,7 +115,9 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
-        view.getConstrainer().constrainPoint(p);
+        if (view.getConstrainer() != null) {
+            p = view.getConstrainer().constrainPoint(p);
+        }
         connectableFigure = findConnectableFigure(p, view.getDrawing());
         if (connectableFigure != null) {
             Connector aTarget = findConnectionTarget(p, view.getDrawing());
@@ -132,8 +132,8 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     }
 
     /**
-     * Connects the figure to the new connectableConnector. If there is no
-     * new connectableConnector the connection reverts to its original one.
+     * Connects the figure to the new connectableConnector. If there is no new connectableConnector
+     * the connection reverts to its original one.
      */
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
@@ -157,7 +157,9 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         }
 
         Point2D.Double p = view.viewToDrawing(lead);
-        view.getConstrainer().constrainPoint(p);
+        if (view.getConstrainer() != null) {
+            p = view.getConstrainer().constrainPoint(p);
+        }
         Connector target = findConnectionTarget(p, view.getDrawing());
         if (target == null) {
             target = savedTarget;
@@ -297,15 +299,15 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             BezierPath.Node node = getBezierNode();
             return (node == null) ? null : labels.getFormatted("handle.bezierNode.toolTipText",
                     labels.getFormatted(
-                    (node.getMask() == 0) ? "bezierNode.linearNode" : ((node.getMask() == BezierPath.C1C2_MASK) ? "bezierNode.cubicNode" : "bezierNode.quadraticNode")));
+                            (node.getMask() == 0) ? "bezierNode.linearNode" : ((node.getMask() == BezierPath.C1C2_MASK) ? "bezierNode.cubicNode" : "bezierNode.quadraticNode")));
         } else {
             return null;
         }
     }
 
     /**
-     * Updates the list of connectors that we draw when the user
-     * moves or drags the mouse over a figure to which can connect.
+     * Updates the list of connectors that we draw when the user moves or drags the mouse over a
+     * figure to which can connect.
      */
     public void repaintConnectors() {
         Rectangle2D.Double invalidArea = null;

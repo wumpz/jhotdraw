@@ -114,7 +114,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
             drawFill(g);
         }
         if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
-            g.setStroke(AttributeKeys.getStroke(this));
+            g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
             g.setColor(get(STROKE_COLOR));
 
             drawStroke(g);
@@ -133,10 +133,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
         }
     }
 
-    public Stroke getStroke() {
-        return AttributeKeys.getStroke(this);
-    }
-
     public double getStrokeMiterLimitFactor() {
         Number value = (Number) get(AttributeKeys.STROKE_MITER_LIMIT);
         return (value != null) ? value.doubleValue() : 10f;
@@ -144,7 +140,12 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
 
     @Override
     public Rectangle2D.Double getDrawingArea() {
-        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+        return getDrawingArea(1.0);
+    }
+    
+    @Override
+    public Rectangle2D.Double getDrawingArea(double factor) {
+        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
         double width = strokeTotalWidth / 2d;
         if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
             width *= get(STROKE_MITER_LIMIT);
@@ -171,14 +172,14 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
      * attribute before calling this method. If the STROKE_COLOR attribute is
      * null, this method is not called.
      */
+    protected abstract void drawStroke(java.awt.Graphics2D g);
+
     /**
      * This method is called by method draw() to draw the text of the figure .
      * AbstractAttributedFigure configures the Graphics2D object with the
      * TEXT_COLOR attribute before calling this method. If the TEXT_COLOR
      * attribute is null, this method is not called.
      */
-    protected abstract void drawStroke(java.awt.Graphics2D g);
-
     protected void drawText(java.awt.Graphics2D g) {
     }
 

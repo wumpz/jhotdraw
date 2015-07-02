@@ -160,7 +160,7 @@ public class BezierControlPointHandle extends AbstractHandle {
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getBezierFigure();
-        Point2D.Double p = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+        Point2D.Double p = view.getConstrainer()==null?view.viewToDrawing(lead):view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
         BezierPath.Node v = figure.getNode(index);
         fireAreaInvalidated(v);
         figure.willChange();

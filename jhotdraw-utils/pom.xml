@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jhotdraw</groupId>
         <artifactId>jhotdraw</artifactId>
-        <version>7.7-SNAPSHOT</version>
+        <version>7.8</version>
     </parent>
     <artifactId>jhotdraw-utils</artifactId>
     <packaging>jar</packaging>
@@ -13,6 +13,12 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
             <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.21</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

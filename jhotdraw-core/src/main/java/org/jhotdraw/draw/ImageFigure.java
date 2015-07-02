@@ -25,14 +25,14 @@ import org.jhotdraw.xml.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A default implementation of {@link ImageHolderFigure} which can hold a
- * buffered image.
+ * A default implementation of {@link ImageHolderFigure} which can hold a buffered image.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ImageFigure extends AbstractAttributedDecoratedFigure
         implements ImageHolderFigure {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -40,19 +40,19 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      */
     private Rectangle2D.Double rectangle;
     /**
-     * The image data. This can be null, if the image was created from a
-     * BufferedImage.
+     * The image data. This can be null, if the image was created from a BufferedImage.
      */
     @Nullable
     private byte[] imageData;
     /**
-     * The buffered image. This can be null, if we haven't yet parsed the
-     * imageData.
+     * The buffered image. This can be null, if we haven't yet parsed the imageData.
      */
     @Nullable
     private transient BufferedImage bufferedImage;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ImageFigure() {
         this(0, 0, 0, 0);
     }
@@ -71,7 +71,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         drawImage(g);
 
         if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) > 0d) {
-            g.setStroke(AttributeKeys.getStroke(this));
+            g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
             g.setColor(get(STROKE_COLOR));
 
             drawStroke(g);
@@ -93,7 +93,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     @Override
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         Geom.grow(r, grow, grow);
         g.fill(r);
     }
@@ -114,7 +114,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         Geom.grow(r, grow, grow);
 
         g.draw(r);
@@ -130,7 +130,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     @Override
     public Rectangle2D.Double getFigureDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         Geom.grow(r, grow, grow);
         return r;
     }
@@ -141,7 +141,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     @Override
     public boolean figureContains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1d;
         Geom.grow(r, grow, grow);
         return r.contains(p);
     }
@@ -156,6 +156,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
 
     /**
      * Transforms the figure.
+     *
      * @param tx The transformation.
      */
     @Override
@@ -233,10 +234,9 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Sets the image.
      *
-     * @param imageData The image data. If this is null, a buffered image must
+     * @param imageData The image data. If this is null, a buffered image must be provided.
+     * @param bufferedImage An image constructed from the imageData. If this is null, imageData must
      * be provided.
-     * @param bufferedImage An image constructed from the imageData. If this
-     * is null, imageData must be provided.
      */
     @Override
     public void setImage(byte[] imageData, BufferedImage bufferedImage) {
@@ -247,12 +247,10 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     /**
-     * Sets the image data.
-     * This clears the buffered image.
+     * Sets the image data. This clears the buffered image.
      * <p>
-     * Note: For performance reasons this method stores a reference to the
-     * imageData array instead of cloning it. Do not modify the image data array
-     * after invoking this method.
+     * Note: For performance reasons this method stores a reference to the imageData array instead
+     * of cloning it. Do not modify the image data array after invoking this method.
      */
     public void setImageData(byte[] imageData) {
         willChange();
@@ -262,8 +260,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     /**
-     * Sets the buffered image.
-     * This clears the image data.
+     * Sets the buffered image. This clears the image data.
      */
     @Override
     public void setBufferedImage(BufferedImage image) {
@@ -274,8 +271,8 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     /**
-     * Gets the buffered image. If necessary, this method creates the buffered
-     * image from the image data.
+     * Gets the buffered image. If necessary, this method creates the buffered image from the image
+     * data.
      */
     @Override
     @Nullable
@@ -295,12 +292,11 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     /**
-     * Gets the image data. If necessary, this method creates the image
-     * data from the buffered image.
+     * Gets the image data. If necessary, this method creates the image data from the buffered
+     * image.
      * <p>
-     * Note: For performance reasons this method returns a reference to
-     * the internally used image data array instead of cloning it. Do not
-     * modify this array.
+     * Note: For performance reasons this method returns a reference to the internally used image
+     * data array instead of cloning it. Do not modify this array.
      */
     @Override
     @Nullable

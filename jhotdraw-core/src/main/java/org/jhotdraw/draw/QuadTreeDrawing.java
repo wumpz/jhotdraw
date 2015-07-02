@@ -79,15 +79,28 @@ public class QuadTreeDrawing extends AbstractDrawing {
     }
 
     public void draw(Graphics2D g, Collection<Figure> c) {
+        double factor = AttributeKeys.getScaleFactorFromGraphics(g);
         for (Figure f : c) {
             if (f.isVisible()) {
                 f.draw(g);
+                if (isDebugMode()) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    try {
+                        g2.setStroke(new BasicStroke(0));
+                        g2.setColor(Color.BLUE);
+                        
+                        Rectangle2D.Double rect = f.getDrawingArea(factor);
+                        g2.draw(rect);
+                    } finally {
+                        g2.dispose();
+                    }
+                }
             }
         }
     }
 
     public java.util.List<Figure> getChildren(Rectangle2D.Double bounds) {
-        return new LinkedList<Figure>(quadTree.findInside(bounds));
+        return new LinkedList<>(quadTree.findInside(bounds));
     }
 
     @Override
@@ -309,7 +322,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
                 quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
                 needsSorting = true;
                 invalidate();
-                fireAreaInvalidated(e.getInvalidatedArea());
+                fireAreaInvalidated(e);
             }
         }
     }

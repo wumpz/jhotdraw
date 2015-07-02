@@ -125,7 +125,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     protected Point2D.Double constrainPoint(Point2D.Double p) {
-        return getView().getConstrainer().constrainPoint(p);
+        return getView().getConstrainer()==null?p:getView().getConstrainer().constrainPoint(p);
     }
 
     /**

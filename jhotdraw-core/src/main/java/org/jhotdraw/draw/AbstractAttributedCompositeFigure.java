@@ -122,7 +122,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
             drawFill(g);
         }
         if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
-            g.setStroke(AttributeKeys.getStroke(this));
+            g.setStroke(AttributeKeys.getStroke(this,AttributeKeys.getScaleFactorFromGraphics(g)));
             g.setColor(get(STROKE_COLOR));
 
             drawStroke(g);
@@ -148,7 +148,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
 
     public Stroke getStroke() {
-        return AttributeKeys.getStroke(this);
+        return AttributeKeys.getStroke(this,1.0);
     }
 
     public double getStrokeMiterLimitFactor() {
@@ -157,7 +157,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
 
     public Rectangle2D.Double getFigureDrawBounds() {
-        double width = AttributeKeys.getStrokeTotalWidth(this) / 2d;
+        double width = AttributeKeys.getStrokeTotalWidth(this,1.0) / 2d;
         if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
             width *= get(STROKE_MITER_LIMIT);
         }

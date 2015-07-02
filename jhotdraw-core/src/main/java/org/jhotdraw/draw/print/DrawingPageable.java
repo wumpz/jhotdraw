@@ -83,11 +83,12 @@ public class DrawingPageable implements Pageable {
 
             // Determine the draw bounds of the drawing
             Rectangle2D.Double drawBounds = null;
+            double scale = AttributeKeys.getScaleFactorFromGraphics(g);
             for (Figure f : drawing.getChildren()) {
                 if (drawBounds == null) {
-                    drawBounds = f.getDrawingArea();
+                    drawBounds = f.getDrawingArea(scale);
                 } else {
-                    drawBounds.add(f.getDrawingArea());
+                    drawBounds.add(f.getDrawingArea(scale));
                 }
             }
 

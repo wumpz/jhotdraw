@@ -38,23 +38,26 @@ import org.jhotdraw.draw.handle.ResizeHandleKit;
 public abstract class AbstractFigure
         extends AbstractBean
         implements Figure {
+
     private static final long serialVersionUID = 1L;
 
     protected EventListenerList listenerList = new EventListenerList();
-    @Nullable private Drawing drawing;
+    @Nullable
+    private Drawing drawing;
     private boolean isSelectable = true;
     private boolean isRemovable = true;
     private boolean isVisible = true;
     private boolean isTransformable = true;
-    private boolean isConnectable=true;
+    private boolean isConnectable = true;
     /**
-     * This variable is used to prevent endless change loops.
-     * We increase its value on each invocation of willChange() and
-     * decrease it on each invocation of changed().
+     * This variable is used to prevent endless change loops. We increase its value on each
+     * invocation of willChange() and decrease it on each invocation of changed().
      */
     protected int changingDepth = 0;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractFigure() {
     }
 
@@ -97,16 +100,14 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     public void fireAreaInvalidated() {
         fireAreaInvalidated(getDrawingArea());
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireAreaInvalidated(Rectangle2D.Double invalidatedArea) {
         if (listenerList.getListenerCount() > 0) {
@@ -129,8 +130,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireAreaInvalidated(FigureEvent event) {
         // Notify all listeners that have registered interest for
@@ -146,8 +146,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireFigureRequestRemove() {
         if (listenerList.getListenerCount() > 0) {
@@ -170,8 +169,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireFigureAdded() {
         if (listenerList.getListenerCount() > 0) {
@@ -194,8 +192,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireFigureRemoved() {
         if (listenerList.getListenerCount() > 0) {
@@ -222,8 +219,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireFigureChanged(Rectangle2D.Double changedArea) {
         if (listenerList.getListenerCount() > 0) {
@@ -262,12 +258,11 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
-        if (listenerList.getListenerCount() > 0 &&
-                (oldValue == null || newValue == null || !oldValue.equals(newValue))) {
+        if (listenerList.getListenerCount() > 0
+                && (oldValue == null || newValue == null || !oldValue.equals(newValue))) {
             FigureEvent event = null;
             // Notify all listeners that have registered interest for
             // Guaranteed to return a non-null array
@@ -287,8 +282,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireFigureHandlesChanged() {
         Rectangle2D.Double changedArea = getDrawingArea();
@@ -312,9 +306,8 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Notify all UndoableEditListener of the Drawing, to which this Figure has
-     * been added to. If this Figure is not part of a Drawing, the event is
-     * lost.
+     * Notify all UndoableEditListener of the Drawing, to which this Figure has been added to. If
+     * this Figure is not part of a Drawing, the event is lost.
      */
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         if (getDrawing() != null) {
@@ -322,9 +315,9 @@ public abstract class AbstractFigure
         }
     }
     /*
-    public Set createHandles() {
-    return new HashSet();
-    }
+     public Set createHandles() {
+     return new HashSet();
+     }
      */
 
     @Override
@@ -344,7 +337,7 @@ public abstract class AbstractFigure
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel) {
             case -1:
-                handles.add(new BoundsOutlineHandle(this,false,true));
+                handles.add(new BoundsOutlineHandle(this, false, true));
                 break;
             case 0:
                 ResizeHandleKit.addResizeHandles(this, handles);
@@ -379,8 +372,8 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Invalidates cached data of the Figure.
-     * This method must execute fast, because it can be called very often. 
+     * Invalidates cached data of the Figure. This method must execute fast, because it can be
+     * called very often.
      */
     protected void invalidate() {
     }
@@ -394,8 +387,8 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Informs that a figure is about to change something that
-     * affects the contents of its display box.
+     * Informs that a figure is about to change something that affects the contents of its display
+     * box.
      */
     @Override
     public void willChange() {
@@ -417,15 +410,15 @@ public abstract class AbstractFigure
         if (changingDepth == 1) {
             validate();
             fireFigureChanged(getDrawingArea());
-        } else if (changingDepth < 0) {
-            throw new InternalError("changed was called without a prior call to willChange. "+changingDepth);
+        } else if (changingDepth < 1) {
+            throw new IllegalStateException("changed was called without a prior call to willChange. " + changingDepth);
         }
         changingDepth--;
     }
 
     /**
-     * Returns the Figures connector for the specified location.
-     * By default a ChopBoxConnector is returned.
+     * Returns the Figures connector for the specified location. By default a ChopBoxConnector is
+     * returned.
      *
      *
      * @see ChopRectangleConnector
@@ -441,7 +434,8 @@ public abstract class AbstractFigure
     }
 
     @Override
-    @Nullable public Figure findFigureInside(Point2D.Double p) {
+    @Nullable
+    public Figure findFigureInside(Point2D.Double p) {
         return (contains(p)) ? this : null;
     }
 
@@ -451,10 +445,10 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Returns a collection of actions which are presented to the user
-     * in a popup menu.
-     * <p>The collection may contain null entries. These entries are used
-     * interpreted as separators in the popup menu.
+     * Returns a collection of actions which are presented to the user in a popup menu.
+     * <p>
+     * The collection may contain null entries. These entries are used interpreted as separators in
+     * the popup menu.
      */
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
@@ -463,7 +457,8 @@ public abstract class AbstractFigure
 
     /**
      * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
+     * <p>
+     * Returns null, if no specialized tool is available.
      */
     @Override
     public Tool getTool(Point2D.Double p) {
@@ -495,9 +490,9 @@ public abstract class AbstractFigure
         return new Point2D.Double(r.x, r.y);
     }
     /*
-    public Rectangle2D.Double getHitBounds() {
-    return getBounds();
-    }
+     public Rectangle2D.Double getHitBounds() {
+     return getBounds();
+     }
      */
 
     @Override
@@ -505,9 +500,10 @@ public abstract class AbstractFigure
         Rectangle2D.Double r = getBounds();
         return new Dimension2DDouble(r.width, r.height);
     }
+
     /**
-     * Checks whether this figure is connectable. By default
-     * {@code AbstractFigure} can be connected.
+     * Checks whether this figure is connectable. By default {@code AbstractFigure} can be
+     * connected.
      */
     @Override
     public boolean isConnectable() {
@@ -521,8 +517,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Checks whether this figure is selectable. By default
-     * {@code AbstractFigure} can be selected.
+     * Checks whether this figure is selectable. By default {@code AbstractFigure} can be selected.
      */
     @Override
     public boolean isSelectable() {
@@ -536,8 +531,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Checks whether this figure is removable. By default
-     * {@code AbstractFigure} can be removed.
+     * Checks whether this figure is removable. By default {@code AbstractFigure} can be removed.
      */
     @Override
     public boolean isRemovable() {
@@ -551,8 +545,8 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Checks whether this figure is transformable. By default
-     * {@code AbstractFigure} can be transformed.
+     * Checks whether this figure is transformable. By default {@code AbstractFigure} can be
+     * transformed.
      */
     @Override
     public boolean isTransformable() {
@@ -566,8 +560,7 @@ public abstract class AbstractFigure
     }
 
     /**
-     * Checks whether this figure is visible. By default
-     * {@code AbstractFigure} is visible.
+     * Checks whether this figure is visible. By default {@code AbstractFigure} is visible.
      */
     @Override
     public boolean isVisible() {
@@ -602,8 +595,9 @@ public abstract class AbstractFigure
         fireFigureRequestRemove();
     }
 
-    /** AbstractFigure always returns 0.
-     * Override this method if your figure needs to be on a different layer.
+    /**
+     * AbstractFigure always returns 0. Override this method if your figure needs to be on a
+     * different layer.
      */
     @Override
     public int getLayer() {

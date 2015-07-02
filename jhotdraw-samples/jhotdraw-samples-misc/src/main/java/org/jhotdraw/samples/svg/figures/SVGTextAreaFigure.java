@@ -88,7 +88,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
             Rectangle2D.Double r = getBounds();
-            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this);
+            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0);
             Geom.grow(r, g, g);
             if (get(TRANSFORM) == null) {
                 cachedDrawingArea = r;

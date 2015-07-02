@@ -80,14 +80,14 @@ public class MoveHandle extends LocatorHandle {
 
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
-        oldPoint = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
+        oldPoint = view.getConstrainer()==null?view.viewToDrawing(anchor):view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
     }
 
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Figure f = getOwner();
         if (f.isTransformable()) {
-            Point2D.Double newPoint = view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+            Point2D.Double newPoint = view.getConstrainer()==null?view.viewToDrawing(lead):view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
             AffineTransform tx = new AffineTransform();
             tx.translate(newPoint.x - oldPoint.x, newPoint.y - oldPoint.y);
             f.willChange();

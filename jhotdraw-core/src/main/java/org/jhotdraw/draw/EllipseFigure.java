@@ -12,7 +12,6 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Geom;
 import java.awt.*;
 import java.awt.geom.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A {@link Figure} with an elliptic shape.
@@ -72,7 +71,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         Geom.grow(r, grow+1, grow+1);
         return r;
     }
@@ -80,7 +79,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     @Override
     protected void drawFill(Graphics2D g) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
-        double grow = AttributeKeys.getPerpendicularFillGrowth(this);
+        double grow = AttributeKeys.getPerpendicularFillGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;
@@ -93,7 +92,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     @Override
     protected void drawStroke(Graphics2D g) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
-        double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
+        double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;
@@ -110,7 +109,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     @Override
     public boolean contains(Point2D.Double p) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this);
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this,1.0);
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;

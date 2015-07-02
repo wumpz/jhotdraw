@@ -180,13 +180,13 @@ public class SVGAttributeKeys extends AttributeKeys {
      * The value returned is the number of units that need to be grown (or shrunk)
      * perpendicular to a stroke on an outline of the shape.
      */
-    public static double getPerpendicularHitGrowth(Figure f) {
+    public static double getPerpendicularHitGrowth(Figure f, double factor) {
         double grow;
         if (f.get(STROKE_COLOR) == null && f.get(STROKE_GRADIENT) == null) {
-            grow = getPerpendicularFillGrowth(f);
+            grow = getPerpendicularFillGrowth(f, factor);
         } else {
-            double strokeWidth = AttributeKeys.getStrokeTotalWidth(f);
-            grow = getPerpendicularDrawGrowth(f) + strokeWidth / 2d;
+            double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
+            grow = getPerpendicularDrawGrowth(f, factor) + strokeWidth / 2d;
         }
         return grow;
     }

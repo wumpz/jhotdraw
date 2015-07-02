@@ -154,7 +154,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this);
+            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
             double width = strokeTotalWidth / 2d;
             if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
                 width *= get(STROKE_MITER_LIMIT);
@@ -192,14 +192,14 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         return cachedPath.contains(p2);
          */
         boolean isClosed = getChild(0).get(PATH_CLOSED);
-        double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this) / 2d);
+        double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, 1.0) / 2d);
         if (isClosed) {
             if (getPath().contains(p)) {
                 return true;
             }
-            double grow = AttributeKeys.getPerpendicularHitGrowth(this) * 2d;
+            double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d;
             GrowStroke gs = new GrowStroke(grow,
-                    (AttributeKeys.getStrokeTotalWidth(this)
+                    (AttributeKeys.getStrokeTotalWidth(this, 1.0)
                     * get(STROKE_MITER_LIMIT)));
             if (gs.createStrokedShape(getPath()).contains(p)) {
                 return true;

@@ -188,8 +188,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             cachedHitShape = new GrowStroke(
-                    (float) SVGAttributeKeys.getStrokeTotalWidth(this) / 2f,
-                    (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this)).createStrokedShape(getTransformedShape());
+                    (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
+                    (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0)).createStrokedShape(getTransformedShape());
         }
         return cachedHitShape;
     }

@@ -212,6 +212,17 @@ public interface Figure extends Cloneable, Serializable {
      * and other decorations into account that exceed the bounds of the Figure.
      */
     public Rectangle2D.Double getDrawingArea();
+    
+    /**
+     * Returns the drawing area of the figure as a Rectangle.
+     * <p>
+     * The drawing area is used to inform {@link DrawingView} about the
+     * area that is needed to draw this figure.
+     * <p>
+     * The drawing area needs to be large enough, to take line width, line caps
+     * and other decorations into account that exceed the bounds of the Figure.
+     */
+    public Rectangle2D.Double getDrawingArea(double factor);
 
     /**
      * The preferred size is used by Layouter to determine the preferred

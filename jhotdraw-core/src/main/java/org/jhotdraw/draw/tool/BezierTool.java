@@ -20,25 +20,26 @@ import java.awt.event.*;
 import java.util.*;
 
 /**
- * A {@link Tool} which allows to create a new {@link BezierFigure} by
- * drawing its path.
+ * A {@link Tool} which allows to create a new {@link BezierFigure} by drawing its path.
  * <p>
- * To creation of the BezierFigure can be finished by adding a segment
- * which closes the path, or by double clicking on the drawing area, or by
- * selecting a different tool in the DrawingEditor.
-
- * @author  Werner Randelshofer
+ * To creation of the BezierFigure can be finished by adding a segment which closes the path, or by
+ * double clicking on the drawing area, or by selecting a different tool in the DrawingEditor.
+ *
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class BezierTool extends AbstractTool {
+
     private static final long serialVersionUID = 1L;
 
     /**
      * Set this to true to turn on debugging output on System.out.
      */
     private static final boolean DEBUG = false;
-    @Nullable private Boolean finishWhenMouseReleased;
-    @Nullable protected Map<AttributeKey<?>, Object> attributes;
+    @Nullable
+    private Boolean finishWhenMouseReleased;
+    @Nullable
+    protected Map<AttributeKey<?>, Object> attributes;
     private boolean isToolDoneAfterCreation;
     /**
      * The prototype for new figures.
@@ -47,28 +48,45 @@ public class BezierTool extends AbstractTool {
     /**
      * The created figure.
      */
-    @Nullable protected BezierFigure createdFigure;
+    @Nullable
+    protected BezierFigure createdFigure;
     private int nodeCountBeforeDrag;
     /**
-     * A localized name for this tool. The presentationName is displayed by the
-     * UndoableEdit.
+     * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-    @Nullable private String presentationName;
+    @Nullable
+    private String presentationName;
     private Point mouseLocation;
-    /** Holds the view on which we are currently creating a figure. */
+    /**
+     * Holds the view on which we are currently creating a figure.
+     */
     private DrawingView creationView;
 
-    /** Creates a new instance. */
+    private final boolean calculateFittedCurveAfterCreation;
+
+    /**
+     * Creates a new instance.
+     */
     public BezierTool(BezierFigure prototype) {
         this(prototype, null);
     }
+    
+    public BezierTool(BezierFigure prototype, boolean calculateFittedCurveAfterCreation) {
+        this(prototype, null, null, calculateFittedCurveAfterCreation);
+    }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
     public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
+        this(prototype, attributes, null, true);
+    }
+
+    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name, boolean calculateFittedCurveAfterCreation) {
         this.prototype = prototype;
         this.attributes = attributes;
         if (name == null) {
@@ -76,6 +94,7 @@ public class BezierTool extends AbstractTool {
             name = labels.getString("edit.createFigure.text");
         }
         this.presentationName = name;
+        this.calculateFittedCurveAfterCreation = calculateFittedCurveAfterCreation;
     }
 
     public String getPresentationName() {
@@ -121,12 +140,10 @@ public class BezierTool extends AbstractTool {
         mouseLocation = evt.getPoint();
         super.mousePressed(evt);
 
-
         if (createdFigure != null && creationView != getView()) {
             finishCreation(createdFigure, creationView);
             createdFigure = null;
         }
-
 
         if (createdFigure == null) {
             creationView = getView();
@@ -135,12 +152,12 @@ public class BezierTool extends AbstractTool {
 
             createdFigure = createFigure();
             createdFigure.addNode(new BezierPath.Node(
-                    creationView.getConstrainer().constrainPoint(
-                    creationView.viewToDrawing(anchor))));
+                    creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : creationView.getConstrainer().constrainPoint(
+                                    creationView.viewToDrawing(anchor))));
             getDrawing().add(createdFigure);
         } else {
             if (evt.getClickCount() == 1) {
-                addPointToFigure(creationView.getConstrainer().constrainPoint(
+                addPointToFigure(creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : creationView.getConstrainer().constrainPoint(
                         creationView.viewToDrawing(anchor)));
             }
         }
@@ -153,7 +170,7 @@ public class BezierTool extends AbstractTool {
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
             for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
         }
         return f;
@@ -221,7 +238,7 @@ public class BezierTool extends AbstractTool {
         final Drawing addedDrawing = creationView.getDrawing();
         final DrawingView addedView = creationView;
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -328,7 +345,7 @@ public class BezierTool extends AbstractTool {
     @Override
     public void mouseMoved(MouseEvent evt) {
         if (createdFigure != null && anchor != null && mouseLocation != null) {
-            if (evt.getSource() == creationView) {
+            if (creationView != null && evt.getSource() == creationView.getComponent()) {
                 Rectangle r = new Rectangle(anchor);
                 r.add(mouseLocation);
                 r.add(evt.getPoint());
@@ -343,7 +360,12 @@ public class BezierTool extends AbstractTool {
     }
 
     protected BezierPath calculateFittedCurve(BezierPath path) {
-        return Bezier.fitBezierPath(path, 1.5d / getView().getScaleFactor());
+        if (calculateFittedCurveAfterCreation) {
+            return Bezier.fitBezierPath(path, 1.5d / getView().getScaleFactor());
+        } else {
+            return path;
+        }
+
     }
 
     public void setToolDoneAfterCreation(boolean b) {
