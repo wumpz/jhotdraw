@@ -6,7 +6,8 @@
 
 ##License
 
-LGPL V2.1
+* LGPL V2.1
+* Creative Commons Attribution 2.5 License
 
 ##History 
 
