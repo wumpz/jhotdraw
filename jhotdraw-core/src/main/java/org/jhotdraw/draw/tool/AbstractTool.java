@@ -22,21 +22,22 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * This abstract class can be extended to implement a {@link Tool}.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Proxy</em><br>
- * To remove the need for null-handling, {@code AbstractTool} makes use of
- * a proxy for {@code DrawingEditor}.
- * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
- * Client: {@link AbstractTool}.
+ * <p>
+ * <em>Proxy</em><br>
+ * To remove the need for null-handling, {@code AbstractTool} makes use of a proxy for
+ * {@code DrawingEditor}. Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy}; Client:
+ * {@link AbstractTool}.
  * <hr>
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class AbstractTool extends AbstractBean implements Tool {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -44,9 +45,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      */
     private boolean isActive;
     /**
-     * This is set to true, while the tool is doing some work.
-     * This prevents the currentView from being changed when a mouseEnter
-     * event is received.
+     * This is set to true, while the tool is doing some work. This prevents the currentView from
+     * being changed when a mouseEnter event is received.
      */
     protected boolean isWorking;
     protected DrawingEditor editor;
@@ -54,8 +54,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     protected EventListenerList listenerList = new EventListenerList();
     private DrawingEditorProxy editorProxy;
     /*
-    private PropertyChangeListener editorHandler;
-    private PropertyChangeListener viewHandler;
+     private PropertyChangeListener editorHandler;
+     private PropertyChangeListener viewHandler;
      */
     /**
      * The input map of the tool.
@@ -66,7 +66,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      */
     private ActionMap actionMap;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractTool() {
         editorProxy = new DrawingEditorProxy();
         setInputMap(createInputMap());
@@ -104,7 +106,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return isActive;
     }
 
-    @Nullable protected DrawingView getView() {
+    @Nullable
+    protected DrawingView getView() {
         return editor.getActiveView();
     }
 
@@ -120,12 +123,15 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return constrainPoint(getView().viewToDrawing(p));
     }
 
-    protected Point2D.Double constrainPoint(Point p) {
-        return constrainPoint(getView().viewToDrawing(p));
+    protected Point2D.Double constrainPoint(Point p, Figure... figure) {
+        return constrainPoint(getView().viewToDrawing(p), figure);
     }
 
-    protected Point2D.Double constrainPoint(Point2D.Double p) {
-        return getView().getConstrainer()==null?p:getView().getConstrainer().constrainPoint(p);
+    protected Point2D.Double constrainPoint(Point2D.Double p, Figure... figure) {
+        if (getView() == null) {
+            return p;
+        }
+        return getView().getConstrainer() == null ? p : getView().getConstrainer().constrainPoint(p, figure);
     }
 
     /**
@@ -147,6 +153,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
 
     /**
      * Sets the ActionMap for the Tool.
+     *
      * @see #keyPressed
      */
     public void setActionMap(ActionMap newValue) {
@@ -161,8 +168,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * Deletes the selection.
-     * Depending on the tool, this could be selected figures, selected points
+     * Deletes the selection. Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
     @Override
@@ -171,36 +177,32 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * Cuts the selection into the clipboard.
-     * Depending on the tool, this could be selected figures, selected points
-     * or selected text.
+     * Cuts the selection into the clipboard. Depending on the tool, this could be selected figures,
+     * selected points or selected text.
      */
     @Override
     public void editCut() {
     }
 
     /**
-     * Copies the selection into the clipboard.
-     * Depending on the tool, this could be selected figures, selected points
-     * or selected text.
+     * Copies the selection into the clipboard. Depending on the tool, this could be selected
+     * figures, selected points or selected text.
      */
     @Override
     public void editCopy() {
     }
 
     /**
-     * Duplicates the selection.
-     * Depending on the tool, this could be selected figures, selected points
-     * or selected text.
+     * Duplicates the selection. Depending on the tool, this could be selected figures, selected
+     * points or selected text.
      */
     @Override
     public void editDuplicate() {
     }
 
     /**
-     * Pastes the contents of the clipboard.
-     * Depending on the tool, this could be selected figures, selected points
-     * or selected text.
+     * Pastes the contents of the clipboard. Depending on the tool, this could be selected figures,
+     * selected points or selected text.
      */
     @Override
     public void editPaste() {
@@ -216,11 +218,10 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * The Tool uses the InputMap to determine what to do, when a key is pressed.
-     * If the corresponding value of the InputMap is a String, the ActionMap
-     * of the tool is used, to find the action to be performed.
-     * If the corresponding value of the InputMap is a ActionListener, the
-     * actionPerformed method of the ActionListener is performed.
+     * The Tool uses the InputMap to determine what to do, when a key is pressed. If the
+     * corresponding value of the InputMap is a String, the ActionMap of the tool is used, to find
+     * the action to be performed. If the corresponding value of the InputMap is a ActionListener,
+     * the actionPerformed method of the ActionListener is performed.
      */
     @Override
     public void keyPressed(KeyEvent evt) {
@@ -262,8 +263,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         }
     }
 
-    /** Override this method to create a tool-specific input map, which
-     * overrides the input map of the drawing edtior.
+    /**
+     * Override this method to create a tool-specific input map, which overrides the input map of
+     * the drawing edtior.
      * <p>
      * The implementation of this class returns null.
      */
@@ -272,8 +274,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return null;
     }
 
-    /** Override this method to create a tool-specific action map, which
-     * overrides the action map of the drawing edtior.
+    /**
+     * Override this method to create a tool-specific action map, which overrides the action map of
+     * the drawing edtior.
      * <p>
      * The implementation of this class returns null.
      */
@@ -289,8 +292,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     @Override
     public void mouseEntered(MouseEvent evt) {
         /*if (! isWorking) {
-        editor.setActiveView(editor.findView((Container) evt.getSource()));
-        }*/
+         editor.setActiveView(editor.findView((Container) evt.getSource()));
+         }*/
     }
 
     @Override
@@ -326,8 +329,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireToolStarted(DrawingView view) {
         ToolEvent event = null;
@@ -348,8 +350,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireToolDone() {
         ToolEvent event = null;
@@ -370,8 +371,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireAreaInvalidated(Rectangle2D.Double r) {
         Point p1 = getView().drawingToView(new Point2D.Double(r.x, r.y));
@@ -381,8 +381,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireAreaInvalidated(Rectangle invalidatedArea) {
         ToolEvent event = null;
@@ -403,11 +402,10 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      *
-     * Note: This method only fires an event, if the invalidated area
-     * is outside of the canvas bounds.
+     * Note: This method only fires an event, if the invalidated area is outside of the canvas
+     * bounds.
      */
     protected void maybeFireBoundsInvalidated(Rectangle invalidatedArea) {
         Drawing d = getDrawing();
@@ -424,8 +422,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     }
 
     /**
-     * Notify all listenerList that have registered interest for
-     * notification on this event type.
+     * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireBoundsInvalidated(Rectangle invalidatedArea) {
 
@@ -482,7 +479,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Returns true, if this tool lets the user interact with handles.
      * <p>
      * Handles may draw differently, if interaction is not possible.
-     * 
+     *
      * @return True, if this tool supports interaction with the handles.
      */
     @Override

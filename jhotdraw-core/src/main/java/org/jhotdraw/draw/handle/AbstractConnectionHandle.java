@@ -116,7 +116,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Point2D.Double p = view.viewToDrawing(lead);
         if (view.getConstrainer() != null) {
-            p = view.getConstrainer().constrainPoint(p);
+            p = view.getConstrainer().constrainPoint(null, p);
         }
         connectableFigure = findConnectableFigure(p, view.getDrawing());
         if (connectableFigure != null) {
@@ -158,7 +158,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
         Point2D.Double p = view.viewToDrawing(lead);
         if (view.getConstrainer() != null) {
-            p = view.getConstrainer().constrainPoint(p);
+            p = view.getConstrainer().constrainPoint(null, p);
         }
         Connector target = findConnectionTarget(p, view.getDrawing());
         if (target == null) {

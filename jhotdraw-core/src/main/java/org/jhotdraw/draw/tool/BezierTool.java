@@ -152,13 +152,13 @@ public class BezierTool extends AbstractTool {
 
             createdFigure = createFigure();
             createdFigure.addNode(new BezierPath.Node(
-                    creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : creationView.getConstrainer().constrainPoint(
-                                    creationView.viewToDrawing(anchor))));
+                    creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : 
+                                creationView.getConstrainer().constrainPoint(creationView.viewToDrawing(anchor),createdFigure)));
             getDrawing().add(createdFigure);
         } else {
             if (evt.getClickCount() == 1) {
-                addPointToFigure(creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : creationView.getConstrainer().constrainPoint(
-                        creationView.viewToDrawing(anchor)));
+                addPointToFigure(creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : 
+                                creationView.getConstrainer().constrainPoint(creationView.viewToDrawing(anchor),createdFigure));
             }
         }
         nodeCountBeforeDrag = createdFigure.getNodeCount();

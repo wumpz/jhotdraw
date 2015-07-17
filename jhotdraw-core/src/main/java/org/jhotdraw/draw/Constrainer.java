@@ -44,7 +44,7 @@ public interface Constrainer {
      * @param p A point on the drawing.
      * @return Returns the constrained point.
      */
-    public Point2D.Double constrainPoint(Point2D.Double p);
+    public Point2D.Double constrainPoint(Point2D.Double p, Figure ... figure);
 
     /**
      * Moves a point to the closest constrained location in the specified
@@ -56,7 +56,7 @@ public interface Constrainer {
      * @param dir A direction.
      * @return Returns the constrained point.
      */
-    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir);
+    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir, Figure ... figure);
 
     /**
      * Constrains the placement of a rectangle towards the closest constrainment
@@ -68,7 +68,7 @@ public interface Constrainer {
      * @param r A rectangle on the drawing.
      * @return Returns the constrained rectangle.
      */
-    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r);
+    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, Figure ... figure);
 
     /**
      * Moves a rectangle to the closest constrained location in the 
@@ -82,7 +82,7 @@ public interface Constrainer {
      * @param dir A direction.
      * @return Returns the constrained rectangle.
      */
-    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir);
+    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure ... figure);
 
     /**
      * Constrains the given angle (in radians).
@@ -91,7 +91,7 @@ public interface Constrainer {
      * @param angle The angle (in radians).
      * @return The closest constrained angle (in radians).
      */
-    public double constrainAngle(double angle);
+    public double constrainAngle(double angle, Figure ... figure);
 
     /**
      * Moves the given angle (in radians) to the closest constrained orientation
@@ -101,7 +101,7 @@ public interface Constrainer {
      * @return The closest constrained angle (in radians) in the specified
      * direction.
      */
-    public double rotateAngle(double angle, RotationDirection dir);
+    public double rotateAngle(double angle, RotationDirection dir, Figure ... figure);
 
     /**
      * Draws the constrainer grid for the specified drawing view.
