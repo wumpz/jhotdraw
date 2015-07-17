@@ -192,9 +192,14 @@ public class CreationTool extends AbstractTool {
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
+
+        if (getView() == null) {
+            return;
+        }
+
         getView().clearSelection();
         createdFigure = createFigure();
-        Point2D.Double p = constrainPoint(createdFigure, viewToDrawing(anchor));
+        Point2D.Double p = constrainPoint(viewToDrawing(anchor), createdFigure);
         anchor.x = evt.getX();
         anchor.y = evt.getY();
         createdFigure.setBounds(p, p);
@@ -204,10 +209,10 @@ public class CreationTool extends AbstractTool {
     @Override
     public void mouseDragged(MouseEvent evt) {
         if (createdFigure != null) {
-            Point2D.Double p = constrainPoint(createdFigure, new Point(evt.getX(), evt.getY()));
+            Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()), createdFigure);
             createdFigure.willChange();
             createdFigure.setBounds(
-                    constrainPoint(createdFigure, new Point(anchor.x, anchor.y)),
+                    constrainPoint(new Point(anchor.x, anchor.y), createdFigure),
                     p);
             createdFigure.changed();
         }
@@ -227,10 +232,11 @@ public class CreationTool extends AbstractTool {
                         && Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
                     createdFigure.willChange();
                     createdFigure.setBounds(
-                            constrainPoint(createdFigure, new Point(anchor.x, anchor.y)),
-                            constrainPoint(createdFigure, new Point(
+                            constrainPoint(new Point(anchor.x, anchor.y), createdFigure),
+                            constrainPoint(new Point(
                                             anchor.x + (int) Math.max(bounds.width, minimalSize.width),
-                                            anchor.y + (int) Math.max(bounds.height, minimalSize.height))));
+                                            anchor.y + (int) Math.max(bounds.height, minimalSize.height)),
+                                    createdFigure));
                     createdFigure.changed();
                 }
                 if (createdFigure instanceof CompositeFigure) {
