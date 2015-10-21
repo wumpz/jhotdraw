@@ -139,7 +139,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * Constrains a point to the closest grid point in any direction.
      */
     @Override
-    public Point2D.Double constrainPoint(Point2D.Double p) {
+    public Point2D.Double constrainPoint(Point2D.Double p, Figure ... figure) {
         p.x = Math.round(p.x / width) * width;
         p.y = Math.round(p.y / height) * height;
         return p;
@@ -154,8 +154,8 @@ public class GridConstrainer extends AbstractConstrainer {
      * @param dir A direction.
      * @return Returns the constrained point.
      */
-    protected Point2D.Double constrainPoint(Point2D.Double p, TranslationDirection dir) {
-        Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone());
+    protected Point2D.Double constrainPoint(Point2D.Double p, TranslationDirection dir, Figure ... figure) {
+        Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone(), figure);
 
         switch (dir) {
             case NORTH:
@@ -205,8 +205,8 @@ public class GridConstrainer extends AbstractConstrainer {
      * Moves a point to the closest grid point in a direction.
      */
     @Override
-    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir) {
-        Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone());
+    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir, Figure ... figure) {
+        Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone(), figure);
 
         switch (dir) {
             case NORTH:
@@ -237,9 +237,9 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r) {
-        Point2D.Double p0 = constrainPoint(new Point2D.Double(r.x, r.y));
-        Point2D.Double p1 = constrainPoint(new Point2D.Double(r.x + r.width, r.y + r.height));
+    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, Figure ... figure) {
+        Point2D.Double p0 = constrainPoint(new Point2D.Double(r.x, r.y), figure);
+        Point2D.Double p1 = constrainPoint(new Point2D.Double(r.x + r.width, r.y + r.height), figure);
 
         if (Math.abs(p0.x - r.x) < Math.abs(p1.x - r.x - r.width)) {
             r.x = p0.x;
@@ -265,31 +265,31 @@ public class GridConstrainer extends AbstractConstrainer {
      * @param dir A direction.
      * @return Returns the constrained rectangle.
      */
-    protected Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, TranslationDirection dir) {
+    protected Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure ... figure) {
         Point2D.Double p0 = new Point2D.Double(r.x, r.y);
 
         switch (dir) {
             case NORTH:
             case NORTH_WEST:
             case WEST:
-                constrainPoint(p0, dir);
+                constrainPoint(p0, dir, figure);
                 break;
             case EAST:
             case NORTH_EAST:
                 p0.x += r.width;
-                constrainPoint(p0, dir);
+                constrainPoint(p0, dir, figure);
                 p0.x -= r.width;
                 break;
             case SOUTH:
             case SOUTH_WEST:
                 p0.y += r.height;
-                constrainPoint(p0, dir);
+                constrainPoint(p0, dir, figure);
                 p0.y -= r.height;
                 break;
             case SOUTH_EAST:
                 p0.y += r.height;
                 p0.x += r.width;
-                constrainPoint(p0, dir);
+                constrainPoint(p0, dir, figure);
                 p0.y -= r.height;
                 p0.x -= r.width;
                 break;
@@ -302,11 +302,11 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir) {
+    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure ... figure) {
         double x = r.x;
         double y = r.y;
 
-        constrainRectangle(r, dir);
+        constrainRectangle(r, dir, figure);
 
         switch (dir) {
             case NORTH:
@@ -439,7 +439,7 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public double constrainAngle(double angle) {
+    public double constrainAngle(double angle, Figure ... figure) {
         // No step specified then no constraining
         if (theta == 0) {
             return angle;
@@ -450,14 +450,14 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public double rotateAngle(double angle, RotationDirection dir) {
+    public double rotateAngle(double angle, RotationDirection dir, Figure ... figure) {
         // Check parameters
         if (dir == null) {
             throw new IllegalArgumentException("dir must not be null");
         }
 
         // Rotate into the specified direction by theta
-        angle = constrainAngle(angle);
+        angle = constrainAngle(angle, figure);
         switch (dir) {
             case CLOCKWISE :
                 angle += theta;

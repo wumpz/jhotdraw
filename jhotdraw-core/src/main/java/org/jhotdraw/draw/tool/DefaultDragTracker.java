@@ -144,8 +144,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
             dragRect.y += currentPoint.y - previousPoint.y;
             Rectangle2D.Double constrainedRect = (Rectangle2D.Double) dragRect.clone();
             if (view.getConstrainer() != null) {
-                view.getConstrainer().constrainRectangle(
-                        constrainedRect);
+                view.getConstrainer().constrainRectangle(constrainedRect);
             }
 
             AffineTransform tx = new AffineTransform();
