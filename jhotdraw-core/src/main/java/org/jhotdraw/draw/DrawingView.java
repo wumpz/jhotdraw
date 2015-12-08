@@ -7,15 +7,24 @@
  */
 package org.jhotdraw.draw;
 
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
+import java.util.Collection;
+import java.util.Set;
 import javax.annotation.Nullable;
+import javax.swing.JComponent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.handle.Handle;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import java.util.*;
-import java.beans.*;
-import javax.swing.*;
+
 
 /**
  * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
@@ -490,4 +499,7 @@ public interface DrawingView {
      * @param l the listener.
      */
     public void removeMouseMotionListener(MouseMotionListener l);
+    
+    public void addMouseWheelListener(MouseWheelListener l);
+    public void removeMouseWheelListener(MouseWheelListener l);
 }

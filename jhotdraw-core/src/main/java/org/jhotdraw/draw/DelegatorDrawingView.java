@@ -24,6 +24,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import javax.swing.JComponent;
 
@@ -145,5 +146,15 @@ public abstract class DelegatorDrawingView extends AbstractDrawingView {
     @Override
     public void removeMouseMotionListener(MouseMotionListener l) {
         drawTo.removeMouseMotionListener(l);
+    }
+
+    @Override
+    public void removeMouseWheelListener(MouseWheelListener l) {
+        drawTo.removeMouseWheelListener(l);
+    }
+
+    @Override
+    public void addMouseWheelListener(MouseWheelListener l) {
+        drawTo.addMouseWheelListener(l);
     }
 }

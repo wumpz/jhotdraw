@@ -21,6 +21,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
@@ -232,6 +233,16 @@ public class MovableChildFiguresSampleWithAbstractDrawingView {
                 @Override
                 public void removeMouseMotionListener(MouseMotionListener l) {
                     drawPanel.removeMouseMotionListener(l);
+                }
+                
+                @Override
+                public void removeMouseWheelListener(MouseWheelListener l) {
+                    drawPanel.removeMouseWheelListener(l);
+                }
+
+                @Override
+                public void addMouseWheelListener(MouseWheelListener l) {
+                    drawPanel.addMouseWheelListener(l);
                 }
                 
                 @Override

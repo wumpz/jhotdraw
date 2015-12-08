@@ -23,6 +23,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.*;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
@@ -124,6 +125,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
                 v.removeMouseListener(tool);
                 v.removeMouseMotionListener(tool);
                 v.removeKeyListener(tool);
+                if (tool instanceof MouseWheelListener) {
+                    v.removeMouseWheelListener((MouseWheelListener)tool);
+                }
             }
             tool.deactivate(this);
             tool.removeToolListener(toolHandler);
@@ -135,6 +139,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
                 v.addMouseListener(tool);
                 v.addMouseMotionListener(tool);
                 v.addKeyListener(tool);
+                if (tool instanceof MouseWheelListener) {
+                    v.addMouseWheelListener((MouseWheelListener)tool);
+                }
             }
             tool.addToolListener(toolHandler);
         }
