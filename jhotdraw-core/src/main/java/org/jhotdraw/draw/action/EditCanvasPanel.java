@@ -56,8 +56,8 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         nf.setMaximum(1d);
         nf.setMinimum(0d);
         opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
-        opacityFieldHandler = new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacityField, null);
-        opacitySliderHandler = new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, null);
+        opacityFieldHandler = new DrawingAttributeEditorHandler<>(CANVAS_FILL_OPACITY, opacityField, null);
+        opacitySliderHandler = new DrawingAttributeEditorHandler<>(CANVAS_FILL_OPACITY, opacitySlider, null);
     }
 
     private JColorChooser getColorChooser() {

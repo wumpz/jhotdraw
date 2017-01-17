@@ -27,7 +27,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     /**
      * JSlider's associated to this model.
      */
-    protected LinkedList<JSlider> sliders = new LinkedList<JSlider>();
+    protected LinkedList<JSlider> sliders = new LinkedList<>();
     /**
      * Components of the color model.
      */

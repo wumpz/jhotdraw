@@ -209,7 +209,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
 
         StringBuilder buf = new StringBuilder();
         if (value instanceof Double) {
-            double v = ((Double) value).doubleValue();
+            double v = ((Double) value);
             v = v * multiplier;
             String str;
             BigDecimal big = new BigDecimal(v);
@@ -221,7 +221,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
             }
             buf.append(str);
         } else if (value instanceof Float) {
-            float v = ((Float) value).floatValue();
+            float v = ((Float) value);
             v = (float) (v * multiplier);
             String str;// = Float.toString(v);
             BigDecimal big = new BigDecimal(v);
@@ -233,19 +233,19 @@ public class JavaNumberFormatter extends DefaultFormatter {
             }
             buf.append(str);
         } else if (value instanceof Long) {
-            long v = ((Long) value).longValue();
+            long v = ((Long) value);
             v = (long) (v * multiplier);
             buf.append(Long.toString(v));
         } else if (value instanceof Integer) {
-            int v = ((Integer) value).intValue();
+            int v = ((Integer) value);
             v = (int) (v * multiplier);
             buf.append(Integer.toString(v));
         } else if (value instanceof Byte) {
-            byte v = ((Byte) value).byteValue();
+            byte v = ((Byte) value);
             v = (byte) (v * multiplier);
             buf.append(Byte.toString(v));
         } else if (value instanceof Short) {
-            short v = ((Short) value).shortValue();
+            short v = ((Short) value);
             v = (short) (v * multiplier);
             buf.append(Short.toString(v));
         }
@@ -295,11 +295,11 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 } else if (valueClass == Float.class) {
                     float v = Float.parseFloat(text);
                     v = (float) (v / multiplier);
-                    value = new Float(v);
+                    value = v;
                 } else if (valueClass == Double.class) {
                     double v = Double.parseDouble(text);
                     v = (v / multiplier);
-                    value = new Double(v);
+                    value = v;
                 } else if (valueClass == Byte.class) {
                     byte v = Byte.parseByte(text);
                     v = (byte) (v / multiplier);

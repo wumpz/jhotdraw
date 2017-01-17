@@ -326,7 +326,7 @@ public class AttributeKeys {
     public static final Map<String, AttributeKey<?>> supportedAttributeMap;
 
     static {
-        HashSet<AttributeKey<?>> as = new HashSet<AttributeKey<?>>();
+        HashSet<AttributeKey<?>> as = new HashSet<>();
         as.addAll(Arrays.asList(new AttributeKey<?>[]{
             FILL_COLOR,
             FILL_UNDER_STROKE,
@@ -357,7 +357,7 @@ public class AttributeKeys {
             ORIENTATION,
             WINDING_RULE,}));
         supportedAttributes = Collections.unmodifiableSet(as);
-        HashMap<String, AttributeKey<?>> am = new HashMap<String, AttributeKey<?>>();
+        HashMap<String, AttributeKey<?>> am = new HashMap<>();
         for (AttributeKey<?> a : as) {
             am.put(a.getKey(), a);
         }

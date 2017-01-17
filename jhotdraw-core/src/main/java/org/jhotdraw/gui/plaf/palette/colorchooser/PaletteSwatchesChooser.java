@@ -76,7 +76,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     static {
         // FIXME - Move this into a lazy initializer
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
-        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        LinkedList<ColorIcon> m = new LinkedList<>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
 
         for (int s = 2; s <= 8; s += 2) {
@@ -96,7 +96,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
         HSB_COLORS = Collections.unmodifiableList(m);
 
-        m = new LinkedList<ColorIcon>();
+        m = new LinkedList<>();
         for (ColorIcon ci : HSB_COLORS) {
             if (ci.getColor() == null) {
                 m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));

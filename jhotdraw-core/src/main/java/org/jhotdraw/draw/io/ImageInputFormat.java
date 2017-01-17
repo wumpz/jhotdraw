@@ -218,7 +218,7 @@ public class ImageInputFormat implements InputFormat {
                 new Point2D.Double(
                 figure.getBufferedImage().getWidth(),
                 figure.getBufferedImage().getHeight()));
-        LinkedList<Figure> list = new LinkedList<Figure>();
+        LinkedList<Figure> list = new LinkedList<>();
         list.add(figure);
         if (replace) {
             drawing.removeAllChildren();

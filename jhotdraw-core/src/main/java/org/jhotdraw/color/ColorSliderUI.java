@@ -312,7 +312,7 @@ public class ColorSliderUI extends BasicSliderUI {
                 colorTrackImageProducer.setColorSliderModel((ColorSliderModel) slider.getClientProperty("colorSliderModel"));
             }
             if (slider.getClientProperty("colorComponentIndex") != null) {
-                colorTrackImageProducer.setColorComponentIndex(((Integer) slider.getClientProperty("colorComponentIndex")).intValue());
+                colorTrackImageProducer.setColorComponentIndex(((Integer) slider.getClientProperty("colorComponentIndex")));
             }
             colorTrackImageProducer.generateColorTrack();
             colorTrackImage = slider.createImage(colorTrackImageProducer);
@@ -454,7 +454,7 @@ public class ColorSliderUI extends BasicSliderUI {
                 }
             } else if ("colorComponentIndex".equals(propertyName)) {
                 if (colorTrackImageProducer != null && e.getNewValue() != null) {
-                    colorTrackImageProducer.setColorComponentIndex(((Integer) e.getNewValue()).intValue());
+                    colorTrackImageProducer.setColorComponentIndex(((Integer) e.getNewValue()));
                     if (colorTrackImageProducer.needsGeneration()) {
                         slider.repaint();
                     }
@@ -462,7 +462,7 @@ public class ColorSliderUI extends BasicSliderUI {
             } else if ("colorComponentChange".equals(propertyName)) {
                 Integer value = (Integer) e.getNewValue();
                 if (value != null && colorTrackImageProducer != null) {
-                    colorTrackImageProducer.componentChanged(value.intValue());
+                    colorTrackImageProducer.componentChanged(value);
                     if (colorTrackImageProducer.needsGeneration()) {
                         slider.repaint();
                     }
@@ -470,7 +470,7 @@ public class ColorSliderUI extends BasicSliderUI {
             } else if ("colorComponentValue".equals(propertyName)) {
                 Integer value = (Integer) slider.getClientProperty("colorComponentChange");
                 if (value != null && colorTrackImageProducer != null) {
-                    colorTrackImageProducer.componentChanged(value.intValue());
+                    colorTrackImageProducer.componentChanged(value);
                     if (colorTrackImageProducer.needsGeneration()) {
                         slider.repaint();
                     }

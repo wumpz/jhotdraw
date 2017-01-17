@@ -28,7 +28,7 @@ public abstract class AbstractColorSlidersModel extends AbstractBean implements 
     @Override
     public void addChangeListener(ChangeListener l) {
         if (listeners == null) {
-            listeners = new LinkedList<ChangeListener>();
+            listeners = new LinkedList<>();
         }
         listeners.add(l);
     }

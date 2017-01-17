@@ -94,11 +94,8 @@ public class ImageOutputFormat implements OutputFormat {
      * the image.
      */
     public void write(File file, Drawing drawing) throws IOException {
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        try {
+        try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
             write(out, drawing);
-        } finally {
-            out.close();
         }
     }
 

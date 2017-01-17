@@ -86,9 +86,8 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
      * state of the application.
      */
     protected void updateApplicationEnabled() {
-        firePropertyChange("enabled",
-                Boolean.valueOf(!isEnabled()),
-                Boolean.valueOf(isEnabled()));
+        firePropertyChange("enabled", !isEnabled(),
+                isEnabled());
     }
 
     /**
@@ -118,9 +117,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
         boolean oldValue = this.enabled;
         this.enabled = newValue;
 
-        firePropertyChange("enabled",
-                Boolean.valueOf(oldValue && app.isEnabled()),
-                Boolean.valueOf(newValue && app.isEnabled()));
+        firePropertyChange("enabled", oldValue && app.isEnabled(), newValue && app.isEnabled());
     }
 
     @Override

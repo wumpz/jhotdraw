@@ -30,7 +30,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
      */
     public ExtensionFileFilter(String description, String extension) {
         this.description = description;
-        this.extensions = new HashSet<String>();
+        this.extensions = new HashSet<>();
         extensions.add(extension.toLowerCase());
         defaultExtension = extension;
     }
@@ -42,7 +42,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
      */
     public ExtensionFileFilter(String description, String[] extensions) {
         this.description = description;
-        this.extensions = new HashSet<String>();
+        this.extensions = new HashSet<>();
         
         String[] extlc = new String[extensions.length];
         for (int i=0; i < extlc.length; i++) {

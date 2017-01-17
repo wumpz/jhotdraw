@@ -32,7 +32,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     /**
      * Holds the attributes of the figure.
      */
-    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
+    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
     /**
      * Forbidden attributes can't be put by the put() operation. They can only
      * be changed by put().
@@ -47,7 +47,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
 
     public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
         if (forbiddenAttributes == null) {
-            forbiddenAttributes = new HashSet<AttributeKey<?>>();
+            forbiddenAttributes = new HashSet<>();
         }
         if (b) {
             forbiddenAttributes.remove(key);
@@ -69,7 +69,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
 
     @Override
     public Map<AttributeKey<?>, Object> getAttributes() {
-        return (Map<AttributeKey<?>, Object>) new HashMap<AttributeKey<?>, Object>(attributes);
+        return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
     }
 
     @Override
@@ -186,9 +186,9 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     @Override
     public AbstractAttributedFigure clone() {
         AbstractAttributedFigure that = (AbstractAttributedFigure) super.clone();
-        that.attributes = new HashMap<AttributeKey<?>, Object>(this.attributes);
+        that.attributes = new HashMap<>(this.attributes);
         if (this.forbiddenAttributes != null) {
-            that.forbiddenAttributes = new HashSet<AttributeKey<?>>(this.forbiddenAttributes);
+            that.forbiddenAttributes = new HashSet<>(this.forbiddenAttributes);
         }
         return that;
     }

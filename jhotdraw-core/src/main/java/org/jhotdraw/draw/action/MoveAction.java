@@ -40,7 +40,7 @@ public abstract class MoveAction extends AbstractSelectedAction {
         AffineTransform tx = new AffineTransform();
         tx.translate(dx, dy);
 
-        HashSet<Figure> transformedFigures = new HashSet<Figure>();
+        HashSet<Figure> transformedFigures = new HashSet<>();
         for (Figure f : getView().getSelectedFigures()) {
             if (f.isTransformable()) {
                 transformedFigures.add(f);

@@ -110,7 +110,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         if (!view.getSelectedFigures().isEmpty()) {
 
             dragRect = null;
-            transformedFigures = new HashSet<Figure>();
+            transformedFigures = new HashSet<>();
             for (Figure f : view.getSelectedFigures()) {
                 if (f.isTransformable()) {
                     transformedFigures.add(f);

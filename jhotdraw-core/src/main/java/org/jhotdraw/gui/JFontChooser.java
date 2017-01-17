@@ -308,14 +308,14 @@ public class JFontChooser extends JComponent {
      */
     public synchronized static void loadAllFonts() {
         if (future == null) {
-            future = new FutureTask<Font[]>(new Callable<Font[]>() {
+            future = new FutureTask<>(new Callable<Font[]>() {
 
     @Override
                 public Font[] call() throws Exception {
                     Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
 
                     // get rid of bogus fonts
-                    ArrayList<Font> goodFonts = new ArrayList<Font>(fonts.length);
+                    ArrayList<Font> goodFonts = new ArrayList<>(fonts.length);
                     for (Font f : fonts) {
                         //System.out.println("JFontChooser "+f.getFontName());
                         Font decoded = Font.decode(f.getFontName());
@@ -345,9 +345,7 @@ public class JFontChooser extends JComponent {
         loadAllFonts();
         try {
             return future.get().clone();
-        } catch (InterruptedException ex) {
-            return new Font[0];
-        } catch (ExecutionException ex) {
+        } catch (InterruptedException | ExecutionException ex) {
             return new Font[0];
         }
     }

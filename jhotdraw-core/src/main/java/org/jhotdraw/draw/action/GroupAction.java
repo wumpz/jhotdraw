@@ -74,7 +74,7 @@ public class GroupAction extends AbstractSelectedAction {
         if (isGroupingAction) {
             if (canGroup()) {
                 final DrawingView view = getView();
-                final LinkedList<Figure> ungroupedFigures = new LinkedList<Figure>(view.getSelectedFigures());
+                final LinkedList<Figure> ungroupedFigures = new LinkedList<>(view.getSelectedFigures());
                 final CompositeFigure group = (CompositeFigure) prototype.clone();
                 UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
@@ -110,7 +110,7 @@ public class GroupAction extends AbstractSelectedAction {
             if (canUngroup()) {
                 final DrawingView view = getView();
                 final CompositeFigure group = (CompositeFigure) getView().getSelectedFigures().iterator().next();
-                final LinkedList<Figure> ungroupedFigures = new LinkedList<Figure>();
+                final LinkedList<Figure> ungroupedFigures = new LinkedList<>();
                 UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
 
@@ -141,7 +141,7 @@ public class GroupAction extends AbstractSelectedAction {
 
     public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
 // XXX - This code is redundant with UngroupAction
-        LinkedList<Figure> figures = new LinkedList<Figure>(group.getChildren());
+        LinkedList<Figure> figures = new LinkedList<>(group.getChildren());
         view.clearSelection();
         group.basicRemoveAllChildren();
         view.getDrawing().basicAddAll(view.getDrawing().indexOf(group), figures);

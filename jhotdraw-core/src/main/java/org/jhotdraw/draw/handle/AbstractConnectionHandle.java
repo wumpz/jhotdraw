@@ -252,7 +252,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     @Override
     final public Collection<Handle> createSecondaryHandles() {
-        LinkedList<Handle> list = new LinkedList<Handle>();
+        LinkedList<Handle> list = new LinkedList<>();
         if (getOwner().getLiner() == null && savedLiner == null) {
             int index = getBezierNodeIndex();
             BezierFigure f = getBezierFigure();

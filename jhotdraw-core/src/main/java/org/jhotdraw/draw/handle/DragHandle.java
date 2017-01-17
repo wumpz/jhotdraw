@@ -70,7 +70,7 @@ public class DragHandle extends AbstractHandle {
         AffineTransform tx = new AffineTransform();
         tx.translate(lead.x - anchor.x, lead.y - anchor.y);
 
-        LinkedList<Figure> draggedFigures = new LinkedList<Figure>();
+        LinkedList<Figure> draggedFigures = new LinkedList<>();
         draggedFigures.add(getOwner());
         Point2D.Double dropPoint = getView().viewToDrawing(lead);
         Figure dropTarget = getView().getDrawing().findFigureExcept(

@@ -23,8 +23,8 @@ import org.jhotdraw.app.View;
  * @version $Id$
  */
 public class OSXPaletteHandler {
-    private HashSet<Window> palettes = new HashSet<Window>();
-    private HashMap<Window,View> windows = new HashMap<Window,View>();
+    private HashSet<Window> palettes = new HashSet<>();
+    private HashMap<Window,View> windows = new HashMap<>();
     private javax.swing.Timer timer;
     private OSXApplication app;
     private WindowFocusListener focusHandler = new WindowFocusListener() {
@@ -100,8 +100,8 @@ public class OSXPaletteHandler {
     private boolean isFocused(Window w) {
         if (w.isFocused()) return true;
         Window[] ownedWindows = w.getOwnedWindows();
-        for (int i=0; i < ownedWindows.length; i++) {
-            if (isFocused(ownedWindows[i])) {
+        for (Window ownedWindow : ownedWindows) {
+            if (isFocused(ownedWindow)) {
                 return true;
             }
         }

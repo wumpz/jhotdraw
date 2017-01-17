@@ -195,9 +195,9 @@ public class DelegationSelectionTool extends SelectionTool {
         popupMenu = menu;
         JMenu submenu = null;
         String submenuName = null;
-        LinkedList<Action> popupActions = new LinkedList<Action>();
+        LinkedList<Action> popupActions = new LinkedList<>();
         if (figure != null) {
-            LinkedList<Action> figureActions = new LinkedList<Action>(
+            LinkedList<Action> figureActions = new LinkedList<>(
                     figure.getActions(viewToDrawing(p)));
             if (popupActions.size() != 0 && figureActions.size() != 0) {
                 popupActions.add(null);
@@ -213,7 +213,7 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         popupActions.addAll(drawingActions);
 
-        HashMap<Object, ButtonGroup> buttonGroups = new HashMap<Object, ButtonGroup>();
+        HashMap<Object, ButtonGroup> buttonGroups = new HashMap<>();
         for (Action a : popupActions) {
             if (a != null && a.getValue(ActionUtil.SUBMENU_KEY) != null) {
                 if (submenuName == null || !submenuName.equals(a.getValue(ActionUtil.SUBMENU_KEY))) {

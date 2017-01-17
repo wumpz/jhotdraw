@@ -94,7 +94,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     }
 
     public boolean getBoolean(String key) {
-        return ((Boolean) get(key)).booleanValue();
+        return ((Boolean) get(key));
     }
 
     public Border getBorder(String key) {

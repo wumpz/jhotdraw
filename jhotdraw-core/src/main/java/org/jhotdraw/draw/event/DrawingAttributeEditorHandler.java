@@ -43,7 +43,7 @@ public class DrawingAttributeEditorHandler<T> extends AbstractAttributeEditorHan
 
     @Override
     protected Set<Figure> getEditedFigures() {
-        HashSet<Figure> s = new HashSet<Figure>();
+        HashSet<Figure> s = new HashSet<>();
         if (drawing != null) {
             s.add(drawing);
         } else if (activeView != null) {

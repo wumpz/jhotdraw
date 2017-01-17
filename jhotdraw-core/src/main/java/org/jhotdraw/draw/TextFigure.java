@@ -120,7 +120,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
             }
 
             FontRenderContext frc = getFontRenderContext();
-            HashMap<TextAttribute, Object> textAttributes = new HashMap<TextAttribute, Object>();
+            HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
             textAttributes.put(TextAttribute.FONT, getFont());
             if (get(FONT_UNDERLINE)) {
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
@@ -266,7 +266,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
+        LinkedList<Handle> handles = new LinkedList<>();
         switch (detailLevel) {
             case -1:
                 handles.add(new BoundsOutlineHandle(this, false, true));

@@ -62,8 +62,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
 
         // collect families and sort them alphabetically
-        ArrayList<FontFamilyNode> families = new ArrayList<FontFamilyNode>();
-        HashMap<String, FontFamilyNode> familyMap = new HashMap<String, FontFamilyNode>();
+        ArrayList<FontFamilyNode> families = new ArrayList<>();
+        HashMap<String, FontFamilyNode> familyMap = new HashMap<>();
         for (Font f : fonts) {
             String familyName = f.getFamily();
             FontFamilyNode family;
@@ -506,7 +506,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         // Collect font families, which are not in one of the other collections
         // (except the collection AllFonts).
         FontCollectionNode others = new FontCollectionNode(labels.getString("FontCollection.other"));
-        HashSet<FontFamilyNode> otherFamilySet = new HashSet<FontFamilyNode>();
+        HashSet<FontFamilyNode> otherFamilySet = new HashSet<>();
         otherFamilySet.addAll(families);
         for (int i = 1, n = root.getChildCount(); i < n; i++) {
             FontCollectionNode fcn = (FontCollectionNode) root.getChildAt(i);
@@ -514,7 +514,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 otherFamilySet.remove(ffn);
             }
         }
-        ArrayList<FontFamilyNode> otherFamilies = new ArrayList<FontFamilyNode>();
+        ArrayList<FontFamilyNode> otherFamilies = new ArrayList<>();
         for (FontFamilyNode ffn : otherFamilySet) {
             otherFamilies.add(ffn.clone());
         }
@@ -526,8 +526,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
     }
 
     protected ArrayList<FontFamilyNode> collectFamiliesNamed(ArrayList<FontFamilyNode> families, String... names) {
-        ArrayList<FontFamilyNode> coll = new ArrayList<FontFamilyNode>();
-        HashSet<String> nameMap = new HashSet<String>();
+        ArrayList<FontFamilyNode> coll = new ArrayList<>();
+        HashSet<String> nameMap = new HashSet<>();
         nameMap.addAll(Arrays.asList(names));
         for (FontFamilyNode family : families) {
             String fName = family.getName();

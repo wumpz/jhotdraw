@@ -47,7 +47,7 @@ public class JPopupButton extends javax.swing.JButton {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
-                setEnabled(((Boolean) evt.getNewValue()).booleanValue());
+                setEnabled(((Boolean) evt.getNewValue()));
             } else {
                 repaint();
             }
@@ -236,7 +236,7 @@ public class JPopupButton extends javax.swing.JButton {
 
     public float getPopupAlpha() {
         Float value = (Float) getPopupMenu().getClientProperty("Quaqua.PopupMenu.windowAlpha");
-        return (value == null) ? 0.948f : value.floatValue();
+        return (value == null) ? 0.948f : value;
     }
 
     /**

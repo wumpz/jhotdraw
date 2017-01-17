@@ -267,7 +267,7 @@ public class BezierNodeHandle extends AbstractHandle {
     @Override
     public Collection<Handle> createSecondaryHandles() {
         BezierFigure f = getOwner();
-        LinkedList<Handle> list = new LinkedList<Handle>();
+        LinkedList<Handle> list = new LinkedList<>();
         BezierPath.Node v = f.getNode(index);
         if ((v.mask & BezierPath.C1_MASK) != 0
                 && (index != 0 || f.isClosed())) {

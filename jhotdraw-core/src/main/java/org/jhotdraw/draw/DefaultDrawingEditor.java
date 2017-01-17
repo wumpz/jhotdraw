@@ -42,8 +42,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor {
     private static final long serialVersionUID = 1L;
     
-    private HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
-    private HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<AttributeKey<?>, Object>();
+    private HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<>();
+    private HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<>();
     private Tool tool;
     private HashSet<DrawingView> views;
     private DrawingView activeView;
@@ -108,7 +108,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         setDefaultAttribute(STROKE_COLOR, Color.black);
         setDefaultAttribute(TEXT_COLOR, Color.black);
 
-        views = new HashSet<DrawingView>();
+        views = new HashSet<>();
         inputMap = createInputMap();
         actionMap = createActionMap();
     }

@@ -106,11 +106,8 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     }
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-        try {
+        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             read(in, drawing, replace);
-        } finally {
-            in.close();
         }
     }
 
@@ -175,11 +172,8 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     }
 
     public void write(File file, Drawing drawing) throws IOException {
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        try {
+        try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
             write(out, drawing);
-        } finally {
-            out.close();
         }
     }
 
@@ -195,8 +189,8 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         final Drawing d = (Drawing) prototype.clone();
 
-        HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<Figure, Figure>(figures.size());
-        final ArrayList<Figure> duplicates = new ArrayList<Figure>(figures.size());
+        HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<>(figures.size());
+        final ArrayList<Figure> duplicates = new ArrayList<>(figures.size());
         for (Figure f : figures) {
             Figure df = f.clone();
             d.add(df);

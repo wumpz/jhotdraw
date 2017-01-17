@@ -63,7 +63,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public abstract class AbstractApplication extends AbstractBean implements Application {
     private static final long serialVersionUID = 1L;
 
-    private LinkedList<View> views = new LinkedList<View>();
+    private LinkedList<View> views = new LinkedList<>();
     private Collection<View> unmodifiableViews;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
@@ -72,7 +72,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     @Nullable
     private View activeView;
     public static final String VIEW_COUNT_PROPERTY = "viewCount";
-    private LinkedList<URI> recentURIs = new LinkedList<URI>();
+    private LinkedList<URI> recentURIs = new LinkedList<>();
     private static final int maxRecentFilesCount = 10;
     private ActionMap actionMap;
     private URIChooser openChooser;
@@ -236,7 +236,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     @Override
     public void stop() {
-        for (View p : new LinkedList<View>(views())) {
+        for (View p : new LinkedList<>(views())) {
             dispose(p);
         }
     }
@@ -333,12 +333,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 // Get start URIs
                 final LinkedList<URI> startUris;
                 if (uris.isEmpty()) {
-                    startUris = new LinkedList<URI>();
+                    startUris = new LinkedList<>();
                     if (model.isOpenLastURIOnLaunch() && !recentURIs.isEmpty()) {
                         startUris.add(recentURIs.getFirst());
                     }
                 } else {
-                    startUris = new LinkedList<URI>(uris);
+                    startUris = new LinkedList<>(uris);
                 }
 
                 // Start with start URIs
@@ -360,7 +360,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * if no URI's shall be opened.
      */
     protected List<URI> getOpenURIsFromMainArgs(String[] args) {
-        LinkedList<URI> uris = new LinkedList<URI>();
+        LinkedList<URI> uris = new LinkedList<>();
         for (int i = 0; i < args.length; ++i) {
             if ("-open".equals(args[i])) {
                 for (++i; i < args.length; ++i) {
@@ -529,7 +529,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu openRecentMenu;
-        private LinkedList<Action> openRecentActions = new LinkedList<Action>();
+        private LinkedList<Action> openRecentActions = new LinkedList<>();
         @Nullable
         private View view;
 

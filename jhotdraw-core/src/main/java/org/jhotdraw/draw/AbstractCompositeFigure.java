@@ -52,7 +52,7 @@ public abstract class AbstractCompositeFigure
      * @see #add
      * @see #removeChild
      */
-    protected ArrayList<Figure> children = new ArrayList<Figure>();
+    protected ArrayList<Figure> children = new ArrayList<>();
     /**
      * Caches the drawing area to improve the performance of method {@link #getDrawingArea}.
      */
@@ -123,7 +123,7 @@ public abstract class AbstractCompositeFigure
 
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
+        LinkedList<Handle> handles = new LinkedList<>();
         if (detailLevel == 0) {
             handles.add(new BoundsOutlineHandle(this, true, false));
             TransformHandleKit.addScaleMoveTransformHandles(this, handles);
@@ -189,7 +189,7 @@ public abstract class AbstractCompositeFigure
     public void removeNotify(Drawing drawing) {
         super.removeNotify(drawing);
         // Copy children collection to avoid concurrent modification exception
-        for (Figure child : new LinkedList<Figure>(getChildren())) {
+        for (Figure child : new LinkedList<>(getChildren())) {
             child.removeNotify(drawing);
         }
     }
@@ -248,7 +248,7 @@ public abstract class AbstractCompositeFigure
      */
     @Override
     public void basicRemoveAllChildren() {
-        for (Figure f : new LinkedList<Figure>(getChildren())) {
+        for (Figure f : new LinkedList<>(getChildren())) {
             basicRemove(f);
         }
     }
@@ -351,12 +351,12 @@ public abstract class AbstractCompositeFigure
 
     @Override
     public Map<AttributeKey<?>, Object> getAttributes() {
-        return new HashMap<AttributeKey<?>, Object>();
+        return new HashMap<>();
     }
 
     @Override
     public Object getAttributesRestoreData() {
-        LinkedList<Object> data = new LinkedList<Object>();
+        LinkedList<Object> data = new LinkedList<>();
         for (Figure child : getChildren()) {
             data.add(child.getAttributesRestoreData());
         }
@@ -521,7 +521,7 @@ public abstract class AbstractCompositeFigure
 
     @Override
     public Collection<Figure> getDecomposition() {
-        LinkedList<Figure> list = new LinkedList<Figure>();
+        LinkedList<Figure> list = new LinkedList<>();
         list.add(this);
         list.addAll(getChildren());
         return list;
@@ -558,7 +558,7 @@ public abstract class AbstractCompositeFigure
 
     @Override
     public Object getTransformRestoreData() {
-        LinkedList<Object> list = new LinkedList<Object>();
+        LinkedList<Object> list = new LinkedList<>();
         for (Figure child : getChildren()) {
             list.add(child.getTransformRestoreData());
         }
@@ -597,7 +597,7 @@ public abstract class AbstractCompositeFigure
     @Override
     public AbstractCompositeFigure clone() {
         AbstractCompositeFigure that = (AbstractCompositeFigure) super.clone();
-        that.children = new ArrayList<Figure>();
+        that.children = new ArrayList<>();
         that.eventHandler = that.createEventHandler();
         for (Figure thisChild : this.children) {
             Figure thatChild = thisChild.clone();

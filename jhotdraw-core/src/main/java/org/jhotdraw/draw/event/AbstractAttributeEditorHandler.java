@@ -54,7 +54,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected AttributeEditor<T> attributeEditor;
     protected AttributeKey<T> attributeKey;
     protected int updateDepth;
-    @Nullable protected LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
+    @Nullable protected LinkedList<Object> attributeRestoreData = new LinkedList<>();
     protected Map<AttributeKey<?>, Object> defaultAttributes;
     
     /**
@@ -352,7 +352,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             } else {
                 T value = attributeEditor.getAttributeValue();
                 if (attributeRestoreData == null) {
-                    attributeRestoreData = new LinkedList<Object>();
+                    attributeRestoreData = new LinkedList<>();
                     for (Figure f : figures) {
                         attributeRestoreData.add(f.getAttributesRestoreData());
                     }
@@ -369,7 +369,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                     editor.setDefaultAttribute(attributeKey, value);
                 }
                 getActiveView().getDrawing().fireUndoableEditHappened(//
-                        new UndoableAttributeEdit<T>(new HashSet<Figure>(figures), attributeKey, value, attributeRestoreData)//
+                        new UndoableAttributeEdit<>(new HashSet<>(figures), attributeKey, value, attributeRestoreData)//
                         );
                 if (!attributeEditor.getValueIsAdjusting()) {
                     attributeRestoreData = null;

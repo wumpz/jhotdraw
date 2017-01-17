@@ -75,7 +75,7 @@ public class JActivityWindow extends javax.swing.JFrame {
      * FIXME - Changing this value to -1 requires changing code in JActivityView.
      */
     private int errorRemovalDelay = -1;
-    private HashMap<ActivityModel, JActivityView> views = new HashMap<ActivityModel, JActivityView>();
+    private HashMap<ActivityModel, JActivityView> views = new HashMap<>();
 
     private class Handler implements ActivityManagerListener, PropertyChangeListener {
 
@@ -285,9 +285,7 @@ public class JActivityWindow extends javax.swing.JFrame {
         } else {
             try {
                 SwingUtilities.invokeAndWait(r);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            } catch (InvocationTargetException ex) {
+            } catch (InterruptedException | InvocationTargetException ex) {
                 ex.printStackTrace();
             }
         }
@@ -398,9 +396,9 @@ public class JActivityWindow extends javax.swing.JFrame {
 
     private void cancelAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelAll
         Component[] components = progressPanel.getComponents();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof JActivityView) {
-                ((JActivityView) components[i]).getModel().cancel();
+        for (Component component : components) {
+            if (component instanceof JActivityView) {
+                ((JActivityView) component).getModel().cancel();
             }
         }
     }//GEN-LAST:event_cancelAll

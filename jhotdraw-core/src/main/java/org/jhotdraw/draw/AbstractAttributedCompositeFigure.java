@@ -27,7 +27,7 @@ import org.jhotdraw.xml.DOMOutput;
 public abstract class AbstractAttributedCompositeFigure extends AbstractCompositeFigure {
     private static final long serialVersionUID = 1L;
 
-    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
+    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
     /**
      * Forbidden attributes can't be put by the put() operation.
      * They can only be changed by put().
@@ -40,7 +40,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
         if (forbiddenAttributes == null) {
-            forbiddenAttributes = new HashSet<AttributeKey<?>>();
+            forbiddenAttributes = new HashSet<>();
         }
         if (b) {
             forbiddenAttributes.remove(key);
@@ -62,7 +62,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     @Override
     public Map<AttributeKey<?>, Object> getAttributes() {
-        return (Map<AttributeKey<?>, Object>)new HashMap<AttributeKey<?>, Object>(attributes);
+        return (Map<AttributeKey<?>, Object>)new HashMap<>(attributes);
     }
 
     /**
@@ -96,8 +96,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     @Override
     public Object getAttributesRestoreData() {
-        LinkedList<Object> list = new LinkedList<Object>();
-        list.add(new HashMap<AttributeKey<?>, Object>(getAttributes()));
+        LinkedList<Object> list = new LinkedList<>();
+        list.add(new HashMap<>(getAttributes()));
         for (Figure child : getChildren()) {
             list.add(child.getAttributesRestoreData());
         }
@@ -195,9 +195,9 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     @Override
     public AbstractAttributedCompositeFigure clone() {
         AbstractAttributedCompositeFigure that = (AbstractAttributedCompositeFigure) super.clone();
-        that.attributes = new HashMap<AttributeKey<?>, Object>(this.attributes);
+        that.attributes = new HashMap<>(this.attributes);
         if (this.forbiddenAttributes != null) {
-            that.forbiddenAttributes = new HashSet<AttributeKey<?>>(this.forbiddenAttributes);
+            that.forbiddenAttributes = new HashSet<>(this.forbiddenAttributes);
         }
         return that;
     }

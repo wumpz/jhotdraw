@@ -182,7 +182,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     // EDITING
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
-        LinkedList<Action> actions = new LinkedList<Action>();
+        LinkedList<Action> actions = new LinkedList<>();
         return actions;
     }
     // CONNECTING
@@ -320,16 +320,13 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
 
     @Override
     public void loadImage(File file) throws IOException {
-        InputStream in = new FileInputStream(file);
-        try {
+        try (InputStream in = new FileInputStream(file)) {
             loadImage(in);
         } catch (Throwable t) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             IOException e = new IOException(labels.getFormatted("file.failedToLoadImage.message", file.getName()));
             e.initCause(t);
             throw e;
-        } finally {
-            in.close();
         }
     }
 

@@ -67,27 +67,25 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     
     protected AbstractColorChooserPanel[] createDefaultChoosers() {
         String[] defaultChooserNames = (String[]) PaletteLookAndFeel.getInstance().get("ColorChooser.defaultChoosers");
-        ArrayList<AbstractColorChooserPanel> panels = new ArrayList<AbstractColorChooserPanel>(defaultChooserNames.length);
-        for (int i=0; i < defaultChooserNames.length; i++) {
+        ArrayList<AbstractColorChooserPanel> panels = new ArrayList<>(defaultChooserNames.length);
+        for (String defaultChooserName : defaultChooserNames) {
             try {
-                
-                panels.add((AbstractColorChooserPanel) Class.forName(defaultChooserNames[i]).newInstance());
-                
+                panels.add((AbstractColorChooserPanel) Class.forName(defaultChooserName).newInstance());
             } catch (AccessControlException e) {
                 // suppress
-                System.err.println("PaletteColorChooserUI warning: unable to instantiate "+defaultChooserNames[i]);
+                System.err.println("PaletteColorChooserUI warning: unable to instantiate " + defaultChooserName);
                 e.printStackTrace();
             } catch (Exception e) {
                 // throw new InternalError("Unable to instantiate "+defaultChoosers[i]);
                 // suppress
-                System.err.println("PaletteColorChooserUI warning: unable to instantiate "+defaultChooserNames[i]);
+                System.err.println("PaletteColorChooserUI warning: unable to instantiate " + defaultChooserName);
                 e.printStackTrace();
             } catch (UnsupportedClassVersionError e) {
                 // suppress
-                System.err.println("PaletteColorChooserUI warning: unable to instantiate "+defaultChooserNames[i]);
+                System.err.println("PaletteColorChooserUI warning: unable to instantiate " + defaultChooserName);
                 //e.printStackTrace();
             } catch (Throwable t) {
-                System.err.println("PaletteColorChooserUI warning: unable to instantiate "+defaultChooserNames[i]);
+                System.err.println("PaletteColorChooserUI warning: unable to instantiate " + defaultChooserName);
             }
         }
         //AbstractColorChooserPanel[] panels = new AbstractColorChooserPanel[defaultChoosers.length];
@@ -194,33 +192,33 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         }
     }
     protected void uninstallDefaultChoosers() {
-        for( int i = 0 ; i < defaultChoosers.length; i++) {
-            chooser.removeChooserPanel( defaultChoosers[i] );
+        for (AbstractColorChooserPanel defaultChooser : defaultChoosers) {
+            chooser.removeChooserPanel(defaultChooser);
         }
     }
     private void updateColorChooserPanels(
             AbstractColorChooserPanel[] oldPanels,  
             AbstractColorChooserPanel[] newPanels) {
-        for (int i = 0; i < oldPanels.length; i++) {  // remove old panels
-            Container wrapper = oldPanels[i].getParent();
+        for (AbstractColorChooserPanel oldPanel : oldPanels) {
+            // remove old panels
+            Container wrapper = oldPanel.getParent();
             if (wrapper != null) {
                 Container parent = wrapper.getParent();
                 if (parent != null)
                     parent.remove(wrapper);  // remove from hierarchy
-                oldPanels[i].uninstallChooserPanel(chooser); // uninstall
+                oldPanel.uninstallChooserPanel(chooser); // uninstall
             }
         }
         
         mainPanel.removeAllColorChooserPanels();
-        for (int i = 0; i < newPanels.length; i++) {
-            if (newPanels[i] != null) {
-                mainPanel.addColorChooserPanel(newPanels[i]);
+        for (AbstractColorChooserPanel newPanel : newPanels) {
+            if (newPanel != null) {
+                mainPanel.addColorChooserPanel(newPanel);
             }
         }
-        
-        for (int i = 0; i < newPanels.length; i++) {
-            if (newPanels[i] != null) {
-                newPanels[i].installChooserPanel(chooser);
+        for (AbstractColorChooserPanel newPanel : newPanels) {
+            if (newPanel != null) {
+                newPanel.installChooserPanel(chooser);
             }
         }
     }
@@ -234,29 +232,30 @@ public class PaletteColorChooserUI extends ColorChooserUI {
                 AbstractColorChooserPanel[] oldPanels = (AbstractColorChooserPanel[]) e.getOldValue();
                 AbstractColorChooserPanel[] newPanels = (AbstractColorChooserPanel[]) e.getNewValue();
 
-                for (int i = 0; i < oldPanels.length; i++) {  // remove old panels
-                    if (oldPanels[i] != null) {
-                        Container wrapper = oldPanels[i].getParent();
+                for (AbstractColorChooserPanel oldPanel : oldPanels) {
+                    // remove old panels
+                    if (oldPanel != null) {
+                        Container wrapper = oldPanel.getParent();
                         if (wrapper != null) {
                             Container parent = wrapper.getParent();
                             if (parent != null)
                                 parent.remove(wrapper);  // remove from hierarchy
-                            oldPanels[i].uninstallChooserPanel(chooser); // uninstall
+                            oldPanel.uninstallChooserPanel(chooser); // uninstall
                         }
                     }
                 }
 
                 mainPanel.removeAllColorChooserPanels();
-                for (int i = 0; i < newPanels.length; i++) {
-                    if (newPanels[i] != null) {
-                        mainPanel.addColorChooserPanel(newPanels[i]);
+                for (AbstractColorChooserPanel newPanel : newPanels) {
+                    if (newPanel != null) {
+                        mainPanel.addColorChooserPanel(newPanel);
                     }
                 }
 
                 chooser.applyComponentOrientation(chooser.getComponentOrientation());
-                for (int i = 0; i < newPanels.length; i++) {
-                    if (newPanels[i] != null) {
-                        newPanels[i].installChooserPanel(chooser);
+                for (AbstractColorChooserPanel newPanel : newPanels) {
+                    if (newPanel != null) {
+                        newPanel.installChooserPanel(chooser);
                     }
                 }
             }

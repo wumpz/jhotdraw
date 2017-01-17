@@ -23,7 +23,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class ApplyAttributesAction extends AbstractSelectedAction {
     private static final long serialVersionUID = 1L;
 
-    private Set<AttributeKey<?>> excludedAttributes = new HashSet<AttributeKey<?>>(
+    private Set<AttributeKey<?>> excludedAttributes = new HashSet<>(
             Arrays.asList(new AttributeKey<?>[]{TRANSFORM, TEXT}));
 
     /** Creates a new instance. */
@@ -38,7 +38,7 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
      * Set of attributes that is excluded when applying default attributes.
      */
     public void setExcludedAttributes(Set<AttributeKey<?>> a) {
-        this.excludedAttributes = new HashSet<AttributeKey<?>>(a);
+        this.excludedAttributes = new HashSet<>(a);
     }
 
     @Override

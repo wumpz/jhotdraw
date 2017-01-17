@@ -267,10 +267,10 @@ public class SDIApplication extends AbstractApplication {
     protected Component wrapViewComponent(View p) {
         JComponent c = p.getComponent();
         if (getModel() != null) {
-            LinkedList<Action> toolBarActions = new LinkedList<Action>();
+            LinkedList<Action> toolBarActions = new LinkedList<>();
 
             int id = 0;
-            for (JToolBar tb : new ReversedList<JToolBar>(getModel().createToolBars(this, p))) {
+            for (JToolBar tb : new ReversedList<>(getModel().createToolBars(this, p))) {
                 id++;
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(tb, BorderLayout.NORTH);
@@ -323,7 +323,7 @@ public class SDIApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        LinkedList<JMenu> ll = new LinkedList<>();
         getModel().getMenuBuilder().addOtherMenus(ll, this, v);
         for (JMenu mm : ll) {
             String text = mm.getText();

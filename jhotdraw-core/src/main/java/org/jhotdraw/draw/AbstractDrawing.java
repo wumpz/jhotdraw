@@ -121,12 +121,12 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
 
     @Override
     public void setOutputFormats(java.util.List<OutputFormat> formats) {
-        this.outputFormats = new LinkedList<OutputFormat>(formats);
+        this.outputFormats = new LinkedList<>(formats);
     }
 
     @Override
     public void setInputFormats(java.util.List<InputFormat> formats) {
-        this.inputFormats = new LinkedList<InputFormat>(formats);
+        this.inputFormats = new LinkedList<>(formats);
     }
 
     @Override

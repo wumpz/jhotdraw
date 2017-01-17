@@ -25,13 +25,13 @@ public class HandleMulticaster {
 
     /** Creates a new instance. */
     public HandleMulticaster(Handle handle) {
-        this.handles = new LinkedList<Handle>();
+        this.handles = new LinkedList<>();
         this.handles.add(handle);
     }
 
     /** Creates a new instance. */
     public HandleMulticaster(Collection<Handle> handles) {
-        this.handles = new LinkedList<Handle>(handles);
+        this.handles = new LinkedList<>(handles);
     }
 
     public void draw(java.awt.Graphics2D g) {
@@ -62,7 +62,7 @@ public class HandleMulticaster {
     }
 
     public void trackEnd(Point current, Point anchor, int modifiersEx, DrawingView view) {
-        for (Handle h : new ReversedList<Handle>(handles)) {
+        for (Handle h : new ReversedList<>(handles)) {
             h.trackEnd(current, anchor, modifiersEx);
         }
     }

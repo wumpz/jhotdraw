@@ -253,7 +253,7 @@ public abstract class AbstractView extends JPanel implements View {
     @Override
     public void addDisposable(Disposable disposable) {
         if (disposables == null) {
-            disposables = new LinkedList<Disposable>();
+            disposables = new LinkedList<>();
         }
         disposables.add(disposable);
     }

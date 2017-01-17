@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jhotdraw</groupId>
     <artifactId>jhotdraw</artifactId>
-    <version>7.11-SNAPSHOT</version>
+    <version>8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <organization>
         <name>JHotDraw</name>
@@ -26,8 +26,8 @@
     </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
     <modules>

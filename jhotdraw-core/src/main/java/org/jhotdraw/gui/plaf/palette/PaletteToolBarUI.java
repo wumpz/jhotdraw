@@ -83,8 +83,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     private static Border nonRolloverBorder;
     private static Border nonRolloverToggleBorder;
     private boolean rolloverBorders = false;
-    private HashMap<AbstractButton, Border> borderTable = new HashMap<AbstractButton, Border>();
-    private HashMap<AbstractButton, Boolean> rolloverTable = new HashMap<AbstractButton, Boolean>();
+    private HashMap<AbstractButton, Border> borderTable = new HashMap<>();
+    private HashMap<AbstractButton, Boolean> rolloverTable = new HashMap<>();
     /**
      * As of Java 2 platform v1.3 this previously undocumented field is no
      * longer used.
@@ -151,7 +151,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         LookAndFeel.installProperty(c, "opaque", Boolean.TRUE);
 
         if (c.getClientProperty(FOCUSED_COMP_INDEX) != null) {
-            focusedCompIndex = ((Integer) (c.getClientProperty(FOCUSED_COMP_INDEX))).intValue();
+            focusedCompIndex = ((Integer) (c.getClientProperty(FOCUSED_COMP_INDEX)));
         }
     }
 
@@ -203,7 +203,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             rolloverProp = UIManager.get("ToolBar.isRollover");
         }
         if (rolloverProp != null) {
-            rolloverBorders = ((Boolean) rolloverProp).booleanValue();
+            rolloverBorders = ((Boolean) rolloverProp);
         }
 
         if (rolloverBorder == null) {
@@ -545,7 +545,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         }
         DragWindow w = new DragWindow(frame);
         JRootPane rp = ((RootPaneContainer) w).getRootPane();
-        rp.putClientProperty("Window.alpha", new Float(0.6f));
+        rp.putClientProperty("Window.alpha", 0.6f);
         return w;
     }
 
@@ -743,7 +743,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
             Boolean value = rolloverTable.remove(b);
             if (value != null) {
-                b.setRolloverEnabled(value.booleanValue());
+                b.setRolloverEnabled(value);
             }
         }
     }
@@ -1227,7 +1227,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 // Search for JSeparator components and change it's orientation
                 // to match the toolbar and flip it's orientation.
                 Component[] components = toolBar.getComponents();
-                int orientation = ((Integer) evt.getNewValue()).intValue();
+                int orientation = ((Integer) evt.getNewValue());
                 JToolBar.Separator separator;
 
                 for (int i = 0; i < components.length; ++i) {
@@ -1249,7 +1249,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 }
             } else if (propertyName == IS_ROLLOVER) {
                 installNormalBorders(toolBar);
-                setRolloverBorders(((Boolean) evt.getNewValue()).booleanValue());
+                setRolloverBorders(((Boolean) evt.getNewValue()));
             }
         }
     }

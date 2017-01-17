@@ -483,7 +483,7 @@ public class JSheet extends JDialog {
         } else {
             if (pane.getOptions() == null) {
                 if (value instanceof Integer) {
-                    option = ((Integer) value).intValue();
+                    option = ((Integer) value);
                 } else {
                     option = JOptionPane.CLOSED_OPTION;
                 }

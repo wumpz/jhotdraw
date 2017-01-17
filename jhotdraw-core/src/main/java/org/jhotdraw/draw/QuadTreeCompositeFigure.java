@@ -29,7 +29,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public abstract class QuadTreeCompositeFigure 
         extends AbstractCompositeFigure {
     private static final long serialVersionUID = 1L;
-    private QuadTree<Figure> quadTree = new QuadTree<Figure>();
+    private QuadTree<Figure> quadTree = new QuadTree<>();
     private boolean needsSorting = false;
     private FigureHandler figureHandler;
     private Dimension2DDouble canvasSize;
@@ -82,7 +82,7 @@ public abstract class QuadTreeCompositeFigure
      */
     public java.util.List<Figure> sort(Collection<Figure> c) {
         ensureSorted();
-        ArrayList<Figure> sorted = new ArrayList<Figure>(c.size());
+        ArrayList<Figure> sorted = new ArrayList<>(c.size());
         for (Figure f : children) {
             if (c.contains(f)) {
                 sorted.add(f);
@@ -100,7 +100,7 @@ public abstract class QuadTreeCompositeFigure
     
     
     public java.util.List<Figure> getFigures(Rectangle2D.Double bounds) {
-        return new LinkedList<Figure>(quadTree.findInside(bounds));
+        return new LinkedList<>(quadTree.findInside(bounds));
     }
     
     @Override
@@ -126,7 +126,7 @@ public abstract class QuadTreeCompositeFigure
      */
     public java.util.List<Figure> getFiguresFrontToBack() {
         ensureSorted();
-        return new ReversedList<Figure>(children);
+        return new ReversedList<>(children);
     }
     
     @Nullable public Figure findFigure(Point2D.Double p) {
@@ -212,7 +212,7 @@ public abstract class QuadTreeCompositeFigure
     }
     
     public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
-        LinkedList<Figure> c = new LinkedList<Figure>(quadTree.findIntersects(r));
+        LinkedList<Figure> c = new LinkedList<>(quadTree.findIntersects(r));
         switch (c.size()) {
             case 0 :
                 // fall through
@@ -223,7 +223,7 @@ public abstract class QuadTreeCompositeFigure
         }
     }
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
-        LinkedList<Figure> contained = new LinkedList<Figure>();
+        LinkedList<Figure> contained = new LinkedList<>();
         for (Figure f : children) {
             Rectangle2D r = f.getBounds();
             if (f.get(TRANSFORM) != null) {

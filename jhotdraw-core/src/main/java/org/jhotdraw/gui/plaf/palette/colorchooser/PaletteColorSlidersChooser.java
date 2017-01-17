@@ -92,10 +92,10 @@ implements UIResource {
     public void installChooserPanel(JColorChooser enclosingChooser) {
         super.installChooserPanel(enclosingChooser);
         Component[] components = slidersHolder.getComponents();
-        for (int i=0; i < components.length; i++) {
-            AbstractColorChooserPanel ccp = (AbstractColorChooserPanel) components[i];
-            ccp.installChooserPanel(enclosingChooser);
-        }
+            for (Component component : components) {
+                AbstractColorChooserPanel ccp = (AbstractColorChooserPanel) component;
+                ccp.installChooserPanel(enclosingChooser);
+            }
     }
     
     /**
@@ -105,10 +105,10 @@ implements UIResource {
     @Override
     public void uninstallChooserPanel(JColorChooser enclosingChooser) {
         Component[] components = slidersHolder.getComponents();
-        for (int i=0; i < components.length; i++) {
-            AbstractColorChooserPanel ccp = (AbstractColorChooserPanel) components[i];
-            ccp.uninstallChooserPanel(enclosingChooser);
-        }
+            for (Component component : components) {
+                AbstractColorChooserPanel ccp = (AbstractColorChooserPanel) component;
+                ccp.uninstallChooserPanel(enclosingChooser);
+            }
         super.uninstallChooserPanel(enclosingChooser);
     }
     

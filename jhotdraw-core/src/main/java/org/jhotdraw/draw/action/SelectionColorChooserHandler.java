@@ -54,8 +54,8 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction
     }
 
     protected void applySelectedColorToFigures() {
-        final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(getView().getSelectedFigures());
-        final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
+        final ArrayList<Figure> selectedFigures = new ArrayList<>(getView().getSelectedFigures());
+        final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
 
         Color selectedColor = colorChooser.getColor();
         if (selectedColor!=null&&selectedColor.getAlpha()==0) {

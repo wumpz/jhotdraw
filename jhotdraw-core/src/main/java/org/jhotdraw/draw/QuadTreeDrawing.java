@@ -69,7 +69,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     @Override
     public java.util.List<Figure> sort(Collection<? extends Figure> c) {
         ensureSorted();
-        ArrayList<Figure> sorted = new ArrayList<Figure>(c.size());
+        ArrayList<Figure> sorted = new ArrayList<>(c.size());
         for (Figure f : children) {
             if (c.contains(f)) {
                 sorted.add(f);
@@ -127,7 +127,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     @Override
     public java.util.List<Figure> getFiguresFrontToBack() {
         ensureSorted();
-        return new ReversedList<Figure>(children);
+        return new ReversedList<>(children);
     }
 
     @Override
@@ -229,7 +229,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
     @Override
     public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
-        LinkedList<Figure> c = new LinkedList<Figure>(quadTree.findIntersects(r));
+        LinkedList<Figure> c = new LinkedList<>(quadTree.findIntersects(r));
         switch (c.size()) {
             case 0:
             // fall through
@@ -242,7 +242,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
     @Override
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
-        LinkedList<Figure> contained = new LinkedList<Figure>();
+        LinkedList<Figure> contained = new LinkedList<>();
         for (Figure f : children) {
             Rectangle2D.Double r = f.getBounds();
             if (f.get(TRANSFORM) != null) {
@@ -297,7 +297,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     @Override
     public QuadTreeDrawing clone() {
         QuadTreeDrawing that = (QuadTreeDrawing) super.clone();
-        that.quadTree = new QuadTree<Figure>();
+        that.quadTree = new QuadTree<>();
         for (Figure f : getChildren()) {
             quadTree.add(f, f.getDrawingArea());
         }

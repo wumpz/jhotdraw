@@ -119,11 +119,8 @@ public class TextInputFormat implements InputFormat {
     }
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        InputStream in = new FileInputStream(file);
-        try {
+        try (InputStream in = new FileInputStream(file)) {
             read(in, drawing, replace);
-        } finally {
-            in.close();
         }
     }
 
@@ -136,7 +133,7 @@ public class TextInputFormat implements InputFormat {
     }
 
     public LinkedList<Figure> createTextHolderFigures(InputStream in) throws IOException {
-        LinkedList<Figure> list = new LinkedList<Figure>();
+        LinkedList<Figure> list = new LinkedList<>();
 
         BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF8"));
 
@@ -184,7 +181,7 @@ public class TextInputFormat implements InputFormat {
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
 
-        LinkedList<Figure> list = new LinkedList<Figure>();
+        LinkedList<Figure> list = new LinkedList<>();
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
             figure.setText(text);
