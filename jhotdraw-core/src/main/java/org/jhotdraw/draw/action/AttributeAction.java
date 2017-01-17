@@ -60,7 +60,7 @@ public class AttributeAction extends AbstractSelectedAction {
 
     public AttributeAction(DrawingEditor editor, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name, @Nullable Icon icon) {
         super(editor);
-        this.attributes = (attributes == null) ? new HashMap<AttributeKey<?>, Object>() : attributes;
+        this.attributes = (attributes == null) ? new HashMap<>() : attributes;
 
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);

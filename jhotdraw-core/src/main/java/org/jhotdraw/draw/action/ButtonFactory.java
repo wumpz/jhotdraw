@@ -250,7 +250,7 @@ public class ButtonFactory {
     }
 
     public static Collection<Action> createDrawingActions(DrawingEditor editor) {
-        return createDrawingActions(editor, new LinkedList<Disposable>());
+        return createDrawingActions(editor, new LinkedList<>());
     }
 
     public static Collection<Action> createDrawingActions(DrawingEditor editor, java.util.List<Disposable> dsp) {
@@ -480,9 +480,9 @@ public class ButtonFactory {
             java.util.List<ColorIcon> colors, int columnCount) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
-        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attribute.strokeColor", labels, new HashMap<AttributeKey<?>, Object>()));
-        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<AttributeKey<?>, Object>()));
-        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<AttributeKey<?>, Object>()));
+        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attribute.strokeColor", labels, new HashMap<>()));
+        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<>()));
+        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<>()));
     }
 
     /**
@@ -772,7 +772,7 @@ public class ButtonFactory {
             Shape colorShape) {
         return createSelectionColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
-                colorShape, new LinkedList<Disposable>());
+                colorShape, new LinkedList<>());
     }
 
     /**
@@ -1048,7 +1048,7 @@ public class ButtonFactory {
             Shape colorShape) {
         return createDrawingColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
-                colorShape, new LinkedList<Disposable>());
+                colorShape, new LinkedList<>());
     }
 
     /**
@@ -1350,7 +1350,7 @@ public class ButtonFactory {
             double[][] dashes,
             ResourceBundleUtil labels) {
         return createStrokeDashesButton(editor, dashes,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JPopupButton createStrokeDashesButton(DrawingEditor editor, double[][] dashes,
@@ -1540,7 +1540,7 @@ public class ButtonFactory {
     public static JPopupButton createFontButton(DrawingEditor editor,
             AttributeKey<Font> key,
             ResourceBundleUtil labels) {
-        return createFontButton(editor, key, labels, new LinkedList<Disposable>());
+        return createFontButton(editor, key, labels, new LinkedList<>());
     }
 
     public static JPopupButton createFontButton(DrawingEditor editor,
@@ -1573,7 +1573,7 @@ public class ButtonFactory {
     public static JButton createFontStyleBoldButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontStyleBoldButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JButton createFontStyleBoldButton(DrawingEditor editor,
@@ -1599,7 +1599,7 @@ public class ButtonFactory {
     public static JButton createFontStyleItalicButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontStyleItalicButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JButton createFontStyleItalicButton(DrawingEditor editor,
@@ -1625,7 +1625,7 @@ public class ButtonFactory {
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontStyleUnderlineButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
@@ -1647,7 +1647,7 @@ public class ButtonFactory {
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
     public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor) {
-        addAlignmentButtonsTo(bar, editor, new LinkedList<Disposable>());
+        addAlignmentButtonsTo(bar, editor, new LinkedList<>());
     }
 
     /**
@@ -1725,7 +1725,7 @@ public class ButtonFactory {
     public static JPopupButton createStrokeCapButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createStrokeCapButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JPopupButton createStrokeCapButton(DrawingEditor editor,
@@ -1775,7 +1775,7 @@ public class ButtonFactory {
     public static JPopupButton createStrokeJoinButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createStrokeJoinButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JPopupButton createStrokeJoinButton(DrawingEditor editor,
@@ -1818,7 +1818,7 @@ public class ButtonFactory {
     }
 
     public static JButton createPickAttributesButton(DrawingEditor editor) {
-        return createPickAttributesButton(editor, new LinkedList<Disposable>());
+        return createPickAttributesButton(editor, new LinkedList<>());
     }
 
     public static JButton createPickAttributesButton(DrawingEditor editor, java.util.List<Disposable> dsp) {
@@ -1841,7 +1841,7 @@ public class ButtonFactory {
      * current selection.
      */
     public static JButton createApplyAttributesButton(DrawingEditor editor) {
-        return createApplyAttributesButton(editor, new LinkedList<Disposable>());
+        return createApplyAttributesButton(editor, new LinkedList<>());
     }
 
     public static JButton createApplyAttributesButton(DrawingEditor editor, java.util.List<Disposable> dsp) {

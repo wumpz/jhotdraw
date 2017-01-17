@@ -333,7 +333,7 @@ public abstract class AbstractCompositeFigure
      * Z-order front to back over the children.
      */
     public java.util.List<Figure> getChildrenFrontToBack() {
-        return children.size() == 0 ? new LinkedList<Figure>() : new ReversedList<Figure>(getChildren());
+        return children.size() == 0 ? new LinkedList<>() : new ReversedList<>(getChildren());
     }
 
     @Override

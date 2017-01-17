@@ -191,8 +191,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      */
     public java.util.List<Figure> getChildrenFrontToBack() {
         return children ==  null ?
-            new LinkedList<Figure>() :
-            new ReversedList<Figure>(children);
+            new LinkedList<>() :
+            new ReversedList<>(children);
     }
     
     @Override

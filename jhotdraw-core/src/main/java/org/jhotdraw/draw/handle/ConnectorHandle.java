@@ -266,7 +266,7 @@ public class ConnectorHandle extends AbstractHandle {
                 invalidArea.add(c.getDrawingArea());
             }
         }
-        connectors = (connectableFigure == null) ? new java.util.LinkedList<Connector>() : connectableFigure.getConnectors(prototype);
+        connectors = (connectableFigure == null) ? new java.util.LinkedList<>() : connectableFigure.getConnectors(prototype);
         for (Connector c : connectors) {
             if (invalidArea == null) {
                 invalidArea = c.getDrawingArea();

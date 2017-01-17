@@ -63,12 +63,12 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     @Override
     public boolean importData(JComponent comp, Transferable t) {
-        return importData(comp, t, new HashSet<Figure>(), null);
+        return importData(comp, t, new HashSet<>(), null);
     }
 
     @Override
     public boolean importData(TransferSupport support) {
-        return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>(), support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
+        return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<>(), support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
     }
 
     /**
@@ -442,8 +442,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             if (action == MOVE) {
                 final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<>();
                 final LinkedList<Figure> selectedFigures = (exportedFigures == null) ? //
-                        new LinkedList<Figure>() : //
-                        new LinkedList<Figure>(exportedFigures);
+                        new LinkedList<>() : //
+                        new LinkedList<>(exportedFigures);
 
                 // Abort, if not all of the selected figures may be removed from the
                 // drawing
