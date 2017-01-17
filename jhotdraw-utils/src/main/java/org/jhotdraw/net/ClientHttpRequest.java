@@ -34,7 +34,7 @@ public class ClientHttpRequest {
     URLConnection connection;
     @Nullable
     OutputStream os = null;
-    Map<String, String> cookies = new HashMap<String, String>();
+    Map<String, String> cookies = new HashMap<>();
     String rawCookies = "";
 
     protected void connect() throws IOException {
@@ -256,11 +256,8 @@ public class ClientHttpRequest {
      * @throws IOException
      */
     public void setParameter(String name, File file) throws IOException {
-        FileInputStream in = new FileInputStream(file);
-        try {
+        try (FileInputStream in = new FileInputStream(file)) {
             setParameter(name, file.getPath(), in);
-        } finally {
-            in.close();
         }
     }
 

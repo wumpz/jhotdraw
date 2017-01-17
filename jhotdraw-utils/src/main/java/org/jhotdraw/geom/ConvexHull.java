@@ -68,7 +68,7 @@ public class ConvexHull {
      * @return convex hull of the points as a Polygon2D object.
      */
     public static Path2D.Double getConvexHullPath2D(Shape shape) {
-        List<Point2D.Double> points = new LinkedList<Point2D.Double>();
+        List<Point2D.Double> points = new LinkedList<>();
         double[] coords = new double[6];
         for (PathIterator i = shape.getPathIterator(null); !i.isDone(); i.next()) {
             switch (i.currentSegment(coords)) {

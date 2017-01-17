@@ -31,7 +31,7 @@ import java.util.Map;
 public class QuadTree<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private HashMap<T, Rectangle2D.Double> outside = new HashMap<T, Rectangle2D.Double>();
+    private HashMap<T, Rectangle2D.Double> outside = new HashMap<>();
     private QuadNode root;
     private int maxCapacity = 32;
     private int minSize = 32;
@@ -88,7 +88,7 @@ public class QuadTree<T> implements Serializable {
     }
 
     public Collection<T> findContains(Point2D.Double p) {
-        HashSet<T> result = new HashSet<T>();
+        HashSet<T> result = new HashSet<>();
         root.findContains(p, result);
         for (Map.Entry<T, Rectangle2D.Double> entry : outside.entrySet()) {
             if (entry.getValue().contains(p)) {
@@ -103,7 +103,7 @@ public class QuadTree<T> implements Serializable {
     }
 
     public Collection<T> findIntersects(Rectangle2D.Double r) {
-        HashSet<T> result = new HashSet<T>();
+        HashSet<T> result = new HashSet<>();
         root.findIntersects(r, result);
         for (Map.Entry<T, Rectangle2D.Double> entry : outside.entrySet()) {
             if (entry.getValue().intersects(r)) {
@@ -114,7 +114,7 @@ public class QuadTree<T> implements Serializable {
     }
 
     public Collection<T> findInside(Rectangle2D.Double r) {
-        HashSet<T> result = new HashSet<T>();
+        HashSet<T> result = new HashSet<>();
         root.findInside(r, result);
         for (Map.Entry<T, Rectangle2D.Double> entry : outside.entrySet()) {
             if (r.contains(entry.getValue())) {
@@ -147,7 +147,7 @@ public class QuadTree<T> implements Serializable {
 
         public QuadNode(Rectangle2D.Double bounds) {
             this.bounds = bounds;
-            this.objects = new HashMap<T, Rectangle2D.Double>();
+            this.objects = new HashMap<>();
         }
 
         public boolean isLeaf() {
@@ -209,7 +209,7 @@ public class QuadTree<T> implements Serializable {
                 );
 
                 HashMap<T, Rectangle2D.Double> temp = objects;
-                objects = new HashMap<T, Rectangle2D.Double>();
+                objects = new HashMap<>();
                 for (Map.Entry<T, Rectangle2D.Double> entry : temp.entrySet()) {
                     add(entry.getKey(), entry.getValue());
                 }

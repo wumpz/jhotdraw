@@ -39,7 +39,7 @@ public class StreamPosTokenizer
      * rlw
      */
     private int startpos = -1, endpos = -1;
-    private LinkedList<Integer> unread = new LinkedList<Integer>();
+    private LinkedList<Integer> unread = new LinkedList<>();
     
     private char buf[] = new char[20];
     
