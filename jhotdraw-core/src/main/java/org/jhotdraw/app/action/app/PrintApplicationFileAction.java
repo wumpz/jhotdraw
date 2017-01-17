@@ -50,6 +50,7 @@ public class PrintApplicationFileAction extends PrintFileAction {
         putValue(Action.NAME, "OSX Print File");
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         final String filename = evt.getActionCommand();

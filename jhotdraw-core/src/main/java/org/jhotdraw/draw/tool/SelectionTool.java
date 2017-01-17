@@ -369,6 +369,7 @@ public class SelectionTool extends AbstractTool {
      * 
      * @return True, if this tool supports interaction with the handles.
      */
+    @Override
     public boolean supportsHandleInteraction() {
         return true;
     }

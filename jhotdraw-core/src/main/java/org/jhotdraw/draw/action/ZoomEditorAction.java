@@ -46,6 +46,7 @@ public class ZoomEditorAction extends AbstractDrawingEditorAction {
         putValue(Action.NAME, label);
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (button != null) {
             button.setText(label);

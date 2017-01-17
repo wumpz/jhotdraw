@@ -107,6 +107,7 @@ public class PaletteSliderThumbIcon extends MultiIcon {
         }
     }
     
+    @Override
     protected Icon getIcon(Component c) {
         Icon icon;
         boolean isActive = true; //QuaquaUtilities.isOnActiveWindow(c);
@@ -147,6 +148,7 @@ public class PaletteSliderThumbIcon extends MultiIcon {
         }
         return icon;
     }
+    @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics g, int x, int y) {
         super.paintIcon(c, g, x, y);
         if (c.isFocusOwner()/*QuaquaUtilities.isFocused(c)*/ &&
