@@ -1,41 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jhotdraw</groupId>
-    <artifactId>jhotdraw</artifactId>
-    <version>8.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <organization>
-        <name>JHotDraw</name>
-    </organization>
-    <licenses>
-        <license>
-            <name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
-            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
-        </license>
-        <license>
-            <name>Creative Commons Attribution 2.5 License</name>
-            <url>http://creativecommons.org/licenses/by/2.5/</url>
-        </license>
-    </licenses>
-    <developers>
-        <developer>
-            <name>Tobias Warneke</name>
-            <email>t.warneke@gmx.net</email>
-        </developer>
-    </developers>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-    <description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
-    <modules>
-        <module>nanoxml-patched</module>
-        <module>jhotdraw-core</module>
-        <module>jhotdraw-samples</module>
-        <module>jhotdraw-xml</module>
-        <module>jhotdraw-api</module>
-        <module>jhotdraw-utils</module>
-    </modules>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jhotdraw</groupId>
+	<artifactId>jhotdraw</artifactId>
+	<version>8.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<organization>
+		<name>JHotDraw</name>
+	</organization>
+	<licenses>
+		<license>
+			<name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
+			<url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+		</license>
+		<license>
+			<name>Creative Commons Attribution 2.5 License</name>
+			<url>http://creativecommons.org/licenses/by/2.5/</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Tobias Warneke</name>
+			<email>t.warneke@gmx.net</email>
+		</developer>
+	</developers>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>nanoxml-patched</module>
+		<module>jhotdraw-core</module>
+		<module>jhotdraw-samples</module>
+		<module>jhotdraw-xml</module>
+		<module>jhotdraw-api</module>
+		<module>jhotdraw-utils</module>
+	</modules>
 </project>
