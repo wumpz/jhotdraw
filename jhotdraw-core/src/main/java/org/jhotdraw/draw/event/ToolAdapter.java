@@ -9,8 +9,6 @@
 
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nonnull;
-
 /**
  * An abstract adapter class for receiving {@link ToolEvent}s. This class
  * exists as a convenience for creating {@link ToolListener} objects.

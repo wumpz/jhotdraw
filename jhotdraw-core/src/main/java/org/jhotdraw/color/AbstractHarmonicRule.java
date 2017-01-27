@@ -8,8 +8,6 @@
 
 package org.jhotdraw.color;
 
-import javax.annotation.Nonnull;
-
 /**
  * AbstractHarmonicRule.
  *

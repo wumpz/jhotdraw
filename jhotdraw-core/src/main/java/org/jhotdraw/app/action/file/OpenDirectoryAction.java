@@ -8,7 +8,6 @@
 
 package org.jhotdraw.app.action.file;
 
-import javax.swing.JFileChooser;
 import org.jhotdraw.app.*;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;

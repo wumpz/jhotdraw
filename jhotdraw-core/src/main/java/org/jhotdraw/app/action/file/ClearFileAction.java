@@ -9,7 +9,6 @@
 package org.jhotdraw.app.action.file;
 
 import javax.annotation.Nullable;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;

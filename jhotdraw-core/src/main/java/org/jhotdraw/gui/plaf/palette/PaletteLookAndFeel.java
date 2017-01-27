@@ -9,7 +9,6 @@ package org.jhotdraw.gui.plaf.palette;
 
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
