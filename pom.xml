@@ -40,6 +40,19 @@
 					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m5.1</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<alwaysUpdateOrigin>false</alwaysUpdateOrigin>
+					<enableSshAgent>true</enableSshAgent>
+					<localOnly>true</localOnly>
+					<noReleaseBuild>true</noReleaseBuild>
+					<noDeploy>true</noDeploy>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<modules>
