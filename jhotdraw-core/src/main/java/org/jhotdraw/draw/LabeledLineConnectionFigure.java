@@ -42,7 +42,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     
     private static final long serialVersionUID = 1L;
     private Layouter layouter;
-    private ArrayList<Figure> children = new ArrayList<Figure>();
+    private ArrayList<Figure> children = new ArrayList<>();
     @Nullable private transient Rectangle2D.Double cachedDrawingArea;
     
     /**
@@ -191,8 +191,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
      */
     public java.util.List<Figure> getChildrenFrontToBack() {
         return children ==  null ?
-            new LinkedList<Figure>() :
-            new ReversedList<Figure>(children);
+            new LinkedList<>() :
+            new ReversedList<>(children);
     }
     
     @Override
@@ -326,14 +326,14 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     }
     @Override
     public void addNotify(Drawing drawing) {
-        for (Figure child : new LinkedList<Figure>(children)) {
+        for (Figure child : new LinkedList<>(children)) {
             child.addNotify(drawing);
         }
         super.addNotify(drawing);
     }
     @Override
     public void removeNotify(Drawing drawing) {
-        for (Figure child : new LinkedList<Figure>(children)) {
+        for (Figure child : new LinkedList<>(children)) {
             child.removeNotify(drawing);
         }
         super.removeNotify(drawing);
@@ -394,7 +394,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     public LabeledLineConnectionFigure clone() {
         LabeledLineConnectionFigure that = (LabeledLineConnectionFigure) super.clone();
         that.childHandler = new ChildHandler(that);
-        that.children = new ArrayList<Figure>();
+        that.children = new ArrayList<>();
         for (Figure thisChild : this.children) {
             Figure thatChild = thisChild.clone();
             that.children.add(thatChild);

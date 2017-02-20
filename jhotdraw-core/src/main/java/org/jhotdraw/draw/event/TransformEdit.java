@@ -36,7 +36,7 @@ public class TransformEdit extends AbstractUndoableEdit {
     
     /** Creates a new instance. */
     public TransformEdit(Figure figure, AffineTransform tx) {
-        figures = new LinkedList<Figure>();
+        figures = new LinkedList<>();
         ((LinkedList<Figure>) figures).add(figure);
         this.tx = (AffineTransform) tx.clone();
     }

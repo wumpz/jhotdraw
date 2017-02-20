@@ -103,8 +103,8 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         DrawingEditor editor = getEditor();
         for (Figure figure :getView().getSelectedFigures()) {
             figure.willChange();
-            for (int j = 0; j < keys.length; j++) {
-                figure.set((AttributeKey<Object>)keys[j], editor.getDefaultAttribute(keys[j]));
+            for (AttributeKey<?> key : keys) {
+                figure.set((AttributeKey<Object>) key, editor.getDefaultAttribute(key));
             }
             for (Map.Entry<AttributeKey<?>, Object> entry : fixedAttributes.entrySet()) {
                 figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());

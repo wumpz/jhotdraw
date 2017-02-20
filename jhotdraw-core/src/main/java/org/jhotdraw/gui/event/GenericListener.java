@@ -195,12 +195,12 @@ public abstract class GenericListener {
         // given the arguments to create(), find out which listener is desired:
         Method[] m = listenerInterface.getMethods();
         Method result = null;
-        for (int i = 0; i < m.length; i++) {
-            if (listenerMethodName.equals(m[i].getName())) {
+        for (Method m1 : m) {
+            if (listenerMethodName.equals(m1.getName())) {
                 if (result != null) {
-                    throw new RuntimeException("ambiguous method: " + m[i] + " vs. " + result);
+                    throw new RuntimeException("ambiguous method: " + m1 + " vs. " + result);
                 }
-                result = m[i];
+                result = m1;
             }
         }
         if (result == null) {
@@ -217,11 +217,11 @@ public abstract class GenericListener {
         Method[] m = target.getClass().getMethods();
         Method result = null;
         eachMethod:
-        for (int i = 0; i < m.length; i++) {
-            if (!targetMethodName.equals(m[i].getName())) {
+        for (Method m1 : m) {
+            if (!targetMethodName.equals(m1.getName())) {
                 continue eachMethod;
             }
-            Class<?>[] p = m[i].getParameterTypes();
+            Class<?>[] p = m1.getParameterTypes();
             if (p.length != parameterTypes.length) {
                 continue eachMethod;
             }
@@ -231,9 +231,9 @@ public abstract class GenericListener {
                 }
             }
             if (result != null) {
-                throw new RuntimeException("ambiguous method: " + m[i] + " vs. " + result);
+                throw new RuntimeException("ambiguous method: " + m1 + " vs. " + result);
             }
-            result = m[i];
+            result = m1;
         }
         /*
         if (result == null) {
@@ -266,8 +266,8 @@ public abstract class GenericListener {
             }
         }
         Class<?>[] ints = c.getInterfaces();
-        for (int i = 0; i < ints.length; i++) {
-            Method im = raiseToPublicClass(m, ints[i]);
+        for (Class<?> int1 : ints) {
+            Method im = raiseToPublicClass(m, int1);
             if (im != null) {
                 return im;
             }

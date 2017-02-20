@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app.action.app;
 
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -50,6 +49,7 @@ public class PrintApplicationFileAction extends PrintFileAction {
         putValue(Action.NAME, "OSX Print File");
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         final String filename = evt.getActionCommand();

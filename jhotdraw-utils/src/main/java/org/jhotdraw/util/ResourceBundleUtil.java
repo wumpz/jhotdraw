@@ -163,7 +163,7 @@ public class ResourceBundleUtil implements Serializable {
             } else {
                 placeholderFormat = "string";
             }
-            ArrayList<String> fallbackKeys = new ArrayList<String>();
+            ArrayList<String> fallbackKeys = new ArrayList<>();
             generateFallbackKeys(placeholderKey, fallbackKeys);
 
             String placeholderValue = null;

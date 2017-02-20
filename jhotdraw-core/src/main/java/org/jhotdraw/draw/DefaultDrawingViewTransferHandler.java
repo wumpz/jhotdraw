@@ -63,12 +63,12 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
     @Override
     public boolean importData(JComponent comp, Transferable t) {
-        return importData(comp, t, new HashSet<Figure>(), null);
+        return importData(comp, t, new HashSet<>(), null);
     }
 
     @Override
     public boolean importData(TransferSupport support) {
-        return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<Figure>(), support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
+        return importData((JComponent) support.getComponent(), support.getTransferable(), new HashSet<>(), support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
     }
 
     /**
@@ -110,13 +110,13 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                     System.out.println("DefaultDrawingViewTransferHandler  trying flavor:" + flavor.getMimeType());
                                 }
                                 if (format.isDataFlavorSupported(flavor)) {
-                                    LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
+                                    LinkedList<Figure> existingFigures = new LinkedList<>(drawing.getChildren());
                                     try {
                                         format.read(t, drawing, false);
                                         if (DEBUG) {
                                             System.out.println("DefaultDrawingViewTransferHandler    import succeeded");
                                         }
-                                        final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
+                                        final LinkedList<Figure> importedFigures = new LinkedList<>(drawing.getChildren());
                                         importedFigures.removeAll(existingFigures);
                                         view.clearSelection();
                                         view.addToSelection(importedFigures);
@@ -169,13 +169,13 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                     if (DEBUG) {
                                         System.out.println("DefaultDrawingViewTransferHandler    trying format:" + format);
                                     }
-                                    LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
+                                    LinkedList<Figure> existingFigures = new LinkedList<>(drawing.getChildren());
                                     try {
                                         format.read(t, drawing, false);
                                         if (DEBUG) {
                                             System.out.println("DefaultDrawingViewTransferHandler    import succeeded");
                                         }
-                                        final LinkedList<Figure> importedFigures = new LinkedList<Figure>(drawing.getChildren());
+                                        final LinkedList<Figure> importedFigures = new LinkedList<>(drawing.getChildren());
                                         importedFigures.removeAll(existingFigures);
                                         view.clearSelection();
                                         view.addToSelection(importedFigures);
@@ -221,7 +221,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     if (retValue == false && t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
                         final java.util.List<File> files = (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
                         retValue = true;
-                        final LinkedList<Figure> existingFigures = new LinkedList<Figure>(drawing.getChildren());
+                        final LinkedList<Figure> existingFigures = new LinkedList<>(drawing.getChildren());
                         view.getEditor().setEnabled(false);
                         // FIXME - We should perform the following code in a
                         // worker thread.
@@ -241,7 +241,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                                         }
                                     }
                                 }
-                                return new LinkedList<Figure>(drawing.getChildren());
+                                return new LinkedList<>(drawing.getChildren());
                             }
 
                             @Override
@@ -410,7 +410,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         }
 
                     }
-                    exportedFigures = new HashSet<Figure>(transferFigures);
+                    exportedFigures = new HashSet<>(transferFigures);
                     retValue =
                             transfer;
                 } catch (IOException e) {
@@ -440,10 +440,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final DrawingView view = (DrawingView) source;
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
-                final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
+                final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<>();
                 final LinkedList<Figure> selectedFigures = (exportedFigures == null) ? //
-                        new LinkedList<Figure>() : //
-                        new LinkedList<Figure>(exportedFigures);
+                        new LinkedList<>() : //
+                        new LinkedList<>(exportedFigures);
 
                 // Abort, if not all of the selected figures may be removed from the
                 // drawing
@@ -497,7 +497,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
-                        for (CompositeFigureEvent evt : new ReversedList<CompositeFigureEvent>(deletionEvents)) {
+                        for (CompositeFigureEvent evt : new ReversedList<>(deletionEvents)) {
                             drawing.remove(evt.getChildFigure());
                         }
 
@@ -521,7 +521,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         if (comp instanceof DrawingView) {
             DrawingView view = (DrawingView) comp;
 
-            HashSet<Figure> transferFigures = new HashSet<Figure>();
+            HashSet<Figure> transferFigures = new HashSet<>();
             MouseEvent me = (MouseEvent) e;
             Figure f = view.findFigure(me.getPoint());
             if (view.getSelectedFigures().contains(f)) {
@@ -566,12 +566,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         Image image = null;
         try {
             image = (Image) t.getTransferData(DataFlavor.imageFlavor);
-        } catch (IOException ex) {
-            if (DEBUG) {
-                ex.printStackTrace();
-            }
-
-        } catch (UnsupportedFlavorException ex) {
+        } catch (IOException | UnsupportedFlavorException ex) {
             if (DEBUG) {
                 ex.printStackTrace();
             }

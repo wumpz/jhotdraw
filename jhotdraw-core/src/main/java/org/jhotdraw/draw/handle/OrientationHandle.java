@@ -140,7 +140,7 @@ public class OrientationHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         if (newValue != oldValue) {
             fireUndoableEditHappened(
-                    new AttributeChangeEdit<AttributeKeys.Orientation>(getOwner(), ORIENTATION, oldValue, newValue)
+                    new AttributeChangeEdit<>(getOwner(), ORIENTATION, oldValue, newValue)
                     );
         }
     }

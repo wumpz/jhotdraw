@@ -65,7 +65,7 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
     private WeakReference<PropertyChangeListener> weakRef;
 
     public WeakPropertyChangeListener(PropertyChangeListener target) {
-        this.weakRef = new WeakReference<PropertyChangeListener>(target);
+        this.weakRef = new WeakReference<>(target);
     }
 
     /**

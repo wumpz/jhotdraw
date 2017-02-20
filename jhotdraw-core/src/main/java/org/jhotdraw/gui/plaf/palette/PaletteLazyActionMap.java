@@ -143,13 +143,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
             } catch (NoSuchMethodException nsme) {
                 assert false : "LazyActionMap unable to load actions " +
                         klass;
-            } catch (IllegalAccessException iae) {
-                assert false : "LazyActionMap unable to load actions " +
-                        iae;
-            } catch (InvocationTargetException ite) {
-                assert false : "LazyActionMap unable to load actions " +
-                        ite;
-            } catch (IllegalArgumentException iae) {
+            } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException iae) {
                 assert false : "LazyActionMap unable to load actions " +
                         iae;
             }

@@ -48,7 +48,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
     public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
         super(editor);
-        this.attributes = new HashMap<AttributeKey<?>, Object>();
+        this.attributes = new HashMap<>();
         attributes.put(key, value);
 
         putValue(AbstractAction.NAME, name);
@@ -68,7 +68,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
     @SuppressWarnings("unchecked")
     @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-        final ArrayList<Object> restoreData = new ArrayList<Object>();
+        final ArrayList<Object> restoreData = new ArrayList<>();
         final Figure drawing = getView().getDrawing();
         restoreData.add(drawing.getAttributesRestoreData());
         drawing.willChange();

@@ -38,7 +38,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class JActivityIndicator extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<ActivityModel> models = new ArrayList<ActivityModel>();
+    private ArrayList<ActivityModel> models = new ArrayList<>();
 
     private class Handler implements ActivityManagerListener, PropertyChangeListener {
 

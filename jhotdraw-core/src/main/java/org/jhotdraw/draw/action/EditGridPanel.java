@@ -39,6 +39,7 @@ public class EditGridPanel extends javax.swing.JPanel {
         constrainer = new GridConstrainer(10, 10);
         
         widthField.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("value".equals(evt.getPropertyName())) {
                     if (evt.getNewValue() != null) {
@@ -49,6 +50,7 @@ public class EditGridPanel extends javax.swing.JPanel {
         });
         
         heightField.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("value".equals(evt.getPropertyName())) {
                     if (evt.getNewValue() != null) {
@@ -59,6 +61,7 @@ public class EditGridPanel extends javax.swing.JPanel {
         });
         
         thetaField.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("value".equals(evt.getPropertyName())) {
                     if (evt.getNewValue() != null) {

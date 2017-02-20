@@ -113,14 +113,13 @@ public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
         
         int frameHeight = getBounds().height/allFrames.length;
         int y = 0;
-        for (int i = 0; i < allFrames.length; i++) {
+        for (Component allFrame : allFrames) {
             try {
-                ((JInternalFrame)allFrames[i]).setMaximum(false);
-            } catch (PropertyVetoException e) {
+                ((JInternalFrame) allFrame).setMaximum(false);
+            }catch (PropertyVetoException e) {
                 e.printStackTrace();
             }
-            
-            allFrames[i].setBounds(0, y, getBounds().width,frameHeight);
+            allFrame.setBounds(0, y, getBounds().width, frameHeight);
             y = y + frameHeight;
         }
         
@@ -138,14 +137,13 @@ public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
         
         int frameWidth = getBounds().width/allFrames.length;
         int x = 0;
-        for (int i = 0; i < allFrames.length; i++) {
+        for (Component allFrame : allFrames) {
             try {
-                ((JInternalFrame)allFrames[i]).setMaximum(false);
-            } catch (PropertyVetoException e) {
+                ((JInternalFrame) allFrame).setMaximum(false);
+            }catch (PropertyVetoException e) {
                 e.printStackTrace();
             }
-            
-            allFrames[i].setBounds(x, 0, frameWidth, getBounds().height);
+            allFrame.setBounds(x, 0, frameWidth, getBounds().height);
             x = x + frameWidth;
         }
         
@@ -361,12 +359,12 @@ class MDIDesktopManager extends DefaultDesktopManager {
         
         if (scrollPane != null) {
             JInternalFrame allFrames[] = desktop.getAllFrames();
-            for (int i = 0; i < allFrames.length; i++) {
-                if (allFrames[i].getX() + allFrames[i].getWidth() > x) {
-                    x = allFrames[i].getX() + allFrames[i].getWidth();
+            for (JInternalFrame allFrame : allFrames) {
+                if (allFrame.getX() + allFrame.getWidth() > x) {
+                    x = allFrame.getX() + allFrame.getWidth();
                 }
-                if (allFrames[i].getY() + allFrames[i].getHeight() > y) {
-                    y = allFrames[i].getY() + allFrames[i].getHeight();
+                if (allFrame.getY() + allFrame.getHeight() > y) {
+                    y = allFrame.getY() + allFrame.getHeight();
                 }
             }
             Dimension d=scrollPane.getVisibleRect().getSize();

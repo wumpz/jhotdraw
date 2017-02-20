@@ -179,9 +179,7 @@ public class Methods {
     Class<?>[] types, Object[] values, Object defaultValue) {
         try {
             return invokeStatic(Class.forName(clazz), methodName, types, values);
-        } catch (ClassNotFoundException e) {
-            return defaultValue;
-        } catch (NoSuchMethodException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
             return defaultValue;
         }
     }
@@ -198,12 +196,8 @@ public class Methods {
         try {
             Method method =  obj.getClass().getMethod(methodName,  new Class<?>[0]);
             Object result = method.invoke(obj, new Object[0]);
-            return ((Integer) result).intValue();
-        } catch (NoSuchMethodException e) {
-            return defaultValue;
-        } catch (IllegalAccessException e) {
-            return defaultValue;
-        } catch (InvocationTargetException e) {
+            return ((Integer) result);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return defaultValue;
         }
     }
@@ -219,12 +213,8 @@ public class Methods {
         try {
             Method method =  obj.getClass().getMethod(methodName,  new Class<?>[0]);
             Object result = method.invoke(obj, new Object[0]);
-            return ((Long) result).longValue();
-        } catch (NoSuchMethodException e) {
-            return defaultValue;
-        } catch (IllegalAccessException e) {
-            return defaultValue;
-        } catch (InvocationTargetException e) {
+            return ((Long) result);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return defaultValue;
         }
     }
@@ -240,12 +230,8 @@ public class Methods {
         try {
             Method method =  obj.getClass().getMethod(methodName,  new Class<?>[0]);
             Object result = method.invoke(obj, new Object[0]);
-            return ((Boolean) result).booleanValue();
-        } catch (NoSuchMethodException e) {
-            return defaultValue;
-        } catch (IllegalAccessException e) {
-            return defaultValue;
-        } catch (InvocationTargetException e) {
+            return ((Boolean) result);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return defaultValue;
         }
     }
@@ -262,11 +248,7 @@ public class Methods {
             Method method =  obj.getClass().getMethod(methodName,  new Class<?>[0]);
             Object result = method.invoke(obj, new Object[0]);
             return result;
-        } catch (NoSuchMethodException e) {
-            return defaultValue;
-        } catch (IllegalAccessException e) {
-            return defaultValue;
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return defaultValue;
         }
     }
@@ -282,12 +264,8 @@ public class Methods {
         try {
             Method method =  clazz.getMethod(methodName,  new Class<?>[0]);
             Object result = method.invoke(null, new Object[0]);
-            return ((Boolean) result).booleanValue();
-        } catch (NoSuchMethodException e) {
-            return defaultValue;
-        } catch (IllegalAccessException e) {
-            return defaultValue;
-        } catch (InvocationTargetException e) {
+            return ((Boolean) result);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return defaultValue;
         }
     }
@@ -337,7 +315,7 @@ public class Methods {
     throws NoSuchMethodException {
         try {
             Method method =  obj.getClass().getMethod(methodName,  new Class<?>[] { Float.TYPE} );
-            return method.invoke(obj, new Object[] { new Float(newValue)});
+            return method.invoke(obj, new Object[] { newValue});
         } catch (IllegalAccessException e) {
             throw new NoSuchMethodException(methodName+" is not accessible");
         } catch (InvocationTargetException e) {
@@ -449,10 +427,7 @@ public class Methods {
                     new Object[] {enumClass, enumValueName}
             );
             invoke(obj, methodName, enumClass, enumValue);
-        } catch (ClassNotFoundException e) {
-            // ignore
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
             // ignore
             e.printStackTrace();
         }

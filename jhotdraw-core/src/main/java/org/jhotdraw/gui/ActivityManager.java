@@ -41,8 +41,8 @@ public class ActivityManager {
         }
         return instance;
     }
-    private ArrayList<ActivityModel> models = new ArrayList<ActivityModel>();
-    private ArrayList<ActivityManagerListener> listeners = new ArrayList<ActivityManagerListener>();
+    private ArrayList<ActivityModel> models = new ArrayList<>();
+    private ArrayList<ActivityManagerListener> listeners = new ArrayList<>();
 
     /** Adds a listener to the progress manager. */
     public synchronized void addActivityManagerListener(ActivityManagerListener l) {
@@ -108,9 +108,7 @@ public class ActivityManager {
         } else {
             try {
                 SwingUtilities.invokeAndWait(r);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            } catch (InvocationTargetException ex) {
+            } catch (InterruptedException | InvocationTargetException ex) {
                 ex.printStackTrace();
             }
         }

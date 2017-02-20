@@ -18,7 +18,6 @@ import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.JSheet;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.net.URIUtil;

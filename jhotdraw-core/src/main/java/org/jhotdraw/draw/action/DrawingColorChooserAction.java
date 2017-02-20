@@ -62,9 +62,9 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
                 ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         Color chosenColor = JColorChooser.showDialog((Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
         if (chosenColor != null) {
-            HashMap<AttributeKey<?>, Object> attr = new HashMap<AttributeKey<?>, Object>(attributes);
+            HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);
             attr.put(key, chosenColor);
-            HashSet<Figure> figures = new HashSet<Figure>();
+            HashSet<Figure> figures = new HashSet<>();
             figures.add(getView().getDrawing());
             applyAttributesTo(attr, figures);
         }

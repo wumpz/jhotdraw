@@ -36,7 +36,7 @@ public class SelectionComponentDisplayer
 
     public SelectionComponentDisplayer(DrawingEditor editor, JComponent component) {
         this.editor = editor;
-        this.weakRef = new WeakReference<JComponent>(component);
+        this.weakRef = new WeakReference<>(component);
         if (editor.getActiveView() != null) {
             view = editor.getActiveView();
             view.addPropertyChangeListener(this);

@@ -10,7 +10,6 @@ package org.jhotdraw.color;
 
 import java.awt.color.ColorSpace;
 import java.awt.image.*;
-import javax.swing.*;
 
 /**
  * ColorTrackImageProducer creates the image for the track of a 

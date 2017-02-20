@@ -61,7 +61,7 @@ public class ButtonFactory {
     public static final java.util.List<ColorIcon> DEFAULT_COLORS;
 
     static {
-        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        LinkedList<ColorIcon> m = new LinkedList<>();
         m.add(new ColorIcon(0x800000, "Cayenne"));
         m.add(new ColorIcon(0x808000, "Asparagus"));
         m.add(new ColorIcon(0x008000, "Clover"));
@@ -121,7 +121,7 @@ public class ButtonFactory {
     public static final java.util.List<ColorIcon> WEBSAVE_COLORS;
 
     static {
-        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        LinkedList<ColorIcon> m = new LinkedList<>();
         for (int b = 0; b <= 0xff; b += 0x33) {
             int rgb = (b << 16) | (b << 8) | b;
             m.add(new ColorIcon(rgb));
@@ -183,7 +183,7 @@ public class ButtonFactory {
     static {
         ColorSpace grayCS = ColorSpace.getInstance(ColorSpace.CS_GRAY);
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
-        LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
+        LinkedList<ColorIcon> m = new LinkedList<>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
 
@@ -208,7 +208,7 @@ public class ButtonFactory {
         }
         HSB_COLORS = Collections.unmodifiableList(m);
 
-        m = new LinkedList<ColorIcon>();
+        m = new LinkedList<>();
         for (ColorIcon ci : HSB_COLORS) {
             if (ci.getColor() == null) {
                 m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
@@ -250,11 +250,11 @@ public class ButtonFactory {
     }
 
     public static Collection<Action> createDrawingActions(DrawingEditor editor) {
-        return createDrawingActions(editor, new LinkedList<Disposable>());
+        return createDrawingActions(editor, new LinkedList<>());
     }
 
     public static Collection<Action> createDrawingActions(DrawingEditor editor, java.util.List<Disposable> dsp) {
-        LinkedList<Action> list = new LinkedList<Action>();
+        LinkedList<Action> list = new LinkedList<>();
         AbstractSelectedAction a;
         list.add(new CutAction());
         list.add(new CopyAction());
@@ -265,7 +265,7 @@ public class ButtonFactory {
     }
 
     public static Collection<Action> createSelectionActions(DrawingEditor editor) {
-        LinkedList<Action> a = new LinkedList<Action>();
+        LinkedList<Action> a = new LinkedList<>();
         a.add(new DuplicateAction());
 
         a.add(null); // separator
@@ -480,9 +480,9 @@ public class ButtonFactory {
             java.util.List<ColorIcon> colors, int columnCount) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
-        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attribute.strokeColor", labels, new HashMap<AttributeKey<?>, Object>()));
-        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<AttributeKey<?>, Object>()));
-        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<AttributeKey<?>, Object>()));
+        bar.add(createEditorColorButton(editor, STROKE_COLOR, colors, columnCount, "attribute.strokeColor", labels, new HashMap<>()));
+        bar.add(createEditorColorButton(editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<>()));
+        bar.add(createEditorColorButton(editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<>()));
     }
 
     /**
@@ -592,7 +592,7 @@ public class ButtonFactory {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
-            defaultAttributes = new HashMap<AttributeKey<?>, Object>();
+            defaultAttributes = new HashMap<>();
         }
 
         popupButton.setAction(
@@ -602,7 +602,7 @@ public class ButtonFactory {
         boolean hasNullColor = false;
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
-            HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>(defaultAttributes);
+            HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             Color swatchColor = swatch.getColor();
             attributes.put(attributeKey, swatchColor);
             if (swatchColor == null || swatchColor.getAlpha() == 0) {
@@ -621,7 +621,7 @@ public class ButtonFactory {
         // No color
         if (!hasNullColor) {
             AttributeAction a;
-            HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>(defaultAttributes);
+            HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             attributes.put(attributeKey, null);
             popupButton.add(a =
                     new AttributeAction(
@@ -772,7 +772,7 @@ public class ButtonFactory {
             Shape colorShape) {
         return createSelectionColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
-                colorShape, new LinkedList<Disposable>());
+                colorShape, new LinkedList<>());
     }
 
     /**
@@ -812,14 +812,14 @@ public class ButtonFactory {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
-            defaultAttributes = new HashMap<AttributeKey<?>, Object>();
+            defaultAttributes = new HashMap<>();
         }
 
         popupButton.setColumnCount(columnCount, false);
         boolean hasNullColor = false;
         for (ColorIcon swatch : swatches) {
             AttributeAction a;
-            HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>(defaultAttributes);
+            HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             if (swatch != null) {
                 Color swatchColor = swatch.getColor();
                 attributes.put(attributeKey, swatchColor);
@@ -844,7 +844,7 @@ public class ButtonFactory {
         // No color
         if (!hasNullColor) {
             AttributeAction a;
-            HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>(defaultAttributes);
+            HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             attributes.put(attributeKey, null);
             popupButton.add(a =
                     new AttributeAction(
@@ -1048,7 +1048,7 @@ public class ButtonFactory {
             Shape colorShape) {
         return createDrawingColorButton(editor, attributeKey,
                 swatches, columnCount, labelKey, labels, defaultAttributes,
-                colorShape, new LinkedList<Disposable>());
+                colorShape, new LinkedList<>());
     }
 
     /**
@@ -1083,14 +1083,14 @@ public class ButtonFactory {
         final JPopupButton popupButton = new JPopupButton();
         popupButton.setPopupAlpha(1f);
         if (defaultAttributes == null) {
-            defaultAttributes = new HashMap<AttributeKey<?>, Object>();
+            defaultAttributes = new HashMap<>();
         }
 
         popupButton.setColumnCount(columnCount, false);
         boolean hasNullColor = false;
         for (ColorIcon swatch : swatches) {
             DrawingAttributeAction a;
-            HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>(defaultAttributes);
+            HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             if (swatch != null) {
                 Color swatchColor = swatch.getColor();
                 attributes.put(attributeKey, swatchColor);
@@ -1114,7 +1114,7 @@ public class ButtonFactory {
         // No color
         if (!hasNullColor) {
             DrawingAttributeAction a;
-            HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>(defaultAttributes);
+            HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             attributes.put(attributeKey, null);
             popupButton.add(a =
                     new DrawingAttributeAction(
@@ -1280,8 +1280,7 @@ public class ButtonFactory {
             Icon icon = new StrokeIcon(new BasicStroke((float) widths[i], BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
             AttributeAction a = new AttributeAction(
                     editor,
-                    STROKE_WIDTH,
-                    new Double(widths[i]),
+                    STROKE_WIDTH, widths[i],
                     label,
                     icon);
             a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth.text"));
@@ -1315,21 +1314,9 @@ public class ButtonFactory {
             new ArrowTip(Math.PI / 6, 10, 18, true, true, true),
             null
         };
-        for (int i = 0; i < decorations.length; i++) {
-            strokeDecorationPopupButton.add(
-                    new AttributeAction(
-                    editor,
-                    START_DECORATION,
-                    decorations[i],
-                    null,
-                    new LineDecorationIcon(decorations[i], true)));
-            strokeDecorationPopupButton.add(
-                    new AttributeAction(
-                    editor,
-                    END_DECORATION,
-                    decorations[i],
-                    null,
-                    new LineDecorationIcon(decorations[i], false)));
+        for (LineDecoration decoration : decorations) {
+            strokeDecorationPopupButton.add(new AttributeAction(editor, START_DECORATION, decoration, null, new LineDecorationIcon(decoration, true)));
+            strokeDecorationPopupButton.add(new AttributeAction(editor, END_DECORATION, decoration, null, new LineDecorationIcon(decoration, false)));
         }
 
         return strokeDecorationPopupButton;
@@ -1363,7 +1350,7 @@ public class ButtonFactory {
             double[][] dashes,
             ResourceBundleUtil labels) {
         return createStrokeDashesButton(editor, dashes,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JPopupButton createStrokeDashesButton(DrawingEditor editor, double[][] dashes,
@@ -1372,30 +1359,21 @@ public class ButtonFactory {
         labels.configureToolBarButton(strokeDashesPopupButton, "attribute.strokeDashes");
         strokeDashesPopupButton.setFocusable(false);
         //strokeDashesPopupButton.setColumnCount(2, false);
-        for (int i = 0; i < dashes.length; i++) {
-
+        for (double[] dashe : dashes) {
             float[] fdashes;
-            if (dashes[i] == null) {
+            if (dashe == null) {
                 fdashes = null;
             } else {
-                fdashes = new float[dashes[i].length];
-                for (int j = 0; j < dashes[i].length; j++) {
-                    fdashes[j] = (float) dashes[i][j];
+                fdashes = new float[dashe.length];
+                for (int j = 0; j < dashe.length; j++) {
+                    fdashes[j] = (float) dashe[j];
                 }
             }
-
             Icon icon = new StrokeIcon(
                     new BasicStroke(2f, BasicStroke.CAP_BUTT,
-                    BasicStroke.JOIN_BEVEL, 10f, fdashes, 0));
-
+                            BasicStroke.JOIN_BEVEL, 10f, fdashes, 0));
             AttributeAction a;
-            AbstractButton btn = strokeDashesPopupButton.add(
-                    a = new AttributeAction(
-                    editor,
-                    STROKE_DASHES,
-                    dashes[i],
-                    null,
-                    icon));
+            AbstractButton btn = strokeDashesPopupButton.add(a = new AttributeAction(editor, STROKE_DASHES, dashe, null, icon));
             dsp.add(a);
             btn.setDisabledIcon(icon);
         }
@@ -1416,7 +1394,7 @@ public class ButtonFactory {
                 AttributeKeys.StrokeType.BASIC,
                 labels.getString("attribute.strokeType.basic"),
                 new StrokeIcon(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL))));
-        HashMap<AttributeKey<?>, Object> attr = new HashMap<AttributeKey<?>, Object>();
+        HashMap<AttributeKey<?>, Object> attr = new HashMap<>();
         attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
         attr.put(STROKE_INNER_WIDTH_FACTOR, 2d);
         strokeTypePopupButton.add(
@@ -1425,7 +1403,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokeType.double"),
                 new StrokeIcon(new DoubleStroke(2, 1))));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
         attr.put(STROKE_INNER_WIDTH_FACTOR, 3d);
         strokeTypePopupButton.add(
@@ -1434,7 +1412,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokeType.double"),
                 new StrokeIcon(new DoubleStroke(3, 1))));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
         attr.put(STROKE_INNER_WIDTH_FACTOR, 4d);
         strokeTypePopupButton.add(
@@ -1456,7 +1434,7 @@ public class ButtonFactory {
         strokePlacementPopupButton.setFocusable(false);
 
         HashMap<AttributeKey<?>, Object> attr;
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
         strokePlacementPopupButton.add(
@@ -1465,7 +1443,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.center"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
         strokePlacementPopupButton.add(
@@ -1474,7 +1452,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.inside"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
         strokePlacementPopupButton.add(
@@ -1483,7 +1461,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.outside"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
         strokePlacementPopupButton.add(
@@ -1492,7 +1470,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.centerFilled"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
         strokePlacementPopupButton.add(
@@ -1501,7 +1479,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.insideFilled"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
         strokePlacementPopupButton.add(
@@ -1510,7 +1488,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.outsideFilled"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
         strokePlacementPopupButton.add(
@@ -1519,7 +1497,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.centerUnfilled"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
         strokePlacementPopupButton.add(
@@ -1528,7 +1506,7 @@ public class ButtonFactory {
                 attr,
                 labels.getString("attribute.strokePlacement.insideUnfilled"),
                 null));
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
         strokePlacementPopupButton.add(
@@ -1562,7 +1540,7 @@ public class ButtonFactory {
     public static JPopupButton createFontButton(DrawingEditor editor,
             AttributeKey<Font> key,
             ResourceBundleUtil labels) {
-        return createFontButton(editor, key, labels, new LinkedList<Disposable>());
+        return createFontButton(editor, key, labels, new LinkedList<>());
     }
 
     public static JPopupButton createFontButton(DrawingEditor editor,
@@ -1595,7 +1573,7 @@ public class ButtonFactory {
     public static JButton createFontStyleBoldButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontStyleBoldButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JButton createFontStyleBoldButton(DrawingEditor editor,
@@ -1605,7 +1583,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(btn, "attribute.fontStyle.bold");
         btn.setFocusable(false);
 
-        AbstractAction a = new AttributeToggler<Boolean>(editor,
+        AbstractAction a = new AttributeToggler<>(editor,
                 FONT_BOLD, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
         a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold.text"));
@@ -1621,7 +1599,7 @@ public class ButtonFactory {
     public static JButton createFontStyleItalicButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontStyleItalicButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JButton createFontStyleItalicButton(DrawingEditor editor,
@@ -1631,7 +1609,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
         btn.setFocusable(false);
 
-        AbstractAction a = new AttributeToggler<Boolean>(editor,
+        AbstractAction a = new AttributeToggler<>(editor,
                 FONT_ITALIC, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
         a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
@@ -1647,7 +1625,7 @@ public class ButtonFactory {
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createFontStyleUnderlineButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JButton createFontStyleUnderlineButton(DrawingEditor editor,
@@ -1657,7 +1635,7 @@ public class ButtonFactory {
         labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
         btn.setFocusable(false);
 
-        AbstractAction a = new AttributeToggler<Boolean>(editor,
+        AbstractAction a = new AttributeToggler<>(editor,
                 FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE,
                 new StyledEditorKit.BoldAction());
         a.putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.underline.text"));
@@ -1669,7 +1647,7 @@ public class ButtonFactory {
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
     public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor) {
-        addAlignmentButtonsTo(bar, editor, new LinkedList<Disposable>());
+        addAlignmentButtonsTo(bar, editor, new LinkedList<>());
     }
 
     /**
@@ -1747,7 +1725,7 @@ public class ButtonFactory {
     public static JPopupButton createStrokeCapButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createStrokeCapButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JPopupButton createStrokeCapButton(DrawingEditor editor,
@@ -1758,7 +1736,7 @@ public class ButtonFactory {
         popupButton.setFocusable(false);
 
         HashMap<AttributeKey<?>, Object> attr;
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_CAP, BasicStroke.CAP_BUTT);
         AttributeAction a;
         popupButton.add(
@@ -1768,7 +1746,7 @@ public class ButtonFactory {
                 labels.getString("attribute.strokeCap.butt"),
                 null));
         dsp.add(a);
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_CAP, BasicStroke.CAP_ROUND);
         popupButton.add(
                 a = new AttributeAction(
@@ -1777,7 +1755,7 @@ public class ButtonFactory {
                 labels.getString("attribute.strokeCap.round"),
                 null));
         dsp.add(a);
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_CAP, BasicStroke.CAP_SQUARE);
         popupButton.add(
                 a = new AttributeAction(
@@ -1797,7 +1775,7 @@ public class ButtonFactory {
     public static JPopupButton createStrokeJoinButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createStrokeJoinButton(editor,
-                labels, new LinkedList<Disposable>());
+                labels, new LinkedList<>());
     }
 
     public static JPopupButton createStrokeJoinButton(DrawingEditor editor,
@@ -1808,7 +1786,7 @@ public class ButtonFactory {
         popupButton.setFocusable(false);
 
         HashMap<AttributeKey<?>, Object> attr;
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_BEVEL);
         AttributeAction a;
         popupButton.add(
@@ -1818,7 +1796,7 @@ public class ButtonFactory {
                 labels.getString("attribute.strokeJoin.bevel"),
                 null));
         dsp.add(a);
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_ROUND);
         popupButton.add(
                 a = new AttributeAction(
@@ -1827,7 +1805,7 @@ public class ButtonFactory {
                 labels.getString("attribute.strokeJoin.round"),
                 null));
         dsp.add(a);
-        attr = new HashMap<AttributeKey<?>, Object>();
+        attr = new HashMap<>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_MITER);
         popupButton.add(
                 a = new AttributeAction(
@@ -1840,7 +1818,7 @@ public class ButtonFactory {
     }
 
     public static JButton createPickAttributesButton(DrawingEditor editor) {
-        return createPickAttributesButton(editor, new LinkedList<Disposable>());
+        return createPickAttributesButton(editor, new LinkedList<>());
     }
 
     public static JButton createPickAttributesButton(DrawingEditor editor, java.util.List<Disposable> dsp) {
@@ -1863,7 +1841,7 @@ public class ButtonFactory {
      * current selection.
      */
     public static JButton createApplyAttributesButton(DrawingEditor editor) {
-        return createApplyAttributesButton(editor, new LinkedList<Disposable>());
+        return createApplyAttributesButton(editor, new LinkedList<>());
     }
 
     public static JButton createApplyAttributesButton(DrawingEditor editor, java.util.List<Disposable> dsp) {

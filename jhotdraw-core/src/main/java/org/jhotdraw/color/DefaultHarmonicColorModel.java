@@ -34,8 +34,8 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
     public DefaultHarmonicColorModel() {
         ColorSpace sys = HSLPhysiologicColorSpace.getInstance();
         sliderModel = new DefaultColorSliderModel(sys);
-        colors = new ArrayList<Color>();
-        rules = new ArrayList<HarmonicRule>();
+        colors = new ArrayList<>();
+        rules = new ArrayList<>();
 
         base = 0;
         add(Color.RED);

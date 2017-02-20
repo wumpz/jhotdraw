@@ -33,7 +33,7 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
 
     public FontCollectionNode(String name) {
         this.name = name;
-        children = new ArrayList<FontFamilyNode>();
+        children = new ArrayList<>();
     }
 
     public FontCollectionNode(String name, ArrayList<FontFamilyNode> families) {
@@ -66,7 +66,7 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
             throw error;
         }
         that.parent = null;
-        that.children = new ArrayList<FontFamilyNode>();
+        that.children = new ArrayList<>();
         for (FontFamilyNode f : this.children) {
             that.insert(f.clone(), that.getChildCount());
         }

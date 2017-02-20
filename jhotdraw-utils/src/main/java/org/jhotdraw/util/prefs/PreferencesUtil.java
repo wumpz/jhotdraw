@@ -28,7 +28,7 @@ import java.util.HashMap;
 public class PreferencesUtil
         extends Preferences {
 
-    private HashMap<String, Object> map = new HashMap<String, Object>();
+    private HashMap<String, Object> map = new HashMap<>();
     private boolean isUserNode;
     private static HashMap<Package, Preferences> systemNodes;
     private static HashMap<Package, Preferences> userNodes;
@@ -225,7 +225,7 @@ public class PreferencesUtil
             return Preferences.systemNodeForPackage(c);
         } catch (Throwable t) {
             if (systemNodes == null) {
-                systemNodes = new HashMap<Package, Preferences>();
+                systemNodes = new HashMap<>();
             }
             return systemNodeForPackage(c);
         }
@@ -248,7 +248,7 @@ public class PreferencesUtil
             return Preferences.userNodeForPackage(c);
         } catch (Throwable t) {
             if (userNodes == null) {
-                userNodes = new HashMap<Package, Preferences>();
+                userNodes = new HashMap<>();
             }
             return userNodeForPackage(c);
         }

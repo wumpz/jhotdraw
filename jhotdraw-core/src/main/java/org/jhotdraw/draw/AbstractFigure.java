@@ -334,7 +334,7 @@ public abstract class AbstractFigure
 
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
+        LinkedList<Handle> handles = new LinkedList<>();
         switch (detailLevel) {
             case -1:
                 handles.add(new BoundsOutlineHandle(this, false, true));
@@ -577,7 +577,7 @@ public abstract class AbstractFigure
 
     @Override
     public Collection<Figure> getDecomposition() {
-        LinkedList<Figure> list = new LinkedList<Figure>();
+        LinkedList<Figure> list = new LinkedList<>();
         list.add(this);
         return list;
     }
@@ -620,7 +620,7 @@ public abstract class AbstractFigure
 
     @Override
     public Collection<Connector> getConnectors(ConnectionFigure prototype) {
-        LinkedList<Connector> connectors = new LinkedList<Connector>();
+        LinkedList<Connector> connectors = new LinkedList<>();
         connectors.add(new ChopRectangleConnector(this));
         return connectors;
     }

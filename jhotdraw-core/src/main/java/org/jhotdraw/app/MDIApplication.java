@@ -174,7 +174,7 @@ public class MDIApplication extends AbstractApplication {
 
         scrollPane = new JScrollPane();
         scrollPane.setViewportView(desktopPane);
-        toolBarActions = new LinkedList<Action>();
+        toolBarActions = new LinkedList<>();
 
         setActionMap(createModelActionMap(model));
         parentFrame.getContentPane().add(
@@ -391,7 +391,7 @@ public class MDIApplication extends AbstractApplication {
     protected Component wrapDesktopPane(Component c, LinkedList<Action> toolBarActions) {
         if (getModel() != null) {
             int id = 0;
-            for (JToolBar tb : new ReversedList<JToolBar>(getModel().createToolBars(this, null))) {
+            for (JToolBar tb : new ReversedList<>(getModel().createToolBars(this, null))) {
                 id++;
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(tb, BorderLayout.NORTH);
@@ -421,7 +421,7 @@ public class MDIApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        LinkedList<JMenu> ll = new LinkedList<>();
         getModel().getMenuBuilder().addOtherMenus(ll, this, v);
         for (JMenu mm : ll) {
             String text = mm.getText();
@@ -698,9 +698,7 @@ public class MDIApplication extends AbstractApplication {
                     a.actionPerformed(new ActionEvent(desktopPane, ActionEvent.ACTION_PERFORMED, f.toString()));
                 }
                 return true;
-            } catch (UnsupportedFlavorException ex) {
-                return false;
-            } catch (IOException ex) {
+            } catch (UnsupportedFlavorException | IOException ex) {
                 return false;
             }
         }

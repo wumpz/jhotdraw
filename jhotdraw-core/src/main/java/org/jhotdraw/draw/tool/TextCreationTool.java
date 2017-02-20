@@ -15,7 +15,6 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextField;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;

@@ -187,8 +187,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             boolean lineComplete = false;
             float maxAscent = 0, maxDescent = 0;
             float horizontalPos = leftMargin;
-            LinkedList<TextLayout> layouts = new LinkedList<TextLayout>();
-            LinkedList<Float> penPositions = new LinkedList<Float>();
+            LinkedList<TextLayout> layouts = new LinkedList<>();
+            LinkedList<Float> penPositions = new LinkedList<>();
 
             int first = layouts.size();
 

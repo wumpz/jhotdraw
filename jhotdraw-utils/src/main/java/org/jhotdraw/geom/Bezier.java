@@ -32,7 +32,7 @@ public class Bezier {
     }
 
     public static void main(String[] args) {
-        ArrayList<Point2D.Double> d = new ArrayList<Point2D.Double>();
+        ArrayList<Point2D.Double> d = new ArrayList<>();
         d.add(new Point2D.Double(0, 0));
         d.add(new Point2D.Double(5, 1));
         d.add(new Point2D.Double(10, 0));
@@ -138,7 +138,7 @@ public class Bezier {
      * digitized points. 
      */
     public static BezierPath fitBezierPath(BezierPath digitizedPoints, double error) {
-        ArrayList<Point2D.Double> d = new ArrayList<Point2D.Double>(digitizedPoints.size());
+        ArrayList<Point2D.Double> d = new ArrayList<>(digitizedPoints.size());
         for (BezierPath.Node n : digitizedPoints) {
             d.add(new Point2D.Double(n.x[0], n.y[0]));
         }
@@ -170,7 +170,7 @@ public class Bezier {
         } else {
 
             double squaredDistance = minDistance * minDistance;
-            java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<Point2D.Double>();
+            java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<>();
             if (digitizedPoints.size() > 0) {
                 Point2D.Double prev = digitizedPoints.get(0);
                 cleaned.add(prev);
@@ -202,7 +202,7 @@ public class Bezier {
      * @return Digitized points without subsequent duplicates.
      */
     private static ArrayList<Point2D.Double> removeCoincidentPoints(java.util.List<Point2D.Double> digitizedPoints) {
-        java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<Point2D.Double>();
+        java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<>();
         if (digitizedPoints.size() > 0) {
             Point2D.Double prev = digitizedPoints.get(0);
             cleaned.add(prev);
@@ -231,16 +231,16 @@ public class Bezier {
      */
     public static ArrayList<ArrayList<Point2D.Double>> splitAtCorners(java.util.List<Point2D.Double> digitizedPoints, double maxAngle, double minDistance) {
         ArrayList<Integer> cornerIndices = findCorners(digitizedPoints, maxAngle, minDistance);
-        ArrayList<ArrayList<Point2D.Double>> segments = new ArrayList<ArrayList<Point2D.Double>>(cornerIndices.size() + 1);
+        ArrayList<ArrayList<Point2D.Double>> segments = new ArrayList<>(cornerIndices.size() + 1);
 
         if (cornerIndices.size() == 0) {
-            segments.add(new ArrayList<Point2D.Double>(digitizedPoints));
+            segments.add(new ArrayList<>(digitizedPoints));
         } else {
-            segments.add(new ArrayList<Point2D.Double>(digitizedPoints.subList(0, cornerIndices.get(0) + 1)));
+            segments.add(new ArrayList<>(digitizedPoints.subList(0, cornerIndices.get(0) + 1)));
             for (int i = 1; i < cornerIndices.size(); i++) {
-                segments.add(new ArrayList<Point2D.Double>(digitizedPoints.subList(cornerIndices.get(i - 1), cornerIndices.get(i) + 1)));
+                segments.add(new ArrayList<>(digitizedPoints.subList(cornerIndices.get(i - 1), cornerIndices.get(i) + 1)));
             }
-            segments.add(new ArrayList<Point2D.Double>(digitizedPoints.subList(cornerIndices.get(cornerIndices.size() - 1), digitizedPoints.size())));
+            segments.add(new ArrayList<>(digitizedPoints.subList(cornerIndices.get(cornerIndices.size() - 1), digitizedPoints.size())));
         }
 
         return segments;
@@ -256,7 +256,7 @@ public class Bezier {
      * @return list of corner indices.
      */
     public static ArrayList<Integer> findCorners(java.util.List<Point2D.Double> digitizedPoints, double minAngle, double minDistance) {
-        ArrayList<Integer> cornerIndices = new ArrayList<Integer>();
+        ArrayList<Integer> cornerIndices = new ArrayList<>();
 
         double squaredDistance = minDistance * minDistance;
 
@@ -324,7 +324,7 @@ public class Bezier {
      * @return Digitized points with reduced noise.
      */
     public static ArrayList<Point2D.Double> reduceNoise(java.util.List<Point2D.Double> digitizedPoints, double weight) {
-        java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<Point2D.Double>();
+        java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<>();
         if (digitizedPoints.size() > 0) {
             Point2D.Double prev = digitizedPoints.get(0);
             cleaned.add(prev);

@@ -9,8 +9,6 @@
 
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nonnull;
-
 
 /**
  * Interface implemented by observers of selection changes in 

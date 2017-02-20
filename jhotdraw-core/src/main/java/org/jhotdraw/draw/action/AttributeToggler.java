@@ -82,8 +82,8 @@ public class AttributeToggler<T> extends AbstractAction {
         final T newValue = toggleValue;
         
         //--
-        final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(getView().getSelectedFigures());
-        final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
+        final ArrayList<Figure> selectedFigures = new ArrayList<>(getView().getSelectedFigures());
+        final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();

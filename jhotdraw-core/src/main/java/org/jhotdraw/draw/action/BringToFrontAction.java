@@ -35,7 +35,7 @@ public class BringToFrontAction extends AbstractSelectedAction {
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
-        final LinkedList<Figure> figures = new LinkedList<Figure>(view.getSelectedFigures());
+        final LinkedList<Figure> figures = new LinkedList<>(view.getSelectedFigures());
         bringToFront(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;

@@ -9,7 +9,6 @@ package org.jhotdraw.gui.plaf.palette;
 
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.UIDefaults.*;
@@ -94,7 +93,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     }
 
     public boolean getBoolean(String key) {
-        return ((Boolean) get(key)).booleanValue();
+        return ((Boolean) get(key));
     }
 
     public Border getBorder(String key) {

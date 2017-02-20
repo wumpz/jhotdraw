@@ -10,7 +10,6 @@ package org.jhotdraw.draw.action;
 import javax.swing.event.ChangeEvent;
 import javax.swing.undo.*;
 import javax.swing.*;
-import java.util.*;
 import java.awt.*;
 import javax.swing.event.ChangeListener;
 import org.jhotdraw.draw.*;

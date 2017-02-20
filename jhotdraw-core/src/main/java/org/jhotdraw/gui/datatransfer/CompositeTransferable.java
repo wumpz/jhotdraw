@@ -18,8 +18,8 @@ import java.io.*;
  * @author  Werner Randelshofer
  */
 public class CompositeTransferable implements Transferable, ClipboardOwner {
-    private HashMap<DataFlavor,Transferable> transferables = new HashMap<DataFlavor,Transferable>();
-    private LinkedList<DataFlavor> flavors = new LinkedList<DataFlavor>();
+    private HashMap<DataFlavor,Transferable> transferables = new HashMap<>();
+    private LinkedList<DataFlavor> flavors = new LinkedList<>();
     
     /** Creates a new instance of CompositeTransferable */
     public CompositeTransferable() {
@@ -27,10 +27,11 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
     
     public void add(Transferable t) {
         DataFlavor[] f = t.getTransferDataFlavors();
-        for (int i=0; i < f.length; i++) {
-            if (! transferables.containsKey(f[i])) flavors.add(f[i]);
-            transferables.put(f[i], t);
-            
+        for (DataFlavor f1 : f) {
+            if (!transferables.containsKey(f1)) {
+                flavors.add(f1);
+            }
+            transferables.put(f1, t);
         }
     }
     

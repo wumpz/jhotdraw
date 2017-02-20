@@ -51,7 +51,7 @@ import org.jhotdraw.xml.DOMOutput;
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     private static final long serialVersionUID = 1L;
 
-    protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
+    protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
     private HashSet<AttributeKey<?>> forbiddenAttributes;
     /**
      * Figure which performs all presentation tasks for this
@@ -232,7 +232,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      */
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
+        LinkedList<Handle> handles = new LinkedList<>();
         if (detailLevel == 0) {
             MoveHandle.addMoveHandles(this, handles);
         }
@@ -323,7 +323,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
 
     public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
         if (forbiddenAttributes == null) {
-            forbiddenAttributes = new HashSet<AttributeKey<?>>();
+            forbiddenAttributes = new HashSet<>();
         }
         if (b) {
             forbiddenAttributes.remove(key);
@@ -425,7 +425,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
 
     @Override
     public Map<AttributeKey<?>, Object> getAttributes() {
-        return new HashMap<AttributeKey<?>, Object>(attributes);
+        return new HashMap<>(attributes);
     }
 
     /**

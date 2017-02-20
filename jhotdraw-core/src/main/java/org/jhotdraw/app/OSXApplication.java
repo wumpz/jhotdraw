@@ -183,7 +183,7 @@ public class OSXApplication extends AbstractApplication {
 
         initLabels();
 
-        paletteActions = new LinkedList<Action>();
+        paletteActions = new LinkedList<>();
         setActionMap(createModelActionMap(model));
         initPalettes(paletteActions);
         initScreenMenuBar();
@@ -254,7 +254,7 @@ public class OSXApplication extends AbstractApplication {
             
             // Unlink all menu items from action objects
             JMenuBar mb = ((JFrame) window).getJMenuBar();
-            Stack<JMenu> s = new Stack<JMenu>();
+            Stack<JMenu> s = new Stack<>();
             for (int i = 0, n = mb.getMenuCount(); i < n; ++i) {
                 if (mb.getMenu(i) != null) {
                     s.push(mb.getMenu(i));
@@ -370,7 +370,7 @@ public class OSXApplication extends AbstractApplication {
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        LinkedList<JMenu> ll = new LinkedList<>();
         getModel().getMenuBuilder().addOtherMenus(ll, this, v);
         for (JMenu mm : ll) {
             String text = mm.getText();
@@ -563,8 +563,8 @@ public class OSXApplication extends AbstractApplication {
 
             @Override
             public LinkedList<JFrame> construct() {
-                LinkedList<JFrame> palettes = new LinkedList<JFrame>();
-                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(OSXApplication.this, null));
+                LinkedList<JFrame> palettes = new LinkedList<>();
+                LinkedList<JToolBar> toolBars = new LinkedList<>(getModel().createToolBars(OSXApplication.this, null));
 
                 int i = 0;
                 int x = 0;

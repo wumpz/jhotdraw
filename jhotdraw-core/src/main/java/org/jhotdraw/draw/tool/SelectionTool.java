@@ -240,7 +240,7 @@ public class SelectionTool extends AbstractTool {
                     while (figure != null && !figure.isSelectable()) {
                         figure = drawing.findFigureBehind(p, figure);
                     }
-                    HashSet<Figure> ignoredFigures = new HashSet<Figure>(view.getSelectedFigures());
+                    HashSet<Figure> ignoredFigures = new HashSet<>(view.getSelectedFigures());
                     ignoredFigures.add(figure);
                     Figure figureBehind = view.getDrawing().findFigureBehind(
                             view.viewToDrawing(anchor), ignoredFigures);
@@ -369,6 +369,7 @@ public class SelectionTool extends AbstractTool {
      * 
      * @return True, if this tool supports interaction with the handles.
      */
+    @Override
     public boolean supportsHandleInteraction() {
         return true;
     }

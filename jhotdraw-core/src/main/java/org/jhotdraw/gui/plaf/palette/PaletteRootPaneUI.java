@@ -90,6 +90,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * is being used
          * @return a Dimension object containing the layout's minimum size
          */
+    @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension rd, mbd;
             Insets i = rootPane.getInsets();
@@ -118,6 +119,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * is being used
          * @return a Dimension object containing the layout's maximum size
          */
+    @Override
         public Dimension maximumLayoutSize(Container target) {
             Dimension rd, mbd;
             Insets i = rootPane.getInsets();
@@ -146,6 +148,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * @param parent the Container for which this layout manager
          * is being used
          */
+    @Override
         public void layoutContainer(Container parent) {
             Rectangle b = parent.getBounds();
             Insets i = rootPane.getInsets();
@@ -176,23 +179,29 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             }
         }
 
+    @Override
         public void addLayoutComponent(String name, Component comp) {
         }
 
+    @Override
         public void removeLayoutComponent(Component comp) {
         }
 
+    @Override
         public void addLayoutComponent(Component comp, Object constraints) {
         }
 
+    @Override
         public float getLayoutAlignmentX(Container target) {
             return 0.0f;
         }
 
+    @Override
         public float getLayoutAlignmentY(Container target) {
             return 0.0f;
         }
 
+    @Override
         public void invalidateLayout(Container target) {
         }
     }

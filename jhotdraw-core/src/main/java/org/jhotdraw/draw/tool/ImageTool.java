@@ -15,7 +15,6 @@ import java.awt.*;
 import java.util.*;
 import javax.annotation.Nullable;
 import org.jhotdraw.gui.BackgroundTask;
-import org.jhotdraw.gui.Worker;
 
 /**
  * A tool to create new figures that implement the ImageHolderFigure

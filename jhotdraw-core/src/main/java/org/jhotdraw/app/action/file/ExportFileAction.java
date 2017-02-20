@@ -9,8 +9,6 @@ package org.jhotdraw.app.action.file;
 
 import javax.annotation.Nullable;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.util.*;

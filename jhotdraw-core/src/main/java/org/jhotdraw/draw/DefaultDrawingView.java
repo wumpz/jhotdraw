@@ -56,15 +56,15 @@ public class DefaultDrawingView
      * Holds the selected figures in an ordered put. The ordering reflects the sequence that was
      * used to select the figures.
      */
-    private Set<Figure> selectedFigures = new LinkedHashSet<Figure>();
-    private LinkedList<Handle> selectionHandles = new LinkedList<Handle>();
+    private Set<Figure> selectedFigures = new LinkedHashSet<>();
+    private LinkedList<Handle> selectionHandles = new LinkedList<>();
     private boolean isConstrainerVisible = false;
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
     @Nullable
     private Handle activeHandle;
-    private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
+    private LinkedList<Handle> secondaryHandles = new LinkedList<>();
     private boolean handlesAreValid = true;
     @Nullable
     private transient Dimension cachedPreferredSize;
@@ -797,10 +797,10 @@ public class DefaultDrawingView
             System.out.println("DefaultDrawingView" + ".addToSelection(" + figure + ")");
         }
 
-        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
+        Set<Figure> oldSelection = new HashSet<>(selectedFigures);
         if (selectedFigures.add(figure)) {
             figure.addFigureListener(handleInvalidator);
-            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+            Set<Figure> newSelection = new HashSet<>(selectedFigures);
             Rectangle invalidatedArea = null;
             if (handlesAreValid && getEditor() != null) {
                 for (Handle h : figure.createHandles(detailLevel)) {
@@ -828,8 +828,8 @@ public class DefaultDrawingView
      */
     @Override
     public void addToSelection(Collection<Figure> figures) {
-        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
-        Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+        Set<Figure> oldSelection = new HashSet<>(selectedFigures);
+        Set<Figure> newSelection = new HashSet<>(selectedFigures);
         boolean selectionChanged = false;
         Rectangle invalidatedArea = null;
         for (Figure figure : figures) {
@@ -866,9 +866,9 @@ public class DefaultDrawingView
      */
     @Override
     public void removeFromSelection(Figure figure) {
-        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
+        Set<Figure> oldSelection = new HashSet<>(selectedFigures);
         if (selectedFigures.remove(figure)) {
-            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+            Set<Figure> newSelection = new HashSet<>(selectedFigures);
             invalidateHandles();
 
             figure.removeFigureListener(handleInvalidator);
@@ -902,7 +902,7 @@ public class DefaultDrawingView
      */
     @Override
     public void selectAll() {
-        Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
+        Set<Figure> oldSelection = new HashSet<>(selectedFigures);
         selectedFigures.clear();
 
         for (Figure figure : drawing.getChildren()) {
@@ -912,7 +912,7 @@ public class DefaultDrawingView
 
         }
 
-        Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+        Set<Figure> newSelection = new HashSet<>(selectedFigures);
         invalidateHandles();
 
         fireSelectionChanged(oldSelection, newSelection);
@@ -926,9 +926,9 @@ public class DefaultDrawingView
     @Override
     public void clearSelection() {
         if (getSelectionCount() > 0) {
-            Set<Figure> oldSelection = new HashSet<Figure>(selectedFigures);
+            Set<Figure> oldSelection = new HashSet<>(selectedFigures);
             selectedFigures.clear();
-            Set<Figure> newSelection = new HashSet<Figure>(selectedFigures);
+            Set<Figure> newSelection = new HashSet<>(selectedFigures);
             invalidateHandles();
 
             fireSelectionChanged(oldSelection, newSelection);
@@ -1068,13 +1068,13 @@ public class DefaultDrawingView
             Point p) {
         validateHandles();
 
-        for (Handle handle : new ReversedList<Handle>(getSecondaryHandles())) {
+        for (Handle handle : new ReversedList<>(getSecondaryHandles())) {
             if (handle.contains(p)) {
                 return handle;
             }
 
         }
-        for (Handle handle : new ReversedList<Handle>(getSelectionHandles())) {
+        for (Handle handle : new ReversedList<>(getSelectionHandles())) {
             if (handle.contains(p)) {
                 return handle;
             }
@@ -1092,8 +1092,8 @@ public class DefaultDrawingView
     public Collection<Handle> getCompatibleHandles(Handle master) {
         validateHandles();
 
-        HashSet<Figure> owners = new HashSet<Figure>();
-        LinkedList<Handle> compatibleHandles = new LinkedList<Handle>();
+        HashSet<Figure> owners = new HashSet<>();
+        LinkedList<Handle> compatibleHandles = new LinkedList<>();
         owners.add(master.getOwner());
         compatibleHandles.add(master);
 
@@ -1442,11 +1442,11 @@ public class DefaultDrawingView
     @Override
     public void duplicate() {
         Collection<Figure> sorted = getDrawing().sort(getSelectedFigures());
-        HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<Figure, Figure>(sorted.size());
+        HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<>(sorted.size());
 
         clearSelection();
 
-        final ArrayList<Figure> duplicates = new ArrayList<Figure>(sorted.size());
+        final ArrayList<Figure> duplicates = new ArrayList<>(sorted.size());
         AffineTransform tx = new AffineTransform();
         tx.translate(5, 5);
         for (Figure f : sorted) {

@@ -18,21 +18,11 @@
  */
 package org.jhotdraw.draw;
 
-import java.awt.Cursor;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Collection;
 import java.util.Map;
-import javax.swing.undo.UndoableEdit;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.event.FigureListener;
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;

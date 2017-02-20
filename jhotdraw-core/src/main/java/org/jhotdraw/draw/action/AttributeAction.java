@@ -49,7 +49,7 @@ public class AttributeAction extends AbstractSelectedAction {
 
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
         super(editor);
-        this.attributes = new HashMap<AttributeKey<?>, Object>();
+        this.attributes = new HashMap<>();
         attributes.put(key, value);
 
         putValue(AbstractAction.NAME, name);
@@ -60,7 +60,7 @@ public class AttributeAction extends AbstractSelectedAction {
 
     public AttributeAction(DrawingEditor editor, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name, @Nullable Icon icon) {
         super(editor);
-        this.attributes = (attributes == null) ? new HashMap<AttributeKey<?>, Object>() : attributes;
+        this.attributes = (attributes == null) ? new HashMap<>() : attributes;
 
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
@@ -85,8 +85,8 @@ public class AttributeAction extends AbstractSelectedAction {
             getEditor().setDefaultAttribute((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
 
-        final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(figures);
-        final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
+        final ArrayList<Figure> selectedFigures = new ArrayList<>(figures);
+        final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();

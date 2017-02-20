@@ -715,14 +715,12 @@ public class Base64 {
 
             obj = ois.readObject();
         } // end try
-        catch (java.io.IOException e) {
+        catch (java.io.IOException | java.lang.ClassNotFoundException e) {
             e.printStackTrace();
             obj = null;
-        } // end catch
-        catch (java.lang.ClassNotFoundException e) {
-            e.printStackTrace();
-            obj = null;
-        } // end catch
+        }
+        // end catch
+         // end catch
         finally {
             try {
                 bais.close();

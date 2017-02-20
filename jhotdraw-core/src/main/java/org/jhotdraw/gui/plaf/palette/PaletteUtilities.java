@@ -9,7 +9,6 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
 import javax.swing.JComponent;
-import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 /**

@@ -39,7 +39,7 @@ public class LineFigure extends BezierFigure {
     // EDITING
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
+        LinkedList<Handle> handles = new LinkedList<>();
         switch (detailLevel) {
             case -1 : // Mouse hover handles
                 handles.add(new BezierOutlineHandle(this, true));

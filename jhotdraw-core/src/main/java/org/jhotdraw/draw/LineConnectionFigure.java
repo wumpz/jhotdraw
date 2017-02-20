@@ -112,7 +112,7 @@ public class LineConnectionFigure extends LineFigure
      */
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
-        ArrayList<Handle> handles = new ArrayList<Handle>(getNodeCount());
+        ArrayList<Handle> handles = new ArrayList<>(getNodeCount());
         switch (detailLevel) {
             case -1: // Mouse hover handles
                 handles.add(new BezierOutlineHandle(this, true));

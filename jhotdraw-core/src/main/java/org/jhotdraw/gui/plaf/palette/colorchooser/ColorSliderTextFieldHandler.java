@@ -48,7 +48,7 @@ public class ColorSliderTextFieldHandler implements DocumentListener, ChangeList
         if (textField.hasFocus()) {
             BoundedRangeModel brm = ccModel.getBoundedRangeModel(component);
             try {
-                int value = Integer.decode(textField.getText()).intValue();
+                int value = Integer.decode(textField.getText());
                 if (brm.getMinimum() <= value && value <= brm.getMaximum()) {
                     brm.setValue(value);
                 }

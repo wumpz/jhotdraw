@@ -252,7 +252,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     @Override
     final public Collection<Handle> createSecondaryHandles() {
-        LinkedList<Handle> list = new LinkedList<Handle>();
+        LinkedList<Handle> list = new LinkedList<>();
         if (getOwner().getLiner() == null && savedLiner == null) {
             int index = getBezierNodeIndex();
             BezierFigure f = getBezierFigure();
@@ -318,7 +318,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
                 invalidArea.add(c.getDrawingArea());
             }
         }
-        connectors = (connectableFigure == null) ? new java.util.LinkedList<Connector>() : connectableFigure.getConnectors(getOwner());
+        connectors = (connectableFigure == null) ? new java.util.LinkedList<>() : connectableFigure.getConnectors(getOwner());
         for (Connector c : connectors) {
             if (invalidArea == null) {
                 invalidArea = c.getDrawingArea();

@@ -138,11 +138,8 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     }
 
     public void write(File file, Drawing drawing) throws IOException {
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        try {
+        try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
             write(out, drawing);
-        } finally {
-            out.close();
         }
     }
 
@@ -171,11 +168,8 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     }
 
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-        try {
+        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             read(in, drawing, replace);
-        } finally {
-            in.close();
         }
     }
 
@@ -193,7 +187,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
-        LinkedList<Figure> figures = new LinkedList<Figure>();
+        LinkedList<Figure> figures = new LinkedList<>();
         InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType, description));
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
         domi.openElement("Drawing-Clip");

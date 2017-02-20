@@ -8,11 +8,6 @@
 package org.jhotdraw.draw.action;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.Serializable;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
@@ -56,8 +51,8 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         nf.setMaximum(1d);
         nf.setMinimum(0d);
         opacityField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0d, 1d, 100d));
-        opacityFieldHandler = new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacityField, null);
-        opacitySliderHandler = new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, null);
+        opacityFieldHandler = new DrawingAttributeEditorHandler<>(CANVAS_FILL_OPACITY, opacityField, null);
+        opacitySliderHandler = new DrawingAttributeEditorHandler<>(CANVAS_FILL_OPACITY, opacitySlider, null);
     }
 
     private JColorChooser getColorChooser() {

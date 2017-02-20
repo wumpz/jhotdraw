@@ -37,7 +37,7 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
         if (getView().getSelectionCount() > 0) {
 
             Rectangle2D.Double r = null;
-            HashSet<Figure> transformedFigures = new HashSet<Figure>();
+            HashSet<Figure> transformedFigures = new HashSet<>();
             for (Figure f : getView().getSelectedFigures()) {
                 if (f.isTransformable()) {
                     transformedFigures.add(f);
