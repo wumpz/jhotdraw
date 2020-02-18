@@ -35,22 +35,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
+				<version>3.1.1</version>
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>external.atlassian.jgitflow</groupId>
-				<artifactId>jgitflow-maven-plugin</artifactId>
-				<version>1.0-m5.1</version>
+				<groupId>com.amashchenko.maven.plugin</groupId>
+				<artifactId>gitflow-maven-plugin</artifactId>
+				<version>1.14.0</version>
 				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<alwaysUpdateOrigin>false</alwaysUpdateOrigin>
-					<enableSshAgent>true</enableSshAgent>
-					<localOnly>true</localOnly>
-					<noReleaseBuild>true</noReleaseBuild>
-					<noDeploy>true</noDeploy>
+					<pushRemote>false</pushRemote>
+					<mvnExecutable>${M2_HOME}/bin/mvn</mvnExecutable>
+					<skipTestProject>true</skipTestProject>
+					<fetchRemote>false</fetchRemote>
+					<skipFeatureVersion>true</skipFeatureVersion>
 				</configuration>
 			</plugin>
 		</plugins>
