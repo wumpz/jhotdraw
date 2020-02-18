@@ -7,10 +7,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
-import org.jhotdraw.io.StreamPosTokenizer;
 import edu.umd.cs.findbugs.annotations.Nullable;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.io.InputFormat;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
@@ -18,11 +15,16 @@ import java.net.URI;
 import java.util.*;
 import java.util.zip.*;
 import javax.swing.*;
-import net.n3.nanoxml.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.geom.BezierPath;
-import static org.jhotdraw.samples.odg.ODGConstants.*;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+import org.jhotdraw.io.StreamPosTokenizer;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
+import static org.jhotdraw.samples.odg.ODGConstants.*;
 import org.jhotdraw.samples.odg.figures.ODGBezierFigure;
 import org.jhotdraw.samples.odg.figures.ODGEllipseFigure;
 import org.jhotdraw.samples.odg.figures.ODGFigure;
@@ -30,6 +32,11 @@ import org.jhotdraw.samples.odg.figures.ODGGroupFigure;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
 import org.jhotdraw.samples.odg.figures.ODGRectFigure;
 import org.jhotdraw.samples.odg.geom.EnhancedPath;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * ODGInputFormat.
@@ -53,7 +60,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Holds the document that is currently being read.
      */
-    private IXMLElement document;
+    private Document document;
     private ODGStylesReader styles;
 
     /** Creates a new instance. */
@@ -170,19 +177,12 @@ public class ODGInputFormat implements InputFormat {
     @SuppressWarnings("unchecked")
     public void readFiguresFromDocumentContent(InputStream in, Drawing drawing, boolean replace) throws IOException {
         this.figures = new LinkedList<Figure>();
-        IXMLParser parser;
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+         
         try {
-            parser = XMLParserFactory.createDefaultXMLParser();
-        } catch (Exception ex) {
-            InternalError e = new InternalError("Unable to instantiate NanoXML Parser");
-            e.initCause(ex);
-            throw e;
-        }
-        IXMLReader reader = new StdXMLReader(in);
-        parser.setReader(reader);
-        try {
-            document = (IXMLElement) parser.parse();
-        } catch (XMLException ex) {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(in);
+        } catch (ParserConfigurationException | SAXException ex) {
             IOException e = new IOException(ex.getMessage());
             e.initCause(ex);
             throw e;
@@ -191,41 +191,42 @@ public class ODGInputFormat implements InputFormat {
         if (styles == null) {
             styles = new ODGStylesReader();
         }
-        styles.read(document);
-
+        
+        styles.read(document.getDocumentElement());
 
         // Search for the first 'office:drawing' element in the XML document
         // in preorder sequence
-        IXMLElement drawingElem = document;
-        Stack<Iterator<IXMLElement>> stack = new Stack<Iterator<IXMLElement>>();
-        LinkedList<IXMLElement> ll = new LinkedList<IXMLElement>();
-        ll.add(document);
-        stack.push(ll.iterator());
-        while (!stack.empty() && stack.peek().hasNext()) {
-            Iterator<IXMLElement> iter = stack.peek();
-            IXMLElement node = iter.next();
-            Iterator<IXMLElement> children = node.getChildren().iterator();
-
-            if (!iter.hasNext()) {
+        Element drawingElem = document.getDocumentElement();
+        Stack<Node> stack = new Stack<Node>();
+        //LinkedList<Element> ll = new LinkedList<Element>();
+        //ll.add(document.getDocumentElement());
+        stack.push(document.getDocumentElement().getFirstChild());
+        while (!stack.empty() && stack.peek().getNextSibling()!=null) {
+            Node iter = stack.peek();
+            Node node = iter.getNextSibling();
+            if (node.getNextSibling() == null) {
                 stack.pop();
+            } else {
+                stack.set( stack.indexOf(iter), node);
             }
-            if (children.hasNext()) {
+            Node children = node.getFirstChild();
+            if (children.getNextSibling()!=null) {
                 stack.push(children);
             }
-            if (node.getName() != null
-                    && node.getName().equals("drawing")
-                    && (node.getNamespace() == null
-                    || node.getNamespace().equals(OFFICE_NAMESPACE))) {
-                drawingElem = node;
+            if (node.getLocalName() != null
+                    && node.getLocalName().equals("drawing")
+                    && (node.getPrefix() == null
+                    || node.getPrefix().equals(OFFICE_NAMESPACE))) {
+                drawingElem = (Element)node;
                 break;
             }
         }
 
-        if (drawingElem.getName() == null
-                || !drawingElem.getName().equals("drawing")
-                || (drawingElem.getNamespace() != null
-                && !drawingElem.getNamespace().equals(OFFICE_NAMESPACE))) {
-            throw new IOException("'office:drawing' element expected: " + drawingElem.getName());
+        if (drawingElem.getLocalName() == null
+                || !drawingElem.getLocalName().equals("drawing")
+                || (drawingElem.getPrefix() != null
+                && !drawingElem.getPrefix().equals(OFFICE_NAMESPACE))) {
+            throw new IOException("'office:drawing' element expected: " + drawingElem.getLocalName());
         }
 
         readDrawingElement(drawingElem);
@@ -239,7 +240,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Reads an ODG "office:drawing" element.
      */
-    private void readDrawingElement(IXMLElement elem)
+    private void readDrawingElement(Element elem)
             throws IOException {
         /*
         2.3.2Drawing Documents
@@ -279,10 +280,12 @@ public class ODGInputFormat implements InputFormat {
         </define>
          */
 
-        for (IXMLElement child : elem.getChildren()) {
-            if (child.getNamespace() == null
-                    || child.getNamespace().equals(DRAWING_NAMESPACE)) {
-                String name = child.getName();
+        NodeList list = elem.getChildNodes();
+        for (int i=0;i<list.getLength();i++) {
+            Element child = (Element) list.item(i);
+            if (child.getPrefix() == null
+                    || child.getPrefix().equals(DRAWING_NAMESPACE)) {
+                String name = child.getLocalName();
                 if ("page".equals(name)) {
                     readPageElement(child);
                 }
@@ -293,7 +296,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Reads an ODG "draw:page" element.
      */
-    private void readPageElement(IXMLElement elem)
+    private void readPageElement(Element elem)
             throws IOException {
         /* 9.1.4Drawing Pages
          *
@@ -345,7 +348,9 @@ public class ODGInputFormat implements InputFormat {
         • Animations
         • Presentation notes
          */
-        for (IXMLElement child : elem.getChildren()) {
+        NodeList list = elem.getChildNodes();
+        for (int i=0;i<list.getLength();i++) {
+            Element child = (Element) list.item(i);
             ODGFigure figure = readElement(child);
             if (figure != null) {
                 figures.add(figure);
@@ -357,7 +362,7 @@ public class ODGInputFormat implements InputFormat {
      * Reads an ODG element.
      */
     @Nullable
-    private ODGFigure readElement(IXMLElement elem)
+    private ODGFigure readElement(Element elem)
             throws IOException {
         /*
         Drawing Shapes
@@ -385,9 +390,9 @@ public class ODGInputFormat implements InputFormat {
         </define>
          */
         ODGFigure f = null;
-        if (elem.getNamespace() == null
-                || elem.getNamespace().equals(DRAWING_NAMESPACE)) {
-            String name = elem.getName();
+        if (elem.getPrefix() == null
+                || elem.getPrefix().equals(DRAWING_NAMESPACE)) {
+            String name = elem.getLocalName();
             if ("caption".equals(name)) {
                 f = readCaptionElement(elem);
             } else if ("circle".equals(name)) {
@@ -436,12 +441,12 @@ public class ODGInputFormat implements InputFormat {
         return f;
     }
 
-    private ODGFigure readEllipseElement(IXMLElement elem)
+    private ODGFigure readEllipseElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    private ODGFigure readCircleElement(IXMLElement elem)
+    private ODGFigure readCircleElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("not implemented");
     }
@@ -453,19 +458,25 @@ public class ODGInputFormat implements InputFormat {
      * interfaces, for instance by displaying interaction handles, that
      * provide a simple way to modify the geometry.
      */
-    private ODGFigure readCustomShapeElement(IXMLElement elem)
+    private ODGFigure readCustomShapeElement(Element elem)
             throws IOException {
-        String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
+        String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
         Map<AttributeKey<?>, Object> a = styles.getAttributes(styleName, "graphic");
 
         Rectangle2D.Double figureBounds = new Rectangle2D.Double(
-                toLength(elem.getAttribute("x", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("y", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("width", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("height", SVG_NAMESPACE, "0"), 1));
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "width"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "height"))
+                        .orElse("0"), 1));
 
         ODGFigure figure = null;
-        for (IXMLElement child : elem.getChildrenNamed("enhanced-geometry", DRAWING_NAMESPACE)) {
+        NodeList list = elem.getElementsByTagNameNS(DRAWING_NAMESPACE, "enhanced-geometry");
+        for (int i=0;i<list.getLength();i++) {
+            Element child = (Element) list.item(i);
             figure = readEnhancedGeometryElement(child, a, figureBounds);
         }
 
@@ -474,7 +485,7 @@ public class ODGInputFormat implements InputFormat {
 
     @Nullable
     private ODGFigure readEnhancedGeometryElement(
-            IXMLElement elem,
+            Element elem,
             Map<AttributeKey<?>, Object> a,
             Rectangle2D.Double figureBounds)
             throws IOException {
@@ -490,15 +501,10 @@ public class ODGInputFormat implements InputFormat {
          * If the value of the draw:type attribute is non-primitive, then no
          * shape type is available.
          */
-        String type = elem.getAttribute("type", DRAWING_NAMESPACE, "non-primitive");
+        String type = Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "type")).orElse("non-primitive");
 
-        EnhancedPath path;
-        if (elem.hasAttribute("enhanced-path", DRAWING_NAMESPACE)) {
-            path = toEnhancedPath(
-                    elem.getAttribute("enhanced-path", DRAWING_NAMESPACE, null));
-        } else {
-            path = null;
-        }
+        String pathAttr = Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "enhanced-path")).orElse(null);
+        EnhancedPath path = pathAttr!=null?toEnhancedPath(pathAttr):null;
 
         /* The svg:viewBox attribute establishes a user coordinate system inside
          * the physical coordinate system of the shape specified by the position
@@ -510,7 +516,8 @@ public class ODGInputFormat implements InputFormat {
          * of the user coordinate system.
          */
         String[] viewBoxValues = toWSOrCommaSeparatedArray(
-                elem.getAttribute("viewBox", DRAWING_NAMESPACE, "0 0 100 100"));
+               Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "viewBox")).orElse("0 0 100 100")
+        );
         Rectangle2D.Double viewBox = new Rectangle2D.Double(
                 toNumber(viewBoxValues[0]),
                 toNumber(viewBoxValues[1]),
@@ -525,8 +532,8 @@ public class ODGInputFormat implements InputFormat {
         /* The draw:mirror-vertical and draw:mirror-horizontal attributes
          * specify if the geometry of the shape is to be mirrored.
          */
-        boolean mirrorVertical = elem.getAttribute("mirror-vertical", DRAWING_NAMESPACE, "false").equals("true");
-        boolean mirrorHorizontal = elem.getAttribute("mirror-horizontal", DRAWING_NAMESPACE, "false").equals("true");
+        boolean mirrorVertical = "true".equals(elem.getAttributeNS(DRAWING_NAMESPACE, "mirror-vertical"));
+        boolean mirrorHorizontal = "true".equals(elem.getAttributeNS(DRAWING_NAMESPACE, "mirror-horizontal"));
 
         // FIXME - Implement Text Rotate Angle
         // FIXME - Implement Extrusion Allowed
@@ -683,7 +690,7 @@ public class ODGInputFormat implements InputFormat {
      *
      * @param elem A &lt;frame&gt; element.
      */
-    private ODGFigure readFrameElement(IXMLElement elem) throws IOException {
+    private ODGFigure readFrameElement(Element elem) throws IOException {
         throw new UnsupportedOperationException("not implemented.");
     }
 
@@ -696,11 +703,13 @@ public class ODGInputFormat implements InputFormat {
         return figure;
     }
 
-    private ODGFigure readGElement(IXMLElement elem)
+    private ODGFigure readGElement(Element elem)
             throws IOException {
         CompositeFigure g = createGroupFigure();
 
-        for (IXMLElement child : elem.getChildren()) {
+        NodeList list = elem.getChildNodes();
+        for (int i=0;i<list.getLength();i++) {
+            Element child = (Element) list.item(i);
             Figure childFigure = readElement(child);
             if (childFigure != null) {
                 g.basicAdd(childFigure);
@@ -732,16 +741,20 @@ public class ODGInputFormat implements InputFormat {
      * • Glue points – see section 9.2.19.
      * • Text – see section 9.2.17.
      */
-    private ODGFigure readLineElement(IXMLElement elem)
+    private ODGFigure readLineElement(Element elem)
             throws IOException {
         Point2D.Double p1 = new Point2D.Double(
-                toLength(elem.getAttribute("x1", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("y1", SVG_NAMESPACE, "0"), 1));
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x1"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y1"))
+                        .orElse("0"), 1));
         Point2D.Double p2 = new Point2D.Double(
-                toLength(elem.getAttribute("x2", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("y2", SVG_NAMESPACE, "0"), 1));
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x2"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y2"))
+                        .orElse("0"), 1));
 
-        String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
+        String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
         Map<AttributeKey<?>, Object> a = styles.getAttributes(styleName, "graphic");
 
         ODGFigure f = createLineFigure(p1, p2, a);
@@ -749,15 +762,15 @@ public class ODGInputFormat implements InputFormat {
         return f;
     }
 
-    private ODGFigure readPathElement(IXMLElement elem)
+    private ODGFigure readPathElement(Element elem)
             throws IOException {
         AffineTransform viewBoxTransform = readViewBoxTransform(elem);
 
-        BezierPath[] paths = toPath(elem.getAttribute("d", SVG_NAMESPACE, null));
+        BezierPath[] paths = toPath(elem.getAttributeNS(SVG_NAMESPACE, "d"));
         for (BezierPath p : paths) {
             p.transform(viewBoxTransform);
         }
-        String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
+        String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
 
         HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         a.putAll(styles.getAttributes(styleName, "graphic"));
@@ -787,17 +800,17 @@ public class ODGInputFormat implements InputFormat {
      * • Text – see section 9.2.17.
      *
      */
-    private ODGFigure readPolygonElement(IXMLElement elem)
+    private ODGFigure readPolygonElement(Element elem)
             throws IOException {
         AffineTransform viewBoxTransform = readViewBoxTransform(elem);
 
-        String[] coords = toWSOrCommaSeparatedArray(elem.getAttribute("points", DRAWING_NAMESPACE, null));
+        String[] coords = toWSOrCommaSeparatedArray(elem.getAttributeNS(DRAWING_NAMESPACE, "points"));
         Point2D.Double[] points = new Point2D.Double[coords.length / 2];
         for (int i = 0; i < coords.length; i += 2) {
             Point2D.Double p = new Point2D.Double(toNumber(coords[i]), toNumber(coords[i + 1]));
             points[i / 2] = (Point2D.Double) viewBoxTransform.transform(p, p);
         }
-        String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
+        String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
 
         HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         a.putAll(styles.getAttributes(styleName, "graphic"));
@@ -825,17 +838,17 @@ public class ODGInputFormat implements InputFormat {
      * • Glue points – see section 9.2.19.
      * • Text – see section 9.2.17.
      */
-    private ODGFigure readPolylineElement(IXMLElement elem)
+    private ODGFigure readPolylineElement(Element elem)
             throws IOException {
         AffineTransform viewBoxTransform = readViewBoxTransform(elem);
 
-        String[] coords = toWSOrCommaSeparatedArray(elem.getAttribute("points", DRAWING_NAMESPACE, null));
+        String[] coords = toWSOrCommaSeparatedArray(elem.getAttributeNS(DRAWING_NAMESPACE, "points"));
         Point2D.Double[] points = new Point2D.Double[coords.length / 2];
         for (int i = 0; i < coords.length; i += 2) {
             Point2D.Double p = new Point2D.Double(toNumber(coords[i]), toNumber(coords[i + 1]));
             points[i / 2] = (Point2D.Double) viewBoxTransform.transform(p, p);
         }
-        String styleName = elem.getAttribute("style-name", DRAWING_NAMESPACE, null);
+        String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
 
         HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
         a.putAll(styles.getAttributes(styleName, "graphic"));
@@ -845,22 +858,22 @@ public class ODGInputFormat implements InputFormat {
         return f;
     }
 
-    private ODGFigure readRectElement(IXMLElement elem)
+    private ODGFigure readRectElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("ODGInputFormat.readRectElement(" + elem + "):null - not implemented");
     }
 
-    private ODGFigure readRegularPolygonElement(IXMLElement elem)
+    private ODGFigure readRegularPolygonElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("ODGInputFormat.readRegularPolygonElement(" + elem + "):null - not implemented");
     }
 
-    private ODGFigure readMeasureElement(IXMLElement elem)
+    private ODGFigure readMeasureElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("ODGInputFormat.readMeasureElement(" + elem + "):null - not implemented");
     }
 
-    private ODGFigure readCaptionElement(IXMLElement elem)
+    private ODGFigure readCaptionElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("ODGInputFormat.readCaptureElement(" + elem + "):null - not implemented");
     }
@@ -1237,22 +1250,26 @@ public class ODGInputFormat implements InputFormat {
         }
     }
 
-    private void readCommonDrawingShapeAttributes(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
+    private void readCommonDrawingShapeAttributes(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         // The attribute draw:name assigns a name to the drawing shape.
-        NAME.put(a, elem.getAttribute("name", DRAWING_NAMESPACE, null));
+        NAME.put(a, elem.getAttributeNS(DRAWING_NAMESPACE, "name"));
 
         // The draw:transform attribute specifies a list of transformations that
         // can be applied to a drawing shape.
-        TRANSFORM.put(a, toTransform(elem.getAttribute("transform", DRAWING_NAMESPACE, null)));
+        TRANSFORM.put(a, toTransform(elem.getAttributeNS(DRAWING_NAMESPACE, "transform")));
     }
 
-    private AffineTransform readViewBoxTransform(IXMLElement elem) throws IOException {
+    private AffineTransform readViewBoxTransform(Element elem) throws IOException {
         AffineTransform tx = new AffineTransform();
         Rectangle2D.Double figureBounds = new Rectangle2D.Double(
-                toLength(elem.getAttribute("x", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("y", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("width", SVG_NAMESPACE, "0"), 1),
-                toLength(elem.getAttribute("height", SVG_NAMESPACE, "0"), 1));
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "width"))
+                        .orElse("0"), 1),
+                toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "height"))
+                        .orElse("0"), 1));
 
         tx.translate(figureBounds.x, figureBounds.y);
 
@@ -1264,7 +1281,7 @@ public class ODGInputFormat implements InputFormat {
         // of the user coordinate system.
         // Some implementations may ignore the view box attribute. The implied coordinate system then has
         // its origin at the left, top corner of the shape, without any scaling relative to the shape.
-        String[] viewBoxValues = toWSOrCommaSeparatedArray(elem.getAttribute("viewBox", SVG_NAMESPACE, null));
+        String[] viewBoxValues = toWSOrCommaSeparatedArray(elem.getAttributeNS(SVG_NAMESPACE, "viewBox"));
         if (viewBoxValues.length == 4) {
             Rectangle2D.Double viewBox = new Rectangle2D.Double(
                     toNumber(viewBoxValues[0]),

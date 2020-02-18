@@ -8,12 +8,12 @@
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.xml.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jhotdraw.xml.*;
 
 /**
  * {@code QuickAndDirtyDOMStorableSample} serializes a DOMStorable MyObject into
@@ -67,7 +67,7 @@ public class DefaultDOMStorableSample {
             System.out.println("The name of the original object is:" + obj.getName());
 
             // Write the object into a DOM, and then serialize the DOM into a String
-            NanoXMLDOMOutput out = new NanoXMLDOMOutput(factory);
+            JavaxDOMOutput out = new JavaxDOMOutput(factory);
             out.writeObject(obj);
 
             StringWriter writer = new StringWriter();
@@ -78,7 +78,7 @@ public class DefaultDOMStorableSample {
 
             // Deserialize a DOM from a String, and then read the object from the DOM
             StringReader reader = new StringReader(serializedString);
-            NanoXMLDOMInput in = new NanoXMLDOMInput(factory, reader);
+            JavaxDOMInput in = new JavaxDOMInput(factory, reader);
             MyObject obj2 = (MyObject) in.readObject();
 
             System.out.println("\nThe name of the restored object is:" + obj2.getName());

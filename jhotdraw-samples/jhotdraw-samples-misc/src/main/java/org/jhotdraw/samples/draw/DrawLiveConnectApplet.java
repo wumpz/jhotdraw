@@ -7,17 +7,15 @@
  */
 package org.jhotdraw.samples.draw;
 
-import org.jhotdraw.draw.Drawing;
-import org.jhotdraw.draw.TextFigure;
-import org.jhotdraw.gui.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
-
 import netscape.javascript.JSObject;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.xml.*;
 
 /**
@@ -62,14 +60,14 @@ public class DrawLiveConnectApplet extends JApplet {
             protected Drawing construct() throws IOException {
                 Drawing result;
                 if (getParameter("data") != null && getParameter("data").length() > 0) {
-                    NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
+                    JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
                     result = (Drawing) domi.readObject(0);
                 } else if (getParameter("datafile") != null) {
                     InputStream in = null;
                     try {
                         URL url = new URL(getDocumentBase(), getParameter("datafile"));
                         in = url.openConnection().getInputStream();
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
+                        JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), in);
                         result = (Drawing) domi.readObject(0);
                     } finally {
                         if (in != null) {
@@ -147,7 +145,7 @@ public class DrawLiveConnectApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
+                JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), in);
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
                 getDrawing().removeAllChildren();
@@ -165,7 +163,7 @@ public class DrawLiveConnectApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new DrawFigureFactory());
+            JavaxDOMOutput domo = new JavaxDOMOutput(new DrawFigureFactory());
             domo.writeObject(getDrawing());
             domo.save(out);
         } catch (IOException e) {

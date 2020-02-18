@@ -7,8 +7,6 @@
  */
 package org.jhotdraw.draw.io;
 
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -18,7 +16,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComponent;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.datatransfer.InputStreamTransferable;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.xml.*;
 
 /**
@@ -110,7 +110,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
      * in the element that represents the drawing.
      */
     protected void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures) throws IOException {
-        NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
+        JavaxDOMInput domi = new JavaxDOMInput(factory, in);
         domi.openElement(factory.getName(drawing));
         domi.openElement("figures", 0);
         figures.clear();
@@ -145,12 +145,11 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
-        NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
+        JavaxDOMOutput domo = new JavaxDOMOutput(factory);
         domo.openElement(factory.getName(drawing));
         drawing.write(domo);
         domo.closeElement();
         domo.save(out);
-        domo.dispose();
     }
 
     @Override
@@ -175,21 +174,20 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
-        NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
+        JavaxDOMInput domi = new JavaxDOMInput(factory, in);
         domi.openElement(factory.getName(drawing));
         if (replace) {
             drawing.removeAllChildren();
         }
         drawing.read(domi);
         domi.closeElement();
-        domi.dispose();
     }
 
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         LinkedList<Figure> figures = new LinkedList<>();
         InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType, description));
-        NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
+        JavaxDOMInput domi = new JavaxDOMInput(factory, in);
         domi.openElement("Drawing-Clip");
         for (int i = 0, n = domi.getElementCount(); i < n; i++) {
             Figure f = (Figure) domi.readObject(i);
@@ -205,7 +203,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     @Override
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
+        JavaxDOMOutput domo = new JavaxDOMOutput(factory);
         domo.openElement("Drawing-Clip");
         for (Figure f : figures) {
             domo.writeObject(f);

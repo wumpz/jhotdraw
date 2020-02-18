@@ -12,8 +12,6 @@
 package org.jhotdraw.xml.css;
 
 import java.util.*;
-import net.n3.nanoxml.*;
-import org.jhotdraw.util.ReversedList;
 import org.w3c.dom.Element;
 /**
  * StyleManager applies styling Rules to an XML DOM.
@@ -36,14 +34,6 @@ public class StyleManager {
     public void applyStylesTo(Element elem) {
         for (CSSRule rule : rules) {
             if(rule.matches(elem)) {
-                rule.apply(elem);
-            }
-        }
-    }
-    public void applyStylesTo(IXMLElement elem) {
-        for (CSSRule rule : new ReversedList<CSSRule>(rules)) {
-            if(rule.matches(elem)) {
-                //System.out.println("StyleManager applying "+rule+" to "+elem);
                 rule.apply(elem);
             }
         }

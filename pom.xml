@@ -55,7 +55,6 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>nanoxml-patched</module>
 		<module>jhotdraw-core</module>
 		<module>jhotdraw-samples</module>
 		<module>jhotdraw-xml</module>

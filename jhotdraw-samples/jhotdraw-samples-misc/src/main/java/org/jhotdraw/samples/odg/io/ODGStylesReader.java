@@ -7,15 +7,20 @@
  */
 package org.jhotdraw.samples.odg.io;
 
-import javax.annotation.Nullable;
 import java.awt.Color;
 import java.io.*;
 import java.util.*;
-import java.util.HashMap;
-import net.n3.nanoxml.*;
+import javax.annotation.Nullable;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.jhotdraw.draw.*;
-import static org.jhotdraw.samples.odg.ODGConstants.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
+import static org.jhotdraw.samples.odg.ODGConstants.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * ODGStylesReader reads an ODG &lt;document-styles&gt; element,
@@ -30,7 +35,8 @@ public class ODGStylesReader {
     private static final boolean DEBUG = false;
 
     private static class Style extends HashMap<AttributeKey<?>, Object> {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public String name;
         public String family;
@@ -68,7 +74,9 @@ public class ODGStylesReader {
      */
     private HashMap<String, Style> automaticStyles;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ODGStylesReader() {
         reset();
     }
@@ -105,15 +113,14 @@ public class ODGStylesReader {
      * @param file A XML file with a &lt;document&gt; root element
      * or with a &lt;document-styles&gt; root element.
      */
-    public void read(File file) throws IOException {
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-        try {
-            read(in);
-        } finally {
-            in.close();
-        }
-    }
-
+//    public void read(File file) throws IOException {
+//        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+//        try {
+//            read(in);
+//        } finally {
+//            in.close();
+//        }
+//    }
     /**
      * Reads a &lt;document-styles&gt; element from the specified
      * input stream.
@@ -123,27 +130,24 @@ public class ODGStylesReader {
      * or with a &lt;document-styles&gt; root element.
      */
     public void read(InputStream in) throws IOException {
-        IXMLParser parser;
+        Element document;
+        
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+         
         try {
-            parser = XMLParserFactory.createDefaultXMLParser();
-        } catch (Exception ex) {
-            InternalError e = new InternalError("Unable to instantiate NanoXML Parser");
-            e.initCause(ex);
-            throw e;
-        }
-        IXMLReader reader = new StdXMLReader(in);
-        parser.setReader(reader);
-        IXMLElement document;
-        try {
-            document = (IXMLElement) parser.parse();
-        } catch (XMLException ex) {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(in);
+            document = doc.getDocumentElement();
+        } catch (ParserConfigurationException | SAXException ex) {
             IOException e = new IOException(ex.getMessage());
             e.initCause(ex);
             throw e;
         }
+        
         read(document);
     }
-
+    
+    
     private void reset() {
         commonStyles = new HashMap<String, Style>();
         automaticStyles = new HashMap<String, Style>();
@@ -158,9 +162,9 @@ public class ODGStylesReader {
      * @param root A &lt;document&gt; element or a
      * &lt;document-styles&gt; element.
      */
-    public void read(IXMLElement root) throws IOException {
-        String name = root.getName();
-        String ns = root.getNamespace();
+    public void read(Element root) throws IOException {
+        String name = root.getLocalName();
+        String ns = root.getPrefix();
         if ("document-content".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
             readDocumentContentElement(root);
         } else if ("document-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
@@ -190,10 +194,10 @@ public class ODGStylesReader {
      * @param elem A &lt;default-style&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readDefaultStyleElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
-        String styleName = elem.getAttribute("family", STYLE_NAMESPACE, null);
-        String family = elem.getAttribute("family", STYLE_NAMESPACE, null);
-        String parentStyleName = elem.getAttribute("parent-style-name", STYLE_NAMESPACE, null);
+    private void readDefaultStyleElement(Element elem, HashMap<String, Style> styles) throws IOException {
+        String styleName = elem.getAttributeNS(STYLE_NAMESPACE, "family");
+        String family = elem.getAttributeNS(STYLE_NAMESPACE, "family");
+        String parentStyleName = elem.getAttributeNS(STYLE_NAMESPACE, "parent-style-name");
         if (DEBUG) {
             System.out.println("ODGStylesReader <default-style family=" + styleName + " ...>...</>");
         }
@@ -207,9 +211,11 @@ public class ODGStylesReader {
                 styles.put(styleName, a);
             }
 
-            for (IXMLElement child : elem.getChildren()) {
-                String ns = child.getNamespace();
-                String name = child.getName();
+            NodeList list = elem.getChildNodes();
+            for (int i = 0; i < list.getLength(); i++) {
+                Element child = (Element) list.item(i);
+                String ns = child.getPrefix();
+                String name = child.getLocalName();
                 if ("drawing-page-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readDrawingPagePropertiesElement(child, a);
                 } else if ("graphic-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
@@ -220,7 +226,7 @@ public class ODGStylesReader {
                     readTextPropertiesElement(child, a);
                 } else {
                     if (DEBUG) {
-                        System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> child " + child);
+                        System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> child " + child);
                     }
                 }
             }
@@ -233,13 +239,15 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;document-content&gt; element.
      */
-    private void readDocumentContentElement(IXMLElement elem) throws IOException {
+    private void readDocumentContentElement(Element elem) throws IOException {
         if (DEBUG) {
-            System.out.println("ODGStylesReader <" + elem.getName() + " ...>");
+            System.out.println("ODGStylesReader <" + elem.getLocalName() + " ...>");
         }
-        for (IXMLElement child : elem.getChildren()) {
-            String ns = child.getNamespace();
-            String name = child.getName();
+        NodeList list = elem.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            Element child = (Element) list.item(i);
+            String ns = child.getPrefix();
+            String name = child.getLocalName();
             if ("automatic-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readAutomaticStylesElement(child);
             } else if ("master-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
@@ -250,7 +258,7 @@ public class ODGStylesReader {
 
         }
         if (DEBUG) {
-            System.out.println("ODGStylesReader </" + elem.getName() + ">");
+            System.out.println("ODGStylesReader </" + elem.getLocalName() + ">");
         }
     }
 
@@ -265,13 +273,15 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;document-styles&gt; element.
      */
-    private void readDocumentStylesElement(IXMLElement elem) throws IOException {
+    private void readDocumentStylesElement(Element elem) throws IOException {
         if (DEBUG) {
-            System.out.println("ODGStylesReader <" + elem.getName() + " ...>");
+            System.out.println("ODGStylesReader <" + elem.getLocalName() + " ...>");
         }
-        for (IXMLElement child : elem.getChildren()) {
-            String ns = child.getNamespace();
-            String name = child.getName();
+        NodeList list = elem.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            Element child = (Element) list.item(i);
+            String ns = child.getPrefix();
+            String name = child.getLocalName();
             if ("styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
                 readStylesElement(child);
             } else if ("automatic-styles".equals(name) && (ns == null || ns.equals(OFFICE_NAMESPACE))) {
@@ -280,12 +290,12 @@ public class ODGStylesReader {
                 readMasterStylesElement(child);
             } else {
                 if (DEBUG) {
-                    System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> child " + child);
+                    System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> child " + child);
                 }
             }
         }
         if (DEBUG) {
-            System.out.println("ODGStylesReader </" + elem.getName() + ">");
+            System.out.println("ODGStylesReader </" + elem.getLocalName() + ">");
         }
     }
 
@@ -296,9 +306,9 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;style:drawing-page-properties&gt; element.
      */
-    private void readDrawingPagePropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
+    private void readDrawingPagePropertiesElement(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         if (DEBUG) {
-            System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> element.");
+            System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
 
@@ -309,22 +319,22 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;style:graphic-properties&gt; element.
      */
-    private void readGraphicPropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
+    private void readGraphicPropertiesElement(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         // The attribute draw:stroke specifies the style of the stroke on the current object. The value
         // none means that no stroke is drawn, and the value solid means that a solid stroke is drawn. If
         // the value is dash, the stroke referenced by the draw:stroke-dash property is drawn.
-        if (elem.hasAttribute("stroke", DRAWING_NAMESPACE)) {
-            STROKE_STYLE.put(a, elem.getAttribute("stroke", DRAWING_NAMESPACE, STROKE_STYLES, null));
+        if (elem.hasAttributeNS(DRAWING_NAMESPACE, "stroke")) {
+            STROKE_STYLE.put(a, STROKE_STYLES.getOrDefault(elem.getAttributeNS(DRAWING_NAMESPACE, "stroke"), null));
         }
         // The attribute svg:stroke-width specifies the width of the stroke on
         // the current object.
-        if (elem.hasAttribute("stroke-width", SVG_NAMESPACE)) {
-            STROKE_WIDTH.put(a, toLength(elem.getAttribute("stroke-width", SVG_NAMESPACE, null)));
+        if (elem.hasAttributeNS(SVG_NAMESPACE, "stroke-width")) {
+            STROKE_WIDTH.put(a, toLength(elem.getAttributeNS(SVG_NAMESPACE, "stroke-width")));
         }
         // The attribute svg:stroke-color specifies the color of the stroke on
         // the current object.
-        if (elem.hasAttribute("stroke-color", SVG_NAMESPACE)) {
-            STROKE_COLOR.put(a, toColor(elem.getAttribute("stroke-color", SVG_NAMESPACE, null)));
+        if (elem.hasAttributeNS(SVG_NAMESPACE, "stroke-color")) {
+            STROKE_COLOR.put(a, toColor(elem.getAttributeNS(SVG_NAMESPACE, "stroke-color")));
         }
         // FIXME read draw:marker-start-width, draw:marker-start-center, draw:marker-end-width,
         // draw:marker-end-centre
@@ -344,24 +354,25 @@ public class ODGStylesReader {
         //              by the draw:fill-gradient-name attribute.
         //  • hatch:    the drawing object is filled with the hatch specified by
         //              the draw:fill-hatch-name attribute.
-        if (elem.hasAttribute("fill", DRAWING_NAMESPACE)) {
-            FILL_STYLE.put(a, elem.getAttribute("fill", DRAWING_NAMESPACE, FILL_STYLES, null));
+        if (elem.hasAttributeNS(DRAWING_NAMESPACE, "fill")) {
+            FILL_STYLE.put(a, FILL_STYLES.getOrDefault(elem.getAttributeNS(DRAWING_NAMESPACE, "fill"), null));
         }
         // The attribute draw:fill-color specifies the color of the fill for a
         // graphic object. It is used only if the draw:fill attribute has the
         // value solid.
-        if (elem.hasAttribute("fill-color", DRAWING_NAMESPACE)) {
-            FILL_COLOR.put(a, toColor(elem.getAttribute("fill-color", DRAWING_NAMESPACE, null)));
+        if (elem.hasAttributeNS(DRAWING_NAMESPACE, "fill-color")) {
+            FILL_COLOR.put(a, toColor(elem.getAttributeNS(DRAWING_NAMESPACE, "fill-color")));
         }
         // FIXME read fo:padding-top, fo:padding-bottom, fo:padding-left,
         // fo:padding-right
 
         // FIXME read draw:shadow, draw:shadow-offset-x, draw:shadow-offset-y,
         // draw:shadow-color
-
-        for (IXMLElement child : elem.getChildren()) {
-            String ns = child.getNamespace();
-            String name = child.getName();
+        NodeList list = elem.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            Element child = (Element) list.item(i);
+            String ns = child.getPrefix();
+            String name = child.getLocalName();
             // if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> child <"+child.getName()+" ...>...</>");
         }
     }
@@ -377,7 +388,7 @@ public class ODGStylesReader {
      * @param elem A &lt;style&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readStyleElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
+    private void readStyleElement(Element elem, HashMap<String, Style> styles) throws IOException {
         // The style:name attribute identifies the name of the style. This attribute, combined with the
 // style:family attribute, uniquely identifies a style. The <office:styles>,
 // <office:automatic-styles> and <office:master-styles> elements each must not
@@ -387,9 +398,9 @@ public class ODGStylesReader {
 // In an XML document, the name of each style is a unique name that may be independent of the
 // language selected for an office applications user interface. Usually these names are the ones used
 // for the English version of the user interface.
-        String styleName = elem.getAttribute("name", STYLE_NAMESPACE, null);
-        String family = elem.getAttribute("family", STYLE_NAMESPACE, null);
-        String parentStyleName = elem.getAttribute("parent-style-name", STYLE_NAMESPACE, null);
+        String styleName = elem.getAttributeNS(STYLE_NAMESPACE, "name");
+        String family = elem.getAttributeNS(STYLE_NAMESPACE, "family");
+        String parentStyleName = elem.getAttributeNS(STYLE_NAMESPACE, "parent-style-name");
 
         if (DEBUG) {
             System.out.println("ODGStylesReader <style name=" + styleName + " ...>...</>");
@@ -405,9 +416,11 @@ public class ODGStylesReader {
                 styles.put(styleName, a);
             }
 
-            for (IXMLElement child : elem.getChildren()) {
-                String ns = child.getNamespace();
-                String name = child.getName();
+            NodeList list = elem.getChildNodes();
+            for (int i = 0; i < list.getLength(); i++) {
+                Element child = (Element) list.item(i);
+                String ns = child.getPrefix();
+                String name = child.getLocalName();
                 if ("drawing-page-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                     readDrawingPagePropertiesElement(child, a);
                 } else if ("graphic-properties".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
@@ -418,7 +431,7 @@ public class ODGStylesReader {
                     readTextPropertiesElement(child, a);
                 } else {
                     if (DEBUG) {
-                        System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> child " + child);
+                        System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> child " + child);
                     }
                 }
             }
@@ -434,7 +447,7 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;styles&gt; element.
      */
-    private void readStylesElement(IXMLElement elem) throws IOException {
+    private void readStylesElement(Element elem) throws IOException {
         readStylesChildren(elem, commonStyles);
     }
 
@@ -446,11 +459,13 @@ public class ODGStylesReader {
      * &lt;document-styles&gt; or a &lt;master-styles&gt; element.
      * @param styles Styles to be filled in by this method.
      */
-    private void readStylesChildren(IXMLElement elem,
+    private void readStylesChildren(Element elem,
             HashMap<String, Style> styles) throws IOException {
-        for (IXMLElement child : elem.getChildren()) {
-            String ns = child.getNamespace();
-            String name = child.getName();
+        NodeList list = elem.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            Element child = (Element) list.item(i);
+            String ns = child.getPrefix();
+            String name = child.getLocalName();
             if ("default-style".equals(name) && (ns == null || ns.equals(STYLE_NAMESPACE))) {
                 readDefaultStyleElement(child, styles);
             } else if ("layer-set".equals(name) && (ns == null || ns.equals(DRAWING_NAMESPACE))) {
@@ -471,7 +486,7 @@ public class ODGStylesReader {
                 //    readTextPropertiesElement(child, styles);
             } else {
                 if (DEBUG) {
-                    System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> child: " + child);
+                    System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> child: " + child);
                 }
             }
         }
@@ -486,7 +501,7 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;automatic-styles&gt; element.
      */
-    private void readAutomaticStylesElement(IXMLElement elem) throws IOException {
+    private void readAutomaticStylesElement(Element elem) throws IOException {
         readStylesChildren(elem, automaticStyles);
     }
 
@@ -498,9 +513,9 @@ public class ODGStylesReader {
      * @param elem A &lt;layer-put&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readLayerSetElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
+    private void readLayerSetElement(Element elem, HashMap<String, Style> styles) throws IOException {
         if (DEBUG) {
-            System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> element.");
+            System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
 
@@ -512,9 +527,9 @@ public class ODGStylesReader {
      * @param elem A &lt;list-style&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readListStyleElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
+    private void readListStyleElement(Element elem, HashMap<String, Style> styles) throws IOException {
         if (DEBUG) {
-            System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> element.");
+            System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
 
@@ -527,7 +542,7 @@ public class ODGStylesReader {
      *
      * @param elem A &lt;master-styles&gt; element.
      */
-    private void readMasterStylesElement(IXMLElement elem) throws IOException {
+    private void readMasterStylesElement(Element elem) throws IOException {
         readStylesChildren(elem, masterStyles);
     }
 
@@ -543,7 +558,7 @@ public class ODGStylesReader {
      * @param elem A &lt;master-styles&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readMarkerElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
+    private void readMarkerElement(Element elem, HashMap<String, Style> styles) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
 
@@ -555,9 +570,9 @@ public class ODGStylesReader {
      * @param elem A &lt;page-layout&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readMasterPageElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
+    private void readMasterPageElement(Element elem, HashMap<String, Style> styles) throws IOException {
         if (DEBUG) {
-            System.out.println("ODGStylesReader unsupported <" + elem.getName() + "> element.");
+            System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
 
@@ -573,7 +588,7 @@ public class ODGStylesReader {
      * @param elem A &lt;page-layout&gt; element.
      * @param styles Style attributes to be filled in by this method.
      */
-    private void readPageLayoutElement(IXMLElement elem, HashMap<String, Style> styles) throws IOException {
+    private void readPageLayoutElement(Element elem, HashMap<String, Style> styles) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
 
@@ -590,7 +605,7 @@ public class ODGStylesReader {
      * @param elem A &lt;paragraph-properties&gt; element.
      * @param a Style attributes to be filled in by this method.
      */
-    private void readParagraphPropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
+    private void readParagraphPropertiesElement(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
 
@@ -607,7 +622,7 @@ public class ODGStylesReader {
      * @param elem A &lt;paragraph-properties&gt; element.
      * @param a Style attributes to be filled in by this method.
      */
-    private void readTextPropertiesElement(IXMLElement elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
+    private void readTextPropertiesElement(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
 

@@ -12,7 +12,6 @@
 package org.jhotdraw.xml.css;
 
 import java.util.*;
-import net.n3.nanoxml.IXMLElement;
 import org.w3c.dom.Element;
 
 /**
@@ -94,38 +93,6 @@ public class CSSRule {
         }
         return isMatch;
     }
-    public boolean matches(IXMLElement elem) {
-        boolean isMatch = false;
-        switch (type) {
-            case ALL :
-                isMatch = true;
-                break;
-            case ELEMENT_NAME : {
-                String name = elem.getName();
-                isMatch = name != null && name.equals(selector);
-                break;
-            }
-            case CLASS_ATTRIBUTE : {
-                String value = elem.getAttribute("class",null);
-                if (value != null) {
-                    String[] clazzes = value.split(" ");
-                    for (String clazz : clazzes) {
-                        if (clazz.equals(selector)) {
-                            isMatch = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            case ID_ATTRIBUTE : {
-                String name = elem.getAttribute("id",null);
-                isMatch = name != null && name.equals(selector);
-                break;
-            }
-        }
-        return isMatch;
-    }
     
     public void apply(Element elem) {
         for (Map.Entry<String,String> property : properties.entrySet()) {
@@ -134,14 +101,6 @@ public class CSSRule {
             }
         }
     }
-    public void apply(IXMLElement elem) {
-        for (Map.Entry<String,String> property : properties.entrySet()) {
-            if (! elem.hasAttribute(property.getKey())) {
-                elem.setAttribute(property.getKey(), property.getValue());
-            }
-        }
-    }
-    
     
     @Override
     public String toString() {

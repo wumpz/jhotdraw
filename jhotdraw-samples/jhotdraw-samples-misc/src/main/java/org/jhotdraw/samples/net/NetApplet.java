@@ -7,21 +7,20 @@
  */
 package org.jhotdraw.samples.net;
 
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.xml.*;
 
 /**
@@ -97,13 +96,13 @@ public class NetApplet extends JApplet {
                 Drawing result;
                 System.out.println("getParameter.datafile:" + getParameter("datafile"));
                 if (getParameter("data") != null) {
-                    NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), new StringReader(getParameter("data")));
+                    JavaxDOMInput domi = new JavaxDOMInput(new NetFactory(), new StringReader(getParameter("data")));
                     result = (Drawing) domi.readObject(0);
                 } else if (getParameter("datafile") != null) {
                     URL url = new URL(getDocumentBase(), getParameter("datafile"));
                     InputStream in = url.openConnection().getInputStream();
                     try {
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), in);
+                        JavaxDOMInput domi = new JavaxDOMInput(new NetFactory(), in);
                         result = (Drawing) domi.readObject(0);
                     } finally {
                         in.close();
@@ -179,7 +178,7 @@ public class NetApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), in);
+                JavaxDOMInput domi = new JavaxDOMInput(new NetFactory(), in);
                 domi.openElement("Net");
 
                 setDrawing((Drawing) domi.readObject(0));
@@ -199,7 +198,7 @@ public class NetApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new NetFactory());
+            JavaxDOMOutput domo = new JavaxDOMOutput(new NetFactory());
             domo.openElement("Net");
             domo.writeObject(getDrawing());
             domo.closeElement();
