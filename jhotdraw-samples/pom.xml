@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jhotdraw</groupId>
         <artifactId>jhotdraw</artifactId>
-        <version>8.1-SNAPSHOT</version>
+        <version>8.0.1</version>
     </parent>
     <artifactId>jhotdraw-samples</artifactId>
     <packaging>pom</packaging>
