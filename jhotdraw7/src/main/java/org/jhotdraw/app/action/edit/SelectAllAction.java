@@ -2,19 +2,16 @@
  * @(#)SelectAllAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.EditableComponent;
-
 /**
  * Selects all items.
  * <p>
@@ -48,14 +45,11 @@ import org.jhotdraw.gui.EditableComponent;
  */
 public class SelectAllAction extends AbstractSelectionAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.selectAll";
-
     /** Creates a new instance which acts on the currently focused component. */
     public SelectAllAction() {
         this(null);
     }
-
     /** Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
@@ -66,7 +60,6 @@ public class SelectAllAction extends AbstractSelectionAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;

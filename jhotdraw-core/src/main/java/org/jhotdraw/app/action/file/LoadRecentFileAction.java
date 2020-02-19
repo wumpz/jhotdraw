@@ -2,7 +2,7 @@
  * @(#)LoadRecentFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
@@ -53,7 +53,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.loadRecent";
     private URI uri;
 
@@ -70,7 +69,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
     @Override
     public void doIt(View v) {
         final Application app = getApplication();
-
         // Prevent same URI from being opened more than once
         if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
             for (View vw : getApplication().getViews()) {
@@ -80,7 +78,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
                 }
             }
         }
-
         // Search for an empty view
         if (v == null) {
             View emptyView = app.getActiveView();
@@ -100,7 +97,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
         final View view = v;
         app.setEnabled(true);
         view.setEnabled(false);
-
         // If there is another view with the same file we set the multiple open
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
@@ -112,10 +108,8 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
             }
         }
         view.setMultipleOpenId(multipleOpenId);
-
         // Open the file
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 boolean exists = true;
@@ -151,13 +145,11 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
             protected void failed(Throwable error) {
                 error.printStackTrace();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
                         + "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>"
                         + error,
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
-
                     @Override
                     public void optionSelected(SheetEvent evt) {
                         // app.dispose(view);

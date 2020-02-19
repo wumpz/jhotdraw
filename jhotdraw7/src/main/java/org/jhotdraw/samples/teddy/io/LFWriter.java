@@ -2,13 +2,11 @@
  * @(#)LFWriter.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy.io;
-
 import java.io.*;
-
 /**
  * A character-output stream that converts line terminators into a configurable
  * line separator sequence.  A line is considered to be terminated by
@@ -23,10 +21,8 @@ public class LFWriter extends FilterWriter {
      * Line separator string.
      */
     private String lineSeparator = "\n";
-    
     /** If the next character is a line feed, skip it */
     private boolean skipLF;
-    
     /**
      * Create a new line-numbering writer.
      */
@@ -34,21 +30,18 @@ public class LFWriter extends FilterWriter {
         super(out);
         lineSeparator = System.getProperty("line.separator");
     }
-    
     /**
      * Gets the line separator of the println() methods.
      */
     public String getLineSeparator() {
         return lineSeparator;
     }
-    
     /**
      * Sets the line separator for the println() methods.
      */
     public void setLineSeparator(String lineSeparator) {
         this.lineSeparator = lineSeparator;
     }
-    
     /**
      * Write a single character.
      *
@@ -71,7 +64,6 @@ public class LFWriter extends FilterWriter {
                 break;
         }
     }
-    
     /**
      * Write a portion of an array of characters.
      *
@@ -108,7 +100,6 @@ public class LFWriter extends FilterWriter {
         }
         if (off < end) out.write(cbuf, off, end - off);
     }
-    
     /**
      * Write a portion of a string.
      *

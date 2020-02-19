@@ -2,40 +2,33 @@
  * @(#)GrowStroke.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
-
 import java.awt.*;
 import java.awt.geom.*;
-
 /**
  * GrowStroke can be used to grow/shrink a figure by a specified line width.
  * This only works with closed convex paths having edges in clockwise direction.
  * <p>
  * Note: Although this is a Stroke object, it does not actually create a stroked
- * shape, but one that can be used for filling. 
- * 
+ * shape, but one that can be used for filling.
+ *
  * @author Werner Randelshofer.
  * @version $Id$
  */
 public class GrowStroke extends DoubleStroke {
-
     private double grow;
-
     public GrowStroke(double grow, double miterLimit) {
         super(grow * 2d, 1d, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, miterLimit, null, 0f);
         this.grow = grow;
     }
-
     @Override
     public Shape createStrokedShape(Shape s) {
-
         BezierPath bp = new BezierPath();
         Path2D.Double left = new Path2D.Double();
         Path2D.Double right = new Path2D.Double();
-
         if (s instanceof Path2D.Double) {
             left.setWindingRule(((Path2D.Double) s).getWindingRule());
             right.setWindingRule(((Path2D.Double) s).getWindingRule());
@@ -43,12 +36,10 @@ public class GrowStroke extends DoubleStroke {
             left.setWindingRule(((BezierPath) s).getWindingRule());
             right.setWindingRule(((BezierPath) s).getWindingRule());
         }
-
         double[] coords = new double[6];
         // FIXME - We only do a flattened path
         for (PathIterator i = s.getPathIterator(null, 0.1d); !i.isDone(); i.next()) {
             int type = i.currentSegment(coords);
-
             switch (type) {
                 case PathIterator.SEG_MOVETO:
                     if (bp.size() != 0) {
@@ -77,8 +68,6 @@ public class GrowStroke extends DoubleStroke {
         if (bp.size() > 1) {
             traceStroke(bp, left, right);
         }
-
-
         if (Geom.contains(left.getBounds2D(), right.getBounds2D())) {
             return (grow > 0) ? left : right;
         } else {

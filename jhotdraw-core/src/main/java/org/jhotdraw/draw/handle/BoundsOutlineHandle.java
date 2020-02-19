@@ -2,7 +2,7 @@
  * @(#)BoundsOutlineHandle.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -110,7 +110,6 @@ public class BoundsOutlineHandle extends AbstractHandle {
             bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-
         Rectangle r = bounds.getBounds();
         r.grow(2, 2);
         return r;
@@ -144,7 +143,6 @@ public class BoundsOutlineHandle extends AbstractHandle {
         Color strokeColor1;
         Stroke stroke2;
         Color strokeColor2;
-
         if (getEditor().getTool().supportsHandleInteraction()) {
             stroke1 = getEditor().getHandleAttribute(stroke1Enabled);
             strokeColor1 = getEditor().getHandleAttribute(strokeColor1Enabled);

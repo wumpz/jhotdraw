@@ -1,9 +1,9 @@
 /*
  * @(#)DefaultActivityModel.java
- * 
+ *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -25,7 +25,6 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public class DefaultActivityModel extends DefaultBoundedRangeModel implements ActivityModel {
 
     private static final long serialVersionUID = 1L;
-
     private boolean canceled, closed, cancelable = true;
     private Runnable doCancel;
     private final String title;

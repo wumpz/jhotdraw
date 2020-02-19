@@ -2,12 +2,11 @@
  * @(#)PertView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  */
 package org.jhotdraw.samples.pert;
-
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
@@ -31,7 +30,6 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.URIChooser;
-
 /**
  * Provides a view on a Pert drawing.
  * <p>
@@ -42,7 +40,6 @@ import org.jhotdraw.gui.URIChooser;
  */
 public class PertView extends AbstractView {
     private static final long serialVersionUID = 1L;
-
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     /**
      * Each view uses its own undo redo manager.
@@ -54,31 +51,25 @@ public class PertView extends AbstractView {
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
-
     /**
      * Creates a new view.
      */
     public PertView() {
         initComponents();
-
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-
         setEditor(new DefaultDrawingEditor());
         undo = new UndoRedoManager();
         view.setDrawing(createDrawing());
         view.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
-
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
         pButton = ButtonFactory.createZoomButton(view);
@@ -93,11 +84,9 @@ public class PertView extends AbstractView {
         labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
-
         //setGridVisible(preferences.getBoolean("view.gridVisible", false));
         //setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
     }
-
     /**
      * Creates a new Drawing for this view.
      */
@@ -114,19 +103,15 @@ public class PertView extends AbstractView {
         drawing.setOutputFormats(outputFormats);
         return drawing;
     }
-
     /**
      * Creates a Pageable object for printing this view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
-
     }
-
     public DrawingEditor getEditor() {
         return editor;
     }
-
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -137,30 +122,24 @@ public class PertView extends AbstractView {
             newValue.add(view);
         }
     }
-
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
         preferences.putBoolean("view.gridVisible", newValue);
     }
-
     public boolean isGridVisible() {
         return view.isConstrainerVisible();
     }
-
     public double getScaleFactor() {
         return view.getScaleFactor();
     }
-
     public void setScaleFactor(double newValue) {
         double oldValue = getScaleFactor();
         view.setScaleFactor(newValue);
-
         firePropertyChange("scaleFactor", oldValue, newValue);
         preferences.putDouble("view.scaleFactor", newValue);
     }
-
     /**
      * Initializes view specific actions.
      */
@@ -168,13 +147,11 @@ public class PertView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
-
     @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
-
     /**
      * Writes the view to the specified uri.
      */
@@ -184,7 +161,6 @@ public class PertView extends AbstractView {
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
         outputFormat.write(f, drawing);
     }
-
     /**
      * Reads the view from the specified uri.
      */
@@ -195,7 +171,6 @@ public class PertView extends AbstractView {
             InputFormat inputFormat = drawing.getInputFormats().get(0);
             inputFormat.read(f, drawing, true);
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
@@ -214,7 +189,6 @@ public class PertView extends AbstractView {
             throw error;
         }
     }
-
     /**
      * Clears the view.
      */
@@ -223,7 +197,6 @@ public class PertView extends AbstractView {
         final Drawing newDrawing = createDrawing();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
@@ -238,12 +211,10 @@ public class PertView extends AbstractView {
             ex.printStackTrace();
         }
     }
-
     @Override
     public boolean canSaveTo(URI uri) {
         return uri.getPath().endsWith(".xml");
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -251,16 +222,12 @@ public class PertView extends AbstractView {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
-
         setLayout(new java.awt.BorderLayout());
-
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setViewportView(view);
-
         add(scrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

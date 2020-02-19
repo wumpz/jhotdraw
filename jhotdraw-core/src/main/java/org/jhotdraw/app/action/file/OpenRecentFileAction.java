@@ -2,7 +2,7 @@
  * @(#)OpenRecentFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
@@ -53,7 +53,6 @@ import org.jhotdraw.util.*;
 public class OpenRecentFileAction extends AbstractApplicationAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.openRecent";
     private URI uri;
 
@@ -79,7 +78,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                     }
                 }
             }
-
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
@@ -88,7 +86,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                     || !emptyView.isEnabled()) {
                 emptyView = null;
             }
-
             final View p;
             if (emptyView == null) {
                 p = app.createView();
@@ -104,7 +101,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
     protected void openView(final View view) {
         final Application app = getApplication();
         app.setEnabled(true);
-
         // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
@@ -116,10 +112,8 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
         }
         view.setMultipleOpenId(multipleOpenId);
         view.setEnabled(false);
-
         // Open the file
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 boolean exists = true;
@@ -160,7 +154,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
                         + "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>"
                         + (message == null ? "" : message),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
-
                     @Override
                     public void optionSelected(SheetEvent evt) {
                         view.setEnabled(true);

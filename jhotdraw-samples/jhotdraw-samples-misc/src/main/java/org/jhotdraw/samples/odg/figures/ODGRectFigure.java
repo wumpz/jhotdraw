@@ -2,15 +2,13 @@
  * @(#)ODGRect.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
-
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.GrowStroke;
-
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -22,7 +20,6 @@ import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.Gradient;
-
 /**
  * ODGRect.
  *
@@ -31,7 +28,6 @@ import org.jhotdraw.samples.odg.Gradient;
  */
 public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     private static final long serialVersionUID = 1L;
-
     private RoundRectangle2D.Double roundrect;
     /**
      * This is used to perform faster drawing.
@@ -41,21 +37,17 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
      * This is used to perform faster hit testing.
      */
     private transient Shape cachedHitShape;
-
     /** Creates a new instance. */
     public ODGRectFigure() {
         this(0, 0, 0, 0);
     }
-
     public ODGRectFigure(double x, double y, double width, double height) {
         this(x, y, width, height, 0, 0);
     }
-
     public ODGRectFigure(double x, double y, double width, double height, double rx, double ry) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, rx, ry);
         ODGAttributeKeys.setDefaults(this);
     }
-
     // DRAWING
     @Override
     protected void drawFill(Graphics2D g) {
@@ -65,7 +57,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
             g.fill(roundrect);
         }
     }
-
     @Override
     protected void drawStroke(Graphics2D g) {
         if (getArcHeight() == 0d && getArcWidth() == 0d) {
@@ -74,37 +65,29 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
             g.draw(roundrect);
         }
     }
-
     // SHAPE AND BOUNDS
     public double getX() {
         return roundrect.x;
     }
-
     public double getY() {
         return roundrect.y;
     }
-
     public double getWidth() {
         return roundrect.width;
     }
-
     public double getHeight() {
         return roundrect.height;
     }
-
     public double getArcWidth() {
         return roundrect.arcwidth / 2d;
     }
-
     public double getArcHeight() {
         return roundrect.archeight / 2d;
     }
-
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
     }
-
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
@@ -126,7 +109,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         }
         return r;
     }
-
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -134,7 +116,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
     }
-
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         invalidateTransformedShape();
@@ -143,12 +124,10 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         roundrect.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         roundrect.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
-
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
         cachedHitShape = null;
     }
-
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             if (getArcHeight() == 0 || getArcWidth() == 0) {
@@ -162,7 +141,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         }
         return cachedTransformedShape;
     }
-
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             cachedHitShape = new GrowStroke(
@@ -171,7 +149,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         }
         return cachedHitShape;
     }
-
     /**
      * Transforms the figure.
      * @param tx The transformation.
@@ -210,23 +187,19 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         }
     }
     // ATTRIBUTES
-
     public void setArc(double w, double h) {
         roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, w * 2d));
         roundrect.archeight = Math.max(0d, Math.min(roundrect.height, h * 2d));
     }
-
     public void setArc(Dimension2DDouble arc) {
         roundrect.arcwidth = Math.max(0d, Math.min(roundrect.width, arc.width * 2d));
         roundrect.archeight = Math.max(0d, Math.min(roundrect.height, arc.height * 2d));
     }
-
     public Dimension2DDouble getArc() {
         return new Dimension2DDouble(
                 roundrect.arcwidth / 2d,
                 roundrect.archeight / 2d);
     }
-
     @Override
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
@@ -236,7 +209,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
         STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
-
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
@@ -245,7 +217,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
                     FILL_GRADIENT.getClone(this),
                     STROKE_GRADIENT.getClone(this),};
     }
-
     // EDITING
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
@@ -268,12 +239,10 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // ODG does not support connectors
     }
-
     @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return null; // ODG does not support connectors
     }
-
     // COMPOSITE FIGURES
     // CLONING
     @Override
@@ -284,13 +253,11 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         that.cachedHitShape = null;
         return that;
     }
-
     @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;
     }
-
     @Override
     public void invalidate() {
         super.invalidate();

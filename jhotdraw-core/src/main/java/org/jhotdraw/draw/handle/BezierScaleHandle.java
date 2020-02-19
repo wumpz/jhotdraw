@@ -2,7 +2,7 @@
  * @(#)BezierScaleHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -81,7 +81,6 @@ public class BezierScaleHandle extends AbstractHandle {
         // Need to pick a place that will not overlap with point handle
         // and is internal to polygon
         int handlesize = getHandlesize();
-
         // Try for one handlesize step away from outermost toward center
         Point2D.Double outer = getBezierFigure().getOutermostPoint();
         Point2D.Double ctr = getBezierFigure().getCenter();
@@ -89,7 +88,6 @@ public class BezierScaleHandle extends AbstractHandle {
         if (len == 0) { // best we can do?
             return new Point2D.Double(outer.x - handlesize / 2, outer.y + handlesize / 2);
         }
-
         double u = handlesize / len;
         if (u > 1.0) { // best we can do?
             return new Point2D.Double((outer.x * 3 + ctr.x) / 4, (outer.y * 3 + ctr.y) / 4);
@@ -129,25 +127,20 @@ public class BezierScaleHandle extends AbstractHandle {
     }
 
     /*
-     *	public  void scaleRotate(Point anchor, Polygon originalPolygon, Point p) {
+     * public  void scaleRotate(Point anchor, Polygon originalPolygon, Point p) {
                 willChange();
-     
                 // use center to determine relative angles and lengths
                 Point ctr = center(originalPolygon);
                 double anchorLen = Geom.length(ctr.x, ctr.y, anchor.x, anchor.y);
-     
                 if (anchorLen > 0.0) {
                         double newLen = Geom.length(ctr.x, ctr.y, p.x, p.y);
                         double ratio = newLen / anchorLen;
-     
                         double anchorAngle = Math.atan2(anchor.y - ctr.y, anchor.x - ctr.x);
                         double newAngle = Math.atan2(p.y - ctr.y, p.x - ctr.x);
                         double rotation = newAngle - anchorAngle;
-     
                         int n = originalPolygon.npoints;
                         int[] xs = new int[n];
                         int[] ys = new int[n];
-     
                         for (int i = 0; i < n; ++i) {
                                 int x = originalPolygon.xpoints[i];
                                 int y = originalPolygon.ypoints[i];
@@ -167,5 +160,4 @@ public class BezierScaleHandle extends AbstractHandle {
                 new TransformRestoreEdit(getOwner(), restoreData, getOwner().getTransformRestoreData()));
         location = null;
     }
-
 }

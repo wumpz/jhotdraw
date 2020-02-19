@@ -2,13 +2,10 @@
  * @(#)LabeledLineConnection.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
-
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -20,7 +17,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.Serializable;
 import javax.swing.event.*;
-
 /**
  * A LineConnection with labels.
  * <p>
@@ -39,12 +35,10 @@ import javax.swing.event.*;
  */
 public class LabeledLineConnectionFigure extends LineConnectionFigure
         implements CompositeFigure {
-    
     private static final long serialVersionUID = 1L;
     private Layouter layouter;
     private ArrayList<Figure> children = new ArrayList<Figure>();
     private transient Rectangle2D.Double cachedDrawingArea;
-    
     /**
      * Handles figure changes in the children.
      */
@@ -58,7 +52,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         @Override public void figureRequestRemove(FigureEvent e) {
             owner.remove(e.getFigure());
         }
-        
         @Override public void figureChanged(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.willChange();
@@ -66,13 +59,11 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
                 owner.changed();
             }
         }
-        
         @Override public void areaInvalidated(FigureEvent e) {
             if (! owner.isChanging()) {
                 owner.fireAreaInvalidated(e.getInvalidatedArea());
             }
         }
-
     @Override
         public void undoableEditHappened(UndoableEditEvent e) {
             owner.fireUndoableEditHappened(e.getEdit());
@@ -94,7 +85,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             }
         }
     }
-    
     // SHAPE AND BOUNDS
     /**
      * Transforms the figure.
@@ -171,7 +161,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         super.updateConnection();
         layout();
     }
-    
     // COMPOSITE FIGURES
     @Override
     public java.util.List<Figure> getChildren() {
@@ -194,7 +183,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             new LinkedList<Figure>() :
             new ReversedList<Figure>(children);
     }
-    
     @Override
     public boolean add(Figure figure) {
         basicAdd(figure);
@@ -259,7 +247,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
         figure.removeFigureListener(childHandler);
         return figure;
     }
-    
     @Override
     public void removeAllChildren() {
         willChange();
@@ -295,7 +282,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     public void setLayouter(Layouter newLayouter) {
         this.layouter = newLayouter;
     }
-    
     /**
      * A layout algorithm is used to define how the child components
      * should be laid out in relation to each other. The task for
@@ -311,9 +297,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             invalidate();
         }
     }
-    
 // EVENT HANDLING
-    
     @Override
     public void invalidate() {
         super.invalidate();
@@ -342,7 +326,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     public void removeCompositeFigureListener(CompositeFigureListener listener) {
         listenerList.remove(CompositeFigureListener.class, listener);
     }
-
     @Override
     public void addCompositeFigureListener(CompositeFigureListener listener) {
         listenerList.add(CompositeFigureListener.class, listener);
@@ -367,7 +350,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             }
         }
     }
-    
     /**
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
@@ -388,7 +370,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             }
         }
     }
-    
     // CLONING
     @Override
     public LabeledLineConnectionFigure clone() {
@@ -409,12 +390,10 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             child.remap(oldToNew, disconnectIfNotInMap);
         }
     }
-
     @Override
     public boolean contains(Figure f) {
         return children.contains(f);
     }
-
     @Override
     public int indexOf(Figure child) {
         return children.indexOf(child);

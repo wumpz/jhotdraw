@@ -2,18 +2,16 @@
  * @(#)EllipseFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
 import org.jhotdraw.draw.connector.ChopEllipseConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Geom;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * A {@link Figure} with an elliptic shape.
  *
@@ -22,9 +20,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class EllipseFigure extends AbstractAttributedFigure {
     private static final long serialVersionUID = 1L;
-
     protected Ellipse2D.Double ellipse;
-
     /**
      * Constructs a new {@code EllipseFigure}, initialized to
      * location (0,&nbsp;0) and size (0,&nbsp;0).
@@ -32,7 +28,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
     public EllipseFigure() {
         this(0, 0, 0, 0);
     }
-
     /**
      * Constructs and initializes an {@code EllipseFigure} from the
      * specified coordinates.
@@ -45,7 +40,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
     public EllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
     }
-
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES
@@ -55,7 +49,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return new ChopEllipseConnector(this);
     }
-
     @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopEllipseConnector(this);
@@ -63,12 +56,10 @@ public class EllipseFigure extends AbstractAttributedFigure {
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
-
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
-
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
@@ -76,7 +67,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
         Geom.grow(r, grow+1, grow+1);
         return r;
     }
-
     @Override
     protected void drawFill(Graphics2D g) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
@@ -89,7 +79,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
             g.fill(r);
         }
     }
-
     @Override
     protected void drawStroke(Graphics2D g) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
@@ -98,12 +87,10 @@ public class EllipseFigure extends AbstractAttributedFigure {
         r.y -= grow;
         r.width += grow * 2;
         r.height += grow * 2;
-
         if (r.width > 0 && r.height > 0) {
             g.draw(r);
         }
     }
-
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -115,10 +102,8 @@ public class EllipseFigure extends AbstractAttributedFigure {
         r.y -= grow;
         r.width += grow * 2;
         r.height += grow * 2;
-
         return r.contains(p);
     }
-
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
@@ -126,7 +111,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
         ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         ellipse.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
-
     /**
      * Transforms the figure.
      *
@@ -140,14 +124,12 @@ public class EllipseFigure extends AbstractAttributedFigure {
                 (Point2D.Double) tx.transform(anchor, anchor),
                 (Point2D.Double) tx.transform(lead, lead));
     }
-
     @Override
     public EllipseFigure clone() {
         EllipseFigure that = (EllipseFigure) super.clone();
         that.ellipse = (Ellipse2D.Double) this.ellipse.clone();
         return that;
     }
-
     @Override
     public void restoreTransformTo(Object geometry) {
         Ellipse2D.Double e = (Ellipse2D.Double) geometry;
@@ -156,7 +138,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
         ellipse.width = e.width;
         ellipse.height = e.height;
     }
-
     @Override
     public Object getTransformRestoreData() {
         return ellipse.clone();

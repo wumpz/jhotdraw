@@ -37,7 +37,6 @@ public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         tabbedPane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
-
         tabbedPane.setUI((TabbedPaneUI) PaletteTabbedPaneUI.createUI(tabbedPane));
         tabbedPane.putClientProperty("Palette.TabbedPane.paintContentBorder", false);
     }
@@ -52,7 +51,6 @@ public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
             // Return if we haven't initialized yet
             return;
         }
-
         {
             JPanel centerView = new JPanel(new BorderLayout());
             centerView.add(ccp);
@@ -72,19 +70,14 @@ public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         toolBarButtonGroup = new javax.swing.ButtonGroup();
         tabbedPane = new javax.swing.JTabbedPane();
-
         setLayout(new java.awt.BorderLayout());
-
         tabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
         add(tabbedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.ButtonGroup toolBarButtonGroup;
     // End of variables declaration//GEN-END:variables
-
 }

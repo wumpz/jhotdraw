@@ -2,7 +2,7 @@
  * @(#)FontSizeHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -76,7 +76,6 @@ public class FontSizeHandle extends LocatorHandle {
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         TextHolderFigure textOwner = (TextHolderFigure) getOwner();
-
         Point2D.Double anchor2D = view.viewToDrawing(anchor);
         Point2D.Double lead2D = view.viewToDrawing(lead);
         if (textOwner.get(TRANSFORM) != null) {
@@ -131,7 +130,6 @@ public class FontSizeHandle extends LocatorHandle {
     public void keyPressed(KeyEvent evt) {
         final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
         oldSize = newSize = textOwner.getFontSize();
-
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (newSize > 1) {

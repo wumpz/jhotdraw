@@ -2,19 +2,16 @@
  * @(#)BoundsOutlineHandle.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
-
-
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import org.jhotdraw.geom.ConvexHull;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * Draws the outline of the Figure bounds to make adjustment easier.
  *
@@ -23,7 +20,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ConvexHullOutlineHandle extends AbstractHandle {
     private Shape outline;
-
     private AttributeKey<Stroke> stroke1Enabled;
     private AttributeKey<Stroke> stroke2Enabled;
     private AttributeKey<Stroke> stroke1Disabled;
@@ -32,19 +28,17 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
     private AttributeKey<Color> strokeColor2Enabled;
     private AttributeKey<Color> strokeColor1Disabled;
     private AttributeKey<Color> strokeColor2Disabled;
-
     /**
      * Creates a bounds outline handle for resizing a component.
-     * 
+     *
      * @param owner
      */
     public ConvexHullOutlineHandle(SVGPathFigure owner) {
         this(owner, false, false);
     }
-
     /**
      * Creates a bounds outline handle for resizing or transforming a component.
-     * 
+     *
      * @param owner
      */
     public ConvexHullOutlineHandle(SVGPathFigure owner, boolean isTransformHandle, boolean isHoverHandle) {
@@ -83,13 +77,12 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
             strokeColor2Disabled = HandleAttributeKeys.RESIZE_BOUNDS_COLOR_2_DISABLED;
         }
     }
-
     /**
      * Creates a bounds outline handle for resizing or transforming a component.
      *
      * @param owner
      */
-    public ConvexHullOutlineHandle(SVGPathFigure owner, 
+    public ConvexHullOutlineHandle(SVGPathFigure owner,
             AttributeKey<Stroke> stroke1Enabled, AttributeKey<Color> strokeColor1Enabled,
             AttributeKey<Stroke> stroke2Enabled, AttributeKey<Color> strokeColor2Enabled,
             AttributeKey<Stroke> stroke1Disabled, AttributeKey<Color> strokeColor1Disabled,
@@ -112,34 +105,27 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
             bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-
         Rectangle r = bounds.getBounds();
         r.grow(2, 2);
         return r;
     }
-
     @Override
     public SVGPathFigure getOwner() {
         return (SVGPathFigure) super.getOwner();
     }
-
     @Override
     public boolean contains(Point p) {
         return false;
     }
-
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
-
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
-
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
-
     @Override
     public void draw(Graphics2D g) {
         if (outline==null) {
@@ -154,7 +140,6 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
         Color strokeColor1;
         Stroke stroke2;
         Color strokeColor2;
-
         if (getEditor().getTool().supportsHandleInteraction()) {
             stroke1 = getEditor().getHandleAttribute(stroke1Enabled);
             strokeColor1 = getEditor().getHandleAttribute(strokeColor1Enabled);

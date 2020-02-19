@@ -2,7 +2,7 @@
  * @(#)RoundRectangleFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -42,7 +42,6 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
      * Identifies the {@code arcHeight} JavaBeans property.
      */
     public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
-
     protected RoundRectangle2D.Double roundrect;
     protected static final double DEFAULT_ARC = 20;
 
@@ -103,7 +102,6 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1;
         Geom.grow(r, grow, grow);
-
         return r;
     }
 
@@ -190,7 +188,6 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
         handles.add(new RoundRectangleRadiusHandle(this));
-
         return handles;
     }
 
@@ -227,8 +224,8 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         that.roundrect = (RoundRectangle2D.Double) this.roundrect.clone();
         return that;
     }
-    // EVENT HANDLING
 
+    // EVENT HANDLING
     // PERSISTENCE
     @Override
     public void read(DOMInput in) throws IOException {
@@ -243,5 +240,4 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         out.addAttribute("arcWidth", roundrect.arcwidth);
         out.addAttribute("arcHeight", roundrect.archeight);
     }
-
 }

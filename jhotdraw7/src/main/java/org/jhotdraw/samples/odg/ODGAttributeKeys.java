@@ -2,18 +2,14 @@
  * @(#)ODGAttributeKeys.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg;
-
-
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.samples.odg.ODGConstants.*;
-
 /**
  * ODGAttributeKeys.
  * <p>
@@ -27,11 +23,9 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
  */
 public class ODGAttributeKeys extends AttributeKeys {
      private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-    
     /** Prevent instance creation */
     private ODGAttributeKeys() {
     }
-    
     /**
      * The attribute draw:name assigns a name to the drawing shape.
      */
@@ -41,7 +35,6 @@ public class ODGAttributeKeys extends AttributeKeys {
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity", Double.class, 1d, false, labels);
-    
     /**
      * Specifies the fill style of a ODG figure.
      *
@@ -85,13 +78,11 @@ public class ODGAttributeKeys extends AttributeKeys {
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity", Double.class, 1d, false, labels);
-    
     /**
      * Gets the fill paint for the specified figure based on the attributes
      * FILL_GRADIENT, FILL_OPACITY, FILL_PAINT and the bounds of the figure.
      * Returns null if the figure is not filled.
      */
-    
     public static Paint getFillPaint(Figure f) {
         double opacity = f.get(FILL_OPACITY);
         if (f.get(FILL_GRADIENT) != null) {
@@ -112,7 +103,6 @@ public class ODGAttributeKeys extends AttributeKeys {
      * STROKE_GRADIENT, STROKE_OPACITY, STROKE_PAINT and the bounds of the figure.
      * Returns null if the figure is not filled.
      */
-    
     public static Paint getStrokePaint(Figure f) {
         double opacity = f.get(STROKE_OPACITY);
         if (f.get(STROKE_GRADIENT) != null) {
@@ -135,13 +125,11 @@ public class ODGAttributeKeys extends AttributeKeys {
         }
         return new BasicStroke((float) strokeWidth);
     }
-    
     /** Sets ODG default values. */
     public static void setDefaults(Figure f) {
         // Fill properties
         f.set(FILL_COLOR, Color.black);
         f.set(WINDING_RULE, WindingRule.NON_ZERO);
-        
         // Stroke properties
         f.set(STROKE_COLOR, null);
         f.set(STROKE_WIDTH, 1d);

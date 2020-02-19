@@ -2,11 +2,10 @@
  * @(#)NetApplet.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.net;
-
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
@@ -15,7 +14,6 @@ import org.jhotdraw.draw.io.ImageInputFormat;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
@@ -23,20 +21,17 @@ import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.xml.*;
-
 /**
  * NetApplet.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class NetApplet extends JApplet {
     private static final long serialVersionUID = 1L;
-
     private static final String NAME = "JHotDraw Net";
     private NetPanel drawingPanel;
-
     /**
      * We override getParameter() to make it work even if we have no Applet
      * context.
@@ -49,11 +44,9 @@ public class NetApplet extends JApplet {
             return null;
         }
     }
-
     protected String getVersion() {
         return NetApplet.class.getPackage().getImplementationVersion();
     }
-
     /**
      * Initializes the applet NetApplet
      */
@@ -68,7 +61,6 @@ public class NetApplet extends JApplet {
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
         }
-
         // Set our own popup factory, because the one that comes with Mac OS X
         // creates translucent popups which is not useful for color selection
         // using pop menus.
@@ -77,21 +69,17 @@ public class NetApplet extends JApplet {
         } catch (Throwable e) {
             // If we can't set the popup factory, we have to use what is there.
         }
-
-
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
+        String[] labels = getAppletInfo().split("\n"); //Strings.split(getAppletInfo(), '\n');
         for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
-
         // We load the data using a worker thread
         // --------------------------------------
         new Worker<Drawing>() {
-
             @Override
             protected Drawing construct() throws IOException {
                 Drawing result;
@@ -113,32 +101,27 @@ public class NetApplet extends JApplet {
                 }
                 return result;
             }
-
             @Override
             protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new NetPanel());
-
                 if (result != null) {
                     Drawing drawing = result;
                     setDrawing(drawing);
                 }
             }
-
             @Override
             protected void failed(Throwable value) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new NetPanel());
-
                 value.printStackTrace();
                 getDrawing().add(new TextFigure(value.toString()));
                 value.printStackTrace();
             }
-
             @Override
             protected void finished() {
                 Container c = getContentPane();
@@ -147,15 +130,12 @@ public class NetApplet extends JApplet {
             }
         }.start();
     }
-
     private void setDrawing(Drawing d) {
         drawingPanel.setDrawing(d);
     }
-
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
     }
-
     /**
      * Configure Drawing object to support copy and paste.
      */
@@ -163,25 +143,20 @@ public class NetApplet extends JApplet {
     private void initDrawing(Drawing d) {
         d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
         d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);
-
         DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
                 new NetFactory());
-
         d.addInputFormat(ioFormat);
         d.addInputFormat(new ImageInputFormat(new ImageFigure()));
         d.addInputFormat(new TextInputFormat(new TextFigure()));
-
         d.addOutputFormat(ioFormat);
         d.addOutputFormat(new ImageOutputFormat());
     }
-
     public void setData(String text) {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
                 NanoXMLDOMInput domi = new NanoXMLDOMInput(new NetFactory(), in);
                 domi.openElement("Net");
-
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
                 getDrawing().removeAllChildren();
@@ -195,7 +170,6 @@ public class NetApplet extends JApplet {
             }
         }
     }
-
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
@@ -215,14 +189,12 @@ public class NetApplet extends JApplet {
         }
         return out.toString();
     }
-
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
                     {"data", "String", "the data to be displayed by this applet."},
                     {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},};
     }
-
     @Override
     public String getAppletInfo() {
         return NAME
@@ -231,7 +203,6 @@ public class NetApplet extends JApplet {
                 + "\nThis software is licensed under LGPL or"
                 + "\nCreative Commons 3.0 BY";
     }
-
     /** This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -240,12 +211,9 @@ public class NetApplet extends JApplet {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         toolButtonGroup = new javax.swing.ButtonGroup();
-
     }// </editor-fold>//GEN-END:initComponents
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw Net Applet");

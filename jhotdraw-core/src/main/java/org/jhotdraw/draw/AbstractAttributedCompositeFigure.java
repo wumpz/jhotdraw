@@ -2,7 +2,7 @@
  * @(#)AbstractAttributedCompositeFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -27,7 +27,6 @@ import org.jhotdraw.xml.DOMOutput;
 public abstract class AbstractAttributedCompositeFigure extends AbstractCompositeFigure {
 
     private static final long serialVersionUID = 1L;
-
     private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
     /**
      * Forbidden attributes can't be put by the put() operation.
@@ -127,7 +126,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
         if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
             g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
             g.setColor(get(STROKE_COLOR));
-
             drawStroke(g);
         }
         if (get(TEXT_COLOR) != null) {
@@ -207,7 +205,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
 
     protected void writeAttributes(DOMOutput out) throws IOException {
         Figure prototype = (Figure) out.getPrototype();
-
         boolean isElementOpen = false;
         for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
             AttributeKey<?> key = entry.getKey();
@@ -255,7 +252,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
 
     protected AttributeKey<?> getAttributeKey(String name) {
-        return AttributeKeys.supportedAttributeMap.get(name);
+        return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
     }
 
     /**

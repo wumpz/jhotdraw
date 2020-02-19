@@ -23,7 +23,6 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
 public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel, Cloneable {
 
     private static final long serialVersionUID = 1L;
-
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
     private ArrayList<Color> colors;
     private ColorSliderModel sliderModel;
@@ -37,10 +36,8 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         sliderModel = new DefaultColorSliderModel(sys);
         colors = new ArrayList<>();
         rules = new ArrayList<>();
-
         base = 0;
         add(Color.RED);
-
         DefaultListModel x;
     }
 
@@ -53,7 +50,6 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         while (colors.size() < newValue) {
             colors.add(null);
         }
-
         if (oldSize < newValue) {
             fireIntervalRemoved(this, oldSize, newValue - 1);
         } else if (oldSize > newValue) {

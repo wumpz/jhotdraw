@@ -60,7 +60,6 @@ public class BezierPathNGTest {
         instance.add(c0);
         c0 = new Point2D.Double(21.0004, 56.92827);
         instance.add(c0);
-
         Path2D.Double gp = instance.toGeneralPath();
         PathIterator pathIterator = gp.getPathIterator(null);
         double[] coords = new double[2];
@@ -86,7 +85,6 @@ public class BezierPathNGTest {
         instance.add(c0);
         c0 = new Point2D.Double(21.0004, 56.92827);
         instance.add(c0);
-
         Point2D.Double[] toPolygonArray = instance.toPolygonArray();
         assertEquals(toPolygonArray.length, 2);
         for (int i = 0; i < toPolygonArray.length; i++) {
@@ -103,7 +101,6 @@ public class BezierPathNGTest {
         instance.add(c0);
         c0 = new Point2D.Double(21.0004, 56.92827);
         instance.add(c0);
-
         PathIterator pathIterator = instance.getPathIterator(null);
         double[] coords = new double[2];
         int i = 0;
@@ -125,7 +122,6 @@ public class BezierPathNGTest {
         instance.add(c0);
         c0 = new Point2D.Double(21.0004, 56.92827);
         instance.add(c0);
-
         PathIterator pathIterator = instance.getPathIterator(null, 4);
         double[] coords = new double[2];
         int i = 0;

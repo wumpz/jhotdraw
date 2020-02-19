@@ -2,12 +2,10 @@
  * @(#)BezierControlPointHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
-
-
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
@@ -19,7 +17,6 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * A {@link Handle} which allows to interactively change a control point
  * of a bezier path.
@@ -28,17 +25,14 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class BezierControlPointHandle extends AbstractHandle {
-
     protected int index,  controlPointIndex;
     private CompositeEdit edit;
     private Figure transformOwner;
     private BezierPath.Node oldNode;
-
     /** Creates a new instance. */
     public BezierControlPointHandle(BezierFigure owner, int index, int coord) {
         this(owner, index, coord, owner);
     }
-
     public BezierControlPointHandle(BezierFigure owner, int index, int coord, Figure transformOwner) {
         super(owner);
         this.index = index;
@@ -46,22 +40,18 @@ public class BezierControlPointHandle extends AbstractHandle {
         this.transformOwner = transformOwner;
         transformOwner.addFigureListener(this);
     }
-
     @Override
     public void dispose() {
         super.dispose();
         transformOwner.removeFigureListener(this);
         transformOwner = null;
     }
-
     protected BezierFigure getBezierFigure() {
         return getOwner();
     }
-
     protected Figure getTransformOwner() {
         return transformOwner;
     }
-
     protected Point getLocation() {
         if (getBezierFigure().getNodeCount() > index) {
             Point2D.Double p = getBezierFigure().getPoint(index, controlPointIndex);
@@ -73,12 +63,9 @@ public class BezierControlPointHandle extends AbstractHandle {
             return new Point(10, 10);
         }
     }
-
-    
     protected BezierPath.Node getBezierNode() {
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }
-
     /**
      * Draws this handle.
      */
@@ -94,7 +81,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                 tOwner.get(TRANSFORM).transform(p0, p0);
                 tOwner.get(TRANSFORM).transform(pc, pc);
             }
-
             Color handleFillColor;
             Color handleStrokeColor;
             Stroke stroke1;
@@ -136,10 +122,8 @@ public class BezierControlPointHandle extends AbstractHandle {
             } else {
                 drawCircle(g, handleFillColor, handleStrokeColor);
             }
-
         }
     }
-
     @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
@@ -149,14 +133,12 @@ public class BezierControlPointHandle extends AbstractHandle {
         r.width = r.height = h;
         return r;
     }
-
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         BezierFigure figure = getOwner();
         view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
         oldNode = figure.getNode(index);
     }
-
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getBezierFigure();
@@ -172,11 +154,9 @@ public class BezierControlPointHandle extends AbstractHandle {
                 ex.printStackTrace();
             }
         }
-
         if (!v.keepColinear) {
             // move control point independently
             figure.setPoint(index, controlPointIndex, p);
-
         } else {
             // move control point and opposite control point on same line
             double a = Math.PI + Math.atan2(p.y - v.y[0], p.x - v.x[0]);
@@ -185,7 +165,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                     (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
             double sina = Math.sin(a);
             double cosa = Math.cos(a);
-
             Point2D.Double p2 = new Point2D.Double(
                     r * cosa + v.x[0],
                     r * sina + v.y[0]);
@@ -194,9 +173,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
         figure.changed();
         fireAreaInvalidated(figure.getNode(index));
-
     }
-
     private void fireAreaInvalidated(BezierPath.Node v) {
         Rectangle2D.Double dr = new Rectangle2D.Double(v.x[0], v.y[0], 0, 0);
         for (int i = 1; i < 3; i++) {
@@ -206,7 +183,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         vr.grow(getHandlesize(), getHandlesize());
         fireAreaInvalidated(vr);
     }
-
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final BezierFigure figure = getBezierFigure();
@@ -224,7 +200,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                         (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
                 double sina = Math.sin(a);
                 double cosa = Math.cos(a);
-
                 Point2D.Double p2 = new Point2D.Double(
                         r * cosa + newValue.x[0],
                         r * sina + newValue.y[0]);
@@ -236,13 +211,11 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(figure, index, oldValue, newValue) {
     private static final long serialVersionUID = 1L;
-
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
                 fireHandleRequestSecondaryHandles();
             }
-
             @Override
             public void undo() throws CannotUndoException {
                 super.undo();
@@ -251,7 +224,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         });
         view.getDrawing().fireUndoableEditHappened(edit);
     }
-
     @Override
     public boolean isCombinableWith(Handle h) {
         if (super.isCombinableWith(h)) {
@@ -263,7 +235,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
         return false;
     }
-
     @Override
     public String getToolTipText(Point p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -279,17 +250,14 @@ public class BezierControlPointHandle extends AbstractHandle {
             return labels.getString("handle.bezierControlPoint.quadratic.toolTipText");
         }
     }
-
     @Override
     public BezierFigure getOwner() {
         return (BezierFigure) super.getOwner();
     }
-
     @Override
     public void keyPressed(KeyEvent evt) {
         final BezierFigure f = getOwner();
         BezierPath.Node oldNode = f.getNode(index);
-
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
                 f.willChange();

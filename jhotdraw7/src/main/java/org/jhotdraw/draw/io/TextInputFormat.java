@@ -2,11 +2,10 @@
  * @(#)TextInputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
-
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
@@ -16,7 +15,6 @@ import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.geom.Dimension2DDouble;
-
 /**
  * An input format for importing text into a drawing.
  * <p>
@@ -37,11 +35,10 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * Prototype: {@link TextHolderFigure}; Client: {@link org.jhotdraw.draw.io.TextInputFormat}.
  * <hr>
  *
- * @author Werner Randelshofer 
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class TextInputFormat implements InputFormat {
-
     /**
      * The prototype for creating a figure that holds the imported text.
      */
@@ -63,14 +60,12 @@ public class TextInputFormat implements InputFormat {
      * lines of text.
      */
     private boolean isMultiline;
-
     /** Creates a new image output format for text, for a figure that can not.
      * hold multiple lines of text.
      */
     public TextInputFormat(TextHolderFigure prototype) {
         this(prototype, "Text", "Text", "txt", false);
     }
-
     /** Creates a new image output format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
@@ -89,35 +84,28 @@ public class TextInputFormat implements InputFormat {
         this.fileExtension = fileExtension;
         this.isMultiline = isMultiline;
     }
-
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
-
     public String getFileExtension() {
         return fileExtension;
     }
-
     @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
-
     @Override
     public void read(URI uri, Drawing drawing) throws IOException {
         read(new File(uri), drawing);
     }
-
     @Override
     public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
         read(new File(uri), drawing, replace);
     }
-
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
-
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         InputStream in = new FileInputStream(file);
         try {
@@ -126,7 +114,6 @@ public class TextInputFormat implements InputFormat {
             in.close();
         }
     }
-
     @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         if (replace) {
@@ -134,12 +121,9 @@ public class TextInputFormat implements InputFormat {
         }
         drawing.basicAddAll(0, createTextHolderFigures(in));
     }
-
     public LinkedList<Figure> createTextHolderFigures(InputStream in) throws IOException {
         LinkedList<Figure> list = new LinkedList<Figure>();
-
         BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF8"));
-
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
             StringBuilder buf = new StringBuilder();
@@ -174,16 +158,13 @@ public class TextInputFormat implements InputFormat {
         }
         return list;
     }
-
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(DataFlavor.stringFlavor);
     }
-
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
-
         LinkedList<Figure> list = new LinkedList<Figure>();
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();

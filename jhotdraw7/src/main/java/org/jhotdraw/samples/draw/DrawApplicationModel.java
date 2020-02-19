@@ -2,12 +2,10 @@
  * @(#)DrawApplicationModel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.draw;
-
-
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
@@ -27,41 +25,35 @@ import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * Provides factory methods for creating views, menu bars and toolbars.
  * <p>
  * See {@link ApplicationModel} on how this class interacts with an application.
- * 
+ *
  * @author Werner Randelshofer.
  * @version $Id$
  */
 public class DrawApplicationModel extends DefaultApplicationModel {
     private static final long serialVersionUID = 1L;
-
     /**
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-
     /** Creates a new instance. */
     public DrawApplicationModel() {
     }
-
     public DefaultDrawingEditor getSharedEditor() {
         if (sharedEditor == null) {
             sharedEditor = new DefaultDrawingEditor();
         }
         return sharedEditor;
     }
-
     @Override
     public void initView(Application a,View p) {
         if (a.isSharingToolsAmongViews()) {
             ((DrawView) p).setEditor(getSharedEditor());
         }
     }
-
     /**
      * Creates toolbars for the application.
      * This class always returns an empty list. Subclasses may return other
@@ -71,14 +63,12 @@ public class DrawApplicationModel extends DefaultApplicationModel {
     public List<JToolBar> createToolBars(Application a, View pr) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         DrawView p = (DrawView) pr;
-
         DrawingEditor editor;
         if (p == null) {
             editor = getSharedEditor();
         } else {
             editor = p.getEditor();
         }
-
         LinkedList<JToolBar> list = new LinkedList<JToolBar>();
         JToolBar tb;
         tb = new JToolBar();
@@ -95,25 +85,20 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         list.add(tb);
         return list;
     }
-
     private void addCreationButtonsTo(JToolBar tb, DrawingEditor editor) {
         addDefaultCreationButtonsTo(tb, editor,
                 ButtonFactory.createDrawingActions(editor),
                 ButtonFactory.createSelectionActions(editor));
     }
-
     public void addDefaultCreationButtonsTo(JToolBar tb, final DrawingEditor editor,
             Collection<Action> drawingActions, Collection<Action> selectionActions) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         ButtonFactory.addSelectionToolTo(tb, editor, drawingActions, selectionActions);
         tb.addSeparator();
-
         AbstractAttributedFigure af;
         CreationTool ct;
         ConnectionTool cnt;
         ConnectionFigure lc;
-
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new RectangleFigure()), "edit.createRectangle", labels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new RoundRectangleFigure()), "edit.createRoundRectangle", labels);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new EllipseFigure()), "edit.createEllipse", labels);
@@ -136,20 +121,16 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
         ButtonFactory.addToolTo(tb, editor, new ImageTool(new ImageFigure()), "edit.createImage", labels);
     }
-
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         return c;
     }
-
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
         return c;
     }
-
-
 }

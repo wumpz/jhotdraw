@@ -2,7 +2,7 @@
  * @(#)SlantedLiner.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.liner;
@@ -55,7 +55,6 @@ public class SlantedLiner
         if (start == null || end == null || path == null) {
             return;
         }
-
         // Special treatment if the connection connects the same figure
         if (figure.getStartFigure() == figure.getEndFigure()) {
             // Ensure path has exactly four nodes
@@ -77,10 +76,8 @@ public class SlantedLiner
             if (eoutcode == 0) {
                 eoutcode = Geom.outcode(sb, eb);
             }
-
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-
             switch (soutcode) {
                 case Geom.OUT_TOP:
                     eoutcode = Geom.OUT_LEFT;
@@ -100,7 +97,6 @@ public class SlantedLiner
                     break;
             }
             path.get(1).moveTo(sp.x + slantSize, sp.y);
-
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + slantSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -119,7 +115,6 @@ public class SlantedLiner
             } else {
                 path.get(3).moveTo(ep.x, ep.y - slantSize);
             }
-
             switch (soutcode) {
                 case Geom.OUT_RIGHT:
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
@@ -135,7 +130,6 @@ public class SlantedLiner
                     path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
                     break;
             }
-
             // Regular treatment if the connection connects to two different figures
         } else {
             // Ensure path has exactly four nodes
@@ -177,10 +171,8 @@ public class SlantedLiner
                     eoutcode = Geom.outcode(sb, eb);
                 }
             }
-
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + slantSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -200,14 +192,11 @@ public class SlantedLiner
                 path.get(2).moveTo(ep.x, ep.y - slantSize);
             }
         }
-
         // Ensure all path nodes are straight
         for (BezierPath.Node node : path) {
             node.setMask(BezierPath.C0_MASK);
         }
-
         path.invalidatePath();
-
     }
 
     @Override

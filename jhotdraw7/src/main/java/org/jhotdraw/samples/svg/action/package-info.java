@@ -7,11 +7,9 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**
 Provides actions for editing SVG drawings.
 */
-
 package org.jhotdraw.samples.svg.action;
 
 

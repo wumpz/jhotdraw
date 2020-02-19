@@ -1,14 +1,12 @@
 /*
  * @(#)CIEXYChromaticityDiagramImageProducer.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
-
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.color.ColorSpace;
@@ -16,7 +14,6 @@ import java.awt.color.ICC_ColorSpace;
 import java.awt.image.ColorModel;
 import java.awt.image.MemoryImageSource;
 import java.util.Arrays;
-
 /**
  * Produces a CIE xy Chromaticity Diagram.
  * <p>
@@ -34,8 +31,7 @@ import java.util.Arrays;
  * @version $Id$
  */
 public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
-
-    private static final float eps = 0f;// 0.000001f;
+    private static final float eps = 0f; // 0.000001f;
     private static final float ceps = 0f;
     protected int[] pixels;
     protected int w, h;
@@ -46,15 +42,12 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
     protected boolean isPixelsValid = false;
     protected float verticalValue = 1f;
     protected boolean isLookupValid = false;
-
     public enum OutsideGamutHandling {
-
         CLAMP,
         LEAVE_OUTSIDE
     };
     /** By default, clamps non-displayable RGB values. */
     private OutsideGamutHandling outsideGamutHandling = OutsideGamutHandling.LEAVE_OUTSIDE;
-
     public CIEXYChromaticityDiagramImageProducer(int w, int h) {
         super(w, h, null, 0, w);
         this.colorSpace = ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ);
@@ -62,26 +55,21 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         this.w = w;
         this.h = h;
         setAnimated(true);
-
         newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
     }
-
     public boolean needsGeneration() {
         return !isPixelsValid;
     }
-
     public void regenerateDiagram() {
         if (!isPixelsValid) {
             generateImage();
         }
     }
-
     public void generateImage() {
         float wf = 0.8f / (float) w;
         float hf = 0.9f / (float) h;
 //        float wf = 1f / (float) w;
 //      float hf = 1f / (float) h;
-
         // Clear pixels
         Arrays.fill(pixels, 0);
         float[] rgb = new float[3];
@@ -94,10 +82,8 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                     if (pixels[ix + iy * w] != 0) {
                         continue;
                     }
-
                     float y = 0.9f - iy * hf;
                     float z = 1f - x - y;
-
                     if (y == 0) {
                         XYZ[0] = XYZ[1] = XYZ[2] = 0;
                     } else {
@@ -112,7 +98,7 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                         //toRGB(XYZ,rgb);
                         toRGB(XYZ,rgb);
                         alpha = (rgb[0] >= eps && rgb[1] >= eps && rgb[2] >= eps
-                                && rgb[0] <= 1 - eps && rgb[1] <= 1 - eps && rgb[2] <= 1 - eps) 
+                                && rgb[0] <= 1 - eps && rgb[1] <= 1 - eps && rgb[2] <= 1 - eps)
                                 ? 255 : 0;
                         if (alpha == 255) {
                        // rgb = colorSpace.toRGB(XYZ);
@@ -120,38 +106,30 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                             pixels[ix + iy * w] = (alpha << 24) | ((0xff&(int) (rgb[0] * 255f)) << 16) | ((0xff&(int) (rgb[1] * 255f)) << 8) | (0xff&(int) (rgb[2] * 255f));
                         }
                     }
-
                 }
             }
         }
     }
-
     public Point getColorLocation(Color c) {
         float[] components = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(components);
     }
-
     public Point getColorLocation(float[] components) {
         return null;
     }
-
     public float[] getColorAt(int x, int y) {
         return null;
     }
-
     public int getWidth() {
         return w;
     }
-
     public int getHeight() {
         return h;
     }
-
     public void toRGB(float[] ciexyz, float[] rgb) {
         double X = ciexyz[0];
         double Y = ciexyz[1];
         double Z = ciexyz[2];
-
         // sRGB conversion
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
@@ -181,7 +159,6 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         double Rs = 1.4628067 * X + -0.1840623 * Y + -0.2743606 * Z;
         double Gs = -0.5217933 * X + 1.4472381 * Y + 0.0677227 * Z;
         double Bs = 0.0349342 * X + -0.0968930 * Y + 1.2884099 * Z;
-
         if (Rs <= 0.00304) {
             Rs = 12.92 * Rs;
         } else {
@@ -197,7 +174,6 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         } else {
             Bs = 1.055 * Math.pow(Bs, 1 / 2.4) - 0.055;
         }
-
         switch (outsideGamutHandling) {
             case CLAMP:
                 Rs = Math.min(1, Math.max(0, Rs));
@@ -205,12 +181,9 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                 Bs = Math.min(1, Math.max(0, Bs));
                 break;
         }
-
-
         rgb[0] = (float) Rs;
         rgb[1] = (float) Gs;
         rgb[2] = (float) Bs;
-
         //return new float[]{(float) Rs, (float) Gs, (float) Bs};
         //       return sRGB.fromCIEXYZ(ciexyz);
     }

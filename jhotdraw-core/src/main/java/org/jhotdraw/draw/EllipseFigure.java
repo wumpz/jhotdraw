@@ -2,7 +2,7 @@
  * @(#)EllipseFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -22,7 +22,6 @@ import org.jhotdraw.geom.Geom;
 public class EllipseFigure extends AbstractAttributedFigure {
 
     private static final long serialVersionUID = 1L;
-
     protected Ellipse2D.Double ellipse;
 
     /**
@@ -60,10 +59,10 @@ public class EllipseFigure extends AbstractAttributedFigure {
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopEllipseConnector(this);
     }
+
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
-
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
@@ -98,7 +97,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
         r.y -= grow;
         r.width += grow * 2;
         r.height += grow * 2;
-
         if (r.width > 0 && r.height > 0) {
             g.draw(r);
         }
@@ -115,7 +113,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
         r.y -= grow;
         r.width += grow * 2;
         r.height += grow * 2;
-
         return r.contains(p);
     }
 

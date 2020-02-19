@@ -2,17 +2,14 @@
  * @(#)SelectionComponentRepainter.java
  *
  * Copyright (c) 2008-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
-
-
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.draw.*;
-
 /**
  * Calls repaint on components, which show attributes of the drawing editor
  * and of its views based on the current selection.
@@ -22,10 +19,8 @@ import org.jhotdraw.draw.*;
  */
 public class SelectionComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, FigureSelectionListener, Disposable {
-
     private DrawingEditor editor;
     private JComponent component;
-
     public SelectionComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
         this.component = component;
@@ -41,12 +36,10 @@ public class SelectionComponentRepainter extends FigureAdapter
             editor.addPropertyChangeListener(this);
         }
     }
-
     @Override
     public void attributeChanged(FigureEvent evt) {
         component.repaint();
     }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
@@ -82,12 +75,10 @@ public class SelectionComponentRepainter extends FigureAdapter
             component.repaint();
         }
     }
-
     @Override
     public void selectionChanged(FigureSelectionEvent evt) {
         component.repaint();
     }
-
     @Override
     public void dispose() {
         if (editor != null) {

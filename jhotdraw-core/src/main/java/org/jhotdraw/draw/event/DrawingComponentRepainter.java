@@ -36,7 +36,6 @@ public class DrawingComponentRepainter extends FigureAdapter
                     view.getDrawing().addFigureListener(this);
                 }
             }
-
             editor.addPropertyChangeListener(this);
         }
     }

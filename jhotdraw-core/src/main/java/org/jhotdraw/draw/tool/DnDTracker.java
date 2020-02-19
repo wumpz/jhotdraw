@@ -1,9 +1,9 @@
 /*
  * @(#)DnDTracker.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -36,7 +36,6 @@ import org.jhotdraw.draw.*;
 public class DnDTracker extends AbstractTool implements DragTracker {
 
     private static final long serialVersionUID = 1L;
-
     protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
@@ -68,7 +67,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     private boolean isDragging;
 
     public DnDTracker() {
-
     }
 
     public DnDTracker(Figure figure) {
@@ -84,7 +82,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         DrawingView view = getView();
-
         if (evt.isShiftDown()) {
             view.setHandleDetailLevel(0);
             view.toggleSelection(anchorFigure);
@@ -96,9 +93,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
             view.clearSelection();
             view.addToSelection(anchorFigure);
         }
-
         if (!view.getSelectedFigures().isEmpty()) {
-
             dragRect = null;
             for (Figure f : view.getSelectedFigures()) {
                 if (dragRect == null) {
@@ -107,7 +102,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
                     dragRect.add(f.getBounds());
                 }
             }
-
             anchorPoint = previousPoint = view.viewToDrawing(anchor);
             anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
         }
@@ -116,14 +110,12 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     @Override
     public void mouseDragged(MouseEvent e) {
         DrawingView v = getView();
-
         Figure f = v.findFigure(e.getPoint());
         if (f != null) {
             if (!v.getSelectedFigures().contains(f)) {
                 v.clearSelection();
                 v.addToSelection(f);
             }
-
             v.getComponent().getTransferHandler().exportAsDrag(v.getComponent(), e, DnDConstants.ACTION_MOVE);
         }
         fireToolDone();

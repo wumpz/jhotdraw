@@ -2,12 +2,10 @@
  *  @(#)FloatingTextArea.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.text;
-
-
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -17,7 +15,6 @@ import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-
 /**
  * A <em>floating text area</em> that is used to edit a {@link TextHolderFigure}.
  *
@@ -39,7 +36,6 @@ import javax.swing.JScrollPane;
  * @version $Id: FloatingTextArea.java -1   $
  */
 public class FloatingTextArea {
-
     /**
      * A scroll pane to allow for vertical scrolling while editing
      */
@@ -54,13 +50,11 @@ public class FloatingTextArea {
     protected DrawingView view;
     private TextHolderFigure editedFigure;
     private FigureListener figureHandler = new FigureAdapter() {
-
         @Override
         public void attributeChanged(FigureEvent e) {
             updateWidget();
         }
     };
-
     /**
      * Constructor for the FloatingTextArea object
      */
@@ -74,7 +68,6 @@ public class FloatingTextArea {
         editScrollContainer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         editScrollContainer.setBorder(BorderFactory.createLineBorder(Color.black));
     }
-
     /**
      * Creates the overlay within the given container.
      * @param view the DrawingView
@@ -82,11 +75,9 @@ public class FloatingTextArea {
     public void createOverlay(DrawingView view) {
         createOverlay(view, null);
     }
-
     public void requestFocus() {
         textArea.requestFocus();
     }
-
     /**
      * Creates the overlay for the given Container using a
      * specific font.
@@ -102,7 +93,6 @@ public class FloatingTextArea {
             updateWidget();
         }
     }
-
     protected void updateWidget() {
         Font f = editedFigure.getFont();
         // FIXME - Should scale with fractional value!
@@ -112,7 +102,6 @@ public class FloatingTextArea {
         textArea.setBackground(editedFigure.getFillColor());
 //        textArea.setBounds(getFieldBounds(editedFigure));
     }
-
     /**
      * Positions and sizes the overlay.
      * @param r the bounding Rectangle2D.Double for the overlay
@@ -125,7 +114,6 @@ public class FloatingTextArea {
         textArea.setCaretPosition(0);
         textArea.requestFocus();
     }
-
     /**
      * Gets the text contents of the overlay.
      * @return The text value
@@ -133,7 +121,6 @@ public class FloatingTextArea {
     public String getText() {
         return textArea.getText();
     }
-
     /**
      * Gets the preferred size of the overlay.
      * @param cols Description of the Parameter
@@ -142,7 +129,6 @@ public class FloatingTextArea {
     public Dimension getPreferredSize(int cols) {
         return new Dimension(textArea.getWidth(), textArea.getHeight());
     }
-
     /**
      * Removes the overlay.
      */
@@ -151,7 +137,6 @@ public class FloatingTextArea {
         if (editScrollContainer != null) {
             editScrollContainer.setVisible(false);
             view.getComponent().remove(editScrollContainer);
-
             Rectangle bounds = editScrollContainer.getBounds();
             view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }

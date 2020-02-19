@@ -1,13 +1,12 @@
 /*
  * @(#)OSXOpenApplicationAction.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
-
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
@@ -16,7 +15,6 @@ import javax.swing.SwingUtilities;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-
 /**
  * If all views are iconified, de-iconifies a view and brings it to the front.
  * <p>
@@ -33,15 +31,12 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  */
 public class ReOpenApplicationAction extends AbstractApplicationAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.reOpen";
-
     /** Creates a new instance. */
     public ReOpenApplicationAction(Application app) {
         super(app);
         putValue(Action.NAME, "OSX ReOpen Application");
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         Application a = getApplication();

@@ -2,7 +2,7 @@
  * @(#)ImageTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -43,7 +43,6 @@ import org.jhotdraw.gui.BackgroundTask;
 public class ImageTool extends CreationTool {
 
     private static final long serialVersionUID = 1L;
-
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected boolean useFileDialog;
@@ -83,7 +82,6 @@ public class ImageTool extends CreationTool {
         if (v == null) {
             return;
         }
-
         if (workerThread != null) {
             try {
                 workerThread.join();
@@ -91,7 +89,6 @@ public class ImageTool extends CreationTool {
                 // ignore
             }
         }
-
         final File file;
         if (useFileDialog) {
             getFileDialog().setVisible(true);
@@ -107,11 +104,9 @@ public class ImageTool extends CreationTool {
                 file = null;
             }
         }
-
         if (file != null) {
             final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
             BackgroundTask worker = new BackgroundTask() {
-
                 @Override
                 protected void construct() throws IOException {
                     loaderFigure.loadImage(file);

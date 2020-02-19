@@ -2,12 +2,10 @@
  * @(#)AbstractRotateHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
-
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.event.TransformEdit;
@@ -17,7 +15,6 @@ import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * This abstract class can be extended to implement a {@link Handle} which
  * can rotate a {@link Figure}.
@@ -26,30 +23,25 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
-
     private Point location;
     private Object restoreData;
     private AffineTransform transform;
     private Point2D.Double center;
     private double startTheta;
     private double startLength;
-
     /** Creates a new instance. */
     public AbstractRotateHandle(Figure owner) {
         super(owner);
     }
-
     @Override
     public boolean isCombinableWith(Handle h) {
         return false;
     }
-
     @Override
     public String getToolTipText(Point p) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         return labels.getString("handle.rotate.toolTipText");
     }
-
     /**
      * Draws this handle.
      */
@@ -65,7 +57,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
                     getEditor().getHandleAttribute(HandleAttributeKeys.ROTATE_HANDLE_STROKE_COLOR_DISABLED));
         }
     }
-
     @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(getLocation());
@@ -75,14 +66,12 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         r.width = r.height = h;
         return r;
     }
-
     public Point getLocation() {
         if (location == null) {
             return view.drawingToView(getOrigin());
         }
         return location;
     }
-
     protected Rectangle2D.Double getTransformedBounds() {
         Figure owner = getOwner();
         Rectangle2D.Double bounds = owner.getBounds();
@@ -96,19 +85,14 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         }
         return bounds;
     }
-
     protected Object getRestoreData() {
         return restoreData;
     }
-
     protected double getStartTheta() {
         return startTheta;
     }
-
     protected abstract Point2D.Double getOrigin();
-
     protected abstract Point2D.Double getCenter();
-
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         location = new Point(anchor.x, anchor.y);
@@ -119,26 +103,21 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         startTheta = Geom.angle(center.x, center.y, anchorPoint.x, anchorPoint.y);
         startLength = Geom.length(center.x, center.y, anchorPoint.x, anchorPoint.y);
     }
-
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         location = new Point(lead.x, lead.y);
         Point2D.Double leadPoint = view.viewToDrawing(lead);
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
-
         double currentTheta = view.getConstrainer().constrainAngle(stepTheta - startTheta);
-
         transform.setToIdentity();
         transform.translate(center.x, center.y);
         transform.rotate(currentTheta);
         transform.translate(-center.x, -center.y);
-
         getOwner().willChange();
         getOwner().restoreTransformTo(restoreData);
         getOwner().transform(transform);
         getOwner().changed();
     }
-
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(
@@ -148,14 +127,12 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         invalidate();
         fireAreaInvalidated(getDrawingArea());
     }
-
     @Override
     public void keyPressed(KeyEvent evt) {
         Figure f = getOwner();
         center = getCenter();
         if (f.isTransformable()) {
             AffineTransform tx = new AffineTransform();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_LEFT:

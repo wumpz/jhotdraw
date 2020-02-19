@@ -2,19 +2,16 @@
  * @(#)OrientationHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.AttributeChangeEdit;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
-
 /**
  * A {@link Handle} to change the value of the figure attribute
  * {@link org.jhotdraw.draw.AttributeKeys#ORIENTATION}.
@@ -27,17 +24,14 @@ public class OrientationHandle extends AbstractHandle {
     private Rectangle centerBox;
     private AttributeKeys.Orientation oldValue;
     private AttributeKeys.Orientation newValue;
-    
     /** Creates a new instance. */
     public OrientationHandle(TriangleFigure owner) {
         super(owner);
     }
-    
     @Override
     public boolean isCombinableWith(Handle h) {
         return false;
     }
-    
     private Point2D.Double getLocation() {
         Figure owner = getOwner();
         Rectangle2D.Double r = owner.getBounds();
@@ -72,7 +66,6 @@ public class OrientationHandle extends AbstractHandle {
         }
         return p;
     }
-    
     @Override
     protected Rectangle basicGetBounds() {
         Point p = view.drawingToView(getLocation());
@@ -83,19 +76,15 @@ public class OrientationHandle extends AbstractHandle {
         r.width = r.height = h;
         return r;
     }
-    
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         oldValue = getOwner().get(ORIENTATION);
-        
         centerBox = view.drawingToView(getOwner().getBounds());
         centerBox.grow(centerBox.width / -3, centerBox.height / -3);
     }
-    
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Rectangle leadRect = new Rectangle(lead);
-        
         switch (Geom.outcode(centerBox, leadRect)) {
             case Geom.OUT_TOP :
             default :
@@ -130,12 +119,11 @@ public class OrientationHandle extends AbstractHandle {
     }
     @Override
     public void draw(Graphics2D g) {
-        drawDiamond(g, 
+        drawDiamond(g,
                 getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_FILL_COLOR),
                 getEditor().getHandleAttribute(HandleAttributeKeys.ATTRIBUTE_HANDLE_STROKE_COLOR)
                 );
     }
-    
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         if (newValue != oldValue) {
@@ -144,5 +132,4 @@ public class OrientationHandle extends AbstractHandle {
                     );
         }
     }
-    
 }

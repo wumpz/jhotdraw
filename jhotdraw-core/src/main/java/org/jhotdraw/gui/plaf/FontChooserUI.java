@@ -16,5 +16,4 @@ import javax.swing.plaf.ComponentUI;
  * @version $Id$
  */
 public class FontChooserUI extends ComponentUI {
-
 }

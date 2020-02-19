@@ -37,5 +37,4 @@ public abstract class AbstractHarmonicRule implements HarmonicRule {
     public int[] getDerivedIndices() {
         return derivedIndices;
     }
-
 }

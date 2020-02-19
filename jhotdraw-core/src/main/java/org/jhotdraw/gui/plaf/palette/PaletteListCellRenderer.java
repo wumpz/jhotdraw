@@ -1,9 +1,9 @@
 /*
  * @(#)PaletteListCellRenderer.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -71,23 +71,17 @@ public class PaletteListCellRenderer extends DefaultListCellRenderer {
             boolean isSelected,
             boolean cellHasFocus) {
         PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
-
         setComponentOrientation(list.getComponentOrientation());
-
         Color bg = null;
         Color fg = null;
-
         JList.DropLocation dropLocation = list.getDropLocation();
         if (dropLocation != null
                 && !dropLocation.isInsert()
                 && dropLocation.getIndex() == index) {
-
             bg = plaf.getColor("List.dropCellBackground");
             fg = plaf.getColor("List.dropCellForeground");
-
             isSelected = true;
         }
-
         if (isSelected) {
             setBackground(bg == null ? list.getSelectionBackground() : bg);
             setForeground(fg == null ? list.getSelectionForeground() : fg);
@@ -95,7 +89,6 @@ public class PaletteListCellRenderer extends DefaultListCellRenderer {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
         }
-
         if (value instanceof Icon) {
             setIcon((Icon) value);
             setText("");
@@ -103,10 +96,8 @@ public class PaletteListCellRenderer extends DefaultListCellRenderer {
             setIcon(null);
             setText((value == null) ? "" : value.toString());
         }
-
         setEnabled(list.isEnabled());
         setFont(list.getFont());
-
         Border border = null;
         if (cellHasFocus) {
             if (isSelected) {
@@ -119,8 +110,6 @@ public class PaletteListCellRenderer extends DefaultListCellRenderer {
             border = getNoFocusBorder();
         }
         setBorder(border);
-
         return this;
     }
-
 }

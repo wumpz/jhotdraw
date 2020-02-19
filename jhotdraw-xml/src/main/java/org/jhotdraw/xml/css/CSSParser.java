@@ -2,7 +2,7 @@
  * @(#)CSSLoader.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  * Original code taken from article "Swing and CSS" by Joshua Marinacci 10/14/2003
@@ -98,10 +98,8 @@ public class CSSParser {
         if (tt.nextToken() != '}') {
             throw new IOException("Ruleset '}' missing for " + selectors);
         }
-
         for (String selector : selectors) {
             rm.add(new CSSRule(selector, declarations));
-
             // System.out.println("CSSParser.add("+selector+","+declarations);
             /*
             for (Map.Entry<String,String> entry : declarations.entrySet()) {
@@ -112,12 +110,10 @@ public class CSSParser {
 
     private List<String> parseSelectorList(StreamTokenizer tt) throws IOException {
         LinkedList<String> list = new LinkedList<String>();
-
         StringBuilder selector = new StringBuilder();
         boolean needsWhitespace = false;
         while (tt.nextToken() != StreamTokenizer.TT_EOF
                 && tt.ttype != '{') {
-
             switch (tt.ttype) {
                 case StreamTokenizer.TT_WORD:
                     if (needsWhitespace) {
@@ -143,7 +139,6 @@ public class CSSParser {
         if (selector.length() != 0) {
             list.add(selector.toString());
         }
-
         tt.pushBack();
         //System.out.println("selectors:"+list);
         return list;
@@ -151,13 +146,11 @@ public class CSSParser {
 
     private Map<String, String> parseDeclarationMap(StreamTokenizer tt) throws IOException {
         HashMap<String, String> map = new HashMap<String, String>();
-
         do {
             // Parse key
             StringBuilder key = new StringBuilder();
             while (tt.nextToken() != StreamTokenizer.TT_EOF
                     && tt.ttype != '}' && tt.ttype != ':' && tt.ttype != ';') {
-
                 switch (tt.ttype) {
                     case StreamTokenizer.TT_WORD:
                         key.append(tt.sval);
@@ -173,13 +166,11 @@ public class CSSParser {
             if (tt.ttype != ':') {
                 throw new IOException("Declaration ':' missing for " + key);
             }
-
             // Parse value
             StringBuilder value = new StringBuilder();
             boolean needsWhitespace = false;
             while (tt.nextToken() != StreamTokenizer.TT_EOF
                     && tt.ttype != ';' && tt.ttype != '}') {
-
                 switch (tt.ttype) {
                     case StreamTokenizer.TT_WORD:
                         if (needsWhitespace) {
@@ -194,11 +185,9 @@ public class CSSParser {
                         break;
                 }
             }
-
             map.put(key.toString(), value.toString());
             //System.out.println("  declaration: "+key+":"+value);
         } while (tt.ttype != '}' && tt.ttype != StreamTokenizer.TT_EOF);
-
         tt.pushBack();
         return map;
     }

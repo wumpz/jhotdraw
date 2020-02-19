@@ -2,12 +2,10 @@
  * @(#)UndoAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
-
-
 import java.awt.event.*;
 import javax.swing.*;
 import java.beans.*;
@@ -15,7 +13,6 @@ import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
-
 /**
  * Undoes the last user action.
  * <p>
@@ -34,11 +31,9 @@ import org.jhotdraw.app.action.AbstractViewAction;
  */
 public class UndoAction extends AbstractViewAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.undo";
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
@@ -49,13 +44,11 @@ public class UndoAction extends AbstractViewAction {
             }
         }
     };
-
     /** Creates a new instance. */
     public UndoAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
     }
-
     protected void updateEnabledState() {
         boolean isEnabled = false;
         Action realAction = getRealUndoAction();
@@ -64,19 +57,17 @@ public class UndoAction extends AbstractViewAction {
         }
         setEnabled(isEnabled);
     }
-
     @Override
     protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && 
-                newValue.getActionMap().get(ID) != null && 
+        if (newValue != null &&
+                newValue.getActionMap().get(ID) != null &&
                 newValue.getActionMap().get(ID) != this) {
             putValue(AbstractAction.NAME, newValue.getActionMap().get(ID).
                     getValue(AbstractAction.NAME));
             updateEnabledState();
         }
     }
-
     /**
      * Installs listeners on the view object.
      */
@@ -88,7 +79,6 @@ public class UndoAction extends AbstractViewAction {
             undoActionInView.addPropertyChangeListener(redoActionPropertyListener);
         }
     }
-
     /**
      * Installs listeners on the view object.
      */
@@ -100,7 +90,6 @@ public class UndoAction extends AbstractViewAction {
             undoActionInView.removePropertyChangeListener(redoActionPropertyListener);
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         Action realUndoAction = getRealUndoAction();
@@ -108,8 +97,6 @@ public class UndoAction extends AbstractViewAction {
             realUndoAction.actionPerformed(e);
         }
     }
-
-    
     private Action getRealUndoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

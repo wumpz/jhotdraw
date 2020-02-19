@@ -2,16 +2,12 @@
  * @(#)AbstractConstrainer.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
-
 import javax.swing.event.*;
 import org.jhotdraw.beans.*;
-
 /**
  * This abstract class can be extended to implement a {@link Constrainer}.
  *
@@ -28,12 +24,9 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
      * of events generated here is always "this".
      */
     protected transient ChangeEvent changeEvent = null;
-
-    
     /** Creates a new instance. */
     public AbstractConstrainer() {
     }
-    
     /**
      * Adds a <code>ChangeListener</code>.
      */
@@ -41,7 +34,6 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
-    
     /**
      * Removes a <code>ChangeListener</code>.
      */
@@ -49,7 +41,6 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
-    
     /**
      * Runs each <code>ChangeListener</code>'s <code>stateChanged</code> method.
      *
@@ -66,7 +57,6 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
             }
         }
     }
-    
     @Override
     public AbstractConstrainer clone() {
         AbstractConstrainer that = (AbstractConstrainer) super.clone();

@@ -2,14 +2,12 @@
  * @(#)SVGBezierFigure.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
-
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
-
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
@@ -21,7 +19,6 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * SVGBezierFigure is not an actual SVG element, it is used by SVGPathFigure to
  * represent a single BezierPath segment within an SVG path.
@@ -31,19 +28,15 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGBezierFigure extends BezierFigure {
     private static final long serialVersionUID = 1L;
-
     private transient Rectangle2D.Double cachedDrawingArea;
-
     /** Creates a new instance. */
     public SVGBezierFigure() {
         this(false);
     }
-
     public SVGBezierFigure(boolean isClosed) {
         super(isClosed);
         set(UNCLOSED_PATH_FILLED, true);
     }
-
     public Collection<Handle> createHandles(SVGPathFigure pathFigure, int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
@@ -60,12 +53,10 @@ public class SVGBezierFigure extends BezierFigure {
         }
         return handles;
     }
-
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
             willChange();
-
             // Apply inverse of transform to point
             if (get(TRANSFORM) != null) {
                 try {
@@ -74,7 +65,6 @@ public class SVGBezierFigure extends BezierFigure {
                     System.err.println("Warning: SVGBezierFigure.handleMouseClick. Figure has noninvertible Transform.");
                 }
             }
-
             final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
@@ -85,7 +75,6 @@ public class SVGBezierFigure extends BezierFigure {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.bezierPath.splitSegment.text");
                     }
-
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -93,7 +82,6 @@ public class SVGBezierFigure extends BezierFigure {
                         addNode(index, newNode);
                         changed();
                     }
-
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
@@ -109,7 +97,6 @@ public class SVGBezierFigure extends BezierFigure {
         }
         return false;
     }
-
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null ||
@@ -125,7 +112,6 @@ public class SVGBezierFigure extends BezierFigure {
             super.transform(tx);
         }
     }
-
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -147,7 +133,6 @@ public class SVGBezierFigure extends BezierFigure {
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
-
     /**
      * Gets the segment of the polyline that is hit by
      * the given Point2D.Double.
@@ -163,10 +148,8 @@ public class SVGBezierFigure extends BezierFigure {
                 System.err.println("Warning: SVGBezierFigure.findSegment. Figure has noninvertible Transform.");
             }
         }
-
         return getBezierPath().findSegment(find, tolerance);
     }
-
     /**
      * Joins two segments into one if the given Point2D.Double hits a node
      * of the polyline.
@@ -174,7 +157,7 @@ public class SVGBezierFigure extends BezierFigure {
      *
      * @param join a Point at a node on the bezier path
      * @param tolerance a tolerance, tolerance should take into account
-     * the line width, plus 2 divided by the zoom factor. 
+     * the line width, plus 2 divided by the zoom factor.
      */
     @Override
     public boolean joinSegments(Point2D.Double join, double tolerance) {
@@ -186,23 +169,20 @@ public class SVGBezierFigure extends BezierFigure {
                 System.err.println("Warning: SVGBezierFigure.findSegment. Figure has noninvertible Transform.");
             }
         }
-
         int i = getBezierPath().findSegment(join, tolerance);
-
         if (i != -1 && i > 1) {
             removeNode(i);
             return true;
         }
         return false;
     }
-
     /**
      * Splits the segment at the given Point2D.Double if a segment was hit.
      * @return the index of the segment or -1 if no segment was hit.
      *
      * @param split a Point on (or near) a segment of the bezier path
      * @param tolerance a tolerance, tolerance should take into account
-     * the line width, plus 2 divided by the zoom factor. 
+     * the line width, plus 2 divided by the zoom factor.
      */
     @Override
     public int splitSegment(Point2D.Double split, double tolerance) {
@@ -214,15 +194,12 @@ public class SVGBezierFigure extends BezierFigure {
                 System.err.println("Warning: SVGBezierFigure.findSegment. Figure has noninvertible Transform.");
             }
         }
-
         int i = getBezierPath().findSegment(split, tolerance);
-
         if (i != -1) {
             addNode(i + 1, new BezierPath.Node(split));
         }
         return i + 1;
     }
-
     /**
      * Transforms all coords of the figure by the current TRANSFORM attribute
      * and then sets the TRANSFORM attribute to null.
@@ -234,7 +211,6 @@ public class SVGBezierFigure extends BezierFigure {
         }
         invalidate();
     }
-
     @Override
     public void invalidate() {
         super.invalidate();

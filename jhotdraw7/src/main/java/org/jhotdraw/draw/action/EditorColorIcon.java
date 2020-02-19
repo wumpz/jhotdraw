@@ -2,12 +2,10 @@
  * @(#)EditorColorIcon.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
-
 import java.awt.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
@@ -17,7 +15,7 @@ import org.jhotdraw.draw.*;
  * <p>
  * The behavior for choosing the drawn color matches with
  * {@link EditorColorChooserAction }.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -26,8 +24,7 @@ public class EditorColorIcon extends javax.swing.ImageIcon {
     private DrawingEditor editor;
     private AttributeKey<Color> key;
     private Shape colorShape;
-    
-    /** Creates a new instance. 
+    /** Creates a new instance.
      * @param editor The drawing editor.
      * @param key The key of the default attribute
      * @param imageLocation the icon image
@@ -36,7 +33,7 @@ public class EditorColorIcon extends javax.swing.ImageIcon {
      */
     public EditorColorIcon(
             DrawingEditor editor,
-            AttributeKey<Color> key, 
+            AttributeKey<Color> key,
             URL imageLocation,
             Shape colorShape) {
         super(imageLocation);
@@ -45,16 +42,15 @@ public class EditorColorIcon extends javax.swing.ImageIcon {
         this.colorShape = colorShape;
     }
     public EditorColorIcon(
-            DrawingEditor editor, 
-            AttributeKey<Color> key, 
-            Image image, 
+            DrawingEditor editor,
+            AttributeKey<Color> key,
+            Image image,
             Shape colorShape) {
         super(image);
         this.editor = editor;
         this.key = key;
         this.colorShape = colorShape;
     }
-    
     @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
@@ -66,5 +62,5 @@ public class EditorColorIcon extends javax.swing.ImageIcon {
             g.fill(colorShape);
             g.translate(-x, -y);
         }
-    }    
+    }
 }

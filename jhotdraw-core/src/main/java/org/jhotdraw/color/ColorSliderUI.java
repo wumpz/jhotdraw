@@ -2,7 +2,7 @@
  * @(#)ColorSliderUI.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -27,8 +27,8 @@ import org.jhotdraw.util.Images;
  */
 public class ColorSliderUI extends BasicSliderUI {
 
-    private static final Color foreground = new Color(0x949494);
-    private static final Color trackBackground = new Color(0xffffff);
+    private static final Color FOREGROUND = new Color(0x949494);
+    private static final Color TRACK_BACKGROUND = new Color(0xffffff);
     private ColorTrackImageProducer colorTrackImageProducer;
     private Image colorTrackImage;
     private static final Dimension PREFERRED_HORIZONTAL_SIZE = new Dimension(160, 4);
@@ -92,7 +92,6 @@ public class ColorSliderUI extends BasicSliderUI {
             d.height += focusInsets.top + focusInsets.bottom;
             d.height += trackRect.height + tickRect.height + labelRect.height;
         }
-
         return d;
     }
 
@@ -146,7 +145,6 @@ public class ColorSliderUI extends BasicSliderUI {
         Rectangle knobBounds = thumbRect;
         int w = knobBounds.width;
         int h = knobBounds.height;
-
         getThumbIcon().paintIcon(slider, g, knobBounds.x, knobBounds.y);
         /*
          g.setColor(Color.green);
@@ -158,10 +156,9 @@ public class ColorSliderUI extends BasicSliderUI {
     public void paintTrack(Graphics g) {
         int cx, cy, cw, ch;
         int pad;
-
         Rectangle trackBounds = trackRect;
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            pad = trackBuffer;// - thumbRect.width / 2 + 2;
+            pad = trackBuffer; // - thumbRect.width / 2 + 2;
             cx = trackBounds.x - pad + 1;
             cy = trackBounds.y;
             //cy = (trackBounds.height / 2) - 4;
@@ -179,9 +176,9 @@ public class ColorSliderUI extends BasicSliderUI {
             //ch = trackBounds.height;
             ch = trackBounds.height + pad * 2 - 5;
         }
-        g.setColor(trackBackground);
+        g.setColor(TRACK_BACKGROUND);
         g.fillRect(cx, cy, cw, ch);
-        g.setColor(foreground);
+        g.setColor(FOREGROUND);
         g.drawRect(cx, cy, cw - 1, ch - 1);
         paintColorTrack(g, cx + 2, cy + 2, cw - 4, ch - 4, trackBuffer);
     }
@@ -198,14 +195,11 @@ public class ColorSliderUI extends BasicSliderUI {
          g.setColor(slider.getBackground());
          g.fillRect(tickBounds.x, tickBounds.y, tickBounds.width, tickBounds.height);
          */
-        g.setColor(foreground);
-
+        g.setColor(FOREGROUND);
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             g.translate(0, tickBounds.y);
-
             int value = slider.getMinimum();
             int xPos = 0;
-
             if (slider.getMinorTickSpacing() > 0) {
                 while (value <= slider.getMaximum()) {
                     xPos = xPositionForValue(value);
@@ -213,54 +207,44 @@ public class ColorSliderUI extends BasicSliderUI {
                     value += slider.getMinorTickSpacing();
                 }
             }
-
             if (slider.getMajorTickSpacing() > 0) {
                 value = slider.getMinimum();
-
                 while (value <= slider.getMaximum()) {
                     xPos = xPositionForValue(value);
                     paintMajorTickForHorizSlider(g, tickBounds, xPos);
                     value += slider.getMajorTickSpacing();
                 }
             }
-
             g.translate(0, -tickBounds.y);
         } else {
             g.translate(tickBounds.x, 0);
-
             int value = slider.getMinimum();
             int yPos = 0;
-
             if (slider.getMinorTickSpacing() > 0) {
                 int offset = 0;
                 if (!slider.getComponentOrientation().isLeftToRight()) {
                     offset = tickBounds.width - tickBounds.width / 2;
                     g.translate(offset, 0);
                 }
-
                 while (value <= slider.getMaximum()) {
                     yPos = yPositionForValue(value);
                     paintMinorTickForVertSlider(g, tickBounds, yPos);
                     value += slider.getMinorTickSpacing();
                 }
-
                 if (!slider.getComponentOrientation().isLeftToRight()) {
                     g.translate(-offset, 0);
                 }
             }
-
             if (slider.getMajorTickSpacing() > 0) {
                 value = slider.getMinimum();
                 if (!slider.getComponentOrientation().isLeftToRight()) {
                     g.translate(2, 0);
                 }
-
                 while (value <= slider.getMaximum()) {
                     yPos = yPositionForValue(value);
                     paintMajorTickForVertSlider(g, tickBounds, yPos);
                     value += slider.getMajorTickSpacing();
                 }
-
                 if (!slider.getComponentOrientation().isLeftToRight()) {
                     g.translate(-2, 0);
                 }
@@ -329,7 +313,6 @@ public class ColorSliderUI extends BasicSliderUI {
                 }
             }
         }
-
         if (colorTrackImage != null) {
             g.drawImage(colorTrackImage, x, y, slider);
         }
@@ -338,14 +321,11 @@ public class ColorSliderUI extends BasicSliderUI {
     @Override
     protected void calculateTrackRect() {
         int centerSpacing = 0; // used to center sliders added using BorderLayout.CENTER (bug 4275631)
-
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             centerSpacing = thumbRect.height;
-
             if (slider.getPaintTicks()) {
                 centerSpacing += getTickLength();
             }
-
             if (slider.getPaintLabels()) {
                 centerSpacing += getHeightOfTallestLabel();
             }
@@ -354,7 +334,6 @@ public class ColorSliderUI extends BasicSliderUI {
             trackRect.height = 14;
             trackRect.y = contentRect.y + contentRect.height - trackRect.height;
             trackRect.width = contentRect.width - (trackBuffer * 2) - 1;
-
         } else {
             /*
              centerSpacing = thumbRect.width;
@@ -371,9 +350,7 @@ public class ColorSliderUI extends BasicSliderUI {
             trackRect.x = contentRect.x + (contentRect.width - trackRect.width) / 2;
             trackRect.y = contentRect.y + trackBuffer;
             trackRect.height = contentRect.height - (trackBuffer * 2) + 1;
-
         }
-
     }
 
     @Override
@@ -384,11 +361,9 @@ public class ColorSliderUI extends BasicSliderUI {
             tickRect.y = trackRect.y - getTickLength();
             tickRect.width = trackRect.width;
             tickRect.height = getTickLength();
-
             if (!slider.getPaintTicks()) {
                 --tickRect.y;
                 tickRect.height = 0;
-
             }
         } else {
             /*
@@ -401,14 +376,12 @@ public class ColorSliderUI extends BasicSliderUI {
              tickRect.x = trackRect.x - tickRect.width;
              }*/
             tickRect.width = getTickLength();
-            tickRect.x = contentRect.x;//trackRect.x - tickRect.width - 1;
+            tickRect.x = contentRect.x; //trackRect.x - tickRect.width - 1;
             tickRect.y = trackRect.y;
             tickRect.height = trackRect.height;
-
             if (!slider.getPaintTicks()) {
                 --tickRect.x;
                 tickRect.width = 0;
-
             }
         }
     }
@@ -422,13 +395,11 @@ public class ColorSliderUI extends BasicSliderUI {
     @Override
     protected int getTickLength() {
         return 4;
-
     }
 
     @Override
     protected PropertyChangeListener createPropertyChangeListener(JSlider slider) {
         return new CSUIPropertyChangeHandler();
-
     }
 
     public class CSUIPropertyChangeHandler extends BasicSliderUI.PropertyChangeHandler {
@@ -436,7 +407,6 @@ public class ColorSliderUI extends BasicSliderUI {
         @Override
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
-
             if ("Frame.active".equals(propertyName)) {
                 //calculateGeometry();
                 slider.repaint();
@@ -482,7 +452,6 @@ public class ColorSliderUI extends BasicSliderUI {
                     slider.setBorder(new EmptyBorder(0, 0, 0, 1));
                 }
             }
-
             super.propertyChange(e);
         }
     }
@@ -490,7 +459,6 @@ public class ColorSliderUI extends BasicSliderUI {
     @Override
     protected TrackListener createTrackListener(JSlider slider) {
         return new TrackListener();
-
     }
 
     /**
@@ -515,14 +483,11 @@ public class ColorSliderUI extends BasicSliderUI {
             if (!slider.isEnabled()) {
                 return;
             }
-
             currentMouseX = e.getX();
             currentMouseY = e.getY();
-
             if (slider.isRequestFocusEnabled()) {
                 slider.requestFocus();
             }
-
             // Clicked inside the Thumb area?
             if (thumbRect.contains(currentMouseX, currentMouseY)) {
                 super.mousePressed(e);
@@ -535,7 +500,6 @@ public class ColorSliderUI extends BasicSliderUI {
                         slider.setValue(valueForXPosition(currentMouseX));
                         break;
                 }
-
                 // FIXME:
                 // We should set isDragging to false here. Unfortunately,
                 // we can not access this variable in class BasicSliderUI.

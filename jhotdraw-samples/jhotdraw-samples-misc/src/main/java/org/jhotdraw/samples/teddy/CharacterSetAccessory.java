@@ -6,14 +6,12 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy;
-
 import org.jhotdraw.gui.*;
 import java.nio.charset.*;
 import javax.swing.*;
 import java.util.*;
 import java.util.prefs.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * CharacterSetAccessory.
  *
@@ -22,10 +20,8 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public class CharacterSetAccessory extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
-
     private static final Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
-
     /** Creates a new instance. */
     public CharacterSetAccessory() {
         if ("aqua".equals(UIManager.getLookAndFeel().getID().toLowerCase())) {
@@ -33,13 +29,11 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
         } else {
             initComponentsWin();
         }
-
         String selectedItem = prefs.get("characterSet", "UTF-8");
         charSetCombo.setModel(new DefaultComboBoxModel(new String[]{selectedItem}));
         charSetCombo.setSelectedItem(selectedItem);
         charSetCombo.setEnabled(false);
         fetchAvailableCharSets();
-
         String lineSeparator = prefs.get("lineSeparator", "\n");
         if ("\r".equals(lineSeparator)) {
             lineSepCombo.setSelectedIndex(0);
@@ -49,11 +43,9 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
             lineSepCombo.setSelectedIndex(2);
         }
     }
-
     public void fetchAvailableCharSets() {
         if (availableCharSets == null) {
             new BackgroundTask() {
-
                 @Override
                 public void construct() {
                     SortedMap<String, Charset> sm = Charset.availableCharsets();
@@ -66,7 +58,6 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                     availableCharSets = list.toArray();
                     Arrays.sort(availableCharSets);
                 }
-
                 @Override
                 public void finished() {
                     Object selectedItem = charSetCombo.getSelectedItem();
@@ -82,12 +73,10 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
             charSetCombo.setEnabled(true);
         }
     }
-
     public String getCharacterSet() {
         prefs.put("characterSet", (String) charSetCombo.getSelectedItem());
         return (String) charSetCombo.getSelectedItem();
     }
-
     public String getLineSeparator() {
         String lineSeparator;
         switch (charSetCombo.getSelectedIndex()) {
@@ -105,7 +94,6 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
         prefs.put("lineSeparator", lineSeparator);
         return lineSeparator;
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -113,22 +101,15 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         charSetLabel = new javax.swing.JLabel();
         charSetCombo = new javax.swing.JComboBox();
         lineSepLabel = new javax.swing.JLabel();
         lineSepCombo = new javax.swing.JComboBox();
-
         setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
         charSetLabel.setText("Character Set:");
-
         charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         lineSepLabel.setText("Line Separator:");
-
         lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CR", "LF", "CR LF" }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -156,22 +137,16 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
     private void initComponentsWin() {
         charSetLabel = new javax.swing.JLabel();
         charSetCombo = new javax.swing.JComboBox();
         lineSepLabel = new javax.swing.JLabel();
         lineSepCombo = new javax.swing.JComboBox();
-
         setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         charSetLabel.setText("Character Set:");
-
         charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-
         lineSepLabel.setText("Line Separator:");
-
         lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"CR", "LF", "CR LF"}));
-
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(

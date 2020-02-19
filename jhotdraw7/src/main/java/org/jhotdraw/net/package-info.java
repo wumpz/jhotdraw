@@ -7,11 +7,9 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**
 Provides classes for network communication.
 */
-
 package org.jhotdraw.net;
 
 

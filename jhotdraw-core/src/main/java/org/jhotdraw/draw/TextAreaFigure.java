@@ -2,7 +2,7 @@
  * @(#)TextAreaFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -58,7 +58,6 @@ import org.jhotdraw.xml.DOMOutput;
 public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
 
     private static final long serialVersionUID = 1L;
-
     protected Rectangle2D.Double bounds = new Rectangle2D.Double();
     protected boolean editable = true;
     private static final BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
@@ -102,13 +101,10 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                 for (int i = 0; i < tabStops.length; i++) {
                     tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                 }
-
                 if (getText() != null) {
                     Shape savedClipArea = g.getClip();
                     g.clip(textRect);
-
-                    String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
-
+                    String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
                     for (int i = 0; i < paragraphs.length; i++) {
                         if (paragraphs[i].length() == 0) {
                             paragraphs[i] = " ";
@@ -150,14 +146,11 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     private Rectangle2D.Double drawParagraph(Graphics2D g, AttributedCharacterIterator styledText,
             float verticalPos, float maxVerticalPos, float leftMargin, float rightMargin, float[] tabStops, int tabCount) {
         // This method is based on the code sample given
-        // in the class comment of java.awt.font.LineBreakMeasurer, 
-
+        // in the class comment of java.awt.font.LineBreakMeasurer,
         // assume styledText is an AttributedCharacterIterator, and the number
         // of tabs in styledText is tabCount
         Rectangle2D.Double paragraphBounds = new Rectangle2D.Double(leftMargin, verticalPos, 0, 0);
-
         int[] tabLocations = new int[tabCount + 1];
-
         int i = 0;
         for (char c = styledText.first(); c != AttributedCharacterIterator.DONE; c = styledText.next()) {
             if (c == '\t') {
@@ -165,16 +158,13 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             }
         }
         tabLocations[tabCount] = styledText.getEndIndex() - 1;
-
         // Now tabLocations has an entry for every tab's offset in
         // the text.  For convenience, the last entry is tabLocations
         // is the offset of the last character in the text.
         LineBreakMeasurer measurer = new LineBreakMeasurer(styledText, getFontRenderContext());
         int currentTab = 0;
-
         while (measurer.getPosition() < styledText.getEndIndex()
                 && verticalPos <= maxVerticalPos) {
-
             // Lay out and draw each line.  All segments on a line
             // must be computed before any drawing can occur, since
             // we must know the largest ascent on the line.
@@ -188,9 +178,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             float horizontalPos = leftMargin;
             LinkedList<TextLayout> layouts = new LinkedList<>();
             LinkedList<Float> penPositions = new LinkedList<>();
-
             int first = layouts.size();
-
             while (!lineComplete && verticalPos <= maxVerticalPos) {
                 float wrappingWidth = rightMargin - horizontalPos;
                 TextLayout layout = null;
@@ -198,7 +186,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                         = measurer.nextLayout(wrappingWidth,
                                 tabLocations[currentTab] + 1,
                                 lineContainsText);
-
                 // layout can be null if lineContainsText is true
                 if (layout != null) {
                     layouts.add(layout);
@@ -210,13 +197,10 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                 } else {
                     lineComplete = true;
                 }
-
                 lineContainsText = true;
-
                 if (measurer.getPosition() == tabLocations[currentTab] + 1) {
                     currentTab++;
                 }
-
                 if (measurer.getPosition() == styledText.getEndIndex()) {
                     lineComplete = true;
                 } else if (tabStops.length == 0 || horizontalPos >= tabStops[tabStops.length - 1]) {
@@ -248,12 +232,9 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                         break;
                 }
             }
-
             verticalPos += maxAscent;
-
             Iterator<TextLayout> layoutEnum = layouts.iterator();
             Iterator<Float> positionEnum = penPositions.iterator();
-
             // now iterate through layouts and draw them
             while (layoutEnum.hasNext()) {
                 TextLayout nextLayout = layoutEnum.next();
@@ -267,10 +248,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                         layoutBounds.getWidth(),
                         layoutBounds.getHeight()));
             }
-
             verticalPos += maxDescent;
         }
-
         return paragraphBounds;
     }
 
@@ -509,9 +488,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                 for (int i = 0; i < tabStops.length; i++) {
                     tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                 }
-
-                String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
-
+                String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
                 for (int i = 0; i < paragraphs.length; i++) {
                     if (paragraphs[i].length() == 0) {
                         paragraphs[i] = " ";

@@ -25,15 +25,10 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.IOException;
 import java.util.Properties;
-
-
 /**
  * IXMLValidator processes the DTD and handles entity references.
  *
@@ -42,23 +37,18 @@ import java.util.Properties;
  */
 public interface IXMLValidator
 {
-
    /**
     * Sets the parameter entity resolver.
     *
     * @param resolver the entity resolver.
     */
    public void setParameterEntityResolver(IXMLEntityResolver resolver);
-
-
    /**
     * Returns the parameter entity resolver.
     *
     * @return the entity resolver.
     */
    public IXMLEntityResolver getParameterEntityResolver();
-
-
    /**
     * Parses the DTD. The validator object is responsible for reading the
     * full DTD.
@@ -76,8 +66,6 @@ public interface IXMLValidator
                         IXMLEntityResolver entityResolver,
                         boolean            external)
       throws Exception;
-
-
    /**
     * Indicates that an element has been started.
     *
@@ -92,8 +80,6 @@ public interface IXMLValidator
                               String systemId,
                               int    lineNr)
       throws Exception;
-
-
    /**
     * Indicates that the current element has ended.
     *
@@ -108,8 +94,6 @@ public interface IXMLValidator
                             String systemId,
                             int    lineNr)
       throws Exception;
-
-
    /**
     * Indicates that an attribute has been added to the current element.
     *
@@ -126,8 +110,6 @@ public interface IXMLValidator
                               String systemId,
                               int    lineNr)
       throws Exception;
-
-
    /**
     * This method is called when the attributes of an XML element have been
     * processed.
@@ -147,8 +129,6 @@ public interface IXMLValidator
                                           String     systemId,
                                           int        lineNr)
       throws Exception;
-
-
    /**
     * Indicates that a new #PCDATA element has been encountered.
     *
@@ -161,5 +141,4 @@ public interface IXMLValidator
    public void PCDataAdded(String systemId,
                            int    lineNr)
       throws Exception;
-
 }

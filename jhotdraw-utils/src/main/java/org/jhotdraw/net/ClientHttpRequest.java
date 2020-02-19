@@ -31,7 +31,6 @@ import java.util.Random;
 public class ClientHttpRequest {
 
     URLConnection connection;
-
     OutputStream os = null;
     Map<String, String> cookies = new HashMap<>();
     String rawCookies = "";
@@ -113,11 +112,9 @@ public class ClientHttpRequest {
 
     private void postCookies() {
         StringBuffer cookieList = new StringBuffer(rawCookies);
-
         for (Iterator<Map.Entry<String, String>> i = cookies.entrySet().iterator(); i.hasNext();) {
             Map.Entry<String, String> entry = i.next();
             cookieList.append(entry.getKey() + "=" + entry.getValue());
-
             if (i.hasNext()) {
                 cookieList.append("; ");
             }
@@ -210,7 +207,6 @@ public class ClientHttpRequest {
         byte[] buf = new byte[500000];
         int nread;
         int total = 0;
-
         synchronized (in) {
             while ((nread = in.read(buf, 0, buf.length)) >= 0) {
                 out.write(buf, 0, nread);
@@ -321,7 +317,6 @@ public class ClientHttpRequest {
         boundary();
         writeln("--");
         os.close();
-
         return connection.getInputStream();
     }
 

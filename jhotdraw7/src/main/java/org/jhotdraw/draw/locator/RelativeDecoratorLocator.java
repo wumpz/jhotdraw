@@ -2,12 +2,10 @@
  * @(#)RelativeLocator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.locator;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.DecoratedFigure;
 import java.awt.geom.*;
@@ -31,10 +29,8 @@ import java.awt.geom.*;
 public class RelativeDecoratorLocator extends RelativeLocator {
     private static final long serialVersionUID = 1L;
     private boolean isQuadratic;
-    
     public RelativeDecoratorLocator() {
     }
-    
     /** Creates a new instance. */
     public RelativeDecoratorLocator(double relativeX, double relativeY) {
         super(relativeX, relativeY);
@@ -43,11 +39,10 @@ public class RelativeDecoratorLocator extends RelativeLocator {
         super(relativeX, relativeY);
         this.isQuadratic = isQuadratic;
     }
-    
     @Override
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double r;
-        if ((owner instanceof DecoratedFigure) && 
+        if ((owner instanceof DecoratedFigure) &&
                 ((DecoratedFigure) owner).getDecorator() != null) {
             r = ((DecoratedFigure) owner).getDecorator().getBounds();
         } else {
@@ -64,60 +59,51 @@ public class RelativeDecoratorLocator extends RelativeLocator {
                 r.y + r.height * relativeY
                 );
     }
-    
     static public Locator east() {
         return new RelativeDecoratorLocator(1.0, 0.5);
     }
-    
     /**
      * North.
      */
     static public Locator north() {
         return new RelativeDecoratorLocator(0.5, 0.0);
     }
-    
     /**
      * West.
      */
     static public Locator west() {
         return new RelativeDecoratorLocator(0.0, 0.5);
     }
-    
     /**
      * North east.
      */
     static public Locator northEast() {
         return new RelativeDecoratorLocator(1.0, 0.0);
     }
-    
     /**
      * North west.
      */
     static public Locator northWest() {
         return new RelativeDecoratorLocator(0.0, 0.0);
     }
-    
     /**
      * South.
      */
     static public Locator south() {
         return new RelativeDecoratorLocator(0.5, 1.0);
     }
-    
     /**
      * South east.
      */
     static public Locator southEast() {
         return new RelativeDecoratorLocator(1.0, 1.0);
     }
-    
     /**
      * South west.
      */
     static public Locator southWest() {
         return new RelativeDecoratorLocator(0.0, 1.0);
     }
-    
     /**
      * Center.
      */

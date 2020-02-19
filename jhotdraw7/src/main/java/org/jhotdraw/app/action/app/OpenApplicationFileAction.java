@@ -2,11 +2,10 @@
  * @(#)OpenApplicationFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
-
 import java.awt.Frame;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
@@ -21,7 +20,6 @@ import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * Opens a file for which an open-request was sent to the application.
  * <p>
@@ -29,7 +27,7 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * This action is called when the user drops a file on the dock icon of
  * {@code DefaultOSXApplication} or onto the desktop area of
- * {@code DefaultMDIApplication}. 
+ * {@code DefaultMDIApplication}.
  * <p>
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
@@ -54,17 +52,14 @@ import org.jhotdraw.net.URIUtil;
  */
 public class OpenApplicationFileAction extends AbstractApplicationAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.openFile";
     private JFileChooser fileChooser;
     private int entries;
-
     /** Creates a new instance. */
     public OpenApplicationFileAction(Application app) {
         super(app);
         putValue(Action.NAME, "OSX Open File");
     }
-
     /**
      * Opens a new view.
      * <p>
@@ -75,10 +70,8 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         final String filename = evt.getActionCommand();
-
         if (app.isEnabled()) {
             URI uri = new File(filename).toURI();
-
             // Prevent same URI from being opened more than once
             if (!app.getModel().isAllowMultipleViewsPerURI()) {
                 for (View v : app.getViews()) {
@@ -88,8 +81,6 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
                     }
                 }
             }
-
-
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
@@ -98,7 +89,6 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
                     || emptyView.hasUnsavedChanges()) {
                 emptyView = null;
             }
-
             final View p;
             if (emptyView == null) {
                 p = app.createView();
@@ -110,12 +100,9 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
             openView(p, uri);
         }
     }
-
     protected void openView(final View view, final URI uri) {
         final Application app = getApplication();
         app.setEnabled(true);
-
-
         // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
@@ -128,10 +115,8 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
         }
         view.setMultipleOpenId(multipleOpenId);
         view.setEnabled(false);
-
         // Open the file
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 boolean exists = true;
@@ -148,7 +133,6 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
                     throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", URIUtil.getName(uri)));
                 }
             }
-
             @Override
             protected void done() {
                 view.setURI(uri);
@@ -161,19 +145,16 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
                 view.setEnabled(true);
                 view.getComponent().requestFocus();
             }
-
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
                 String message = value.getMessage() != null ? value.getMessage() : value.toString();
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
                         + "<b>" + labels.getFormatted("file.open.couldntOpen.message", URIUtil.getName(uri)) + "</b><p>"
                         + (message == null ? "" : message),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
-
                     @Override
                     public void optionSelected(SheetEvent evt) {
                         view.setEnabled(true);

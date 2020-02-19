@@ -1,12 +1,12 @@
 /*
  * @(#)WeakPropertyChangeListener.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
+ *
+ * The copyright of this software is owned by the authors and
+ * contributors of the JHotDraw project ("the copyright holders").
+ * You may not use, copy or modify this software, except in
+ * accordance with the license agreement you entered into with
  * the copyright holders. For details see accompanying license terms.
  *
  * This class has been derived from WeakPropertyChangeListener.java,
@@ -41,11 +41,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package org.jhotdraw.beans;
-
-
 import java.beans.*;
 import java.lang.ref.*;
-
 /**
  *  Property change listener that holds weak reference to a
  *  target property change listener.  If the weak reference
@@ -63,11 +60,9 @@ import java.lang.ref.*;
  */
 public class WeakPropertyChangeListener implements PropertyChangeListener {
     private WeakReference<PropertyChangeListener> weakRef;
-
     public WeakPropertyChangeListener(PropertyChangeListener target) {
         this.weakRef = new WeakReference<PropertyChangeListener>(target);
     }
-
     /**
      *  Method that can be subclassed to provide additional remove
      *  support.  Default implementation only supports StandardBeans.
@@ -83,7 +78,6 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
             throw ie;
         }
     }
-
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         PropertyChangeListener listener = weakRef.get();
@@ -93,18 +87,15 @@ public class WeakPropertyChangeListener implements PropertyChangeListener {
         }
         listener.propertyChange(event);
     }
-
     /**
      * Returns the target of this proxy. Returns null if the target has been
      * garbage collected.
      *
      * @return The target or null.
      */
-    
     public PropertyChangeListener getTarget() {
         return weakRef.get();
     }
-
     @Override
     public String toString() {
         return super.toString()+"["+weakRef.get()+"]";

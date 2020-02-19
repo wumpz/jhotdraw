@@ -1,9 +1,9 @@
 /*
  * @(#)URIChooser.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -22,10 +22,10 @@ import javax.swing.JFileChooser;
  * @version $Id$
  */
 public interface URIChooser {
+
     // ************************
     // ***** Dialog Types *****
     // ************************
-
     /**
      * Type value indicating that the {@code URIChooser} supports an
      * "Open" file operation.

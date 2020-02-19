@@ -25,13 +25,9 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
 import java.io.PrintStream;
 import java.io.PrintWriter;
-
-
 /**
  * An XMLException is thrown when an exception occurred while processing the
  * XML data.
@@ -43,31 +39,22 @@ public class XMLException
    extends Exception
 {
     private static final long serialVersionUID = 1L;
-    
    /**
     * The message of the exception.
     */
    private String msg;
-
-
    /**
     * The system ID of the XML data where the exception occurred.
     */
    private String systemID;
-
-
    /**
     * The line number in the XML data where the exception occurred.
     */
    private int lineNr;
-
-
    /**
     * Encapsulated exception.
     */
    private Exception encapsulatedException;
-
-
    /**
     * Creates a new exception.
     *
@@ -77,8 +64,6 @@ public class XMLException
    {
       this(null, -1, null, msg, false);
    }
-
-
    /**
     * Creates a new exception.
     *
@@ -88,8 +73,6 @@ public class XMLException
    {
       this(null, -1, e, "Nested Exception", false);
    }
-
-
    /**
     * Creates a new exception.
     *
@@ -105,8 +88,6 @@ public class XMLException
    {
       this(systemID, lineNr, e, "Nested Exception", true);
    }
-
-
    /**
     * Creates a new exception.
     *
@@ -122,8 +103,6 @@ public class XMLException
    {
       this(systemID, lineNr, null, msg, true);
    }
-
-
    /**
     * Creates a new exception.
     *
@@ -149,8 +128,6 @@ public class XMLException
       this.msg = XMLException.buildMessage(systemID, lineNr, e, msg,
                                            reportParams);
    }
-
-
    /**
     * Builds the exception message
     *
@@ -169,25 +146,19 @@ public class XMLException
                                       boolean   reportParams)
    {
       String str = msg;
-
       if (reportParams) {
          if (systemID != null) {
             str += ", SystemID='" + systemID + "'";
          }
-
          if (lineNr >= 0) {
             str += ", Line=" + lineNr;
          }
-
          if (e != null) {
             str += ", Exception: " + e;
          }
       }
-
       return str;
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -198,8 +169,6 @@ public class XMLException
       this.encapsulatedException = null;
       super.finalize();
    }
-
-
    /**
     * Returns the system ID of the XML data where the exception occurred.
     * If there is no system ID known, null is returned.
@@ -208,8 +177,6 @@ public class XMLException
    {
       return this.systemID;
    }
-
-
    /**
     * Returns the line number in the XML data where the exception occurred.
     * If there is no line number known, -1 is returned.
@@ -218,8 +185,6 @@ public class XMLException
    {
       return this.lineNr;
    }
-
-
    /**
     * Returns the encapsulated exception, or null if no exception is
     * encapsulated.
@@ -228,8 +193,6 @@ public class XMLException
    {
       return this.encapsulatedException;
    }
-
-
    /**
     * Dumps the exception stack to a print writer.
     *
@@ -238,14 +201,11 @@ public class XMLException
    public void printStackTrace(PrintWriter writer)
    {
       super.printStackTrace(writer);
-
       if (this.encapsulatedException != null) {
          writer.println("*** Nested Exception:");
          this.encapsulatedException.printStackTrace(writer);
       }
    }
-
-
    /**
     * Dumps the exception stack to an output stream.
     *
@@ -254,28 +214,22 @@ public class XMLException
    public void printStackTrace(PrintStream stream)
    {
       super.printStackTrace(stream);
-
       if (this.encapsulatedException != null) {
          stream.println("*** Nested Exception:");
          this.encapsulatedException.printStackTrace(stream);
       }
    }
-
-
    /**
     * Dumps the exception stack to System.err.
     */
    public void printStackTrace()
    {
       super.printStackTrace();
-
       if (this.encapsulatedException != null) {
          System.err.println("*** Nested Exception:");
          this.encapsulatedException.printStackTrace();
       }
    }
-
-
    /**
     * Returns a string representation of the exception.
     */
@@ -283,5 +237,4 @@ public class XMLException
    {
       return this.msg;
    }
-
 }

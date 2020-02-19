@@ -2,12 +2,10 @@
  * @(#)Main.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.pert;
-
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.OSXApplication;
@@ -22,7 +20,6 @@ import org.jhotdraw.app.SDIApplication;
  * @version $Id$
  */
 public class Main {
-    
     /** Creates a new instance. */
     public static void main(String[] args) {
         Application app;
@@ -35,8 +32,6 @@ public class Main {
         } else {
             app = new SDIApplication();
         }
-        
-        
         DefaultApplicationModel model = new PertApplicationModel();
         model.setName("JHotDraw Pert");
         model.setVersion(Main.class.getPackage().getImplementationVersion());
@@ -46,5 +41,4 @@ public class Main {
         app.setModel(model);
         app.launch(args);
     }
-    
 }

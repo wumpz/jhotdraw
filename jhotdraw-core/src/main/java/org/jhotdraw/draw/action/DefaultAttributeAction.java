@@ -2,7 +2,7 @@
  * @(#)DefaultAttributeAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -26,9 +26,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class DefaultAttributeAction extends AbstractSelectedAction {
 
     private static final long serialVersionUID = 1L;
-
     private AttributeKey<?>[] keys;
-
     private Map<AttributeKey<?>, Object> fixedAttributes;
 
     /**
@@ -78,7 +76,6 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         putValue(AbstractAction.SMALL_ICON, icon);
         setEnabled(true);
         editor.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0].getKey())) {
@@ -114,7 +111,6 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
             }
             for (Map.Entry<AttributeKey<?>, Object> entry : fixedAttributes.entrySet()) {
                 figure.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-
             }
             figure.changed();
         }

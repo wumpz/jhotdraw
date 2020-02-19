@@ -2,7 +2,7 @@
  * @(#)JAttributeTextField.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.gui;
@@ -22,7 +22,6 @@ import org.jhotdraw.util.*;
 public class JAttributeTextArea<T> extends JLifeFormattedTextArea implements AttributeEditor<T> {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * This variable is set to true, when the figures, which are currently
      * being edited by this field, have multiple values.
@@ -65,7 +64,6 @@ public class JAttributeTextArea<T> extends JLifeFormattedTextArea implements Att
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
     }// </editor-fold>//GEN-END:initComponents
-
     @Override
     public JComponent getComponent() {
         return this;

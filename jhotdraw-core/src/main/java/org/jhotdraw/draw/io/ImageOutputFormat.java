@@ -2,7 +2,7 @@
  * @(#)ImageOutputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
@@ -175,12 +175,10 @@ public class ImageOutputFormat implements OutputFormat {
     public BufferedImage toImage(Drawing drawing,
             java.util.List<Figure> figures,
             double scaleFactor, boolean clipToFigures) {
-
         // Return a transparent 1-pixel image if the drawing is empty.
         if (drawing.getChildCount() == 0) {
             return new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         }
-
         // Determine the draw bounds of the figures
         Rectangle2D.Double drawBounds = null;
         for (Figure f : figures) {
@@ -190,7 +188,6 @@ public class ImageOutputFormat implements OutputFormat {
                 drawBounds.add(f.getDrawingArea());
             }
         }
-
         if (clipToFigures) {
             AffineTransform transform = new AffineTransform();
             transform.translate(-drawBounds.x * scaleFactor,
@@ -201,7 +198,6 @@ public class ImageOutputFormat implements OutputFormat {
                             (int) (drawBounds.width * scaleFactor),
                             (int) (drawBounds.height * scaleFactor)));
         } else {
-
             AffineTransform transform = new AffineTransform();
             if (drawBounds.x < 0) {
                 transform.translate(-drawBounds.x * scaleFactor, 0);
@@ -210,7 +206,6 @@ public class ImageOutputFormat implements OutputFormat {
                 transform.translate(0, -drawBounds.y * scaleFactor);
             }
             transform.scale(scaleFactor, scaleFactor);
-
             return toImage(drawing, figures, transform,
                     new Dimension(
                             (int) ((Math.max(0, drawBounds.x) + drawBounds.width) * scaleFactor),
@@ -232,7 +227,6 @@ public class ImageOutputFormat implements OutputFormat {
             java.util.List<Figure> figures,
             AffineTransform transform,
             Dimension imageSize) {
-
         // Create the buffered image and clear it
         Color background = drawing.get(CANVAS_FILL_COLOR);
         double opacity = drawing.get(CANVAS_FILL_OPACITY);
@@ -241,19 +235,16 @@ public class ImageOutputFormat implements OutputFormat {
         } else {
             background = new Color(background.getRed(), background.getGreen(), background.getBlue(), (int) (background.getAlpha() * opacity));
         }
-
         BufferedImage buf = new BufferedImage(
                 Math.max(1, imageSize.width), Math.max(1, imageSize.height),
                 (background.getAlpha() == 255) ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = buf.createGraphics();
-
         // Clear the buffered image with the background color
         Composite savedComposite = g.getComposite();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
         g.setColor(background);
         g.fillRect(0, 0, buf.getWidth(), buf.getHeight());
         g.setComposite(savedComposite);
-
         // Draw the figures onto the buffered image
         setRenderingHints(g);
         g.transform(transform);
@@ -261,7 +252,6 @@ public class ImageOutputFormat implements OutputFormat {
             f.draw(g);
         }
         g.dispose();
-
         // Convert the image, if it does not have the specified image type
         if (imageType != BufferedImage.TYPE_INT_ARGB) {
             BufferedImage buf2 = new BufferedImage(
@@ -275,7 +265,6 @@ public class ImageOutputFormat implements OutputFormat {
             buf.flush();
             buf = buf2;
         }
-
         return buf;
     }
 

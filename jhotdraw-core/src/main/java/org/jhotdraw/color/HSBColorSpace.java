@@ -1,9 +1,9 @@
 /*
  * @(#)HSBColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -21,7 +21,6 @@ import java.awt.color.ColorSpace;
 public class HSBColorSpace extends AbstractNamedColorSpace {
 
     private static final long serialVersionUID = 1L;
-
     private static HSBColorSpace instance;
 
     public static HSBColorSpace getInstance() {
@@ -38,7 +37,6 @@ public class HSBColorSpace extends AbstractNamedColorSpace {
     @Override
     public float[] toRGB(float[] c, float[] component) {
         int rgb = Color.HSBtoRGB(c[0], c[1], c[2]);
-
         component[0] = ((rgb & 0xff0000) >> 16) / 255f;
         component[1] = ((rgb & 0xff00) >> 8) / 255f;
         component[2] = (rgb & 0xff) / 255f;
@@ -86,7 +84,6 @@ public class HSBColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public int hashCode() {
-
         return getClass().getSimpleName().hashCode();
     }
 

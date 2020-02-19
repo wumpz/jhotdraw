@@ -2,12 +2,10 @@
  * @(#)DeleteAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -17,7 +15,6 @@ import javax.swing.text.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
-
 /**
  * Deletes the region at (or after) the caret position.
  * <p>
@@ -59,12 +56,10 @@ public class DeleteAction extends TextAction {
     private JComponent target;
     /** This variable keeps a strong reference on the property change listener. */
     private PropertyChangeListener propertyHandler;
-
     /** Creates a new instance which acts on the currently focused component. */
     public DeleteAction() {
         this(null,ID);
     }
-
     /** Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
@@ -84,7 +79,6 @@ public class DeleteAction extends TextAction {
         if (target != null) {
             // Register with a weak reference on the JComponent.
             propertyHandler = new PropertyChangeListener() {
-
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     if ("enabled".equals(evt.getPropertyName())) {
@@ -97,7 +91,6 @@ public class DeleteAction extends TextAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;
@@ -114,7 +107,6 @@ public class DeleteAction extends TextAction {
             }
         }
     }
-
     /** This method was copied from
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */

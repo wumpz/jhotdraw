@@ -2,12 +2,10 @@
  * @(#)SVGApplicationModel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.jhotdraw.app.action.file.ExportFileAction;
@@ -26,7 +24,6 @@ import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
-
 /**
  * Provides meta-data and factory methods for an application.
  * <p>
@@ -37,7 +34,6 @@ import org.jhotdraw.gui.URIChooser;
  */
 public class SVGApplicationModel extends DefaultApplicationModel {
     private static final long serialVersionUID = 1L;
-
     /** Client property on the URIFileChooser. */
     public static final String INPUT_FORMAT_MAP_CLIENT_PROPERTY = "InputFormatMap";
     /** Client property on the URIFileChooser. */
@@ -48,19 +44,16 @@ public class SVGApplicationModel extends DefaultApplicationModel {
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-
     /** Creates a new instance. */
     public SVGApplicationModel() {
         gridConstrainer = new GridConstrainer(12, 12);
     }
-
     public DefaultDrawingEditor getSharedEditor() {
         if (sharedEditor == null) {
             sharedEditor = new DefaultDrawingEditor();
         }
         return sharedEditor;
     }
-
     @Override
     public void initView(Application a, View view) {
         SVGView v = (SVGView) view;
@@ -70,7 +63,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         } else {
             v.setEditor(editor=new DefaultDrawingEditor());
         }
-
         AbstractSelectedAction action;
         ActionMap m =view.getActionMap();
         m.put(SelectSameAction.ID,new SelectSameAction(editor));
@@ -82,13 +74,11 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         m.put(SendToBackAction.ID,new SendToBackAction(editor));
         //view.addDisposable(action);
     }
-
     @Override
     public ActionMap createActionMap(Application a, View view) {
         SVGView v = (SVGView) view;
         ActionMap m = super.createActionMap(a, v);
         AbstractAction aa;
-
         m.put(ClearSelectionAction.ID, new ClearSelectionAction());
         m.put(ViewSourceAction.ID, new ViewSourceAction(a, v));
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
@@ -97,7 +87,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             m.put(UndoAction.ID, svgView.getUndoManager().getUndoAction());
             m.put(RedoAction.ID, svgView.getUndoManager().getRedoAction());
         }
-
         DrawingEditor editor;
         if (a.isSharingToolsAmongViews()) {
             editor=getSharedEditor();
@@ -111,37 +100,29 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         m.put(SplitAction.ID,new SplitAction(editor));
         m.put(BringToFrontAction.ID,new BringToFrontAction(editor));
         m.put(SendToBackAction.ID,new SendToBackAction(editor));
-
         return m;
     }
-
     /** Creates the MenuBuilder. */
     @Override
     protected MenuBuilder createMenuBuilder() {
         return new DefaultMenuBuilder() {
-
             @Override
             public void addSelectionItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
-
                 super.addSelectionItems(m, app, v);
                 m.add(am.get(SelectSameAction.ID));
             }
-
             @Override
             public void addOtherEditItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
-
                 m.add(am.get(GroupAction.ID));
                 m.add(am.get(UngroupAction.ID));
                 m.add(am.get(CombineAction.ID));
                 m.add(am.get(SplitAction.ID));
-
                 m.addSeparator();
                 m.add(am.get(BringToFrontAction.ID));
                 m.add(am.get(SendToBackAction.ID));
             }
-
             @Override
             public void addOtherViewItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
@@ -149,10 +130,9 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             }
         };
     }
-
     /**
      * Overriden to create no toolbars.
-     * 
+     *
      * @param app
      * @param p
      * @return An empty list.
@@ -162,7 +142,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         LinkedList<JToolBar> list = new LinkedList<JToolBar>();
         return list;
     }
-
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         final JFileURIChooser c = new JFileURIChooser();
@@ -170,84 +149,61 @@ public class SVGApplicationModel extends DefaultApplicationModel {
                 new HashMap<FileFilter, InputFormat>();
         c.putClientProperty(INPUT_FORMAT_MAP_CLIENT_PROPERTY, fileFilterInputFormatMap);
         javax.swing.filechooser.FileFilter firstFF = null;
-
         if (v == null) {
             v = new SVGView();
         }
-
         Drawing d = ((SVGView) v).getDrawing();
         if (d == null) {
             d = ((SVGView) v).createDrawing();
         }
-
         for (InputFormat format : d.getInputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             if (firstFF == null) {
                 firstFF = ff;
             }
-
             fileFilterInputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
         }
-
         c.setFileFilter(firstFF);
         c.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("fileFilterChanged".equals(evt.getPropertyName())) {
                     InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
                     c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
                 }
-
             }
         });
-
         return c;
     }
-
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-
         final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
                 new HashMap<FileFilter, OutputFormat>();
-
-
         c.putClientProperty(OUTPUT_FORMAT_MAP_CLIENT_PROPERTY, fileFilterOutputFormatMap);
-
         if (v == null) {
             v = new SVGView();
         }
-
         Drawing d = ((SVGView) v).getDrawing();
-
         for (OutputFormat format : d.getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
             break; // only add the first uri filter
-
         }
-
         return c;
     }
-
     @Override
     public URIChooser createExportChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-
         final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
                 new HashMap<FileFilter, OutputFormat>();
-
         c.putClientProperty("ffOutputFormatMap", fileFilterOutputFormatMap);
-
         if (v == null) {
             v = new SVGView();
         }
-
         Drawing d = ((SVGView) v).getDrawing();
-
         javax.swing.filechooser.FileFilter currentFilter = null;
         for (OutputFormat format : d.getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
@@ -257,12 +213,10 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             /*if (ff.getDescription().equals(preferences.get("viewExportFormat", ""))) {
             currentFilter = ff;
             }*/
-
         }
         if (currentFilter != null) {
             c.setFileFilter(currentFilter);
         }
-
         return c;
     }
 }

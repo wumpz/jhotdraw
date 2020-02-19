@@ -2,7 +2,7 @@
  * @(#)ElbowLiner.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.liner;
@@ -53,7 +53,6 @@ public class ElbowLiner
         if (start == null || end == null || path == null) {
             return;
         }
-
         // Special treatment if the connection connects the same figure
         if (figure.getStartFigure() == figure.getEndFigure()) {
             // Ensure path has exactly four nodes
@@ -75,10 +74,8 @@ public class ElbowLiner
             if (eoutcode == 0) {
                 eoutcode = Geom.outcode(sb, eb);
             }
-
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-
             switch (soutcode) {
                 case Geom.OUT_TOP:
                     eoutcode = Geom.OUT_LEFT;
@@ -98,7 +95,6 @@ public class ElbowLiner
                     break;
             }
             path.get(1).moveTo(sp.x + shoulderSize, sp.y);
-
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + shoulderSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -117,7 +113,6 @@ public class ElbowLiner
             } else {
                 path.get(3).moveTo(ep.x, ep.y - shoulderSize);
             }
-
             switch (soutcode) {
                 case Geom.OUT_RIGHT:
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
@@ -136,10 +131,8 @@ public class ElbowLiner
         } else {
             Point2D.Double sp = start.findStart(figure);
             Point2D.Double ep = end.findEnd(figure);
-
             path.clear();
             path.add(new BezierPath.Node(sp.x, sp.y));
-
             if (sp.x == ep.x || sp.y == ep.y) {
                 path.add(new BezierPath.Node(ep.x, ep.y));
             } else {
@@ -153,7 +146,6 @@ public class ElbowLiner
                 eb.y += 5d;
                 eb.width -= 10d;
                 eb.height -= 10d;
-
                 int soutcode = sb.outcode(sp);
                 if (soutcode == 0) {
                     soutcode = Geom.outcode(sb, eb);
@@ -162,7 +154,6 @@ public class ElbowLiner
                 if (eoutcode == 0) {
                     eoutcode = Geom.outcode(eb, sb);
                 }
-
                 if ((soutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0
                         && (eoutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0) {
                     path.add(new BezierPath.Node(sp.x, (sp.y + ep.y) / 2));
@@ -176,16 +167,13 @@ public class ElbowLiner
                 } else {
                     path.add(new BezierPath.Node(ep.x, sp.y));
                 }
-
                 path.add(new BezierPath.Node(ep.x, ep.y));
             }
         }
-
         // Ensure all path nodes are straight
         for (BezierPath.Node node : path) {
             node.setMask(BezierPath.C0_MASK);
         }
-
         path.invalidatePath();
     }
 

@@ -1,6 +1,6 @@
 /*
  * @(#)StreamPosTokenizer.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
@@ -24,22 +24,18 @@ import java.util.LinkedList;
 public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
 
     private Reader reader = null;
-
     /**
      * Position of the next character that will be read from the file.
      * rlw
      */
     private int readpos = 0;
-
     /**
      * Start and end position of the current token.
      * rlw
      */
     private int startpos = -1, endpos = -1;
     private LinkedList<Integer> unread = new LinkedList<>();
-
     private char buf[] = new char[20];
-
     /**
      * The next character to be considered by the nextToken method. May also
      * be NEED_CHAR to indicate that a new character should be read, or SKIP_LF
@@ -48,36 +44,29 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
      * read.
      */
     private int peekc = NEED_CHAR;
-
     private static final int NEED_CHAR = Integer.MAX_VALUE;
     private static final int SKIP_LF = Integer.MAX_VALUE - 1;
-
     private boolean pushedBack;
     private boolean forceLower;
     /**
      * The line number of the last token read
      */
     private int lineno = 1;
-
     private boolean eolIsSignificantP = false;
     private boolean slashSlashCommentsP = false;
     private boolean slashStarCommentsP = false;
-
     // rlw
     private char[] slashSlash = new char[]{'/', '/'};
     private char[] slashStar = new char[]{'/', '*'};
     private char[] starSlash = new char[]{'*', '/'};
-
     private byte ctype[] = new byte[256];
     private static final byte CT_WHITESPACE = 1;
     private static final byte CT_DIGIT = 2;
     private static final byte CT_ALPHA = 4;
     private static final byte CT_QUOTE = 8;
     private static final byte CT_COMMENT = 16;
-
     private boolean isParseHexNumbers = false;
     private boolean isParseExponents = false;
-
     /**
      * After a call to the <code>nextToken</code> method, this field
      * contains the type of the token just read. For a single character
@@ -104,33 +93,27 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
      * @see java.io.StreamTokenizer#TT_WORD
      */
     public int ttype = TT_NOTHING;
-
     /**
      * A constant indicating that the end of the stream has been read.
      */
     public static final int TT_EOF = -1;
-
     /**
      * A constant indicating that the end of the line has been read.
      */
     public static final int TT_EOL = '\n';
-
     /**
      * A constant indicating that a number token has been read.
      */
     public static final int TT_NUMBER = -2;
-
     /**
      * A constant indicating that a word token has been read.
      */
     public static final int TT_WORD = -3;
-
     /* A constant indicating that no token has been read, used for
      * initializing ttype.  FIXME This could be made public and
      * made available as the part of the API in a future release.
      */
     private static final int TT_NOTHING = -4;
-
     /**
      * If the current token is a word token, this field contains a
      * string giving the characters of the word token. When the current
@@ -147,7 +130,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
      * @see java.io.StreamTokenizer#ttype
      */
     public String sval;
-
     /**
      * If the current token is a number, this field contains the value
      * of that number. The current token is a number when the value of
@@ -522,7 +504,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
         }
         byte ct[] = ctype;
         sval = null;
-
         int c = peekc;
         if (c < 0) {
             c = NEED_CHAR;
@@ -548,12 +529,10 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
         }
         ttype = c;
         /* Just to be safe */
-
  /* Set peekc so that the next invocation of nextToken will read
          * another character unless peekc is reset in this invocation
          */
         peekc = NEED_CHAR;
-
         int ctype = c < 256 ? ct[c] : CT_ALPHA;
         while ((ctype & CT_WHITESPACE) != 0) {
             if (c == '\r') {
@@ -586,10 +565,8 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
             }
             ctype = c < 256 ? ct[c] : CT_ALPHA;
         }
-
         // rlw
         startpos = readpos - 1;
-
         // rlw hexadecimal
         hex:
         if (((ctype & CT_DIGIT) != 0)
@@ -628,7 +605,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 c = '0';
             }
         }
-
         digit:
         if ((ctype & CT_DIGIT) != 0) {
             int digits = 0;
@@ -664,7 +640,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 }
                 neg = false;
             }
-
             double v = 0;
             int decexp = 0;
             int seendot = 0;
@@ -712,7 +687,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 if (isParseExponents) {
                     if (c == 'E' || c == 'e') {
                         c = read();
-
                         digits = 0;
                         neg = false;
                         if (c == '-') {
@@ -742,7 +716,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 return ttype = TT_NUMBER;
             }
         }
-
         if ((ctype & CT_ALPHA) != 0) {
             int i = 0;
             do {
@@ -764,7 +737,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
             endpos = (c == -1) ? readpos - 1 : readpos - 2;
             return ttype = TT_WORD;
         }
-
         if ((ctype & CT_QUOTE) != 0) {
             ttype = c;
             int i = 0;
@@ -830,13 +802,11 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 }
                 buf[i++] = (char) c;
             }
-
             /* If we broke out of the loop because we found a matching quote
              * character then arrange to read a new character next time
              * around; otherwise, save the character.
              */
             peekc = (d == ttype) ? NEED_CHAR : d;
-
             sval = String.copyValueOf(buf, 0, i);
             // rlw
             endpos = readpos - 2;
@@ -886,7 +856,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 }
             }
         }*/
-
         if (slashSlashCommentsP && c == slashSlash[0]
                 || slashStarCommentsP && c == slashStar[0]) {
             if (c == slashStar[0] && slashStar.length == 1) {
@@ -968,7 +937,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
                 }
             }
         }
-
         if ((ctype & CT_COMMENT) != 0) {
             while ((c = read()) != '\n' && c != '\r' && c >= 0) {
                 // empty allowed
@@ -977,7 +945,6 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
             //lineno++;  removed because it counts line break twice
             return nextToken();
         }
-
         // rlw
         endpos = readpos - 1;
         return ttype = c;
@@ -1142,7 +1109,7 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
             case TT_NOTHING:
                 ret = "NOTHING";
                 break;
-            default: 
+            default:
                 char s[] = new char[3];
                 s[0] = s[2] = '\'';
                 s[1] = (char) ttype;

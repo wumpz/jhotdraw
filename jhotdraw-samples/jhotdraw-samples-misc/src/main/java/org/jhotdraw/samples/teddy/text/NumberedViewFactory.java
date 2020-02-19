@@ -8,9 +8,7 @@
  * Original code (c) Stanislav Lapitsky
  * http://www.developer.com/java/other/article.php/3318421
  */
-
 package org.jhotdraw.samples.teddy.text;
-
 import javax.swing.text.*;
 /**
  * NumberedViewFactory.
@@ -20,7 +18,6 @@ import javax.swing.text.*;
  */
 public class NumberedViewFactory implements ViewFactory {
     private boolean isLineNumbersVisible;
-    
     public void setLineNumbersVisible(boolean newValue) {
         boolean oldValue = isLineNumbersVisible;
         isLineNumbersVisible = newValue;
@@ -28,7 +25,6 @@ public class NumberedViewFactory implements ViewFactory {
     public boolean isLineNumbersVisible() {
         return isLineNumbersVisible;
     }
-    
     public View create(Element elem) {
         String kind = elem.getName();
         if (kind != null)

@@ -2,12 +2,10 @@
  * @(#)Insets2D.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.geom;
-
 import java.awt.Insets;
 import java.awt.geom.*;
 import java.io.Serializable;
@@ -21,35 +19,29 @@ import java.io.Serializable;
  */
 public abstract class Insets2D implements Cloneable, Serializable {
     private static final long serialVersionUID = 1L;
-    
     /** Creates a new instance. */
     protected Insets2D() {
     }
-    
     /**
      * Returns the top insets in double precision.
      * @return the top insets of this <code>Insets2D</code>.
      */
     public abstract double getTop();
-    
     /**
      * Returns the left insets in double precision.
      * @return the left insets of this <code>Insets2D</code>.
      */
     public abstract double getLeft();
-    
     /**
      * Returns the bottom insets in double precision.
      * @return the bottom insets of this <code>Insets2D</code>.
      */
     public abstract double getBottom();
-    
     /**
      * Returns the right insets in double precision.
      * @return the right insets of this <code>Insets2D</code>.
      */
     public abstract double getRight();
-    
     /**
      * Sets the insets.
      *
@@ -59,7 +51,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
      * @param right The right insets.
      */
     public abstract void set(double top, double left, double bottom, double right);
-    
     /**
      * Sets the insets.
      *
@@ -68,7 +59,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
     public void set(Insets2D i) {
         set(i.getTop(), i.getLeft(), i.getBottom(), i.getRight());
     }
-    
     /**
      * Adds the specified insets to the current insets.
      *
@@ -98,7 +88,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
                 getRight() + i.getRight()
                 );
     }
-    
     /**
      * Adds the current insets to the specified Rectangle2D making the
      * rectangle larger.
@@ -176,7 +165,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
         }
         return false;
     }
-    
     /**
      * Returns the hash code for this Insets2DDouble.
      *
@@ -203,7 +191,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
             throw new InternalError();
         }
     }
-
     /**
      * Returns a string representation of this <code>Insets</code> object.
      * This method is intended to be used only for debugging purposes, and
@@ -215,7 +202,7 @@ public abstract class Insets2D implements Cloneable, Serializable {
      */
     @Override
     public String toString() {
-	return getClass().getName().substring(getClass().getName().lastIndexOf('.')+1) + "[top="  + getTop() + ",left=" + getLeft() + ",bottom=" + getBottom() + ",right=" + getRight() + "]";
+ return getClass().getName().substring(getClass().getName().lastIndexOf('.')+1) + "[top="  + getTop() + ",left=" + getLeft() + ",bottom=" + getBottom() + ",right=" + getRight() + "]";
     }
     /**
      * The <code>Float</code> class defines insets specified in
@@ -227,14 +214,12 @@ public abstract class Insets2D implements Cloneable, Serializable {
         public float left;
         public float bottom;
         public float right;
-        
         /**
          * Constructs and initializes an <code>Insets2D</code> with
          * all insets set to 0.
          */
         public Float() {
         }
-        
         /**
          * Constructs and initializes an <code>Insets2D</code> with the
          * specified insets.
@@ -250,27 +235,22 @@ public abstract class Insets2D implements Cloneable, Serializable {
             this.bottom = bottom;
             this.right = right;
         }
-        
     @Override
         public double getTop() {
             return top;
         }
-        
     @Override
         public double getLeft() {
             return left;
         }
-        
     @Override
         public double getBottom() {
             return bottom;
         }
-        
     @Override
         public double getRight() {
             return right;
         }
-        
     @Override
         public void set(double top, double left, double bottom, double right) {
             this.top = (float) top;
@@ -278,7 +258,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
             this.bottom = (float) bottom;
             this.right = (float) right;
         }
-        
         public void set(float top, float left, float bottom, float right) {
             this.top = top;
             this.left = left;
@@ -296,14 +275,12 @@ public abstract class Insets2D implements Cloneable, Serializable {
         public double left;
         public double bottom;
         public double right;
-        
         /**
          * Constructs and initializes an <code>Insets2D</code> with
          * all insets set to 0.
          */
         public Double() {
         }
-        
         /**
          * Constructs and initializes an <code>Insets2D</code> with the
          * specified insets.
@@ -319,27 +296,22 @@ public abstract class Insets2D implements Cloneable, Serializable {
             this.bottom = bottom;
             this.right = right;
         }
-        
     @Override
         public double getTop() {
             return top;
         }
-        
     @Override
         public double getLeft() {
             return left;
         }
-        
     @Override
         public double getBottom() {
             return bottom;
         }
-        
     @Override
         public double getRight() {
             return right;
         }
-        
     @Override
         public void set(double top, double left, double bottom, double right) {
             this.top = top;

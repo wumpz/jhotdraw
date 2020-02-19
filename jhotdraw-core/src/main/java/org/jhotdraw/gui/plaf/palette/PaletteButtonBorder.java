@@ -66,7 +66,6 @@ public class PaletteButtonBorder implements Border, UIResource {
         }
         g.setColor(new Color(borderColor, true));
         g.drawRect(x, y, width - 1, height - 1);
-
         LinearGradientPaint lgp = new LinearGradientPaint(
                 new Point2D.Float(x, y), new Point2D.Float(x, y + height - 1),
                 stops, stopColors,

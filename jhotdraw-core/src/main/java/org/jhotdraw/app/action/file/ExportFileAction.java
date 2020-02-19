@@ -2,7 +2,7 @@
  * @(#)ExportFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
@@ -55,7 +55,6 @@ import org.jhotdraw.util.*;
 public class ExportFileAction extends AbstractViewAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.export";
     private Component oldFocusOwner;
     private boolean proposeFileName;
@@ -99,7 +98,6 @@ public class ExportFileAction extends AbstractViewAction {
         final View view = getActiveView();
         if (view.isEnabled()) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
             try {
@@ -110,7 +108,6 @@ public class ExportFileAction extends AbstractViewAction {
                     if (proposedURI != null) {
                         try {
                             URI selectedURI = fileChooser.getSelectedURI();
-
                             File selectedFolder;
                             if (selectedURI == null) {
                                 Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
@@ -126,9 +123,7 @@ public class ExportFileAction extends AbstractViewAction {
                             } else {
                                 selectedFolder = new File(selectedURI).getParentFile();
                             }
-
                             File file = new File(selectedFolder, new File(proposedURI).getName());
-
                             String name = file.getName();
                             int p = name.lastIndexOf('.');
                             if (p != -1) {
@@ -137,12 +132,12 @@ public class ExportFileAction extends AbstractViewAction {
                                 proposedURI = file.toURI();
                             }
                         } catch (IllegalArgumentException e) {
+                            // allowed empty
                         }
                     }
                     fileChooser.setSelectedURI(proposedURI);
                 }
                 JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
-
                     @Override
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -154,7 +149,6 @@ public class ExportFileAction extends AbstractViewAction {
                             }
                             Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
                             prefs.put("recentExportFile", uri.toString());
-
                             if (evt.getChooser() instanceof JFileURIChooser) {
                                 exportView(view, uri, evt.getChooser());
                             } else {
@@ -181,7 +175,6 @@ public class ExportFileAction extends AbstractViewAction {
     protected void exportView(final View view, final URI uri,
             final URIChooser chooser) {
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 view.write(uri, chooser);

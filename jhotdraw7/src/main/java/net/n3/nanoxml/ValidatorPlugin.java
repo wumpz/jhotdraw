@@ -25,15 +25,10 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.IOException;
 import java.util.Properties;
-
-
 /**
  * ValidatorPlugin allows the application to insert additional validators into
  * NanoXML.
@@ -44,13 +39,10 @@ import java.util.Properties;
 public class ValidatorPlugin
    implements IXMLValidator
 {
-
    /**
     * The delegate.
     */
    private IXMLValidator delegate;
-
-
    /**
     * Initializes the plugin.
     */
@@ -58,8 +50,6 @@ public class ValidatorPlugin
    {
       this.delegate = null;
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -69,8 +59,6 @@ public class ValidatorPlugin
       this.delegate = null;
       super.finalize();
    }
-
-
    /**
     * Returns the delegate.
     */
@@ -78,8 +66,6 @@ public class ValidatorPlugin
    {
       return this.delegate;
    }
-
-
    /**
     * Sets the delegate.
     *
@@ -89,8 +75,6 @@ public class ValidatorPlugin
    {
       this.delegate = delegate;
    }
-
-
    /**
     * Sets the parameter entity resolver.
     *
@@ -100,8 +84,6 @@ public class ValidatorPlugin
    {
       this.delegate.setParameterEntityResolver(resolver);
    }
-
-
    /**
     * Returns the parameter entity resolver.
     *
@@ -111,8 +93,6 @@ public class ValidatorPlugin
    {
       return this.delegate.getParameterEntityResolver();
    }
-
-
    /**
     * Parses the DTD. The validator object is responsible for reading the
     * full DTD.
@@ -133,8 +113,6 @@ public class ValidatorPlugin
    {
       this.delegate.parseDTD(publicID, reader, entityResolver, external);
    }
-
-
    /**
     * Indicates that an element has been started.
     *
@@ -152,8 +130,6 @@ public class ValidatorPlugin
    {
       this.delegate.elementStarted(name, systemId, lineNr);
    }
-
-
    /**
     * Indicates that the current element has ended.
     *
@@ -171,8 +147,6 @@ public class ValidatorPlugin
    {
       this.delegate.elementEnded(name,systemId, lineNr);
    }
-
-
    /**
     * Indicates that an attribute has been added to the current element.
     *
@@ -193,8 +167,6 @@ public class ValidatorPlugin
       this.delegate.elementAttributesProcessed(name, extraAttributes,
                                                systemId, lineNr);
    }
-
-
    /**
     * This method is called when the attributes of an XML element have been
     * processed.
@@ -217,8 +189,6 @@ public class ValidatorPlugin
    {
       this.delegate.attributeAdded(key, value, systemId, lineNr);
    }
-
-
    /**
     * Indicates that a new #PCDATA element has been encountered.
     *
@@ -234,8 +204,6 @@ public class ValidatorPlugin
    {
       this.delegate.PCDataAdded(systemId, lineNr);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that an element is missing.
     *
@@ -256,8 +224,6 @@ public class ValidatorPlugin
       XMLUtil.errorMissingElement(systemID, lineNr, parentElementName,
                                   missingElementName);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that an element is
     * unexpected.
@@ -281,8 +247,6 @@ public class ValidatorPlugin
       XMLUtil.errorUnexpectedElement(systemID, lineNr, parentElementName,
                                      unexpectedElementName);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that an attribute is
     * missing.
@@ -304,8 +268,6 @@ public class ValidatorPlugin
       XMLUtil.errorMissingAttribute(systemID, lineNr, elementName,
                                     attributeName);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that an attribute is
     * unexpected.
@@ -327,8 +289,6 @@ public class ValidatorPlugin
       XMLUtil.errorUnexpectedAttribute(systemID, lineNr, elementName,
                                        attributeName);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that an attribute has an
     * invalid value.
@@ -352,8 +312,6 @@ public class ValidatorPlugin
       XMLUtil.errorInvalidAttributeValue(systemID, lineNr, elementName,
                                          attributeName, attributeValue);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that a #PCDATA element was
     * missing.
@@ -372,8 +330,6 @@ public class ValidatorPlugin
    {
       XMLUtil.errorMissingPCData(systemID, lineNr, parentElementName);
    }
-
-
    /**
     * Throws an XMLValidationException to indicate that a #PCDATA element was
     * unexpected.
@@ -392,8 +348,6 @@ public class ValidatorPlugin
    {
       XMLUtil.errorUnexpectedPCData(systemID, lineNr, parentElementName);
    }
-
-
    /**
     * Throws an XMLValidationException.
     *
@@ -418,5 +372,4 @@ public class ValidatorPlugin
       XMLUtil.validationError(systemID, lineNr, message, elementName,
                               attributeName, attributeValue);
    }
-   
 }

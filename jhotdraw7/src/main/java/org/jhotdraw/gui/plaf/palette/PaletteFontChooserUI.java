@@ -2,12 +2,10 @@
  * @(#)PaletteFontChooserUI.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -21,7 +19,6 @@ import javax.swing.tree.*;
 import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.gui.fontchooser.*;
 import org.jhotdraw.gui.plaf.FontChooserUI;
-
 /**
  * PaletteFontChooserUI.
  *
@@ -29,7 +26,6 @@ import org.jhotdraw.gui.plaf.FontChooserUI;
  * @version $Id$
  */
 public class PaletteFontChooserUI extends FontChooserUI {
-
     private FontCollectionNode familyListParent;
     private FontFamilyNode faceListParent;
     private JFontChooser fontChooser;
@@ -42,11 +38,9 @@ public class PaletteFontChooserUI extends FontChooserUI {
      * font chooser is updating, and should ignore incoming events.
      */
     private int isUpdating;
-
     public PaletteFontChooserUI(JFontChooser fontChooser) {
         this.fontChooser = fontChooser;
     }
-
     /**
      * Returns an instance of the UI delegate for the specified component.
      * Each subclass must provide its own static <code>createUI</code>
@@ -61,7 +55,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         PaletteFontChooserUI ui = new PaletteFontChooserUI((JFontChooser) c);
         return ui;
     }
-
     /**
      * Configures the specified component appropriate for the look and feel.
      * This method is invoked when the <code>ComponentUI</code> instance is being installed
@@ -70,8 +63,8 @@ public class PaletteFontChooserUI extends FontChooserUI {
      * including the following:
      * <ol>
      * <li>Install any default property values for color, fonts, borders,
-     *     icons, opacity, etc. on the component.  Whenever possible, 
-     *     property values initialized by the client program should <i>not</i> 
+     *     icons, opacity, etc. on the component.  Whenever possible,
+     *     property values initialized by the client program should <i>not</i>
      *     be overridden.
      * <li>Install a <code>LayoutManager</code> on the component if necessary.
      * <li>Create/add any required sub-components to the component.
@@ -92,7 +85,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         installComponents(fontChooser);
         installListeners(fontChooser);
     }
-
     protected void installComponents(JFontChooser fc) {
         fc.removeAll();
         fc.setLayout(new BorderLayout());
@@ -100,13 +92,11 @@ public class PaletteFontChooserUI extends FontChooserUI {
         fc.add(selectionPanel, BorderLayout.CENTER);
         previewPanel = new PaletteFontChooserPreviewPanel();
         fc.add(previewPanel, BorderLayout.NORTH);
-
         updateCollectionList();
         updateFamilyList();
         updateFaceList();
         updatePreview();
     }
-
     protected void installListeners(JFontChooser fc) {
         selectionPanelHandler = new SelectionPanelHandler();
         selectionPanel.getCollectionList().addListSelectionListener(selectionPanelHandler);
@@ -118,21 +108,19 @@ public class PaletteFontChooserUI extends FontChooserUI {
         selectionPanel.getCollectionList().addMouseListener(selectionPanelHandler);
         selectionPanel.getFamilyList().addMouseListener(selectionPanelHandler);
         selectionPanel.getFaceList().addMouseListener(selectionPanelHandler);
-
         chooserHandler = new FontChooserHandler();
         fontChooser.addPropertyChangeListener(chooserHandler);
         if (fontChooser.getModel() != null) {
             fontChooser.getModel().addTreeModelListener(chooserHandler);
         }
     }
-
     /**
      * Reverses configuration which was done on the specified component during
-     * <code>installUI</code>.  This method is invoked when this 
-     * <code>UIComponent</code> instance is being removed as the UI delegate 
+     * <code>installUI</code>.  This method is invoked when this
+     * <code>UIComponent</code> instance is being removed as the UI delegate
      * for the specified component.  This method should undo the
-     * configuration performed in <code>installUI</code>, being careful to 
-     * leave the <code>JComponent</code> instance in a clean state (no 
+     * configuration performed in <code>installUI</code>, being careful to
+     * leave the <code>JComponent</code> instance in a clean state (no
      * extraneous listeners, look-and-feel-specific property objects, etc.).
      * This should include the following:
      * <ol>
@@ -156,11 +144,9 @@ public class PaletteFontChooserUI extends FontChooserUI {
         uninstallListeners(fontChooser);
         uninstallComponents(fontChooser);
     }
-
     protected void uninstallComponents(JFontChooser fc) {
         fontChooser.removeAll();
     }
-
     protected void uninstallListeners(JFontChooser fc) {
         fontChooser.removePropertyChangeListener(chooserHandler);
         selectionPanel.getCollectionList().removeListSelectionListener(selectionPanelHandler);
@@ -178,7 +164,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         chooserHandler = null;
         selectionPanelHandler = null;
     }
-
     private void updateCollectionList() {
         isUpdating++;
         JList list = selectionPanel.getCollectionList();
@@ -189,7 +174,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         for (int i = 0, n = model.getChildCount(parent); i < n; i++) {
             lm.addElement(model.getChild(parent, i));
         }
-
         TreePath path = fontChooser.getSelectionPath();
         if (path == null || path.getPathCount() < 2) {
             list.clearSelection();
@@ -200,7 +184,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         }
         isUpdating--;
     }
-
     private void updateFamilyList() {
         isUpdating++;
         JList list = selectionPanel.getFamilyList();
@@ -210,7 +193,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         if (path != null && path.getPathCount() > 1) {
             newParent = (FontCollectionNode) path.getPathComponent(1);
         }
-
         if (newParent != familyListParent) {
             DefaultListModel lm = (DefaultListModel) list.getModel();
             lm.removeAllElements();
@@ -221,7 +203,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         if (path == null || path.getPathCount() < 3) {
             list.clearSelection();
         } else {
@@ -231,7 +212,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         }
         isUpdating--;
     }
-
     private void updateFaceList() {
         isUpdating++;
         JList list = selectionPanel.getFaceList();
@@ -241,7 +221,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         if (path != null && path.getPathCount() > 2) {
             newParent = (FontFamilyNode) path.getPathComponent(2);
         }
-
         if (newParent != faceListParent) {
             DefaultListModel lm = (DefaultListModel) list.getModel();
             lm.removeAllElements();
@@ -252,7 +231,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         if (path == null || path.getPathCount() < 4) {
             list.clearSelection();
         } else {
@@ -262,30 +240,24 @@ public class PaletteFontChooserUI extends FontChooserUI {
         }
         isUpdating--;
     }
-
     private void updatePreview() {
         isUpdating++;
         previewPanel.setSelectedFont(fontChooser.getSelectedFont());
         isUpdating--;
     }
-
     private void doCollectionChanged() {
         JList list = selectionPanel.getCollectionList();
-
         TreePath path = fontChooser.getSelectionPath();
         FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
         FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
         FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
         FontCollectionNode newCollection = (FontCollectionNode) list.getSelectedValue();
         FontFamilyNode newFamily = null;
         FontFaceNode newFace = null;
-
         if ((oldFamily == null || oldFace == null) && fontChooser.getSelectedFont() != null) {
             oldFace = new FontFaceNode(fontChooser.getSelectedFont());
             oldFamily = new FontFamilyNode(fontChooser.getSelectedFont().getFamily());
         }
-
         if (newCollection != null && oldFamily != null) {
             for (int i = 0,  n = newCollection.getChildCount(); i < n; i++) {
                 FontFamilyNode aFamily = newCollection.getChildAt(i);
@@ -325,21 +297,16 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         setNewSelectionPath(newCollection, newFamily, newFace);
     }
-
     private void doFamilyChanged() {
         JList list = selectionPanel.getFamilyList();
-
         TreePath path = fontChooser.getSelectionPath();
         FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
         FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
         FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
         FontCollectionNode newCollection = oldCollection;
         FontFamilyNode newFamily = (FontFamilyNode) list.getSelectedValue();
-
         FontFaceNode newFace = null;
         if (newFamily != null && oldFace != null) {
             for (int i = 0,  n = newFamily.getChildCount(); i < n; i++) {
@@ -350,7 +317,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         if (newCollection != null) {
             if (newFamily == null && newCollection.getChildCount() > 0) {
                 newFamily = newCollection.getChildAt(0);
@@ -363,25 +329,19 @@ public class PaletteFontChooserUI extends FontChooserUI {
         }
         setNewSelectionPath(newCollection, newFamily, newFace);
     }
-
     private void doFaceChanged() {
         JList list = selectionPanel.getFaceList();
-
         TreePath path = fontChooser.getSelectionPath();
         FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
         FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
         FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
         FontCollectionNode newCollection = oldCollection;
         FontFamilyNode newFamily = oldFamily;
         FontFaceNode newFace = (FontFaceNode) list.getSelectedValue();
-
         setNewSelectionPath(newCollection, newFamily, newFace);
     }
-
     private void setNewSelectionPath(FontCollectionNode newCollection, FontFamilyNode newFamily, FontFaceNode newFace) {
         FontChooserModel model = fontChooser.getModel();
-
         TreePath newPath;
         if (newFace != null) {
             newPath = new TreePath(new Object[]{
@@ -406,9 +366,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
         }
         fontChooser.setSelectionPath(newPath);
     }
-
     private class SelectionPanelHandler implements KeyListener, MouseListener, ListSelectionListener {
-
     @Override
         public void valueChanged(ListSelectionEvent evt) {
             if (isUpdating ==
@@ -423,14 +381,12 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
     @Override
         public void keyReleased(KeyEvent evt) {
             Object src = evt.getSource();
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     if (src == selectionPanel.getCollectionList()) {
-                        
                     } else if (src == selectionPanel.getFamilyList()) {
                         selectionPanel.getCollectionList().requestFocus();
                     } else if (src == selectionPanel.getFaceList()) {
@@ -444,7 +400,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                     } else if (src == selectionPanel.getFamilyList()) {
                         selectionPanel.getFaceList().requestFocus();
                     } else if (src == selectionPanel.getFaceList()) {
-                        
                     }
                     evt.consume();
                     break;
@@ -458,41 +413,32 @@ public class PaletteFontChooserUI extends FontChooserUI {
                     break;
             }
         }
-
     @Override
         public void keyPressed(KeyEvent evt) {
         }
-
     @Override
         public void keyTyped(KeyEvent evt) {
         }
-
     @Override
         public void mouseClicked(MouseEvent evt) {
             if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
                 fontChooser.approveSelection();
             }
         }
-
     @Override
         public void mousePressed(MouseEvent e) {
         }
-
     @Override
         public void mouseReleased(MouseEvent e) {
         }
-
     @Override
         public void mouseEntered(MouseEvent e) {
         }
-
     @Override
         public void mouseExited(MouseEvent e) {
         }
     }
-
     private class FontChooserHandler implements PropertyChangeListener, TreeModelListener {
-
     @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
@@ -516,28 +462,24 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 updateFaceList();
             }
         }
-
     @Override
         public void treeNodesChanged(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();
             updateFaceList();
         }
-
     @Override
         public void treeNodesInserted(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();
             updateFaceList();
         }
-
     @Override
         public void treeNodesRemoved(TreeModelEvent e) {
             updateCollectionList();
             updateFamilyList();
             updateFaceList();
         }
-
     @Override
         public void treeStructureChanged(TreeModelEvent e) {
             updateCollectionList();

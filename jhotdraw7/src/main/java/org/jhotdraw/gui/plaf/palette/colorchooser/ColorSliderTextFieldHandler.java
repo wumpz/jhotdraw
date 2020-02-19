@@ -1,13 +1,11 @@
 /*
- * @(#)ColorSliderTextFieldHandler.java 
+ * @(#)ColorSliderTextFieldHandler.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette.colorchooser;
-
 import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.color.ColorSliderModel;
@@ -22,16 +20,13 @@ public class ColorSliderTextFieldHandler implements DocumentListener, ChangeList
     protected JTextField textField;
     protected ColorSliderModel ccModel;
     protected int component;
-    
     public ColorSliderTextFieldHandler(JTextField textField, ColorSliderModel ccModel, int component) {
         this.textField = textField;
         this.ccModel = ccModel;
         this.component = component;
-        
         textField.getDocument().addDocumentListener(this);
         ccModel.getBoundedRangeModel(component).addChangeListener(this);
     }
-    
     @Override
     public void changedUpdate(DocumentEvent evt) {
         docChanged();

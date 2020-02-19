@@ -2,7 +2,7 @@
  * @(#)AbstractFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -39,9 +39,7 @@ public abstract class AbstractFigure
         implements Figure {
 
     private static final long serialVersionUID = 1L;
-
     protected EventListenerList listenerList = new EventListenerList();
-
     private Drawing drawing;
     private boolean isSelectable = true;
     private boolean isRemovable = true;
@@ -433,7 +431,6 @@ public abstract class AbstractFigure
     }
 
     @Override
-
     public Figure findFigureInside(Point2D.Double p) {
         return (contains(p)) ? this : null;
     }

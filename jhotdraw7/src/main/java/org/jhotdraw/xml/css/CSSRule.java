@@ -2,19 +2,16 @@
  * @(#)CSSRule.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  * Original code taken from article "Swing and CSS" by Joshua Marinacci 10/14/2003
  * http://today.java.net/pub/a/today/2003/10/14/swingcss.html
  */
-
 package org.jhotdraw.xml.css;
-
 import java.util.*;
 import net.n3.nanoxml.IXMLElement;
 import org.w3c.dom.Element;
-
 /**
  * CSSRule matches on a CSS selector.
  * <p>
@@ -37,7 +34,6 @@ public class CSSRule {
     }
     private SelectorType type;
     protected Map<String,String> properties;
-    
     public CSSRule(String name, String value) {
         properties = new HashMap<String,String>();
         properties.put(name, value);
@@ -51,7 +47,6 @@ public class CSSRule {
         setSelector(selector);
         this.properties = properties;
     }
-    
     public void setSelector(String selector) {
         switch (selector.charAt(0)) {
             case '*' : type = SelectorType.ALL; break;
@@ -61,7 +56,6 @@ public class CSSRule {
         }
         this.selector = (type == SelectorType.ELEMENT_NAME) ? selector : selector.substring(1);
     }
-    
     public boolean matches(Element elem) {
         boolean isMatch = false;
         switch (type) {
@@ -126,7 +120,6 @@ public class CSSRule {
         }
         return isMatch;
     }
-    
     public void apply(Element elem) {
         for (Map.Entry<String,String> property : properties.entrySet()) {
             if (! elem.hasAttribute(property.getKey())) {
@@ -141,8 +134,6 @@ public class CSSRule {
             }
         }
     }
-    
-    
     @Override
     public String toString() {
         return "CSSRule["+selector+properties+"]";

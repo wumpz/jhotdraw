@@ -6,10 +6,8 @@
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
 import java.awt.Color;
 import java.awt.Point;
-
 /**
  * HarmonicColorWheelImageProducer.
  *
@@ -18,15 +16,12 @@ import java.awt.Point;
  * 12:30:57Z rawcoder $
  */
 public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProducer {
-
     private float wheelScaleFactor;
     private float[] brights;
     private boolean isDiscrete = true;
-
     public HSVHarmonicColorWheelImageProducer(int w, int h) {
         super(HSVPhysiologicColorSpace.getInstance(), w, h);
     }
-
     @Override
     protected void generateLookupTables() {
         wheelScaleFactor = 1.35f;
@@ -37,28 +32,22 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
             generateContiguousLookupTables();
         }
     }
-
     protected void generateContiguousLookupTables() {
         radials = new float[w * h];
         angulars = new float[w * h];
         brights = new float[w * h];
         alphas = new int[w * h];
         float radius = getRadius();
-
         // blend is used to create a linear alpha gradient of two extra pixels
         float blend = (radius + 2f) / radius - 1f;
-
         // Center of the color wheel circle
         int cx = w / 2;
         int cy = h / 2;
-
         for (int x = 0; x < w; x++) {
             int kx = x - cx; // Kartesian coordinates of x
             int squarekx = kx * kx; // Square of kartesian x
-
             for (int y = 0; y < h; y++) {
                 int ky = cy - y; // Kartesian coordinates of y
-
                 int index = x + y * w;
                 float r = (float) Math.sqrt(squarekx + ky * ky) / radius;
                 float sat = r * wheelScaleFactor;
@@ -80,27 +69,22 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
             }
         }
     }
-
     protected void generateDiscreteLookupTables() {
         radials = new float[w * h];
         angulars = new float[w * h];
         brights = new float[w * h];
         alphas = new int[w * h];
         float radius = getRadius();
-
         // blend is used to create a linear alpha gradient of two extra pixels
         float blend = (radius + 2f) / radius - 1f;
-
         // Center of the color wheel circle
         int cx = w / 2;
         int cy = h / 2;
         for (int x = 0; x < w; x++) {
             int kx = x - cx; // Kartesian coordinates of x
             int squarekx = kx * kx; // Square of kartesian x
-
             for (int y = 0; y < h; y++) {
                 int ky = cy - y; // Kartesian coordinates of y
-
                 int index = x + y * w;
                 float r = (float) Math.sqrt(squarekx + ky * ky) / radius;
                 float sat = r * wheelScaleFactor;
@@ -120,7 +104,6 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
             }
         }
     }
-
     @Override
     public void generateColorWheel() {
         float[] components = new float[3];
@@ -136,13 +119,11 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         newPixels();
         isPixelsValid = false;
     }
-
     @Override
     public Point getColorLocation(Color c) {
         float[] hsb = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(hsb);
     }
-
     @Override
     public Point getColorLocation(float[] hsb) {
         float hue = hsb[0];
@@ -150,25 +131,20 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         float brightness = hsb[2];
         float radius = Math.min(w, h) / 2f;
         float radiusH = radius / 2f;
-
         saturation = Math.max(0f, Math.min(1f, saturation));
         brightness = Math.max(0f, Math.min(1f, brightness));
-
         Point p;
         if (brightness == 1f) {
             p = new Point(
                     w / 2 + (int) (radiusH * saturation * Math.cos(hue * Math.PI * 2d) / wheelScaleFactor),
                     h / 2 - (int) (radiusH * saturation * Math.sin(hue * Math.PI * 2d) / wheelScaleFactor));
-
         } else {
             p = new Point(
                     w / 2 + (int) ((radius + radiusH - radius * brightness) * Math.cos(hue * Math.PI * 2d) / wheelScaleFactor),
                     h / 2 - (int) ((radius + radiusH - radius * brightness) * Math.sin(hue * Math.PI * 2d) / wheelScaleFactor));
-
         }
         return p;
     }
-
     @Override
     public float[] getColorAt(int x, int y) {
         x -= w / 2;
@@ -176,7 +152,6 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         float r = (float) Math.sqrt(x * x + y * y);
         float theta = (float) Math.atan2(-y, x);
         float radius = Math.min(w, h) / 2f;
-
         float[] hsb;
         float sat = r / radius * wheelScaleFactor;
         float hue = (float) (theta / Math.PI / 2d);
@@ -189,7 +164,6 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
             //Math.min(1f, 2f - sat * 2f)
             Math.min(1f, 1.5f - sat)
         };
-
         return hsb;
     }
 }

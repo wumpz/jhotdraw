@@ -2,12 +2,10 @@
  * @(#)DefaultHandleTracker.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.HandleMulticaster;
 import org.jhotdraw.draw.*;
@@ -17,7 +15,6 @@ import java.awt.geom.Point2D;
 import java.util.*;
 import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
-
 /**
  * DefaultHandleTracker implements interactions with the handles of a Figure.
  * <p>
@@ -28,14 +25,14 @@ import org.jhotdraw.draw.event.HandleListener;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as 
+ * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as
  * Handler, {@link DragTracker} as Handler, {@link DefaultHandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: State.<br>
- * Partners: {@link SelectAreaTracker} as State, {@link DragTracker} as 
- * State, {@link SelectionTool} as Context. 
+ * Partners: {@link SelectAreaTracker} as State, {@link DragTracker} as
+ * State, {@link SelectionTool} as Context.
  *
  * @see SelectionTool
  *
@@ -44,31 +41,24 @@ import org.jhotdraw.draw.event.HandleListener;
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
     private static final long serialVersionUID = 1L;
-
     private class EventHandler implements HandleListener {
-
         @Override
         public void areaInvalidated(HandleEvent e) {
             // empty
         }
-
         @Override
         public void handleRequestRemove(HandleEvent e) {
             fireToolDone();
         }
-
         @Override
         public void handleRequestSecondaryHandles(HandleEvent e) {
             // empty
         }
-        
     }
     private EventHandler eventHandler=new EventHandler();
-    
     /** Last dragged mouse location. This variable is only non-null when
      * the mouse is being pressed or dragged.
      */
-    
     private Point dragLocation;
     private Handle masterHandle;
     private HandleMulticaster multicaster;
@@ -81,23 +71,18 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
      * The hover Figure is the figure, over which the mouse is currently
      * hovering.
      */
-    
     private Figure hoverFigure = null;
-
     /** Creates a new instance. */
     public DefaultHandleTracker(Handle handle) {
         masterHandle = handle;
         multicaster = new HandleMulticaster(handle);
     }
-
     public DefaultHandleTracker(Handle master, Collection<Handle> handles) {
         masterHandle = master;
         multicaster = new HandleMulticaster(handles);
     }
-
     public DefaultHandleTracker() {
     }
-
     @Override
     public void draw(Graphics2D g) {
         if (hoverHandles.size() > 0 && !getView().isFigureSelected(hoverFigure)) {
@@ -106,7 +91,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
             }
         }
     }
-
     /* FIXME - The handle should draw itself in selected mode
     public void draw(Graphics2D g) {
     g.setColor(Color.RED);
@@ -125,7 +109,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         clearHoverHandles();
         masterHandle.addHandleListener(eventHandler);
     }
-
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
@@ -138,13 +121,11 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         dragLocation = null;
         masterHandle.removeHandleListener(eventHandler);
     }
-
     @Override
     public void keyPressed(KeyEvent evt) {
         multicaster.keyPressed(evt);
         if (!evt.isConsumed()) {
             super.keyPressed(evt);
-
             // Forward key presses to the handler
             if (dragLocation != null) {
                 multicaster.trackStep(anchor, dragLocation,
@@ -152,7 +133,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
             }
         }
     }
-
     @Override
     public void keyReleased(KeyEvent evt) {
         multicaster.keyReleased(evt);
@@ -162,12 +142,10 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
                     evt.getModifiersEx(), getView());
         }
     }
-
     @Override
     public void keyTyped(KeyEvent evt) {
         multicaster.keyTyped(evt);
     }
-
     @Override
     public void mouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
@@ -176,7 +154,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         }
         evt.consume();
     }
-
     @Override
     public void mouseDragged(MouseEvent evt) {
         dragLocation = new Point(evt.getX(), evt.getY());
@@ -184,18 +161,15 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
                 evt.getModifiersEx(), getView());
         clearHoverHandles();
     }
-
     @Override
     public void mouseEntered(MouseEvent evt) {
     }
-
     @Override
     public void mouseExited(MouseEvent evt) {
         DrawingView view = editor.findView((Container) evt.getSource());
         updateHoverHandles(view, null);
         dragLocation = null;
     }
-
     @Override
     public void mouseMoved(MouseEvent evt) {
         Point point = evt.getPoint();
@@ -223,11 +197,9 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
                     figure = drawing.findFigureBehind(p, figure);
                 }
             }
-
             updateHoverHandles(view, figure);
         }
     }
-
     @Override
     public void mousePressed(MouseEvent evt) {
         //handle.mousePressed(evt);
@@ -235,26 +207,21 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         multicaster.trackStart(anchor, evt.getModifiersEx(), getView());
         clearHoverHandles();
     }
-
     @Override
     public void mouseReleased(MouseEvent evt) {
         dragLocation = new Point(evt.getX(), evt.getY());
         multicaster.trackEnd(anchor, dragLocation,
                 evt.getModifiersEx(), getView());
-
         // Note: we must not fire "Tool Done" in this method, because then we can not
         // listen to keyboard events for the handle.
-
         Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
         r.add(evt.getX(), evt.getY());
         maybeFireBoundsInvalidated(r);
         dragLocation = null;
     }
-
     protected void clearHoverHandles() {
         updateHoverHandles(null, null);
     }
-
     protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
@@ -288,7 +255,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
             }
         }
     }
-
     @Override
     public void setHandles(Handle handle, Collection<Handle> compatibleHandles) {
         masterHandle = handle;

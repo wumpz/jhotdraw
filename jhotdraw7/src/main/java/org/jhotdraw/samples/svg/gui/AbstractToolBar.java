@@ -6,8 +6,6 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
-
 import java.awt.*;
 import java.beans.*;
 import java.util.LinkedList;
@@ -17,7 +15,6 @@ import org.jhotdraw.app.Disposable;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * AbstractToolBar.
  *
@@ -26,13 +23,11 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
     private static final long serialVersionUID = 1L;
-
     protected DrawingEditor editor;
     private JComponent[] panels;
     protected Preferences prefs;
     protected PropertyChangeListener eventHandler;
     protected LinkedList<Disposable> disposables = new LinkedList<Disposable>();
-
     /** Creates new form. */
     public AbstractToolBar() {
         initComponents();
@@ -42,7 +37,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
             // prefs is null, because we are not permitted to read preferences
         }
     }
-
     /** This should be an abstract method, but the NetBeans GUI builder
      * doesn't support abstract beans.
      * @return The ID used to retrieve labels and store user preferences.
@@ -50,17 +44,14 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
     protected String getID() {
         return "";
     }
-
     /** This should be an abstract method, but the NetBeans GUI builder
      * doesn't support abstract beans.
      */
     protected void init() {
     }
-
     protected PropertyChangeListener getEventHandler() {
         if (eventHandler == null) {
             eventHandler = new PropertyChangeListener() {
-
     @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
@@ -79,7 +70,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
         return eventHandler;
     }
-
     public void setEditor(DrawingEditor editor) {
         if (this.editor != null) {
             this.removePropertyChangeListener(getEventHandler());
@@ -96,15 +86,12 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
             this.addPropertyChangeListener(getEventHandler());
         }
     }
-
     public DrawingEditor getEditor() {
         return editor;
     }
-
     public void clearDisclosedComponents() {
         panels = null;
     }
-
     @Override
     final protected JComponent getDisclosedComponent(int state) {
         if (panels == null) {
@@ -115,16 +102,12 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
         return panels[state];
     }
-
-    
     /*abstract*/ protected JComponent createDisclosedComponent(int state) {
         return null;
     }
-
     protected int getDefaultDisclosureState() {
         return 0;
     }
-
     @Override
     public void dispose() {
         for (Disposable d : disposables) {
@@ -132,12 +115,9 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
         disposables.clear();
     }
-
     private class ProxyPanel extends JPanel {
     private static final long serialVersionUID = 1L;
-
         private Runnable runner;
-
         public ProxyPanel() {
             setOpaque(false);
             setBackground(Color.GREEN);
@@ -145,7 +125,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
             // one pixel wide and high.
             setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
         }
-
         @Override
         public void paint(Graphics g) {
             super.paint(g);
@@ -166,7 +145,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
                         if (parent != null) {
                             GridBagLayout layout = (GridBagLayout) parent.getLayout();
                             GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
-
                             parent.remove(ProxyPanel.this);
                             if (getDisclosureState() == state) {
                                 if (panels[state] != null) {
@@ -179,7 +157,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
                             }
                             parent.revalidate();
                             ((JComponent) parent.getRootPane().getContentPane()).revalidate();
-
                         }
                     }
                 };
@@ -187,7 +164,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
             }
         }
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

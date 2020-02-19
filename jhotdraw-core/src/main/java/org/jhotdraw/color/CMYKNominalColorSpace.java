@@ -1,9 +1,9 @@
 /*
  * @(#)HSBColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -23,7 +23,6 @@ import java.awt.color.ColorSpace;
 public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
 
     private static final long serialVersionUID = 1L;
-
     private static CMYKNominalColorSpace instance;
 
     public static CMYKNominalColorSpace getInstance() {
@@ -40,22 +39,18 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
     @Override
     public float[] toRGB(float[] component, float[] rgb) {
         float cyan, magenta, yellow, black;
-
         cyan = component[0];
         magenta = component[1];
         yellow = component[2];
         black = component[3];
-
         float red, green, blue;
         red = 1f - cyan * (1f - black) - black;
         green = 1f - magenta * (1f - black) - black;
         blue = 1f - yellow * (1f - black) - black;
-
         // clamp values
         red = Math.min(1f, Math.max(0f, red));
         green = Math.min(1f, Math.max(0f, green));
         blue = Math.min(1f, Math.max(0f, blue));
-
         rgb[0] = red;
         rgb[1] = green;
         rgb[2] = blue;
@@ -67,9 +62,7 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
-
         float cyan, magenta, yellow, black;
-
         cyan = 1f - r;
         magenta = 1f - g;
         yellow = 1f - b;
@@ -78,20 +71,17 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
             black = 1f;
         } else {
             black = Math.min(Math.min(cyan, magenta), yellow);
-
             if (black > 0f) {
                 cyan = (cyan - black) / (1 - black);
                 magenta = (magenta - black) / (1 - black);
                 yellow = (yellow - black) / (1 - black);
             }
         }
-
         // clamp values
         cyan = Math.min(1f, Math.max(0f, cyan));
         yellow = Math.min(1f, Math.max(0f, yellow));
         magenta = Math.min(1f, Math.max(0f, magenta));
         black = Math.min(1f, Math.max(0f, black));
-
         colorvalue[0] = cyan;
         colorvalue[1] = magenta;
         colorvalue[2] = yellow;

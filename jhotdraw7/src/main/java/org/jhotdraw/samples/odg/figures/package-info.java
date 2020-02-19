@@ -7,11 +7,9 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**
 Provides figures for ODG drawings.
 */
-
 package org.jhotdraw.samples.odg.figures;
 
 

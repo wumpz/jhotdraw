@@ -2,7 +2,7 @@
  * @(#)BezierFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -55,7 +55,6 @@ import org.jhotdraw.xml.DOMOutput;
 public class BezierFigure extends AbstractAttributedFigure {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The BezierPath.
      */
@@ -64,7 +63,6 @@ public class BezierFigure extends AbstractAttributedFigure {
      * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
      * speed of the figure.
      */
-
     private transient BezierPath cappedPath;
 
     /**
@@ -106,10 +104,10 @@ public class BezierFigure extends AbstractAttributedFigure {
     public Connector findCompatibleConnector(Connector c, boolean isStart) {
         return new ChopBezierConnector(this);
     }
+
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
-
     @Override
     protected void drawStroke(Graphics2D g) {
         if (isClosed()) {
@@ -241,7 +239,6 @@ public class BezierFigure extends AbstractAttributedFigure {
     @Override
     public Rectangle2D.Double getDrawingArea(double factor) {
         Rectangle2D.Double r = super.getDrawingArea(factor);
-
         if (getNodeCount() > 1) {
             if (get(START_DECORATION) != null) {
                 Point2D.Double p1 = getPoint(0, 0);
@@ -254,7 +251,6 @@ public class BezierFigure extends AbstractAttributedFigure {
                 r.add(get(END_DECORATION).getDrawingArea(this, p1, p2));
             }
         }
-
         return r;
     }
 
@@ -355,7 +351,6 @@ public class BezierFigure extends AbstractAttributedFigure {
                     if (get(END_DECORATION) != null) {
                         BezierPath.Node p0 = cappedPath.get(cappedPath.size() - 1);
                         BezierPath.Node p1 = cappedPath.get(cappedPath.size() - 2);
-
                         Point2D.Double pp;
                         if ((p0.getMask() & BezierPath.C1_MASK) != 0) {
                             pp = p0.getControlPoint(1);
@@ -364,7 +359,6 @@ public class BezierFigure extends AbstractAttributedFigure {
                         } else {
                             pp = p1.getControlPoint(0);
                         }
-
                         double radius = get(END_DECORATION).getDecorationRadius(this);
                         double lineLength = Geom.length(p0.getControlPoint(0), pp);
                         cappedPath.set(cappedPath.size() - 1, 0, Geom.cap(pp, p0.getControlPoint(0), -Math.min(radius, lineLength)));
@@ -712,7 +706,6 @@ public class BezierFigure extends AbstractAttributedFigure {
         path.clear();
         in.openElement("points");
         setClosed(in.getAttribute("closed", false));
-
         for (int i = 0, n = in.getElementCount("p"); i < n; i++) {
             in.openElement("p", i);
             BezierPath.Node node = new BezierPath.Node(

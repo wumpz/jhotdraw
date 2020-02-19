@@ -20,7 +20,6 @@ import java.io.Serializable;
 public class ToolBarLayout implements LayoutManager2, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies that components should be laid out left to right.
      */
@@ -119,9 +118,7 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
                     w += ps.width;
                 }
         }
-
         Insets i = parent.getInsets();
-
         return new Dimension(w + i.left + i.right, h + i.top + i.bottom);
     }
 
@@ -134,7 +131,6 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
     public void layoutContainer(Container parent) {
         Dimension ps = preferredLayoutSize(parent);
         Insets insets = parent.getInsets();
-
         int w = ps.width - insets.left - insets.right;
         int h = ps.height - insets.top - insets.bottom;
         int x = insets.left;

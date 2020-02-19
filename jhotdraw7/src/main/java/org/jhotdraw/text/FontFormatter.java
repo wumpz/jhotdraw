@@ -1,21 +1,18 @@
 /*
  * @(#)FontFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
-
-
 import java.awt.Font;
 import java.text.ParseException;
 import java.util.HashMap;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-
 /**
  * {@code FontFormatter} is used to format fonts into a textual representation
  * which can be edited in an entry field.
@@ -26,7 +23,6 @@ import javax.swing.text.DefaultFormatterFactory;
  */
 public class FontFormatter extends DefaultFormatter {
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies whether the formatter allows null values.
      */
@@ -42,15 +38,12 @@ public class FontFormatter extends DefaultFormatter {
      * http://www.w3.org/TR/CSS2/fonts.html#generic-font-families</a>.
      */
     private HashMap<String, Font> genericFontFamilies = new HashMap<String, Font>();
-
     public FontFormatter() {
         this(true);
     }
-
     public FontFormatter(boolean allowsNullValue) {
         this.allowsNullValue = allowsNullValue;
         setOverwriteMode(false);
-
         // Map of HTML generic font families.
         // @see http://www.w3.org/TR/CSS2/fonts.html#generic-font-families
         putGenericFontFamily("serif", new Font("Serif", Font.PLAIN, 12));
@@ -59,7 +52,6 @@ public class FontFormatter extends DefaultFormatter {
         putGenericFontFamily("fantasy", new Font("Serif", Font.PLAIN, 12));
         putGenericFontFamily("monospace", new Font("Monospaced", Font.PLAIN, 12));
     }
-
     /**
      * Sets whether a null value is allowed.
      * @param newValue
@@ -67,14 +59,12 @@ public class FontFormatter extends DefaultFormatter {
     public void setAllowsNullValue(boolean newValue) {
         allowsNullValue = newValue;
     }
-
     /**
      * Returns true, if null value is allowed.
      */
     public boolean getAllowsNullValue() {
         return allowsNullValue;
     }
-
     /**
      * Sets whether unknown font names are allowed.
      * @param newValue
@@ -82,27 +72,22 @@ public class FontFormatter extends DefaultFormatter {
     public void setAllowsUnknownFont(boolean newValue) {
         allowsUnknownFont = newValue;
     }
-
     /**
      * Returns true, if unknown font names are allowed.
      */
     public boolean getAllowsUnknownFont() {
         return allowsUnknownFont;
     }
-
     /** Clears the generic font families map. */
     public void clearGenericFontFamilies() {
         genericFontFamilies = null;
     }
-
     /** Adds a generic font family. */
     public void putGenericFontFamily(String familyName, Font font) {
         genericFontFamilies.put(familyName.toLowerCase(), font);
     }
-
     @Override
     public Object stringToValue(String str) throws ParseException {
-
         // Handle null and empty case
         if (str == null || str.trim().length() == 0) {
             if (allowsNullValue) {
@@ -112,7 +97,6 @@ public class FontFormatter extends DefaultFormatter {
             }
         }
         String strLC = str.trim().toLowerCase();
-
         Font f = null;
         f = genericFontFamilies.get(strLC);
         if (f == null) {
@@ -132,11 +116,9 @@ public class FontFormatter extends DefaultFormatter {
         }
         return f;
     }
-
     @Override
     public String valueToString(Object value) throws ParseException {
         String str = null;
-
         if (value == null) {
             if (allowsNullValue) {
                 str = "";
@@ -147,14 +129,11 @@ public class FontFormatter extends DefaultFormatter {
             if (!(value instanceof Font)) {
                 throw new ParseException("Value is not a font " + value, 0);
             }
-
             Font f = (Font) value;
             str = f.getFontName();
-
         }
         return str;
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * {@code FontFormatter}.
@@ -163,7 +142,6 @@ public class FontFormatter extends DefaultFormatter {
     public static AbstractFormatterFactory createFormatterFactory() {
         return createFormatterFactory(false);
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * 8@code FontFormatter}.

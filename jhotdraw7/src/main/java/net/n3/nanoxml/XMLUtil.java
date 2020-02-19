@@ -26,11 +26,9 @@
  *  3. This notice may not be removed or altered from any source distribution.
  */
 package net.n3.nanoxml;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.CharArrayReader;
-
 /**
  * Utility methods for NanoXML.
  *
@@ -38,7 +36,6 @@ import java.io.CharArrayReader;
  * @version $Name: RELEASE_2_2_1 $, $Revision: 1.5 $
  */
 class XMLUtil {
-
     /**
      * Skips the remainder of a comment. It is assumed that &lt;!- is already
      * read.
@@ -55,17 +52,13 @@ class XMLUtil {
                     reader.getLineNr(),
                     "<!--");
         }
-
         int dashesRead = 0;
-
         for (;;) {
             char ch = reader.read();
-
             switch (ch) {
                 case '-':
                     dashesRead++;
                     break;
-
                 case '>':
                     if (dashesRead == 2) {
                         return;
@@ -77,7 +70,6 @@ class XMLUtil {
             }
         }
     }
-
     /**
      * Skips the remainder of the current XML tag.
      *
@@ -89,22 +81,18 @@ class XMLUtil {
             throws IOException,
             XMLParseException {
         int level = 1;
-
         while (level > 0) {
             char ch = reader.read();
-
             switch (ch) {
                 case '<':
                     ++level;
                     break;
-
                 case '>':
                     --level;
                     break;
             }
         }
     }
-
     /**
      * Scans a public ID.
      *
@@ -122,13 +110,11 @@ class XMLUtil {
         if (!XMLUtil.checkLiteral(reader, "UBLIC")) {
             return null;
         }
-
         XMLUtil.skipWhitespace(reader, null);
         publicID.append(XMLUtil.scanString(reader, '\0', null));
         XMLUtil.skipWhitespace(reader, null);
         return XMLUtil.scanString(reader, '\0', null);
     }
-
     /**
      * Scans a system ID.
      *
@@ -144,11 +130,9 @@ class XMLUtil {
         if (!XMLUtil.checkLiteral(reader, "YSTEM")) {
             return null;
         }
-
         XMLUtil.skipWhitespace(reader, null);
         return XMLUtil.scanString(reader, '\0', null);
     }
-
     /**
      * Retrieves an identifier from the data.
      *
@@ -160,10 +144,8 @@ class XMLUtil {
             throws IOException,
             XMLParseException {
         StringBuffer result = new StringBuffer();
-
         for (;;) {
             char ch = reader.read();
-
             if ((ch == '_') || (ch == ':') || (ch == '-') || (ch == '.')
                     || ((ch >= 'a') && (ch <= 'z'))
                     || ((ch >= 'A') && (ch <= 'Z'))
@@ -174,10 +156,8 @@ class XMLUtil {
                 break;
             }
         }
-
         return result.toString();
     }
-
     /**
      * Retrieves a delimited string from the data.
      *
@@ -195,17 +175,14 @@ class XMLUtil {
         StringBuffer result = new StringBuffer();
         int startingLevel = reader.getStreamLevel();
         char delim = reader.read();
-
         if ((delim != '\'') && (delim != '"')) {
             XMLUtil.errorExpectedInput(reader.getSystemID(),
                     reader.getLineNr(),
                     "delimited string");
         }
-
         for (;;) {
             String str = XMLUtil.read(reader, entityChar);
             char ch = str.charAt(0);
-
             if (ch == entityChar) {
                 if (str.charAt(1) == '#') {
                     result.append(XMLUtil.processCharLiteral(str));
@@ -232,10 +209,8 @@ class XMLUtil {
                 result.append(ch);
             }
         }
-
         return result.toString();
     }
-
     /**
      * Processes an entity.
      *
@@ -252,17 +227,14 @@ class XMLUtil {
             XMLParseException {
         entity = entity.substring(1, entity.length() - 1);
         Reader entityReader = entityResolver.getEntity(reader, entity);
-
         if (entityReader == null) {
             XMLUtil.errorInvalidEntity(reader.getSystemID(),
                     reader.getLineNr(),
                     entity);
         }
-
         boolean externalEntity = entityResolver.isExternalEntity(entity);
         reader.startNewStream(entityReader, !externalEntity);
     }
-
     /**
      * Processes a character literal.
      *
@@ -281,7 +253,6 @@ class XMLUtil {
             return (char) Integer.parseInt(entity, 10);
         }
     }
-
     /**
      * Skips whitespace from the reader.
      *
@@ -295,7 +266,6 @@ class XMLUtil {
             StringBuffer buffer)
             throws IOException {
         char ch;
-
         if (buffer == null) {
             do {
                 ch = reader.read();
@@ -303,11 +273,9 @@ class XMLUtil {
         } else {
             for (;;) {
                 ch = reader.read();
-
                 if ((ch != ' ') && (ch != '\t') && (ch != '\n')) {
                     break;
                 }
-
                 if (ch == '\n') {
                     buffer.append('\n');
                 } else {
@@ -315,10 +283,8 @@ class XMLUtil {
                 }
             }
         }
-
         reader.unread(ch);
     }
-
     /**
      * Reads a character from the reader.
      *
@@ -337,17 +303,14 @@ class XMLUtil {
         char ch = reader.read();
         StringBuffer buf = new StringBuffer();
         buf.append(ch);
-
         if (ch == entityChar) {
             while (ch != ';') {
                 ch = reader.read();
                 buf.append(ch);
             }
         }
-
         return buf.toString();
     }
-
     /**
      * Reads a character from the reader disallowing entities.
      *
@@ -361,16 +324,13 @@ class XMLUtil {
             XMLParseException {
         String str = XMLUtil.read(reader, entityChar);
         char ch = str.charAt(0);
-
         if (ch == entityChar) {
             XMLUtil.errorUnexpectedEntity(reader.getSystemID(),
                     reader.getLineNr(),
                     str);
         }
-
         return ch;
     }
-
     /**
      * Returns true if the data starts with <I>literal</I>. Enough chars are
      * read to determine this result.
@@ -389,10 +349,8 @@ class XMLUtil {
                 return false;
             }
         }
-
         return true;
     }
-
     /**
      * Throws an XMLParseException to indicate that an expected string is not
      * encountered.
@@ -408,7 +366,6 @@ class XMLUtil {
         throw new XMLParseException(systemID, lineNr,
                 "Expected: " + expectedString);
     }
-
     /**
      * Throws an XMLParseException to indicate that an entity could not be
      * resolved.
@@ -424,7 +381,6 @@ class XMLUtil {
         throw new XMLParseException(systemID, lineNr,
                 "Invalid entity: `&" + entity + ";'");
     }
-
     /**
      * Throws an XMLParseException to indicate that an entity reference is
      * unexpected at this point.
@@ -441,7 +397,6 @@ class XMLUtil {
                 "No entity reference is expected here ("
                 + entity + ")");
     }
-
     /**
      * Throws an XMLParseException to indicate that a CDATA section is
      * unexpected at this point.
@@ -455,7 +410,6 @@ class XMLUtil {
         throw new XMLParseException(systemID, lineNr,
                 "No CDATA section is expected here");
     }
-
     /**
      * Throws an XMLParseException to indicate that a string is not expected at
      * this point.
@@ -471,7 +425,6 @@ class XMLUtil {
         throw new XMLParseException(systemID, lineNr,
                 "Invalid input: " + unexpectedString);
     }
-
     /**
      * Throws an XMLParseException to indicate that the closing tag of an
      * element does not match the opening tag.
@@ -491,7 +444,6 @@ class XMLUtil {
                 + wrongName + "' != `" + expectedName
                 + "'");
     }
-
     /**
      * Throws an XMLParseException to indicate that extra data is encountered in
      * a closing tag.
@@ -505,7 +457,6 @@ class XMLUtil {
         throw new XMLParseException(systemID, lineNr,
                 "Closing tag must be empty");
     }
-
     /**
      * Throws an XMLValidationException to indicate that an element is missing.
      *
@@ -532,7 +483,6 @@ class XMLUtil {
                 "Element " + parentElementName
                 + " expects to have a " + missingElementName);
     }
-
     /**
      * Throws an XMLValidationException to indicate that an element is
      * unexpected.
@@ -560,7 +510,6 @@ class XMLUtil {
                 "Unexpected " + unexpectedElementName + " in a "
                 + parentElementName);
     }
-
     /**
      * Throws an XMLValidationException to indicate that an attribute is
      * missing.
@@ -586,7 +535,6 @@ class XMLUtil {
                 "Element " + elementName + " expects an attribute named "
                 + attributeName);
     }
-
     /**
      * Throws an XMLValidationException to indicate that an attribute is
      * unexpected.
@@ -612,7 +560,6 @@ class XMLUtil {
                 "Element " + elementName + " did not expect an attribute "
                 + "named " + attributeName);
     }
-
     /**
      * Throws an XMLValidationException to indicate that an attribute has an
      * invalid value.
@@ -637,7 +584,6 @@ class XMLUtil {
                 attributeValue,
                 "Invalid value for attribute " + attributeName);
     }
-
     /**
      * Throws an XMLValidationException to indicate that a #PCDATA element was
      * missing.
@@ -664,7 +610,6 @@ class XMLUtil {
                  */ null,
                 "Missing #PCDATA in element " + parentElementName);
     }
-
     /**
      * Throws an XMLValidationException to indicate that a #PCDATA element was
      * unexpected.
@@ -691,7 +636,6 @@ class XMLUtil {
                  */ null,
                 "Unexpected #PCDATA in element " + parentElementName);
     }
-
     /**
      * Throws an XMLValidationException.
      *

@@ -2,14 +2,11 @@
  * @(#)GenericListener.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.event;
-
-
 import java.lang.reflect.*;
-
 /**
  * The GenericListener creates anonymous listener classes at runtime.
  * <p>
@@ -60,7 +57,6 @@ import java.lang.reflect.*;
  * @version $Id$
  */
 public abstract class GenericListener {
-
     /**
      * A convenient version of <code>create(listenerMethod, targetObject, targetMethod)</code>.
      * This version looks up the listener and target Methods, so you don't have to.
@@ -71,24 +67,19 @@ public abstract class GenericListener {
             Object target,
             String targetMethodName) {
         Method listenerMethod = getListenerMethod(listenerInterface, listenerMethodName);
-
         // Search a target method with the same parameter types as the listener method.
         Method targetMethod =
                 getTargetMethod(target, targetMethodName, listenerMethod.getParameterTypes());
-
         // Nothing found? Search a target method with no parameters
         if (targetMethod == null) {
             targetMethod = getTargetMethod(target, targetMethodName, new Class<?>[0]);
         }
-
         // Still nothing found? We give up.
         if (targetMethod == null) {
             throw new RuntimeException("no such method " + targetMethodName + " in " + target.getClass());
         }
-
         return create(listenerMethod, target, targetMethod);
     }
-
     /**
      * Return an instance of a class that implements the interface that contains
      * the declaration for <code>listenerMethod</code>.  In this new class,
@@ -107,10 +98,8 @@ public abstract class GenericListener {
          * method to handle the invoking the targetMethod on the target.
          */
         InvocationHandler handler = new DefaultInvoker() {
-
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
                 // Send all methods except for the targetMethod to
                 // the superclass for handling.
                 if (listenerMethod.equals(method)) {
@@ -127,18 +116,15 @@ public abstract class GenericListener {
                 }
             }
         };
-
         Class<?> cls = listenerMethod.getDeclaringClass();
         ClassLoader cl = cls.getClassLoader();
         return Proxy.newProxyInstance(cl, new Class<?>[]{cls}, handler);
     }
-
     /**
      * Implementation of the InvocationHandler which handles the basic
      * object methods.
      */
     private static class DefaultInvoker implements InvocationHandler {
-
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             if (method.getDeclaringClass() == Object.class) {
@@ -151,28 +137,22 @@ public abstract class GenericListener {
                     return proxyToString(proxy);
                 }
             }
-
             // Although listener methods are supposed to be void, we
             // allow for any return type here and produce null/0/false
             // as appropriate.
             return nullValueOf(method.getReturnType());
         }
-
         protected Integer proxyHashCode(Object proxy) {
             return System.identityHashCode(proxy);
         }
-
         protected Boolean proxyEquals(Object proxy, Object other) {
             return (proxy == other ? Boolean.TRUE : Boolean.FALSE);
         }
-
         protected String proxyToString(Object proxy) {
             return proxy.getClass().getName() + '@' + Integer.toHexString(proxy.hashCode());
         }
         private static final Character char_0 = (char) 0;
         private static final Byte byte_0 = (byte) 0;
-
-        
         private static final Object nullValueOf(Class<?> rt) {
             if (!rt.isPrimitive()) {
                 return null;
@@ -188,7 +168,6 @@ public abstract class GenericListener {
             }
         }
     }
-
     /* Helper methods for "EZ" version of create(): */
     private static Method getListenerMethod(Class<?> listenerInterface,
             String listenerMethodName) {
@@ -208,9 +187,7 @@ public abstract class GenericListener {
         }
         return result;
     }
-
     @SuppressWarnings("unchecked")
-    
     private static Method getTargetMethod(Object target,
             String targetMethodName,
             Class<?>[] parameterTypes) {
@@ -242,16 +219,12 @@ public abstract class GenericListener {
         if (result == null) {
             return null;
         }
-
         Method publicResult = raiseToPublicClass(result);
         if (publicResult != null) {
             result = publicResult;
         }
-
         return result;
     }
-
-    
     private static Method raiseToPublicClass(Method m) {
         Class<?> c = m.getDeclaringClass();
         if (Modifier.isPublic(m.getModifiers())
@@ -275,9 +248,7 @@ public abstract class GenericListener {
         // no public version of m here
         return null;
     }
-
     @SuppressWarnings("unchecked")
-    
     private static Method raiseToPublicClass(Method m, Class<?> c) {
         try {
             Method sm = c.getMethod(m.getName(), m.getParameterTypes());
@@ -286,7 +257,6 @@ public abstract class GenericListener {
             return null;
         }
     }
-
     private GenericListener() {
     }
 }

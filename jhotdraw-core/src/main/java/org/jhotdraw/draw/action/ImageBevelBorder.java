@@ -2,7 +2,7 @@
  * @(#)ImageBevelBorder.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -37,7 +37,6 @@ public class ImageBevelBorder implements Border {
      * The image to be used for drawing.
      */
     private BufferedImage image;
-
     /**
      * The border insets
      */
@@ -46,7 +45,6 @@ public class ImageBevelBorder implements Border {
      * The insets of the image.
      */
     private Insets imageInsets;
-
     /**
      * This attribute is set to true, when the image
      * is used to fill the content area too.
@@ -84,6 +82,7 @@ public class ImageBevelBorder implements Border {
             try {
                 t.waitForAll();
             } catch (InterruptedException e) {
+                // allow empty
             }
             image = new BufferedImage(img.getWidth(f), img.getHeight(f), BufferedImage.TYPE_INT_ARGB);
             Graphics2D imgGraphics = image.createGraphics();
@@ -131,10 +130,8 @@ public class ImageBevelBorder implements Border {
         if (image == null) {
             return;
         }
-
         // Cast Graphics to Graphics2D
         Graphics2D g = (Graphics2D) gr;
-
         // Set some variables for easy access of insets and image size
         int top = imageInsets.top;
         int left = imageInsets.left;
@@ -142,7 +139,6 @@ public class ImageBevelBorder implements Border {
         int right = imageInsets.right;
         int imgWidth = image.getWidth();
         int imgHeight = image.getHeight();
-
         // Optimisation: Draw image directly if it fits into the component
         if (fillContentArea) {
             if (width == imgWidth && height == imgHeight) {
@@ -150,7 +146,6 @@ public class ImageBevelBorder implements Border {
                 return;
             }
         }
-
         // Optimisation: Remove insets, if image width or image height fits
         if (width == imgWidth) {
             left = imgWidth;
@@ -160,7 +155,6 @@ public class ImageBevelBorder implements Border {
             top = imgHeight;
             bottom = 0;
         }
-
         // Adjust insets if component is too small
         if (width < left + right) {
             left = Math.min(left, width / 2); //Math.max(0, left + (width - left - right) / 2);
@@ -170,7 +164,6 @@ public class ImageBevelBorder implements Border {
             top = Math.min(top, height / 2); //Math.max(0, top + (height - top - bottom) / 2);
             bottom = height - top;
         }
-
         // Draw the Leads
         if (top > 0 && left > 0) {
             g.drawImage(
@@ -205,11 +198,9 @@ public class ImageBevelBorder implements Border {
                     c
             );
         }
-
         // Draw the edges
         BufferedImage subImg = null;
         TexturePaint paint;
-
         // North
         if (top > 0 && left + right < width) {
             subImg = image.getSubimage(left, 0, imgWidth - right - left, top);
@@ -238,7 +229,6 @@ public class ImageBevelBorder implements Border {
             g.setPaint(paint);
             g.fillRect(x + width - right, y + top, right, height - top - bottom);
         }
-
         // Fill the center
         if (fillContentArea) {
             g.setColor(Color.yellow);

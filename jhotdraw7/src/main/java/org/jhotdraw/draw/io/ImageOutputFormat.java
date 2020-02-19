@@ -2,12 +2,10 @@
  * @(#)ImageOutputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
-
-
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import java.awt.*;
@@ -20,7 +18,6 @@ import javax.imageio.*;
 import javax.swing.*;
 import org.jhotdraw.gui.datatransfer.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * An output format for exporting drawings using one of the image formats
  * supported by javax.imageio.
@@ -29,7 +26,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class ImageOutputFormat implements OutputFormat {
-
     /**
      * Format description used for the file filter.
      */
@@ -47,12 +43,10 @@ public class ImageOutputFormat implements OutputFormat {
      * BufferedImage.TYPE_INT_ARGB whereas GIF needs BufferedImage.TYPE_
      */
     private int imageType;
-
     /** Creates a new image output format for Portable Network Graphics PNG. */
     public ImageOutputFormat() {
         this("PNG", "Portable Network Graphics (PNG)", "png", BufferedImage.TYPE_INT_ARGB);
     }
-
     /** Creates a new image output format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
@@ -68,22 +62,18 @@ public class ImageOutputFormat implements OutputFormat {
         this.fileExtension = fileExtension;
         this.imageType = bufferedImageType;
     }
-
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
-
     @Override
     public String getFileExtension() {
         return fileExtension;
     }
-
     @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
-
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri),drawing);
@@ -101,7 +91,6 @@ public class ImageOutputFormat implements OutputFormat {
             out.close();
         }
     }
-
     /**
      * Writes the drawing to the specified output stream.
      * This method ensures that all figures of the drawing are visible on
@@ -111,7 +100,6 @@ public class ImageOutputFormat implements OutputFormat {
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing, drawing.getChildren(), null, null);
     }
-
     /**
      * Writes the drawing to the specified output stream.
      * This method applies the specified transform to the drawing, and draws
@@ -121,7 +109,6 @@ public class ImageOutputFormat implements OutputFormat {
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         write(out, drawing, drawing.getChildren(), drawingTransform, imageSize);
     }
-
     /**
      * Writes the drawing to the specified output stream.
      * This method ensures that all figures of the drawing are visible on
@@ -131,7 +118,6 @@ public class ImageOutputFormat implements OutputFormat {
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         return new ImageTransferable(toImage(drawing, figures, scaleFactor, true));
     }
-
     /**
      * Writes the figures to the specified output stream.
      * This method ensures that all figures of the drawing are visible on
@@ -140,7 +126,6 @@ public class ImageOutputFormat implements OutputFormat {
     public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures) throws IOException {
         write(out, drawing, figures, null, null);
     }
-
     /**
      * Writes the figures to the specified output stream.
      * This method applies the specified transform to the drawing, and draws
@@ -157,7 +142,6 @@ public class ImageOutputFormat implements OutputFormat {
         ImageIO.write(img, formatName, out);
         img.flush();
     }
-
     /**
      * Creates a BufferedImage from the specified list of figures.
      * <p>
@@ -170,17 +154,15 @@ public class ImageOutputFormat implements OutputFormat {
      * @param figures A list of figures of the drawing.
      * @param scaleFactor The scale factor used when drawing the figures.
      * @param clipToFigures If this is true, the image is clipped to the figures.
-     * If this is false, the image includes the drawing area,  
+     * If this is false, the image includes the drawing area,
      */
     public BufferedImage toImage(Drawing drawing,
             java.util.List<Figure> figures,
             double scaleFactor, boolean clipToFigures) {
-
         // Return a transparent 1-pixel image if the drawing is empty.
         if (drawing.getChildCount()==0) {
             return new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
         }
-
         // Determine the draw bounds of the figures
         Rectangle2D.Double drawBounds = null;
         for (Figure f : figures) {
@@ -190,7 +172,6 @@ public class ImageOutputFormat implements OutputFormat {
                 drawBounds.add(f.getDrawingArea());
             }
         }
-
         if (clipToFigures) {
             AffineTransform transform = new AffineTransform();
             transform.translate(-drawBounds.x * scaleFactor,
@@ -201,7 +182,6 @@ public class ImageOutputFormat implements OutputFormat {
                     (int) (drawBounds.width * scaleFactor),
                     (int) (drawBounds.height * scaleFactor)));
         } else {
-
             AffineTransform transform = new AffineTransform();
             if (drawBounds.x < 0) {
                 transform.translate(-drawBounds.x * scaleFactor, 0);
@@ -210,14 +190,12 @@ public class ImageOutputFormat implements OutputFormat {
                 transform.translate(0, -drawBounds.y * scaleFactor);
             }
             transform.scale(scaleFactor, scaleFactor);
-
             return toImage(drawing, figures, transform,
                     new Dimension(
                     (int) ((Math.max(0, drawBounds.x) + drawBounds.width) * scaleFactor),
                     (int) ((Math.max(0, drawBounds.y) + drawBounds.height) * scaleFactor)));
         }
     }
-
     /**
      * Creates a BufferedImage from the specified list of figures.
      *
@@ -232,7 +210,6 @@ public class ImageOutputFormat implements OutputFormat {
             java.util.List<Figure> figures,
             AffineTransform transform,
             Dimension imageSize) {
-
         // Create the buffered image and clear it
         Color background = drawing.get(CANVAS_FILL_COLOR);
         double opacity = drawing.get(CANVAS_FILL_OPACITY);
@@ -241,19 +218,16 @@ public class ImageOutputFormat implements OutputFormat {
         } else {
             background = new Color(background.getRed(), background.getGreen(), background.getBlue(), (int) (background.getAlpha() * opacity));
         }
-
         BufferedImage buf = new BufferedImage(
                 Math.max(1, imageSize.width), Math.max(1, imageSize.height),
                 (background.getAlpha() == 255) ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = buf.createGraphics();
-
         // Clear the buffered image with the background color
         Composite savedComposite = g.getComposite();
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
         g.setColor(background);
         g.fillRect(0, 0, buf.getWidth(), buf.getHeight());
         g.setComposite(savedComposite);
-
         // Draw the figures onto the buffered image
         setRenderingHints(g);
         g.transform(transform);
@@ -261,7 +235,6 @@ public class ImageOutputFormat implements OutputFormat {
             f.draw(g);
         }
         g.dispose();
-
         // Convert the image, if it does not have the specified image type
         if (imageType != BufferedImage.TYPE_INT_ARGB) {
             BufferedImage buf2 = new BufferedImage(
@@ -275,10 +248,8 @@ public class ImageOutputFormat implements OutputFormat {
             buf.flush();
             buf = buf2;
         }
-
         return buf;
     }
-
     protected void setRenderingHints(Graphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
                 RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);

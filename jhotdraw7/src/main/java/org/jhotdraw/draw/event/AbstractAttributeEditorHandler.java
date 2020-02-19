@@ -1,14 +1,12 @@
 /*
  * @(#)AbstractAttributeEditorHandler.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
-
-
 import org.jhotdraw.gui.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -27,7 +25,6 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.Figure;
-
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the
  * currently selected Figure's in a DrawingEditor.
@@ -47,7 +44,6 @@ import org.jhotdraw.draw.Figure;
  * @version $Id$
  */
 public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
-
     protected DrawingEditor editor;
     protected DrawingView view;
     protected DrawingView activeView;
@@ -56,7 +52,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected int updateDepth;
     protected LinkedList<Object> attributeRestoreData = new LinkedList<Object>();
     protected Map<AttributeKey<?>, Object> defaultAttributes;
-    
     /**
      * If this variable is put to true, the attribute editor updates the
      * default values of the drawing editor.
@@ -67,9 +62,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
      * and as PropertyChangeListener.
      */
     private Set<Figure> figuresOfInterest;
-
     protected class EventHandler extends FigureAdapter implements FigureSelectionListener, PropertyChangeListener {
-
         @Override
         public void selectionChanged(FigureSelectionEvent evt) {
             attributeRestoreData = null;
@@ -84,7 +77,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             }
             updateAttributeEditor();
         }
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Object src = evt.getSource();
@@ -101,7 +93,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 updateFigures();
             }
         }
-
         @Override
         public void attributeChanged(FigureEvent e) {
             if (e.getAttribute() == attributeKey) {
@@ -110,27 +101,22 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         }
     }
     private EventHandler eventHandler;
-
     private static class UndoableAttributeEdit<T> extends AbstractUndoableEdit {
     private static final long serialVersionUID = 1L;
-
         private Set<Figure> editedFigures;
         private AttributeKey<T> attributeKey;
         private T editRedoValue;
         protected LinkedList<Object> editUndoData;
-
         public UndoableAttributeEdit(Set<Figure> editedFigures, AttributeKey<T> attributeKey, T editRedoValue, LinkedList<Object> editUndoData) {
             this.editedFigures = editedFigures;
             this.attributeKey = attributeKey;
             this.editRedoValue = editRedoValue;
             this.editUndoData = editUndoData;
         }
-
         @Override
         public String getPresentationName() {
             return attributeKey.getPresentationName();
         }
-
         @Override
         public void undo() throws CannotRedoException {
             super.undo();
@@ -141,7 +127,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 f.changed();
             }
         }
-
         @Override
         public void redo() throws CannotRedoException {
             super.redo();
@@ -149,7 +134,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 f.set(attributeKey, editRedoValue);
             }
         }
-
         @Override
         public boolean replaceEdit(UndoableEdit anEdit) {
             if (anEdit instanceof UndoableAttributeEdit) {
@@ -158,15 +142,12 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             return false;
         }
     }
-
     public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
         this(key, attributeEditor, drawingEditor, true);
     }
-
     public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         this(key, null, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
     }
-
     @SuppressWarnings("unchecked")
     public AbstractAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey<?>, Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         eventHandler = new EventHandler();
@@ -177,7 +158,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         setEditor(drawingEditor);
         isUpdateDrawingEditorDefaults = updateDrawingEditorDefaults;
     }
-
     /**
      * Attaches the FigureAttributeEditorHandler to the specified DrawingEditor.
      * <p>
@@ -198,7 +178,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         }
         updateActiveView();
     }
-
     /**
      * Returns the DrawingEditor to which this FigureAttributeEditorHandler is
      * attached.
@@ -206,7 +185,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     public DrawingEditor getEditor() {
         return editor;
     }
-
     /**
      * Attaches the FigureAttributeEditorHandler to the specified DrawingView.
      * <p>
@@ -220,7 +198,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         this.view = newValue;
         updateActiveView();
     }
-
     /**
      * Returns the DrawingView to which this FigureAttributeEditorHandler is
      * attached. Returns null, if the FigureAttributeEditorHandler is attached
@@ -229,17 +206,15 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     public DrawingView getView() {
         return view;
     }
-
     /**
      * Set this to true if you want the attribute editor to update the
      * default values of the drawing editor.
-     * 
+     *
      * @param newValue
      */
     public void setUpdateDrawingEditorDefaults(boolean newValue) {
         isUpdateDrawingEditorDefaults = newValue;
     }
-
     /**
      * Returns true if the attribute editor updates the
      * default values of the drawing editor.
@@ -247,7 +222,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     public boolean isUpdateDrawingEditorDefaults() {
         return isUpdateDrawingEditorDefaults;
     }
-
     protected DrawingView getActiveView() {
         if (getView() != null) {
             return getView();
@@ -255,7 +229,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             return editor.getActiveView();
         }
     }
-
     /**
      * Attaches the FigureAttributeEditorHandler to the specified AttributeEditor.
      */
@@ -268,27 +241,23 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             attributeEditor.addPropertyChangeListener(eventHandler);
         }
     }
-
     /**
      * Returns the AttributeEditor to which this FigureAttributeEditorHandler is
-     * attached. 
+     * attached.
      */
     public AttributeEditor<T> getAttributeEditor() {
         return attributeEditor;
     }
-
     public AttributeKey<T> getAttributeKey() {
         return attributeKey;
     }
-
     public void setAttributeKey(AttributeKey<T> newValue) {
         attributeKey = newValue;
     }
-
     protected void updateActiveView() {
-        DrawingView newValue = (view != null) ? 
-                view : 
-                ((editor != null && editor.getActiveView() != null) ? 
+        DrawingView newValue = (view != null) ?
+                view :
+                ((editor != null && editor.getActiveView() != null) ?
                 editor.getActiveView() : null);
         DrawingView oldValue = activeView;
         if (activeView != null) {
@@ -312,9 +281,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         attributeRestoreData = null;
         updateAttributeEditor();
     }
-
     protected abstract Set<Figure> getEditedFigures();
-
     protected void updateAttributeEditor() {
         if (updateDepth++ == 0) {
             Set<Figure> figures = getEditedFigures();
@@ -331,7 +298,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 boolean isMultiple = false;
                 for (Figure f : figures) {
                     T v = f.get(attributeKey);
-                    if ((v == null || value == null) && v != value || 
+                    if ((v == null || value == null) && v != value ||
                             v != null && value != null && !v.equals(value)) {
                         isMultiple = true;
                         break;
@@ -343,7 +310,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         }
         updateDepth--;
     }
-
     @SuppressWarnings("unchecked")
     protected void updateFigures() {
         if (updateDepth++ == 0) {
@@ -378,7 +344,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         }
         updateDepth--;
     }
-
     @Override
     public void dispose() {
         setEditor(null);

@@ -2,7 +2,7 @@
  * @(#)ImageTransferable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.datatransfer;
@@ -22,7 +22,6 @@ import org.jhotdraw.util.Images;
 public class ImageTransferable implements Transferable {
 
     private Image image;
-
     public static final DataFlavor IMAGE_PNG_FLAVOR;
 
     static {
@@ -59,7 +58,6 @@ public class ImageTransferable implements Transferable {
             ByteArrayOutputStream buf = new ByteArrayOutputStream();
             ImageIO.write(Images.toBufferedImage(image), "PNG", buf);
             return new ByteArrayInputStream(buf.toByteArray());
-
         } else {
             throw new UnsupportedFlavorException(flavor);
         }
@@ -69,5 +67,4 @@ public class ImageTransferable implements Transferable {
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[]{DataFlavor.imageFlavor, IMAGE_PNG_FLAVOR};
     }
-
 }

@@ -2,12 +2,10 @@
  * @(#)SVGAttributedFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg.figures;
-
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
@@ -26,11 +24,9 @@ import org.jhotdraw.util.*;
  */
 public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
     private static final long serialVersionUID = 1L;
-    
     /** Creates a new instance. */
     public SVGAttributedFigure() {
     }
-    
     @Override
     public void draw(Graphics2D g)  {
         double opacity = get(OPACITY);
@@ -38,14 +34,11 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-                
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-                
                 if (! drawingArea.isEmpty()) {
-                    
                     BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
@@ -67,7 +60,6 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             }
         }
     }
-    
     /**
      * This method is invoked before the rendered image of the figure is
      * composited.
@@ -78,7 +70,6 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             savedTransform = g.getTransform();
             g.transform(get(TRANSFORM));
         }
-        
         Paint paint = SVGAttributeKeys.getFillPaint(this);
         if (paint != null) {
             g.setPaint(paint);

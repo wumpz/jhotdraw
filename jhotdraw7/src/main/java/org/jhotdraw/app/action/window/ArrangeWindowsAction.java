@@ -2,17 +2,14 @@
  * @(#)ArrangeWindowsAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.window;
-
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-
 /**
  * Changes the arrangement of an {@link Arrangeable} object.
  * <p>
@@ -32,7 +29,6 @@ public class ArrangeWindowsAction extends AbstractAction {
     public static final String CASCADE_ID = "window.arrangeCascade";
     private Arrangeable arrangeable;
     private Arrangeable.Arrangement arrangement;
-    
     /** Creates a new instance. */
     public ArrangeWindowsAction(Arrangeable arrangeable, Arrangeable.Arrangement arrangement) {
         this.arrangeable = arrangeable;
@@ -48,7 +44,6 @@ public class ArrangeWindowsAction extends AbstractAction {
         }
         labels.configureAction(this, labelID);
     }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
             arrangeable.setArrangement(arrangement);

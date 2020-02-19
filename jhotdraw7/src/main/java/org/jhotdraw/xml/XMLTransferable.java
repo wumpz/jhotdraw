@@ -2,17 +2,15 @@
  * XMLTransferable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.xml;
-
 import java.awt.datatransfer.*;
 import java.io.*;
 /**
  * XMLTransferable for transfering XML documents over the clipboard and with
- * drag and drop. 
+ * drag and drop.
  *
  * @author  Werner Randelshofer
  * @version $Id$
@@ -20,13 +18,11 @@ import java.io.*;
 public class XMLTransferable implements java.awt.datatransfer.Transferable, java.awt.datatransfer.ClipboardOwner {
     private byte[] data;
     private DataFlavor flavor;
-    
     /** Creates new XMLTransferable */
     public XMLTransferable(byte[] data, String mimeType, String humanPresentableName) {
         this.data = data;
         this.flavor = new DataFlavor(mimeType, humanPresentableName);
     }
-
     /**
      * Notifies this object that it is no longer the owner of
      * the contents of the clipboard.
@@ -35,9 +31,7 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
      */
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
-        
     }
-    
     /**
      * Returns an object which represents the data to be transferred.  The class
      * of the object returned is defined by the representation class of the flavor.
@@ -57,7 +51,6 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
             throw new UnsupportedFlavorException(flavor);
         }
     }
-    
     /**
      * Returns an array of DataFlavor objects indicating the flavors the data
      * can be provided in.  The array should be ordered according to preference
@@ -68,7 +61,6 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[] {flavor};
     }
-    
     /**
      * Returns whether or not the specified data flavor is supported for
      * this object.
@@ -79,5 +71,4 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return this.flavor.equals(flavor);
     }
-
 }

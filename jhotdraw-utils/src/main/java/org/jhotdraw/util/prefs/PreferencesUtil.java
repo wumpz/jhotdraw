@@ -2,7 +2,7 @@
  * @(#)PreferencesUtil.java
  *
  * Copyright (c) 2005-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.util.prefs;
@@ -174,37 +174,30 @@ public class PreferencesUtil
 
     @Override
     public void sync() throws BackingStoreException {
-        
     }
 
     @Override
     public void addPreferenceChangeListener(PreferenceChangeListener pcl) {
-        
     }
 
     @Override
     public void removePreferenceChangeListener(PreferenceChangeListener pcl) {
-        
     }
 
     @Override
     public void addNodeChangeListener(NodeChangeListener ncl) {
-        
     }
 
     @Override
     public void removeNodeChangeListener(NodeChangeListener ncl) {
-        
     }
 
     @Override
     public void exportNode(OutputStream os) throws IOException, BackingStoreException {
-        
     }
 
     @Override
     public void exportSubtree(OutputStream os) throws IOException, BackingStoreException {
-        
     }
 
     /**
@@ -220,7 +213,6 @@ public class PreferencesUtil
             }
             return systemNodes.get(c.getPackage());
         }
-
         try {
             return Preferences.systemNodeForPackage(c);
         } catch (Throwable t) {
@@ -244,7 +236,6 @@ public class PreferencesUtil
             }
             return userNodes.get(c.getPackage());
         }
-
         try {
             return Preferences.userNodeForPackage(c);
         } catch (Throwable t) {
@@ -300,14 +291,12 @@ public class PreferencesUtil
         GraphicsConfiguration conf = window.getGraphicsConfiguration();
         Rectangle screenBounds = conf.getBounds();
         Insets screenInsets = window.getToolkit().getScreenInsets(conf);
-
         screenBounds.x += screenInsets.left;
         screenBounds.y += screenInsets.top;
         screenBounds.width -= screenInsets.left + screenInsets.right;
         screenBounds.height -= screenInsets.top + screenInsets.bottom;
         window.pack();
         Dimension preferredSize = window.getPreferredSize();
-
         boolean resizable = true;
         if (window instanceof Frame) {
             resizable = ((Frame) window).isResizable();
@@ -333,10 +322,8 @@ public class PreferencesUtil
             Rectangle.intersect(screenBounds, bounds, bounds);
         }
         window.setBounds(bounds);
-
         window.addComponentListener(
                 new ComponentAdapter() {
-
             @Override
             public void componentMoved(ComponentEvent evt) {
                 prefs.putInt(name + ".x", evt.getComponent().getX());
@@ -349,7 +336,6 @@ public class PreferencesUtil
                 prefs.putInt(name + ".height", evt.getComponent().getHeight());
             }
         });
-
     }
 
     /**
@@ -371,28 +357,22 @@ public class PreferencesUtil
         GraphicsConfiguration conf = window.getGraphicsConfiguration();
         Rectangle screenBounds = conf.getBounds();
         Insets screenInsets = window.getToolkit().getScreenInsets(conf);
-
         screenBounds.x += screenInsets.left;
         screenBounds.y += screenInsets.top;
         screenBounds.width -= screenInsets.left + screenInsets.right;
         screenBounds.height -= screenInsets.top + screenInsets.bottom;
-
         Dimension preferredSize = window.getPreferredSize();
-
         Rectangle bounds = new Rectangle(
                 prefs.getInt(name + ".x", x + screenBounds.x),
                 prefs.getInt(name + ".y", 0 + screenBounds.y),
                 preferredSize.width,
                 preferredSize.height);
-
         if (!screenBounds.contains(bounds)) {
             bounds.x = screenBounds.x;
             bounds.y = screenBounds.y;
         }
         window.setBounds(bounds);
-
         window.addComponentListener(new ComponentAdapter() {
-
             @Override
             public void componentMoved(ComponentEvent evt) {
                 prefs.putInt(name + ".x", evt.getComponent().getX());
@@ -405,7 +385,6 @@ public class PreferencesUtil
             }*/
         });
         window.addWindowListener(new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 prefs.putBoolean(name + ".visible", false);
@@ -433,30 +412,24 @@ public class PreferencesUtil
         Rectangle screenBounds = desktop.getBounds();
         screenBounds.setLocation(0, 0);
         Insets screenInsets = desktop.getInsets();
-
         screenBounds.x += screenInsets.left;
         screenBounds.y += screenInsets.top;
         screenBounds.width -= screenInsets.left + screenInsets.right;
         screenBounds.height -= screenInsets.top + screenInsets.bottom;
-
         Dimension preferredSize = window.getPreferredSize();
         Dimension minSize = window.getMinimumSize();
-
         Rectangle bounds = new Rectangle(
                 prefs.getInt(name + ".x", 0),
                 prefs.getInt(name + ".y", 0),
                 Math.max(minSize.width, prefs.getInt(name + ".width", preferredSize.width)),
                 Math.max(minSize.height, prefs.getInt(name + ".height", preferredSize.height)));
-
         if (!screenBounds.contains(bounds)) {
             bounds.x = screenBounds.x + (screenBounds.width - bounds.width) / 2;
             bounds.y = screenBounds.y + (screenBounds.height - bounds.height) / 2;
             Rectangle.intersect(screenBounds, bounds, bounds);
         }
         window.setBounds(bounds);
-
         window.addComponentListener(new ComponentAdapter() {
-
             @Override
             public void componentMoved(ComponentEvent evt) {
                 prefs.putInt(name + ".x", evt.getComponent().getX());
@@ -469,7 +442,6 @@ public class PreferencesUtil
                 prefs.putInt(name + ".height", evt.getComponent().getHeight());
             }
         });
-
     }
 
     /**
@@ -501,7 +473,6 @@ public class PreferencesUtil
             // empty allowed
         }
         tabbedPane.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent e) {
                 prefs.putInt(name, tabbedPane.getSelectedIndex());

@@ -2,17 +2,14 @@
  * @(#)ODGAttributedFigure.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg.figures;
-
 import java.awt.event.*;
 import java.awt.image.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -27,11 +24,9 @@ import org.jhotdraw.util.*;
  */
 public abstract class ODGAttributedFigure extends AbstractAttributedFigure implements ODGFigure {
     private static final long serialVersionUID = 1L;
-    
     /** Creates a new instance. */
     public ODGAttributedFigure() {
     }
-    
     @Override
     public void draw(Graphics2D g)  {
         double opacity = get(OPACITY);
@@ -39,14 +34,11 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-                
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-                
                 if (! drawingArea.isEmpty()) {
-                    
                     BufferedImage buf = new BufferedImage(
                             (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
                             (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
@@ -68,7 +60,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             }
         }
     }
-    
     /**
      * This method is invoked before the rendered image of the figure is
      * composited.
@@ -79,7 +70,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             savedTransform = g.getTransform();
             g.transform(get(TRANSFORM));
         }
-        
         if (get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
             Paint paint = ODGAttributeKeys.getFillPaint(this);
             if (paint != null) {
@@ -87,7 +77,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
                 drawFill(g);
             }
         }
-        
         if (get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
             Paint paint = ODGAttributeKeys.getStrokePaint(this);
             if (paint != null) {

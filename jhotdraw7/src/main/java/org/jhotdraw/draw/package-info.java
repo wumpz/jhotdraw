@@ -7,7 +7,6 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**<p>
 Defines a framework for structured drawing editors and provides default
 implementations.
@@ -41,7 +40,6 @@ The key interfaces for editing a drawing are:
     <li>{@link org.jhotdraw.draw.handle.Handle} (in sub-package "handle")</li>
 </ul>
 <p>*/
-
 package org.jhotdraw.draw;
 
 

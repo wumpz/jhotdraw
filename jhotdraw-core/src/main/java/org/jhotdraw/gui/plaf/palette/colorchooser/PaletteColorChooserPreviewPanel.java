@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteColorChooserPreviewPanel.java  
+ * @(#)PaletteColorChooserPreviewPanel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
@@ -62,11 +62,9 @@ public class PaletteColorChooserPreviewPanel extends JPanel implements UIResourc
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setPreferredSize(new java.awt.Dimension(26, 26));
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

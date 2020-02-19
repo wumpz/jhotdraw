@@ -1,9 +1,9 @@
 /*
  * @(#)ActivityManagerEvent.java
- * 
+ *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -21,7 +21,6 @@ import org.jhotdraw.gui.ActivityModel;
 public class ActivityManagerEvent extends EventObject {
 
     private static final long serialVersionUID = 1L;
-
     private ActivityModel activity;
 
     public ActivityManagerEvent(Object source, ActivityModel activity) {

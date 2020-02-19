@@ -25,16 +25,11 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
-
-
 /**
  * NonValidator is a concrete implementation of IXMLValidator which processes
  * the DTD and handles entity definitions. It does not do any validation
@@ -47,26 +42,19 @@ import java.util.*;
 public class NonValidator
    implements IXMLValidator
 {
-
    /**
     * The parameter entity resolver.
     */
    protected IXMLEntityResolver parameterEntityResolver;
-
-
    /**
     * Contains the default values for attributes for the different element
     * types.
     */
    protected HashMap<String,Object> attributeDefaultValues;
-
-
    /**
     * The stack of elements to be processed.
     */
    protected ArrayDeque<Properties> currentElements;
-
-
    /**
     * Creates the &quot;validator&quot;.
     */
@@ -76,8 +64,6 @@ public class NonValidator
       this.currentElements = new ArrayDeque<Properties>();
       this.parameterEntityResolver = new XMLEntityResolver();
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -91,8 +77,6 @@ public class NonValidator
       this.currentElements = null;
       super.finalize();
    }
-
-
    /**
     * Sets the parameter entity resolver.
     *
@@ -102,8 +86,6 @@ public class NonValidator
    {
       this.parameterEntityResolver = resolver;
    }
-
-
    /**
     * Returns the parameter entity resolver.
     *
@@ -113,8 +95,6 @@ public class NonValidator
    {
       return this.parameterEntityResolver;
    }
-
-
    /**
     * Parses the DTD. The validator object is responsible for reading the
     * full DTD.
@@ -135,11 +115,9 @@ public class NonValidator
    {
       XMLUtil.skipWhitespace(reader, null);
       int origLevel = reader.getStreamLevel();
-
       for (;;) {
          String str = XMLUtil.read(reader, '%');
          char ch = str.charAt(0);
-
          if (ch == '%') {
             XMLUtil.processEntity(str, reader,
                                   this.parameterEntityResolver);
@@ -147,28 +125,23 @@ public class NonValidator
          } else if (ch == '<') {
             this.processElement(reader, entityResolver);
          } else if (ch == ']') {
-            return; 
+            return;
          } else {
             XMLUtil.errorInvalidInput(reader.getSystemID(),
                                       reader.getLineNr(),
                                       str);
          }
-
          do {
             ch = reader.read();
-
             if (external && (reader.getStreamLevel() < origLevel)) {
                reader.unread(ch);
-               return; 
+               return;
             }
          } while ((ch == ' ') || (ch == '\t') || (ch == '\n')
                   || (ch == '\r'));
-
          reader.unread(ch);
       }
    }
-
-
    /**
     * Processes an element in the DTD.
     *
@@ -184,38 +157,29 @@ public class NonValidator
    {
       String str = XMLUtil.read(reader, '%');
       char ch = str.charAt(0);
-
       if (ch != '!') {
          XMLUtil.skipTag(reader);
          return;
       }
-
       str = XMLUtil.read(reader, '%');
       ch = str.charAt(0);
-
       switch (ch) {
          case '-':
             XMLUtil.skipComment(reader);
             break;
-
          case '[':
             this.processConditionalSection(reader, entityResolver);
             break;
-
          case 'E':
             this.processEntity(reader, entityResolver);
             break;
-
          case 'A':
             this.processAttList(reader, entityResolver);
             break;
-
          default:
             XMLUtil.skipTag(reader);
       }
    }
-
-
    /**
     * Processes a conditional section.
     *
@@ -230,64 +194,47 @@ public class NonValidator
       throws Exception
    {
       XMLUtil.skipWhitespace(reader, null);
-
       String str = XMLUtil.read(reader, '%');
       char ch = str.charAt(0);
-
       if (ch != 'I') {
          XMLUtil.skipTag(reader);
          return;
       }
-
       str = XMLUtil.read(reader, '%');
       ch = str.charAt(0);
-
       switch (ch) {
          case 'G':
             this.processIgnoreSection(reader, entityResolver);
             return;
-
          case 'N':
             break;
-
          default:
             XMLUtil.skipTag(reader);
             return;
       }
-
       if (! XMLUtil.checkLiteral(reader, "CLUDE")) {
          XMLUtil.skipTag(reader);
          return;
       }
-
       XMLUtil.skipWhitespace(reader, null);
-
       str = XMLUtil.read(reader, '%');
       ch = str.charAt(0);
-
       if (ch != '[') {
          XMLUtil.skipTag(reader);
          return;
       }
-
       Reader subreader = new CDATAReader(reader);
       StringBuffer buf = new StringBuffer(1024);
-
       for (;;) {
          int ch2 = subreader.read();
-
          if (ch2 < 0) {
             break;
          }
-
          buf.append((char) ch2);
       }
-
       subreader.close();
       reader.startNewStream(new StringReader(buf.toString()));
    }
-
-
    /**
     * Processes an ignore section.
     *
@@ -305,22 +252,16 @@ public class NonValidator
          XMLUtil.skipTag(reader);
          return;
       }
-
       XMLUtil.skipWhitespace(reader, null);
-
       String str = XMLUtil.read(reader, '%');
       char ch = str.charAt(0);
-
       if (ch != '[') {
          XMLUtil.skipTag(reader);
          return;
       }
-
       Reader subreader = new CDATAReader(reader);
       subreader.close();
    }
-
-
    /**
     * Processes an ATTLIST element.
     *
@@ -338,7 +279,6 @@ public class NonValidator
          XMLUtil.skipTag(reader);
          return;
       }
-
       XMLUtil.skipWhitespace(reader, null);
       String str = XMLUtil.read(reader, '%');
       char ch = str.charAt(0);
@@ -351,7 +291,6 @@ public class NonValidator
       reader.unread(ch);
       String elementName = XMLUtil.scanIdentifier(reader);
       XMLUtil.skipWhitespace(reader, null);
-      
       str = XMLUtil.read(reader, '%');
       ch = str.charAt(0);
       while (ch == '%') {
@@ -360,9 +299,7 @@ public class NonValidator
          str = XMLUtil.read(reader, '%');
          ch = str.charAt(0);
       }
-
       Properties props = new Properties();
-
       while (ch != '>') {
          reader.unread(ch);
          String attName = XMLUtil.scanIdentifier(reader);
@@ -375,7 +312,6 @@ public class NonValidator
              str = XMLUtil.read(reader, '%');
              ch = str.charAt(0);
          }
-
          if (ch == '(') {
              while (ch != ')') {
                  str = XMLUtil.read(reader, '%');
@@ -391,7 +327,6 @@ public class NonValidator
             reader.unread(ch);
             XMLUtil.scanIdentifier(reader);
          }
-
          XMLUtil.skipWhitespace(reader, null);
          str = XMLUtil.read(reader, '%');
          ch = str.charAt(0);
@@ -401,14 +336,11 @@ public class NonValidator
              str = XMLUtil.read(reader, '%');
              ch = str.charAt(0);
          }
-         
          if (ch == '#') {
             str = XMLUtil.scanIdentifier(reader);
             XMLUtil.skipWhitespace(reader, null);
-
             if (! "FIXED".equals(str)) {
                XMLUtil.skipWhitespace(reader, null);
-
                str = XMLUtil.read(reader, '%');
                ch = str.charAt(0);
                while (ch == '%') {
@@ -417,18 +349,15 @@ public class NonValidator
                   str = XMLUtil.read(reader, '%');
                   ch = str.charAt(0);
                }
-
                continue;
             }
          } else {
             reader.unread(ch);
          }
-
          String value = XMLUtil.scanString(reader, '%',
                                            this.parameterEntityResolver);
          props.put(attName, value);
          XMLUtil.skipWhitespace(reader, null);
-
          str = XMLUtil.read(reader, '%');
          ch = str.charAt(0);
          while (ch == '%') {
@@ -438,13 +367,10 @@ public class NonValidator
             ch = str.charAt(0);
          }
       }
-
       if (! props.isEmpty()) {
          this.attributeDefaultValues.put(elementName, props);
       }
    }
-
-
    /**
     * Processes an ENTITY element.
     *
@@ -462,30 +388,25 @@ public class NonValidator
          XMLUtil.skipTag(reader);
          return;
       }
-
       XMLUtil.skipWhitespace(reader, null);
       char ch = XMLUtil.readChar(reader, '\0');
-
       if (ch == '%') {
          XMLUtil.skipWhitespace(reader, null);
          entityResolver = this.parameterEntityResolver;
       } else {
          reader.unread(ch);
       }
-
       String key = XMLUtil.scanIdentifier(reader);
       XMLUtil.skipWhitespace(reader, null);
       ch = XMLUtil.readChar(reader, '%');
       String systemID = null;
       String publicID = null;
-
       switch (ch) {
          case 'P':
             if (! XMLUtil.checkLiteral(reader, "UBLIC")) {
                XMLUtil.skipTag(reader);
                return;
             }
-
             XMLUtil.skipWhitespace(reader, null);
             publicID = XMLUtil.scanString(reader, '%',
                                           this.parameterEntityResolver);
@@ -495,20 +416,17 @@ public class NonValidator
             XMLUtil.skipWhitespace(reader, null);
             XMLUtil.readChar(reader, '%');
             break;
-
          case 'S':
             if (! XMLUtil.checkLiteral(reader, "YSTEM")) {
                XMLUtil.skipTag(reader);
                return;
             }
-
             XMLUtil.skipWhitespace(reader, null);
             systemID = XMLUtil.scanString(reader, '%',
                                           this.parameterEntityResolver);
             XMLUtil.skipWhitespace(reader, null);
             XMLUtil.readChar(reader, '%');
             break;
-
          case '"':
          case '\'':
             reader.unread(ch);
@@ -518,17 +436,13 @@ public class NonValidator
             XMLUtil.skipWhitespace(reader, null);
             XMLUtil.readChar(reader, '%');
             break;
-
          default:
             XMLUtil.skipTag(reader);
       }
-
       if (systemID != null) {
          entityResolver.addExternalEntity(key, publicID, systemID);
       }
    }
-
-
    /**
     * Indicates that an element has been started.
     *
@@ -542,17 +456,13 @@ public class NonValidator
    {
       Properties attribs
          = (Properties) this.attributeDefaultValues.get(name);
-
       if (attribs == null) {
          attribs = new Properties();
       } else {
          attribs = (Properties) attribs.clone();
       }
-
       this.currentElements.push(attribs);
    }
-
-
    /**
     * Indicates that the current element has ended.
     *
@@ -566,8 +476,6 @@ public class NonValidator
    {
       // nothing to do
    }
-
-
    /**
     * This method is called when the attributes of an XML element have been
     * processed.
@@ -586,14 +494,11 @@ public class NonValidator
    {
       Properties props = this.currentElements.pop();
       Enumeration<Object> enm = props.keys();
-
       while (enm.hasMoreElements()) {
          String key = (String) enm.nextElement();
          extraAttributes.put(key, props.get(key));
       }
    }
-
-
    /**
     * Indicates that an attribute has been added to the current element.
     *
@@ -608,13 +513,10 @@ public class NonValidator
                               int    lineNr)
    {
       Properties props = this.currentElements.peek();
-
       if (props.containsKey(key)) {
          props.remove(key);
       }
    }
-
-
    /**
     * Indicates that a new #PCDATA element has been encountered.
     *
@@ -626,5 +528,4 @@ public class NonValidator
    {
       // nothing to do
    }
-
 }

@@ -2,12 +2,10 @@
  * @(#)LoadFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
-
-
 import java.awt.Component;
 import java.awt.Window;
 import org.jhotdraw.util.*;
@@ -22,7 +20,6 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * Lets the user save unsaved changes of the active view, then presents
  * an {@code URIChooser} and loads the selected URI into the active view.
@@ -62,16 +59,13 @@ import org.jhotdraw.net.URIUtil;
  */
 public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.load";
-
     /** Creates a new instance. */
     public LoadFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     @Override
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("loadChooser");
@@ -81,15 +75,12 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
         }
         return chsr;
     }
-
     @Override
     public void doIt(final View view) {
         URIChooser fileChooser = getChooser(view);
         Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
         final Component oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
-
         JSheet.showOpenSheet(fileChooser, view.getComponent(), new SheetListener() {
-
             @Override
             public void optionSelected(final SheetEvent evt) {
                 if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -99,7 +90,6 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
                     } else {
                         uri = evt.getChooser().getSelectedURI();
                     }
-
                     // Prevent same URI from being opened more than once
                     if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
                         for (View v : getApplication().getViews()) {
@@ -109,7 +99,6 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
                             }
                         }
                     }
-
                     loadViewFromURI(view, uri, evt.getChooser());
                 } else {
                     view.setEnabled(true);
@@ -120,36 +109,29 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
             }
         });
     }
-
     public void loadViewFromURI(final View view, final URI uri, final URIChooser chooser) {
         view.setEnabled(false);
-
         // Open the file
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 view.read(uri, chooser);
             }
-
             @Override
             protected void done() {
                 view.setURI(uri);
                 view.setEnabled(true);
                 getApplication().addRecentURI(uri);
             }
-
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
-                
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
                         + "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>"
                         + ((value == null) ? "" : value),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
-
                     @Override
                     public void optionSelected(SheetEvent evt) {
                         view.clear();

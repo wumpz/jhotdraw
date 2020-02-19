@@ -2,19 +2,16 @@
  * @(#)AttributeAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
-
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.ActionUtil;
 import javax.swing.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * {@code AttributeAction} applies attribute values on the selected figures of
  * the current {@code DrawingView} of a {@code DrawingEditor}.
@@ -24,54 +21,43 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class AttributeAction extends AbstractSelectedAction {
     private static final long serialVersionUID = 1L;
-
     protected Map<AttributeKey<?>, Object> attributes;
-
     /** Creates a new instance. */
     /** Creates a new instance. */
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value) {
         this(editor, key, value, null, null);
     }
-
     /** Creates a new instance. */
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, Icon icon) {
         this(editor, key, value, null, icon);
     }
-
     /** Creates a new instance. */
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name) {
         this(editor, key, value, name, null);
     }
-
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name, Icon icon) {
         this(editor, key, value, name, icon, null);
     }
-
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name, Icon icon, Action compatibleTextAction) {
         super(editor);
         this.attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(key, value);
-
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, key.getPresentationName());
         updateEnabledState();
     }
-
     public AttributeAction(DrawingEditor editor, Map<AttributeKey<?>, Object> attributes, String name, Icon icon) {
         super(editor);
         this.attributes = (attributes == null) ? new HashMap<AttributeKey<?>, Object>() : attributes;
-
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         updateEnabledState();
     }
-
     @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         applyAttributesTo(attributes, getView().getSelectedFigures());
     }
-
     /**
      * Applies the specified attributes to the currently selected figures
      * of the drawing.
@@ -84,7 +70,6 @@ public class AttributeAction extends AbstractSelectedAction {
         for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
             getEditor().setDefaultAttribute((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
-
         final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(figures);
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
         for (Figure figure : selectedFigures) {
@@ -97,7 +82,6 @@ public class AttributeAction extends AbstractSelectedAction {
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
             @Override
             public String getPresentationName() {
                 String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
@@ -110,7 +94,6 @@ public class AttributeAction extends AbstractSelectedAction {
                 }
                 return name;
             }
-
             @Override
             public void undo() {
                 super.undo();
@@ -121,7 +104,6 @@ public class AttributeAction extends AbstractSelectedAction {
                     figure.changed();
                 }
             }
-
             @Override
             public void redo() {
                 super.redo();
@@ -137,7 +119,6 @@ public class AttributeAction extends AbstractSelectedAction {
         };
         getDrawing().fireUndoableEditHappened(edit);
     }
-
     @Override
     protected void updateEnabledState() {
         if (getEditor() != null) {

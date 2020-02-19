@@ -1,9 +1,9 @@
 /*
  * @(#)JavaPrimitivesDOMFactory.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
@@ -62,7 +62,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         // Escape dollar characters by two full-stop characters
         name = name.replaceAll("\\$", "..");
         return name;
-
     }
 
     private String unescape(String name) {
@@ -124,7 +123,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     @Override
     public Object create(String name) {
         name = unescape(name);
-
         try {
             return Class.forName(name).newInstance();
         } catch (InstantiationException ex) {
@@ -153,7 +151,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     @SuppressWarnings("unchecked")
     protected <E extends Enum<E>> Enum<E> createEnum(String name, String value) {
         name = unescape(name);
-
         Class<E> enumClass;
         try {
             enumClass = (Class<E>) Class.forName(name);
@@ -258,10 +255,8 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     }
 
     @Override
-
     public Object read(DOMInput in) throws IOException {
         Object o;
-
         String tagName = in.getTagName();
         if ("null".equals(tagName)) {
             o = null;

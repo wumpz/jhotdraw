@@ -2,11 +2,10 @@
  * @(#)CombinePathsAction.java
  *
  * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.action;
-
 import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
@@ -16,7 +15,6 @@ import javax.swing.undo.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
-
 /**
  * CombinePathsAction.
  * <p>
@@ -27,7 +25,6 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
  */
 public class CombineAction extends AbstractSelectedAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.combinePaths";
     private CompositeFigure prototype;
     /**
@@ -35,29 +32,23 @@ public class CombineAction extends AbstractSelectedAction {
      * If this variable is false, this action ungroups figures.
      */
     private boolean isCombineAction;
-
     private ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
         this(editor, new SVGPathFigure(true), true);
     }
-
     public CombineAction(DrawingEditor editor, SVGPathFigure prototype) {
         this(editor, prototype, true);
     }
-
     public CombineAction(DrawingEditor editor, SVGPathFigure prototype, boolean isGroupingAction) {
         super(editor);
         this.prototype = prototype;
         this.isCombineAction = isGroupingAction;
-
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }
-
     @Override
     protected void updateEnabledState() {
         if (getView() != null) {
@@ -66,7 +57,6 @@ public class CombineAction extends AbstractSelectedAction {
             setEnabled(false);
         }
     }
-
     protected boolean canGroup() {
         boolean canCombine = getView().getSelectionCount() > 1;
         if (canCombine) {
@@ -79,7 +69,6 @@ public class CombineAction extends AbstractSelectedAction {
         }
         return canCombine;
     }
-
     protected boolean canUngroup() {
         return getView() != null && getView().getSelectionCount() == 1 &&
                 prototype != null &&
@@ -87,7 +76,6 @@ public class CombineAction extends AbstractSelectedAction {
                 prototype.getClass()) &&
                 ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;
     }
-
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (isCombineAction) {
@@ -96,7 +84,6 @@ public class CombineAction extends AbstractSelectedAction {
             splitActionPerformed(e);
         }
     }
-
     public void combineActionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
         Drawing drawing = view.getDrawing();
@@ -104,7 +91,6 @@ public class CombineAction extends AbstractSelectedAction {
             final List<Figure> ungroupedPaths = drawing.sort(view.getSelectedFigures());
             final int[] ungroupedPathsIndices = new int[ungroupedPaths.size()];
             final int[] ungroupedPathsChildCounts = new int[ungroupedPaths.size()];
-
             int i = 0;
             for (Figure f : ungroupedPaths) {
                 ungroupedPathsIndices[i] = drawing.indexOf(f);
@@ -117,24 +103,20 @@ public class CombineAction extends AbstractSelectedAction {
             combinePaths(view, group, ungroupedPaths, ungroupedPathsIndices[0]);
             UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                 @Override
                 public String getPresentationName() {
                     return labels.getTextProperty("edit.combinePaths");
                 }
-
                 @Override
                 public void redo() throws CannotRedoException {
                     super.redo();
                     combinePaths(view, group, ungroupedPaths, ungroupedPathsIndices[0]);
                 }
-
                 @Override
                 public void undo() throws CannotUndoException {
                     super.undo();
                     splitPath(view, group, ungroupedPaths, ungroupedPathsIndices, ungroupedPathsChildCounts);
                 }
-
                 @Override
                 public boolean addEdit(UndoableEdit anEdit) {
                     return super.addEdit(anEdit);
@@ -143,7 +125,6 @@ public class CombineAction extends AbstractSelectedAction {
             fireUndoableEditHappened(edit);
         }
     }
-
     @SuppressWarnings("unchecked")
     public void splitActionPerformed(java.awt.event.ActionEvent e) {
         final DrawingView view = getView();
@@ -168,18 +149,15 @@ public class CombineAction extends AbstractSelectedAction {
             splitPath(view, group, ungroupedPaths, ungroupedPathsIndices, ungroupedPathsChildCounts);
             UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                 @Override
                 public String getPresentationName() {
                     return labels.getTextProperty("edit.splitPath");
                 }
-
                 @Override
                 public void redo() throws CannotRedoException {
                     super.redo();
                     splitPath(view, group, ungroupedPaths, ungroupedPathsIndices, ungroupedPathsChildCounts);
                 }
-
                 @Override
                 public void undo() throws CannotUndoException {
                     super.undo();
@@ -189,7 +167,6 @@ public class CombineAction extends AbstractSelectedAction {
             fireUndoableEditHappened(edit);
         }
     }
-
     public void splitPath(DrawingView view, CompositeFigure group, List<Figure> ungroupedPaths, int[] ungroupedPathsIndices, int[] ungroupedPathsChildCounts) {
         view.clearSelection();
         Iterator<Figure> groupedFigures = new LinkedList<Figure>(group.getChildren()).iterator();
@@ -210,7 +187,6 @@ public class CombineAction extends AbstractSelectedAction {
         }
         view.addToSelection(ungroupedPaths);
     }
-
     @SuppressWarnings("unchecked")
     public void combinePaths(DrawingView view, CompositeFigure group, Collection<Figure> figures, int groupIndex) {
         view.getDrawing().basicRemoveAll(figures);
@@ -218,7 +194,6 @@ public class CombineAction extends AbstractSelectedAction {
         view.getDrawing().add(groupIndex, group);
         group.willChange();
         group.basicRemoveAllChildren();
-
         // Verify if all figures have the same transform
         AffineTransform tx = figures.iterator().next().get(TRANSFORM);
         for (Figure f : figures) {
@@ -232,14 +207,11 @@ public class CombineAction extends AbstractSelectedAction {
         for (Map.Entry<AttributeKey<?>, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
             group.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
-
         // In case all figures have the same transforms, we set it here.
         // In case the transforms are different, we set null here.
         group.set(TRANSFORM, tx);
-
         for (Figure f : figures) {
             SVGPathFigure path = (SVGPathFigure) f;
-
             // In case the transforms are different, we flatten it in the figures.
             if (tx == null) {
                 path.flattenTransform();
@@ -251,7 +223,6 @@ public class CombineAction extends AbstractSelectedAction {
                 child.willChange();
                 group.basicAdd(child);
             }
-
         }
         group.changed();
         view.addToSelection(group);

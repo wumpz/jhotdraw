@@ -2,12 +2,10 @@
  * @(#)Main.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.draw;
-
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.app.*;
 /**
@@ -20,11 +18,9 @@ import org.jhotdraw.app.*;
  * @version $Id$
  */
 public class Main {
-    
     /** Creates a new instance. */
     public static void main(String[] args) {
         ResourceBundleUtil.setVerbose(true);
-
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {
@@ -35,7 +31,6 @@ public class Main {
         } else {
             app = new SDIApplication();
         }
-
         DrawApplicationModel model = new DrawApplicationModel();
         model.setName("JHotDraw Draw");
         model.setVersion(Main.class.getPackage().getImplementationVersion());
@@ -45,5 +40,4 @@ public class Main {
         app.setModel(model);
         app.launch(args);
     }
-    
 }

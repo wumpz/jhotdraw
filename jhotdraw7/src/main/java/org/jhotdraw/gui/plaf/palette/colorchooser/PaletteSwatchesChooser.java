@@ -1,14 +1,12 @@
 /*
  * @(#)PaletteSwatchesChooser.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
-
-
 import java.awt.Color;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -23,7 +21,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteListUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * PaletteSwatchesChooser.
  *
@@ -32,10 +29,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     private static final long serialVersionUID = 1L;
-
     private int updateRecursion = 0;
-
-
     /**
      * HSB color palette with a set of colors chosen based on a physical criteria.
      * <p>
@@ -72,13 +66,11 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
      */
     private static final java.util.List<ColorIcon> HSB_COLORS_AS_RGB;
     private static final int HSB_COLORS_AS_RGB_COLUMN_COUNT = 12;
-
     static {
         // FIXME - Move this into a lazy initializer
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<ColorIcon>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
-
         for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
@@ -95,7 +87,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         }
         m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
         HSB_COLORS = Collections.unmodifiableList(m);
-
         m = new LinkedList<ColorIcon>();
         for (ColorIcon ci : HSB_COLORS) {
             if (ci.getColor() == null) {
@@ -106,14 +97,11 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
                         labels.getFormatted("ColorChooser.colorSwatch.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
         }
-
         HSB_COLORS_AS_RGB = Collections.unmodifiableList(m);
     }
-
     /** Creates new form PaletteSwatchesChooser */
     public PaletteSwatchesChooser() {
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -122,12 +110,9 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jList = new javax.swing.JList();
-
         setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 6, 6, 6));
         setLayout(new java.awt.GridBagLayout());
-
         jList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
         add(jList, new java.awt.GridBagConstraints());
@@ -135,7 +120,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jList;
     // End of variables declaration//GEN-END:variables
-
     @Override
     public void updateChooser() {
         if (updateRecursion++ == 0) {
@@ -176,22 +160,18 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         }
             updateRecursion--;
     }
-
     @Override
     public String getDisplayName() {
         return PaletteLookAndFeel.getInstance().getString("ColorChooser.colorSwatches");
     }
-
     @Override
     public Icon getSmallDisplayIcon() {
         return PaletteLookAndFeel.getInstance().getIcon("ColorChooser.colorSwatchesIcon");
     }
-
     @Override
     public Icon getLargeDisplayIcon() {
         return getSmallDisplayIcon();
     }
-
     @Override
     protected void buildChooser() {
         initComponents();
@@ -209,7 +189,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         jList.setListData(byColumns);
         jList.setVisibleRowCount(HSB_COLORS_AS_RGB.size() / HSB_COLORS_AS_RGB_COLUMN_COUNT);
         jList.addListSelectionListener(new ListSelectionListener() {
-
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (updateRecursion++ == 0) {
@@ -220,7 +199,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
             }
         });
     }
-
     public void setColorToModel(Color color) {
         getColorSelectionModel().setSelectedColor(color);
     }

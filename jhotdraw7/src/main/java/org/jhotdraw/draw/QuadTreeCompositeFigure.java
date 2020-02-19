@@ -2,13 +2,10 @@
  * @(#)QuadTreeCompositeFigure.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
-
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -21,33 +18,29 @@ import java.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 /**
  * QuadTreeCompositeFigure.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class QuadTreeCompositeFigure 
+public abstract class QuadTreeCompositeFigure
         extends AbstractCompositeFigure {
     private static final long serialVersionUID = 1L;
     private QuadTree<Figure> quadTree = new QuadTree<Figure>();
     private boolean needsSorting = false;
     private FigureHandler figureHandler;
     private Dimension2DDouble canvasSize;
-    
     /** Creates a new instance. */
     public QuadTreeCompositeFigure() {
         figureHandler = createFigureHandler();
     }
-    
     protected FigureHandler createFigureHandler() {
         return new FigureHandler();
     }
-    
     @Override
     public int indexOf(Figure figure) {
         return children.indexOf(figure);
     }
-    
     @Override
     public void basicAdd(int index, Figure figure) {
         children.add(index, figure);
@@ -57,14 +50,13 @@ public abstract class QuadTreeCompositeFigure
     }
     @Override
     public Figure basicRemoveChild(int index) {
-        Figure figure = children.get(index); 
+        Figure figure = children.get(index);
         children.remove(index);
         quadTree.remove(figure);
         figure.removeFigureListener(figureHandler);
         needsSorting = true;
         return figure;
     }
-    
     @Override
     public void draw(Graphics2D g) {
         Rectangle2D clipBounds = g.getClipBounds();
@@ -76,7 +68,6 @@ public abstract class QuadTreeCompositeFigure
             draw(g, children);
         }
     }
-    
     /**
      * Implementation note: Sorting can not be done for orphaned children.
      */
@@ -90,24 +81,18 @@ public abstract class QuadTreeCompositeFigure
         }
         return sorted;
     }
-    
     public void draw(Graphics2D g, Collection<Figure> c) {
         for (Figure f : c) {
             f.draw(g);
         }
     }
-    
-    
-    
     public java.util.List<Figure> getFigures(Rectangle2D.Double bounds) {
         return new LinkedList<Figure>(quadTree.findInside(bounds));
     }
-    
     @Override
     public java.util.List<Figure> getChildren() {
         return Collections.unmodifiableList(children);
     }
-    
     @Override
     public Figure findFigureInside(Point2D.Double p) {
         Collection<Figure> c = quadTree.findContains(p);
@@ -117,9 +102,7 @@ public abstract class QuadTreeCompositeFigure
             }
         }
         return null;
-        
     }
-    
     /**
      * Returns an iterator to iterate in
      * Z-order front to back over the children.
@@ -128,7 +111,6 @@ public abstract class QuadTreeCompositeFigure
         ensureSorted();
         return new ReversedList<Figure>(children);
     }
-    
     public Figure findFigure(Point2D.Double p) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
@@ -210,7 +192,6 @@ public abstract class QuadTreeCompositeFigure
         }
         return null;
     }
-    
     public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
         LinkedList<Figure> c = new LinkedList<Figure>(quadTree.findIntersects(r));
         switch (c.size()) {
@@ -235,7 +216,6 @@ public abstract class QuadTreeCompositeFigure
         }
         return contained;
     }
-    
     @Override
     public void bringToFront(Figure figure) {
         if (children.remove(figure)) {
@@ -252,12 +232,10 @@ public abstract class QuadTreeCompositeFigure
             fireAreaInvalidated(figure.getDrawingArea());
         }
     }
-    
     @Override
     public boolean contains(Figure f) {
         return children.contains(f);
     }
-    
     /**
      * Ensures that the children are sorted in z-order sequence.
      */
@@ -267,17 +245,14 @@ public abstract class QuadTreeCompositeFigure
             needsSorting = false;
         }
     }
-    
     public void setCanvasSize(Dimension2DDouble newValue) {
         Dimension2DDouble oldValue = canvasSize;
         canvasSize = newValue;
         firePropertyChange("canvasSize", oldValue, newValue);
     }
-    
     public Dimension2DDouble getCanvasSize() {
         return canvasSize;
     }
-    
     /**
      * Handles all figure events fired by Figures contained in the Drawing.
      */
@@ -290,7 +265,6 @@ public abstract class QuadTreeCompositeFigure
         public void undoableEditHappened(UndoableEditEvent e) {
             fireUndoableEditHappened(e.getEdit());
         }
-        
         @Override public void areaInvalidated(FigureEvent e) {
             fireAreaInvalidated(e.getInvalidatedArea());
         }

@@ -25,13 +25,12 @@ public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {
 
     private static final long serialVersionUID = 1L;
-
     protected AttributeKey<Font> key;
     protected JFontChooser fontChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
-    //protected Map<AttributeKey, Object> attributes;
 
+    //protected Map<AttributeKey, Object> attributes;
     /**
      * Creates a new instance.
      */
@@ -40,7 +39,6 @@ public class FontChooserHandler extends AbstractSelectedAction
         this.key = key;
         this.fontChooser = fontChooser;
         this.popupMenu = popupMenu;
-
         fontChooser.addActionListener(this);
         fontChooser.addPropertyChangeListener(this);
         updateEnabledState();

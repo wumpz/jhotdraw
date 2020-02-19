@@ -1,17 +1,14 @@
 /*
  * @(#)CompositeColor.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
-
 import java.awt.Color;
 import java.awt.color.ColorSpace;
-
 /**
  * {@code CompositeColor} is identical to {@code java.awt.Color} with
  * the exception that it allows to construct an instance with color components
@@ -22,7 +19,6 @@ import java.awt.color.ColorSpace;
  */
 public class CompositeColor extends Color {
     private static final long serialVersionUID = 1L;
-
     /**
      * The color value in the native <code>ColorSpace</code> as
      * <code>float</code> components (no alpha).
@@ -33,7 +29,6 @@ public class CompositeColor extends Color {
      * @see #getRGBColorComponents
      * @see #getRGBComponents
      */
-    
     private float fvalue[] = null;
     /**
      * The alpha value as a <code>float</code> component.
@@ -52,9 +47,7 @@ public class CompositeColor extends Color {
      * @see #getColorSpace
      * @see #getColorComponents
      */
-    
     private ColorSpace cs = null;
-
     /**
      * Creates a color in the specified <code>ColorSpace</code>
      * with the color components specified in the <code>float</code>
@@ -63,7 +56,7 @@ public class CompositeColor extends Color {
      * example, RGB requires 3 components, but CMYK requires 4
      * components.
      * @param cspace the <code>ColorSpace</code> to be used to
-     *			interpret the components
+     *   interpret the components
      * @param components an arbitrary number of color components
      *                      that is compatible with the <code>ColorSpace</code>
      * @param alpha alpha value
@@ -102,7 +95,6 @@ public class CompositeColor extends Color {
         }
         cs = cspace;
     }
-
     /**
      * Returns a <code>float</code> array containing the color and alpha
      * components of the <code>Color</code>, in the
@@ -114,10 +106,10 @@ public class CompositeColor extends Color {
      * least this length and it is filled in with the components and
      * returned.
      * @param compArray an array that this method fills with the color and
-     *		alpha components of this <code>Color</code> in its
-     *		<code>ColorSpace</code> and returns
+     *  alpha components of this <code>Color</code> in its
+     *  <code>ColorSpace</code> and returns
      * @return the color and alpha components in a <code>float</code>
-     * 		array.
+     *   array.
      */
     @Override
     public float[] getComponents(float[] compArray) {
@@ -137,7 +129,6 @@ public class CompositeColor extends Color {
         f[n] = falpha;
         return f;
     }
-
     /**
      * Returns a <code>float</code> array containing only the color
      * components of the <code>Color</code>, in the
@@ -149,8 +140,8 @@ public class CompositeColor extends Color {
      * least this length and it is filled in with the components and
      * returned.
      * @param compArray an array that this method fills with the color
-     *		components of this <code>Color</code> in its
-     *		<code>ColorSpace</code> and returns
+     *  components of this <code>Color</code> in its
+     *  <code>ColorSpace</code> and returns
      * @return the color components in a <code>float</code> array.
      */
     @Override
@@ -170,7 +161,6 @@ public class CompositeColor extends Color {
         }
         return f;
     }
-
     /**
      * Returns a <code>float</code> array containing the color and alpha
      * components of the <code>Color</code>, in the
@@ -182,10 +172,10 @@ public class CompositeColor extends Color {
      * length, and it is filled in with the components and returned.
      * @param cspace a specified <code>ColorSpace</code>
      * @param compArray an array that this method fills with the
-     *		color and alpha components of this <code>Color</code> in
-     *		the specified <code>ColorSpace</code> and returns
+     *  color and alpha components of this <code>Color</code> in
+     *  the specified <code>ColorSpace</code> and returns
      * @return the color and alpha components in a <code>float</code>
-     * 		array.
+     *   array.
      */
     @Override
     public float[] getComponents(ColorSpace cspace, float[] compArray) {
@@ -216,7 +206,6 @@ public class CompositeColor extends Color {
         }
         return compArray;
     }
-
     /**
      * Returns a <code>float</code> array containing only the color
      * components of the <code>Color</code> in the
@@ -228,8 +217,8 @@ public class CompositeColor extends Color {
      * filled in with the components and returned.
      * @param cspace a specified <code>ColorSpace</code>
      * @param compArray an array that this method fills with the color
-     *		components of this <code>Color</code> in the specified
-     * 		<code>ColorSpace</code>
+     *  components of this <code>Color</code> in the specified
+     *   <code>ColorSpace</code>
      * @return the color components in a <code>float</code> array.
      */
     @Override
@@ -256,7 +245,6 @@ public class CompositeColor extends Color {
         }
         return compArray;
     }
-
     /**
      * Returns the <code>ColorSpace</code> of this <code>Color</code>.
      * @return this <code>Color</code> object's <code>ColorSpace</code>.

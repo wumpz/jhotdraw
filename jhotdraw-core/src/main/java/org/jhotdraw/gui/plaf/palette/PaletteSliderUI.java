@@ -39,7 +39,6 @@ public class PaletteSliderUI extends BasicSliderUI {
     @Override
     protected void installDefaults(JSlider slider) {
         super.installDefaults(slider);
-
         PaletteLookAndFeel.installBorder(slider, "Slider.border");
         PaletteLookAndFeel.installColors(slider, "Slider.background", "Slider.foreground");
     }
@@ -65,7 +64,6 @@ public class PaletteSliderUI extends BasicSliderUI {
     @Override
     public void paint(Graphics gr, JComponent c) {
         Graphics2D g = (Graphics2D) gr;
-
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -81,17 +79,13 @@ public class PaletteSliderUI extends BasicSliderUI {
     public void paintTrack(Graphics g) {
         int cx, cy, cw, ch;
         int pad;
-
         Rectangle trackBounds = trackRect;
-
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             pad = trackBuffer;
             //cx = pad;
             cy = (trackBounds.height / 2) - 2;
             cw = trackBounds.width;
-
             g.translate(trackBounds.x, trackBounds.y + cy);
-
             g.setColor(getShadowColor());
             g.drawLine(0, 0, cw - 1, 0);
             g.drawLine(0, 1, 0, 2);
@@ -100,7 +94,6 @@ public class PaletteSliderUI extends BasicSliderUI {
             g.drawLine(cw, 0, cw, 3);
             g.setColor(Color.black);
             g.drawLine(1, 1, cw - 2, 1);
-
             g.translate(-trackBounds.x, -(trackBounds.y + cy));
         } else {
             pad = trackBuffer;
@@ -109,7 +102,6 @@ public class PaletteSliderUI extends BasicSliderUI {
             ch = trackBounds.height;
             g.setColor(new Color(slider.isEnabled() ? 0x888888 : 0xaaaaaa));
             g.drawRoundRect(trackBounds.x + cx, trackBounds.y, 5, ch, 5, 5);
-
         }
     }
 
@@ -119,9 +111,7 @@ public class PaletteSliderUI extends BasicSliderUI {
         Rectangle knobBounds = thumbRect;
         int w = knobBounds.width;
         int h = knobBounds.height;
-
         g.translate(knobBounds.x, knobBounds.y);
-
         float[] stops;
         Color[] stopColors;
         if (slider.isEnabled()) {
@@ -138,13 +128,10 @@ public class PaletteSliderUI extends BasicSliderUI {
             stops = enabledStops;
             stopColors = enabledStopColors;
         }
-
         Boolean paintThumbArrowShape
                 = (Boolean) slider.getClientProperty("Slider.paintThumbArrowShape");
-
         if ((!slider.getPaintTicks() && paintThumbArrowShape == null)
                 || paintThumbArrowShape == Boolean.FALSE) {
-
             // "plain" version
             LinearGradientPaint lgp = new LinearGradientPaint(
                     new Point2D.Float(2, 2), new Point2D.Float(2, 2 + h - 4),
@@ -162,16 +149,13 @@ public class PaletteSliderUI extends BasicSliderUI {
             p.addPoint(cw - 1, h - 1);
             p.addPoint(w - 2, h - 1 - cw);
             g.fillPolygon(p);
-
             g.setColor(getHighlightColor());
             g.drawLine(0, 0, w - 2, 0);
             g.drawLine(0, 1, 0, h - 1 - cw);
             g.drawLine(0, h - cw, cw - 1, h - 1);
-
             g.setColor(Color.black);
             g.drawLine(w - 1, 0, w - 1, h - 2 - cw);
             g.drawLine(w - 1, h - 1 - cw, w - 1 - cw, h - 1);
-
             g.setColor(getShadowColor());
             g.drawLine(w - 2, 1, w - 2, h - 2 - cw);
             g.drawLine(w - 2, h - 1 - cw, w - 1 - cw, h - 2);
@@ -184,16 +168,13 @@ public class PaletteSliderUI extends BasicSliderUI {
                 p.addPoint(w - 1, cw);
                 p.addPoint(w - 1 - cw, h - 2);
                 g.fillPolygon(p);
-
                 g.setColor(getHighlightColor());
                 g.drawLine(0, 0, 0, h - 2);                  // left
                 g.drawLine(1, 0, w - 1 - cw, 0);                 // top
                 g.drawLine(w - cw - 1, 0, w - 1, cw);              // top slant
-
                 g.setColor(Color.black);
                 g.drawLine(0, h - 1, w - 2 - cw, h - 1);             // bottom
                 g.drawLine(w - 1 - cw, h - 1, w - 1, h - 1 - cw);        // bottom slant
-
                 g.setColor(getShadowColor());
                 g.drawLine(1, h - 2, w - 2 - cw, h - 2);         // bottom
                 g.drawLine(w - 1 - cw, h - 2, w - 2, h - cw - 1);     // bottom slant
@@ -204,28 +185,23 @@ public class PaletteSliderUI extends BasicSliderUI {
                 p.addPoint(0, cw);
                 p.addPoint(cw, h - 2);
                 g.fillPolygon(p);
-
                 g.setColor(getHighlightColor());
                 g.drawLine(cw - 1, 0, w - 2, 0);             // top
                 g.drawLine(0, cw, cw, 0);                // top slant
-
                 g.setColor(Color.black);
                 g.drawLine(0, h - 1 - cw, cw, h - 1);         // bottom slant
                 g.drawLine(cw, h - 1, w - 1, h - 1);           // bottom
-
                 g.setColor(getShadowColor());
                 g.drawLine(cw, h - 2, w - 2, h - 2);         // bottom
                 g.drawLine(w - 1, 1, w - 1, h - 2);          // right
             }
         }
-
         g.translate(-knobBounds.x, -knobBounds.y);
     }
 
     @Override
     protected Dimension getThumbSize() {
         Dimension size = new Dimension();
-
         if (slider.getOrientation() == JSlider.VERTICAL) {
             size.width = 15;
             size.height = 15;
@@ -233,8 +209,6 @@ public class PaletteSliderUI extends BasicSliderUI {
             size.width = 15;
             size.height = 15;
         }
-
         return size;
     }
-
 }

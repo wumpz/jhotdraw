@@ -2,13 +2,10 @@
  * @(#)NanoXMLDOMInput.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.xml;
-
-
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;
@@ -31,7 +28,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
      * reference. A value in this map is an unmarshalled Object.
      */
     private HashMap<String,Object> idobjects = new HashMap<String,Object>();
-    
     /**
      * The document used for input.
      */
@@ -40,25 +36,20 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
      * The current node used for input.
      */
     private IXMLElement current;
-    
     /**
      * The factory used to create objects from XML tag names.
      */
     private DOMFactory factory;
-    
     /**
      * The stack.
      */
     private Stack<IXMLElement> stack = new Stack<IXMLElement>();
-    
     public NanoXMLDOMInput(DOMFactory factory, InputStream in) throws IOException {
         this(factory, new InputStreamReader(in, "UTF8"));
     }
     public NanoXMLDOMInput(DOMFactory factory, Reader in) throws IOException {
         this.factory = factory;
-        
         try {
-            
             IXMLParser parser = XMLParserFactory.createDefaultXMLParser();
             IXMLReader reader = new StdXMLReader(in);
             parser.setReader(reader);
@@ -74,7 +65,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
             throw error;
         }
     }
-    
     /**
      * Returns the tag name of the current element.
      */
@@ -143,8 +133,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         String value = current.getAttribute(name, null);
         return (value == null || value.length() == 0) ? defaultValue : Boolean.valueOf(value).booleanValue();
     }
-    
-    
     /**
      * Returns the number of child elements of the current element.
      */
@@ -167,7 +155,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         }
         return count;
     }
-    
     /**
      * Opens the element with the specified index and makes it the current node.
      */
@@ -177,7 +164,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         ArrayList<IXMLElement> list = current.getChildren();
         current = list.get(index);
     }
-    
     /**
      * Opens the last element with the specified name and makes it the current node.
      */
@@ -212,7 +198,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         }
         throw new IOException("no such element:"+tagName+" at index:"+index);
     }
-    
     /**
      * Closes the current element of the DOM Document.
      * The parent of the current element becomes the current element.
@@ -223,7 +208,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     public void closeElement() {
         current = (XMLElement) stack.pop();
     }
-    
     /**
      * Reads an object from the current element.
      */
@@ -238,10 +222,8 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     public Object readObject(int index) throws IOException {
         openElement(index);
         Object o;
-        
         String ref = getAttribute("ref", null);
         String id = getAttribute("id", null);
-
         if (ref != null && id != null) {
             throw new IOException("Element has both an id and a ref attribute: <" + getTagName() + " id=\"" + id + "\" ref=\"" + ref + "\"> in line number "+current.getLineNr());
         }
@@ -251,7 +233,6 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
         if (ref != null && !idobjects.containsKey(ref)) {
             throw new IOException("Referenced element not found: <" + getTagName() + " ref=\"" + ref + "\"> in line number "+current.getLineNr());
         }
-
         // Keep track of objects which have an ID
         if (ref != null) {
             o = idobjects.get(ref);
@@ -264,11 +245,9 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
                 ((DOMStorable) o).read(this);
             }
         }
-
         closeElement();
         return o;
     }
-
     @Override
     public void dispose() {
         if (document != null) {

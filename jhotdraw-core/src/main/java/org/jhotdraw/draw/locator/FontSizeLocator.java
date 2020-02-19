@@ -2,7 +2,7 @@
  * @(#)FontSizeLocator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.locator;
@@ -34,18 +34,15 @@ public class FontSizeLocator implements Locator {
     @Override
     public Point2D.Double locate(Figure owner) {
         Point2D.Double p = (Point2D.Double) owner.getStartPoint().clone();
-
         if (owner instanceof TextHolderFigure) {
             p.y += ((TextHolderFigure) owner).getFontSize();
             p.y += ((TextHolderFigure) owner).getInsets().top;
         } else {
             p.y += owner.get(FONT_SIZE);
         }
-
         if (owner.get(TRANSFORM) != null) {
             owner.get(TRANSFORM).transform(p, p);
         }
-
         return p;
     }
 
@@ -53,5 +50,4 @@ public class FontSizeLocator implements Locator {
     public Point2D.Double locate(Figure owner, Figure dependent) {
         return locate(owner);
     }
-
 }

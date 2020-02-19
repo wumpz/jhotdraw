@@ -2,7 +2,7 @@
  * @(#)BezierPointLocator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.locator;
@@ -54,5 +54,4 @@ public class BezierPointLocator extends AbstractLocator {
         index = in.getAttribute("index", 0);
         coord = in.getAttribute("coord", 0);
     }
-
 }

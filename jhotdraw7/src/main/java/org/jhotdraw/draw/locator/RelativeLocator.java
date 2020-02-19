@@ -2,12 +2,10 @@
  * @(#)RelativeLocator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.locator;
-
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -35,18 +33,15 @@ public class RelativeLocator extends AbstractLocator {
      * the bottom boundary.
      */
     protected double relativeY;
-    
     /**
      * If this is set to true, if the locator is transforming with the
      * figure.
      */
     protected boolean isTransform;
-    
     /** Creates a new instance. */
     public RelativeLocator() {
         this(0, 0, false);
     }
-    
     /** Creates a new instance. */
     public RelativeLocator(double relativeX, double relativeY) {
         this(relativeX, relativeY, false);
@@ -64,7 +59,6 @@ public class RelativeLocator extends AbstractLocator {
         this.relativeY = relativeY;
         this.isTransform = isTransform;
     }
-    
     @Override
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double bounds = owner.getBounds();
@@ -75,7 +69,6 @@ public class RelativeLocator extends AbstractLocator {
                 insets.addTo(bounds);
             }
         }
-        
         Point2D.Double location;
         if (isTransform) {
             location = new Point2D.Double(
@@ -100,8 +93,6 @@ public class RelativeLocator extends AbstractLocator {
         }
         return location;
     }
-    
-    
     /**
      * Non-transforming East.
      */
@@ -116,7 +107,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator east(boolean isTransform) {
         return new RelativeLocator(1.0, 0.5, isTransform);
     }
-    
     /**
      * Non-transforming North.
      */
@@ -131,7 +121,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator north(boolean isTransform) {
         return new RelativeLocator(0.5, 0.0, isTransform);
     }
-    
     /**
      * Non-transforming West.
      */
@@ -146,7 +135,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator west(boolean isTransform) {
         return new RelativeLocator(0.0, 0.5, isTransform);
     }
-    
     /**
      * Non-transforming North east.
      */
@@ -161,7 +149,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator northEast(boolean isTransform) {
         return new RelativeLocator(1.0, 0.0, isTransform);
     }
-    
     /**
      * Non-transforming North west.
      */
@@ -176,7 +163,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator northWest(boolean isTransform) {
         return new RelativeLocator(0.0, 0.0, isTransform);
     }
-    
     /**
      * Non-transforming South.
      */
@@ -191,7 +177,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator south(boolean isTransform) {
         return new RelativeLocator(0.5, 1.0, isTransform);
     }
-    
     /**
      * Non-transforming South east.
      */
@@ -206,7 +191,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator southEast(boolean isTransform) {
         return new RelativeLocator(1.0, 1.0, isTransform);
     }
-    
     /**
      * Non-transforming South west.
      */
@@ -222,7 +206,6 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator southWest(boolean isTransform) {
         return new RelativeLocator(0.0, 1.0, isTransform);
     }
-    
     /**
      * Non-transforming Center.
      */
@@ -238,19 +221,16 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator center(boolean isTransform) {
         return new RelativeLocator(0.5, 0.5, isTransform);
     }
-    
     @Override
     public void write(DOMOutput out) {
         out.addAttribute("relativeX", relativeX, 0.5);
         out.addAttribute("relativeY", relativeY, 0.5);
     }
-    
     @Override
     public void read(DOMInput in) {
         relativeX = in.getAttribute("relativeX", 0.5);
         relativeY = in.getAttribute("relativeY", 0.5);
     }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -268,7 +248,6 @@ public class RelativeLocator extends AbstractLocator {
         }
         return true;
     }
-
     @Override
     public int hashCode() {
         int hash = 7;

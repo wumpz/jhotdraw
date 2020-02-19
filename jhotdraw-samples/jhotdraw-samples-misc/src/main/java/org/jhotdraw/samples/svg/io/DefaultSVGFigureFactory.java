@@ -2,12 +2,10 @@
  * @(#)DefaultSVGFigureFactory.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg.io;
-
 import java.awt.Color;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
@@ -26,7 +24,6 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
-
 /**
  * DefaultSVGFigureFactory.
  *
@@ -34,11 +31,9 @@ import org.jhotdraw.samples.svg.figures.SVGTextFigure;
  * @version $Id$
  */
 public class DefaultSVGFigureFactory implements SVGFigureFactory {
-    
     /** Creates a new instance. */
     public DefaultSVGFigureFactory() {
     }
-    
     @Override
     public Figure createRect(double x, double y, double w, double h, double rx, double ry, Map<AttributeKey<?>, Object> a) {
         SVGRectFigure figure = new SVGRectFigure();
@@ -47,19 +42,16 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
     public Figure createCircle(double cx, double cy, double r, Map<AttributeKey<?>, Object> a) {
         return createEllipse(cx, cy, r, r, a);
     }
-    
     @Override
     public Figure createEllipse(double cx, double cy, double rx, double ry, Map<AttributeKey<?>, Object> a) {
         SVGEllipseFigure figure = new SVGEllipseFigure(cx-rx, cy-ry, rx*2d, ry*2d);
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
     public Figure createLine(
             double x1, double y1, double x2, double y2,
@@ -73,7 +65,6 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
     public Figure createPolyline(Point2D.Double[] points, Map<AttributeKey<?>, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
@@ -86,7 +77,6 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
     public Figure createPolygon(Point2D.Double[] points, Map<AttributeKey<?>, Object> a) {
         SVGPathFigure figure = new SVGPathFigure();
@@ -112,16 +102,14 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
     public CompositeFigure createG(Map<AttributeKey<?>, Object> a) {
         SVGGroupFigure figure = new SVGGroupFigure();
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
-    public Figure createImage(double x, double y, double w, double h, 
+    public Figure createImage(double x, double y, double w, double h,
             byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey<?>, Object> a) {
         SVGImageFigure figure = new SVGImageFigure();
         figure.setBounds(new Point2D.Double(x,y),new Point2D.Double(x+w,y+h));
@@ -143,7 +131,6 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.setAttributes(attributes);
         return figure;
     }
-    
     @Override
     public Figure createText(Point2D.Double[] coordinates, double[] rotates, StyledDocument text, Map<AttributeKey<?>, Object> a) {
         SVGTextFigure figure = new SVGTextFigure();
@@ -159,7 +146,6 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
         figure.setAttributes(a);
         return figure;
     }
-    
     @Override
     public Gradient createRadialGradient(
             double cx, double cy, double fx, double fy, double r,
@@ -171,7 +157,6 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
                 isRelativeToFigureBounds,
                 tx);
     }
-    
     @Override
     public Gradient createLinearGradient(
             double x1, double y1, double x2, double y2,
@@ -183,5 +168,4 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
                 isRelativeToFigureBounds,
                 tx);
     }
-
 }

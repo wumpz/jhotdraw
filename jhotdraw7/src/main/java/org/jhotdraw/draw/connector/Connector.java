@@ -2,19 +2,14 @@
  * @(#)Connector.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.connector;
-
 import org.jhotdraw.draw.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
-
 /**
  * A <em>connector</em> knows how to locate the start point or the end point
  * of a {@link ConnectionFigure} on a connected figure.
@@ -48,38 +43,33 @@ import java.io.*;
  * @version $Id$
  */
 public interface Connector extends Cloneable, Serializable {
-    
     /**
      * Finds the start point for the connection.
      */
     public Point2D.Double findStart(ConnectionFigure connection);
-    
     /**
      * Finds the end point for the connection.
      */
     public Point2D.Double findEnd(ConnectionFigure connection);
-    
     /**
      * Gets the connector's owner.
      */
     public Figure getOwner();
-    
     /**
      * Gets the anchor of the connector.
      * This is a point at the center or at the bounds of the figure, where
      * the start or the end point will most likely be attached.
-     * The purpose of this method is to give the user a hint, where the 
+     * The purpose of this method is to give the user a hint, where the
      * connector will most likely be attached to the owner of the connector.
      */
     public Point2D.Double getAnchor();
     /**
      * Gets the bounds of the connector.
      * This usually are the bounds of the Figure which owns the Connector.
-     * The bounds can differ from the Figure bounds, if the Connector 
+     * The bounds can differ from the Figure bounds, if the Connector
      * connects to a specific region of the Figure.
      */
     public Rectangle2D.Double getBounds();
-
     /**
      * Updates the anchor of the connector.
      * This method is called when the user manually changes the end point of
@@ -87,17 +77,14 @@ public interface Connector extends Cloneable, Serializable {
      * a new anchor position.
      */
     public void updateAnchor(Point2D.Double p);
-    
     /**
      * Tests if a point is contained in the connector.
      */
     public boolean contains(Point2D.Double p);
-    
     /**
      * Returns a clone of the Connection.
      */
     public Object clone();
-    
     /**
      * Gets the drawing area of the connector.
      */

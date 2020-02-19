@@ -2,13 +2,10 @@
  * @(#)NanoXMLDOMOutput.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.xml;
-
-
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;
@@ -25,8 +22,6 @@ import org.jhotdraw.app.Disposable;
  * @version $Id$
  */
 public class NanoXMLDOMOutput implements DOMOutput, Disposable {
-    
-    
     /**
      * The doctype of the XML document.
      */
@@ -41,7 +36,6 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
      * This map is used to cache prototype objects.
      */
     private HashMap<String,Object> prototypes;
-    
     /**
      * The document used for output.
      */
@@ -58,17 +52,15 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
      * The stack.
      */
     private Stack<XMLElement> stack;
-    
     /** Creates a new instance. */
     public NanoXMLDOMOutput(DOMFactory factory) {
         this.factory = factory;
         objectids = new HashMap<Object,String>();
-        document = new XMLElement();//new HashMap(), false, false);
+        document = new XMLElement(); //new HashMap(), false, false);
         current = document;
         stack = new Stack<XMLElement>();
         stack.push(current);
     }
-    
     /**
      * Writes the contents of the DOMOutput into the specified output stream.
      */
@@ -94,7 +86,6 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
      */
     public void print(PrintWriter out) {
         XMLWriter writer = new XMLWriter(out);
-        
         try {
             // writer.write(document);
             writer.write((XMLElement) document.getChildren().get(0), true);
@@ -105,7 +96,6 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
         }
         //((XMLElement) document.getChildren().get(0)).print(out);
     }
-    
     /**
      * Puts a new element into the DOM Document.
      * The new element is added as a child to the current element in the DOM
@@ -114,7 +104,7 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
      */
     @Override
     public void openElement(String tagName) {
-        XMLElement newElement = new XMLElement();//new HashMap(), false, false);
+        XMLElement newElement = new XMLElement(); //new HashMap(), false, false);
         newElement.setName(tagName);
         current.addChild(newElement);
         stack.push(current);
@@ -193,7 +183,6 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
         if (str.endsWith(".0")) str = str.substring(0, str.length() - 2);
         current.setAttribute(name, str);
     }
-    
     @Override
     public void writeObject(Object o) throws IOException {
         String tagName = factory.getName(o);
@@ -210,42 +199,36 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
         }
         closeElement();
     }
-    
     @Override
     public void addAttribute(String name, float value, float defaultValue) {
         if (value != defaultValue) {
             addAttribute(name, value);
         }
     }
-    
     @Override
     public void addAttribute(String name, int value, int defaultValue) {
         if (value != defaultValue) {
             addAttribute(name, value);
         }
     }
-    
     @Override
     public void addAttribute(String name, double value, double defaultValue) {
         if (value != defaultValue) {
             addAttribute(name, value);
         }
     }
-    
     @Override
     public void addAttribute(String name, boolean value, boolean defaultValue) {
         if (value != defaultValue) {
             addAttribute(name, value);
         }
     }
-    
     @Override
     public void addAttribute(String name, String value, String defaultValue) {
         if (value != null && ! value.equals(defaultValue)) {
             addAttribute(name, value);
         }
     }
-    
     @Override
     public Object getPrototype() {
         if (prototypes == null) {
@@ -256,12 +239,10 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
         }
         return prototypes.get(current.getName());
     }
-    
     @Override
     public void setDoctype(String doctype) {
         this.doctype = doctype;
     }
-
     @Override
     public void dispose() {
         if (document != null) {

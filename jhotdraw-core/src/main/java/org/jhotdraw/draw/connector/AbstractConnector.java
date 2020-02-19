@@ -2,7 +2,7 @@
  * @(#)AbstractConnector.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.connector;
@@ -35,7 +35,6 @@ public class AbstractConnector implements Connector, DOMStorable {
      * Whether we should connect to the figure or to its decorator.
      */
     private boolean isConnectToDecorator;
-
     /**
      * Whether the state of this connector is persistent.
      * Set this to true only, when the user interface allows to change the

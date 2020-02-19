@@ -1,19 +1,16 @@
 /*
- * @(#)QuaquaPanelUI.java  
+ * @(#)QuaquaPanelUI.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.border.*;
 import javax.swing.plaf.basic.*;
-
 /**
  * PalettePanelUI.
  *
@@ -23,7 +20,6 @@ import javax.swing.plaf.basic.*;
 public class PalettePanelUI extends BasicPanelUI {
     // Shared UI object
     private static PanelUI panelUI;
-    
     public static ComponentUI createUI(JComponent c) {
         if(panelUI == null) {
             panelUI = new PalettePanelUI();
@@ -33,18 +29,16 @@ public class PalettePanelUI extends BasicPanelUI {
     @Override
     protected void installDefaults(JPanel p) {
         PaletteLookAndFeel.installColorsAndFont(p,
-					 "Panel.background",
-					 "Panel.foreground",
-					 "Panel.font");
+      "Panel.background",
+      "Panel.foreground",
+      "Panel.font");
         PaletteLookAndFeel.installBorder(p,"Panel.border");
-	PaletteLookAndFeel.installProperty(p, "opaque", PaletteLookAndFeel.getInstance().get("Panel.opaque"));
+ PaletteLookAndFeel.installProperty(p, "opaque", PaletteLookAndFeel.getInstance().get("Panel.opaque"));
     }
-    
     @Override
     protected void uninstallDefaults(JPanel p) {
         super.uninstallDefaults(p);
     }
-    
     public static boolean isInTabbedPane(Component comp) {
         if(comp == null)
             return false;
@@ -63,7 +57,6 @@ public class PalettePanelUI extends BasicPanelUI {
         }
         return false;
     }
-    
     @Override
     public void paint(Graphics gr, JComponent c) {
             Graphics2D g = (Graphics2D) gr;
@@ -74,7 +67,6 @@ public class PalettePanelUI extends BasicPanelUI {
         /*
         Border backgroundBorder = null;
         Insets insets = new Insets(0,0,0,0);
-
         if (backgroundBorder != null) {
             backgroundBorder.paintBorder(c, gr, insets.left, insets.top, c.getWidth() - insets.left - insets.right, c.getHeight() - insets.top - insets.bottom);
         }

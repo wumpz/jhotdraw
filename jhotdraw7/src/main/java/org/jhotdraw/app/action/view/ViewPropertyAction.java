@@ -2,23 +2,19 @@
  * @(#)ViewPropertyAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.view;
-
-
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
 import org.jhotdraw.app.action.ActionUtil;
-
 /**
  * ViewPropertyAction.
- * 
+ *
  * @author Werner Randelshofer.
  * @version $Id$
  */
@@ -29,7 +25,6 @@ public class ViewPropertyAction extends AbstractViewAction {
     private Object propertyValue;
     private String setterName;
     private String getterName;
-    
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -38,7 +33,6 @@ public class ViewPropertyAction extends AbstractViewAction {
             }
         }
     };
-    
     /** Creates a new instance. */
     public ViewPropertyAction(Application app, View view, String propertyName, Object propertyValue) {
         this(app, view, propertyName, propertyValue.getClass(), propertyValue);
@@ -55,7 +49,6 @@ public class ViewPropertyAction extends AbstractViewAction {
                 propertyName.substring(1);
         updateSelectedState();
     }
-    
     @Override
     public void actionPerformed(ActionEvent evt) {
         View p = getActiveView();
@@ -67,7 +60,6 @@ public class ViewPropertyAction extends AbstractViewAction {
             throw error;
         }
     }
-    
    @Override protected void installViewListeners(View p) {
         super.installViewListeners(p);
         p.addPropertyChangeListener(viewListener);
@@ -80,7 +72,6 @@ public class ViewPropertyAction extends AbstractViewAction {
         super.uninstallViewListeners(p);
         p.removePropertyChangeListener(viewListener);
     }
-    
     private void updateSelectedState() {
         boolean isSelected = false;
         View p = getActiveView();

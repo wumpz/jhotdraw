@@ -2,15 +2,12 @@
  * @(#)BackgroundTask.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
-
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
 /**
  * This is an abstract class that you can subclass to
  * perform GUI-related work in a dedicated event dispatcher.
@@ -22,7 +19,6 @@ import javax.swing.SwingUtilities;
  */
 public abstract class BackgroundTask implements Runnable {
     private Throwable error;  // see getError(), setError()
-
     /**
      * Calls #construct on the current thread and invokes
      * #done on the AWT event dispatcher thread.
@@ -34,7 +30,6 @@ public abstract class BackgroundTask implements Runnable {
         } catch (Throwable e) {
             setError(e);
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     failed(getError());
@@ -44,7 +39,6 @@ public abstract class BackgroundTask implements Runnable {
             return;
         }
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 try {
@@ -55,13 +49,10 @@ public abstract class BackgroundTask implements Runnable {
             }
         });
     }
-
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    
     protected abstract void construct() throws Exception;
-
     /**
      * Called on the event dispatching thread (not on the worker thread)
      * after the <code>construct</code> method has returned without throwing
@@ -72,7 +63,6 @@ public abstract class BackgroundTask implements Runnable {
      */
     protected void done() {
     }
-
     /**
      * Called on the event dispatching thread (not on the worker thread)
      * after the <code>construct</code> method has thrown an error.
@@ -86,7 +76,6 @@ public abstract class BackgroundTask implements Runnable {
         JOptionPane.showMessageDialog(null, error.getMessage()==null?error.toString():error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         error.printStackTrace();
     }
-
     /**
      * Called on the event dispatching thread (not on the worker thread)
      * after the <code>construct</code> method has finished and after
@@ -97,7 +86,6 @@ public abstract class BackgroundTask implements Runnable {
      */
     protected void finished() {
     }
-
     /**
      * Get the error produced by the worker thread, or null if it
      * hasn't thrown one.
@@ -105,14 +93,12 @@ public abstract class BackgroundTask implements Runnable {
     protected synchronized Throwable getError() {
         return error;
     }
-
     /**
      * Set the error thrown by constrct.
      */
     private synchronized void setError(Throwable x) {
         error = x;
     }
-
     /**
      * Starts the Worker on an internal worker thread.
      */

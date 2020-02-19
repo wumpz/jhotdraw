@@ -2,14 +2,12 @@
  * @(#)HandleAttributeKeys.java
  *
  * Copyright (c) 2008-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.*;
 import java.awt.*;
-
 /**
  * Defines a put of well known {@link Handle} attributes.
  * <p>
@@ -24,7 +22,6 @@ public class HandleAttributeKeys {
     private static final Color FILL_COLOR_DISABLED_ = new Color(0x80000000,true);
     /** Stroke color of disabled handles. */
     private static final Color STROKE_COLOR_DISABLED_ = new Color(0x80ffffff,true);
-
     /**
      * General handle size.
      */
@@ -227,7 +224,7 @@ public class HandleAttributeKeys {
      */
     public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("resizeBoundsStroke2", Stroke.class,
             new BasicStroke(1f));
-    // 
+    //
     /**
      * Disabled resize bounds stroke color 1.
      */
@@ -247,7 +244,7 @@ public class HandleAttributeKeys {
     public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2_DISABLED = new AttributeKey<Stroke>("resizeBoundsStroke2Hover", Stroke.class,
             new BasicStroke(1f));
     //---
-    // 
+    //
     /**
      * Handle bounds hover stroke color 1.
      */

@@ -2,13 +2,10 @@
  * @(#)NullHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.*;
@@ -22,30 +19,23 @@ import java.util.*;
  * @version $Id$
  */
 public class NullHandle extends LocatorHandle {
-    
     /** Creates a new instance. */
     public NullHandle(Figure owner, Locator locator) {
         super(owner, locator);
     }
-    
     @Override
     public Cursor getCursor() {
         return Cursor.getDefaultCursor();
     }
-    
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
-        
     }
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
-        
     }
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-        
     }
-    
     /**
      * Creates handles for each lead of a
      * figure and adds them to the provided collection.
@@ -62,10 +52,9 @@ public class NullHandle extends LocatorHandle {
      */
     @Override
     public void draw(Graphics2D g) {
-        drawRectangle(g, 
+        drawRectangle(g,
                 getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_FILL_COLOR),
                 getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR)
                 );
     }
-    
 }

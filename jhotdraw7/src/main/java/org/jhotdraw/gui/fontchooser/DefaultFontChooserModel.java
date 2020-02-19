@@ -2,22 +2,20 @@
  * @(#)DefaultFontModel.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.fontchooser;
-
 import java.awt.*;
 import java.util.*;
 import java.util.ArrayList;
 import javax.swing.tree.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * DefaultFontChooserModel with a predefined set of font collections.
  * <p>
- * Loading the fonts may take a lot of time. Therefore it is recommended to 
- * create a Future during the startup of an application, and set the fonts in 
+ * Loading the fonts may take a lot of time. Therefore it is recommended to
+ * create a Future during the startup of an application, and set the fonts in
  * the font chooser model when they are needed.
  * <p>
  * Example:
@@ -30,37 +28,32 @@ import org.jhotdraw.util.ResourceBundleUtil;
  *       }
  *   });
  * </pre>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class DefaultFontChooserModel extends AbstractFontChooserModel {
-
     /**
      * Root node.
      */
     protected DefaultMutableTreeNode root;
-
     public DefaultFontChooserModel() {
         root = new DefaultMutableTreeNode();
     }
-
     public DefaultFontChooserModel(Font[] fonts) {
         root = new DefaultMutableTreeNode();
         setFonts(fonts);
     }
-
     /**
      * Sets the fonts of the DefaultFontChooserModel.
      * <p>
      * Fires treeStructureChanged event on the root node.
-     * 
+     *
      * @param fonts
      */
     @SuppressWarnings("unchecked")
     public void setFonts(Font[] fonts) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
-
         // collect families and sort them alphabetically
         ArrayList<FontFamilyNode> families = new ArrayList<FontFamilyNode>();
         HashMap<String, FontFamilyNode> familyMap = new HashMap<String, FontFamilyNode>();
@@ -77,12 +70,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         }
         families.addAll(familyMap.values());
         Collections.sort(families);
-
         // group families into collections
         root.removeAllChildren();
-
         root.add(new FontCollectionNode(labels.getString("FontCollection.allFonts"), (ArrayList<FontFamilyNode>) families.clone()));
-
         // Web-save fonts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.web"), collectFamiliesNamed(families,
@@ -95,7 +85,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Trebuchet MS",
                 "Verdana",
                 "Webdings")));
-
         /*
         // PDF Fonts
         root.add(
@@ -149,10 +138,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Palatino",
                 "Times",
                 "Times New Roman",
-                
                 // Fonts on Mac OS X 10.6:
                 "Didot",
-                
                 // Fonts on Windows XP:
                 "Palatino Linotype",
                 "Bitstream Vera Serif Bold",
@@ -225,11 +212,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tahoma",
                 "Trebuchet MS",
                 "Verdana",
-                
                 // Fonts on Mac OS X 10.6:
                 "Charcoal",
                 "Euphemia UCAS",
-                
                 // Fonts on Windows XP:
                 "Franklin Gothic Medium",
                 "Lucida Sans Unicode",
@@ -258,7 +243,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tw Cen MT",
                 "Tw Cen MT Condensed",
                 "Tw Cen MT Condensed Extra Bold",
-                
                 // Fonts on Windows Vista:
                 "Aharoni",
                 "Browallia New",
@@ -283,8 +267,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Meiryo",
                 "Miriam",
                 "Segoe UI")));
-
-        // Scripts 
+        // Scripts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.script"), collectFamiliesNamed(families,
                 // Fonts on Mac OS X 10.5:
@@ -324,11 +307,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tekton Pro",
                 "Trajan Pro",
                 "Zapfino",
-                
                 // Fonts on Mac OS X 10.6:
                 "Casual",
                 "Chalkduster",
-                
                 // Fonts on Windows XP:
                 "Blackadder ITC",
                 "Bradley Hand ITC",
@@ -357,7 +338,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 // Fonts on Windows Vista
                 "Segoe Print",
                 "Segoe Script")));
-
         // Monospaced
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.monospaced"), collectFamiliesNamed(families,
@@ -371,23 +351,19 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "OCR A Std",
                 "Orator Std",
                 "Prestige Elite Std",
-                
                 // Fonts on Mac OS X 10.6:
                 "Menlo",
-                
                 // Fonts on Windows XP:
                 "Lucida Console",
                 "Bitstream Vera S...",
                 "Consolas",
                 "OCR A Extended",
                 "OCR B",
-                
                 // Fonts on Windows Vista
                 "Consolas",
                 "DotumChe",
                 "Miriam Fixed",
                 "Rod")));
-
         // Decorative
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.decorative"), collectFamiliesNamed(families,
@@ -450,10 +426,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Stone Sans Sem OS ITC TT",
                 "Synchro LET",
                 "Wide Latin",
-                
                 // Fonts on Mac OS X 10.5:
                 "HeadLineA",
-                
                 // Fonts on Windows XP:
                 "Algerian",
                 "Bodoni MT Black",
@@ -496,13 +470,10 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Wingdings 2",
                 "Wingdings 3",
                 "Zapf Dingbats",
-                
                 // Fonts on Windows XP:
-
-                "Bookshelf Symbol" 
+                "Bookshelf Symbol"
                 // Fonts on Windows Vista:
                 )));
-
         // Collect font families, which are not in one of the other collections
         // (except the collection AllFonts).
         FontCollectionNode others = new FontCollectionNode(labels.getString("FontCollection.other"));
@@ -521,10 +492,8 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         Collections.sort(otherFamilies);
         others.addAll(otherFamilies);
         root.add(others);
-
         fireTreeStructureChanged(this, new TreePath(root));
     }
-
     protected ArrayList<FontFamilyNode> collectFamiliesNamed(ArrayList<FontFamilyNode> families, String... names) {
         ArrayList<FontFamilyNode> coll = new ArrayList<FontFamilyNode>();
         HashSet<String> nameMap = new HashSet<String>();
@@ -534,11 +503,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
             if (nameMap.contains(family.getName())) {
                 coll.add(family.clone());
             }
-
         }
         return coll;
     }
-
     @Override
     public boolean isEditable(MutableTreeNode node) {
         boolean result = true;
@@ -546,50 +513,40 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
             result &= ((FontFaceNode) node).isEditable();
             node = (MutableTreeNode) node.getParent();
         }
-
         if (result && (node instanceof FontFamilyNode)) {
             result &= ((FontFamilyNode) node).isEditable();
             node = (MutableTreeNode) node.getParent();
         }
-
         if (result && (node instanceof FontCollectionNode)) {
             result &= ((FontCollectionNode) node).isEditable();
         }
-
         return result;
     }
-
     @Override
     public Object getRoot() {
         return root;
     }
-
     @Override
     public Object getChild(
             Object parent, int index) {
         return ((TreeNode) parent).getChildAt(index);
     }
-
     @Override
     public int getChildCount(Object parent) {
         return ((TreeNode) parent).getChildCount();
     }
-
     @Override
     public boolean isLeaf(Object node) {
         return ((TreeNode) node).isLeaf();
     }
-
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
     @Override
     public int getIndexOfChild(Object parent, Object child) {
         return ((TreeNode) parent).getIndex((TreeNode) child);
     }
-
     public static class UIResource extends DefaultFontChooserModel implements javax.swing.plaf.UIResource {
     }
 }

@@ -2,15 +2,12 @@
  * @(#)ColorListCellRenderer.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
-
 import java.awt.*;
 import javax.swing.*;
-
 /**
  * ColorListCellRenderer.
  *
@@ -19,16 +16,11 @@ import javax.swing.*;
  */
 public class ColorListCellRenderer extends DefaultListCellRenderer {
     private static final long serialVersionUID = 1L;
-
-    
     private static class ColorIcon implements Icon {
-
         private Color color;
-
         public void setColor(Color newValue) {
             color = newValue;
         }
-
         @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (color != null) {
@@ -40,25 +32,20 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
                 g.fillRect(x + 2, y + 2, getIconWidth() - 4, getIconHeight() - 4);
             }
         }
-
         @Override
         public int getIconWidth() {
             return 24;
         }
-
         @Override
         public int getIconHeight() {
             return 18;
         }
     }
-
     private ColorIcon icon;
-    
     public ColorListCellRenderer() {
     icon = new ColorIcon();
     setIcon(icon);
     }
-
     @Override
     public Component getListCellRendererComponent(
             JList list,

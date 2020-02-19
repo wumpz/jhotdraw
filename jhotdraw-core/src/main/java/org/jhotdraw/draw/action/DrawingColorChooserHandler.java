@@ -24,13 +24,12 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
         implements ChangeListener {
 
     private static final long serialVersionUID = 1L;
-
     protected AttributeKey<Color> key;
     protected JColorChooser colorChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
-    //protected Map<AttributeKey, Object> attributes;
 
+    //protected Map<AttributeKey, Object> attributes;
     /**
      * Creates a new instance.
      */
@@ -39,7 +38,6 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
         this.key = key;
         this.colorChooser = colorChooser;
         this.popupMenu = popupMenu;
-
         //colorChooser.addActionListener(this);
         colorChooser.getSelectionModel().addChangeListener(this);
         updateEnabledState();
@@ -57,17 +55,14 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
 
     protected void applySelectedColorToFigures() {
         final Drawing drawing = getView().getDrawing();
-
         Color selectedColor = colorChooser.getColor();
         if (selectedColor != null && selectedColor.getAlpha() == 0) {
             selectedColor = null;
         }
-
         final Object restoreData = drawing.getAttributesRestoreData();
         drawing.willChange();
         drawing.set(key, selectedColor);
         drawing.changed();
-
         getEditor().setDefaultAttribute(key, selectedColor);
         final Color undoValue = selectedColor;
         UndoableEdit edit = new AbstractUndoableEdit() {
@@ -115,10 +110,8 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
             colorChooser.setEnabled(getView().getSelectionCount() > 0);
             popupMenu.setEnabled(getView().getSelectionCount() > 0);
             isUpdating++;
-
             Color drawingColor = getView().getDrawing().get(key);
             colorChooser.setColor(drawingColor == null ? new Color(0, true) : drawingColor);
-
             isUpdating--;
         }
     }

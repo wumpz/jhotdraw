@@ -2,20 +2,16 @@
  * @(#)OutputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.io;
-
-
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
-
 /**
  * An <em>output format</em> implements a strategy for writing a {@link Drawing}
  * using a specific format into an {@code OutputStream}, an {@code URI} or a
@@ -42,21 +38,19 @@ import javax.swing.*;
  */
 public interface OutputFormat {
     /**
-     * Return a FileFilter that can be used to identify files which can be stored 
+     * Return a FileFilter that can be used to identify files which can be stored
      * with this output format. Typically, each output format has its own
      * recognizable file extension.
      *
      * @return FileFilter to be used with a javax.swing.JFileChooser
      */
     public javax.swing.filechooser.FileFilter getFileFilter();
-
     /**
      * Returns the file extension for the output format.
      * The file extension should be appended to a file name when storing a
      * Drawing with the specified file format.
      */
     public String getFileExtension();
-    
     /**
      * Return a JFileChooser accessory that can be used to customize the output
      * format.
@@ -65,7 +59,6 @@ public interface OutputFormat {
      * Returns null, if no accessory is provided for this format.
      */
     public JComponent getOutputFormatAccessory();
-    
     /**
      * Writes a Drawing into an URI.
      *
@@ -73,7 +66,6 @@ public interface OutputFormat {
      * @param drawing The drawing.
      */
     public void write(URI uri, Drawing drawing) throws IOException;
-
     /**
      * Writes a Drawing into an output stream.
      *
@@ -81,7 +73,6 @@ public interface OutputFormat {
      * @param drawing The drawing.
      */
     public void write(OutputStream out, Drawing drawing) throws IOException;
-    
     /**
      * Creates a Transferable for the specified list of Figures.
      *

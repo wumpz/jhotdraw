@@ -14,5 +14,4 @@ package org.jhotdraw.gui.plaf.palette;
  * @version $Id$
  */
 public class PaletteBorders {
-
 }

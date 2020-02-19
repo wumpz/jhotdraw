@@ -2,7 +2,7 @@
  * @(#)LocatorLayouter.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.layouter;
@@ -37,7 +37,6 @@ public class LocatorLayouter implements Layouter {
     @Override
     public Rectangle2D.Double calculateLayout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
         Rectangle2D.Double bounds = null;
-
         for (Figure child : compositeFigure.getChildren()) {
             Locator locator = getLocator(child);
             Rectangle2D.Double r;
@@ -56,17 +55,14 @@ public class LocatorLayouter implements Layouter {
                 }
             }
         }
-
         return (bounds == null) ? new Rectangle2D.Double() : bounds;
     }
 
     @Override
     public Rectangle2D.Double layout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
         Rectangle2D.Double bounds = null;
-
         for (Figure child : compositeFigure.getChildren()) {
             Locator locator = getLocator(child);
-
             Rectangle2D.Double r;
             if (locator == null) {
                 r = child.getBounds();
@@ -89,7 +85,6 @@ public class LocatorLayouter implements Layouter {
                 }
             }
         }
-
         return (bounds == null) ? new Rectangle2D.Double() : bounds;
     }
 

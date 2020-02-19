@@ -2,11 +2,10 @@
  * @(#)SelectionTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.ToolEvent;
@@ -15,7 +14,6 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 import org.jhotdraw.draw.event.ToolAdapter;
-
 /**
  * Tool to select and manipulate figures.
  * <p>
@@ -49,7 +47,6 @@ import org.jhotdraw.draw.event.ToolAdapter;
  */
 public class SelectionTool extends AbstractTool {
     private static final long serialVersionUID = 1L;
-
     /**
      * The tracker encapsulates the current state of the SelectionTool.
      */
@@ -66,13 +63,11 @@ public class SelectionTool extends AbstractTool {
      * The tracker encapsulates the current state of the SelectionTool.
      */
     private DragTracker dragTracker;
-
     private class TrackerHandler extends ToolAdapter {
         @Override
     public void toolDone(ToolEvent event) {
         // Empty
         Tool newTracker = getSelectAreaTracker();
-
         if (newTracker != null) {
             if (tracker != null) {
                 tracker.deactivate(getEditor());
@@ -84,7 +79,6 @@ public class SelectionTool extends AbstractTool {
         }
         fireToolDone();
     }
-
     /**
      * Sent when an area of the drawing view needs to be repainted.
      */
@@ -99,11 +93,8 @@ public class SelectionTool extends AbstractTool {
     public void boundsInvalidated(ToolEvent e) {
         fireBoundsInvalidated(e.getInvalidatedArea());
     }
-
-
     }
     private TrackerHandler trackerHandler;
-
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
@@ -113,14 +104,12 @@ public class SelectionTool extends AbstractTool {
      * By default, this property is set to true.
      */
     private boolean isSelectBehindEnabled = true;
-
     /** Creates a new instance. */
     public SelectionTool() {
         tracker = getSelectAreaTracker();
         trackerHandler = new TrackerHandler();
         tracker.addToolListener(trackerHandler);
     }
-
     /**
      * Sets the selectBehindEnabled property.
      * This is a bound property.
@@ -132,7 +121,6 @@ public class SelectionTool extends AbstractTool {
         isSelectBehindEnabled = newValue;
         firePropertyChange(SELECT_BEHIND_ENABLED_PROPERTY, oldValue, newValue);
     }
-
     /**
      * Returns the value of the selectBehindEnabled property.
      * This is a bound property.
@@ -142,83 +130,70 @@ public class SelectionTool extends AbstractTool {
     public boolean isSelectBehindEnabled() {
         return isSelectBehindEnabled;
     }
-
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         tracker.activate(editor);
     }
-
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
         tracker.deactivate(editor);
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         if (getView() != null && getView().isEnabled()) {
             tracker.keyPressed(e);
         }
     }
-
     @Override
     public void keyReleased(KeyEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.keyReleased(evt);
         }
     }
-
     @Override
     public void keyTyped(KeyEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.keyTyped(evt);
         }
     }
-
     @Override
     public void mouseClicked(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseClicked(evt);
         }
     }
-
     @Override
     public void mouseDragged(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseDragged(evt);
         }
     }
-
     @Override
     public void mouseEntered(MouseEvent evt) {
         super.mouseEntered(evt);
         tracker.mouseEntered(evt);
     }
-
     @Override
     public void mouseExited(MouseEvent evt) {
         super.mouseExited(evt);
         tracker.mouseExited(evt);
     }
-
     @Override
     public void mouseMoved(MouseEvent evt) {
         tracker.mouseMoved(evt);
     }
-
     @Override
     public void mouseReleased(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
             tracker.mouseReleased(evt);
         }
     }
-
     @Override
     public void draw(Graphics2D g) {
         tracker.draw(g);
     }
-
     @Override
     public void mousePressed(MouseEvent evt) {
         if (getView() != null && getView().isEnabled()) {
@@ -251,7 +226,6 @@ public class SelectionTool extends AbstractTool {
                     // Note: The search sequence used here, must be
                     // consistent with the search sequence used by the
                     // DefaultHandleTracker, the DefaultSelectAreaTracker and DelegationSelectionTool.
-
                     // If possible, continue to work with the current selection
                     figure = null;
                     if (isSelectBehindEnabled()) {
@@ -271,7 +245,6 @@ public class SelectionTool extends AbstractTool {
                         }
                     }
                 }
-
                 if (figure != null && figure.isSelectable()) {
                     newTracker = getDragTracker(figure);
                 } else {
@@ -282,14 +255,12 @@ public class SelectionTool extends AbstractTool {
                     newTracker = getSelectAreaTracker();
                 }
             }
-
             if (newTracker != null) {
                 setTracker(newTracker);
             }
             tracker.mousePressed(evt);
         }
     }
-
     protected void setTracker(Tool newTracker) {
         if (tracker != null) {
             tracker.deactivate(getEditor());
@@ -301,7 +272,6 @@ public class SelectionTool extends AbstractTool {
             tracker.addToolListener(trackerHandler);
         }
     }
-
     /**
      * Method to get a {@code HandleTracker} which handles user interaction
      * for the specified handle.
@@ -313,7 +283,6 @@ public class SelectionTool extends AbstractTool {
         handleTracker.setHandles(handle, getView().getCompatibleHandles(handle));
         return handleTracker;
     }
-
     /**
      * Method to get a {@code DragTracker} which handles user interaction
      * for dragging the specified figure.
@@ -325,7 +294,6 @@ public class SelectionTool extends AbstractTool {
         dragTracker.setDraggedFigure(f);
         return dragTracker;
     }
-
     /**
      * Method to get a {@code SelectAreaTracker} which handles user interaction
      * for selecting an area on the drawing.
@@ -336,7 +304,6 @@ public class SelectionTool extends AbstractTool {
         }
         return selectAreaTracker;
     }
-
     /**
      * Method to set a {@code HandleTracker}. If you specify null, the
      * {@code SelectionTool} uses the {@code DefaultHandleTracker}.
@@ -344,7 +311,6 @@ public class SelectionTool extends AbstractTool {
     public void setHandleTracker(HandleTracker newValue) {
         handleTracker = newValue;
     }
-
     /**
      * Method to set a {@code SelectAreaTracker}. If you specify null, the
      * {@code SelectionTool} uses the {@code DefaultSelectAreaTracker}.
@@ -352,7 +318,6 @@ public class SelectionTool extends AbstractTool {
     public void setSelectAreaTracker(SelectAreaTracker newValue) {
         selectAreaTracker = newValue;
     }
-
     /**
      * Method to set a {@code DragTracker}. If you specify null, the
      * {@code SelectionTool} uses the {@code DefaultDragTracker}.
@@ -360,13 +325,11 @@ public class SelectionTool extends AbstractTool {
     public void setDragTracker(DragTracker newValue) {
         dragTracker = newValue;
     }
-
-
     /**
      * Returns true, if this tool lets the user interact with handles.
      * <p>
      * Handles may draw differently, if interaction is not possible.
-     * 
+     *
      * @return True, if this tool supports interaction with the handles.
      */
     public boolean supportsHandleInteraction() {

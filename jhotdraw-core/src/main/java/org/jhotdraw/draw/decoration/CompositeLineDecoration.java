@@ -2,7 +2,7 @@
  * @(#)CompositeLineDecoration.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.decoration;
@@ -75,7 +75,6 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     @Override
     public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
         Rectangle2D.Double r = null;
-
         for (LineDecoration decoration : decorations) {
             Rectangle2D.Double aR = decoration.getDrawingArea(f, p1, p2);
             if (r == null) {
@@ -84,7 +83,6 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
                 r.add(aR);
             }
         }
-
         return r;
     }
 
@@ -96,11 +94,9 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     @Override
     public double getDecorationRadius(Figure f) {
         double radius = 0;
-
         for (LineDecoration decoration : decorations) {
             radius = Math.max(radius, decoration.getDecorationRadius(f));
         }
-
         return radius;
     }
 
@@ -108,13 +104,10 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     public void read(DOMInput in) throws IOException {
         for (int i = in.getElementCount("decoration") - 1; i >= 0; i--) {
             in.openElement("decoration", i);
-
             Object value = in.readObject();
-
             if (value instanceof LineDecoration) {
                 addDecoration((LineDecoration) value);
             }
-
             in.closeElement();
         }
     }
@@ -123,9 +116,7 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     public void write(DOMOutput out) throws IOException {
         for (LineDecoration decoration : decorations) {
             out.openElement("decoration");
-
             out.writeObject(decoration);
-
             out.closeElement();
         }
     }

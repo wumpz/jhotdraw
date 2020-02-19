@@ -6,10 +6,8 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
 import org.jhotdraw.draw.gui.JAttributeTextField;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
@@ -17,7 +15,6 @@ import org.jhotdraw.text.JavaNumberFormatter;
 import javax.swing.border.*;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.SliderUI;
@@ -25,7 +22,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * FigureToolBar.
  *
@@ -34,17 +30,14 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class FigureToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
-
     private SelectionComponentDisplayer displayer;
     private ResourceBundleUtil labels;
-
     /** Creates new instance. */
     public FigureToolBar() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
         setDisclosureStateCount(3);
     }
-
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (displayer != null) {
@@ -56,26 +49,21 @@ public class FigureToolBar extends AbstractToolBar {
             displayer = new SelectionComponentDisplayer(editor, this);
         }
     }
-
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
             case 1: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Opacity slider
                 JPopupButton opacityPopupButton = new JPopupButton();
                 JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
@@ -99,21 +87,17 @@ public class FigureToolBar extends AbstractToolBar {
                 disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
             }
             break;
-
             case 2: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                 opacityField.setColumns(4);
@@ -159,12 +143,10 @@ public class FigureToolBar extends AbstractToolBar {
         }
         return p;
     }
-
     @Override
     protected String getID() {
         return "figure";
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

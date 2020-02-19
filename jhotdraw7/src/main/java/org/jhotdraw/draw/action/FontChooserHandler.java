@@ -2,11 +2,10 @@
  * @(#)FontChooserHandler.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
 import javax.swing.undo.*;
 import javax.swing.*;
 import java.util.*;
@@ -14,7 +13,6 @@ import java.awt.*;
 import java.beans.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.JFontChooser;
-
 /**
  * FontChooserHandler.
  *
@@ -24,25 +22,21 @@ import org.jhotdraw.gui.JFontChooser;
 public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {
     private static final long serialVersionUID = 1L;
-
     protected AttributeKey<Font> key;
     protected JFontChooser fontChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
     //protected Map<AttributeKey, Object> attributes;
-
     /** Creates a new instance. */
     public FontChooserHandler(DrawingEditor editor, AttributeKey<Font> key, JFontChooser fontChooser, JPopupMenu popupMenu) {
         super(editor);
         this.key = key;
         this.fontChooser = fontChooser;
         this.popupMenu = popupMenu;
-
         fontChooser.addActionListener(this);
         fontChooser.addPropertyChangeListener(this);
         updateEnabledState();
     }
-
     @Override
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         if (evt.getActionCommand() == JFontChooser.APPROVE_SELECTION) {
@@ -51,7 +45,6 @@ public class FontChooserHandler extends AbstractSelectedAction
         }
         popupMenu.setVisible(false);
     }
-
     protected void applySelectedFontToFigures() {
         final ArrayList<Figure> selectedFigures = new ArrayList<Figure>(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<Object>(selectedFigures.size());
@@ -65,7 +58,6 @@ public class FontChooserHandler extends AbstractSelectedAction
         final Font undoValue = fontChooser.getSelectedFont();
         UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
             @Override
             public String getPresentationName() {
                 return AttributeKeys.FONT_FACE.getPresentationName();
@@ -80,7 +72,6 @@ public class FontChooserHandler extends AbstractSelectedAction
             }
             return name;*/
             }
-
             @Override
             public void undo() {
                 super.undo();
@@ -91,7 +82,6 @@ public class FontChooserHandler extends AbstractSelectedAction
                     figure.changed();
                 }
             }
-
             @Override
             public void redo() {
                 super.redo();
@@ -105,7 +95,6 @@ public class FontChooserHandler extends AbstractSelectedAction
         };
         fireUndoableEditHappened(edit);
     }
-
     @Override
     protected void updateEnabledState() {
         setEnabled(getEditor().isEnabled());
@@ -125,7 +114,6 @@ public class FontChooserHandler extends AbstractSelectedAction
             isUpdating--;
         }
     }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (isUpdating++ == 0) {

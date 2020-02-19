@@ -6,7 +6,6 @@
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
-
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
@@ -17,7 +16,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
 /**
  * Provides utility methods for computing the convex hull from a set of points.
  *
@@ -25,7 +23,6 @@ import java.util.List;
  * @version $Id$
  */
 public class ConvexHull {
-
     /**
      * Computes the convex hull from a set of points.
      *
@@ -39,7 +36,6 @@ public class ConvexHull {
         }
         return convexHull;
     }
-
     /**
      * Computes the convex hull from a set of points.
      *
@@ -60,7 +56,6 @@ public class ConvexHull {
         convexHull.closePath();
         return convexHull;
     }
-
     /**
      * Computes the convex hull from a shape.
      *
@@ -88,7 +83,6 @@ public class ConvexHull {
                     points.add(new Point2D.Double(coords[4], coords[5]));
                     break;
             }
-
         }
         Path2D.Double convexHull = new Path2D.Double();
         boolean first = true;
@@ -103,7 +97,6 @@ public class ConvexHull {
         convexHull.closePath();
         return convexHull;
     }
-
     /**
      * Computes the convex hull from a set of points.
      *
@@ -113,7 +106,6 @@ public class ConvexHull {
     public static List<Point> getConvexHull(List<Point> points) {
         return Arrays.asList(getConvexHull(points.toArray(new Point[points.size()])));
     }
-
     /**
      * Computes the convex hull from a set of points.
      *
@@ -123,7 +115,6 @@ public class ConvexHull {
     public static List<Point2D.Double> getConvexHull2D(List<Point2D.Double> points) {
         return Arrays.asList(getConvexHull2D(points.toArray(new Point2D.Double[points.size()])));
     }
-
     /**
      * Computes the convex hull from a set of points.
      *
@@ -135,20 +126,16 @@ public class ConvexHull {
         if (points.length < 3) {
             return points.clone();
         }
-
         // Sort points from left to right O(n log n)
         Point[] sorted = points.clone();
         Arrays.sort(sorted, new Comparator<Point>() {
-
             @Override
             public int compare(Point o1, Point o2) {
                 int v = o1.x - o2.x;
                 return (v == 0) ? o1.y - o2.y : v;
             }
         });
-
         Point[] hull = new Point[sorted.length + 2];
-
         // Process upper part of convex hull O(n)
         int upper = 0; // Number of points in upper part of convex hull
         hull[upper++] = sorted[0];
@@ -160,7 +147,6 @@ public class ConvexHull {
                 upper--;
             }
         }
-
         // Process lower part of convex hull O(n)
         int lower = upper; // (lower - number + 1) = number of points in the lower part of the convex hull
         hull[lower++] = sorted[sorted.length - 2];
@@ -172,13 +158,11 @@ public class ConvexHull {
             }
         }
         lower -= 1;
-
         // Reduce array
         Point[] convexHull = new Point[lower];
         System.arraycopy(hull, 0, convexHull, 0, lower);
         return convexHull;
     }
-
     /**
      * Returns true, if the three given points make a right turn.
      *
@@ -195,7 +179,6 @@ public class ConvexHull {
         double val = (p2.x * p3.y + p1.x * p2.y + p3.x * p1.y) - (p2.x * p1.y + p3.x * p2.y + p1.x * p3.y);
         return val > 0;
     }
-
     /**
      * Computes the convex hull from a set of points.
      *
@@ -207,11 +190,9 @@ public class ConvexHull {
         if (points.length < 3) {
             return points.clone();
         }
-
         // Sort points from left to right O(n log n)
         Point2D.Double[] sorted = points.clone();
         Arrays.sort(sorted, new Comparator<Point2D.Double>() {
-
             @Override
             public int compare(Point2D.Double o1, Point2D.Double o2) {
                 double v = o1.x - o2.x;
@@ -221,9 +202,7 @@ public class ConvexHull {
                 return (v > 0) ? 1 : ((v < 0) ? -1 : 0);
             }
         });
-
         Point2D.Double[] hull = new Point2D.Double[sorted.length + 2];
-
         // Process upper part of convex hull O(n)
         int upper = 0; // Number of points in upper part of convex hull
         hull[upper++] = sorted[0];
@@ -235,7 +214,6 @@ public class ConvexHull {
                 upper--;
             }
         }
-
         // Process lower part of convex hull O(n)
         int lower = upper; // (lower - number + 1) = number of points in the lower part of the convex hull
         hull[lower++] = sorted[sorted.length - 2];
@@ -247,13 +225,11 @@ public class ConvexHull {
             }
         }
         lower -= 1;
-
         // Reduce array
         Point2D.Double[] convexHull = new Point2D.Double[lower];
         System.arraycopy(hull, 0, convexHull, 0, lower);
         return convexHull;
     }
-
     /**
      * Returns true, if the three given points make a right turn.
      *
@@ -267,7 +243,6 @@ public class ConvexHull {
             // no right turn if points are at same location
             return false;
         }
-
         double val = (p2.x * p3.y + p1.x * p2.y + p3.x * p1.y) - (p2.x * p1.y + p3.x * p2.y + p1.x * p3.y);
         return val > 0;
     }

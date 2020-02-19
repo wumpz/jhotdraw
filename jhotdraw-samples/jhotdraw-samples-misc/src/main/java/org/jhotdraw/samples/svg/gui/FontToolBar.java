@@ -2,12 +2,10 @@
  * @(#)StrokeToolBar.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
-
 import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
@@ -29,18 +27,15 @@ import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.text.FontFormatter;
 import org.jhotdraw.text.JavaNumberFormatter;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * StrokeToolBar.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class FontToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
-
     private SelectionComponentDisplayer displayer;
-
     /** Creates new instance. */
     public FontToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -48,7 +43,6 @@ public class FontToolBar extends AbstractToolBar {
         JFontChooser.loadAllFonts();
         setDisclosureStateCount(3);
     }
-
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (displayer != null) {
@@ -58,7 +52,6 @@ public class FontToolBar extends AbstractToolBar {
         super.setEditor(newValue);
         if (newValue != null) {
             displayer = new SelectionComponentDisplayer(editor, this) {
-
                 @Override
                 public void updateVisibility() {
                     boolean newValue = editor != null &&
@@ -71,17 +64,14 @@ public class FontToolBar extends AbstractToolBar {
                         return;
                     }
                     component.setVisible(newValue);
-
                     // The following is needed to trick BoxLayout
                     if (newValue) {
                         component.setPreferredSize(null);
                     } else {
                         component.setPreferredSize(new Dimension(0, 0));
                     }
-
                     component.revalidate();
                 }
-
                 private boolean containsTextHolderFigure(Collection<Figure> figures) {
                     for (Figure f : figures) {
                         if (f instanceof TextHolderFigure) {
@@ -93,44 +83,33 @@ public class FontToolBar extends AbstractToolBar {
                         }
                     }
                     return false;
-
                 }
             };
         }
     }
-
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
             case 1: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-
                 JPanel p1 = new JPanel(new GridBagLayout());
                 JPanel p2 = new JPanel(new GridBagLayout());
                 JPanel p3 = new JPanel(new GridBagLayout());
                 p1.setOpaque(false);
                 p2.setOpaque(false);
                 p3.setOpaque(false);
-
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Font face field and popup button
                 JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
                 faceField.setColumns(2);
@@ -155,8 +134,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
-
                 // Font size field with slider
                 JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
                 sizeField.setColumns(1);
@@ -176,7 +153,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.weightx = 1f;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 p2.add(sizeField, gbc);
-
                 JPopupButton sizePopupButton = new JPopupButton();
                 JAttributeSlider sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
                 sizePopupButton.add(sizeSlider);
@@ -193,7 +169,6 @@ public class FontToolBar extends AbstractToolBar {
                 sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
                 sizeSlider.setScaleFactor(1d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor));
-
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 1;
@@ -202,7 +177,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(p2, gbc);
-
                 // Font style buttons
                 btn = ButtonFactory.createFontStyleBoldButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -226,35 +200,27 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
             }
             break;
             case 2: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 JPanel p1 = new JPanel(new GridBagLayout());
                 JPanel p2 = new JPanel(new GridBagLayout());
                 JPanel p3 = new JPanel(new GridBagLayout());
                 p1.setOpaque(false);
                 p2.setOpaque(false);
                 p3.setOpaque(false);
-
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Font face field and popup button
                 JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
                 faceField.setColumns(12);
@@ -279,7 +245,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
                 // Font size field with slider
                 JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
                 sizeField.setColumns(1);
@@ -299,7 +264,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.weightx = 1f;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 p2.add(sizeField, gbc);
-
                 JPopupButton sizePopupButton = new JPopupButton();
                 JAttributeSlider sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
                 sizePopupButton.add(sizeSlider);
@@ -316,7 +280,6 @@ public class FontToolBar extends AbstractToolBar {
                 sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
                 sizeSlider.setScaleFactor(1d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor));
-
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 1;
@@ -325,7 +288,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(p2, gbc);
-
                 // Font style buttons
                 btn = ButtonFactory.createFontStyleBoldButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -349,23 +311,19 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
             }
             break;
         }
         return p;
     }
-
     @Override
     protected String getID() {
         return "font";
     }
-
     @Override
     protected int getDefaultDisclosureState() {
         return 1;
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

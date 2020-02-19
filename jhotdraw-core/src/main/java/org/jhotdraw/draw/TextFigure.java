@@ -2,7 +2,7 @@
  * @(#)TextFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -40,11 +40,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         implements TextHolderFigure {
 
     private static final long serialVersionUID = 1L;
-
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;
     // cache of the TextFigure's layout
-
     transient protected TextLayout textLayout;
 
     /**
@@ -53,7 +51,6 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     public TextFigure() {
         this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("TextFigure.defaultText"));
-
     }
 
     public TextFigure(String text) {
@@ -73,7 +70,6 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     protected void drawText(java.awt.Graphics2D g) {
         if (getText() != null || isEditable()) {
             TextLayout layout = getTextLayout();
-
             Graphics2D g2 = (Graphics2D) g.create();
             try {
                 //Test if world to screen transformation mirrors the text. If so it tries to
@@ -117,7 +113,6 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
             if (text == null || text.length() == 0) {
                 text = " ";
             }
-
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
             textAttributes.put(TextAttribute.FONT, getFont());

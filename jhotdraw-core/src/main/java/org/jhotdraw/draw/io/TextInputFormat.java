@@ -2,7 +2,7 @@
  * @(#)TextInputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
@@ -137,9 +137,7 @@ public class TextInputFormat implements InputFormat {
 
     public LinkedList<Figure> createTextHolderFigures(InputStream in) throws IOException {
         LinkedList<Figure> list = new LinkedList<>();
-
         BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF8"));
-
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
             StringBuilder buf = new StringBuilder();
@@ -183,7 +181,6 @@ public class TextInputFormat implements InputFormat {
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
-
         LinkedList<Figure> list = new LinkedList<>();
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();

@@ -2,17 +2,13 @@
  * @(#)ZoomAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
-
-
 import java.awt.Rectangle;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-
 /**
  * ZoomAction.
  *
@@ -42,7 +38,6 @@ public class ZoomAction extends AbstractDrawingViewAction {
         putValue(Action.DEFAULT, label);
         putValue(Action.NAME, label);
     }
-    
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (button != null) {
@@ -68,5 +63,4 @@ public class ZoomAction extends AbstractDrawingViewAction {
             }
         });
     }
-    
 }

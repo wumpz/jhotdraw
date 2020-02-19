@@ -1,14 +1,13 @@
 /*
  * @(#)JActivityIndicator.java
- * 
+ *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
 package org.jhotdraw.gui;
-
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,7 +16,6 @@ import javax.swing.DefaultBoundedRangeModel;
 import org.jhotdraw.gui.event.ActivityManagerEvent;
 import org.jhotdraw.gui.event.ActivityManagerListener;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * This indicator displays a progress bar when an {@code ActivityModel} is active.
  * <p>
@@ -29,7 +27,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p><em>Framework</em><br>
  * The interfaces and classes listed below define a framework for progress
  * management.<br>
- * Contract: {@link ActivityManager}, {@link ActivityModel}, 
+ * Contract: {@link ActivityManager}, {@link ActivityModel},
  * {@link JActivityWindow}, {@link JActivityIndicator}.
  *
  * @author Werner Randelshofer
@@ -37,11 +35,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class JActivityIndicator extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
-
     private ArrayList<ActivityModel> models = new ArrayList<ActivityModel>();
-
     private class Handler implements ActivityManagerListener, PropertyChangeListener {
-
         @Override
         public void activityModelAdded(ActivityManagerEvent evt) {
             ActivityModel pm = evt.getActivityModel();
@@ -49,13 +44,11 @@ public class JActivityIndicator extends javax.swing.JPanel {
                 addActivityModel(pm);
             }
         }
-
         @Override
         public void activityModelRemoved(ActivityManagerEvent evt) {
             ActivityModel pm = evt.getActivityModel();
             removeActivityModel(pm);
         }
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == ActivityModel.INDETERMINATE_PROPERTY) {
@@ -70,19 +63,15 @@ public class JActivityIndicator extends javax.swing.JPanel {
     private ActivityManager manager;
     private Object progressOwner;
     private ResourceBundleUtil labels;
-
     /** Creates new form JActivityIndicator */
     public JActivityIndicator() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
         initComponents();
         setActivityManager(ActivityManager.getInstance());
-
     }
-
     public ActivityManager getActivityManager() {
         return manager;
     }
-
     public void setActivityManager(ActivityManager newValue) {
         if (manager != null) {
             manager.removeActivityManagerListener(handler);
@@ -95,16 +84,13 @@ public class JActivityIndicator extends javax.swing.JPanel {
         updateProgressBar();
         updateToolTip();
     }
-
     public Object getActivityOwner() {
         return progressOwner;
     }
-
     public void setActivityOwner(Object progressOwner) {
         this.progressOwner = progressOwner;
         updateActivityModels();
     }
-
     public void addActivityModel(final ActivityModel model) {
         if (progressOwner == null || model.getOwner() == progressOwner) {
             models.add(model);
@@ -114,7 +100,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
             updateIndeterminate();
         }
     }
-
     public void removeActivityModel(final ActivityModel model) {
         if (models.remove(model)) {
             model.removePropertyChangeListener(handler);
@@ -123,7 +108,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
             updateIndeterminate();
         }
     }
-
     private void updateActivityModels() {
         for (ActivityModel pm : models) {
             pm.removePropertyChangeListener(handler);
@@ -140,12 +124,10 @@ public class JActivityIndicator extends javax.swing.JPanel {
         updateIndeterminate();
         updateToolTip();
     }
-
     @Override
     public Dimension getPreferredSize() {
         return progressBar.getPreferredSize();
     }
-
     private void updateProgressBar() {
         if (models.isEmpty()) {
             progressBar.setModel(new DefaultBoundedRangeModel());
@@ -161,7 +143,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
             progressBar.setVisible(true);
         }
     }
-
     private void updateToolTip() {
         if (models.isEmpty()) {
             setToolTipText(labels.getString("ActivityIndicator.noActivities.toolTipText"));
@@ -172,7 +153,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
             setToolTipText(labels.getFormatted("ActivityIndicator.nActivities.toolTipText", models.size()));
         }
     }
-
     private void updateIndeterminate() {
         if (models.size() == 0) {
             progressBar.setIndeterminate(false);
@@ -182,7 +162,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
             progressBar.setIndeterminate(true);
         }
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -191,9 +170,7 @@ public class JActivityIndicator extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         progressBar = new javax.swing.JProgressBar();
-
         setLayout(new java.awt.BorderLayout());
         add(progressBar, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

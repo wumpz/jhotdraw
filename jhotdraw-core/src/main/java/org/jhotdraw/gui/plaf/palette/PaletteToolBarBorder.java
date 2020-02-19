@@ -2,7 +2,7 @@
  * @(#)PaletteToolBarBorder.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -39,15 +39,12 @@ public class PaletteToolBarBorder
     private static final Color dark = new Color(0x808080);
     private static final Color bright = new Color(0xcccccc);
      **/
-
     @Override
     public void paintBorder(Component component, Graphics gr, int x, int y, int w, int h) {
         Graphics2D g = (Graphics2D) gr;
-
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
         if ((component instanceof JToolBar) && ((((JToolBar) component).getUI()) instanceof PaletteToolBarUI)) {
             JToolBar c = (JToolBar) component;
             if (c.isFloatable()) {
@@ -58,7 +55,6 @@ public class PaletteToolBarBorder
                         int barH = h;
                         int barX = 0;
                         int barY = 0;
-
                         int borderColor = 0xffa5a5a5;
                         float[] stops = enabledStops;
                         Color[] stopColors = enabledStopColors;
@@ -70,29 +66,23 @@ public class PaletteToolBarBorder
                                 MultipleGradientPaint.CycleMethod.REPEAT);
                         g.setPaint(lgp);
                         g.fillRect(barX + 1, barX + 1, barW - 2, barH - 2);
-
                         // paint the icon
                         Icon icon = (Icon) c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY);
                         if (icon != null) {
                             icon.paintIcon(component, gr, barX + (barW - icon.getIconWidth()) / 2,
                                     barY + barH - 4 - icon.getIconHeight());
                         }
-
                         int textIconGap = (c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY) instanceof Integer)
                                 ? (Integer) c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY) : 2;
-
                         String theTitle = c.getName();
                         if (theTitle != null) {
                             FontMetrics fm = g.getFontMetrics();
                             int titleW;
                             titleW = barH - 8;
-
                             if (icon != null) {
                                 titleW -= icon.getIconHeight() + textIconGap;
                             }
-
                             theTitle = clippedText(theTitle, fm, titleW);
-
                             AffineTransform savedTransform = g.getTransform();
                             AffineTransform t = g.getTransform();
                             t.rotate(Math.PI / -2d, barX + 2 + fm.getAscent(), titleW + 4);
@@ -152,7 +142,6 @@ public class PaletteToolBarBorder
             newInsets.right = override.right;
             return newInsets;
         }
-
         newInsets.top = 0;
         newInsets.left = 18;
         newInsets.bottom = 0;

@@ -2,12 +2,10 @@
  * @(#)CompositeFigureEvent.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.CompositeFigure;
 import java.awt.geom.*;
@@ -32,7 +30,6 @@ public class CompositeFigureEvent extends EventObject {
     private Rectangle2D.Double invalidatedArea;
     private Figure child;
     private int index;
-    
     /**
      * Constructs an event for the provided CompositeFigure.
      * @param source The composite figure.
@@ -45,8 +42,6 @@ public class CompositeFigureEvent extends EventObject {
         this.invalidatedArea = invalidatedArea;
         this.index = 0;
     }
-    
-    
     /**
      *  Gets the changed drawing.
      */
@@ -59,14 +54,12 @@ public class CompositeFigureEvent extends EventObject {
     public Figure getChildFigure() {
         return child;
     }
-    
     /**
      *  Gets the bounds of the invalidated area on the drawing.
      */
     public Rectangle2D.Double getInvalidatedArea() {
         return invalidatedArea;
     }
-    
     /**
      * Returns the z-index of the child figure.
      */

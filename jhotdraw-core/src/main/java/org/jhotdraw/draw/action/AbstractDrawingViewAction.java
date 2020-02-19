@@ -2,7 +2,7 @@
  * @(#)AbstractDrawingViewAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -39,7 +39,6 @@ import org.jhotdraw.draw.DrawingView;
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
 
     private static final long serialVersionUID = 1L;
-
     private DrawingEditor editor;
     private DrawingView specificView;
     transient private DrawingView activeView;

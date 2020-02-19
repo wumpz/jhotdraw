@@ -25,14 +25,9 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.IOException;
-
-
 /**
  * NanoXML uses IXMLBuilder to construct the XML data structure it retrieved
  * from its data source. You can supply your own builder or you can use the
@@ -50,7 +45,6 @@ import java.io.IOException;
  */
 public interface IXMLBuilder
 {
-
    /**
     * This method is called before the parser starts processing its input.
     *
@@ -63,8 +57,6 @@ public interface IXMLBuilder
    public void startBuilding(String systemID,
                              int    lineNr)
       throws Exception;
-
-
    /**
     * This method is called when a processing instruction is encountered.
     * A PI with a reserved target ("xml" with any case) is never reported.
@@ -80,8 +72,6 @@ public interface IXMLBuilder
    public void newProcessingInstruction(String target,
                                         Reader reader)
       throws Exception;
-
-
    /**
     * This method is called when a new XML element is encountered.
     *
@@ -105,8 +95,6 @@ public interface IXMLBuilder
                             String systemID,
                             int    lineNr)
       throws Exception;
-
-
    /**
     * This method is called when a new attribute of an XML element is
     * encountered.
@@ -130,8 +118,6 @@ public interface IXMLBuilder
                             String value,
                             String type)
       throws Exception;
-
-
    /**
     * This method is called when the attributes of an XML element have been
     * processed.
@@ -153,8 +139,6 @@ public interface IXMLBuilder
                                           String nsPrefix,
                                           String nsURI)
       throws Exception;
-
-
    /**
     * This method is called when the end of an XML elemnt is encountered.
     *
@@ -174,8 +158,6 @@ public interface IXMLBuilder
                           String nsPrefix,
                           String nsURI)
       throws Exception;
-
-
    /**
     * This method is called when a PCDATA element is encountered. A Java
     * reader is supplied from which you can read the data. The reader will
@@ -197,8 +179,6 @@ public interface IXMLBuilder
                          String systemID,
                          int    lineNr)
       throws Exception;
-
-
    /**
     * Returns the result of the building process. This method is called just
     * before the <I>parse</I> method of IXMLParser returns.
@@ -212,5 +192,4 @@ public interface IXMLBuilder
     */
    public Object getResult()
       throws Exception;
-
 }

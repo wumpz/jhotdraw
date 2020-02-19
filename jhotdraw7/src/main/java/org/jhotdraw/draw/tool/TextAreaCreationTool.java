@@ -2,12 +2,10 @@
  * @(#)TextAreaCreationTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextArea;
@@ -19,7 +17,6 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * A tool to create new or edit existing figures that implement the TextHolderFigure
  * interface, such as TextAreaFigure. The figure to be created is specified by a
@@ -75,7 +72,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
     private static final long serialVersionUID = 1L;
-
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
     /**
@@ -83,16 +79,13 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
      * draw a rubberband.
      */
     private Color rubberbandColor = null;
-
     /** Creates a new instance. */
     public TextAreaCreationTool(TextHolderFigure prototype) {
         super(prototype);
     }
-
     public TextAreaCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>,Object> attributes) {
         super(prototype, attributes);
     }
-
     /**
      * Sets the rubberband color for the tool. Setting this to null, disables
      * the rubberband.
@@ -102,13 +95,11 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     public void setRubberbandColor(Color c) {
         rubberbandColor = c;
     }
-
     @Override
     public void deactivate(DrawingEditor editor) {
         endEdit();
         super.deactivate(editor);
     }
-
     /**
      * Creates a new figure at the mouse location.
      * If editing is in progress, this finishes editing.
@@ -118,7 +109,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
-
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
@@ -128,7 +118,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
             super.mousePressed(e);
         }
     }
-
     /**
      * This method allows subclasses to do perform additonal user interactions
      * after the new figure has been created.
@@ -144,7 +133,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
      */
-
     @Override
     public void draw(Graphics2D g) {
         if (createdFigure != null && rubberbandColor != null) {
@@ -152,14 +140,11 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
             g.draw(getView().drawingToView(createdFigure.getBounds()));
         }
     }
-
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
-
         //textArea.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
@@ -168,12 +153,10 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         textArea.requestFocus();
         typingTarget = textHolder;
     }
-
     private Rectangle2D.Double getFieldBounds(TextHolderFigure figure) {
         Rectangle2D.Double r = figure.getDrawingArea();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
-
         // FIXME - Find a way to determine the parameters for grow.
         //r.grow(1,2);
         //r.width += 16;
@@ -183,15 +166,12 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         r.height += 4;
         return r;
     }
-
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textArea.getText();
-
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
             } else {
@@ -202,16 +182,13 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                     typingTarget.setText("");
                 }
             }
-
             UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     return labels.getString("attribute.text.text");
                 }
-
                 @Override
                 public void undo() {
                     super.undo();
@@ -219,7 +196,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                     editedFigure.setText(oldText);
                     editedFigure.changed();
                 }
-
                 @Override
                 public void redo() {
                     super.redo();
@@ -229,15 +205,12 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textArea.endOverlay();
         }
-    //	        view().checkDamage();
+    //         view().checkDamage();
     }
-
     @Override
     public void actionPerformed(ActionEvent event) {
         endEdit();

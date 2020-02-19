@@ -2,18 +2,16 @@
  * @(#)MoveConstrainedAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.undo.CompositeEdit;
 import java.awt.geom.*;
 import java.util.HashSet;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * Moves the selected figures by one constrained unit.
  *
@@ -22,20 +20,16 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     private static final long serialVersionUID = 1L;
-
     private TranslationDirection dir;
-
     /** Creates a new instance. */
     public MoveConstrainedAction(DrawingEditor editor, TranslationDirection dir) {
         super(editor);
         this.dir = dir;
         updateEnabledState();
     }
-
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (getView().getSelectionCount() > 0) {
-
             Rectangle2D.Double r = null;
             HashSet<Figure> transformedFigures = new HashSet<Figure>();
             for (Figure f : getView().getSelectedFigures()) {
@@ -70,7 +64,6 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
                         break;
                 }
             }
-
             AffineTransform tx = new AffineTransform();
             tx.translate(r.x - p0.x, r.y - p0.y);
             for (Figure f : transformedFigures) {
@@ -82,48 +75,36 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
             fireUndoableEditHappened(new TransformEdit(transformedFigures, tx));
         }
     }
-
     public static class East extends MoveConstrainedAction {
     private static final long serialVersionUID = 1L;
-
         public static final String ID = "edit.moveConstrainedEast";
-
         public East(DrawingEditor editor) {
             super(editor, TranslationDirection.EAST);
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             labels.configureAction(this, ID);
         }
     }
-
     public static class West extends MoveConstrainedAction {
     private static final long serialVersionUID = 1L;
-
         public static final String ID = "edit.moveConstrainedWest";
-
         public West(DrawingEditor editor) {
             super(editor, TranslationDirection.WEST);
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             labels.configureAction(this, ID);
         }
     }
-
     public static class North extends MoveConstrainedAction {
     private static final long serialVersionUID = 1L;
-
         public static final String ID = "edit.moveConstrainedNorth";
-
         public North(DrawingEditor editor) {
             super(editor, TranslationDirection.NORTH);
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             labels.configureAction(this, ID);
         }
     }
-
     public static class South extends MoveConstrainedAction {
     private static final long serialVersionUID = 1L;
-
         public static final String ID = "edit.moveConstrainedSouth";
-
         public South(DrawingEditor editor) {
             super(editor, TranslationDirection.SOUTH);
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

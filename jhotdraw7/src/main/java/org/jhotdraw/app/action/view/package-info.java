@@ -7,11 +7,9 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**
 Provides Actions which act on a view.
 */
-
 package org.jhotdraw.app.action.view;
 
 

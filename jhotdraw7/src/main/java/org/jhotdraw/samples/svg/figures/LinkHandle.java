@@ -5,9 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg.figures;
-
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.*;
@@ -15,7 +13,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * The LinkHandle indicates when a figure has a link.
  *
@@ -23,17 +20,14 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class LinkHandle extends AbstractHandle {
-    
     /** Creates a new instance. */
     public LinkHandle(Figure owner) {
         super(owner);
     }
-    
     @Override
     public boolean contains(Point p) {
         return false;
     }
-    
     /**
      * Draws this handle.
      */
@@ -50,7 +44,6 @@ public class LinkHandle extends AbstractHandle {
             g.drawLine(r.x+r.width-1, r.y+r.height/2, (int)(r.x+r.width*.75-1), (int)(r.y+r.height*.75));
         }
     }
-    
     @Override protected Rectangle basicGetBounds() {
         Figure o = getOwner();
         Rectangle2D.Double b = o.getBounds();
@@ -66,25 +59,19 @@ public class LinkHandle extends AbstractHandle {
                 r.height = h;
         return r;
     }
-    
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
-    
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
-    
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
-    
     @Override public String getToolTipText(Point p) {
-        
         return (getOwner().get(LINK)!=null)  ?
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels").
             getString("handle.link.toolTipText") :
             null;
     }
-    
 }

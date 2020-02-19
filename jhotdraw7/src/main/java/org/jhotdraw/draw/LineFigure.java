@@ -2,12 +2,10 @@
  * @(#)LineFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
 import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import javax.swing.undo.*;
@@ -16,7 +14,6 @@ import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.*;
-
 /**
  * A {@link Figure} which draws a continuous bezier path between two points.
  *
@@ -25,14 +22,12 @@ import org.jhotdraw.geom.*;
  */
 public class LineFigure extends BezierFigure {
         private static final long serialVersionUID = 1L;
-
     /** Creates a new instance. */
     public LineFigure() {
         addNode(new BezierPath.Node(new Point2D.Double(0,0)));
         addNode(new BezierPath.Node(new Point2D.Double(0,0)));
         setConnectable(false);
     }
-    
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES
@@ -76,7 +71,6 @@ public class LineFigure extends BezierFigure {
                         addNode(index, newNode);
                         changed();
                     }
-
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
@@ -84,7 +78,6 @@ public class LineFigure extends BezierFigure {
                         removeNode(index);
                         changed();
                     }
-                    
                 });
                 changed();
                 return true;

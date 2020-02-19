@@ -1,9 +1,9 @@
 /*
  * @(#)NamedColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -37,5 +37,4 @@ public interface NamedColorSpace {
      * Faster fromCIEXYZ method which uses the provided output array.
      */
     public float[] fromCIEXYZ(float[] xyz, float[] colorvalue);
-
 }

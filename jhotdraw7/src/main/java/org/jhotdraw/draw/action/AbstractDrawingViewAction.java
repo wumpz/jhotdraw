@@ -2,12 +2,10 @@
  * @(#)AbstractDrawingViewAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
-
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -16,7 +14,6 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
-
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
  * on behalf of a {@link org.jhotdraw.draw.DrawingView}.
@@ -39,13 +36,10 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
     private static final long serialVersionUID = 1L;
-
     private DrawingEditor editor;
     private DrawingView specificView;
     transient private DrawingView activeView;
-
     private class EventHandler implements PropertyChangeListener {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
@@ -63,21 +57,18 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
                 updateViewState();
             }
         }
-
         @Override
         public String toString() {
             return AbstractDrawingViewAction.this+"^$EventHandler";
         }
     };
     private EventHandler eventHandler = new EventHandler();
-
     /**
      * Creates a view action which acts on the current view of the editor.
      */
     public AbstractDrawingViewAction(DrawingEditor editor) {
         setEditor(editor);
     }
-
     /**
      * Creates a view action which acts on the specified view.
      */
@@ -85,7 +76,6 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
         this.specificView = view;
         registerEventHandler();
     }
-
     protected void setEditor(DrawingEditor newValue) {
         if (eventHandler != null) {
             unregisterEventHandler();
@@ -96,24 +86,18 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             updateEnabledState();
         }
     }
-
     protected DrawingEditor getEditor() {
         return editor;
     }
-
-    
     protected DrawingView getView() {
         return (specificView != null || editor==null) ? specificView : editor.getActiveView();
     }
-
     protected Drawing getDrawing() {
         return getView().getDrawing();
     }
-
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         getDrawing().fireUndoableEditHappened(edit);
     }
-
     /** Updates the enabled state of this action to reflect the enabled state
      * of the active {@code DrawingView}. If no drawing view is active, this
      * action is disabled.
@@ -125,13 +109,11 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             setEnabled(false);
         }
     }
-
     /** This method is called when the active drawing view of the
      * drawing editor changed. The implementation in this class does nothing.
      */
     protected void updateViewState() {
     }
-
     /** Frees all resources held by this object, so that it can be garbage
      * collected.
      */
@@ -139,7 +121,6 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
     public void dispose() {
         setEditor(null);
     }
-
     /** By default, the enabled state of this action is updated to reflect
      * the enabled state of the active {@code DrawingView}.
      * Since this is not always necessary, and since many listening actions
@@ -165,14 +146,12 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             updateEnabledState();
         }
     }
-
     /** Returns true, if this action automatically updates its enabled
      * state to reflect the enabled state of the active {@code DrawingView}.
      */
     public boolean isUpdatEnabledState() {
         return eventHandler != null;
     }
-
     /** Unregisters the event handler from the drawing editor and the
      * active drawing view.
      */
@@ -188,7 +167,6 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             specificView.removePropertyChangeListener(eventHandler);
         }
     }
-
     /** Registers the event handler from the drawing editor and the
      * active drawing view.
      */

@@ -2,7 +2,7 @@
  * @(#)ExtensionFileFilter.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.filechooser;
@@ -46,12 +46,10 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
     public ExtensionFileFilter(String description, String[] extensions) {
         this.description = description;
         this.extensions = new HashSet<>();
-
         String[] extlc = new String[extensions.length];
         for (int i = 0; i < extlc.length; i++) {
             extlc[i] = extensions[i].toLowerCase();
         }
-
         this.extensions.addAll(Arrays.asList(extlc));
         defaultExtension = extensions[0];
     }
@@ -94,5 +92,4 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
     public String getDescription() {
         return description;
     }
-
 }

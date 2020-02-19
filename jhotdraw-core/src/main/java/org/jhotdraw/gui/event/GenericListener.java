@@ -2,7 +2,7 @@
  * @(#)GenericListener.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.event;
@@ -70,21 +70,17 @@ public abstract class GenericListener {
             Object target,
             String targetMethodName) {
         Method listenerMethod = getListenerMethod(listenerInterface, listenerMethodName);
-
         // Search a target method with the same parameter types as the listener method.
         Method targetMethod
                 = getTargetMethod(target, targetMethodName, listenerMethod.getParameterTypes());
-
         // Nothing found? Search a target method with no parameters
         if (targetMethod == null) {
             targetMethod = getTargetMethod(target, targetMethodName, new Class<?>[0]);
         }
-
         // Still nothing found? We give up.
         if (targetMethod == null) {
             throw new RuntimeException("no such method " + targetMethodName + " in " + target.getClass());
         }
-
         return create(listenerMethod, target, targetMethod);
     }
 
@@ -106,10 +102,8 @@ public abstract class GenericListener {
          * method to handle the invoking the targetMethod on the target.
          */
         InvocationHandler handler = new DefaultInvoker() {
-
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
                 // Send all methods except for the targetMethod to
                 // the superclass for handling.
                 if (listenerMethod.equals(method)) {
@@ -126,7 +120,6 @@ public abstract class GenericListener {
                 }
             }
         };
-
         Class<?> cls = listenerMethod.getDeclaringClass();
         ClassLoader cl = cls.getClassLoader();
         return Proxy.newProxyInstance(cl, new Class<?>[]{cls}, handler);
@@ -150,7 +143,6 @@ public abstract class GenericListener {
                     return proxyToString(proxy);
                 }
             }
-
             // Although listener methods are supposed to be void, we
             // allow for any return type here and produce null/0/false
             // as appropriate.
@@ -208,7 +200,6 @@ public abstract class GenericListener {
     }
 
     @SuppressWarnings("unchecked")
-
     private static Method getTargetMethod(Object target,
             String targetMethodName,
             Class<?>[] parameterTypes) {
@@ -240,12 +231,10 @@ public abstract class GenericListener {
         if (result == null) {
             return null;
         }
-
         Method publicResult = raiseToPublicClass(result);
         if (publicResult != null) {
             result = publicResult;
         }
-
         return result;
     }
 
@@ -274,7 +263,6 @@ public abstract class GenericListener {
     }
 
     @SuppressWarnings("unchecked")
-
     private static Method raiseToPublicClass(Method m, Class<?> c) {
         try {
             Method sm = c.getMethod(m.getName(), m.getParameterTypes());

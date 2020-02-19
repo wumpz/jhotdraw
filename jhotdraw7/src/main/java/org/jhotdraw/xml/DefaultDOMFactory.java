@@ -2,13 +2,11 @@
  * @(#)DefaultDOMFactory.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
-
 import java.util.*;
-
 /**
  * {@code DefaultDOMFactory} can be used to serialize DOMStorable objects in a
  * DOM with the use of a mapping between Java class names and DOM element names.
@@ -17,7 +15,6 @@ import java.util.*;
  * @version $Id$
  */
 public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
-
     private static final HashMap<Class<?>, String> classToNameMap = new HashMap<Class<?>, String>();
     private static final HashMap<String, Object> nameToPrototypeMap = new HashMap<String, Object>();
     private static final HashMap<Class<?>, String> enumClassToNameMap = new HashMap<Class<?>, String>();
@@ -26,13 +23,11 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
     private static final HashMap<Enum, String> enumToValueMap = new HashMap<Enum, String>();
     @SuppressWarnings("rawtypes")
     private static final HashMap<String, Set<Enum>> valueToEnumMap = new HashMap<String, Set<Enum>>();
-
     /**
      * Creates a new instance.
      */
     public DefaultDOMFactory() {
     }
-
     /**
      * Adds a DOMStorable class to the DOMFactory.
      */
@@ -40,7 +35,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         nameToPrototypeMap.put(name, c);
         classToNameMap.put(c, name);
     }
-
     /**
      * Adds a DOMStorable prototype to the DOMFactory.
      */
@@ -48,7 +42,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         nameToPrototypeMap.put(name, prototype);
         classToNameMap.put(prototype.getClass(), name);
     }
-
     /**
      * Adds an Enum class to the DOMFactory.
      */
@@ -56,7 +49,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         enumClassToNameMap.put(c, name);
         nameToEnumClassMap.put(name, c);
     }
-
     /**
      * Adds an Enum value to the DOMFactory.
      */
@@ -72,7 +64,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         }
         enums.add(e);
     }
-
     /**
      * Creates a DOMStorable object.
      */
@@ -101,7 +92,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
             }
         }
     }
-
     @Override
     public String getName(Object o) {
         String name = (o == null) ? null : classToNameMap.get(o.getClass());
@@ -113,7 +103,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         }
         return name;
     }
-
         @SuppressWarnings("rawtypes")
     @Override
     protected String getEnumName(Enum e) {
@@ -123,13 +112,11 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         }
         return name;
     }
-
         @SuppressWarnings("rawtypes")
     @Override
     protected String getEnumValue(Enum e) {
         return (enumToValueMap.containsKey(e)) ? enumToValueMap.get(e) : e.toString();
     }
-
     @SuppressWarnings({"unchecked","rawtypes"})
     @Override
     protected <T extends Enum<T>> Enum<T> createEnum(String name, String value) {

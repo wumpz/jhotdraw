@@ -2,7 +2,7 @@
  * XMLTransferable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
@@ -39,7 +39,6 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
      */
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
-
     }
 
     /**
@@ -85,5 +84,4 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return this.flavor.equals(flavor);
     }
-
 }

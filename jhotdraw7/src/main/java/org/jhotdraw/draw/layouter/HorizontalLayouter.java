@@ -2,17 +2,15 @@
  * @(#)HorizontalLayouter.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.layouter;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.CompositeFigure;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * A {@link Layouter} which lays out all children of a {@link CompositeFigure}
  * in horizontal direction.
@@ -23,19 +21,17 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * The HorizontalLayouter honors the LAYOUT_INSETS and the COMPOSITE_ALIGNMENT
  * AttributeKey when laying out a CompositeFigure.
  * <p>
- * If COMPOSITE_ALIGNMENT is not set on the composite figure, 
+ * If COMPOSITE_ALIGNMENT is not set on the composite figure,
  * the layout assigns the same height to all figures.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class HorizontalLayouter extends AbstractLayouter {
-
     @Override
     public Rectangle2D.Double calculateLayout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = compositeFigure.get(LAYOUT_INSETS);
-
         Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
         for (Figure child : compositeFigure.getChildren()) {
             if (child.isVisible()) {
@@ -47,15 +43,12 @@ public class HorizontalLayouter extends AbstractLayouter {
         }
         layoutBounds.width += layoutInsets.left + layoutInsets.right;
         layoutBounds.height += layoutInsets.top + layoutInsets.bottom;
-
         return layoutBounds;
     }
-
     @Override
     public Rectangle2D.Double layout(CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = compositeFigure.get(LAYOUT_INSETS);
         Alignment compositeAlignment = compositeFigure.get(COMPOSITE_ALIGNMENT);
-
         Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead);
         double x = layoutBounds.x + layoutInsets.left;
         for (Figure child : compositeFigure.getChildren()) {
@@ -107,7 +100,6 @@ public class HorizontalLayouter extends AbstractLayouter {
                 x += width + insets.left + insets.right;
             }
         }
-
         return layoutBounds;
     }
 }

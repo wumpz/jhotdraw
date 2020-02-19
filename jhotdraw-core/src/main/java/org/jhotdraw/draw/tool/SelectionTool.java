@@ -2,7 +2,7 @@
  * @(#)SelectionTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -52,7 +52,6 @@ import org.jhotdraw.draw.handle.Handle;
 public class SelectionTool extends AbstractTool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The tracker encapsulates the current state of the SelectionTool.
      */
@@ -76,7 +75,6 @@ public class SelectionTool extends AbstractTool {
         public void toolDone(ToolEvent event) {
             // Empty
             Tool newTracker = getSelectAreaTracker();
-
             if (newTracker != null) {
                 if (tracker != null) {
                     tracker.deactivate(getEditor());
@@ -104,10 +102,8 @@ public class SelectionTool extends AbstractTool {
         public void boundsInvalidated(ToolEvent e) {
             fireBoundsInvalidated(e.getInvalidatedArea());
         }
-
     }
     private TrackerHandler trackerHandler;
-
     /**
      * Constant for the name of the selectBehindEnabled property.
      */
@@ -257,7 +253,6 @@ public class SelectionTool extends AbstractTool {
                     // Note: The search sequence used here, must be
                     // consistent with the search sequence used by the
                     // DefaultHandleTracker, the DefaultSelectAreaTracker and DelegationSelectionTool.
-
                     // If possible, continue to work with the current selection
                     figure = null;
                     if (isSelectBehindEnabled()) {
@@ -277,7 +272,6 @@ public class SelectionTool extends AbstractTool {
                         }
                     }
                 }
-
                 if (figure != null && figure.isSelectable()) {
                     newTracker = getDragTracker(figure);
                 } else {
@@ -288,7 +282,6 @@ public class SelectionTool extends AbstractTool {
                     newTracker = getSelectAreaTracker();
                 }
             }
-
             if (newTracker != null) {
                 setTracker(newTracker);
             }

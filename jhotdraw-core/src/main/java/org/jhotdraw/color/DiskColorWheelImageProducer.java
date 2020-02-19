@@ -2,7 +2,7 @@
  * @(#)DiskColorWheelImageProducer.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -62,10 +62,8 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         alphas = new int[w * h];
         float radius = getRadius();
         Point2D.Float center = getCenter();
-
         // blend is used to create a linear alpha gradient of two extra pixels
         float blend = (radius + 2f) / radius - 1f;
-
         // Center of the color wheel circle
         float maxR = colorSpace.getMaxValue(radialIndex);
         float minR = colorSpace.getMinValue(radialIndex);
@@ -87,15 +85,12 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
                 kx = -kx;
             }
             float squarekx = kx * kx;
-
             for (int y = 0; y < h; y++) {
                 float ky = (y - cy) / radius;
                 if (flipY) {
                     ky = -ky;
                 }
-
                 int index = x + y * w;
-
                 float radiusRatio = (float) Math.sqrt(squarekx + ky * ky);
                 if (radiusRatio <= 1f) {
                     alphas[index] = 0xff000000;
@@ -108,11 +103,9 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
                     //angulars[index] = (float) (Math.atan2(ky, kx));
                 }
                 double angle = Math.atan2(ky, kx);
-
                 // scale from disk to box
                 double scale = 1.0 / Math.max(Math.abs(Math.sin(angle)), Math.abs(Math.cos(angle)));
                 scale = 1.0;
-
                 radials[index] = (float) ((kx * scale + 1) / 2 * extentR + minR);
                 angulars[index] = (float) ((ky * scale + 1) / 2 * extentA + minA);
             }
@@ -125,10 +118,8 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         angulars = new float[w * h];
         alphas = new int[w * h];
         float radius = getRadius();
-
         // blend is used to create a linear alpha gradient of two extra pixels
         float blend = (radius + 2f) / radius - 1f;
-
         // Center of the color wheel circle
         float maxR = colorSpace.getMaxValue(radialIndex);
         float minR = colorSpace.getMinValue(radialIndex);
@@ -143,22 +134,18 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         int yOffset = (h - side) / 2 * w;
         float extentX = side - 1;
         float extentY = extentX;
-
         for (int x = 0; x < side; x++) {
             float kx = (x - cx) / radius;
             if (flipX) {
                 kx = -kx;
             }
             float squarekx = kx * kx;
-
             for (int y = 0; y < side; y++) {
                 float ky = (cy - y) / radius;
                 if (flipY) {
                     ky = -ky;
                 }
-
                 int index = x + y * w + xOffset + yOffset;
-
                 float radiusRatio = (float) Math.sqrt(squarekx + ky * ky);
                 if (radiusRatio <= 1f) {
                     alphas[index] = 0xff000000;
@@ -196,7 +183,6 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         if (!isLookupValid) {
             generateLookupTables();
         }
-
         float[] components = new float[colorSpace.getNumComponents()];
         float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
@@ -215,7 +201,6 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
     public Point getColorLocation(float[] components) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
-
         float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 - 1;
         float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
@@ -226,14 +211,12 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         if (flipY) {
             angular = -angular;
         }
-
         // clamp to disk
         float r = (float) sqrt(angular * angular + radial * radial);
         if (r > 1f) {
             angular /= r;
             radial /= r;
         }
-
         Point p = new Point(
                 (int) (radius * radial + center.x),
                 (int) (radius * angular + center.y)
@@ -245,7 +228,6 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
     public float[] getColorAt(int x, int y) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
-
         float radial = (x - center.x) / radius;
         float angular = (y - center.y) / radius;
         if (flipX) {
@@ -254,14 +236,12 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         if (flipY) {
             radial = -radial;
         }
-
         // clamp to disk
         float r = (float) sqrt(angular * angular + radial * radial);
         if (r > 1f) {
             angular /= r;
             radial /= r;
         }
-
         float[] hsb = new float[3];
         hsb[angularIndex] = (angular + 1f) / 2f
                 * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))

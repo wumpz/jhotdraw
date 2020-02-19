@@ -2,7 +2,7 @@
  * @(#)JFontChooser.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -29,7 +29,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
 public class JFontChooser extends JComponent {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * @see #getUIClassID
      * @see #readObject
@@ -91,7 +90,6 @@ public class JFontChooser extends JComponent {
      */
     private static FutureTask<Font[]> future;
     private TreeModelListener modelHandler = new TreeModelListener() {
-
         @Override
         public void treeNodesChanged(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
@@ -122,7 +120,6 @@ public class JFontChooser extends JComponent {
         model.addTreeModelListener(modelHandler);
         updateUI();
         addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName() == "ancestor" && evt.getNewValue() != null) {
@@ -313,11 +310,9 @@ public class JFontChooser extends JComponent {
     public synchronized static void loadAllFonts() {
         if (future == null) {
             future = new FutureTask<>(new Callable<Font[]>() {
-
                 @Override
                 public Font[] call() throws Exception {
                     Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-
                     // get rid of bogus fonts
                     ArrayList<Font> goodFonts = new ArrayList<>(fonts.length);
                     for (Font f : fonts) {
@@ -401,11 +396,9 @@ public class JFontChooser extends JComponent {
                 FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
                 FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
                 FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
                 FontCollectionNode newCollection = oldCollection;
                 FontFamilyNode newFamily = oldFamily;
                 FontFaceNode newFace = null;
-
                 // search in the current family
                 if (newFace == null && newFamily != null) {
                     for (FontFaceNode face : newFamily.faces()) {
@@ -445,7 +438,6 @@ public class JFontChooser extends JComponent {
                         }
                     }
                 }
-
                 if (newFace != null) {
                     setSelectionPath(new TreePath(new Object[]{
                         getModel().getRoot(), newCollection, newFamily, newFace
@@ -496,7 +488,6 @@ public class JFontChooser extends JComponent {
     private void initComponents() {
     }// </editor-fold>//GEN-END:initComponents
      */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

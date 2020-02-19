@@ -2,15 +2,15 @@
  * @(#)DiamondFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.connector.ChopDiamondConnector;
-import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
 import java.awt.geom.*;
+import org.jhotdraw.draw.connector.ChopDiamondConnector;
+import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Geom;
 
 /**
@@ -25,7 +25,6 @@ import org.jhotdraw.geom.Geom;
 public class DiamondFigure extends AbstractAttributedFigure {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have the same length.
      */
@@ -60,7 +59,6 @@ public class DiamondFigure extends AbstractAttributedFigure {
             r.y -= (side - r.height) / 2;
             r.width = r.height = side;
         }
-
         double grow = AttributeKeys.getPerpendicularFillGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         if (grow != 0d) {
             double w = r.width / 2d;
@@ -69,14 +67,11 @@ public class DiamondFigure extends AbstractAttributedFigure {
             double scale = grow / lineLength;
             double yb = scale * w;
             double xa = scale * h;
-
             double growx, growy;
             growx = ((yb * yb) / xa + xa);
             growy = ((xa * xa) / yb + yb);
-
             Geom.grow(r, growx, growy);
         }
-
         Path2D.Double diamond = new Path2D.Double();
         diamond.moveTo((r.x + r.width / 2), r.y);
         diamond.lineTo((r.x + r.width), (r.y + r.height / 2));
@@ -95,7 +90,6 @@ public class DiamondFigure extends AbstractAttributedFigure {
             r.y -= (side - r.height) / 2;
             r.width = r.height = side;
         }
-
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         if (grow != 0d) {
             double growx, growy;
@@ -105,13 +99,10 @@ public class DiamondFigure extends AbstractAttributedFigure {
             double scale = grow / lineLength;
             double yb = scale * w;
             double xa = scale * h;
-
             growx = ((yb * yb) / xa + xa);
             growy = ((xa * xa) / yb + yb);
-
             Geom.grow(r, growx, growy);
         }
-
         Path2D.Double diamond = new Path2D.Double();
         diamond.moveTo((r.x + r.width / 2), r.y);
         diamond.lineTo((r.x + r.width), (r.y + r.height / 2));
@@ -145,14 +136,11 @@ public class DiamondFigure extends AbstractAttributedFigure {
             double scale = grow / lineLength;
             double yb = scale * w;
             double xa = scale * h;
-
             double growx, growy;
             growx = ((yb * yb) / xa + xa);
             growy = ((xa * xa) / yb + yb);
-
             Geom.grow(r, growx, growy);
         }
-
         return r;
     }
 
@@ -169,7 +157,6 @@ public class DiamondFigure extends AbstractAttributedFigure {
             r.width = r.height = side;
         }
         //   if (r.contains(p)) {
-
         double grow = AttributeKeys.getPerpendicularFillGrowth(this, 1.0);
         if (grow != 0d) {
             double w = r.width / 2d;
@@ -178,14 +165,11 @@ public class DiamondFigure extends AbstractAttributedFigure {
             double scale = grow / lineLength;
             double yb = scale * w;
             double xa = scale * h;
-
             double growx, growy;
             growx = ((yb * yb) / xa + xa);
             growy = ((xa * xa) / yb + yb);
-
             Geom.grow(r, growx, growy);
         }
-
         Path2D.Double diamond = new Path2D.Double();
         diamond.moveTo((r.x + r.width / 2), r.y);
         diamond.lineTo((r.x + r.width), (r.y + r.height / 2));
@@ -230,10 +214,10 @@ public class DiamondFigure extends AbstractAttributedFigure {
     public Object getTransformRestoreData() {
         return rectangle.clone();
     }
-
 // ATTRIBUTES
 // EDITING
 // CONNECTING
+
     /**
      * Returns the Figures connector for the specified location. By default a ChopDiamondConnector
      * is returned.

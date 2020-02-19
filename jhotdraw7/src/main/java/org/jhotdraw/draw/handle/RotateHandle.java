@@ -2,15 +2,12 @@
  * @(#)RotateHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
-
 /**
  * A Handle to rotate a Figure.
  *
@@ -18,18 +15,15 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class RotateHandle extends AbstractRotateHandle {
-	
     /** Creates a new instance. */
     public RotateHandle(Figure owner) {
         super(owner);
     }
-    
     @Override
     protected Point2D.Double getCenter() {
         Rectangle2D.Double bounds = getTransformedBounds();
-    	return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
+     return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
     }
-
     @Override
     protected Point2D.Double getOrigin() {
         // This handle is placed above the figure.

@@ -25,10 +25,7 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 /**
  * An attribute in an XML element. This is an internal class.
  *
@@ -39,37 +36,26 @@ package net.n3.nanoxml;
  */
 class XMLAttribute
 {
-
    /**
     * The full name of the attribute.
     */
    private String fullName;
-
-
    /**
     * The short name of the attribute.
     */
    private String name;
-
-
    /**
     * The namespace URI of the attribute.
     */
    private String namespace;
-
-
    /**
     * The value of the attribute.
     */
    private String value;
-
-
    /**
     * The type of the attribute.
     */
    private String type;
-
-
    /**
     * Creates a new attribute.
     *
@@ -91,8 +77,6 @@ class XMLAttribute
       this.value = value;
       this.type = type;
    }
-
-
    /**
     * Returns the full name of the attribute.
     */
@@ -100,8 +84,6 @@ class XMLAttribute
    {
       return this.fullName;
    }
-
-
    /**
     * Returns the short name of the attribute.
     */
@@ -109,8 +91,6 @@ class XMLAttribute
    {
       return this.name;
    }
-
-
    /**
     * Returns the namespace of the attribute.
     */
@@ -118,8 +98,6 @@ class XMLAttribute
    {
       return this.namespace;
    }
-
-
    /**
     * Returns the value of the attribute.
     */
@@ -127,8 +105,6 @@ class XMLAttribute
    {
       return this.value;
    }
-
-
    /**
     * Sets the value of the attribute.
     *
@@ -138,8 +114,6 @@ class XMLAttribute
    {
       this.value = value;
    }
-
-
    /**
     * Returns the type of the attribute.
     */
@@ -147,5 +121,4 @@ class XMLAttribute
    {
       return this.type;
    }
-
 }

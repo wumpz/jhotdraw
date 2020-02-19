@@ -2,7 +2,7 @@
  * @(#)RectangleFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -47,7 +47,6 @@ public class RectangleFigure extends AbstractAttributedFigure {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         Geom.grow(r, grow, grow);
-
         g.draw(r);
     }
 

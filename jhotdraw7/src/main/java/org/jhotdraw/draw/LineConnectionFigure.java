@@ -2,12 +2,10 @@
  * @(#)BezierBezierLineConnection.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
-
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -25,21 +23,19 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
-
 /**
  * A {@link ConnectionFigure} which connects two figures using a bezier path.
  * <p>
  * The bezier path can be laid out manually using bezier handles provided
  * by this figure, or automatically using a {@link Liner} which can be
  * set using the JavaBeans property {@code liner}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {
     private static final long serialVersionUID = 1L;
-
     /** The name of the JaveBeans property {@code liner}. */
     public static final String LINER_PROPERTY = "liner";
     private Connector startConnector;
@@ -50,16 +46,12 @@ public class LineConnectionFigure extends LineFigure
      * end figure.
      */
     private ConnectionHandler connectionHandler = new ConnectionHandler(this);
-
     private static class ConnectionHandler extends FigureAdapter implements Serializable {
     private static final long serialVersionUID = 1L;
-
         private LineConnectionFigure owner;
-
         private ConnectionHandler(LineConnectionFigure owner) {
             this.owner = owner;
         }
-
         @Override
         public void figureRemoved(FigureEvent evt) {
             // The commented lines below must stay commented out.
@@ -73,7 +65,6 @@ public class LineConnectionFigure extends LineFigure
             }*/
             owner.fireFigureRequestRemove();
         }
-
         @Override
         public void figureChanged(FigureEvent e) {
             if (!owner.isChanging()) {
@@ -86,13 +77,11 @@ public class LineConnectionFigure extends LineFigure
             }
         }
     };
-
     /** Creates a new instance. */
     public LineConnectionFigure() {
     }
     // DRAWING
     // SHAPE AND BOUNDS
-
     /**
      * Ensures that a connection is updated if the connection
      * was moved.
@@ -104,7 +93,6 @@ public class LineConnectionFigure extends LineFigure
     }
     // ATTRIBUTES
     // EDITING
-
     /**
      * Gets the handles of the figure. It returns the normal
      * PolylineHandles but adds ChangeConnectionHandles at the
@@ -130,17 +118,15 @@ public class LineConnectionFigure extends LineFigure
         }
         return handles;
     }
-
 // CONNECTING
     /**
-     * 
+     *
      * ConnectionFigures cannot be connected and always sets connectable to false.
      */
     @Override
     public void setConnectable(boolean newValue) {
         super.setConnectable(false);
     }
-
     @Override
     public void updateConnection() {
         willChange();
@@ -152,45 +138,37 @@ public class LineConnectionFigure extends LineFigure
         }
         if (getEndConnector() != null) {
             Point2D.Double end = getEndConnector().findEnd(this);
-
             if (end != null) {
                 setEndPoint(end);
             }
         }
         changed();
     }
-
     @Override
     public void validate() {
         super.validate();
         lineout();
     }
-
     @Override
     public boolean canConnect(Connector start, Connector end) {
         return start.getOwner().isConnectable() && end.getOwner().isConnectable();
     }
-
     @Override
     public Connector getEndConnector() {
         return endConnector;
     }
-
     @Override
     public Figure getEndFigure() {
         return (endConnector == null) ? null : endConnector.getOwner();
     }
-
     @Override
     public Connector getStartConnector() {
         return startConnector;
     }
-
     @Override
     public Figure getStartFigure() {
         return (startConnector == null) ? null : startConnector.getOwner();
     }
-
     @Override
     public void setEndConnector(Connector newEnd) {
         if (newEnd != endConnector) {
@@ -214,7 +192,6 @@ public class LineConnectionFigure extends LineFigure
             }
         }
     }
-
     @Override
     public void setStartConnector(Connector newStart) {
         if (newStart != startConnector) {
@@ -234,7 +211,6 @@ public class LineConnectionFigure extends LineFigure
             }
         }
     }
-
     // COMPOSITE FIGURES
     // LAYOUT
     /*
@@ -263,7 +239,6 @@ public class LineConnectionFigure extends LineFigure
     }
     if (getEndConnector() != null) {
     Point2D.Double end = getEndConnector().findEnd(this);
-
     if(end != null) {
     basicSetEndPoint(end);
     }
@@ -284,13 +259,11 @@ public class LineConnectionFigure extends LineFigure
     @Override
     public void addNotify(Drawing drawing) {
         super.addNotify(drawing);
-
         if (getStartConnector() != null && getEndConnector() != null) {
             handleConnect(getStartConnector(), getEndConnector());
             updateConnection();
         }
     }
-
     /**
      * This method is invoked, when the Figure is being removed from a Drawing.
      * This method invokes handleDisconnect, if the Figure is connected.
@@ -312,7 +285,6 @@ public class LineConnectionFigure extends LineFigure
          */
         super.removeNotify(drawing);
     }
-
     /**
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
@@ -325,7 +297,6 @@ public class LineConnectionFigure extends LineFigure
      */
     protected void handleDisconnect(Connector start, Connector end) {
     }
-
     /**
      * Handles the connection of a connection.
      * Override this method to handle this event.
@@ -336,7 +307,6 @@ public class LineConnectionFigure extends LineFigure
      */
     protected void handleConnect(Connector start, Connector end) {
     }
-
     @Override
     public LineConnectionFigure clone() {
         LineConnectionFigure that = (LineConnectionFigure) super.clone();
@@ -363,7 +333,6 @@ public class LineConnectionFigure extends LineFigure
         }
         return that;
     }
-
     @Override
     public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
         willChange();
@@ -382,7 +351,6 @@ public class LineConnectionFigure extends LineFigure
                 newEndFigure = getEndFigure();
             }
         }
-
         if (newStartFigure != null) {
             setStartConnector(newStartFigure.findCompatibleConnector(getStartConnector(), true));
         } else {
@@ -397,16 +365,13 @@ public class LineConnectionFigure extends LineFigure
                 setEndConnector(null);
             }
         }
-
         updateConnection();
         changed();
     }
-
     @Override
     public boolean canConnect(Connector start) {
         return start.getOwner().isConnectable();
     }
-
     /**
      * Handles a mouse click.
      */
@@ -420,7 +385,6 @@ public class LineConnectionFigure extends LineFigure
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -428,7 +392,6 @@ public class LineConnectionFigure extends LineFigure
                         addNode(index, newNode);
                         changed();
                     }
-
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
@@ -444,7 +407,6 @@ public class LineConnectionFigure extends LineFigure
         return false;
     }
     // PERSISTENCE
-
     @Override
     protected void readPoints(DOMInput in) throws IOException {
         super.readPoints(in);
@@ -455,17 +417,14 @@ public class LineConnectionFigure extends LineFigure
         setEndConnector((Connector) in.readObject());
         in.closeElement();
     }
-
     @Override
     public void read(DOMInput in) throws IOException {
         readAttributes(in);
         readLiner(in);
-
         // Note: Points must be read after Liner, because Liner influences
         // the location of the points.
         readPoints(in);
     }
-
     protected void readLiner(DOMInput in) throws IOException {
         if (in.getElementCount("liner") > 0) {
             in.openElement("liner");
@@ -474,16 +433,13 @@ public class LineConnectionFigure extends LineFigure
         } else {
             liner = null;
         }
-
     }
-
     @Override
     public void write(DOMOutput out) throws IOException {
         writePoints(out);
         writeAttributes(out);
         writeLiner(out);
     }
-
     protected void writeLiner(DOMOutput out) throws IOException {
         if (liner != null) {
             out.openElement("liner");
@@ -491,7 +447,6 @@ public class LineConnectionFigure extends LineFigure
             out.closeElement();
         }
     }
-
     @Override
     protected void writePoints(DOMOutput out) throws IOException {
         super.writePoints(out);
@@ -502,14 +457,12 @@ public class LineConnectionFigure extends LineFigure
         out.writeObject(getEndConnector());
         out.closeElement();
     }
-
     @Override
     public void setLiner(Liner newValue) {
         Liner oldValue = liner;
         this.liner = newValue;
         firePropertyChange(LINER_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public void setNode(int index, BezierPath.Node p) {
         if (index != 0 && index != getNodeCount() - 1) {
@@ -521,7 +474,6 @@ public class LineConnectionFigure extends LineFigure
             }
             if (getEndConnector() != null) {
                 Point2D.Double end = getEndConnector().findEnd(this);
-
                 if (end != null) {
                     setEndPoint(end);
                 }
@@ -540,7 +492,6 @@ public class LineConnectionFigure extends LineFigure
     }
     if (getEndConnector() != null) {
     Point2D.Double end = getEndConnector().findEnd(this);
-
     if(end != null) {
     basicSetEndPoint(end);
     }
@@ -549,14 +500,12 @@ public class LineConnectionFigure extends LineFigure
     super.basicSetPoint(index, p);
     }
      */
-
     @Override
     public void lineout() {
         if (liner != null) {
             liner.lineout(this);
         }
     }
-
     /**
      * FIXME - Liner must work with API of LineConnection!
      */
@@ -564,27 +513,22 @@ public class LineConnectionFigure extends LineFigure
     public BezierPath getBezierPath() {
         return path;
     }
-
     @Override
     public Liner getLiner() {
         return liner;
     }
-
     @Override
     public void setStartPoint(Point2D.Double p) {
         setPoint(0, p);
     }
-
     @Override
     public void setPoint(int index, Point2D.Double p) {
         setPoint(index, 0, p);
     }
-
     @Override
     public void setEndPoint(Point2D.Double p) {
         setPoint(getNodeCount() - 1, p);
     }
-
     public void reverseConnection() {
         if (startConnector != null && endConnector != null) {
             handleDisconnect(startConnector, endConnector);

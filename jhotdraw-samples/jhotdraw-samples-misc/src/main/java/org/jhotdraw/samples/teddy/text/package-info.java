@@ -7,11 +7,9 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**
 Classes for handling text documents in a text editor.
 */
-
 package org.jhotdraw.samples.teddy.text;
 
 

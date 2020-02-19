@@ -2,12 +2,10 @@
  * @(#)DelegationSelectionTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -16,7 +14,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import org.jhotdraw.app.action.ActionUtil;
-
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers.
  * If a double click or popup trigger is encountered a hook method is called,
@@ -31,7 +28,6 @@ import org.jhotdraw.app.action.ActionUtil;
  */
 public class DelegationSelectionTool extends SelectionTool {
     private static final long serialVersionUID = 1L;
-
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -63,26 +59,21 @@ public class DelegationSelectionTool extends SelectionTool {
      * This variable is set to true, if a mouse pressed event is a popup trigger.
      */
     private boolean isMousePressedPopupTrigger;
-
     /** Creates a new instance. */
     public DelegationSelectionTool() {
         this(new LinkedList<Action>(), new LinkedList<Action>());
     }
-
     /** Creates a new instance. */
     public DelegationSelectionTool(Collection<Action> drawingActions, Collection<Action> selectionActions) {
         this.drawingActions = drawingActions;
         this.selectionActions = selectionActions;
     }
-
     public void setDrawingActions(Collection<Action> drawingActions) {
         this.drawingActions = drawingActions;
     }
-
     public void setFigureActions(Collection<Action> selectionActions) {
         this.selectionActions = selectionActions;
     }
-
     /**
      * MouseListener method for mousePressed events. If the popup trigger has
      * been activated, then the appropriate hook method is called.
@@ -96,7 +87,6 @@ public class DelegationSelectionTool extends SelectionTool {
         // XXX - When we want to support multiple views, we have to
         //       implement this:
         //setView((DrawingView)e.getSource());
-
         isMousePressedPopupTrigger = evt.isPopupTrigger();
         if (isMousePressedPopupTrigger) {
             getView().requestFocus();
@@ -104,7 +94,6 @@ public class DelegationSelectionTool extends SelectionTool {
         } else {
             super.mousePressed(evt);
             popupTimer = new javax.swing.Timer(1000, new ActionListener() {
-
     @Override
                 public void actionPerformed(ActionEvent aevt) {
                     handlePopupMenu(evt);
@@ -115,7 +104,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupTimer.start();
         }
     }
-
     /**
      * MouseListener method for mouseReleased events. If the popup trigger has
      * been activated, then the appropriate hook method is called.
@@ -126,7 +114,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupTimer.stop();
             popupTimer = null;
         }
-
         if (isMousePressedPopupTrigger) {
             isMousePressedPopupTrigger = false;
         } else {
@@ -137,19 +124,16 @@ public class DelegationSelectionTool extends SelectionTool {
             }
         }
     }
-
     @Override
     public void mouseDragged(MouseEvent evt) {
         if (popupTimer != null) {
             popupTimer.stop();
             popupTimer = null;
         }
-
         if (popupMenu == null || !popupMenu.isVisible()) {
             super.mouseDragged(evt);
         }
     }
-
     @Override
     public void mouseClicked(MouseEvent evt) {
         if (DEBUG) {
@@ -157,7 +141,7 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         super.mouseClicked(evt);
         if (!evt.isConsumed()) {
-            if (evt.getClickCount() >= 2 && 
+            if (evt.getClickCount() >= 2 &&
                     evt.getButton() == MouseEvent.BUTTON1) {
                 handleDoubleClick(evt);
             } else if (evt.getClickCount() == 1 &&
@@ -172,7 +156,6 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         lastClickEvent = evt;
     }
-
     /**
      * Hook method which can be overriden by subclasses to provide
      * specialised behaviour in the event of a popup trigger.
@@ -186,7 +169,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupMenu = null;
         }
     }
-
     protected void showPopupMenu(Figure figure, Point p, Component c) {
         if (DEBUG) {
             System.out.println("DelegationSelectionTool.showPopupMenu " + figure);
@@ -212,7 +194,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupActions.add(null);
         }
         popupActions.addAll(drawingActions);
-
         HashMap<Object, ButtonGroup> buttonGroups = new HashMap<Object, ButtonGroup>();
         for (Action a : popupActions) {
             if (a != null && a.getValue(ActionUtil.SUBMENU_KEY) != null) {
@@ -233,7 +214,6 @@ public class DelegationSelectionTool extends SelectionTool {
                 }
             } else {
                 AbstractButton button;
-
                 if (a.getValue(ActionUtil.BUTTON_GROUP_KEY) != null) {
                     ButtonGroup bg = buttonGroups.get(a.getValue(ActionUtil.BUTTON_GROUP_KEY));
                     if (bg == null) {
@@ -249,7 +229,6 @@ public class DelegationSelectionTool extends SelectionTool {
                 } else {
                     button = new JMenuItem(a);
                 }
-
                 if (submenu != null) {
                     submenu.add(button);
                 } else {
@@ -259,7 +238,6 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         menu.show(c, p.x, p.y);
     }
-
     /**
      * Hook method which can be overriden by subclasses to provide
      * specialised behaviour in the event of a double click.
@@ -278,11 +256,9 @@ public class DelegationSelectionTool extends SelectionTool {
             handle.trackDoubleClick(pos, evt.getModifiersEx());
         } else {
             Point2D.Double p = viewToDrawing(pos);
-
             // Note: The search sequence used here, must be
             // consistent with the search sequence used by the
             // HandleTracker, the SelectAreaTracker and SelectionTool.
-
             // If possible, continue to work with the current selection
             Figure figure = null;
             if (isSelectBehindEnabled()) {
@@ -298,7 +274,6 @@ public class DelegationSelectionTool extends SelectionTool {
             if (figure == null) {
                 figure = v.findFigure(pos);
             }
-
             Figure outerFigure = figure;
             if (figure != null && figure.isSelectable()) {
                 if (DEBUG) {
@@ -328,7 +303,6 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         evt.consume();
     }
-
     /**
      * Hook method which can be overriden by subclasses to provide
      * specialised behaviour in the event of a multi-click.
@@ -344,7 +318,6 @@ public class DelegationSelectionTool extends SelectionTool {
             v.setHandleDetailLevel(v.getHandleDetailLevel() + 1);
         }
     }
-
     @Override
     public String getToolTipText(DrawingView view, MouseEvent evt) {
         Handle handle = view.findHandle(evt.getPoint());

@@ -1,9 +1,9 @@
 /*
  * @(#)PaletteSwatchesChooser.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
@@ -32,9 +32,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
 
     private static final long serialVersionUID = 1L;
-
     private int updateRecursion = 0;
-
     /**
      * HSB color palette with a set of colors chosen based on a physical criteria.
      * <p>
@@ -77,7 +75,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         HSBColorSpace hsbCS = HSBColorSpace.getInstance();
         LinkedList<ColorIcon> m = new LinkedList<>();
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
-
         for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
@@ -94,7 +91,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         }
         m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
         HSB_COLORS = Collections.unmodifiableList(m);
-
         m = new LinkedList<>();
         for (ColorIcon ci : HSB_COLORS) {
             if (ci.getColor() == null) {
@@ -105,7 +101,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
                         labels.getFormatted("ColorChooser.colorSwatch.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
         }
-
         HSB_COLORS_AS_RGB = Collections.unmodifiableList(m);
     }
 
@@ -124,12 +119,9 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jList = new javax.swing.JList();
-
         setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 6, 6, 6));
         setLayout(new java.awt.GridBagLayout());
-
         jList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
         add(jList, new java.awt.GridBagConstraints());
@@ -137,7 +129,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jList;
     // End of variables declaration//GEN-END:variables
-
     @Override
     public void updateChooser() {
         if (updateRecursion++ == 0) {
@@ -212,7 +203,6 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         jList.setListData(byColumns);
         jList.setVisibleRowCount(HSB_COLORS_AS_RGB.size() / HSB_COLORS_AS_RGB_COLUMN_COUNT);
         jList.addListSelectionListener(new ListSelectionListener() {
-
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (updateRecursion++ == 0) {

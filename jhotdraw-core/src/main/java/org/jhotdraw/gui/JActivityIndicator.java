@@ -1,9 +1,9 @@
 /*
  * @(#)JActivityIndicator.java
- * 
+ *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -39,7 +39,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class JActivityIndicator extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
-
     private ArrayList<ActivityModel> models = new ArrayList<>();
 
     private class Handler implements ActivityManagerListener, PropertyChangeListener {
@@ -80,7 +79,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
         initComponents();
         setActivityManager(ActivityManager.getInstance());
-
     }
 
     public ActivityManager getActivityManager() {
@@ -196,9 +194,7 @@ public class JActivityIndicator extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         progressBar = new javax.swing.JProgressBar();
-
         setLayout(new java.awt.BorderLayout());
         add(progressBar, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

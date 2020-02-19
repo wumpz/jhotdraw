@@ -2,7 +2,7 @@
  * @(#)CurvedLiner.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.liner;
@@ -53,7 +53,6 @@ public class CurvedLiner
         if (start == null || end == null || path == null) {
             return;
         }
-
         // Special treatment if the connection connects the same figure
         if (figure.getStartFigure() == figure.getEndFigure()) {
             // Ensure path has exactly 4 nodes
@@ -75,10 +74,8 @@ public class CurvedLiner
             if (eoutcode == 0) {
                 eoutcode = Geom.outcode(sb, eb);
             }
-
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-
             switch (soutcode) {
                 case Geom.OUT_TOP:
                     eoutcode = Geom.OUT_LEFT;
@@ -137,9 +134,7 @@ public class CurvedLiner
         } else {
             Point2D.Double sp = start.findStart(figure);
             Point2D.Double ep = end.findEnd(figure);
-
             path.clear();
-
             if (sp.x == ep.x || sp.y == ep.y) {
                 path.add(new BezierPath.Node(ep.x, ep.y));
             } else {
@@ -153,7 +148,6 @@ public class CurvedLiner
                 eb.y += 5d;
                 eb.width -= 10d;
                 eb.height -= 10d;
-
                 int soutcode = sb.outcode(sp);
                 if (soutcode == 0) {
                     soutcode = Geom.outcode(sb, eb);
@@ -162,7 +156,6 @@ public class CurvedLiner
                 if (eoutcode == 0) {
                     eoutcode = Geom.outcode(eb, sb);
                 }
-
                 if ((soutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0
                         && (eoutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0) {
                     path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, sp.x, (sp.y + ep.y) / 2));
@@ -178,10 +171,8 @@ public class CurvedLiner
                     path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, ep.x, sp.y));
                     path.add(new BezierPath.Node(ep.x, ep.y));
                 }
-
             }
         }
-
         path.invalidatePath();
     }
 

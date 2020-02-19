@@ -2,7 +2,7 @@
  * @(#)TextAreaCreationTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -76,7 +76,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
     /**
@@ -121,7 +120,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
-
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
@@ -159,10 +157,8 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
-
             //textArea.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
@@ -176,7 +172,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         Rectangle2D.Double r = figure.getDrawingArea();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
-
         // FIXME - Find a way to determine the parameters for grow.
         //r.grow(1,2);
         //r.width += 16;
@@ -190,11 +185,9 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textArea.getText();
-
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
             } else {
@@ -205,7 +198,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                     typingTarget.setText("");
                 }
             }
-
             UndoableEdit edit = new AbstractUndoableEdit() {
                 private static final long serialVersionUID = 1L;
 
@@ -232,13 +224,11 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textArea.endOverlay();
         }
-        //	        view().checkDamage();
+        //         view().checkDamage();
     }
 
     @Override

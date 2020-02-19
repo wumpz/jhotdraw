@@ -2,14 +2,12 @@
  * @(#)ToolBarLayout.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
-
 import java.awt.*;
 import java.io.Serializable;
-
 /**
  * A layout which lays out components horizontally or vertically according
  * to their preferred size.
@@ -19,7 +17,6 @@ import java.io.Serializable;
  */
 public class ToolBarLayout implements LayoutManager2, Serializable {
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies that components should be laid out left to right.
      */
@@ -32,38 +29,33 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
      * Specifies the axis of the layout.
      */
     private int axis;
-
     /**
      * Creates a layout manager that will lay out components along the
-     * X-axis.  
+     * X-axis.
      */
     public ToolBarLayout() {
         this(X_AXIS);
     }
     /**
      * Creates a layout manager that will lay out components along the
-     * given axis.  
+     * given axis.
      *
      * @param axis  the axis to lay out components along. Can be one of:
      *              <code>BoxLayout.X_AXIS</code>,
      *              <code>BoxLayout.Y_AXIS</code>,
      *
-     * @exception AWTError  if the value of <code>axis</code> is invalid 
+     * @exception AWTError  if the value of <code>axis</code> is invalid
      */
     public ToolBarLayout(int axis) {
         this.axis = axis;
     }
-
-
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {
     }
-
     @Override
     public Dimension maximumLayoutSize(Container target) {
         return preferredLayoutSize(target);
     }
-
     @Override
     public float getLayoutAlignmentX(Container target) {
         switch (axis) {
@@ -74,7 +66,6 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
                 return 0f;
         }
     }
-
     @Override
     public float getLayoutAlignmentY(Container target) {
         switch (axis) {
@@ -85,19 +76,15 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
                 return 0f;
         }
     }
-
     @Override
     public void invalidateLayout(Container target) {
     }
-
     @Override
     public void addLayoutComponent(String name, Component comp) {
     }
-
     @Override
     public void removeLayoutComponent(Component comp) {
     }
-
     @Override
     public Dimension preferredLayoutSize(Container parent) {
         int w = 0;
@@ -118,22 +105,17 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
                     w += ps.width;
                 }
         }
-        
         Insets i = parent.getInsets();
-        
         return new Dimension(w + i.left + i.right, h + i.top + i.bottom);
     }
-
     @Override
     public Dimension minimumLayoutSize(Container parent) {
         return preferredLayoutSize(parent);
     }
-
     @Override
     public void layoutContainer(Container parent) {
         Dimension ps = preferredLayoutSize(parent);
         Insets insets = parent.getInsets();
-        
         int w = ps.width - insets.left - insets.right;
         int h = ps.height - insets.top - insets.bottom;
         int x = insets.left;

@@ -2,17 +2,15 @@
  * @(#)CombinePathsAction.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.action;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
-
 /**
  * CombinePathsAction.
  *
@@ -21,17 +19,14 @@ import org.jhotdraw.samples.odg.figures.ODGPathFigure;
  */
 public class CombineAction extends GroupAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.combinePaths";
     private ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-
     /** Creates a new instance. */
     public CombineAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
         labels.configureAction(this, ID);
     }
-
     @Override
     protected boolean canGroup() {
         boolean canCombine = getView().getSelectionCount() > 1;
@@ -45,7 +40,6 @@ public class CombineAction extends GroupAction {
         }
         return canCombine;
     }
-
     @Override
     @SuppressWarnings("unchecked")
     public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
@@ -67,7 +61,6 @@ public class CombineAction extends GroupAction {
         view.addToSelection(paths);
         return figures;
     }
-
     @Override
     @SuppressWarnings("unchecked")
     public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {

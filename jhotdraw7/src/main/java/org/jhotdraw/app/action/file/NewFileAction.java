@@ -2,18 +2,15 @@
  * @(#)NewFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
-
 import org.jhotdraw.util.*;
 import java.awt.event.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-
 /**
  * Creates a new view.
  * <p>
@@ -35,7 +32,6 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
 public class NewFileAction extends AbstractApplicationAction {
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.new";
-    
     /** Creates a new instance. */
     public NewFileAction(Application app) {
         this(app,ID);
@@ -45,7 +41,6 @@ public class NewFileAction extends AbstractApplicationAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, id);
     }
-    
     @Override
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();

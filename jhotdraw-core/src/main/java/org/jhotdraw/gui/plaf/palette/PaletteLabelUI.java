@@ -2,7 +2,7 @@
  * @(#)QuaquaLabelUI.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -47,11 +47,9 @@ public class PaletteLabelUI extends BasicLabelUI {
     @Override
     protected void installDefaults(JLabel b) {
         super.installDefaults(b);
-
         // load shared instance defaults
         PaletteLookAndFeel.installBorder(b, "Label.border");
         PaletteLookAndFeel.installColorsAndFont(b, "Label.background", "Label.foreground", "Label.font");
-
         // FIXME - Very, very dirty trick to achieve small labels on sliders
         //         This hack should be removed, when we implement a SliderUI
         //         on our own.
@@ -64,7 +62,6 @@ public class PaletteLabelUI extends BasicLabelUI {
     public void paint(Graphics gr, JComponent c) {
         Graphics2D g = (Graphics2D) gr;
         Object oldHints = PaletteUtilities.beginGraphics(g);
-
         // Paint background again so that the texture paint is drawn
         /*
         if (c.isOpaque()) {
@@ -91,9 +88,7 @@ public class PaletteLabelUI extends BasicLabelUI {
     protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY) {
         Color c = UIManager.getColor("Label.disabledForeground");
         g.setColor((c != null) ? c : l.getForeground());
-
         int accChar = -1; //l.getDisplayedMnemonicIndex();
-
         PaletteUtilities.drawString(g, s, accChar,
                 textX, textY);
     }
@@ -101,21 +96,18 @@ public class PaletteLabelUI extends BasicLabelUI {
     @Override
     protected void paintEnabledText(JLabel l, Graphics g, String s, int textX, int textY) {
         int mnemIndex = l.getDisplayedMnemonicIndex();
-
         String style = (String) l.getClientProperty("Quaqua.Label.style");
         if (style != null) {
             if ("emboss".equals(style)
                     && UIManager.getColor("Label.embossForeground") != null) {
                 g.setColor(UIManager.getColor("Label.embossForeground"));
                 PaletteUtilities.drawString(g, s, mnemIndex, textX, textY + 1);
-
             } else if ("shadow".equals(style)
                     && UIManager.getColor("Label.shadowForeground") != null) {
                 g.setColor(UIManager.getColor("Label.shadowForeground"));
                 PaletteUtilities.drawString(g, s, mnemIndex, textX, textY + 1);
             }
         }
-
         g.setColor(l.getForeground());
         PaletteUtilities.drawString(g, s, mnemIndex, textX, textY);
         //SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex,
@@ -156,7 +148,6 @@ public class PaletteLabelUI extends BasicLabelUI {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
-
         if ("JComponent.sizeVariant".equals(name)) {
 //            QuaquaUtilities.applySizeVariant((JLabel) evt.getSource());
         } else {

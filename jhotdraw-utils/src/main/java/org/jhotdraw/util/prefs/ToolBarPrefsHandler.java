@@ -2,7 +2,7 @@
  * @(#)ToolBarPrefsHandler.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.util.prefs;
@@ -30,7 +30,6 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         this.toolbar = toolbar;
         this.prefsPrefix = prefsPrefix;
         this.prefs = prefs;
-
         String constraint = prefs.get(prefsPrefix + ".constraint", BorderLayout.NORTH);
         int orientation = (constraint.equals(BorderLayout.NORTH) || constraint.equals(BorderLayout.SOUTH)) ? JToolBar.HORIZONTAL : JToolBar.VERTICAL;
         toolbar.setOrientation(orientation);
@@ -40,7 +39,6 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         if (prefs.getBoolean(prefsPrefix+".isFloating", false)) {
             makeToolBarFloat();
         }*/
-
         toolbar.addComponentListener(this);
         toolbar.addAncestorListener(this);
     }

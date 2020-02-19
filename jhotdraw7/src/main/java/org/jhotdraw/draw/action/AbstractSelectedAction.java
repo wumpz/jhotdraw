@@ -2,12 +2,10 @@
  * @(#)AbstractSelectedAction.java
  *
  * Copyright (c) 2003-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
-
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -20,7 +18,6 @@ import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
-
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
  * on behalf of the selected figures of a {@link org.jhotdraw.draw.DrawingView}.
@@ -42,14 +39,10 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {
     private static final long serialVersionUID = 1L;
-
-    
     private DrawingEditor editor;
     transient private DrawingView activeView;
-
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
     private static final long serialVersionUID = 1L;
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
@@ -67,20 +60,16 @@ public abstract class AbstractSelectedAction
                 updateEnabledState();
             }
         }
-
         @Override
         public String toString() {
             return AbstractSelectedAction.this + " " + this.getClass() + "@" + hashCode();
         }
-
         @Override
         public void selectionChanged(FigureSelectionEvent evt) {
             updateEnabledState();
-
         }
     };
     private EventHandler eventHandler = new EventHandler();
-
     /** Creates an action which acts on the selected figures on the current view
      * of the specified editor.
      */
@@ -88,7 +77,6 @@ public abstract class AbstractSelectedAction
         setEditor(editor);
         //updateEnabledState();
     }
-
     /** Updates the enabled state of this action to reflect the enabled state
      * of the active {@code DrawingView}. If no drawing view is active, this
      * action is disabled.
@@ -101,12 +89,10 @@ public abstract class AbstractSelectedAction
             setEnabled(false);
         }
     }
-
     @Override
     public void dispose() {
         setEditor(null);
     }
-
     public void setEditor(DrawingEditor editor) {
         if (eventHandler != null) {
             unregisterEventHandler();
@@ -117,26 +103,18 @@ public abstract class AbstractSelectedAction
             updateEnabledState();
         }
     }
-
-    
     public DrawingEditor getEditor() {
         return editor;
     }
-
-    
     protected DrawingView getView() {
         return (editor == null) ? null : editor.getActiveView();
     }
-
-    
     protected Drawing getDrawing() {
         return (getView() == null) ? null : getView().getDrawing();
     }
-
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         getDrawing().fireUndoableEditHappened(edit);
     }
-
     /** By default, the enabled state of this action is updated to reflect
      * the enabled state of the active {@code DrawingView}.
      * Since this is not always necessary, and since many listening actions
@@ -162,14 +140,12 @@ public abstract class AbstractSelectedAction
             updateEnabledState();
         }
     }
-
     /** Returns true, if this action automatically updates its enabled
      * state to reflect the enabled state of the active {@code DrawingView}.
      */
     public boolean isUpdatEnabledState() {
         return eventHandler != null;
     }
-
     /** Unregisters the event handler from the drawing editor and the
      * active drawing view.
      */
@@ -183,8 +159,7 @@ public abstract class AbstractSelectedAction
             activeView = null;
         }
     }
-
-    /** Registers the event handler from the drawing editor and the 
+    /** Registers the event handler from the drawing editor and the
      * active drawing view.
      */
     private void registerEventHandler() {

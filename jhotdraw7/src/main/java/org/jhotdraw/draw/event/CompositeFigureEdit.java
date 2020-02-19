@@ -1,18 +1,16 @@
 /*
  * @(#)CompositeFigureEdit.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.undo.CompositeEdit;
-
 /**
  * A {@link CompositeEdit} which invokes {@code figure.willChange}
  * and {@code figure.changed} when undoing or redoing a change.
@@ -22,9 +20,7 @@ import org.jhotdraw.undo.CompositeEdit;
  */
 public class CompositeFigureEdit extends CompositeEdit {
     private static final long serialVersionUID = 1L;
-
     private Figure figure;
-
     /**
      * Creates a new {@code CompositeFigureEdit} which uses
      * CompoundEdit.getPresentatioName and is significant.
@@ -34,7 +30,6 @@ public class CompositeFigureEdit extends CompositeEdit {
     public CompositeFigureEdit(Figure figure) {
         this.figure = figure;
     }
-
     /**
      * Creates new CompositeFigureEdit which uses the specified significance.
      *
@@ -44,7 +39,6 @@ public class CompositeFigureEdit extends CompositeEdit {
         super(isSignificant);
         this.figure = figure;
     }
-
     /**
      * Creates new CompositeFigureEdit which uses the specified presentation name.
      *
@@ -54,7 +48,6 @@ public class CompositeFigureEdit extends CompositeEdit {
         super(presentationName);
         this.figure = figure;
     }
-
     /**
      * Creates new CompositeEdit.
      * Which uses the given presentation name.
@@ -66,7 +59,6 @@ public class CompositeFigureEdit extends CompositeEdit {
         super(presentationName, isSignificant);
         this.figure = figure;
     }
-
     @Override
     public void undo() {
         if (!canUndo()) {

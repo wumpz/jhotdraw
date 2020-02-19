@@ -2,19 +2,16 @@
  * @(#)DefaultSelectAreaTracker.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
-
 /**
  * <code>DefaultSelectAreaTracker</code> implements interactions with the background
  * area of a <code>Drawing</code>.
@@ -26,14 +23,14 @@ import java.util.*;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectionTool} as Handler, {@link DragTracker} as Handler, 
- * {@link HandleTracker} as Handler. 
+ * Partners: {@link SelectionTool} as Handler, {@link DragTracker} as Handler,
+ * {@link HandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: State.<br>
- * Partners: {@link SelectionTool} as Context, {@link DragTracker} as 
- * State, {@link HandleTracker} as State. 
+ * Partners: {@link SelectionTool} as Context, {@link DragTracker} as
+ * State, {@link HandleTracker} as State.
  *
  * @see SelectionTool
  *
@@ -42,9 +39,8 @@ import java.util.*;
  */
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
     private static final long serialVersionUID = 1L;
-
     /**
-     * The bounds of the rubberband. 
+     * The bounds of the rubberband.
      */
     private Rectangle rubberband = new Rectangle();
     /**
@@ -66,24 +62,19 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
      * hovering.
      */
     private Figure hoverFigure = null;
-
     /** Creates a new instance. */
     public DefaultSelectAreaTracker() {
     }
-
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         clearRubberBand();
     }
-
     @Override
     public void mouseReleased(MouseEvent evt) {
         selectGroup(evt.isShiftDown());
         clearRubberBand();
-
     }
-
     @Override
     public void mouseDragged(MouseEvent evt) {
         Rectangle invalidatedArea = (Rectangle) rubberband.clone();
@@ -99,7 +90,6 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
         }
         fireAreaInvalidated(invalidatedArea);
     }
-
     @Override
     public void mouseMoved(MouseEvent evt) {
         clearRubberBand();
@@ -110,7 +100,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
             clearHoverHandles();
         } else {
             // Search first, if one of the selected figures contains
-            // the current mouse location, and is selectable. 
+            // the current mouse location, and is selectable.
             // Only then search for other
             // figures. This search sequence is consistent with the
             // search sequence of the SelectionTool.
@@ -127,24 +117,20 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
                     figure = view.getDrawing().findFigureBehind(p, figure);
                 }
             }
-
             updateHoverHandles(view, figure);
         }
     }
-
     @Override
     public void mouseExited(MouseEvent evt) {
         DrawingView view = editor.findView((Container) evt.getSource());
         updateHoverHandles(view, null);
     }
-
     private void clearRubberBand() {
         if (!rubberband.isEmpty()) {
             fireAreaInvalidated(rubberband);
             rubberband.width = -1;
         }
     }
-
     @Override
     public void draw(Graphics2D g) {
         g.setStroke(rubberbandStroke);
@@ -156,7 +142,6 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
             }
         }
     }
-
     private void selectGroup(boolean toggle) {
         Collection<Figure> figures = getView().findFiguresWithin(rubberband);
         for (Figure f : figures) {
@@ -165,11 +150,9 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
             }
         }
     }
-
     protected void clearHoverHandles() {
         updateHoverHandles(null, null);
     }
-
     protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
@@ -203,13 +186,11 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
             }
         }
     }
-
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         clearHoverHandles();
     }
-
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);

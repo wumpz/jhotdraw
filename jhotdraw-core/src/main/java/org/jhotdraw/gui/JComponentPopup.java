@@ -1,9 +1,9 @@
 /*
  * @(#)JComponentPopup.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -32,7 +32,6 @@ import javax.swing.SwingUtilities;
 public class JComponentPopup extends JPopupMenu {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Wether we are permitted to listen on AWT events.
      */
@@ -49,7 +48,6 @@ public class JComponentPopup extends JPopupMenu {
             MouseEvent me = (MouseEvent) ev;
             Component src = (Component) ev.getSource();
             Component invoker = JComponentPopup.this.getInvoker();
-
             if (ev.getID() == MouseEvent.MOUSE_PRESSED) {
                 // Close popup if the mouse press occured on a component which is
                 // not descending from this popup menu, but has the same
@@ -79,7 +77,6 @@ public class JComponentPopup extends JPopupMenu {
 
     public JComponentPopup() {
         setLightWeightPopupEnabled(false);
-
     }
 
     @Override
@@ -92,7 +89,6 @@ public class JComponentPopup extends JPopupMenu {
             // grab the current AWT Event ourselves (hoping that this method
             // invocation is associated to it) and try to decide whether
             // we want to close the popup.
-
             // This will prevent undesired closing of the popup component when
             // a combo box is opened on the popup component.
             // After this happened though, menuSelectionChanged is not invoked
@@ -136,7 +132,6 @@ public class JComponentPopup extends JPopupMenu {
                 }
             }
             super.setVisible(newValue);
-
         }
     }
 }

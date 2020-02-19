@@ -2,12 +2,10 @@
  * @(#)TransformRestoreEdit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
@@ -29,20 +27,17 @@ public class TransformRestoreEdit extends AbstractUndoableEdit {
     private Figure owner;
     private Object oldTransformRestoreData;
     private Object newTransformRestoreData;
-    
     /** Creates a new instance. */
     public TransformRestoreEdit(Figure owner, Object oldTransformRestoreData, Object newTransformRestoreData) {
         this.owner = owner;
         this.oldTransformRestoreData = oldTransformRestoreData;
         this.newTransformRestoreData = newTransformRestoreData;
     }
-
     @Override
     public String getPresentationName() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         return labels.getString("edit.transform.text");
     }
-    
     @Override
     public void undo() throws CannotUndoException {
         super.undo();
@@ -50,7 +45,6 @@ public class TransformRestoreEdit extends AbstractUndoableEdit {
         owner.restoreTransformTo(oldTransformRestoreData);
         owner.changed();
     }
-
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
@@ -58,5 +52,4 @@ public class TransformRestoreEdit extends AbstractUndoableEdit {
         owner.restoreTransformTo(newTransformRestoreData);
         owner.changed();
     }
-    
 }

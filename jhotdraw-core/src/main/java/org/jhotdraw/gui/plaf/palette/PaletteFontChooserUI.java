@@ -100,7 +100,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         fc.add(selectionPanel, BorderLayout.CENTER);
         previewPanel = new PaletteFontChooserPreviewPanel();
         fc.add(previewPanel, BorderLayout.NORTH);
-
         updateCollectionList();
         updateFamilyList();
         updateFaceList();
@@ -118,7 +117,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         selectionPanel.getCollectionList().addMouseListener(selectionPanelHandler);
         selectionPanel.getFamilyList().addMouseListener(selectionPanelHandler);
         selectionPanel.getFaceList().addMouseListener(selectionPanelHandler);
-
         chooserHandler = new FontChooserHandler();
         fontChooser.addPropertyChangeListener(chooserHandler);
         if (fontChooser.getModel() != null) {
@@ -190,7 +188,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         for (int i = 0, n = model.getChildCount(parent); i < n; i++) {
             lm.addElement(model.getChild(parent, i));
         }
-
         TreePath path = fontChooser.getSelectionPath();
         if (path == null || path.getPathCount() < 2) {
             list.clearSelection();
@@ -211,7 +208,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         if (path != null && path.getPathCount() > 1) {
             newParent = (FontCollectionNode) path.getPathComponent(1);
         }
-
         if (newParent != familyListParent) {
             DefaultListModel lm = (DefaultListModel) list.getModel();
             lm.removeAllElements();
@@ -222,7 +218,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         if (path == null || path.getPathCount() < 3) {
             list.clearSelection();
         } else {
@@ -242,7 +237,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
         if (path != null && path.getPathCount() > 2) {
             newParent = (FontFamilyNode) path.getPathComponent(2);
         }
-
         if (newParent != faceListParent) {
             DefaultListModel lm = (DefaultListModel) list.getModel();
             lm.removeAllElements();
@@ -253,7 +247,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         if (path == null || path.getPathCount() < 4) {
             list.clearSelection();
         } else {
@@ -272,21 +265,17 @@ public class PaletteFontChooserUI extends FontChooserUI {
 
     private void doCollectionChanged() {
         JList list = selectionPanel.getCollectionList();
-
         TreePath path = fontChooser.getSelectionPath();
         FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
         FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
         FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
         FontCollectionNode newCollection = (FontCollectionNode) list.getSelectedValue();
         FontFamilyNode newFamily = null;
         FontFaceNode newFace = null;
-
         if ((oldFamily == null || oldFace == null) && fontChooser.getSelectedFont() != null) {
             oldFace = new FontFaceNode(fontChooser.getSelectedFont());
             oldFamily = new FontFamilyNode(fontChooser.getSelectedFont().getFamily());
         }
-
         if (newCollection != null && oldFamily != null) {
             for (int i = 0, n = newCollection.getChildCount(); i < n; i++) {
                 FontFamilyNode aFamily = newCollection.getChildAt(i);
@@ -326,21 +315,17 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         setNewSelectionPath(newCollection, newFamily, newFace);
     }
 
     private void doFamilyChanged() {
         JList list = selectionPanel.getFamilyList();
-
         TreePath path = fontChooser.getSelectionPath();
         FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
         FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
         FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
         FontCollectionNode newCollection = oldCollection;
         FontFamilyNode newFamily = (FontFamilyNode) list.getSelectedValue();
-
         FontFaceNode newFace = null;
         if (newFamily != null && oldFace != null) {
             for (int i = 0, n = newFamily.getChildCount(); i < n; i++) {
@@ -351,7 +336,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                 }
             }
         }
-
         if (newCollection != null) {
             if (newFamily == null && newCollection.getChildCount() > 0) {
                 newFamily = newCollection.getChildAt(0);
@@ -367,22 +351,18 @@ public class PaletteFontChooserUI extends FontChooserUI {
 
     private void doFaceChanged() {
         JList list = selectionPanel.getFaceList();
-
         TreePath path = fontChooser.getSelectionPath();
         FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
         FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
         FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
         FontCollectionNode newCollection = oldCollection;
         FontFamilyNode newFamily = oldFamily;
         FontFaceNode newFace = (FontFaceNode) list.getSelectedValue();
-
         setNewSelectionPath(newCollection, newFamily, newFace);
     }
 
     private void setNewSelectionPath(FontCollectionNode newCollection, FontFamilyNode newFamily, FontFaceNode newFace) {
         FontChooserModel model = fontChooser.getModel();
-
         TreePath newPath;
         if (newFace != null) {
             newPath = new TreePath(new Object[]{
@@ -431,7 +411,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     if (src == selectionPanel.getCollectionList()) {
-
                     } else if (src == selectionPanel.getFamilyList()) {
                         selectionPanel.getCollectionList().requestFocus();
                     } else if (src == selectionPanel.getFaceList()) {
@@ -445,7 +424,6 @@ public class PaletteFontChooserUI extends FontChooserUI {
                     } else if (src == selectionPanel.getFamilyList()) {
                         selectionPanel.getFaceList().requestFocus();
                     } else if (src == selectionPanel.getFaceList()) {
-
                     }
                     evt.consume();
                     break;

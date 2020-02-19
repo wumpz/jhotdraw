@@ -2,7 +2,7 @@
  * @(#)OSXApplication.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
@@ -161,7 +161,6 @@ import org.jhotdraw.util.prefs.*;
 public class OSXApplication extends AbstractApplication {
 
     private static final long serialVersionUID = 1L;
-
     private OSXPaletteHandler paletteHandler;
     private Preferences prefs;
     private LinkedList<Action> paletteActions;
@@ -183,9 +182,7 @@ public class OSXApplication extends AbstractApplication {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
         paletteHandler = new OSXPaletteHandler(this);
-
         initLabels();
-
         paletteActions = new LinkedList<>();
         setActionMap(createModelActionMap(model));
         initPalettes(paletteActions);
@@ -247,14 +244,12 @@ public class OSXApplication extends AbstractApplication {
         } else if (window instanceof JDialog) {
             // ((JDialog) window).setJMenuBar(createMenuBar(null));
         }
-
         paletteHandler.add(window, view);
     }
 
     @Override
     public void removeWindow(Window window) {
         if (window instanceof JFrame) {
-
             // Unlink all menu items from action objects
             JMenuBar mb = ((JFrame) window).getJMenuBar();
             Stack<JMenu> s = new Stack<>();
@@ -288,7 +283,6 @@ public class OSXApplication extends AbstractApplication {
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             f.setSize(new Dimension(600, 400));
             updateViewTitle(view, f);
-
             PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
             Point loc = f.getLocation();
             boolean moved;
@@ -306,10 +300,8 @@ public class OSXApplication extends AbstractApplication {
                 }
             } while (moved);
             f.setLocation(loc);
-
             new FrameHandler(f, view);
             addWindow(f, view);
-
             f.getContentPane().add(view.getComponent());
             f.setVisible(true);
             view.start();
@@ -332,7 +324,6 @@ public class OSXApplication extends AbstractApplication {
         }
         v.setTitle(labels.getFormatted("frame.title", title, getName(), v.getMultipleOpenId()));
         f.setTitle(v.getTitle());
-
         // Adds a proxy icon for the file to the title bar
         // See http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
         if (uri != null && uri.getScheme() != null && "file".equals(uri.getScheme())) {
@@ -361,7 +352,6 @@ public class OSXApplication extends AbstractApplication {
      */
     protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
-
         // Get menus from application model
         JMenu fileMenu = null;
         JMenu editMenu = null;
@@ -397,7 +387,6 @@ public class OSXApplication extends AbstractApplication {
             }
             mb.add(mm);
         }
-
         // Create missing standard menus
         if (fileMenu == null) {
             fileMenu = createFileMenu(v);
@@ -414,7 +403,6 @@ public class OSXApplication extends AbstractApplication {
         if (helpMenu == null) {
             helpMenu = createHelpMenu(v);
         }
-
         // Insert standard menus into menu bar
         if (fileMenu != null) {
             mb.add(fileMenu, 0);
@@ -431,19 +419,15 @@ public class OSXApplication extends AbstractApplication {
         if (helpMenu != null) {
             mb.add(helpMenu);
         }
-
         return mb;
     }
 
     @Override
-
     public JMenu createViewMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "view");
-
         MenuBuilder mb = model.getMenuBuilder();
         mb.addOtherViewItems(m, this, view);
-
         return (m.getItemCount() > 0) ? m : null;
     }
 
@@ -451,35 +435,27 @@ public class OSXApplication extends AbstractApplication {
     public JMenu createWindowMenu(View view) {
         JMenu m;
         JMenuItem mi;
-
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
         m.addSeparator();
-
         MenuBuilder mb = model.getMenuBuilder();
         mb.addOtherWindowItems(m, this, view);
-
         new WindowMenuHandler(windowMenu, view);
-
         return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
-
     public JMenu createFileMenu(View view) {
         JMenu m;
-
         m = new JMenu();
         labels.configureMenu(m, "file");
         MenuBuilder mb = model.getMenuBuilder();
         mb.addClearFileItems(m, this, view);
         mb.addNewFileItems(m, this, view);
         mb.addNewWindowItems(m, this, view);
-
         mb.addLoadFileItems(m, this, view);
         mb.addOpenFileItems(m, this, view);
-
         if (getAction(view, LoadFileAction.ID) != null
                 || getAction(view, OpenFileAction.ID) != null
                 || getAction(view, LoadDirectoryAction.ID) != null
@@ -487,21 +463,16 @@ public class OSXApplication extends AbstractApplication {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
-
         mb.addCloseFileItems(m, this, view);
         mb.addSaveFileItems(m, this, view);
         mb.addExportFileItems(m, this, view);
         mb.addPrintFileItems(m, this, view);
-
         mb.addOtherFileItems(m, this, view);
-
         return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
-
     public JMenu createEditMenu(View view) {
-
         JMenu m;
         JMenuItem mi;
         Action a;
@@ -525,17 +496,14 @@ public class OSXApplication extends AbstractApplication {
     public JMenu createHelpMenu(View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "help");
-
         MenuBuilder mb = model.getMenuBuilder();
         mb.addHelpItems(m, this, view);
-
         return (m.getItemCount() == 0) ? null : m;
     }
 
     protected void initScreenMenuBar() {
         setScreenMenuBar(createMenuBar(null));
         paletteHandler.add((JFrame) getComponent(), null);
-
         Action a;
         if (null != (a = getAction(null, OpenApplicationAction.ID))) {
             OSXAdapter.setOpenApplicationHandler(a);
@@ -562,12 +530,10 @@ public class OSXApplication extends AbstractApplication {
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
         SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
-
             @Override
             public LinkedList<JFrame> construct() {
                 LinkedList<JFrame> palettes = new LinkedList<>();
                 LinkedList<JToolBar> toolBars = new LinkedList<>(getModel().createToolBars(OSXApplication.this, null));
-
                 int i = 0;
                 int x = 0;
                 for (JToolBar tb : toolBars) {
@@ -575,15 +541,12 @@ public class OSXApplication extends AbstractApplication {
                     tb.setFloatable(false);
                     tb.setOrientation(JToolBar.VERTICAL);
                     tb.setFocusable(false);
-
                     JFrame d = new JFrame();
-
                     // Note: Client properties must be set before heavy-weight
                     // peers are created
                     d.getRootPane().putClientProperty("Window.style", "small");
                     d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);
                     d.getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
-
                     d.setFocusable(false);
                     d.setResizable(false);
                     d.getContentPane().setLayout(new BorderLayout());
@@ -593,14 +556,11 @@ public class OSXApplication extends AbstractApplication {
                     d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
                     d.getRootPane().setFont(
                             new Font("Lucida Grande", Font.PLAIN, 11));
-
                     d.setJMenuBar(createMenuBar(null));
-
                     d.pack();
                     d.setFocusableWindowState(false);
                     PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
-
                     TogglePaletteAction tpa = new TogglePaletteAction(OSXApplication.this, d, tb.getName());
                     palettes.add(d);
                     if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
@@ -610,7 +570,6 @@ public class OSXApplication extends AbstractApplication {
                     paletteActions.add(tpa);
                 }
                 return palettes;
-
             }
 
             @Override
@@ -670,7 +629,6 @@ public class OSXApplication extends AbstractApplication {
         rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
         rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this, null));
         rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this, null));
-
         ActionMap moMap = mo.createActionMap(this, null);
         moMap.setParent(rootMap);
         return moMap;
@@ -682,7 +640,6 @@ public class OSXApplication extends AbstractApplication {
         intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
         intermediateMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this, v));
         intermediateMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this, v));
-
         ActionMap vMap = model.createActionMap(this, v);
         vMap.setParent(intermediateMap);
         intermediateMap.setParent(getActionMap(null));
@@ -695,7 +652,6 @@ public class OSXApplication extends AbstractApplication {
     private class WindowMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu windowMenu;
-
         private View view;
 
         public WindowMenuHandler(JMenu windowMenu, View view) {
@@ -711,7 +667,7 @@ public class OSXApplication extends AbstractApplication {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
+            if (name == VIEW_COUNT_PROPERTY || "paletteCount".equals(name)) {
                 updateWindowMenu();
             }
         }
@@ -719,7 +675,6 @@ public class OSXApplication extends AbstractApplication {
         protected void updateWindowMenu() {
             JMenu m = windowMenu;
             JMenuItem mi;
-
             // FIXME - We leak memory here!!
             m.removeAll();
             mi = m.add(getAction(view, MinimizeWindowAction.ID));
@@ -741,7 +696,6 @@ public class OSXApplication extends AbstractApplication {
                     m.add(cbmi);
                 }
             }
-
             MenuBuilder mb = model.getMenuBuilder();
             mb.addOtherWindowItems(m, OSXApplication.this, view);
         }

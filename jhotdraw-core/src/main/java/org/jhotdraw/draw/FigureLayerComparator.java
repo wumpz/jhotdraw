@@ -2,7 +2,7 @@
  * @(#)FigureLayerComparator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -29,5 +29,4 @@ public class FigureLayerComparator implements Comparator<Figure> {
     public int compare(Figure f1, Figure f2) {
         return f1.getLayer() - f2.getLayer();
     }
-
 }

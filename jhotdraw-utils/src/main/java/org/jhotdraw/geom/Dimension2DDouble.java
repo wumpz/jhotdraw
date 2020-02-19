@@ -2,7 +2,7 @@
  * @(#)Dimension2DDouble.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
@@ -18,7 +18,6 @@ import java.awt.geom.*;
 public class Dimension2DDouble extends Dimension2D implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The width dimension; negative values can be used.
      *
@@ -27,7 +26,6 @@ public class Dimension2DDouble extends Dimension2D implements java.io.Serializab
      * @see #setSize
      */
     public double width;
-
     /**
      * The height dimension; negative values can be used.
      *

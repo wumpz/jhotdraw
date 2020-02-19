@@ -2,7 +2,7 @@
  * @(#)AttributeKey.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -34,7 +34,6 @@ import org.jhotdraw.util.*;
 public class AttributeKey<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Holds a String representation of the attribute key.
      */
@@ -132,7 +131,6 @@ public class AttributeKey<T> implements Serializable {
      * Gets a clone of the value from the Figure.
      */
     @SuppressWarnings("unchecked")
-
     public T getClone(Figure f) {
         T value = f.get(this);
         try {
@@ -163,7 +161,6 @@ public class AttributeKey<T> implements Serializable {
      * @return The value of the attribute.
      */
     @SuppressWarnings("unchecked")
-
     public T get(Map<AttributeKey<?>, Object> a) {
         return a.containsKey(this) ? (T) a.get(this) : defaultValue;
     }
@@ -197,10 +194,8 @@ public class AttributeKey<T> implements Serializable {
         if (value == null && !isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey " + key);
         }
-
         final Object restoreData = f.getAttributesRestoreData();
         f.set(this, value);
-
         UndoableEdit edit = new AbstractUndoableEdit() {
             private static final long serialVersionUID = 1L;
 
@@ -226,7 +221,6 @@ public class AttributeKey<T> implements Serializable {
             }
         };
         return edit;
-
     }
 
     /**
@@ -242,7 +236,6 @@ public class AttributeKey<T> implements Serializable {
     public void setClone(Figure f, T value) {
         try {
             f.set(this, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
-
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
@@ -259,7 +252,6 @@ public class AttributeKey<T> implements Serializable {
     public void putClone(Map<AttributeKey<?>, Object> a, T value) {
         try {
             put(a, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
-
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
@@ -276,7 +268,6 @@ public class AttributeKey<T> implements Serializable {
      * @return The old value.
      */
     @SuppressWarnings("unchecked")
-
     public T put(Map<AttributeKey<?>, Object> a, T value) {
         if (value == null && !isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey " + key);
@@ -303,7 +294,6 @@ public class AttributeKey<T> implements Serializable {
         if (value == null) {
             return isNullValueAllowed();
         }
-
         return clazz.isInstance(value);
     }
 

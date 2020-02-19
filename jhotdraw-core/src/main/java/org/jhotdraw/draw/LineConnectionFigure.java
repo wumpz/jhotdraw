@@ -2,7 +2,7 @@
  * @(#)BezierBezierLineConnection.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -39,7 +39,6 @@ public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The name of the JaveBeans property {@code liner}.
      */
@@ -56,7 +55,6 @@ public class LineConnectionFigure extends LineFigure
     private static class ConnectionHandler extends FigureAdapter implements Serializable {
 
         private static final long serialVersionUID = 1L;
-
         private LineConnectionFigure owner;
 
         private ConnectionHandler(LineConnectionFigure owner) {
@@ -95,9 +93,9 @@ public class LineConnectionFigure extends LineFigure
      */
     public LineConnectionFigure() {
     }
+
     // DRAWING
     // SHAPE AND BOUNDS
-
     /**
      * Ensures that a connection is updated if the connection
      * was moved.
@@ -107,9 +105,9 @@ public class LineConnectionFigure extends LineFigure
         super.transform(tx);
         updateConnection(); // make sure that we are still connected
     }
+
     // ATTRIBUTES
     // EDITING
-
     /**
      * Gets the handles of the figure. It returns the normal
      * PolylineHandles but adds ChangeConnectionHandles at the
@@ -135,8 +133,8 @@ public class LineConnectionFigure extends LineFigure
         }
         return handles;
     }
-
 // CONNECTING
+
     /**
      *
      * ConnectionFigures cannot be connected and always sets connectable to false.
@@ -157,7 +155,6 @@ public class LineConnectionFigure extends LineFigure
         }
         if (getEndConnector() != null) {
             Point2D.Double end = getEndConnector().findEnd(this);
-
             if (end != null) {
                 setEndPoint(end);
             }
@@ -268,7 +265,6 @@ public class LineConnectionFigure extends LineFigure
     }
     if (getEndConnector() != null) {
     Point2D.Double end = getEndConnector().findEnd(this);
-
     if(end != null) {
     basicSetEndPoint(end);
     }
@@ -289,7 +285,6 @@ public class LineConnectionFigure extends LineFigure
     @Override
     public void addNotify(Drawing drawing) {
         super.addNotify(drawing);
-
         if (getStartConnector() != null && getEndConnector() != null) {
             handleConnect(getStartConnector(), getEndConnector());
             updateConnection();
@@ -387,7 +382,6 @@ public class LineConnectionFigure extends LineFigure
                 newEndFigure = getEndFigure();
             }
         }
-
         if (newStartFigure != null) {
             setStartConnector(newStartFigure.findCompatibleConnector(getStartConnector(), true));
         } else {
@@ -402,7 +396,6 @@ public class LineConnectionFigure extends LineFigure
                 setEndConnector(null);
             }
         }
-
         updateConnection();
         changed();
     }
@@ -448,8 +441,8 @@ public class LineConnectionFigure extends LineFigure
         }
         return false;
     }
-    // PERSISTENCE
 
+    // PERSISTENCE
     @Override
     protected void readPoints(DOMInput in) throws IOException {
         super.readPoints(in);
@@ -465,7 +458,6 @@ public class LineConnectionFigure extends LineFigure
     public void read(DOMInput in) throws IOException {
         readAttributes(in);
         readLiner(in);
-
         // Note: Points must be read after Liner, because Liner influences
         // the location of the points.
         readPoints(in);
@@ -479,7 +471,6 @@ public class LineConnectionFigure extends LineFigure
         } else {
             liner = null;
         }
-
     }
 
     @Override
@@ -526,7 +517,6 @@ public class LineConnectionFigure extends LineFigure
             }
             if (getEndConnector() != null) {
                 Point2D.Double end = getEndConnector().findEnd(this);
-
                 if (end != null) {
                     setEndPoint(end);
                 }
@@ -546,7 +536,6 @@ public class LineConnectionFigure extends LineFigure
     }
     if (getEndConnector() != null) {
     Point2D.Double end = getEndConnector().findEnd(this);
-
     if(end != null) {
     basicSetEndPoint(end);
     }

@@ -1,9 +1,9 @@
 /*
  * @(#)SerializationInputOutputFormat.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
@@ -144,7 +144,6 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         try {
             Drawing d = (Drawing) t.getTransferData(dataFlavor);
-
             if (replace) {
                 for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
                     drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
@@ -190,7 +189,6 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     @Override
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         final Drawing d = (Drawing) prototype.clone();
-
         HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<>(figures.size());
         final ArrayList<Figure> duplicates = new ArrayList<>(figures.size());
         for (Figure f : figures) {
@@ -202,9 +200,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         for (Figure f : duplicates) {
             f.remap(originalToDuplicateMap, true);
         }
-
         return new AbstractTransferable(dataFlavor) {
-
             @Override
             public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
                 if (isDataFlavorSupported(flavor)) {

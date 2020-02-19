@@ -2,12 +2,10 @@
  * @(#)SaveFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
-
-
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -22,7 +20,6 @@ import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.event.*;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * Saves the changes in the active view. If the active view has not an URI,
  * an {@code URIChooser} is presented.
@@ -53,16 +50,13 @@ import org.jhotdraw.net.URIUtil;
  */
 public class SaveFileAction extends AbstractViewAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.save";
     private boolean saveAs;
     private Component oldFocusOwner;
-
     /** Creates a new instance. */
     public SaveFileAction(Application app, View view) {
         this(app, view, false);
     }
-
     /** Creates a new instance. */
     public SaveFileAction(Application app, View view, boolean saveAs) {
         super(app, view);
@@ -70,7 +64,6 @@ public class SaveFileAction extends AbstractViewAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
         if (chsr == null) {
@@ -79,7 +72,6 @@ public class SaveFileAction extends AbstractViewAction {
         }
         return chsr;
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         final View view = getActiveView();
@@ -89,14 +81,11 @@ public class SaveFileAction extends AbstractViewAction {
         if (view.isEnabled()) {
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
-
             if (!saveAs && view.getURI() != null && view.canSaveTo(view.getURI())) {
                 saveViewToURI(view, view.getURI(), null);
             } else {
                 URIChooser fileChooser = getChooser(view);
-
                 JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
-
                     @Override
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -106,20 +95,17 @@ public class SaveFileAction extends AbstractViewAction {
                             } else {
                                 uri = evt.getChooser().getSelectedURI();
                             }
-
                             // Prevent same URI from being opened more than once
                             if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
                                 for (View v : getApplication().getViews()) {
                                     if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
                                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                                         JSheet.showMessageSheet(view.getComponent(), labels.getFormatted("file.saveAs.couldntSaveIntoOpenFile.message", evt.getFileChooser().getSelectedFile().getName()));
-
                                         view.setEnabled(true);
                                         return;
                                     }
                                 }
                             }
-
                             saveViewToURI(view, uri, evt.getChooser());
                         } else {
                             view.setEnabled(true);
@@ -132,16 +118,13 @@ public class SaveFileAction extends AbstractViewAction {
             }
         }
     }
-
     protected void saveViewToURI(final View view, final URI file,
             final URIChooser chooser) {
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 view.write(file, chooser);
             }
-
             @Override
             protected void done() {
                 view.setURI(file);
@@ -155,7 +138,6 @@ public class SaveFileAction extends AbstractViewAction {
                 getApplication().addRecentURI(file);
                 view.setMultipleOpenId(multiOpenId);
             }
-
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
@@ -167,7 +149,6 @@ public class SaveFileAction extends AbstractViewAction {
                         + ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }
-
             @Override
             protected void finished() {
                 view.setEnabled(true);

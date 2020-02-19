@@ -2,17 +2,13 @@
  * @(#)QuaquaLazyActionMap.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
-
-
 import java.lang.reflect.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
-
 /**
  * QuaquaLazyActionMap.
  *
@@ -26,7 +22,6 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      * a Class object.
      */
     private transient Object loader;
-
     /**
      * Installs an ActionMap that will be populated by invoking the
      * <code>loadActionMap</code> method on the specified Class
@@ -49,7 +44,6 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
         }
         SwingUtilities.replaceUIActionMap(c, map);
     }
-
     /**
      * Returns an ActionMap that will be populated by invoking the
      * <code>loadActionMap</code> method on the specified Class
@@ -71,69 +65,56 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
         }
         return map;
     }
-
-
     private PaletteLazyActionMap(Class<?> loader) {
         this.loader = loader;
     }
-
     public void put(Action action) {
         put(action.getValue(Action.NAME), action);
     }
-
     @Override
     public void put(Object key, Action action) {
         loadIfNecessary();
         super.put(key, action);
     }
-
     @Override
     public Action get(Object key) {
         loadIfNecessary();
         return super.get(key);
     }
-
     @Override
     public void remove(Object key) {
         loadIfNecessary();
         super.remove(key);
     }
-
     @Override
     public void clear() {
         loadIfNecessary();
         super.clear();
     }
-
     @Override
     public Object[] keys() {
         loadIfNecessary();
         return super.keys();
     }
-
     @Override
     public int size() {
         loadIfNecessary();
         return super.size();
     }
-
     @Override
     public Object[] allKeys() {
         loadIfNecessary();
         return super.allKeys();
     }
-
     @Override
     public void setParent(ActionMap map) {
         loadIfNecessary();
         super.setParent(map);
     }
-
     @SuppressWarnings("unchecked")
     private void loadIfNecessary() {
         if (loader != null) {
             Object ldr = loader;
-
             loader = null;
             Class<?> klass = (Class)ldr;
             try {

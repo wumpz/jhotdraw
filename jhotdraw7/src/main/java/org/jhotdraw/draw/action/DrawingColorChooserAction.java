@@ -2,55 +2,46 @@
  * @(#)DrawingColorChooserAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
-
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * The DrawingColorChooserAction changes a color attribute of the Drawing object
  * in the current view of the DrawingEditor.
  * <p>
  * The behavior for choosing the initial color of the JColorChooser matches with
  * {@link DrawingColorIcon }.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class DrawingColorChooserAction extends EditorColorChooserAction {
     private static final long serialVersionUID = 1L;
-
     /** Creates a new instance. */
     public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
         this(editor, key, null, null);
     }
-
     /** Creates a new instance. */
     public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
         this(editor, key, null, icon);
     }
-
     /** Creates a new instance. */
     public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
         this(editor, key, name, null);
     }
-
     public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon) {
         this(editor, key, name, icon, new HashMap<AttributeKey<?>, Object>());
     }
-
     public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon,
             Map<AttributeKey<?>, Object> fixedAttributes) {
         super(editor, key, name, icon, fixedAttributes);
     }
-
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (colorChooser == null) {
@@ -69,11 +60,9 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
             applyAttributesTo(attr, figures);
         }
     }
-
     @Override
     protected Color getInitialColor() {
         Color initialColor = null;
-
         DrawingView v = getEditor().getActiveView();
         if (v != null) {
             Figure f = v.getDrawing();
@@ -84,7 +73,6 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
         }
         return initialColor;
     }
-
     @Override
     protected void updateEnabledState() {
         if (getView() != null) {

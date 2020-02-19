@@ -2,17 +2,14 @@
  * @(#)ToolEvent.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.util.*;
-
 /**
  * An event sent to ToolListener's.
  * <hr>
@@ -33,14 +30,12 @@ public class ToolEvent extends EventObject {
     private static final long serialVersionUID=1L;
     private Rectangle invalidatedArea;
     private DrawingView view;
-    
     /** Creates a new instance. */
     public ToolEvent(Tool src, DrawingView view, Rectangle invalidatedArea) {
         super(src);
         this.view = view;
         this.invalidatedArea = invalidatedArea;
     }
-    
     /**
      * Gets the tool which is the source of the event.
      */

@@ -2,18 +2,15 @@
  * @(#)ClearRecentFilesMenuAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
-
 import org.jhotdraw.util.*;
 import java.awt.event.ActionEvent;
 import java.beans.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-
 /**
  * Clears (empties) the Recent Files sub-menu in the File menu.
  * <p>
@@ -30,9 +27,7 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
 public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.clearRecentFiles";
-    
     private PropertyChangeListener applicationListener;
-    
     /** Creates a new instance. */
     public ClearRecentFilesMenuAction(Application app) {
         super(app);
@@ -40,7 +35,6 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
         labels.configureAction(this, ID);
         updateEnabled();
     }
-
     /**
      * Installs listeners on the application object.
      */
@@ -68,15 +62,11 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
         super.uninstallApplicationListeners(app);
         app.removePropertyChangeListener(applicationListener);
     }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         getApplication().clearRecentURIs();
     }
-    
     private void updateEnabled() {
         setEnabled(getApplication().getRecentURIs().size() > 0);
-        
     }
-    
 }

@@ -3,10 +3,7 @@
  *
  * Created on 8. Oktober 2005, 13:25
  */
-
 package org.jhotdraw.samples.teddy;
-
-
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -29,7 +26,6 @@ public class FindDialog extends javax.swing.JDialog {
     private Matcher matcher;
     private Preferences prefs;
     private ResourceBundleUtil labels;
-    
     /** Creates new form FindDialog */
     private FindDialog(Frame parent, boolean modal) {
         super(parent, modal);
@@ -38,33 +34,25 @@ public class FindDialog extends javax.swing.JDialog {
         buttonPanel.setBorder(new EmptyBorder(0,-5,0,-5));
         setAlwaysOnTop(true);
         prefs = PreferencesUtil.userNodeForPackage(getClass());
-        
         PreferencesUtil.installFramePrefsHandler(prefs, "find", this);
-        
         modeCombo.setModel(new DefaultComboBoxModel(new Object[] {
             labels.getString("find.contains.text"),
             labels.getString("find.startsWith.text"),
             labels.getString("find.word.text"),
         }));
-        
-        
         ignoreCaseCheck.setSelected(prefs.getBoolean("find.ignoreCase", true));
         wrapAroundCheck.setSelected(prefs.getBoolean("find.wrapAround", true));
         modeCombo.setSelectedIndex(Math.min(0, Math.max(modeCombo.getModel().getSize() - 1,
                 prefs.getInt("find.mode", 0)
                 ))
                 );
-        
         getRootPane().setDefaultButton(nextButton);
-        
         InputMap im = new InputMap();
-        
         LookAndFeel.loadKeyBindings(im, new String[] {
             "shift ENTER", DefaultEditorKit.insertBreakAction,
             "alt ENTER", DefaultEditorKit.insertBreakAction,
             "ENTER", JTextField.notifyAction,
         });
-        
         im.setParent(findField.getInputMap(JComponent.WHEN_FOCUSED));
         findField.setInputMap(JComponent.WHEN_FOCUSED, im);
         im = new InputMap();
@@ -77,13 +65,11 @@ public class FindDialog extends javax.swing.JDialog {
         replaceField.setInputMap(JComponent.WHEN_FOCUSED, im);
         pack();
     }
-    
     /** Creates new form FindDialog */
     public FindDialog(Application app) {
         this((app.getComponent()==null)?null:(Frame) SwingUtilities.getWindowAncestor(app.getComponent()), false);
         this.app = app;
     }
-    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -92,7 +78,6 @@ public class FindDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         findLabel = new javax.swing.JLabel();
         replaceLabel = new javax.swing.JLabel();
         buttonPanel = new javax.swing.JPanel();
@@ -109,15 +94,10 @@ public class FindDialog extends javax.swing.JDialog {
         findField = new javax.swing.JTextArea();
         replaceScrollPane = new javax.swing.JScrollPane();
         replaceField = new javax.swing.JTextArea();
-
         setTitle("Find");
-
         findLabel.setText(labels.getString("find.findLabel.text")); // NOI18N
-
         replaceLabel.setText(labels.getString("find.replaceWithLabel.text")); // NOI18N
-
         buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 0));
-
         replaceAllButton.setText(labels.getString("find.replaceAll.text")); // NOI18N
         replaceAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +105,6 @@ public class FindDialog extends javax.swing.JDialog {
             }
         });
         buttonPanel.add(replaceAllButton);
-
         replaceButton.setText(labels.getString("find.replace.text")); // NOI18N
         replaceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,7 +112,6 @@ public class FindDialog extends javax.swing.JDialog {
             }
         });
         buttonPanel.add(replaceButton);
-
         replaceAndFindButton.setMnemonic(labels.getString("find.replaceAndFind.mnemonic").charAt(0));
         replaceAndFindButton.setText(labels.getString("find.replaceAndFind.text")); // NOI18N
         replaceAndFindButton.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +120,6 @@ public class FindDialog extends javax.swing.JDialog {
             }
         });
         buttonPanel.add(replaceAndFindButton);
-
         previousButton.setMnemonic(labels.getString("find.previous.mnemonic").charAt(0));
         previousButton.setText(labels.getString("find.previous.text")); // NOI18N
         previousButton.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +128,6 @@ public class FindDialog extends javax.swing.JDialog {
             }
         });
         buttonPanel.add(previousButton);
-
         nextButton.setMnemonic(labels.getString("find.next.mnemonic").charAt(0));
         nextButton.setText(labels.getString("find.next.text")); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
@@ -160,9 +136,7 @@ public class FindDialog extends javax.swing.JDialog {
             }
         });
         buttonPanel.add(nextButton);
-
         optionsPanel.setLayout(new java.awt.GridBagLayout());
-
         ignoreCaseCheck.setText(labels.getString("find.ignoreCase.text")); // NOI18N
         ignoreCaseCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,7 +147,6 @@ public class FindDialog extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
         optionsPanel.add(ignoreCaseCheck, gridBagConstraints);
-
         wrapAroundCheck.setText(labels.getString("find.wrapAround.text")); // NOI18N
         wrapAroundCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,7 +156,6 @@ public class FindDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         optionsPanel.add(wrapAroundCheck, gridBagConstraints);
-
         modeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Contains", "Starts with", "Word" }));
         modeCombo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -193,15 +165,12 @@ public class FindDialog extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         optionsPanel.add(modeCombo, gridBagConstraints);
-
         findField.setLineWrap(true);
         findField.setRows(2);
         findScrollPane.setViewportView(findField);
-
         replaceField.setLineWrap(true);
         replaceField.setRows(2);
         replaceScrollPane.setViewportView(replaceField);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -240,36 +209,29 @@ public class FindDialog extends javax.swing.JDialog {
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void modeChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_modeChanged
+    private void modeChanged(java.awt.event.ItemEvent evt) { //GEN-FIRST:event_modeChanged
         if (prefs != null) {
             prefs.putInt("find.mode", modeCombo.getSelectedIndex());
         }
     }//GEN-LAST:event_modeChanged
-    
-    private void wrapAroundPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wrapAroundPerformed
+    private void wrapAroundPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_wrapAroundPerformed
         if (prefs != null) {
             prefs.putBoolean("find.wrapAround", wrapAroundCheck.isSelected());
         }
-        
     }//GEN-LAST:event_wrapAroundPerformed
-    
-    private void ignoreCasePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ignoreCasePerformed
+    private void ignoreCasePerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_ignoreCasePerformed
         if (prefs != null) {
             prefs.putBoolean("find.ignoreCase", ignoreCaseCheck.isSelected());
         }
     }//GEN-LAST:event_ignoreCasePerformed
-    
-    private void replace(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replace
+    private void replace(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_replace
         TeddyView view = ((TeddyView) app.getActiveView());
         if (view != null) {
             CompositeEdit edit = new CompositeEdit("Replace");
             view.fireEdit(edit);
             view.replaceRange(
-                    
                     replaceField.getText(),
                     view.getSelectionStart(),
                     view.getSelectionEnd()
@@ -277,8 +239,7 @@ public class FindDialog extends javax.swing.JDialog {
             view.fireEdit(edit);
         }
     }//GEN-LAST:event_replace
-    
-    private void replaceAndFind(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAndFind
+    private void replaceAndFind(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_replaceAndFind
         TeddyView view = ((TeddyView) app.getActiveView());
         if (view != null) {
             CompositeEdit edit = new CompositeEdit("Replace And Find");
@@ -292,8 +253,7 @@ public class FindDialog extends javax.swing.JDialog {
             view.fireEdit(edit);
         }
     }//GEN-LAST:event_replaceAndFind
-    
-    private void previous(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous
+    private void previous(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_previous
         TeddyView view = ((TeddyView) app.getActiveView());
         if (view != null) {
             updateMatcher();
@@ -311,8 +271,7 @@ public class FindDialog extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_previous
-    
-    private void next(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next
+    private void next(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_next
         TeddyView view = ((TeddyView) app.getActiveView());
         if (view != null) {
             updateMatcher();
@@ -329,8 +288,7 @@ public class FindDialog extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_next
-    
-    private void replaceAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceAll
+    private void replaceAll(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_replaceAll
         TeddyView view = ((TeddyView) app.getActiveView());
         if (view != null) {
             updateMatcher();
@@ -355,7 +313,6 @@ public class FindDialog extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_replaceAll
-    
     private void updateMatcher() {
         TeddyView view = ((TeddyView) app.getActiveView());
         if (view != null) {
@@ -374,7 +331,6 @@ public class FindDialog extends javax.swing.JDialog {
             matcher = null;
         }
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel buttonPanel;
     public javax.swing.JTextArea findField;
@@ -393,5 +349,4 @@ public class FindDialog extends javax.swing.JDialog {
     public javax.swing.JScrollPane replaceScrollPane;
     public javax.swing.JCheckBox wrapAroundCheck;
     // End of variables declaration//GEN-END:variables
-    
 }

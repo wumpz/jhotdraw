@@ -2,12 +2,10 @@
  * @(#)ExportFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
-
-
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +24,6 @@ import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * Presents a file chooser to the user and then exports the contents of the
  * active view to the chosen file.
@@ -43,7 +40,7 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
- * {@link ApplicationModel#initApplication}. 
+ * {@link ApplicationModel#initApplication}.
  * <hr>
  * <b>Features</b>
  *
@@ -58,23 +55,19 @@ import org.jhotdraw.net.URIUtil;
  */
 public class ExportFileAction extends AbstractViewAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.export";
     private Component oldFocusOwner;
     private boolean proposeFileName;
-
     /** Creates a new instance. */
     public ExportFileAction(Application app, View view) {
         this(app, view, false);
     }
-
     public ExportFileAction(Application app, View view, boolean proposeFileName) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
         this.proposeFileName = proposeFileName;
     }
-
     /** Whether the export file action shall propose a file name or shall
      * leave the filename empty.
      * @return True if filename is proposed.
@@ -82,22 +75,19 @@ public class ExportFileAction extends AbstractViewAction {
     public boolean isProposeFileName() {
         return proposeFileName;
     }
-
     /** Whether the export file action shall propose a file name or shall
      * leave the filename empty.
-     * 
+     *
      * @param newValue True if filename shall be proposed.
      */
     public void setProposeFileName(boolean newValue) {
         this.proposeFileName = newValue;
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         final View view = getActiveView();
         if (view.isEnabled()) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-
             oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
             view.setEnabled(false);
             try {
@@ -108,7 +98,6 @@ public class ExportFileAction extends AbstractViewAction {
                     if (proposedURI != null) {
                         try {
                             URI selectedURI = fileChooser.getSelectedURI();
-
                             File selectedFolder;
                             if (selectedURI == null) {
                                 Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
@@ -124,9 +113,7 @@ public class ExportFileAction extends AbstractViewAction {
                             } else {
                                 selectedFolder = new File(selectedURI).getParentFile();
                             }
-
                             File file = new File(selectedFolder,new File(proposedURI).getName());
-                            
                             String name = file.getName();
                             int p = name.lastIndexOf('.');
                             if (p != -1) {
@@ -140,7 +127,6 @@ public class ExportFileAction extends AbstractViewAction {
                     fileChooser.setSelectedURI(proposedURI);
                 }
                 JSheet.showSheet(fileChooser, view.getComponent(), labels.getString("filechooser.export"), new SheetListener() {
-
                     @Override
                     public void optionSelected(final SheetEvent evt) {
                         if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -152,8 +138,6 @@ public class ExportFileAction extends AbstractViewAction {
                             }
                             Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
                             prefs.put("recentExportFile", uri.toString());
-
-
                             if (evt.getChooser() instanceof JFileURIChooser) {
                                 exportView(view, uri, evt.getChooser());
                             } else {
@@ -176,16 +160,13 @@ public class ExportFileAction extends AbstractViewAction {
             }
         }
     }
-
     protected void exportView(final View view, final URI uri,
             final URIChooser chooser) {
         view.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 view.write(uri, chooser);
             }
-
             @Override
             protected void failed(Throwable value) {
                 System.out.flush();
@@ -197,7 +178,6 @@ public class ExportFileAction extends AbstractViewAction {
                         + "Reason: " + value,
                         JOptionPane.ERROR_MESSAGE);
             }
-
             @Override
             protected void finished() {
                 view.setEnabled(true);

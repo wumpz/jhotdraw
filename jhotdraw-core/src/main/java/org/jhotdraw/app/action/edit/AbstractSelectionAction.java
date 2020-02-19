@@ -1,9 +1,9 @@
 /*
  * @(#)AbstractSelectionAction.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
@@ -45,7 +45,6 @@ import org.jhotdraw.gui.EditableComponent;
 public abstract class AbstractSelectionAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The target of the action or null if the action acts on the currently
      * focused component.
@@ -67,11 +66,9 @@ public abstract class AbstractSelectionAction extends AbstractAction {
         if (target != null) {
             // Register with a weak reference on the JComponent.
             propertyHandler = new PropertyChangeListener() {
-
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String n = evt.getPropertyName();
-
                     if ("enabled".equals(n)) {
                         updateEnabled();
                     } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {

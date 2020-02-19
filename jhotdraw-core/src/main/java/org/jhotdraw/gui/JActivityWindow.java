@@ -1,9 +1,9 @@
 /*
- * @(#)JActivityWindow.java  
+ * @(#)JActivityWindow.java
  *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -53,7 +53,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public class JActivityWindow extends javax.swing.JFrame {
 
     private static final long serialVersionUID = 1L;
-
     private static JActivityWindow instance;
     private JPanel progressPanel;
     private ActivityManager manager;
@@ -94,23 +93,17 @@ public class JActivityWindow extends javax.swing.JFrame {
         @Override
         public void activityModelRemoved(ActivityManagerEvent evt) {
             final ActivityModel pm = evt.getActivityModel();
-
             int delay = (pm.getError() != null) ? errorRemovalDelay : ((pm.getWarning() != null) ? warningRemovalDelay : normalRemovalDelay);
-
             if (delay == -1) {
                 JActivityWindow.this.setVisible(true);
                 return;
             }
-
             ActionListener tt = new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     removeActivityModel(pm);
-
                 }
             };
-
             if (delay == 0) {
                 tt.actionPerformed(null);
             } else {
@@ -155,7 +148,6 @@ public class JActivityWindow extends javax.swing.JFrame {
         progressPanel.setLayout(new javax.swing.BoxLayout(progressPanel, javax.swing.BoxLayout.Y_AXIS));
         //getContentPane().add(progressPanel, java.awt.BorderLayout.CENTER);
         scrollPane.setViewportView(progressPanel);
-
         disclosureToggle.setIcon(UIManager.getIcon("Tree.collapsedIcon"));
         disclosureToggle.setSelectedIcon(UIManager.getIcon("Tree.expandedIcon"));
         disclosureToggle.setUI((MetalToggleButtonUI) MetalToggleButtonUI.createUI(disclosureToggle));
@@ -312,7 +304,6 @@ public class JActivityWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         infoPanel = new javax.swing.JPanel();
         disclosureToggle = new javax.swing.JToggleButton();
         infoLabel = new javax.swing.JLabel();
@@ -321,14 +312,10 @@ public class JActivityWindow extends javax.swing.JFrame {
         viewPanel = new javax.swing.JPanel();
         separator = new javax.swing.JSeparator();
         scrollPane = new javax.swing.JScrollPane();
-
         FormListener formListener = new FormListener();
-
         setTitle("Activity");
-
         infoPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
         infoPanel.setLayout(new java.awt.GridBagLayout());
-
         disclosureToggle.setSelected(true);
         disclosureToggle.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         disclosureToggle.setFocusPainted(false);
@@ -340,7 +327,6 @@ public class JActivityWindow extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         infoPanel.add(disclosureToggle, gridBagConstraints);
-
         infoLabel.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         infoLabel.setText(labels.getString("ActivityWindow.noActivities.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -350,7 +336,6 @@ public class JActivityWindow extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 0);
         infoPanel.add(infoLabel, gridBagConstraints);
-
         cancelAllButton.setText(labels.getString("ActivityWindow.cancelAll.text")); // NOI18N
         cancelAllButton.setEnabled(false);
         cancelAllButton.addActionListener(formListener);
@@ -359,28 +344,20 @@ public class JActivityWindow extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 0);
         infoPanel.add(cancelAllButton, gridBagConstraints);
-
         getContentPane().add(infoPanel, java.awt.BorderLayout.NORTH);
-
         strutPanel.setPreferredSize(new java.awt.Dimension(400, 0));
         strutPanel.setLayout(null);
         getContentPane().add(strutPanel, java.awt.BorderLayout.SOUTH);
-
         viewPanel.setLayout(new java.awt.BorderLayout());
         viewPanel.add(separator, java.awt.BorderLayout.NORTH);
-
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         viewPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
-
         getContentPane().add(viewPanel, java.awt.BorderLayout.CENTER);
-
         pack();
     }
-
     // Code for dispatching events from components to event handlers.
-
     private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -388,20 +365,17 @@ public class JActivityWindow extends javax.swing.JFrame {
                 JActivityWindow.this.cancelAll(evt);
             }
         }
-
         public void itemStateChanged(java.awt.event.ItemEvent evt) {
             if (evt.getSource() == disclosureToggle) {
                 JActivityWindow.this.disclosureStateChanged(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
-
-    private void disclosureStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_disclosureStateChanged
+    private void disclosureStateChanged(java.awt.event.ItemEvent evt) { //GEN-FIRST:event_disclosureStateChanged
         viewPanel.setVisible(disclosureToggle.isSelected());
         pack();
     }//GEN-LAST:event_disclosureStateChanged
-
-    private void cancelAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelAll
+    private void cancelAll(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cancelAll
         Component[] components = progressPanel.getComponents();
         for (Component component : components) {
             if (component instanceof JActivityView) {

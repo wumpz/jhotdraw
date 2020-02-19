@@ -2,11 +2,10 @@
  * @(#)BezierNodeEdit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.BezierFigure;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.geom.BezierPath;
@@ -14,7 +13,6 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
-
 /**
  * An {@code UndoableEdit} event which can undo a change of a node in
  * a {@link BezierFigure}.
@@ -24,12 +22,10 @@ import javax.swing.undo.UndoableEdit;
  */
 public class BezierNodeEdit extends AbstractUndoableEdit {
     private static final long serialVersionUID = 1L;
-
     private BezierFigure owner;
     private int index;
     private BezierPath.Node oldValue;
     private BezierPath.Node newValue;
-
     /** Creates a new instance. */
     public BezierNodeEdit(BezierFigure owner, int index, BezierPath.Node oldValue, BezierPath.Node newValue) {
         this.owner = owner;
@@ -37,7 +33,6 @@ public class BezierNodeEdit extends AbstractUndoableEdit {
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
-
     @Override
     public String getPresentationName() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -47,7 +42,6 @@ public class BezierNodeEdit extends AbstractUndoableEdit {
             return labels.getString("edit.bezierNode.movePoint.text");
         }
     }
-
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
@@ -57,7 +51,6 @@ public class BezierNodeEdit extends AbstractUndoableEdit {
         if (oldValue.mask != newValue.mask) {
         }
     }
-
     @Override
     public void undo() throws CannotUndoException {
         super.undo();
@@ -65,7 +58,6 @@ public class BezierNodeEdit extends AbstractUndoableEdit {
         owner.setNode(index, oldValue);
         owner.changed();
     }
-
     @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof BezierNodeEdit) {

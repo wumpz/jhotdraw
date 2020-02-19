@@ -2,14 +2,11 @@
  * @(#)Methods.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.util;
-
 import java.lang.reflect.*;
-
 /**
  * Methods contains convenience methods for method invocations using
  * java.lang.reflect.
@@ -17,7 +14,6 @@ import java.lang.reflect.*;
  * @author  Werner Randelshofer
  * @version $Id$
  */
-
 @SuppressWarnings("unchecked")
 public class Methods {
     /**
@@ -25,7 +21,6 @@ public class Methods {
      */
     private Methods() {
     }
-    
     /**
      * Invokes the specified accessible parameterless method if it exists.
      *
@@ -70,7 +65,6 @@ public class Methods {
             throw new InternalError(e.getMessage());
         }
     }
-    
     /**
      * Invokes the specified accessible parameterless method if it exists.
      *
@@ -185,7 +179,6 @@ public class Methods {
             return defaultValue;
         }
     }
-    
     /**
      * Invokes the specified getter method if it exists.
      *
@@ -435,7 +428,6 @@ public class Methods {
            // ignore
         }
     }
-
     /**
      * Invokes the specified setter method if it exists.
      *

@@ -2,12 +2,10 @@
  * @(#)LocatorConnector.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.connector;
-
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.ConnectionFigure;
@@ -34,36 +32,29 @@ public class LocatorConnector extends AbstractConnector {
      * FIXME - Why do we need a standard size?
      */
     public static final int SIZE = 2;
-    
     private Locator  locator;
-    
     /**
      * Creates a new instance.
      * Only used for DOMStorable.
      */
     public LocatorConnector() {
     }
-    
     public LocatorConnector(Figure owner, Locator l) {
         super(owner);
         locator = l;
     }
-
     public Locator getLocator() {
         return locator;
     }
-
     protected Point2D.Double locate(ConnectionFigure connection) {
         return locator.locate(getOwner());
     }
-    
     /**
      * Tests if a point is contained in the connector.
      */
     @Override public boolean contains(Point2D.Double p) {
         return getBounds().contains(p);
     }
-    
     /**
      * Gets the display box of the connector.
      */
@@ -75,14 +66,12 @@ public class LocatorConnector extends AbstractConnector {
         SIZE,
         SIZE);
     }
-    
     @Override public void read(DOMInput in) throws IOException {
         super.read(in);
         in.openElement("locator");
         this.locator = (Locator) in.readObject(0);
         in.closeElement();
     }
-    
    @Override public void write(DOMOutput out) throws IOException {
         super.write(out);
         out.openElement("locator");

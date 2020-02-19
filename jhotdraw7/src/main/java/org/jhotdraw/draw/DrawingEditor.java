@@ -2,22 +2,19 @@
  * @(#)DrawingEditor.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
-
 import org.jhotdraw.draw.tool.Tool;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-
 /**
  * A <em>drawing editor</em> coordinates drawing tools and drawing views.
- * 
+ *
  * <p>Usage of drawing editor in conjunction with the JHotDraw application framework:</p>
  * <ul>
  * <li>For {@link org.jhotdraw.app.Application}s which provide a single document
@@ -46,13 +43,13 @@ import javax.swing.InputMap;
  * <p><em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
  * and drawing views:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, 
+ * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView},
  * {@link org.jhotdraw.draw.tool.Tool}.
  *
  * <p><em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating keyboard input from
  * {@code Tool}s and Swing action objects:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: 
+ * Mediator: {@link DrawingEditor}; Colleagues:
  * {@link org.jhotdraw.draw.tool.Tool}, javax.swing.Action.
  *
  * <p><em>Model-View-Controller</em><br>
@@ -65,7 +62,7 @@ import javax.swing.InputMap;
  * State changes of tools can be observed by other objects. Specifically
  * {@code DrawingEditor} observes area invalidations of tools and repaints
  * its active drawing view accordingly.<br>
- * Subject: {@link Tool}; 
+ * Subject: {@link Tool};
  * Observer: {@link org.jhotdraw.draw.event.ToolListener}; Event:
  * {@link org.jhotdraw.draw.event.ToolEvent}; Concrete Observer: {@link DrawingEditor}.
  *
@@ -75,12 +72,11 @@ import javax.swing.InputMap;
  * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
  * Client: {@link org.jhotdraw.draw.tool.AbstractTool}.
  * <hr>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public interface DrawingEditor {
-
     /**
      * The property name for the active view property.
      */
@@ -101,7 +97,6 @@ public interface DrawingEditor {
      * The prefix for default attribute property changes.
      */
     public static final String DEFAULT_ATTRIBUTE_PROPERTY_PREFIX = "defaultAttribute.";
-
     /**
      * Gets the editor's current drawing.
      * /
@@ -117,31 +112,26 @@ public interface DrawingEditor {
      * as an event listener on the view.
      */
     void add(DrawingView view);
-
     /**
      * Removes a drawing view from the editor.
      * The editor invokes removeNotify on the view, and it unregisters its tool
      * on the view.
      */
     void remove(DrawingView view);
-
     /**
      * Gets all drawing views associated with this editor.
      */
     Collection<DrawingView> getDrawingViews();
-
     /**
      * Gets the editor's active drawing view.
      * This can be null, if the editor has no views.
      */
     DrawingView getActiveView();
-
     /**
      * Sets the editor's active drawing view.
      * This can be set to null, if the editor has no views.
      */
     void setActiveView(DrawingView newValue);
-
     /**
      * Calls deactivate on the previously active tool of this drawing editor.
      * Calls activate on the provided tool.
@@ -151,26 +141,22 @@ public interface DrawingEditor {
      * This is a bound property.
      */
     void setTool(Tool t);
-
     /**
      * Gets the current tool.
      * <p>
      * This is a bound property.
      */
     Tool getTool();
-
     /**
      * Sets the cursor on the view(s) of the drawing editor.
      */
     void setCursor(Cursor c);
-
     /**
      * Finds a drawing view.
      * This is used by Tool to identify the view of which it has received
      * an event.
      */
     public DrawingView findView(Container c);
-
     /**
      * Sets a default attribute of the editor.
      * The default attribute will be used by creation tools, to create a new
@@ -180,46 +166,40 @@ public interface DrawingEditor {
      * and the prefix {@code "defaultAttribute."}.
      */
     public <T> void setDefaultAttribute(AttributeKey<T> key, T value);
-
     /**
      * Gets a default attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
      */
     public <T> T getDefaultAttribute(AttributeKey<T> key);
-
     /**
      * Applies the default attributes to the specified figure.
      */
     public void applyDefaultAttributesTo(Figure f);
-
     /**
      * Returns an immutable Map with the default attributes of this editor.
      */
     public Map<AttributeKey<?>, Object> getDefaultAttributes();
-
     /**
      * Sets a handle attribute of the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
-     * 
-     * @param key AttributeKey. 
-     * @param value Attribute value. 
+     *
+     * @param key AttributeKey.
+     * @param value Attribute value.
      */
     public <T> void setHandleAttribute(AttributeKey<T> key, T value);
-
     /**
      * Gets a handle attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
-     * 
-     * @param key AttributeKey. 
-     * 
+     *
+     * @param key AttributeKey.
+     *
      * @return If the handle attribute has been set, returns the previously
      * set value. If the handle attribute has not been set, returns key.getDefaultValue().
      */
     public <T> T getHandleAttribute(AttributeKey<T> key);
-
     /**
      * Sets the input map used by the tool of this drawing editor as a fall back
      * for handling keyboard events.
@@ -237,7 +217,6 @@ public interface DrawingEditor {
      * This is a bound property.
      */
     public InputMap getInputMap();
-
     /**
      * Sets the action map used by the tool of this drawing editor as a fall back
      * for performing actions.
@@ -245,7 +224,6 @@ public interface DrawingEditor {
      * This is a bound property.
      */
     public void setActionMap(ActionMap newValue);
-
     /**
      * Gets the action map used by the tool of this drawing editor as a fall back
      * for performing actions.
@@ -257,24 +235,20 @@ public interface DrawingEditor {
      * This is a bound property.
      */
     public ActionMap getActionMap();
-
     /**
      * Sets the enabled state of the drawing editor.
      * This is a bound property.
      */
     public void setEnabled(boolean newValue);
-
     /**
      * Gets the enabled state of the drawing editor.
      */
     public boolean isEnabled();
-
     /**
      * Adds a {@code PropertyChangeListener}.
      * @param listener
      */
     public void addPropertyChangeListener(PropertyChangeListener listener);
-
     /**
      * Removes a {@code PropertyChangeListener}.
      * @param listener

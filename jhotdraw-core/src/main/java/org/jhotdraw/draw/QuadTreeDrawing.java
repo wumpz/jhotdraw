@@ -2,7 +2,7 @@
  * @(#)QuadTreeDrawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -27,7 +27,6 @@ import org.jhotdraw.util.*;
 public class QuadTreeDrawing extends AbstractDrawing {
 
     private static final long serialVersionUID = 1L;
-
     private QuadTree<Figure> quadTree = new QuadTree<>();
     private boolean needsSorting = false;
 
@@ -89,7 +88,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
                     try {
                         g2.setStroke(new BasicStroke(0));
                         g2.setColor(Color.BLUE);
-
                         Rectangle2D.Double rect = f.getDrawingArea(factor);
                         g2.draw(rect);
                     } finally {
@@ -118,7 +116,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
             }
         }
         return null;
-
     }
 
     /**
@@ -349,11 +346,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
                 canvasColor = new Color(
                         (canvasColor.getRGB() & 0xffffff)
                         | ((int) (fillOpacity * 255) << 24), true);
-
                 // Fill the canvas
                 Rectangle2D.Double r = new Rectangle2D.Double(
                         0, 0, get(CANVAS_WIDTH), get(CANVAS_HEIGHT));
-
                 g.setColor(canvasColor);
                 g.fill(r);
             }

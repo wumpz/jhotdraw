@@ -86,11 +86,9 @@ public class TextOverflowHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-
         return (getOwner().isTextOverflow())
                 ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                         getString("handle.textOverflow.toolTipText")
                 : null;
     }
-
 }

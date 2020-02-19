@@ -6,17 +6,15 @@
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.beans.*;
 import javax.swing.event.*;
-
 /**
  * JHarmonicColorWheel.
- * 
+ *
  * FIXME - This is an experimental class. Do not use it.
  *
  * @author Werner Randelshofer
@@ -24,36 +22,28 @@ import javax.swing.event.*;
  */
 public class JHarmonicColorWheel extends JColorWheel {
     private static final long serialVersionUID = 1L;
-
     public static final String SELECTED_INDEX_PROPERTY = "selectedIndex";
     private HarmonicColorModel harmonicModel;
     private int selectedIndex = -1;
     private float handleRadius = 4f;
     private float baseRadius = 7f;
-
     private class MouseHandler implements MouseListener, MouseMotionListener {
-
         @Override
         public void mouseClicked(MouseEvent e) {
         }
-
         @Override
         public void mouseDragged(MouseEvent e) {
             update(e);
         }
-
         @Override
         public void mouseEntered(MouseEvent e) {
         }
-
         @Override
         public void mouseExited(MouseEvent e) {
         }
-
         @Override
         public void mouseMoved(MouseEvent e) {
         }
-
         @Override
         public void mousePressed(MouseEvent e) {
             int x = e.getX();
@@ -81,12 +71,10 @@ public class JHarmonicColorWheel extends JColorWheel {
             }
             setSelectedIndex(closestIndex);
         }
-
         @Override
         public void mouseReleased(MouseEvent e) {
             //update(e);
         }
-
         private void update(MouseEvent e) {
             if (selectedIndex != -1) {
                 float[] hsb = getColorAt(e.getX(), e.getY());
@@ -99,9 +87,7 @@ public class JHarmonicColorWheel extends JColorWheel {
         }
     }
     private MouseHandler mouseHandler;
-
     private class ModelHandler implements PropertyChangeListener, ListDataListener {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
@@ -113,83 +99,66 @@ public class JHarmonicColorWheel extends JColorWheel {
             }
             repaint();
         }
-
         @Override
         public void intervalAdded(ListDataEvent e) {
             repaint();
         }
-
         @Override
         public void intervalRemoved(ListDataEvent e) {
             repaint();
         }
-
         @Override
         public void contentsChanged(ListDataEvent e) {
             repaint();
         }
     }
     private ModelHandler modelHandler;
-
     /** Creates new form. */
     public JHarmonicColorWheel() {
         super(HSLPhysiologicColorSpace.getInstance());
         initComponents();
-
         setRadialComponentIndex(2);
         setVerticalComponentIndex(1);
         getModel().setComponent(1, 1f);
         setWheelInsets(new Insets(5, 5, 5, 5));
-
         modelHandler = new ModelHandler();
-
         DefaultHarmonicColorModel p = new DefaultHarmonicColorModel();
         setHarmonicColorModel(p);
         setToolTipText("");
-
     }
-
     public void setColorSpace(ColorSpace newValue) {
         harmonicModel.setColorSpace(newValue);
         getModel().setColorSpace(newValue);
         getModel().setComponent(1, 1f);
     }
-
     public HarmonicColorModel getHarmonicColorModel() {
         return harmonicModel;
     }
-
     @Override
     public String getToolTipText(MouseEvent evt) {
         float[] hsb = getColorAt(evt.getX(), evt.getY());
         if (hsb == null) {
             return null;
         }
-
         StringBuilder buf = new StringBuilder();
-
         buf.append(Math.round(hsb[0] * 360));
         buf.append(",");
         buf.append(Math.round(hsb[1] * 100f));
         buf.append(",");
         buf.append(Math.round(hsb[2] * 100f));
-
         if (buf.length() > 0) {
             buf.insert(0, "<html>");
-
             return buf.toString();
         } else {
             return null;
         }
     }
-
     @Override
     protected void installMouseListeners() {
         mouseHandler = new MouseHandler();
         addMouseListener(mouseHandler);
         addMouseMotionListener(mouseHandler);
     }
-
     public void setHarmonicColorModel(HarmonicColorModel newValue) {
         HarmonicColorModel oldValue = harmonicModel;
         if (oldValue != null) {
@@ -203,7 +172,6 @@ public class JHarmonicColorWheel extends JColorWheel {
             colorWheelProducer = createWheelProducer(getWidth(), getHeight());
         }
     }
-
     @Override
     public void paintComponent(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
@@ -211,15 +179,12 @@ public class JHarmonicColorWheel extends JColorWheel {
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         super.paintComponent(g);
     }
-
     @Override
     protected void paintThumb(Graphics2D g) {
         paintTicks(g);
-
         if (harmonicModel != null) {
             Point center = getCenter();
             Ellipse2D.Float oval = new Ellipse2D.Float(0, 0, 0, 0);
-
             float[] comp = null;
             for (int i = harmonicModel.size() - 1; i >= 0; i--) {
                 if (harmonicModel.get(i) != null) {
@@ -261,20 +226,17 @@ public class JHarmonicColorWheel extends JColorWheel {
             }
         }
     }
-
     protected void paintTicks(Graphics2D g) {
         if (true) return;
         if (harmonicModel != null) {
             Point center = getCenter();
             float radius = getRadius();
             Ellipse2D.Float oval = new Ellipse2D.Float(0, 0, 0, 0);
-
             int baseIndex = harmonicModel.getBase();
             Color bc = harmonicModel.get(baseIndex);
             g.setColor(Color.DARK_GRAY);
             for (int i = 0; i < 12; i++) {
                 float angle = bc.getColorComponents(null)[0] + i / 12f;
-
                 float radial1 = radius;
                 /*g.draw(new Line2D.Double(
                         center.x + radius * Math.cos(angle * Math.PI * 2d),
@@ -287,15 +249,12 @@ public class JHarmonicColorWheel extends JColorWheel {
                         center.y - (radius+2) * Math.sin(angle * Math.PI * 2d)-2,
                         4,
                         4));
-
             }
-
             for (int i = 0, n = harmonicModel.size(); i < n; i++) {
                 if (i != baseIndex) {
                     Color dc = harmonicModel.get(i);
                     if (dc != null) {
                         float angle = dc.getColorComponents(null)[0];
-
                         float diff = Math.abs(angle - bc.getColorComponents(null)[0]) * 12;
                         if (Math.abs(diff - Math.round(diff)) < 0.02f) {
                         g.draw(new Line2D.Double(
@@ -304,7 +263,6 @@ public class JHarmonicColorWheel extends JColorWheel {
                                 center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
                                 center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
                         } else {
-                        
                         g.draw(new Line2D.Double(
                                 center.x + (radius) * Math.cos(angle * Math.PI * 2d),
                                 center.y - (radius) * Math.sin(angle * Math.PI * 2d),
@@ -316,18 +274,15 @@ public class JHarmonicColorWheel extends JColorWheel {
             }
         }
     }
-
     public void setSelectedIndex(int newValue) {
         int oldValue = selectedIndex;
         selectedIndex = newValue;
         firePropertyChange(SELECTED_INDEX_PROPERTY, oldValue, newValue);
         repaint();
     }
-
     public int getSelectedIndex() {
         return selectedIndex;
     }
-
     @Override
     protected Point getColorLocation(Color c) {
         Point p = colorWheelProducer.getColorLocation(c);
@@ -335,7 +290,6 @@ public class JHarmonicColorWheel extends JColorWheel {
         p.y += wheelInsets.top;
         return p;
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -343,7 +297,6 @@ public class JHarmonicColorWheel extends JColorWheel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setLayout(new java.awt.FlowLayout());
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

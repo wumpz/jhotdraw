@@ -1,21 +1,18 @@
 /*
  * @(#)URIChooser.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
-
-
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-
 /**
  *{@code URIChooser} provides a mechanism for the user to choose a URI.
  *
@@ -26,7 +23,6 @@ public interface URIChooser {
     // ************************
     // ***** Dialog Types *****
     // ************************
-
     /**
      * Type value indicating that the {@code URIChooser}  supports an
      * "Open" file operation.
@@ -71,11 +67,10 @@ public interface URIChooser {
      * Identifies a change in the selected URI.
      */
     public static final String SELECTED_URI_PROPERTY = "selectedURI";
-    /** 
+    /**
      * Identifies a change in the dialog title.
      */
     public static final String DIALOG_TITLE_PROPERTY = JFileChooser.DIALOG_TITLE_CHANGED_PROPERTY;
-
     /**
      * Returns the selected URI.
      *
@@ -83,14 +78,12 @@ public interface URIChooser {
      * @return the selected uri
      */
     public URI getSelectedURI();
-
     /**
      * Sets the selected URI.
      *
      * @param uri the selected uri
      */
     public void setSelectedURI(URI uri);
-
     /**
      * Returns the type of this dialog.  The default is
      * {@code URIChooser.OPEN_DIALOG}.
@@ -105,7 +98,6 @@ public interface URIChooser {
      * @see #setDialogType
      */
     public int getDialogType();
-
     /**
      * Sets the type of this dialog. Use {@code OPEN_DIALOG} when you
      * want to bring up a chooser that the user can use to open an URI.
@@ -128,12 +120,11 @@ public interface URIChooser {
      * </ul>
      *
      * @exception IllegalArgumentException if {@code dialogType} is
-     *				not legal
+     *    not legal
      * @see #getDialogType
      * @see #setApproveButtonText
      */
     public void setDialogType(int dialogType);
-
     /**
      * Returns the text used in the {@code ApproveButton} .
      * If {@code null} , the UI object will determine the button's text.
@@ -147,7 +138,6 @@ public interface URIChooser {
      * @see #showDialog
      */
     public String getApproveButtonText();
-
     /**
      * Sets the text used in the {@code ApproveButton}  in the
      * {@code FileChooserUI} .
@@ -158,7 +148,6 @@ public interface URIChooser {
      * @see #setDialogType
      */
     public void setApproveButtonText(String approveButtonText);
-
     /**
      * Returns the approve button's mnemonic.
      * @return an integer value for the mnemonic key
@@ -166,7 +155,6 @@ public interface URIChooser {
      * @see #setApproveButtonMnemonic
      */
     public int getApproveButtonMnemonic();
-
     /**
      * Sets the approve button's mnemonic using a numeric keycode.
      *
@@ -175,7 +163,6 @@ public interface URIChooser {
      * @see #getApproveButtonMnemonic
      */
     public void setApproveButtonMnemonic(int mnemonic);
-
     /**
      * Returns the component of the URIChooser.
      * <p>
@@ -184,14 +171,12 @@ public interface URIChooser {
      * @return The component.
      */
     public JComponent getComponent();
-
     /**
      * Adds an {@code ActionListener}  to the chooser.
      *
      * @param l  the listener to be added
      */
     public void addActionListener(ActionListener l);
-
     /**
      * Removes an {@code ActionListener}  from the chooser.
      *
@@ -200,7 +185,6 @@ public interface URIChooser {
      * @see #addActionListener
      */
     public void removeActionListener(ActionListener l);
-
     /**
      * Sets the string that goes in the {@code URIChooser}  window's
      * title bar.
@@ -211,19 +195,16 @@ public interface URIChooser {
      *
      */
     public void setDialogTitle(String dialogTitle);
-
     /**
      * Gets the string that goes in the {@code URIChooser} 's titlebar.
      *
      * @see #setDialogTitle
      */
     public String getDialogTitle();
-
     /**
      * Tells the UI to rescan its files list from the current directory.
      */
     public void rescanCurrentDirectory();
-
     // **************************************
     // ***** URIChooser Dialog methods *****
     // **************************************
@@ -233,14 +214,14 @@ public interface URIChooser {
      * the L&amp;F.
      *
      * @param    parent  the parent component of the dialog,
-     *			can be {@code null};
+     *   can be {@code null};
      *                  see {@code showDialog}  for details
      * @return   the return state of the file chooser on popdown:
      * <ul>
      * <li>URIChooser.CANCEL_OPTION
      * <li>URIChooser.APPROVE_OPTION
      * <li>URIChooser.ERROR_OPTION if an error occurs or the
-     *			dialog is dismissed
+     *   dialog is dismissed
      * </ul>
      * @exception HeadlessException if GraphicsEnvironment.isHeadless()
      * returns true.
@@ -248,21 +229,20 @@ public interface URIChooser {
      * @see #showDialog
      */
     public int showOpenDialog(Component parent) throws HeadlessException;
-
     /**
      * Pops up a "Save File" file chooser dialog. Note that the
      * text that appears in the approve button is determined by
      * the L&amp;F.
      *
      * @param    parent  the parent component of the dialog,
-     *			can be {@code null} ;
+     *   can be {@code null} ;
      *                  see {@code showDialog}  for details
      * @return   the return state of the file chooser on popdown:
      * <ul>
      * <li>URIChooser.CANCEL_OPTION
      * <li>URIChooser.APPROVE_OPTION
      * <li>URIChooser.ERROR_OPTION if an error occurs or the
-     *			dialog is dismissed
+     *   dialog is dismissed
      * </ul>
      * @exception HeadlessException if GraphicsEnvironment.isHeadless()
      * returns true.
@@ -270,7 +250,6 @@ public interface URIChooser {
      * @see #showDialog
      */
     public int showSaveDialog(Component parent) throws HeadlessException;
-
     /**
      * Pops a custom file chooser dialog with a custom approve button.
      * For example, the following code
@@ -312,14 +291,14 @@ public interface URIChooser {
      * such as the center of the screen.
      *
      * @param   parent  the parent component of the dialog;
-     *			can be {@code null}
+     *   can be {@code null}
      * @param   approveButtonText the text of the {@code ApproveButton}
      * @return  the return state of the file chooser on popdown:
      * <ul>
      * <li>URIChooser.CANCEL_OPTION
      * <li>URIChooser.APPROVE_OPTION
      * <li>JFileCHooser.ERROR_OPTION if an error occurs or the
-     *			dialog is dismissed
+     *   dialog is dismissed
      * </ul>
      * @exception HeadlessException if GraphicsEnvironment.isHeadless()
      * returns true.

@@ -2,15 +2,11 @@
  * @(#)DOMOutput.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.xml;
-
 import java.io.IOException;
-
 /**
  * DOMOutput.
  * <p>
@@ -37,7 +33,6 @@ public interface DOMOutput {
      * Sets the doctype for the XML document.
      */
     public void setDoctype(String doctype);
-    
     /**
      * Adds a new element to the DOM Document and opens it.
      * The new element is added as a child to the current element in the DOM
@@ -110,7 +105,6 @@ public interface DOMOutput {
      * Writes an object.
      */
     public void writeObject(Object o) throws IOException;
-    
     /**
      * Returns a prototype for the object currently being written.
      * This can be used, to reduce the amount of data written to DOMOutput.

@@ -2,13 +2,11 @@
  * @(#)JSVGDrawingAppletPanel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-
 import org.jhotdraw.undo.UndoRedoManager;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ContainerEvent;
@@ -51,26 +49,22 @@ import org.jhotdraw.samples.svg.io.SVGZInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * JSVGDrawingAppletPanel.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class SVGDrawingPanel extends JPanel implements Disposable {
     private static final long serialVersionUID = 1L;
-
     private UndoRedoManager undoManager;
     private DrawingEditor editor;
     private ResourceBundleUtil labels;
     private Preferences prefs;
     private ContainerListener containerHandler;
-
     public UndoRedoManager getUndoRedoManager() {
         return undoManager;
     }
-
     public void setUndoRedoManager(UndoRedoManager undo) {
         if (undoManager != null && getView().getDrawing() != null) {
             getView().getDrawing().removeUndoableEditListener(undoManager);
@@ -80,17 +74,13 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             getView().getDrawing().addUndoableEditListener(undoManager);
         }
     }
-
     private class ItemChangeHandler implements ItemListener {
-
         private JToolBar toolbar;
         private String prefkey;
-
         public ItemChangeHandler(JToolBar toolbar, String prefkey) {
             this.toolbar = toolbar;
             this.prefkey = prefkey;
         }
-
         @Override
         public void itemStateChanged(ItemEvent e) {
             boolean b = e.getStateChange() == ItemEvent.SELECTED;
@@ -99,31 +89,23 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             validate();
         }
     }
-
     /** Creates new instance. */
     public SVGDrawingPanel() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
         try {
             prefs = PreferencesUtil.userNodeForPackage(getClass());
         } catch (SecurityException e) {
             // prefs is null, because we are not permitted to read preferences
         }
-        
         initComponents();
-
         toolsPane.setLayout(new ToolBarLayout());
         toolsPane.setBackground(new Color(0xf0f0f0));
         toolsPane.setOpaque(true);
-
         viewToolBar.setView(view);
-
         undoManager = new UndoRedoManager();
-
         Drawing drawing = createDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
-
         // Try to install the DnDDrawingViewTransferHandler
         // Since this class only works on J2SE 6, we have to use reflection.
         try {
@@ -131,7 +113,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         } catch (Exception e) {
             // bail silently
         }
-
         // Sort the toolbars according to the user preferences
         ArrayList<JToolBar> sortme = new ArrayList<JToolBar>();
         for (Component c : toolsPane.getComponents()) {
@@ -140,7 +121,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             }
         }
         Collections.sort(sortme, new Comparator<JToolBar>() {
-
             @Override
             public int compare(JToolBar tb1, JToolBar tb2) {
                 int i1 = prefs.getInt("toolBarIndex." + tb1.getName(), 0);
@@ -152,9 +132,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         for (JToolBar tb : sortme) {
             toolsPane.add(tb);
         }
-
         toolsPane.addContainerListener(containerHandler = new ContainerListener() {
-
             @Override
             public void componentAdded(ContainerEvent e) {
                 int i = 0;
@@ -166,16 +144,12 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                     }
                 }
             }
-
             @Override
             public void componentRemoved(ContainerEvent e) {
             }
         });
-
-
         setEditor(new DefaultDrawingEditor());
     }
-
     @Override
     public void dispose() {
         toolsPane.removeContainerListener(containerHandler);
@@ -198,7 +172,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         viewToolBar.dispose();
         removeAll();
     }
-
     /**
      * Creates a new Drawing object which can be used with this
      * {@code SVGDrawingPanel}.
@@ -220,10 +193,8 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         outputFormats.add(new ImageOutputFormat("BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
         outputFormats.add(new ImageMapOutputFormat());
         drawing.setOutputFormats(outputFormats);
-
         return drawing;
     }
-
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
         if (view.getDrawing() != null) {
@@ -232,19 +203,15 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         view.setDrawing(d);
         d.addUndoableEditListener(undoManager);
     }
-
     public Drawing getDrawing() {
         return view.getDrawing();
     }
-
     public DrawingView getView() {
         return view;
     }
-
     public DrawingEditor getEditor() {
         return editor;
     }
-
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -274,7 +241,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             editor.setActiveView(temp);
         }
     }
-
     /**
      * Reads a drawing from the specified file into the SVGDrawingPanel.
      * <p>
@@ -288,7 +254,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         if (newDrawing.getInputFormats().size() == 0) {
             throw new InternalError("Drawing object has no input formats.");
         }
-
         // Try out all input formats until we succeed
         IOException firstIOException = null;
         for (InputFormat format : newDrawing.getInputFormats()) {
@@ -296,7 +261,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 format.read(f, newDrawing);
                 final Drawing loadedDrawing = newDrawing;
                 Runnable r = new Runnable() {
-
                     @Override
                     public void run() {
                         // Set the drawing on the Event Dispatcher Thread
@@ -319,7 +283,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 // We get here if reading was successful.
                 // We can return since we are done.
                 return;
-                
             } catch (IOException e) {
                 // We get here if reading failed.
                 // We only preserve the exception of the first input format,
@@ -331,7 +294,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         }
         throw firstIOException;
     }
-
     /**
      * Reads a drawing from the specified file into the SVGDrawingPanel using
      * the specified input format.
@@ -345,17 +307,14 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             read(f);
             return;
         }
-
         // Create a new drawing object
         Drawing newDrawing = createDrawing();
         if (newDrawing.getInputFormats().size() == 0) {
             throw new InternalError("Drawing object has no input formats.");
         }
-
         format.read(f, newDrawing);
         final Drawing loadedDrawing = newDrawing;
         Runnable r = new Runnable() {
-
             @Override
             public void run() {
                 // Set the drawing on the Event Dispatcher Thread
@@ -376,7 +335,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             }
         }
     }
-
     /**
      * Writes the drawing from the SVGDrawingPanel into a file.
      * <p>
@@ -389,7 +347,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         // affected by changes of the drawing while we write it into the file.
         final Drawing[] helper = new Drawing[1];
         Runnable r = new Runnable() {
-
             @Override
             public void run() {
                 helper[0] = (Drawing) getDrawing().clone();
@@ -407,14 +364,11 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 ie.initCause(ex);
                 throw ie;
             }
-
         }
-
         Drawing saveDrawing = helper[0];
         if (saveDrawing.getOutputFormats().size() == 0) {
             throw new InternalError("Drawing object has no output formats.");
         }
-
         // Try out all output formats until we find one which accepts the
         // filename entered by the user.
         File f = new File(uri);
@@ -424,14 +378,10 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 // We get here if writing was successful.
                 // We can return since we are done.
                 return;
-
             }
-
-
         }
         throw new IOException("No output format for " + f.getName());
     }
-
     /**
      * Writes the drawing from the SVGDrawingPanel into a file using the
      * specified output format.
@@ -445,12 +395,10 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             write(f);
             return;
         }
-
         // Defensively clone the drawing object, so that we are not
         // affected by changes of the drawing while we write it into the file.
         final Drawing[] helper = new Drawing[1];
         Runnable r = new Runnable() {
-
             @Override
             public void run() {
                 helper[0] = (Drawing) getDrawing().clone();
@@ -468,14 +416,11 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 ie.initCause(ex);
                 throw ie;
             }
-
         }
-
         // Write drawing to file
         Drawing saveDrawing = helper[0];
         format.write(f, saveDrawing);
     }
-
     /** Sets the actions for the "Action" popup menu in the toolbar.
      * <p>
      * This list may contain null items which are used to denote a
@@ -495,7 +440,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     public List<Action> getPopupActions() {
         return actionToolBar.getPopupActions();
     }
-    
     public JComponent getComponent() {
         return this;
     }
@@ -507,7 +451,6 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         toolButtonGroup = new javax.swing.ButtonGroup();
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
@@ -525,30 +468,23 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         linkToolBar = new org.jhotdraw.samples.svg.gui.LinkToolBar();
         canvasToolBar = new org.jhotdraw.samples.svg.gui.CanvasToolBar();
         viewToolBar = new org.jhotdraw.samples.svg.gui.ViewToolBar();
-
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
-
         scrollPane.setBorder(null);
         scrollPane.setViewportView(view);
-
         add(scrollPane, java.awt.BorderLayout.CENTER);
-
         toolsPanel.setBackground(new java.awt.Color(255, 255, 255));
         toolsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         toolsPanel.setOpaque(true);
         toolsPanel.setLayout(new java.awt.GridBagLayout());
-
         toolsScrollPane.setBorder(PaletteLookAndFeel.getInstance().getBorder("Ribbon.border"));
         toolsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         toolsScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         toolsScrollPane.setMinimumSize(new java.awt.Dimension(0, 0));
-
         toolsPane.setForeground(new java.awt.Color(153, 153, 153));
         toolsPane.add(creationToolBar);
         toolsPane.add(actionToolBar);
         toolsPane.add(fillToolBar);
-
         strokeToolBar.setMargin(new java.awt.Insets(0, 10, 0, 0));
         toolsPane.add(strokeToolBar);
         toolsPane.add(fontToolBar);
@@ -558,19 +494,14 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         toolsPane.add(linkToolBar);
         toolsPane.add(canvasToolBar);
         toolsPane.add(viewToolBar);
-
         toolsScrollPane.setViewportView(toolsPane);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         toolsPanel.add(toolsScrollPane, gridBagConstraints);
-
         add(toolsPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.samples.svg.gui.ActionsToolBar actionToolBar;
     private org.jhotdraw.samples.svg.gui.AlignToolBar alignToolBar;

@@ -2,16 +2,13 @@
  * @(#)ActionUtil.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
-
 /**
  * Provides constants and static operations on <code>Action</code> objects.
  *
@@ -43,11 +40,9 @@ public class ActionUtil {
      * @see javax.swing.undo.UndoableEdit#getPresentationName
      */
     public static final String UNDO_PRESENTATION_NAME_KEY = "undoPresentationName";
-    
     /** Prevent instance creation. */
     private ActionUtil() {
     }
-    
     /**
      * Configures a JCheckBoxMenuItem for an Action.
      */
@@ -65,7 +60,6 @@ public class ActionUtil {
         */
         mi.setAction(a);
     }
-    
     /**
      * Unconfigures a JCheckBoxMenuItem for an Action.
      */

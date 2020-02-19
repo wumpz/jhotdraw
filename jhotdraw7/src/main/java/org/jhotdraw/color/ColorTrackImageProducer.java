@@ -2,18 +2,15 @@
  * @(#)ColorTrackImageProducer.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.color;
-
 import java.awt.color.ColorSpace;
 import java.awt.image.*;
 import javax.swing.*;
-
 /**
- * ColorTrackImageProducer creates the image for the track of a 
+ * ColorTrackImageProducer creates the image for the track of a
  * color slider.
  *
  * @see ColorSliderUI
@@ -29,7 +26,6 @@ public class ColorTrackImageProducer extends MemoryImageSource {
     private boolean isDirty = true;
     private int componentIndex = 0;
     private boolean isHorizontal;
-    
     /** Creates a new instance. */
     public ColorTrackImageProducer(int w, int h, int trackBuffer, boolean isHorizontal) {
         super(w, h, null, 0, w);
@@ -41,35 +37,30 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         //this.componentIndex = componentIndex;
         this.isHorizontal = isHorizontal;
         newPixels(pixels, new DirectColorModel(24,
-					      0x00ff0000,	// Red
-					      0x0000ff00,	// Green
-					      0x000000ff	// Blue
-					      )
-					      , 0, w);
+           0x00ff0000, // Red
+           0x0000ff00, // Green
+           0x000000ff // Blue
+           )
+           , 0, w);
         setAnimated(true);
     }
-    
     public int getWidth() {
         return w;
     }
     public int getHeight() {
         return h;
     }
-    
     public void markAsDirty() {
         isDirty = true;
     }
-    
     public boolean needsGeneration() {
         return isDirty;
     }
-    
     public void regenerateColorTrack() {
         if (isDirty) {
             generateColorTrack();
         }
     }
-    
     public void generateColorTrack() {
         if (isHorizontal) {
             generateHorizontalColorTrack();
@@ -79,7 +70,6 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         newPixels();
         isDirty = false;
     }
-    
     private void generateHorizontalColorTrack() {
         float[] components = colorizer.getComponents();
         float[] rgb=new float[3];
@@ -121,7 +111,6 @@ public class ColorTrackImageProducer extends MemoryImageSource {
             }
         }
     }
-    
     public void setColorSliderModel(ColorSliderModel colorizer) {
         this.colorizer = colorizer;
         isDirty = true;

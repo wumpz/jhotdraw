@@ -2,14 +2,11 @@
  * @(#)Main.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg;
-
 import org.jhotdraw.app.*;
-
 /**
  * Main entry point of the ODG sample application. Creates an {@link Application}
  * depending on the operating system we run, sets the {@link ODGApplicationModel}
@@ -20,11 +17,9 @@ import org.jhotdraw.app.*;
  * @version $Id$
  */
 public class Main {
-    
     /** Creates a new instance. */
     public Main() {
     }
-    
     /**
      * @param args the command line arguments
      */
@@ -35,5 +30,4 @@ public class Main {
         app.launch(args);
         // TODO code application logic here
     }
-    
 }

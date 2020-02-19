@@ -2,11 +2,10 @@
  * @(#)DrawApplet.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.draw;
-
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
@@ -15,7 +14,6 @@ import org.jhotdraw.draw.io.ImageInputFormat;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
@@ -23,7 +21,6 @@ import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.xml.*;
-
 /**
  * DrawApplet.
  *
@@ -32,10 +29,8 @@ import org.jhotdraw.xml.*;
  */
 public class DrawApplet extends JApplet {
     private static final long serialVersionUID = 1L;
-
     private static final String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
-
     /**
      * We override getParameter() to make it work even if we have no Applet
      * context.
@@ -48,11 +43,9 @@ public class DrawApplet extends JApplet {
             return null;
         }
     }
-
     protected String getVersion() {
         return DrawApplet.class.getPackage().getImplementationVersion();
     }
-
     /** Initializes the applet DrawApplet */
     @Override
     public void init() {
@@ -73,21 +66,17 @@ public class DrawApplet extends JApplet {
         } catch (Throwable e) {
             // If we can't set the popup factory, we have to use what is there.
         }
-
-
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
+        String[] labels = getAppletInfo().split("\n"); //Strings.split(getAppletInfo(), '\n');
         for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
-
         // We load the data using a worker thread
         // --------------------------------------
         new Worker<Drawing>() {
-
             @Override
             protected Drawing construct() throws IOException {
                 Drawing result;
@@ -108,32 +97,27 @@ public class DrawApplet extends JApplet {
                 }
                 return result;
             }
-
             @Override
             protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new DrawingPanel());
-
                 initComponents();
                 if (result != null) {
                     setDrawing(result);
                 }
             }
-
             @Override
             protected void failed(Throwable result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new DrawingPanel());
-
                 result.printStackTrace();
                 getDrawing().add(new TextFigure(result.toString()));
                 result.printStackTrace();
             }
-
             @Override
             protected void finished() {
                 Container c = getContentPane();
@@ -142,15 +126,12 @@ public class DrawApplet extends JApplet {
             }
         }.start();
     }
-
     private void setDrawing(Drawing d) {
         drawingPanel.setDrawing(d);
     }
-
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
     }
-
     /**
      * Configure Drawing object to support copy and paste.
      */
@@ -166,7 +147,6 @@ public class DrawApplet extends JApplet {
         d.addOutputFormat(ioFormat);
         d.addOutputFormat(new ImageOutputFormat());
     }
-
     public void setData(String text) {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
@@ -185,7 +165,6 @@ public class DrawApplet extends JApplet {
             }
         }
     }
-
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
@@ -203,14 +182,12 @@ public class DrawApplet extends JApplet {
         }
         return out.toString();
     }
-
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
                     {"data", "String", "the data to be displayed by this applet."},
                     {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},};
     }
-
     @Override
     public String getAppletInfo() {
         return NAME
@@ -219,7 +196,6 @@ public class DrawApplet extends JApplet {
                 + "\nThis software is licensed under LGPL or"
                 + "\nCreative Commons 3.0 BY";
     }
-
     /** This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -228,12 +204,9 @@ public class DrawApplet extends JApplet {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         toolButtonGroup = new javax.swing.ButtonGroup();
-
     }// </editor-fold>//GEN-END:initComponents
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw Draw Applet");

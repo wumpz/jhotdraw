@@ -2,16 +2,14 @@
  * @(#)PaletteUtilities.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.*;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
-
 /**
  * PaletteUtilities.
  *
@@ -19,10 +17,8 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * @version $Id$
  */
 public class PaletteUtilities  extends BasicGraphicsUtils {
-
     public static final Object beginGraphics(Graphics2D graphics2d) {
         Object object = graphics2d.getRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING);
-
         /*
         AffineTransform tx = graphics2d.getTransform();
         AffineTransform savedTransform = (AffineTransform) tx.clone();
@@ -33,24 +29,20 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         /*graphics2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
         RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
-
         //if (true) return savedTransform;
         return object;
     }
-
     public static final void endGraphics(Graphics2D graphics2d, Object oldHints) {
         /*
         if (true) {
         graphics2d.setTransform((AffineTransform) oldHints);
         return;
         }*/
-
         if (oldHints != null) {
             graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                     oldHints);
         }
     }
-
     /**
      * Draw a string with the graphics {@code g} at location
      * ({@code x}, {@code y})
@@ -80,7 +72,6 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
                     underlineRectWidth, underlineRectHeight);
         }
     }
-
     /*
      * Convenience function for determining ComponentOrientation.  Helps us
      * avoid having Munge directives throughout the code.
@@ -88,7 +79,6 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
     static boolean isLeftToRight( Component c ) {
         return c.getComponentOrientation().isLeftToRight();
     }
-
     /**
      * Returns the FontMetrics for the current Font of the passed
      * in Graphics.  This method is used when a Graphics
@@ -108,8 +98,6 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
     public static FontMetrics getFontMetrics(JComponent c, Graphics g) {
         return getFontMetrics(c, g, g.getFont());
     }
-
-
     /**
      * Returns the FontMetrics for the specified Font.
      * This method is used when a Graphics is available, typically when

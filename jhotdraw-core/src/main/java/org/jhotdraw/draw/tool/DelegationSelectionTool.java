@@ -2,7 +2,7 @@
  * @(#)DelegationSelectionTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -31,7 +31,6 @@ import org.jhotdraw.draw.handle.Handle;
 public class DelegationSelectionTool extends SelectionTool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -100,7 +99,6 @@ public class DelegationSelectionTool extends SelectionTool {
         // XXX - When we want to support multiple views, we have to
         //       implement this:
         //setView((DrawingView)e.getSource());
-
         isMousePressedPopupTrigger = evt.isPopupTrigger();
         if (isMousePressedPopupTrigger) {
             getView().requestFocus();
@@ -108,7 +106,6 @@ public class DelegationSelectionTool extends SelectionTool {
         } else {
             super.mousePressed(evt);
             popupTimer = new javax.swing.Timer(1000, new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent aevt) {
                     handlePopupMenu(evt);
@@ -130,7 +127,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupTimer.stop();
             popupTimer = null;
         }
-
         if (isMousePressedPopupTrigger) {
             isMousePressedPopupTrigger = false;
         } else {
@@ -148,7 +144,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupTimer.stop();
             popupTimer = null;
         }
-
         if (popupMenu == null || !popupMenu.isVisible()) {
             super.mouseDragged(evt);
         }
@@ -216,7 +211,6 @@ public class DelegationSelectionTool extends SelectionTool {
             popupActions.add(null);
         }
         popupActions.addAll(drawingActions);
-
         HashMap<Object, ButtonGroup> buttonGroups = new HashMap<>();
         for (Action a : popupActions) {
             if (a != null && a.getValue(ActionUtil.SUBMENU_KEY) != null) {
@@ -237,7 +231,6 @@ public class DelegationSelectionTool extends SelectionTool {
                 }
             } else {
                 AbstractButton button;
-
                 if (a.getValue(ActionUtil.BUTTON_GROUP_KEY) != null) {
                     ButtonGroup bg = buttonGroups.get(a.getValue(ActionUtil.BUTTON_GROUP_KEY));
                     if (bg == null) {
@@ -253,7 +246,6 @@ public class DelegationSelectionTool extends SelectionTool {
                 } else {
                     button = new JMenuItem(a);
                 }
-
                 if (submenu != null) {
                     submenu.add(button);
                 } else {
@@ -282,7 +274,6 @@ public class DelegationSelectionTool extends SelectionTool {
             handle.trackDoubleClick(pos, evt.getModifiersEx());
         } else {
             Point2D.Double p = viewToDrawing(pos);
-
             // Note: The search sequence used here, must be
             // consistent with the search sequence used by the
             // HandleTracker, the SelectAreaTracker and SelectionTool.
@@ -301,7 +292,6 @@ public class DelegationSelectionTool extends SelectionTool {
             if (figure == null) {
                 figure = v.findFigure(pos);
             }
-
             Figure outerFigure = figure;
             if (figure != null && figure.isSelectable()) {
                 if (DEBUG) {

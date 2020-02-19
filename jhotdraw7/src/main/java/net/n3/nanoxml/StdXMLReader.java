@@ -25,10 +25,7 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -45,8 +42,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.Stack;
-
-
 /**
  * StdXMLReader reads the data to be parsed.
  *
@@ -57,7 +52,6 @@ import java.util.Stack;
 public class StdXMLReader
    implements IXMLReader
 {
-
    /**
     * A stacked reader.
     *
@@ -66,30 +60,19 @@ public class StdXMLReader
     */
    private class StackedReader
    {
-   
       PushbackReader pbReader;
-   
       LineNumberReader lineReader;
-   
       URL systemId;
-   
       String publicId;
-   
    }
-
-
    /**
     * The stack of readers.
     */
    private ArrayDeque<StackedReader> readers;
-
-
    /**
     * The current push-back reader.
     */
    private StackedReader currentReader;
-
-
    /**
     * Creates a new reader using a string as input.
     *
@@ -99,8 +82,6 @@ public class StdXMLReader
    {
       return new StdXMLReader(new StringReader(str));
    }
-
-
    /**
     * Creates a new reader using a file as input.
     *
@@ -117,15 +98,11 @@ public class StdXMLReader
    {
       StdXMLReader r = new StdXMLReader(new FileInputStream(filename));
       r.setSystemID(filename);
-
       for (StackedReader sr : r.readers) {
          sr.systemId = r.currentReader.systemId;
       }
-
       return r;
    }
-
-
    /**
     * Initializes the reader from a system and public ID.
     *
@@ -146,19 +123,16 @@ public class StdXMLReader
              IOException
    {
       URL systemIDasURL = null;
-
       try {
          systemIDasURL = new URL(systemID);
       } catch (MalformedURLException e) {
          systemID = "file:" + systemID;
-
          try {
             systemIDasURL = new URL(systemID);
          } catch (MalformedURLException e2) {
             throw e;
          }
       }
-
       this.currentReader = new StackedReader();
       this.readers = new ArrayDeque<StackedReader>();
       Reader reader = this.openStream(publicID, systemIDasURL.toString());
@@ -166,8 +140,6 @@ public class StdXMLReader
       this.currentReader.pbReader
          = new PushbackReader(this.currentReader.lineReader, 2);
    }
-
-
    /**
     * Initializes the XML reader.
     *
@@ -181,15 +153,12 @@ public class StdXMLReader
       this.currentReader.pbReader
          = new PushbackReader(this.currentReader.lineReader, 2);
       this.currentReader.publicId = "";
-
       try {
          this.currentReader.systemId = new URL("file:.");
       } catch (MalformedURLException e) {
          // never happens
       }
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -204,8 +173,6 @@ public class StdXMLReader
       this.readers.clear();
       super.finalize();
    }
-
-
    /**
     * Scans the encoding from an &lt;?xml...?&gt; tag.
     *
@@ -218,59 +185,44 @@ public class StdXMLReader
       if (! str.startsWith("<?xml")) {
          return null;
       }
-
       int index = 5;
-
       while (index < str.length()) {
          StringBuffer key = new StringBuffer();
-
          while ((index < str.length()) && (str.charAt(index) <= ' ')) {
             index++;
          }
-
          while ((index < str.length())
                 && (str.charAt(index) >= 'a')
                 && (str.charAt(index) <= 'z')) {
             key.append(str.charAt(index));
             index++;
          }
-
          while ((index < str.length()) && (str.charAt(index) <= ' ')) {
             index++;
          }
-
          if ((index >= str.length()) || (str.charAt(index) != '=')) {
             break;
          }
-
          while ((index < str.length()) && (str.charAt(index) != '\'')
                 && (str.charAt(index) != '"')) {
             index++;
          }
-
          if (index >= str.length()) {
             break;
          }
-
          char delimiter = str.charAt(index);
          index++;
          int index2 = str.indexOf(delimiter, index);
-
          if (index2 < 0) {
             break;
          }
-
          if ("encoding".equals(key.toString())) {
             return str.substring(index, index2);
          }
-
          index = index2 + 1;
       }
-
       return null;
    }
-
-
    /**
     * Converts a stream to a reader while detecting the encoding.
     *
@@ -286,62 +238,49 @@ public class StdXMLReader
    {
       PushbackInputStream pbstream = new PushbackInputStream(stream);
       int b = pbstream.read();
-
       switch (b) {
          case 0x00:
          case 0xFE:
          case 0xFF:
             pbstream.unread(b);
             return new InputStreamReader(pbstream, "UTF-16");
-
          case 0xEF:
             for (int i = 0; i < 2; i++) {
                pbstream.read();
             }
-
             return new InputStreamReader(pbstream, "UTF-8");
-
          case 0x3C:
             b = pbstream.read();
             charsRead.append('<');
-
             while ((b > 0) && (b != 0x3E)) {
                charsRead.append((char) b);
                b = pbstream.read();
             }
-
             if (b > 0) {
                charsRead.append((char) b);
             }
-
             String encoding = this.getEncoding(charsRead.toString());
-
             if (encoding == null) {
                return new InputStreamReader(pbstream, "UTF-8");
             }
-
             charsRead.setLength(0);
-
             try {
                return new InputStreamReader(pbstream, encoding);
             } catch (UnsupportedEncodingException e) {
                return new InputStreamReader(pbstream, "UTF-8");
             }
-
             default:
                charsRead.append((char) b);
                return new InputStreamReader(pbstream, "UTF-8");
       }
    }
-
-
    /**
     * Initializes the XML reader.
     *
     * @param stream the input for the XML data.
     *
     * @throws java.io.IOException
-    *		if an I/O error occurred
+    *  if an I/O error occurred
     */
    public StdXMLReader(InputStream stream)
       throws IOException
@@ -355,56 +294,46 @@ public class StdXMLReader
       this.currentReader.pbReader
          = new PushbackReader(this.currentReader.lineReader, 2);
       this.currentReader.publicId = "";
-
       try {
          this.currentReader.systemId = new URL("file:.");
       } catch (MalformedURLException e) {
          // never happens
       }
-
       this.startNewStream(new StringReader(charsRead.toString()));
    }
-
-
    /**
     * Reads a character.
     *
     * @return the character
     *
     * @throws java.io.IOException
-    *		if no character could be read
+    *  if no character could be read
     */
    public char read()
       throws IOException
    {
       int ch = this.currentReader.pbReader.read();
-
       while (ch < 0) {
          if (this.readers.isEmpty()) {
             throw new IOException("Unexpected EOF");
          }
-
          this.currentReader.pbReader.close();
          this.currentReader = this.readers.pop();
          ch = this.currentReader.pbReader.read();
       }
-
       return (char) ch;
    }
-
-
    /**
     * Returns true if the current stream has no more characters left to be
     * read.
     *
     * @throws java.io.IOException
-    *		if an I/O error occurred
+    *  if an I/O error occurred
     */
    public boolean atEOFOfCurrentStream()
       throws IOException
    {
       int ch = this.currentReader.pbReader.read();
-
       if (ch < 0) {
          return true;
       } else {
@@ -412,34 +341,27 @@ public class StdXMLReader
          return false;
       }
    }
-
-
    /**
     * Returns true if there are no more characters left to be read.
     *
     * @throws java.io.IOException
-    *		if an I/O error occurred
+    *  if an I/O error occurred
     */
    public boolean atEOF()
       throws IOException
    {
       int ch = this.currentReader.pbReader.read();
-
       while (ch < 0) {
          if (this.readers.isEmpty()) {
             return true;
          }
-
          this.currentReader.pbReader.close();
          this.currentReader = this.readers.pop();
          ch = this.currentReader.pbReader.read();
       }
-
       this.currentReader.pbReader.unread(ch);
       return false;
    }
-
-
    /**
     * Pushes the last character read back to the stream.
     *
@@ -453,8 +375,6 @@ public class StdXMLReader
    {
       this.currentReader.pbReader.unread(ch);
    }
-
-
    /**
     * Opens a stream from a public and system ID.
     *
@@ -475,10 +395,8 @@ public class StdXMLReader
              IOException
    {
       URL url = new URL(this.currentReader.systemId, systemID);
-
       if (url.getRef() != null) {
          String ref = url.getRef();
-
          if (url.getFile().length() > 0) {
             url = new URL(url.getProtocol(), url.getHost(), url.getPort(),
                           url.getFile());
@@ -487,28 +405,21 @@ public class StdXMLReader
             url = StdXMLReader.class.getResource(ref);
          }
       }
-
       this.currentReader.publicId = publicID;
       this.currentReader.systemId = url;
       StringBuffer charsRead = new StringBuffer();
       Reader reader = this.stream2reader(url.openStream(), charsRead);
-
       if (charsRead.length() == 0) {
          return reader;
       }
-
       String charsReadStr = charsRead.toString();
       PushbackReader pbreader = new PushbackReader(reader,
                                                    charsReadStr.length());
-
       for (int i = charsReadStr.length() - 1; i >= 0; i--) {
          pbreader.unread(charsReadStr.charAt(i));
       }
-
       return pbreader;
    }
-
-
    /**
     * Starts a new stream from a Java reader. The new stream is used
     * temporary to read data from. If that stream is exhausted, control
@@ -520,8 +431,6 @@ public class StdXMLReader
    {
       this.startNewStream(reader, false);
    }
-
-
    /**
     * Starts a new stream from a Java reader. The new stream is used
     * temporary to read data from. If that stream is exhausted, control
@@ -537,7 +446,6 @@ public class StdXMLReader
       StackedReader oldReader = this.currentReader;
       this.readers.push(this.currentReader);
       this.currentReader = new StackedReader();
-
       if (isInternalEntity) {
          this.currentReader.lineReader = null;
          this.currentReader.pbReader = new PushbackReader(reader, 2);
@@ -546,12 +454,9 @@ public class StdXMLReader
          this.currentReader.pbReader
             = new PushbackReader(this.currentReader.lineReader, 2);
       }
-
       this.currentReader.systemId = oldReader.systemId;
       this.currentReader.publicId = oldReader.publicId;
    }
-
-
    /**
     * Returns the current "level" of the stream on the stack of streams.
     */
@@ -560,8 +465,6 @@ public class StdXMLReader
    {
       return this.readers.size();
    }
-
-
    /**
     * Returns the line number of the data in the current stream.
     */
@@ -570,18 +473,14 @@ public class StdXMLReader
    {
       if (this.currentReader.lineReader == null) {
          StackedReader sr = this.readers.peek();
-
          if (sr.lineReader == null) {
             return 0;
          } else {
             return sr.lineReader.getLineNumber() + 1;
          }
       }
-
       return this.currentReader.lineReader.getLineNumber() + 1;
    }
-
-
    /**
     * Sets the system ID of the current stream.
     *
@@ -596,8 +495,6 @@ public class StdXMLReader
       this.currentReader.systemId = new URL(this.currentReader.systemId,
                                             systemID);
    }
-
-
    /**
     * Sets the public ID of the current stream.
     *
@@ -607,8 +504,6 @@ public class StdXMLReader
    {
       this.currentReader.publicId = publicID;
    }
-
-
    /**
     * Returns the current system ID.
     */
@@ -616,8 +511,6 @@ public class StdXMLReader
    {
       return this.currentReader.systemId.toString();
    }
-
-
    /**
       * Returns the current public ID.
     */
@@ -625,5 +518,4 @@ public class StdXMLReader
    {
       return this.currentReader.publicId;
    }
-
 }

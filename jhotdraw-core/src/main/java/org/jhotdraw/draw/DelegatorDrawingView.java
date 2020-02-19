@@ -107,7 +107,6 @@ public abstract class DelegatorDrawingView extends AbstractDrawingView {
 
     @Override
     public void setScaleFactor(double newValue) {
-
     }
 
     @Override

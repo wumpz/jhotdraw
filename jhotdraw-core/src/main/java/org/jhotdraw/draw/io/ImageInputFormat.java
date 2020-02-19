@@ -2,7 +2,7 @@
  * @(#)ImageInputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
@@ -203,7 +203,6 @@ public class ImageInputFormat implements InputFormat {
                 }
             }
         }
-
         Object data = t.getTransferData(importFlavor);
         Image img = null;
         if (data instanceof Image) {
@@ -214,7 +213,6 @@ public class ImageInputFormat implements InputFormat {
         if (img == null) {
             throw new IOException("Unsupported data format " + importFlavor);
         }
-
         ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
         figure.setBufferedImage(Images.toBufferedImage(img));
         figure.setBounds(

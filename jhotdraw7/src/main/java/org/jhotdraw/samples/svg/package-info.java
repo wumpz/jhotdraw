@@ -7,7 +7,6 @@
  * @author Werner Randelshofer
  * @version $Id$
 */
-
 /**
 <p>
     A sample drawing editor with limited support for <a
@@ -15,7 +14,6 @@
     Mobile 1.2 (SVG Mobile 1.2)</a>.
 </p>
 */
-
 package org.jhotdraw.samples.svg;
 
 

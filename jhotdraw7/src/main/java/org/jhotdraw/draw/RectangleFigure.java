@@ -2,17 +2,13 @@
  * @(#)RectangleFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw;
-
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
-
 /**
  * A {@link Figure} with a rectangular shape.
  *
@@ -22,16 +18,13 @@ import org.jhotdraw.geom.Geom;
 public class RectangleFigure extends AbstractAttributedFigure {
     private static final long serialVersionUID = 1L;
     protected Rectangle2D.Double rectangle;
-    
     /** Creates a new instance. */
     public RectangleFigure() {
         this(0, 0, 0, 0);
     }
-    
     public RectangleFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
     }
-
     // DRAWING
     @Override
     protected void drawFill(Graphics2D g) {
@@ -40,13 +33,11 @@ public class RectangleFigure extends AbstractAttributedFigure {
             Geom.grow(r, grow, grow);
         g.fill(r);
     }
-    
     @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
        Geom.grow(r, grow, grow);
-       
         g.draw(r);
     }
     // SHAPE AND BOUNDS
@@ -55,7 +46,6 @@ public class RectangleFigure extends AbstractAttributedFigure {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
-    
     @Override public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this) + 1d;
@@ -72,7 +62,6 @@ public class RectangleFigure extends AbstractAttributedFigure {
         Geom.grow(r, grow, grow);
         return r.contains(p);
     }
-    
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
@@ -93,17 +82,14 @@ public class RectangleFigure extends AbstractAttributedFigure {
                 (Point2D.Double) tx.transform(lead, lead)
                 );
     }
-    
     @Override
     public void restoreTransformTo(Object geometry) {
         rectangle.setRect( (Rectangle2D.Double) geometry );
     }
-    
     @Override
     public Object getTransformRestoreData() {
         return rectangle.clone();
     }
-    
     @Override
     public RectangleFigure clone() {
         RectangleFigure that = (RectangleFigure) super.clone();

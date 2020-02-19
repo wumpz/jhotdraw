@@ -2,7 +2,7 @@
  * @(#)BezierPathIterator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
@@ -35,7 +35,6 @@ public class BezierPathIterator implements PathIterator {
      * The transformation.
      */
     private AffineTransform affine;
-
     /**
      * ??
      */
@@ -129,7 +128,7 @@ public class BezierPathIterator implements PathIterator {
 //            if (path.size() > 1) {
 //                BezierPath.Node previous = path.get(path.size() - 1);
 //                BezierPath.Node current = path.get(0);
-//                
+//
 //                if ((previous.mask & BezierPath.C2_MASK) == 0) {
 //                    if ((current.mask & BezierPath.C1_MASK) == 0) {
 //                        numCoords = 1;
@@ -173,18 +172,18 @@ public class BezierPathIterator implements PathIterator {
 //            coords[1] = (float) current.y[0];
 //            numCoords = 1;
 //            type = SEG_MOVETO;
-//            
+//
 //        } else if (index < path.size()) {
 //            BezierPath.Node current = path.get(index);
 //            BezierPath.Node previous = path.get(index - 1);
-//            
+//
 //            if ((previous.mask & BezierPath.C2_MASK) == 0) {
 //                if ((current.mask & BezierPath.C1_MASK) == 0) {
 //                    numCoords = 1;
 //                    type = SEG_LINETO;
 //                    coords[0] = (float) current.x[0];
 //                    coords[1] = (float) current.y[0];
-//                    
+//
 //                } else {
 //                    numCoords = 2;
 //                    type = SEG_QUADTO;
@@ -213,8 +212,8 @@ public class BezierPathIterator implements PathIterator {
 //                }
 //            }
 //        }
-//        
-//        
+//
+//
 //        if (affine != null) {
 //            affine.transform(coords, 0, coords, 0, numCoords);
 //        }
@@ -249,7 +248,6 @@ public class BezierPathIterator implements PathIterator {
             if (path.size() > 1) {
                 BezierPath.Node previous = path.get(path.size() - 1);
                 BezierPath.Node current = path.get(0);
-
                 if ((previous.mask & BezierPath.C2_MASK) == 0) {
                     if ((current.mask & BezierPath.C1_MASK) == 0) {
                         numCoords = 1;
@@ -293,18 +291,15 @@ public class BezierPathIterator implements PathIterator {
             coords[1] = current.y[0];
             numCoords = 1;
             type = SEG_MOVETO;
-
         } else if (index < path.size()) {
             BezierPath.Node current = path.get(index);
             BezierPath.Node previous = path.get(index - 1);
-
             if ((previous.mask & BezierPath.C2_MASK) == 0) {
                 if ((current.mask & BezierPath.C1_MASK) == 0) {
                     numCoords = 1;
                     type = SEG_LINETO;
                     coords[0] = current.x[0];
                     coords[1] = current.y[0];
-
                 } else {
                     numCoords = 2;
                     type = SEG_QUADTO;
@@ -333,7 +328,6 @@ public class BezierPathIterator implements PathIterator {
                 }
             }
         }
-
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, numCoords);
         } else {

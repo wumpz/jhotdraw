@@ -23,7 +23,6 @@ import javax.swing.event.*;
 public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
     private static final long serialVersionUID = 1L;
-
     protected ColorSpace colorSpace;
     /**
      * JSlider's associated to this model.
@@ -53,7 +52,6 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
         ColorSpace oldValue = colorSpace;
         colorSpace = newValue;
         componentModels = new DefaultBoundedRangeModel[colorSpace.getNumComponents()];
-
         for (int i = 0; i < componentModels.length; i++) {
             componentModels[i] = new DefaultBoundedRangeModel();
             if ((colorSpace.getMaxValue(i) - colorSpace.getMinValue(i)) >= 10f) {
@@ -66,7 +64,6 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
             final int componentIndex = i;
             componentModels[i].addChangeListener(
                     new ChangeListener() {
-
                 @Override
                 public void stateChanged(ChangeEvent e) {
                     fireColorChanged(componentIndex);

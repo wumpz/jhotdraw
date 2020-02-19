@@ -2,7 +2,7 @@
  * @(#)AbstractConnectionHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -29,7 +29,6 @@ import org.jhotdraw.util.*;
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     private Connector savedTarget;
-
     private Connector connectableConnector;
     private Figure connectableFigure;
     private Point start;
@@ -154,7 +153,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestSecondaryHandles();
         }
-
         Point2D.Double p = view.viewToDrawing(lead);
         if (view.getConstrainer() != null) {
             p = view.getConstrainer().constrainPoint(p);
@@ -163,7 +161,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         if (target == null) {
             target = savedTarget;
         }
-
         setLocation(p);
         if (target != savedTarget) {
             disconnect();
@@ -177,7 +174,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     private Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
         Figure targetFigure = findConnectableFigure(p, drawing);
-
         if (getSource() == null && targetFigure != null) {
             return findConnector(p, targetFigure, getOwner());
         } else if (targetFigure != null) {
@@ -207,9 +203,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         for (Connector c : connectors) {
             c.draw(gg);
         }
-
         gg.dispose();
-
         if (getTarget() == null) {
             drawCircle(g,
                     getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTION_HANDLE_FILL_COLOR),
@@ -287,7 +281,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     }
 
     @Override
-
     public String getToolTipText(Point p) {
         ConnectionFigure f = getOwner();
         if (f.getLiner() == null && savedLiner == null) {

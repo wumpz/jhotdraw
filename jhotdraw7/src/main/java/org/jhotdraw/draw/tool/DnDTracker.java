@@ -1,21 +1,18 @@
 /*
  * @(#)DnDTracker.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.*;
 import java.awt.Container;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
 /**
  * This is a tracker which supports drag and drop of figures between drawing
  * views and any other component or application which support drag and drop.
@@ -36,7 +33,6 @@ import java.awt.geom.Rectangle2D;
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
     private static final long serialVersionUID = 1L;
-
     protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
@@ -66,15 +62,11 @@ public class DnDTracker extends AbstractTool implements DragTracker {
      */
     protected Point2D.Double anchorPoint;
     private boolean isDragging;
-
     public DnDTracker() {
-       
     }
-
     public DnDTracker(Figure figure) {
         anchorFigure = figure;
     }
-
     @Override
     public void mouseMoved(MouseEvent evt) {
         updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
@@ -83,7 +75,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         DrawingView view = getView();
-
         if (evt.isShiftDown()) {
             view.setHandleDetailLevel(0);
             view.toggleSelection(anchorFigure);
@@ -95,9 +86,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
             view.clearSelection();
             view.addToSelection(anchorFigure);
         }
-
         if (!view.getSelectedFigures().isEmpty()) {
-
             dragRect = null;
             for (Figure f : view.getSelectedFigures()) {
                 if (dragRect == null) {
@@ -106,35 +95,28 @@ public class DnDTracker extends AbstractTool implements DragTracker {
                     dragRect.add(f.getBounds());
                 }
             }
-
-
             anchorPoint = previousPoint = view.viewToDrawing(anchor);
             anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
         }
     }
-
     @Override
     public void mouseDragged(MouseEvent e) {
         DrawingView v = getView();
-
         Figure f = v.findFigure(e.getPoint());
         if (f != null) {
             if (!v.getSelectedFigures().contains(f)) {
                 v.clearSelection();
                 v.addToSelection(f);
             }
-
             v.getComponent().getTransferHandler().exportAsDrag(v.getComponent(), e, DnDConstants.ACTION_MOVE);
         }
         fireToolDone();
     }
-
     @Override
     public void mouseReleased(MouseEvent evt) {
             updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
         fireToolDone();
     }
-
     @Override
     public void setDraggedFigure(Figure f) {
         anchorFigure = f;

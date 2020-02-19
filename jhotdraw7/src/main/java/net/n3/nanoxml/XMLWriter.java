@@ -25,17 +25,12 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-
-
 /**
  * An XMLWriter writes XML data to a stream.
  *
@@ -48,13 +43,10 @@ import java.util.ArrayList;
 @SuppressWarnings("unchecked")
 public class XMLWriter
 {
-
    /**
     * Where to write the output to.
     */
    private PrintWriter writer;
-
-
    /**
     * Creates a new XML writer.
     *
@@ -68,8 +60,6 @@ public class XMLWriter
          this.writer = new PrintWriter(writer);
       }
    }
-
-
    /**
     * Creates a new XML writer.
     *
@@ -79,8 +69,6 @@ public class XMLWriter
    {
       this.writer = new PrintWriter(stream);
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -90,8 +78,6 @@ public class XMLWriter
       this.writer = null;
       super.finalize();
    }
-
-
    /**
     * Writes an XML element.
     *
@@ -102,8 +88,6 @@ public class XMLWriter
    {
       this.write(xml, false, 0, true);
    }
-
-
    /**
     * Writes an XML element.
     *
@@ -117,8 +101,6 @@ public class XMLWriter
    {
       this.write(xml, prettyPrint, 0, true);
    }
-
-
    /**
     * Writes an XML element.
     *
@@ -134,8 +116,6 @@ public class XMLWriter
    {
        this.write(xml, prettyPrint, indent, true);
    }
-
-   
    /**
     * Writes an XML element.
     *
@@ -155,7 +135,6 @@ public class XMLWriter
             this.writer.print(' ');
          }
       }
-
       if (xml.getName() == null) {
          if (xml.getContent() != null) {
             if (prettyPrint) {
@@ -169,7 +148,6 @@ public class XMLWriter
          this.writer.print('<');
          this.writer.print(xml.getFullName());
          ArrayList<String> nsprefixes = new ArrayList<String>();
-
          if (xml.getNamespace() != null) {
             if (xml.getName().equals(xml.getFullName())) {
                this.writer.print(" xmlns=\"" + xml.getNamespace() + '"');
@@ -181,16 +159,12 @@ public class XMLWriter
                this.writer.print("=\"" + xml.getNamespace() + "\"");
             }
          }
-
          for (String key : xml.iterableAttributeNames()) {
             int index = key.indexOf(':');
-
             if (index >= 0) {
                String namespace = xml.getAttributeNamespace(key);
-
                if (namespace != null) {
                   String prefix = key.substring(0, index);
-
                   if (! nsprefixes.contains(prefix)) {
                      this.writer.print(" xmlns:" + prefix);
                      this.writer.print("=\"" + namespace + '"');
@@ -199,59 +173,47 @@ public class XMLWriter
                }
             }
          }
-
          for (String key : xml.iterableAttributeNames()) {
             String value = xml.getAttribute(key, null);
             this.writer.print(" " + key + "=\"");
             this.writeEncoded(value);
             this.writer.print('"');
          }
-
          if ((xml.getContent() != null)
              && (xml.getContent().length() > 0)) {
             writer.print('>');
             this.writeEncoded(xml.getContent());
             writer.print("</" + xml.getFullName() + '>');
-
             if (prettyPrint) {
                writer.println();
             }
          } else if (xml.hasChildren() || (! collapseEmptyElements)) {
             writer.print('>');
-
             if (prettyPrint) {
                writer.println();
             }
-
             for (IXMLElement child : xml.iterableChildren()) {
                this.write(child, prettyPrint, indent + 4,
                           collapseEmptyElements);
             }
-
             if (prettyPrint) {
                for (int i = 0; i < indent; i++) {
                   this.writer.print(' ');
                }
             }
-
             this.writer.print("</" + xml.getFullName() + ">");
-
             if (prettyPrint) {
                writer.println();
             }
          } else {
             this.writer.print("/>");
-
             if (prettyPrint) {
                writer.println();
             }
          }
       }
-
       this.writer.flush();
    }
-
-
    /**
     * Writes a string encoding reserved characters.
     *
@@ -261,32 +223,25 @@ public class XMLWriter
    {
       for (int i = 0; i < str.length(); i++) {
          char c = str.charAt(i);
-
          switch (c) {
             case 0x0A:
                this.writer.print(c);
                break;
-
             case '<':
                this.writer.print("&lt;");
                break;
-
             case '>':
                this.writer.print("&gt;");
                break;
-
             case '&':
                this.writer.print("&amp;");
                break;
-
             case '\'':
                this.writer.print("&apos;");
                break;
-
             case '"':
                this.writer.print("&quot;");
                break;
-
             default:
                if ((c < ' ') || (c > 0x7E)) {
                   this.writer.print("&#x");
@@ -298,5 +253,4 @@ public class XMLWriter
          }
       }
    }
-
 }

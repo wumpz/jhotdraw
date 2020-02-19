@@ -6,8 +6,6 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-
-
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.*;
@@ -19,7 +17,6 @@ import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.samples.svg.io.SVGInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
-
 /**
  * A tool to create new figures from an input file. If the file holds a bitmap
  * image, this tool creates a SVGImageFigure. If the file holds a SVG or a SVGZ
@@ -33,17 +30,13 @@ import org.jhotdraw.samples.svg.io.SVGZInputFormat;
  * @version $Id$
  */
 public class SVGCreateFromFileTool extends CreationTool {
-
     private static final long serialVersionUID = 1L;
-    
     protected FileDialog fileDialog;
-    
     protected JFileChooser fileChooser;
     protected Thread workerThread;
     protected CompositeFigure groupPrototype;
     protected ImageHolderFigure imagePrototype;
     protected boolean useFileDialog;
-
     /**
      * Creates a new instance.
      */
@@ -52,7 +45,6 @@ public class SVGCreateFromFileTool extends CreationTool {
         this.groupPrototype = groupPrototype;
         this.imagePrototype = imagePrototype;
     }
-
     /**
      * Creates a new instance.
      */
@@ -61,7 +53,6 @@ public class SVGCreateFromFileTool extends CreationTool {
         this.groupPrototype = groupPrototype;
         this.imagePrototype = imagePrototype;
     }
-
     public void setUseFileDialog(boolean newValue) {
         useFileDialog = newValue;
         if (useFileDialog) {
@@ -70,20 +61,16 @@ public class SVGCreateFromFileTool extends CreationTool {
             fileDialog = null;
         }
     }
-
     public boolean isUseFileDialog() {
         return useFileDialog;
     }
-
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-
         final DrawingView v = getView();
         if (v == null) {
             return;
         }
-
         if (workerThread != null) {
             try {
                 workerThread.join();
@@ -91,7 +78,6 @@ public class SVGCreateFromFileTool extends CreationTool {
                 // ignore
             }
         }
-
         final File file;
         if (useFileDialog) {
             getFileDialog().setVisible(true);
@@ -107,15 +93,12 @@ public class SVGCreateFromFileTool extends CreationTool {
                 file = null;
             }
         }
-
         if (file != null) {
-
             if (file.getName().toLowerCase().endsWith(".svg")
                     || file.getName().toLowerCase().endsWith(".svgz")) {
                 prototype = groupPrototype.clone();
                 Worker<Drawing> worker;
                 worker = new Worker<Drawing>() {
-
                     @Override
                     public Drawing construct() throws IOException {
                         Drawing drawing = new DefaultDrawing();
@@ -123,7 +106,6 @@ public class SVGCreateFromFileTool extends CreationTool {
                         in.read(file.toURI(), drawing);
                         return drawing;
                     }
-
                     @Override
                     protected void done(Drawing drawing) {
                         CompositeFigure parent;
@@ -141,7 +123,6 @@ public class SVGCreateFromFileTool extends CreationTool {
                             parent.changed();
                         }
                     }
-
                     @Override
                     protected void failed(Throwable t) {
                         JOptionPane.showMessageDialog(v.getComponent(),
@@ -151,7 +132,6 @@ public class SVGCreateFromFileTool extends CreationTool {
                         getDrawing().remove(createdFigure);
                         fireToolDone();
                     }
-
                     @Override
                     protected void finished() {
                     }
@@ -162,12 +142,10 @@ public class SVGCreateFromFileTool extends CreationTool {
                 final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
                 BackgroundTask worker;
                 worker = new BackgroundTask() {
-
                     @Override
                     protected void construct() throws IOException {
                         loaderFigure.loadImage(file);
                     }
-
                     @Override
                     protected void done() {
                         try {
@@ -183,7 +161,6 @@ public class SVGCreateFromFileTool extends CreationTool {
                                     JOptionPane.ERROR_MESSAGE);
                         }
                     }
-
                     @Override
                     protected void failed(Throwable t) {
                         JOptionPane.showMessageDialog(v.getComponent(),
@@ -204,7 +181,6 @@ public class SVGCreateFromFileTool extends CreationTool {
             }
         }
     }
-
     @Override
     protected Figure createFigure() {
         if (prototype instanceof CompositeFigure) {
@@ -216,14 +192,12 @@ public class SVGCreateFromFileTool extends CreationTool {
             return super.createFigure();
         }
     }
-
     private JFileChooser getFileChooser() {
         if (fileChooser == null) {
             fileChooser = new JFileChooser();
         }
         return fileChooser;
     }
-
     private FileDialog getFileDialog() {
         if (fileDialog == null) {
             fileDialog = new FileDialog(new Frame());

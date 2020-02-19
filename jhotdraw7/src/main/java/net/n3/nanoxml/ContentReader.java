@@ -25,14 +25,9 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.IOException;
-
-
 /**
  * This reader reads data from another reader until a new element has
  * been encountered.
@@ -43,31 +38,22 @@ import java.io.IOException;
 class ContentReader
    extends Reader
 {
-
    /**
     * The encapsulated reader.
     */
    private IXMLReader reader;
-
-
    /**
     * Buffer.
     */
    private String buffer;
-
-
    /**
     * Pointer into the buffer.
     */
    private int bufferIndex;
-
-
    /**
     * The entity resolver.
     */
    private IXMLEntityResolver resolver;
-    
-
    /**
     * Creates the reader.
     *
@@ -84,8 +70,6 @@ class ContentReader
       this.buffer = buffer;
       this.bufferIndex = 0;
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -97,8 +81,6 @@ class ContentReader
       this.buffer = null;
       super.finalize();
    }
-
-
    /**
     * Reads a block of data.
     *
@@ -109,7 +91,7 @@ class ContentReader
     * @return the number of chars read, or -1 if at EOF
     *
     * @throws java.io.IOException
-    *		if an error occurred reading the data
+    *  if an error occurred reading the data
     */
    public int read(char[] outputBuffer,
                    int    offset,
@@ -119,15 +101,12 @@ class ContentReader
       try {
          int charsRead = 0;
          int bufferLength = this.buffer.length();
-
          if ((offset + size) > outputBuffer.length) {
             size = outputBuffer.length - offset;
          }
-
          while (charsRead < size) {
             String str = "";
             char ch;
-
             if (this.bufferIndex >= bufferLength) {
                str = XMLUtil.read(this.reader, '&');
                ch = str.charAt(0);
@@ -138,12 +117,10 @@ class ContentReader
                charsRead++;
                continue; // don't interprete chars in the buffer
             }
-
             if (ch == '<') {
                this.reader.unread(ch);
                break;
             }
-
             if ((ch == '&') && (str.length() > 1)) {
                if (str.charAt(1) == '#') {
                   ch = XMLUtil.processCharLiteral(str);
@@ -152,38 +129,31 @@ class ContentReader
                   continue;
                }
             }
-
             outputBuffer[charsRead] = ch;
             charsRead++;
          }
-
          if (charsRead == 0) {
             charsRead = -1;
          }
-
          return charsRead;
       } catch (XMLParseException e) {
          throw new IOException(e.getMessage());
       }
    }
-
-
    /**
     * Skips remaining data and closes the stream.
     *
     * @throws java.io.IOException
-    *		if an error occurred reading the data
+    *  if an error occurred reading the data
     */
    public void close()
       throws IOException
    {
       try {
          int bufferLength = this.buffer.length();
-
          for (;;) {
             String str = "";
             char ch;
-
             if (this.bufferIndex >= bufferLength) {
                str = XMLUtil.read(this.reader, '&');
                ch = str.charAt(0);
@@ -192,12 +162,10 @@ class ContentReader
                this.bufferIndex++;
                continue; // don't interprete chars in the buffer
             }
-
             if (ch == '<') {
                this.reader.unread(ch);
                break;
             }
-
             if ((ch == '&') && (str.length() > 1)) {
                if (str.charAt(1) != '#') {
                   XMLUtil.processEntity(str, this.reader, this.resolver);
@@ -208,5 +176,4 @@ class ContentReader
          throw new IOException(e.getMessage());
       }
    }
-
 }

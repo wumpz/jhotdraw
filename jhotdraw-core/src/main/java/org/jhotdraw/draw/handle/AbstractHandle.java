@@ -2,7 +2,7 @@
  * @(#)AbstractHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -182,7 +182,6 @@ public abstract class AbstractHandle implements Handle, FigureListener {
             g.setStroke(new BasicStroke());
             g.setColor(stroke);
             g.drawOval(r.x, r.y, r.width - 1, r.height - 1);
-
             if (getView().getActiveHandle() == this) {
                 g.fillOval(r.x + 2, r.y + 2, r.width - 4, r.height - 4);
             }
@@ -355,7 +354,6 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public Rectangle getDrawingArea() {
         Rectangle r = getBounds();
         r.grow(2, 2); // grow by two pixels to take antialiasing into account
-
         return r;
     }
 

@@ -2,7 +2,7 @@
  * @(#)AbstractSaveUnsavedChangesAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action;
@@ -39,7 +39,6 @@ import org.jhotdraw.util.*;
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
 
     private static final long serialVersionUID = 1L;
-
     private Component oldFocusOwner;
 
     /**
@@ -68,7 +67,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             Window wAncestor = SwingUtilities.getWindowAncestor(v.getComponent());
             oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
             v.setEnabled(false);
-
             if (v.hasUnsavedChanges()) {
                 URI unsavedURI = v.getURI();
                 JOptionPane pane = new JOptionPane(
@@ -86,7 +84,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 pane.setInitialValue(options[0]);
                 pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                 JSheet.showSheet(pane, v.getComponent(), new SheetListener() {
-
                     @Override
                     public void optionSelected(SheetEvent evt) {
                         Object value = evt.getValue();
@@ -100,7 +97,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                         }
                     }
                 });
-
             } else {
                 doIt(v);
                 v.setEnabled(true);
@@ -125,7 +121,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             URIChooser chooser = getChooser(v);
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -151,7 +146,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
 
     protected void saveViewToURI(final View v, final URI uri, final URIChooser chooser) {
         v.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 v.write(uri, chooser);

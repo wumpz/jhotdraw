@@ -2,13 +2,10 @@
  * @(#)FloatingTextField.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.text;
-
-
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -18,7 +15,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * A <em>floating text field</em> that is used to edit a {@link TextHolderFigure}.
  * <p>
@@ -53,15 +49,12 @@ public  class FloatingTextField {
             updateWidget();
         }
     };
-    
     public FloatingTextField() {
         textField = new JTextField(20);
     }
-    
     public void requestFocus() {
         textField.requestFocus();
     }
-    
     /**
      * Creates the overlay for the given Container using a
      * specific font.
@@ -77,14 +70,12 @@ public  class FloatingTextField {
         this.view = view;
         updateWidget();
     }
-    
     protected void updateWidget() {
         Font font = editedFigure.getFont();
         font = font.deriveFont(font.getStyle(), (float) (editedFigure.getFontSize() * view.getScaleFactor()));
         textField.setFont(font);
         textField.setForeground(editedFigure.getTextColor());
         textField.setBackground(editedFigure.getFillColor());
-
         Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
         Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
         if (editedFigure.get(TRANSFORM) != null) {
@@ -105,33 +96,27 @@ public  class FloatingTextField {
                 Math.max(fViewBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height)
                 );
     }
-    
     public Insets getInsets() {
         return textField.getInsets();
     }
-    
     /**
      * Adds an action listener
      */
     public void addActionListener(ActionListener listener) {
         textField.addActionListener(listener);
     }
-    
     /**
      * Remove an action listener
      */
     public void removeActionListener(ActionListener listener) {
         textField.removeActionListener(listener);
     }
-    
-    
     /**
      * Gets the text contents of the overlay.
      */
     public String getText() {
         return textField.getText();
     }
-    
     /**
      * Gets the preferred size of the overlay.
      */
@@ -139,7 +124,6 @@ public  class FloatingTextField {
         textField.setColumns(cols);
         return textField.getPreferredSize();
     }
-    
     /**
      * Removes the overlay.
      */
@@ -148,7 +132,6 @@ public  class FloatingTextField {
         if (textField != null) {
             textField.setVisible(false);
             view.getComponent().remove(textField);
-            
             Rectangle bounds = textField.getBounds();
             view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }

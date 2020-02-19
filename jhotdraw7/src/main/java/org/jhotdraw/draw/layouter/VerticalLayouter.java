@@ -2,17 +2,15 @@
  * @(#)VerticalLayouter.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.layouter;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.CompositeFigure;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * A {@link Layouter} which lays out all children of a {@link CompositeFigure}
  * in vertical direction.
@@ -23,20 +21,18 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * The VerticalLayouter honors the LAYOUT_INSETS and the COMPOSITE_ALIGNMENT
  * AttributeKey when laying out a CompositeFigure.
  * <p>
- * If COMPOSITE_ALIGNMENT is not set on the composite figure, 
+ * If COMPOSITE_ALIGNMENT is not set on the composite figure,
  * the layout assigns the same width to all figures.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class VerticalLayouter extends AbstractLayouter {
-
     /**
-     * This alignment is used, when 
+     * This alignment is used, when
      */
     private Alignment defaultAlignment = Alignment.BLOCK;
-
     @Override
     public Rectangle2D.Double calculateLayout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
@@ -54,15 +50,12 @@ public class VerticalLayouter extends AbstractLayouter {
         }
         layoutBounds.width += layoutInsets.left + layoutInsets.right;
         layoutBounds.height += layoutInsets.top + layoutInsets.bottom;
-
         return layoutBounds;
     }
-
     @Override
     public Rectangle2D.Double layout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
         Alignment compositeAlignment = layoutable.get(COMPOSITE_ALIGNMENT);
-
         if (layoutInsets == null) {
             layoutInsets = new Insets2D.Double();
         }
@@ -86,7 +79,7 @@ public class VerticalLayouter extends AbstractLayouter {
                     case TRAILING:
                         child.setBounds(
                                 new Point2D.Double(
-                                layoutBounds.x + layoutBounds.width - layoutInsets.right - insets.right - width, 
+                                layoutBounds.x + layoutBounds.width - layoutInsets.right - insets.right - width,
                                 y + insets.top),
                                 new Point2D.Double(
                                 layoutBounds.x + layoutBounds.width - layoutInsets.right - insets.right,
@@ -95,10 +88,10 @@ public class VerticalLayouter extends AbstractLayouter {
                     case CENTER:
                         child.setBounds(
                                 new Point2D.Double(
-                                layoutBounds.x + (layoutBounds.width - width) / 2d, 
+                                layoutBounds.x + (layoutBounds.width - width) / 2d,
                                 y + insets.top),
                                 new Point2D.Double(
-                                layoutBounds.x + (layoutBounds.width + width) / 2d, 
+                                layoutBounds.x + (layoutBounds.width + width) / 2d,
                                 y + insets.top + height));
                         break;
                     case BLOCK:

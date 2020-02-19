@@ -26,7 +26,6 @@ public class PaletteColorSlidersChooser extends AbstractColorChooserPanel
         implements UIResource {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * We store here the name of the last selected color sliders panel.
      * When the ColorSlidersChooser is recreated multiple times in the same
@@ -49,27 +48,21 @@ public class PaletteColorSlidersChooser extends AbstractColorChooserPanel
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         slidersComboBox = new javax.swing.JComboBox();
         slidersHolder = new javax.swing.JPanel();
-
         setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 6, 6, 6));
         setLayout(new java.awt.BorderLayout());
         add(slidersComboBox, java.awt.BorderLayout.NORTH);
-
         slidersHolder.setLayout(new java.awt.CardLayout());
         add(slidersHolder, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
     @Override
     protected void buildChooser() {
         initComponents();
         PaletteLookAndFeel laf = PaletteLookAndFeel.getInstance();
         setUI(PalettePanelUI.createUI(this));
         slidersHolder.setUI((PanelUI) PalettePanelUI.createUI(slidersHolder));
-
         slidersComboBox.setFont(laf.getFont("ColorChooser.font"));
-
         slidersHolder.add(new PaletteRGBChooser(), "" + laf.getString("ColorChooser.rgbSliders"));
         slidersHolder.add(new PaletteCMYKChooser(), "" + laf.getString("ColorChooser.cmykSliders"));
         slidersHolder.add(new PaletteHSBChooser(), "" + laf.getString("ColorChooser.hsbSliders"));
@@ -134,10 +127,8 @@ public class PaletteColorSlidersChooser extends AbstractColorChooserPanel
     @Override
     public void updateChooser() {
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox slidersComboBox;
     private javax.swing.JPanel slidersHolder;
     // End of variables declaration//GEN-END:variables
-
 }

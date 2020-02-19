@@ -2,7 +2,7 @@
  * @(#)JavaxDOMInput.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
@@ -127,10 +127,8 @@ public class JavaxDOMInput implements DOMInput {
         if (current.getChildNodes().getLength() == 0) {
             return defaultValue;
         }
-
         StringBuilder buf = new StringBuilder();
         getText(current, buf);
-
         return buf.toString();
     }
 
@@ -312,10 +310,8 @@ public class JavaxDOMInput implements DOMInput {
     public Object readObject(int index) throws IOException {
         openElement(index);
         Object o;
-
         String ref = getAttribute("ref", null);
         String id = getAttribute("id", null);
-
         if (ref != null && id != null) {
             throw new IOException("Element has both an id and a ref attribute: <" + getTagName() + " id=" + id + " ref=" + ref + ">");
         }
@@ -325,7 +321,6 @@ public class JavaxDOMInput implements DOMInput {
         if (ref != null && !idobjects.containsKey(ref)) {
             throw new IOException("Illegal ref attribute value: <" + getTagName() + " ref=" + ref + ">");
         }
-
         // Keep track of objects which have an ID
         if (ref != null) {
             o = idobjects.get(ref);
@@ -338,7 +333,6 @@ public class JavaxDOMInput implements DOMInput {
                 ((DOMStorable) o).read(this);
             }
         }
-
         closeElement();
         return o;
     }

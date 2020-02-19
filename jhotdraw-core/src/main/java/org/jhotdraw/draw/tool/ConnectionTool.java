@@ -2,7 +2,7 @@
  * @(#)ConnectionTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -51,7 +51,6 @@ import org.jhotdraw.util.*;
 public class ConnectionTool extends AbstractTool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * FIXME - The ANCHOR_WIDTH value must be retrieved from the DrawingEditor
      */
@@ -61,22 +60,18 @@ public class ConnectionTool extends AbstractTool {
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-
     private Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * The Connector at the start point of the connection.
      */
-
     protected Connector startConnector;
     /**
      * The Connector at the end point of the connection.
      */
-
     protected Connector endConnector;
     /**
      * The created figure.
      */
-
     protected ConnectionFigure createdFigure;
     /**
      * the prototypical figure that is used to create new
@@ -86,14 +81,12 @@ public class ConnectionTool extends AbstractTool {
     /**
      * The figure for which we enabled drawing of connectors.
      */
-
     protected Figure targetFigure;
     protected Collection<Connector> connectors = Collections.emptyList();
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-
     private String presentationName;
     /**
      * If this is set to false, the CreationTool does not fire toolDone
@@ -227,11 +220,9 @@ public class ConnectionTool extends AbstractTool {
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         getView().clearSelection();
-
         Point2D.Double startPoint = viewToDrawing(anchor);
         Figure startFigure = getDrawing().findFigure(startPoint);
         startConnector = (startFigure == null) ? null : startFigure.findConnector(startPoint, prototype);
-
         if (startConnector != null && canConnect(prototype, startConnector)) {
             Point2D.Double anchor = startConnector.getAnchor();
             createdFigure = createFigure();
@@ -245,7 +236,6 @@ public class ConnectionTool extends AbstractTool {
             startConnector = null;
             createdFigure = null;
         }
-
         endConnector = null;
     }
 
@@ -263,7 +253,6 @@ public class ConnectionTool extends AbstractTool {
             }
             Figure endFigure = getDrawing().findFigureExcept(endPoint, createdFigure);
             endConnector = (endFigure == null) ? null : endFigure.findConnector(endPoint, prototype);
-
             if (endConnector != null && canConnect(createdFigure, startConnector, endConnector)) {
                 endPoint = endConnector.getAnchor();
             }
@@ -290,7 +279,6 @@ public class ConnectionTool extends AbstractTool {
             createdFigure.setEndConnector(endConnector);
             createdFigure.updateConnection();
             createdFigure.changed();
-
             final Figure addedFigure = createdFigure;
             final Drawing addedDrawing = getDrawing();
             getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
@@ -392,7 +380,6 @@ public class ConnectionTool extends AbstractTool {
             g.fill(e);
             g.setColor(Color.BLACK);
             g.draw(e);
-
         }
         gg.dispose();
     }

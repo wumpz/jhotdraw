@@ -126,14 +126,11 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         location = new Point(lead.x, lead.y);
         Point2D.Double leadPoint = view.viewToDrawing(lead);
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
-
         double currentTheta = view.getConstrainer() == null ? (stepTheta - startTheta) : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
-
         transform.setToIdentity();
         transform.translate(center.x, center.y);
         transform.rotate(currentTheta);
         transform.translate(-center.x, -center.y);
-
         getOwner().willChange();
         getOwner().restoreTransformTo(restoreData);
         getOwner().transform(transform);
@@ -156,7 +153,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         center = getCenter();
         if (f.isTransformable()) {
             AffineTransform tx = new AffineTransform();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_LEFT:

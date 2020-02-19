@@ -2,31 +2,28 @@
  * @(#)ImageTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.ImageHolderFigure;
 import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-
 import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.Worker;
-
 /**
  * A tool to create new figures that implement the ImageHolderFigure
  * interface, such as ImageFigure. The figure to be created is specified by a
  * prototype.
  * <p>
  * Immediately, after the ImageTool has been activated, it opens a JFileChooser,
- * letting the user specify an image file. The the user then performs 
+ * letting the user specify an image file. The the user then performs
  * the following mouse gesture:
  * <ol>
- * <li>Press the mouse button and drag the mouse over the DrawingView. 
+ * <li>Press the mouse button and drag the mouse over the DrawingView.
  * This defines the bounds of the created figure.</li>
  * </ol>
  *
@@ -38,28 +35,24 @@ import org.jhotdraw.gui.Worker;
  * {@code ImageHolderFigure} object.<br>
  * Prototype: {@link ImageHolderFigure}; Client: {@link ImageTool}.
  * <hr>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ImageTool extends CreationTool {
     private static final long serialVersionUID = 1L;
-
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected boolean useFileDialog;
     protected Thread workerThread;
-
     /** Creates a new instance. */
     public ImageTool(ImageHolderFigure prototype) {
         super(prototype);
     }
-
     /** Creates a new instance. */
     public ImageTool(ImageHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
         super(prototype, attributes);
     }
-
     public void setUseFileDialog(boolean newValue) {
         useFileDialog = newValue;
         if (useFileDialog) {
@@ -68,17 +61,14 @@ public class ImageTool extends CreationTool {
             fileDialog = null;
         }
     }
-
     public boolean isUseFileDialog() {
         return useFileDialog;
     }
-
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
         final DrawingView v=getView();
         if (v==null)return;
-
         if (workerThread != null) {
             try {
                 workerThread.join();
@@ -86,7 +76,6 @@ public class ImageTool extends CreationTool {
                 // ignore
             }
         }
-
         final File file;
         if (useFileDialog) {
             getFileDialog().setVisible(true);
@@ -102,16 +91,13 @@ public class ImageTool extends CreationTool {
                 file = null;
             }
         }
-
         if (file != null) {
             final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
             BackgroundTask worker = new BackgroundTask() {
-
                 @Override
                 protected void construct() throws IOException {
                     loaderFigure.loadImage(file);
                 }
-
                 @Override
                 protected void done() {
                     try {
@@ -127,7 +113,6 @@ public class ImageTool extends CreationTool {
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 }
-
                 @Override
                 protected void failed(Throwable value) {
                     Throwable t = value;
@@ -148,14 +133,12 @@ public class ImageTool extends CreationTool {
             }
         }
     }
-
     private JFileChooser getFileChooser() {
         if (fileChooser == null) {
             fileChooser = new JFileChooser();
         }
         return fileChooser;
     }
-
     private FileDialog getFileDialog() {
         if (fileDialog == null) {
             fileDialog = new FileDialog(new Frame());

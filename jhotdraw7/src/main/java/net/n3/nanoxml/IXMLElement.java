@@ -2,7 +2,7 @@
  * Added dispose method.
  /* Werner Randelshofer 2006-12-31
  * Made methods return typed collections.
- * Werner Randelshofer 2006-11-26 
+ * Werner Randelshofer 2006-11-26
  * Added method getAttribute(String name, Map valueSet, String defaultKey, boolean allowLiterals);
  */
 /* IXMLElement.java                                                NanoXML/Java
@@ -32,14 +32,9 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Serializable;
 import java.util.*;
-
-
 /**
  * IXMLElement is an XML element. It provides an easy to use generic interface
  * on top of an XML like data structure like e.g. a DOM like structure.
@@ -52,27 +47,20 @@ import java.util.*;
  */
 public interface IXMLElement
 {
-
    /**
     * No line number defined.
     */
    public static final int NO_LINE = -1;
-
-
    /**
     * Creates an element to be used for #PCDATA content.
     */
    public IXMLElement createPCDataElement();
-
-
    /**
     * Creates an empty element.
     *
     * @param fullName the name of the element.
     */
    public IXMLElement createElement(String fullName);
-
-
    /**
     * Creates an empty element.
     *
@@ -83,8 +71,6 @@ public interface IXMLElement
    public IXMLElement createElement(String fullName,
                                     String systemID,
                                     int    lineNr);
-
-
    /**
     * Creates an empty element.
     *
@@ -93,8 +79,6 @@ public interface IXMLElement
     */
    public IXMLElement createElement(String fullName,
                                     String namespace);
-
-
    /**
     * Creates an empty element.
     *
@@ -107,15 +91,11 @@ public interface IXMLElement
                                     String namespace,
                                     String systemID,
                                     int    lineNr);
-
-
    /**
     * Returns the parent element. This method returns null for the root
     * element.
     */
    public IXMLElement getParent();
-
-
    /**
     * Returns the full name (i.e. the name including an eventual namespace
     * prefix) of the element.
@@ -123,16 +103,12 @@ public interface IXMLElement
     * @return the name, or null if the element only contains #PCDATA.
     */
    public String getFullName();
-
-
    /**
     * Returns the name of the element.
     *
     * @return the name, or null if the element only contains #PCDATA.
     */
    public String getName();
-
-
    /**
     * Returns the namespace of the element.
     *
@@ -140,8 +116,6 @@ public interface IXMLElement
     *         element.
     */
    public String getNamespace();
-
-
    /**
     * Sets the full name. This method also sets the short name and clears the
     * namespace URI.
@@ -149,8 +123,6 @@ public interface IXMLElement
     * @param name the non-null name.
     */
    public void setName(String name);
-
-
    /**
     * Sets the name.
     *
@@ -159,72 +131,54 @@ public interface IXMLElement
     */
    public void setName(String fullName,
                        String namespace);
-
-
    /**
     * Adds a child element.
     *
     * @param child the non-null child to add.
     */
    public void addChild(IXMLElement child);
-
-
    /**
     * Removes a child element.
     *
     * @param child the non-null child to remove.
     */
    public void removeChild(IXMLElement child);
-
-
    /**
     * Removes the child located at a certain index.
     *
     * @param index the index of the child, where the first child has index 0.
     */
    public void removeChildAtIndex(int index);
-
-
    /**
     * Returns an enumeration of all child elements.
     *
     * @return the non-null enumeration
     */
    public Iterable<IXMLElement> iterableChildren();
-
-
    /**
     * Returns whether the element is a leaf element.
     *
     * @return true if the element has no children.
     */
    public boolean isLeaf();
-
-
    /**
     * Returns whether the element has children.
     *
     * @return true if the element has children.
     */
    public boolean hasChildren();
-
-
    /**
     * Returns the number of children.
     *
     * @return the count.
     */
    public int getChildrenCount();
-
-
    /**
     * Returns a list containing all the child elements.
     *
     * @return the list.
     */
    public ArrayList<IXMLElement> getChildren();
-
-
    /**
     * Returns the child at a specific index.
     *
@@ -233,12 +187,10 @@ public interface IXMLElement
     * @return the non-null child
     *
     * @throws java.lang.ArrayIndexOutOfBoundsException
-    *		if the index is out of bounds.
+    *  if the index is out of bounds.
     */
    public IXMLElement getChildAtIndex(int index)
       throws ArrayIndexOutOfBoundsException;
-
-
    /**
     * Searches a child element.
     *
@@ -247,8 +199,6 @@ public interface IXMLElement
     * @return the child element, or null if no such child was found.
     */
    public IXMLElement getFirstChildNamed(String name);
-
-
    /**
     * Searches a child element.
     *
@@ -259,8 +209,6 @@ public interface IXMLElement
     */
    public IXMLElement getFirstChildNamed(String name,
                                          String namespace);
-
-
    /**
     * Returns a list of all child elements named <I>name</I>.
     *
@@ -269,8 +217,6 @@ public interface IXMLElement
     * @return the non-null list of child elements.
     */
    public ArrayList<IXMLElement> getChildrenNamed(String name);
-
-
    /**
     * Returns a list of all child elements named <I>name</I>.
     *
@@ -281,15 +227,10 @@ public interface IXMLElement
     */
    public ArrayList<IXMLElement> getChildrenNamed(String name,
                                   String namespace);
-
-
-
    /**
     * Returns the number of attributes.
     */
    public int getAttributeCount();
-
-
    /**
     * @deprecated As of NanoXML/Java 2.0.1, replaced by
     *             {@link #getAttribute(java.lang.String,java.lang.String)}
@@ -301,8 +242,6 @@ public interface IXMLElement
     */
    @Deprecated
    public String getAttribute(String name);
-
-
    /**
     * Returns the value of an attribute.
     *
@@ -313,8 +252,6 @@ public interface IXMLElement
     */
    public String getAttribute(String name,
                               String defaultValue);
-
-
    /**
     * Returns the value of an attribute.
     *
@@ -327,8 +264,6 @@ public interface IXMLElement
    public String getAttribute(String name,
                               String namespace,
                               String defaultValue);
-
-
    /**
     * Returns the value of an attribute.
     *
@@ -339,8 +274,6 @@ public interface IXMLElement
     */
    public int getAttribute(String name,
                            int    defaultValue);
-
-
    /**
     * Returns the value of an attribute.
     *
@@ -353,7 +286,6 @@ public interface IXMLElement
    public int getAttribute(String name,
                            String namespace,
                            int    defaultValue);
-
     /**
      * Returns an attribute by looking up a key in a hashtable.
      * If the attribute doesn't exist, the value corresponding to defaultKey
@@ -384,8 +316,6 @@ public interface IXMLElement
     public <T> T getAttribute(String name, String namespace,
                                Map<String,T> valueSet,
                                String    defaultKey);
-    
-
     /**
      * Returns an attribute of the element.
      * If the attribute doesn't exist, {@code defaultValue} is returned.
@@ -406,8 +336,6 @@ public interface IXMLElement
     * @return the type, or null if the attribute does not exist.
     */
    public String getAttributeType(String name);
-
-
    /**
     * Returns the namespace of an attribute.
     *
@@ -416,8 +344,6 @@ public interface IXMLElement
     * @return the namespace, or null if there is none associated.
     */
    public String getAttributeNamespace(String name);
-
-
    /**
     * Returns the type of an attribute.
     *
@@ -428,8 +354,6 @@ public interface IXMLElement
     */
    public String getAttributeType(String name,
                                   String namespace);
-
-
    /**
     * Sets an attribute.
     *
@@ -438,8 +362,6 @@ public interface IXMLElement
     */
    public void setAttribute(String name,
                             String value);
-
-
    /**
     * Sets an attribute.
     *
@@ -450,16 +372,12 @@ public interface IXMLElement
    public void setAttribute(String fullName,
                             String namespace,
                             String value);
-
-
    /**
     * Removes an attribute.
     *
     * @param name the non-null name of the attribute.
     */
    public void removeAttribute(String name);
-
-
    /**
     * Removes an attribute.
     *
@@ -468,16 +386,12 @@ public interface IXMLElement
     */
    public void removeAttribute(String name,
                                String namespace);
-
-
    /**
     * Returns an enumeration of all attribute names.
     *
     * @return the non-null enumeration.
     */
    public Iterable<String> iterableAttributeNames();
-
-
    /**
     * Returns whether an attribute exists.
     *
@@ -486,8 +400,6 @@ public interface IXMLElement
     * @return true if the attribute exists.
     */
    public boolean hasAttribute(String name);
-
-
    /**
     * Returns whether an attribute exists.
     *
@@ -498,16 +410,12 @@ public interface IXMLElement
     */
    public boolean hasAttribute(String name,
                                String namespace);
-
-
    /**
     * Returns all attributes as a Properties object.
     *
     * @return the non-null set.
     */
    public Properties getAttributes();
-
-
    /**
     * Returns all attributes in a specific namespace as a Properties object.
     *
@@ -516,8 +424,6 @@ public interface IXMLElement
     * @return the non-null set.
     */
    public Properties getAttributesInNamespace(String namespace);
-
-
    /**
     * Returns the system ID of the data where the element started.
     *
@@ -526,8 +432,6 @@ public interface IXMLElement
     * @see #getLineNr
     */
    public String getSystemID();
-
-
    /**
     * Returns the line number in the data where the element started.
     *
@@ -537,8 +441,6 @@ public interface IXMLElement
     * @see #getSystemID
     */
    public int getLineNr();
-
-
    /**
     * Return the #PCDATA content of the element. If the element has a
     * combination of #PCDATA content and child elements, the #PCDATA
@@ -548,8 +450,6 @@ public interface IXMLElement
     * @return the content.
     */
    public String getContent();
-
-
    /**
     * Sets the #PCDATA content. It is an error to call this method with a
     * non-null value if there are child objects.
@@ -557,25 +457,18 @@ public interface IXMLElement
     * @param content the (possibly null) content.
     */
    public void setContent(String content);
-
-
    /**
     * Returns true if the element equals another element.
     *
     * @param rawElement the element to compare to
     */
    public boolean equals(Object rawElement);
-
-
    /**
     * Returns true if the element equals another element.
     *
     * @param elt the element to compare to
     */
    public boolean equalsXMLElement(IXMLElement elt);
-
-
     /** Gets rid of the IXMLElement and of all its children. */
     public void dispose() ;
-
 }

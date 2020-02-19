@@ -64,14 +64,12 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public abstract class AbstractApplication extends AbstractBean implements Application {
 
     private static final long serialVersionUID = 1L;
-
     private LinkedList<View> views = new LinkedList<>();
     private Collection<View> unmodifiableViews;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
     protected ApplicationModel model;
     private Preferences prefs;
-
     private View activeView;
     public static final String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentURIs = new LinkedList<>();
@@ -117,12 +115,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             add(v);
             v.setEnabled(false);
             show(v);
-
             // Set the start view immediately active, so that
             // ApplicationOpenFileAction picks it up on Mac OS X.
             setActiveView(v);
             v.execute(new BackgroundTask() {
-
                 @Override
                 public void construct() {
                     v.clear();
@@ -139,13 +135,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 add(v);
                 v.setEnabled(false);
                 show(v);
-
                 // Set the start view immediately active, so that
                 // ApplicationOpenFileAction picks it up on Mac OS X.
                 setActiveView(v);
-
                 v.execute(new BackgroundTask() {
-
                     @Override
                     public void construct() throws Exception {
                         v.read(uri, null);
@@ -218,7 +211,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * @return The active view can be null.
      */
     @Override
-
     public View getActiveView() {
         return activeView;
     }
@@ -323,18 +315,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     @Override
     public void launch(String[] args) {
         configure(args);
-
         // Get URI's from command line
         final List<URI> uris = getOpenURIsFromMainArgs(args);
-
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 init();
                 // Call this right after init.
                 model.initApplication(AbstractApplication.this);
-
                 // Get start URIs
                 final LinkedList<URI> startUris;
                 if (uris.isEmpty()) {
@@ -345,7 +333,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 } else {
                     startUris = new LinkedList<>(uris);
                 }
-
                 // Start with start URIs
                 start(startUris);
             }
@@ -507,14 +494,12 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (recentURIs.size() > MAX_RECENT_FILES_COUNT) {
             recentURIs.removeLast();
         }
-
         prefs.putInt("recentFileCount", recentURIs.size());
         int i = 0;
         for (URI f : recentURIs) {
             prefs.put("recentFile." + i, f.toString());
             i++;
         }
-
         firePropertyChange(RECENT_URIS_PROPERTY, oldValue, 0);
         firePropertyChange(RECENT_URIS_PROPERTY,
                 Collections.unmodifiableList(oldValue),
@@ -524,7 +509,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     protected JMenu createOpenRecentFileMenu(View view) {
         JMenuItem mi;
         JMenu m;
-
         m = new JMenu();
         labels.configureMenu(m,
                 (getAction(view, LoadFileAction.ID) != null
@@ -534,7 +518,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         );
         m.setIcon(null);
         m.add(getAction(view, ClearRecentFilesMenuAction.ID));
-
         new OpenRecentMenuHandler(m, view);
         return m;
     }
@@ -546,7 +529,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
         private JMenu openRecentMenu;
         private LinkedList<Action> openRecentActions = new LinkedList<>();
-
         private View view;
 
         public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
@@ -575,7 +557,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 JMenuItem clearRecentFilesItem = openRecentMenu.getItem(
                         openRecentMenu.getItemCount() - 1);
                 openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
-
                 // Dispose the actions and the menu items that are currently in the menu
                 for (Action action : openRecentActions) {
                     if (action instanceof Disposable) {
@@ -584,7 +565,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 }
                 openRecentActions.clear();
                 openRecentMenu.removeAll();
-
                 // Create new actions and add them to the menu
                 if (getAction(view, LoadFileAction.ID) != null
                         || getAction(view, LoadDirectoryAction.ID) != null) {
@@ -603,7 +583,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 if (getRecentURIs().size() > 0) {
                     openRecentMenu.addSeparator();
                 }
-
                 // Add a separator and the clear recent files item.
                 openRecentMenu.add(clearRecentFilesItem);
             }

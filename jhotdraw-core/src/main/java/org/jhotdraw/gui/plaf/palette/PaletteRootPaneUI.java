@@ -31,7 +31,6 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         c.setLayout(new PaletteRootLayout((JRootPane) c));
-
     }
 
     /**
@@ -50,7 +49,6 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
     protected static class PaletteRootLayout implements LayoutManager2, Serializable {
 
         private static final long serialVersionUID = 1L;
-
         private JRootPane rootPane;
 
         public PaletteRootLayout(JRootPane rootPane) {
@@ -157,11 +155,9 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             Component glassPane = rootPane.getGlassPane();
             Container contentPane = rootPane.getContentPane();
             JMenuBar menuBar = rootPane.getJMenuBar();
-
             int contentY = 0;
             int w = b.width - i.right - i.left;
             int h = b.height - i.top - i.bottom;
-
             if (layeredPane != null) {
                 layeredPane.setBounds(i.left, i.top, w, h);
             }

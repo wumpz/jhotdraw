@@ -2,11 +2,10 @@
  * @(#)DOMStorableOutputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
-
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.DataFlavor;
@@ -20,7 +19,6 @@ import java.util.List;
 import javax.swing.JComponent;
 import org.jhotdraw.gui.datatransfer.InputStreamTransferable;
 import org.jhotdraw.xml.*;
-
 /**
  * An OutputFormat that can write Drawings with DOMStorable Figure's.
  * <p>
@@ -36,7 +34,6 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
-
     private DOMFactory factory;
     /**
      * Format description used for the file filter.
@@ -58,14 +55,12 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
      * The data flavor constructed from the mime type.
      */
     private DataFlavor dataFlavor;
-
     /** Creates a new instance with format name "Drawing", file extension "xml"
      * and mime type "image/x-jhotdraw".
      */
     public DOMStorableInputOutputFormat(DOMFactory factory) {
         this(factory, "Drawing", "xml", "image/x-jhotdraw");
     }
-
     /** Creates a new instance using the specified parameters.
      *
      * @param factory The factory for creating Figures from XML elements.
@@ -88,22 +83,18 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             throw error;
         }
     }
-
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter(description, fileExtension);
     }
-
     @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
-
     @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
-
     /**
      * Reads a list of figures into the specified drawing.
      * This method expects that there is a child element named "figures"
@@ -122,7 +113,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         domi.closeElement();
         drawing.basicAddAll(drawing.getChildCount(), figures);
     }
-
     @Override
     public String getFileExtension() {
         return fileExtension;
@@ -131,12 +121,10 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(dataFlavor);
     }
-
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri),drawing);
     }
-
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
         try {
@@ -145,7 +133,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             out.close();
         }
     }
-
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         NanoXMLDOMOutput domo = new NanoXMLDOMOutput(factory);
@@ -155,21 +142,17 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         domo.save(out);
         domo.dispose();
     }
-
     @Override
     public void read(URI uri, Drawing drawing) throws IOException {
         read(new File(uri), drawing);
     }
-
     @Override
     public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
         read(new File(uri), drawing, replace);
     }
-
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
-
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
@@ -178,7 +161,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
             in.close();
         }
     }
-
     @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         NanoXMLDOMInput domi = new NanoXMLDOMInput(factory, in);
@@ -190,7 +172,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         domi.closeElement();
         domi.dispose();
     }
-
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         LinkedList<Figure> figures = new LinkedList<Figure>();
@@ -207,7 +188,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
         }
         drawing.addAll(figures);
     }
-
     @Override
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();

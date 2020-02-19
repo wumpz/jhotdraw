@@ -6,8 +6,6 @@
  * accompanying license terms.
  */
 package org.jhotdraw.app;
-
-
 import java.awt.Container;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -32,7 +30,6 @@ import org.jhotdraw.app.action.file.OpenRecentFileAction;
 import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * This abstract class can be extended to implement an {@link Application}.
  * <p>
@@ -63,14 +60,12 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
     private static final long serialVersionUID = 1L;
-
     private LinkedList<View> views = new LinkedList<View>();
     private Collection<View> unmodifiableViews;
     private boolean isEnabled = true;
     protected ResourceBundleUtil labels;
     protected ApplicationModel model;
     private Preferences prefs;
-    
     private View activeView;
     public static final String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentURIs = new LinkedList<URI>();
@@ -80,11 +75,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private URIChooser saveChooser;
     private URIChooser importChooser;
     private URIChooser exportChooser;
-
     /** Creates a new instance. */
     public AbstractApplication() {
     }
-
     /**
      * Initializes the application after it has been configured.
      */
@@ -103,7 +96,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             }
         }
     }
-
     /**
      * {@inheritDoc}
      */
@@ -114,17 +106,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             add(v);
             v.setEnabled(false);
             show(v);
-
             // Set the start view immediately active, so that
             // ApplicationOpenFileAction picks it up on Mac OS X.
             setActiveView(v);
             v.execute(new BackgroundTask() {
-
                 @Override
                 public void construct() {
                     v.clear();
                 }
-
                 @Override
                 public void finished() {
                     v.setEnabled(true);
@@ -136,29 +125,23 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 add(v);
                 v.setEnabled(false);
                 show(v);
-
                 // Set the start view immediately active, so that
                 // ApplicationOpenFileAction picks it up on Mac OS X.
                 setActiveView(v);
-
                 v.execute(new BackgroundTask() {
-
                     @Override
                     public void construct() throws Exception {
                         v.read(uri, null);
                     }
-
                     @Override
                     protected void done() {
                         v.setURI(uri);
                     }
-
                     @Override
                     protected void failed(Throwable error) {
                         error.printStackTrace();
                         v.clear();
                     }
-
                     @Override
                     public void finished() {
                         v.setEnabled(true);
@@ -167,34 +150,29 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             }
         }
     }
-
     @Override
     public final View createView() {
         View v = basicCreateView();
         v.setActionMap(createViewActionMap(v));
         return v;
     }
-
     @Override
     public void setModel(ApplicationModel newValue) {
         ApplicationModel oldValue = model;
         model = newValue;
         firePropertyChange("model", oldValue, newValue);
     }
-
     @Override
     public ApplicationModel getModel() {
         return model;
     }
-
     protected View basicCreateView() {
         return model.createView();
     }
-
     /**
      * Sets the active view. Calls deactivate on the previously
      * active view, and then calls activate on the given view.
-     * 
+     *
      * @param newValue Active view, can be null.
      */
     public void setActiveView(View newValue) {
@@ -208,47 +186,39 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
         firePropertyChange(ACTIVE_VIEW_PROPERTY, oldValue, newValue);
     }
-
     /**
      * Gets the active view.
-     * 
+     *
      * @return The active view can be null.
      */
     @Override
-    
     public View getActiveView() {
         return activeView;
     }
-
     @Override
     public String getName() {
         return model.getName();
     }
-
     @Override
     public String getVersion() {
         return model.getVersion();
     }
-
     @Override
     public String getCopyright() {
         return model.getCopyright();
     }
-
     @Override
     public void stop() {
         for (View p : new LinkedList<View>(views())) {
             dispose(p);
         }
     }
-
     @Override
     public void destroy() {
         stop();
         model.destroyApplication(this);
         System.exit(0);
     }
-
     @Override
     public void remove(View v) {
         hide(v);
@@ -260,7 +230,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         v.setApplication(null);
         firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
     }
-
     @Override
     public void add(View v) {
         if (v.getApplication() != this) {
@@ -272,21 +241,17 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
         }
     }
-
     @Override
     public List<View> getViews() {
         return Collections.unmodifiableList(views);
     }
-
     protected abstract ActionMap createViewActionMap(View p);
-
     @Override
     public void dispose(View view) {
         remove(view);
         model.destroyView(this, view);
         view.dispose();
     }
-
     @Override
     public Collection<View> views() {
         if (unmodifiableViews == null) {
@@ -294,23 +259,19 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
         return unmodifiableViews;
     }
-
     @Override
     public boolean isEnabled() {
         return isEnabled;
     }
-
     @Override
     public void setEnabled(boolean newValue) {
         boolean oldValue = isEnabled;
         isEnabled = newValue;
         firePropertyChange("enabled", oldValue, newValue);
     }
-
     public Container createContainer() {
         return new JFrame();
     }
-
     /** Launches the application.
      *
      * @param args This implementation supports the command-line parameter "-open"
@@ -319,18 +280,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     @Override
     public void launch(String[] args) {
         configure(args);
-
         // Get URI's from command line
         final List<URI> uris = getOpenURIsFromMainArgs(args);
-
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 init();
                 // Call this right after init.
                 model.initApplication(AbstractApplication.this);
-
                 // Get start URIs
                 final LinkedList<URI> startUris;
                 if (uris.isEmpty()) {
@@ -341,13 +298,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 } else {
                     startUris = new LinkedList<URI>(uris);
                 }
-
                 // Start with start URIs
                 start(startUris);
             }
         });
     }
-
     /** Parses the arguments to the main method and returns a list of URI's
      * for which views need to be opened upon launch of the application.
      * <p>
@@ -376,38 +331,30 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         }
         return uris;
     }
-
     protected void initLabels() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     }
-
     /**
      * Configures the application using the provided arguments array.
      */
     @Override
     public void configure(String[] args) {
     }
-
     @Override
     public void removePalette(Window palette) {
     }
-
     @Override
     public void addPalette(Window palette) {
     }
-
     @Override
     public void removeWindow(Window window) {
     }
-
     @Override
     public void addWindow(Window window, View p) {
     }
-
     protected Action getAction(View view, String actionID) {
         return getActionMap(view).get(actionID);
     }
-
     /** Adds the specified action as a menu item to the supplied menu.
      * @param m the menu
      * @param view the view
@@ -416,7 +363,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     protected void addAction(JMenu m, View view, String actionID) {
         addAction(m, getAction(view, actionID));
     }
-
     /** Adds the specified action as a menu item to the supplied menu.
      * @param m the menu
      * @param a the action
@@ -433,10 +379,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             mi.setToolTipText(null);
         }
     }
-
     /** Adds the specified action as a menu item to the supplied menu.
      * @param m the menu
-     * @param mi the menu item 
+     * @param mi the menu item
     */
     protected void addMenuItem(JMenu m, JMenuItem mi) {
         if (mi != null) {
@@ -447,31 +392,27 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             m.add(mi);
         }
     }
-
     /** Adds a separator to the supplied menu. The separator will only
      * be added, if the previous item is not a separator.
      * @param m the menu
      */
     protected void maybeAddSeparator(JMenu m) {
         JPopupMenu pm = m.getPopupMenu();
-        if (pm.getComponentCount() > 0 
+        if (pm.getComponentCount() > 0
                 && !(pm.getComponent(pm.getComponentCount() - 1) instanceof JSeparator)) {
             m.addSeparator();
         }
     }
-
     protected void removeTrailingSeparators(JMenu m) {
         JPopupMenu pm = m.getPopupMenu();
         for (int i = pm.getComponentCount() - 1; i > 0 && (pm.getComponent(i) instanceof JSeparator); i--) {
             pm.remove(i);
         }
     }
-
     @Override
     public java.util.List<URI> getRecentURIs() {
         return Collections.unmodifiableList(recentURIs);
     }
-
     @Override
     public void clearRecentURIs() {
         @SuppressWarnings("unchecked")
@@ -482,7 +423,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(oldValue),
                 Collections.unmodifiableList(recentURIs));
     }
-
     @Override
     public void addRecentURI(URI uri) {
         @SuppressWarnings("unchecked")
@@ -494,46 +434,37 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (recentURIs.size() > maxRecentFilesCount) {
             recentURIs.removeLast();
         }
-
         prefs.putInt("recentFileCount", recentURIs.size());
         int i = 0;
         for (URI f : recentURIs) {
             prefs.put("recentFile." + i, f.toString());
             i++;
         }
-
         firePropertyChange(RECENT_URIS_PROPERTY, oldValue, 0);
         firePropertyChange(RECENT_URIS_PROPERTY,
                 Collections.unmodifiableList(oldValue),
                 Collections.unmodifiableList(recentURIs));
     }
-
     protected JMenu createOpenRecentFileMenu(View view) {
         JMenuItem mi;
         JMenu m;
-
         m = new JMenu();
-        labels.configureMenu(m, 
-                (getAction(view, LoadFileAction.ID) != null || 
+        labels.configureMenu(m,
+                (getAction(view, LoadFileAction.ID) != null ||
                 getAction(view, LoadDirectoryAction.ID) != null) ?
                 "file.loadRecent" :
                 "file.openRecent"
                 );
         m.setIcon(null);
         m.add(getAction(view, ClearRecentFilesMenuAction.ID));
-
         new OpenRecentMenuHandler(m, view);
         return m;
     }
-
     /** Updates the menu items in the "Open Recent" file menu. */
     private class OpenRecentMenuHandler implements PropertyChangeListener, Disposable {
-
         private JMenu openRecentMenu;
         private LinkedList<Action> openRecentActions = new LinkedList<Action>();
-        
         private View view;
-
         public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
             this.openRecentMenu = openRecentMenu;
             this.view = view;
@@ -543,7 +474,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             updateOpenRecentMenu();
             addPropertyChangeListener(this);
         }
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
@@ -551,7 +481,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 updateOpenRecentMenu();
             }
         }
-
         /**
          * Updates the "File &gt; Open Recent" menu.
          */
@@ -560,7 +489,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 JMenuItem clearRecentFilesItem = openRecentMenu.getItem(
                         openRecentMenu.getItemCount() - 1);
                 openRecentMenu.remove(openRecentMenu.getItemCount() - 1);
-
                 // Dispose the actions and the menu items that are currently in the menu
                 for (Action action : openRecentActions) {
                     if (action instanceof Disposable) {
@@ -569,9 +497,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 }
                 openRecentActions.clear();
                 openRecentMenu.removeAll();
-
                 // Create new actions and add them to the menu
-                if (getAction(view, LoadFileAction.ID) != null || 
+                if (getAction(view, LoadFileAction.ID) != null ||
                         getAction(view, LoadDirectoryAction.ID) != null) {
                     for (URI f : getRecentURIs()) {
                         LoadRecentFileAction action = new LoadRecentFileAction(AbstractApplication.this, view, f);
@@ -588,12 +515,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 if (getRecentURIs().size() > 0) {
                     openRecentMenu.addSeparator();
                 }
-
                 // Add a separator and the clear recent files item.
                 openRecentMenu.add(clearRecentFilesItem);
             }
         }
-
         @Override
         public void dispose() {
             removePropertyChangeListener(this);
@@ -606,15 +531,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             openRecentActions.clear();
         }
     }
-
     /** Gets an open chooser for the specified view or for the application.
      * <p>
      * If the chooser has an accessory panel, it can access the view using
-     * the client property "view" on the component of the chooser. It can 
+     * the client property "view" on the component of the chooser. It can
      * access the application using the client property "application" on the
      * chooser.
      * </p>
-     * 
+     *
      * @param v The view. Specify null to get a chooser for the application.
      */
     @Override
@@ -652,15 +576,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             return chooser;
         }
     }
-
     /** Gets a save chooser for the specified view or for the application.
      * <p>
      * If the chooser has an accessory panel, it can access the view using
-     * the client property "view" on the component of the chooser. It can 
+     * the client property "view" on the component of the chooser. It can
      * access the application using the client property "application" on the
      * chooser.
      * </p>
-     * 
+     *
      * @param v The view. Specify null to get a chooser for the application.
      */
     @Override
@@ -687,15 +610,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             return chooser;
         }
     }
-
     /** Gets an import chooser for the specified view or for the application.
      * <p>
      * If the chooser has an accessory panel, it can access the view using
-     * the client property "view" on the component of the chooser. It can 
+     * the client property "view" on the component of the chooser. It can
      * access the application using the client property "application" on the
      * chooser.
      * </p>
-     * 
+     *
      * @param v The view. Specify null to get a chooser for the application.
      */
     @Override
@@ -717,15 +639,14 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             return chooser;
         }
     }
-
     /** Gets an export chooser for the specified view or for the application.
      * <p>
      * If the chooser has an accessory panel, it can access the view using
-     * the client property "view" on the component of the chooser. It can 
+     * the client property "view" on the component of the chooser. It can
      * access the application using the client property "application" on the
      * chooser.
      * </p>
-     * 
+     *
      * @param v The view. Specify null to get a chooser for the application.
      */
     @Override
@@ -747,7 +668,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
             return chooser;
         }
     }
-
     /**
      * Sets the application-wide action map.
      * @param m the map
@@ -755,7 +675,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public void setActionMap(ActionMap m) {
         actionMap = m;
     }
-
     /**
      * Gets the action map.
      * @return the map

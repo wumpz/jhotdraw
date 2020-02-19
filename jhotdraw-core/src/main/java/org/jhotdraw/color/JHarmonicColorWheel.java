@@ -25,7 +25,6 @@ import javax.swing.event.*;
 public class JHarmonicColorWheel extends JColorWheel {
 
     private static final long serialVersionUID = 1L;
-
     public static final String SELECTED_INDEX_PROPERTY = "selectedIndex";
     private HarmonicColorModel harmonicModel;
     private int selectedIndex = -1;
@@ -138,18 +137,14 @@ public class JHarmonicColorWheel extends JColorWheel {
     public JHarmonicColorWheel() {
         super(HSLPhysiologicColorSpace.getInstance());
         initComponents();
-
         setRadialComponentIndex(2);
         setVerticalComponentIndex(1);
         getModel().setComponent(1, 1f);
         setWheelInsets(new Insets(5, 5, 5, 5));
-
         modelHandler = new ModelHandler();
-
         DefaultHarmonicColorModel p = new DefaultHarmonicColorModel();
         setHarmonicColorModel(p);
         setToolTipText("");
-
     }
 
     public void setColorSpace(ColorSpace newValue) {
@@ -168,18 +163,14 @@ public class JHarmonicColorWheel extends JColorWheel {
         if (hsb == null) {
             return null;
         }
-
         StringBuilder buf = new StringBuilder();
-
         buf.append(Math.round(hsb[0] * 360));
         buf.append(",");
         buf.append(Math.round(hsb[1] * 100f));
         buf.append(",");
         buf.append(Math.round(hsb[2] * 100f));
-
         if (buf.length() > 0) {
             buf.insert(0, "<html>");
-
             return buf.toString();
         } else {
             return null;
@@ -218,11 +209,9 @@ public class JHarmonicColorWheel extends JColorWheel {
     @Override
     protected void paintThumb(Graphics2D g) {
         paintTicks(g);
-
         if (harmonicModel != null) {
             Point center = getCenter();
             Ellipse2D.Float oval = new Ellipse2D.Float(0, 0, 0, 0);
-
             float[] comp = null;
             for (int i = harmonicModel.size() - 1; i >= 0; i--) {
                 if (harmonicModel.get(i) != null) {
@@ -273,13 +262,11 @@ public class JHarmonicColorWheel extends JColorWheel {
             Point center = getCenter();
             float radius = getRadius();
             Ellipse2D.Float oval = new Ellipse2D.Float(0, 0, 0, 0);
-
             int baseIndex = harmonicModel.getBase();
             Color bc = harmonicModel.get(baseIndex);
             g.setColor(Color.DARK_GRAY);
             for (int i = 0; i < 12; i++) {
                 float angle = bc.getColorComponents(null)[0] + i / 12f;
-
                 float radial1 = radius;
                 /*g.draw(new Line2D.Double(
                         center.x + radius * Math.cos(angle * Math.PI * 2d),
@@ -292,15 +279,12 @@ public class JHarmonicColorWheel extends JColorWheel {
                         center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d) - 2,
                         4,
                         4));
-
             }
-
             for (int i = 0, n = harmonicModel.size(); i < n; i++) {
                 if (i != baseIndex) {
                     Color dc = harmonicModel.get(i);
                     if (dc != null) {
                         float angle = dc.getColorComponents(null)[0];
-
                         float diff = Math.abs(angle - bc.getColorComponents(null)[0]) * 12;
                         if (Math.abs(diff - Math.round(diff)) < 0.02f) {
                             g.draw(new Line2D.Double(
@@ -309,7 +293,6 @@ public class JHarmonicColorWheel extends JColorWheel {
                                     center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
                                     center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
                         } else {
-
                             g.draw(new Line2D.Double(
                                     center.x + (radius) * Math.cos(angle * Math.PI * 2d),
                                     center.y - (radius) * Math.sin(angle * Math.PI * 2d),
@@ -349,7 +332,6 @@ public class JHarmonicColorWheel extends JColorWheel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setLayout(new java.awt.FlowLayout());
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

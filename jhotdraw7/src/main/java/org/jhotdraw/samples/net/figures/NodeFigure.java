@@ -2,11 +2,10 @@
  * @(#)NodeFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.net.figures;
-
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -22,7 +21,6 @@ import org.jhotdraw.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
-
 /**
  * NodeFigure.
  *
@@ -31,13 +29,11 @@ import org.jhotdraw.xml.*;
  */
 public class NodeFigure extends TextFigure {
     private static final long serialVersionUID = 1L;
-
     private LinkedList<Connector> connectors;
     private static LocatorConnector north;
     private static LocatorConnector south;
     private static LocatorConnector east;
     private static LocatorConnector west;
-
     /** Creates a new instance. */
     public NodeFigure() {
         RectangleFigure rf = new RectangleFigure();
@@ -48,7 +44,6 @@ public class NodeFigure extends TextFigure {
         setText(labels.getString("nodeDefaultName"));
         setAttributeEnabled(DECORATOR_INSETS, false);
     }
-
     private void createConnectors() {
         connectors = new LinkedList<Connector>();
         connectors.add(new LocatorConnector(this, RelativeLocator.north()));
@@ -56,12 +51,10 @@ public class NodeFigure extends TextFigure {
         connectors.add(new LocatorConnector(this, RelativeLocator.west()));
         connectors.add(new LocatorConnector(this, RelativeLocator.south()));
     }
-
     @Override
     public Collection<Connector> getConnectors(ConnectionFigure prototype) {
         return Collections.unmodifiableList(connectors);
     }
-
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         java.util.List<Handle> handles = new LinkedList<Handle>();
@@ -81,7 +74,6 @@ public class NodeFigure extends TextFigure {
         }
         return handles;
     }
-
     @Override
     public Rectangle2D.Double getFigureDrawingArea() {
         Rectangle2D.Double b = super.getFigureDrawingArea();
@@ -89,7 +81,6 @@ public class NodeFigure extends TextFigure {
         Geom.grow(b, 10d, 10d);
         return b;
     }
-
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure figure) {
         // return closest connector
@@ -105,7 +96,6 @@ public class NodeFigure extends TextFigure {
         }
         return closest;
     }
-
     @Override
     public Connector findCompatibleConnector(Connector c, boolean isStart) {
         if (c instanceof LocatorConnector) {
@@ -119,29 +109,24 @@ public class NodeFigure extends TextFigure {
         }
         return connectors.getFirst();
     }
-
     @Override
     public NodeFigure clone() {
         NodeFigure that = (NodeFigure) super.clone();
         that.createConnectors();
         return that;
     }
-
     @Override
     public int getLayer() {
         return -1; // stay below ConnectionFigures
     }
-
     @Override
     protected void writeDecorator(DOMOutput out) throws IOException {
         // do nothing
     }
-
     @Override
     protected void readDecorator(DOMInput in) throws IOException {
         // do nothing
     }
-
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         super.set(key, newValue);

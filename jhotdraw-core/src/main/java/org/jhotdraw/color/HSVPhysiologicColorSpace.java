@@ -1,9 +1,9 @@
 /*
  * @(#)HSVPhysiologicColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -20,7 +20,6 @@ import java.awt.color.ColorSpace;
 public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
 
     private static final long serialVersionUID = 1L;
-
     private static HSVPhysiologicColorSpace instance;
 
     public static HSVPhysiologicColorSpace getInstance() {
@@ -39,7 +38,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         float hue = components[0];
         float saturation = components[1];
         float value = components[2];
-
         // normalize hue
         hue = hue - (float) Math.floor(hue);
         if (hue < 0) {
@@ -57,7 +55,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         } else if (value < 0f) {
             value = 0f;
         }
-
         // compute hi and f from hue
         int hi;
         float f;
@@ -65,33 +62,26 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         if (hueDeg < 120f) { // red to yellow
             hi = 0;
             f = (hueDeg / 120f);
-
         } else if (hueDeg < 160f) { // yellow to green
             hi = 1;
             f = (hueDeg - 120f) / 40f;
-
         } else if (hueDeg < 220f) { // green to cyan
             hi = 2;
             f = (hueDeg - 160f) / 60f;
-
         } else if (hueDeg < 280f) { // cyan to blue
             hi = 3;
             f = (hueDeg - 220f) / 60f;
-
         } else if (hueDeg < 340f) { // blue to purple
             hi = 4;
             f = (hueDeg - 280f) / 60f;
-
         } else { // purple to red
             f = (hueDeg - 340f) / 20f;
             hi = 5;
         }
-
         // compute p, q, t from saturation
         float p = value * (1 - saturation);
         float q = value * (1 - f * saturation);
         float t = value * (1 - (1 - f) * saturation);
-
         // compute red, green and blue
         float red;
         float green;
@@ -135,7 +125,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
                 red = green = blue = 0;
                 break;
         }
-
         rgb[0] = red;
         rgb[1] = green;
         rgb[2] = blue;
@@ -147,14 +136,11 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
-
         float max = Math.max(Math.max(r, g), b);
         float min = Math.min(Math.min(r, g), b);
-
         float hue;
         float saturation;
         float value;
-
         if (max == min) {
             hue = 0;
         } else if (max == r && g >= b) { // red to yellow
@@ -170,15 +156,12 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         } else { // blue to purple
             hue = 60f * (r - g) / (max - min) + 240f + 40f;
         }
-
         value = max;
-
         if (max == 0) {
             saturation = 0;
         } else {
             saturation = (max - min) / max;
         }
-
         component[0] = hue / 360f;
         component[1] = saturation;
         component[2] = value;
@@ -216,7 +199,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public int hashCode() {
-
         return getClass().getSimpleName().hashCode();
     }
 

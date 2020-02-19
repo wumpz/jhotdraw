@@ -1,14 +1,12 @@
 /*
  * @(#)JavaNumberFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
-
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -17,7 +15,6 @@ import java.util.Locale;
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-
 /**
  * {@code ScaledNumberFormatter} is used to format numbers written in the
  * Java programming syntax.
@@ -27,7 +24,6 @@ import javax.swing.text.DefaultFormatterFactory;
  */
 public class JavaNumberFormatter extends DefaultFormatter {
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies whether the formatter allows null values.
      */
@@ -47,7 +43,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
     private int minNegativeExponent = -3;
     private int minPositiveExponent = 8;
     private boolean usesScientificNotation = true;
-
     /**
      * Creates a <code>NumberFormatter</code> with the a default
      * <code>NumberFormat</code> instance obtained from
@@ -57,14 +52,12 @@ public class JavaNumberFormatter extends DefaultFormatter {
         super();
         initFormats();
     }
-
     /**
      * Creates a NumberFormatter with the specified Format instance.
      */
     public JavaNumberFormatter(double min, double max, double multiplier) {
         this(min, max, multiplier, false, null);
     }
-
     /**
      * Creates a NumberFormatter with the specified Format instance.
      */
@@ -84,13 +77,11 @@ public class JavaNumberFormatter extends DefaultFormatter {
         setOverwriteMode(false);
         setUnit(unit);
     }
-
     private void initFormats() {
         DecimalFormatSymbols s = new DecimalFormatSymbols(Locale.ENGLISH);
         decimalFormat = new DecimalFormat("#################0.#################", s);
         scientificFormat = new DecimalFormat("0.0################E0", s);
     }
-
     /**
      * Sets the minimum permissible value. If the <code>valueClass</code> has
      * not been specified, and <code>minimum</code> is non null, the
@@ -107,7 +98,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
         min = minimum;
     }
-
     /**
      * Returns the minimum permissible value.
      *
@@ -117,7 +107,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public  Comparable getMinimum() {
         return min;
     }
-
     /**
      * Sets the maximum permissible value. If the <code>valueClass</code> has
      * not been specified, and <code>max</code> is non null, the
@@ -134,7 +123,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
         this.max = max;
     }
-
     /**
      * Returns the maximum permissible value.
      *
@@ -144,21 +132,18 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public Comparable getMaximum() {
         return max;
     }
-
     /**
      * Sets the multiplier for use in percent, per mille, and similar formats.
      */
     public void setMultiplier(double newValue) {
         multiplier = newValue;
     }
-
     /**
      * Gets the multiplier for use in percent, per mille, and similar formats.
      */
     public double getMultiplier() {
         return multiplier;
     }
-
     /**
      * Allows/Disallows null values.
      *
@@ -167,14 +152,12 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public void setAllowsNullValue(boolean newValue) {
         allowsNullValue = newValue;
     }
-
     /**
      * Returns true if null values are allowed.
      */
     public boolean getAllowsNullValue() {
         return allowsNullValue;
     }
-
     /**
      * Specifies whether ".0" is appended to double and float
      * values. By default this is true.
@@ -185,14 +168,12 @@ public class JavaNumberFormatter extends DefaultFormatter {
         minFractionDigits = newValue;
         decimalFormat.setMinimumFractionDigits(newValue);
     }
-
     /**
      * Returns true if null values are allowed.
      */
     public int getMinimumFractionDigits() {
         return minFractionDigits;
     }
-
     /**
      * Returns a String representation of the Object <code>value</code>.
      * This invokes <code>format</code> on the current <code>Format</code>.
@@ -206,7 +187,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         if (value == null && allowsNullValue) {
             return "";
         }
-
         StringBuilder buf = new StringBuilder();
         if (value instanceof Double) {
             double v = ((Double) value).doubleValue();
@@ -223,7 +203,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
         } else if (value instanceof Float) {
             float v = ((Float) value).floatValue();
             v = (float) (v * multiplier);
-            String str;// = Float.toString(v);
+            String str; // = Float.toString(v);
             BigDecimal big = new BigDecimal(v);
             int exponent = big.scale() >= 0 ? big.precision() - big.scale() : -big.scale();
             if (!usesScientificNotation || exponent > minNegativeExponent && exponent < minPositiveExponent) {
@@ -257,7 +237,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
         throw new ParseException("Value is of unsupported class " + value, 0);
     }
-
     /**
      * Returns the <code>Object</code> representation of the
      * <code>String</code> <code>text</code>.
@@ -271,7 +250,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         if ((text == null || text.length() == 0) && getAllowsNullValue()) {
             return null;
         }
-
         // Remove unit from text
         if (unit != null) {
             int p = text.lastIndexOf(unit);
@@ -279,7 +257,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 text = text.substring(0, p);
             }
         }
-
         Class<?> valueClass = getValueClass();
         Object value;
         if (valueClass != null) {
@@ -317,7 +294,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         } else {
             throw new ParseException("Unsupported value class " + valueClass, 0);
         }
-
         try {
             if (!isValidValue(value, true)) {
                 throw new ParseException("Value not within min/max range", 0);
@@ -327,7 +303,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
         return value;
     }
-
     /**
      * Returns true if <code>value</code> is between the min/max.
      *
@@ -347,7 +322,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
             }
             return false;
         }
-
         try {
             if (max != null && max.compareTo((Number)value) < 0) {
                 return false;
@@ -360,17 +334,14 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
         return true;
     }
-
     /** If non-null the unit string is appended to the value. */
     public void setUnit(String value) {
         unit = value;
     }
-
     /** If non-null the unit string is appended to the value. */
     public String getUnit() {
         return unit;
     }
-
     /**
      * Gets the minimum number of digits allowed in the integer portion of a
      * number.
@@ -378,7 +349,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public int getMinimumIntegerDigits() {
         return minIntDigits;
     }
-
     /**
      * Sets the minimum number of digits allowed in the integer portion of a
      * number.
@@ -388,7 +358,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         scientificFormat.setMinimumIntegerDigits(newValue);
         this.minIntDigits = newValue;
     }
-
     /**
      * Gets the maximum number of digits allowed in the integer portion of a
      * number.
@@ -396,7 +365,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public int getMaximumIntegerDigits() {
         return maxIntDigits;
     }
-
     /**
      * Sets the maximum number of digits allowed in the integer portion of a
      * number.
@@ -406,7 +374,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         scientificFormat.setMaximumIntegerDigits(newValue);
         this.maxIntDigits = newValue;
     }
-
     /**
      * Gets the maximum number of digits allowed in the fraction portion of a
      * number.
@@ -414,7 +381,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public int getMaximumFractionDigits() {
         return maxFractionDigits;
     }
-
     /**
      * Sets the maximum number of digits allowed in the fraction portion of a
      * number.
@@ -424,49 +390,42 @@ public class JavaNumberFormatter extends DefaultFormatter {
         scientificFormat.setMaximumFractionDigits(newValue);
         this.maxFractionDigits = newValue;
     }
-
     /**
      * Gets the minimum negative exponent value for scientific notation.
      */
     public int getMinimumNegativeExponent() {
         return minNegativeExponent;
     }
-
     /**
      * Sets the minimum negative exponent value for scientific notation.
      */
     public void setMinimumNegativeExponent(int newValue) {
         this.minNegativeExponent = newValue;
     }
-
     /**
      * Gets the minimum positive exponent value for scientific notation.
      */
     public int getMinimumPositiveExponent() {
         return minPositiveExponent;
     }
-
     /**
      * Sets the minimum positive exponent value for scientific notation.
      */
     public void setMinimumPositiveExponent(int newValue) {
         this.minPositiveExponent = newValue;
     }
-
     /**
      * Returns true if scientific notation is used.
      */
     public boolean isUsesScientificNotation() {
         return usesScientificNotation;
     }
-
     /**
      * Sets whether scientific notation is used.
      */
     public void setUsesScientificNotation(boolean newValue) {
         this.usesScientificNotation = newValue;
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * {@code ScalableNumberFormatter} and a Java-style DecimalFormat.
@@ -475,7 +434,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public static AbstractFormatterFactory createFormatterFactory(double min, double max, double multiplier) {
         return createFormatterFactory(min, max, multiplier, false, null);
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * {@code ScalableNumberFormatter} and a Java-style DecimalFormat.
@@ -484,7 +442,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         JavaNumberFormatter formatter = new JavaNumberFormatter(min, max, multiplier, allowsNullValue, null);
         return new DefaultFormatterFactory(formatter);
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * {@code ScalableNumberFormatter} and a Java-style DecimalFormat.

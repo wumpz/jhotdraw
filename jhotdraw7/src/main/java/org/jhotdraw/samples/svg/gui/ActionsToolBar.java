@@ -2,12 +2,10 @@
  * @(#)ActionsToolBar.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,7 +28,6 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.*;
-
 /**
  * ActionsToolBar.
  *
@@ -42,13 +39,11 @@ public class ActionsToolBar extends AbstractToolBar {
     private UndoRedoManager undoManager;
     private ArrayList<Action> actions;
     private JPopupButton popupButton;
-
     /** Creates new instance. */
     public ActionsToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
     }
-
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (this.editor != null && undoManager != null) {
@@ -62,7 +57,6 @@ public class ActionsToolBar extends AbstractToolBar {
             this.addPropertyChangeListener(getEventHandler());
         }
     }
-
     public void setUndoManager(UndoRedoManager newValue) {
         if (this.editor != null && newValue != null) {
             this.removePropertyChangeListener(getEventHandler());
@@ -74,7 +68,6 @@ public class ActionsToolBar extends AbstractToolBar {
             this.addPropertyChangeListener(getEventHandler());
         }
     }
-
     /** Sets the actions for the "Action" popup menu in the toolbar.
      * <p>
      * This list may contain null items which are used to denote a
@@ -90,7 +83,6 @@ public class ActionsToolBar extends AbstractToolBar {
             this.actions.addAll(actions);
         }
     }
-
     /** Gets the actions of the "Action" popup menu in the toolbar.
      * This list may contain null items which are used to denote a
      * separator in the popup menu.
@@ -103,32 +95,24 @@ public class ActionsToolBar extends AbstractToolBar {
         }
         return Collections.unmodifiableList(actions);
     }
-
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
             case 1: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 // Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 btn = new JButton(undoManager.getUndoAction());
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 btn.setText(null);
@@ -138,7 +122,6 @@ public class ActionsToolBar extends AbstractToolBar {
                 gbc.gridy = 0;
                 gbc.gridx = 0;
                 p.add(btn, gbc);
-
                 btn = new JButton(undoManager.getRedoAction());
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 btn.setText(null);
@@ -148,8 +131,6 @@ public class ActionsToolBar extends AbstractToolBar {
                 gbc.gridy = 0;
                 gbc.insets = new Insets(0, 3, 0, 0);
                 p.add(btn, gbc);
-
-
                 btn = ButtonFactory.createPickAttributesButton(editor, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 labels.configureToolBarButton(btn, "attributesPick");
@@ -157,7 +138,6 @@ public class ActionsToolBar extends AbstractToolBar {
                 gbc.gridy = 1;
                 gbc.insets = new Insets(3, 0, 0, 0);
                 p.add(btn, gbc);
-
                 btn = ButtonFactory.createApplyAttributesButton(editor, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 labels.configureToolBarButton(btn, "attributesApply");
@@ -165,14 +145,12 @@ public class ActionsToolBar extends AbstractToolBar {
                 gbc.gridy = 1;
                 gbc.insets = new Insets(3, 3, 0, 0);
                 p.add(btn, gbc);
-
                 JPopupButton pb = new JPopupButton();
                 pb.setUI((PaletteButtonUI) PaletteButtonUI.createUI(pb));
                 pb.setItemFont(UIManager.getFont("MenuItem.font"));
                 labels.configureToolBarButton(pb, "actions");
                 popupButton = pb;
                 updatePopupMenu();
-
                 gbc = new GridBagConstraints();
                 gbc.gridy = 2;
                 gbc.insets = new Insets(3, 0, 0, 0);
@@ -182,7 +160,6 @@ public class ActionsToolBar extends AbstractToolBar {
         }
         return p;
     }
-
     private void updatePopupMenu() {
         if (popupButton != null) {
             AbstractSelectedAction d;
@@ -216,7 +193,6 @@ public class ActionsToolBar extends AbstractToolBar {
             }
         }
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -225,12 +201,10 @@ public class ActionsToolBar extends AbstractToolBar {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
     }// </editor-fold>//GEN-END:initComponents
-
     @Override
     protected String getID() {
         return "actions";
     }
-
     @Override
     protected int getDefaultDisclosureState() {
         return 1;

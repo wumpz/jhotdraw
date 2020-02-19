@@ -2,7 +2,7 @@
  * @(#)JPopupButton.java
  *
  * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -24,7 +24,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteMenuItemUI;
 public class JPopupButton extends javax.swing.JButton {
 
     private static final long serialVersionUID = 1L;
-
     public static final String CLOSE_AUTOMATICALLY_PROPERTY = "closeAutomatically";
     public static final String COLUMN_COUNT_PROPERTY = "columnCount";
     public static final String ITEM_FONT_PROPERTY = "itemFont";
@@ -46,8 +45,8 @@ public class JPopupButton extends javax.swing.JButton {
     private boolean isCloseAutomatically;
 
     private class Handler implements PropertyChangeListener, PopupMenuListener, AWTEventListener {
-        // Property change listener
 
+        // Property change listener
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
@@ -60,7 +59,6 @@ public class JPopupButton extends javax.swing.JButton {
         // Popup menu listener
         @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-
         }
 
         @Override
@@ -80,7 +78,6 @@ public class JPopupButton extends javax.swing.JButton {
                 return;
             }
             Component src = (Component) ev.getSource();
-
             // Close popup only on mouse press on a component which has
             // the same window ancestor as our popup, but is not in the
             // popup layer of the window.
@@ -144,10 +141,8 @@ public class JPopupButton extends javax.swing.JButton {
         if (this.action != null) {
             this.action.removePropertyChangeListener(handler);
         }
-
         this.action = action;
         this.actionArea = actionClickArea;
-
         if (action != null) {
             action.addPropertyChangeListener(handler);
         }
@@ -303,7 +298,6 @@ public class JPopupButton extends javax.swing.JButton {
                 && (actionArea == null
                 || !actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top))) {
             int x, y;
-
             switch (popupAnchor) {
                 case SOUTH_EAST:
                     x = getWidth() - popupMenu.getPreferredSize().width;
@@ -331,7 +325,6 @@ public class JPopupButton extends javax.swing.JButton {
                     }
                 }
             }
-
             popupMenu.show(this, x, y);
             popupMenu.repaint();
         }
@@ -345,7 +338,6 @@ public class JPopupButton extends javax.swing.JButton {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 handleMousePressed(evt);
@@ -355,8 +347,7 @@ public class JPopupButton extends javax.swing.JButton {
             }
         });
     }// </editor-fold>//GEN-END:initComponents
-
-    private void performAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_performAction
+    private void performAction(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_performAction
         // Add your handling code here:
         if (actionArea != null && actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top)) {
             action.actionPerformed(
@@ -365,13 +356,10 @@ public class JPopupButton extends javax.swing.JButton {
                             null,
                             evt.getWhen(),
                             evt.getModifiers()));
-
         }
     }//GEN-LAST:event_performAction
-
-    private void handleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_handleMousePressed
+    private void handleMousePressed(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_handleMousePressed
         togglePopup(evt);
-
 }//GEN-LAST:event_handleMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

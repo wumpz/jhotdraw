@@ -25,19 +25,16 @@ public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
      */
     public PaletteFontChooserPreviewPanel() {
         initComponents();
-
         previewLabel.setUI((LabelUI) PaletteLabelUI.createUI(previewLabel));
         previewLabel.setBackground(Color.WHITE);
         previewLabel.setForeground(Color.BLACK);
         previewLabel.setOpaque(true);
-
         setPreferredSize(new Dimension(100, 50));
         setMinimumSize(new Dimension(100, 50));
     }
 
     public void setSelectedFont(Font newValue) {
         if (newValue == null) {
-
             previewLabel.setText((String) PaletteLookAndFeel.getInstance().get("FontChooser.nothingSelected"));
             previewLabel.setFont(getFont());
         } else {
@@ -47,7 +44,6 @@ public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
     }
 
     private String beautifyName(String name) {
-
         // 'Beautify' the name
         StringBuilder buf = new StringBuilder();
         char prev = name.charAt(0);
@@ -75,17 +71,12 @@ public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         previewLabel = new javax.swing.JLabel();
-
         setLayout(new java.awt.BorderLayout());
-
         previewLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         add(previewLabel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel previewLabel;
     // End of variables declaration//GEN-END:variables
-
 }

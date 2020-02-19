@@ -137,5 +137,4 @@ public class AbstractFigureNGTest {
             return null;
         }
     }
-
 }

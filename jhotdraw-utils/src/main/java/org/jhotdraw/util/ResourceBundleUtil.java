@@ -58,7 +58,6 @@ import javax.swing.*;
 public class ResourceBundleUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private static final HashSet<String> ACCELERATOR_KEYS = new HashSet<String>(
             Arrays.asList(new String[]{
         "shift", "control", "ctrl", "meta", "alt", "altGraph"
@@ -153,14 +152,12 @@ public class ResourceBundleUtil implements Serializable {
      */
     private String getStringRecursive(String key) throws MissingResourceException {
         String value = resource.getString(key);
-
         // Substitute placeholders in the value
         for (int p1 = value.indexOf("${"); p1 != -1; p1 = value.indexOf("${")) {
             int p2 = value.indexOf('}', p1 + 2);
             if (p2 == -1) {
                 break;
             }
-
             String placeholderKey = value.substring(p1 + 2, p2);
             String placeholderFormat;
             int p3 = placeholderKey.indexOf(',');
@@ -172,7 +169,6 @@ public class ResourceBundleUtil implements Serializable {
             }
             ArrayList<String> fallbackKeys = new ArrayList<>();
             generateFallbackKeys(placeholderKey, fallbackKeys);
-
             String placeholderValue = null;
             for (String fk : fallbackKeys) {
                 try {
@@ -185,8 +181,7 @@ public class ResourceBundleUtil implements Serializable {
             if (placeholderValue == null) {
                 throw new MissingResourceException("\"" + key + "\" not found in " + baseName, baseName, key);
             }
-
-            // Do post-processing depending on placeholder format 
+            // Do post-processing depending on placeholder format
             if ("accelerator".equals(placeholderFormat)) {
                 // Localize the keywords shift, control, ctrl, meta, alt, altGraph
                 StringBuilder b = new StringBuilder();
@@ -199,11 +194,9 @@ public class ResourceBundleUtil implements Serializable {
                 }
                 placeholderValue = b.toString();
             }
-
             // Insert placeholder value into value
             value = value.substring(0, p1) + placeholderValue + value.substring(p2 + 1);
         }
-
         return value;
     }
 
@@ -311,11 +304,9 @@ public class ResourceBundleUtil implements Serializable {
     private ImageIcon getIconProperty(String key, String suffix, Class<?> baseClass) {
         try {
             String rsrcName = getStringRecursive(key + suffix);
-
             if ("".equals(rsrcName)) {
                 return null;
             }
-
             URL url = baseClass.getResource(rsrcName);
             if (isVerbose && url == null) {
                 System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + suffix + "\" resource:" + rsrcName + " not found.");

@@ -1,13 +1,12 @@
 /*
  * @(#)PaletteTabbedPaneUI.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -28,7 +27,6 @@ import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.text.View;
-
 /**
  * PaletteTabbedPaneUI.
  *
@@ -36,18 +34,15 @@ import javax.swing.text.View;
  * @version $Id$
  */
 public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
-
     private static final float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
     private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
     private boolean tabsOverlapBorder;
     private Color selectedColor;
     private boolean tabsOpaque = true;
     private boolean contentOpaque = true;
-
     public static ComponentUI createUI(JComponent c) {
         return new PaletteTabbedPaneUI();
     }
-
     @Override
     protected void installDefaults() {
         PaletteLookAndFeel laf = PaletteLookAndFeel.getInstance();
@@ -61,7 +56,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         focus = laf.getColor("TabbedPane.focus");
         selectedColor = laf.getColor("TabbedPane.selected"); // will probably not
         // work as expected since we don't override enough colors from BasicTabbedPaneUI
-
         textIconGap = laf.getInt("TabbedPane.textIconGap");
         tabInsets = laf.getInsets("TabbedPane.tabInsets");
         selectedTabPadInsets = laf.getInsets("TabbedPane.selectedTabPadInsets");
@@ -71,16 +65,15 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         // work as expected since we don't override enough colors from BasicTabbedPaneUI
         contentBorderInsets = laf.getInsets("TabbedPane.contentBorderInsets");
         tabRunOverlay = laf.getInt("TabbedPane.tabRunOverlay");
-        tabsOpaque = laf.getBoolean("TabbedPane.tabsOpaque");// will probably not
+        tabsOpaque = laf.getBoolean("TabbedPane.tabsOpaque"); // will probably not
         // work as expected since we don't override enough colors from BasicTabbedPaneUI
-        contentOpaque = laf.getBoolean("TabbedPane.contentOpaque");// will probably not
+        contentOpaque = laf.getBoolean("TabbedPane.contentOpaque"); // will probably not
         // work as expected since we don't override enough colors from BasicTabbedPaneUI
         Object opaque = laf.get("TabbedPane.opaque");
         if (opaque == null) {
             opaque = Boolean.FALSE;
         }
         PaletteLookAndFeel.installProperty(tabPane, "opaque", opaque);
-
         // Fix for 6711145 BasicTabbedPanuUI should not throw a NPE if these
         // keys are missing. So we are setting them to there default values here
         // if the keys are missing.
@@ -97,7 +90,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             contentBorderInsets = new Insets(2, 2, 3, 3);
         }
     }
-
     @Override
     protected void paintTab(Graphics g, int tabPlacement,
             Rectangle[] rects, int tabIndex,
@@ -105,26 +97,20 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         Rectangle tabRect = rects[tabIndex];
         int selectedIndex = tabPane.getSelectedIndex();
         boolean isSelected = selectedIndex == tabIndex;
-
         if (tabsOpaque || tabPane.isOpaque()) {
             paintTabBackground(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
                     tabRect.width, tabRect.height, isSelected);
         }
-
         paintTabBorder(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
                 tabRect.width, tabRect.height, isSelected);
-
         String title = tabPane.getTitleAt(tabIndex);
         Font font = isSelected ? PaletteLookAndFeel.getInstance().getFont("TabbedPane.selectedFont") : tabPane.getFont();
         FontMetrics metrics = PaletteUtilities.getFontMetrics(tabPane, g, font);
         Icon icon = getIconForTab(tabIndex);
-
         layoutLabel(tabPlacement, metrics, tabIndex, title, icon,
                 tabRect, iconRect, textRect, isSelected);
-
         if (tabPane.getTabComponentAt(tabIndex) == null) {
             String clippedTitle = title;
-
             // XXX - Implement scrollable tab layout support.
             /*
             if (scrollableTabLayoutEnabled() && tabScroller.croppedEdge.isParamsSet() &&
@@ -133,16 +119,13 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             (textRect.x - tabRect.x) - tabScroller.croppedEdge.getCroppedSideWidth();
             clippedTitle = SwingUtilities2.clipStringIfNecessary(null, metrics, title, availTextWidth);
             }*/
-
             paintText(g, tabPlacement, font, metrics,
                     tabIndex, clippedTitle, textRect, isSelected);
-
             paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
         }
         paintFocusIndicator(g, tabPlacement, rects, tabIndex,
                 iconRect, textRect, isSelected);
     }
-
     /**
      * this function draws the border around each tab
      * note that this function does now draw the background of the tab.
@@ -154,24 +137,19 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             int x, int y, int w, int h,
             boolean isSelected) {
         g.setColor(isSelected ? darkShadow : shadow);
-
         switch (tabPlacement) {
             case LEFT:
                 g.drawLine(x + 1, y + h - 2, x + 1, y + h - 2); // bottom-left highlight
                 g.drawLine(x, y + 2, x, y + h - 3); // left highlight
                 g.drawLine(x + 1, y + 1, x + 1, y + 1); // top-left highlight
                 g.drawLine(x + 2, y, x + w - 1, y); // top highlight
-
                 g.drawLine(x + 2, y + h - 2, x + w - 1, y + h - 2); // bottom shadow
-
                 g.drawLine(x + 2, y + h - 1, x + w - 1, y + h - 1); // bottom dark shadow
                 break;
             case RIGHT:
                 g.drawLine(x, y, x + w - 3, y); // top highlight
-
                 g.drawLine(x, y + h - 2, x + w - 3, y + h - 2); // bottom shadow
                 g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 3); // right shadow
-
                 g.drawLine(x + w - 2, y + 1, x + w - 2, y + 1); // top-right dark shadow
                 g.drawLine(x + w - 2, y + h - 2, x + w - 2, y + h - 2); // bottom-right dark shadow
                 g.drawLine(x + w - 1, y + 2, x + w - 1, y + h - 3); // right dark shadow
@@ -180,10 +158,8 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             case BOTTOM:
                 g.drawLine(x, y, x, y + h - 2); // left highlight
 //              g.drawLine(x+1, y+h-1, x+1, y+h-1); // bottom-left highlight
-
                 g.drawLine(x + 1, y + h - 2, x + w - 1, y + h - 2); // bottom shadow
                 g.drawLine(x + w - 1, y, x + w - 1, y + h - 2); // right shadow
-
                 /*
                 g.drawLine(x+2, y+h-1, x+w-3, y+h-1); // bottom dark shadow
                 g.drawLine(x+w-2, y+h-2, x+w-2, y+h-2); // bottom-right dark shadow
@@ -195,14 +171,11 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 g.drawLine(x, y + 2, x, y + h - 1); // left highlight
                 g.drawLine(x + 1, y + 1, x + 1, y + 1); // top-left highlight
                 g.drawLine(x + 2, y, x + w - 3, y); // top highlight
-
                 g.drawLine(x + w - 2, y + 2, x + w - 2, y + h - 1); // right shadow
-
                 g.drawLine(x + w - 1, y + 2, x + w - 1, y + h - 1); // right dark-shadow
                 g.drawLine(x + w - 2, y + 1, x + w - 2, y + 1); // top-right shadow
         }
     }
-
     @Override
     protected void paintTabBackground(Graphics gr, int tabPlacement,
             int tabIndex,
@@ -233,15 +206,12 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 g.fillRect(x + 1, y + 1, w - 3, h - 1);
         }
     }
-
     @Override
     protected void paintText(Graphics g, int tabPlacement,
             Font font, FontMetrics metrics, int tabIndex,
             String title, Rectangle textRect,
             boolean isSelected) {
-
         g.setFont(font);
-
         View v = getTextViewForTab(tabIndex);
         if (v != null) {
             // html
@@ -249,7 +219,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         } else {
             // plain text
             int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
-
             if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
                 Color fg = tabPane.getForegroundAt(tabIndex);
                 if (isSelected && (fg instanceof UIResource)) {
@@ -263,7 +232,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 PaletteUtilities.drawStringUnderlineCharAt(tabPane, g,
                         title, mnemIndex,
                         textRect.x, textRect.y + metrics.getAscent());
-
             } else { // tab disabled
                 g.setColor(tabPane.getBackgroundAt(tabIndex).brighter());
                 PaletteUtilities.drawStringUnderlineCharAt(tabPane, g,
@@ -273,23 +241,19 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 PaletteUtilities.drawStringUnderlineCharAt(tabPane, g,
                         title, mnemIndex,
                         textRect.x - 1, textRect.y + metrics.getAscent() - 1);
-
             }
         }
     }
-
     @Override
     protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
         int width = tabPane.getWidth();
         int height = tabPane.getHeight();
         Insets insets = tabPane.getInsets();
         Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-
         int x = insets.left;
         int y = insets.top;
         int w = width - insets.right - insets.left;
         int h = height - insets.top - insets.bottom;
-
         switch (tabPlacement) {
             case LEFT:
                 x += calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
@@ -318,7 +282,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 }
                 h -= (y - insets.top);
         }
-
         if (tabPane.getTabCount() > 0 && (contentOpaque || tabPane.isOpaque())) {
             // Fill region behind content area
             Color color = PaletteLookAndFeel.getInstance().getColor("TabbedPane.contentAreaColor");
@@ -331,9 +294,7 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             }
             g.fillRect(x, y, w, h);
         }
-
         boolean paintBorder = tabPane.getClientProperty("Palette.TabbedPane.paintContentBorder") != Boolean.FALSE;
-
         if (tabPlacement == TOP || paintBorder) {
             paintContentBorderTopEdge(g, tabPlacement, selectedIndex, x, y, w, h);
         }
@@ -346,22 +307,17 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         if (tabPlacement == RIGHT || paintBorder) {
             paintContentBorderRightEdge(g, tabPlacement, selectedIndex, x, y, w, h);
         }
-
     }
-
     @Override
     protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
             int selectedIndex,
             int x, int y, int w, int h) {
         Rectangle selRect = selectedIndex < 0 ? null
                 : getTabBounds(selectedIndex, calcRect);
-
         g.setColor(lightHighlight);
-
         // Draw unbroken line if tabs are not on TOP, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        
         if (tabPlacement != TOP || selectedIndex < 0
                 || (selRect.y + selRect.height + 1 < y)
                 || (selRect.x < x || selRect.x > x + w)) {
@@ -378,20 +334,16 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             }
         }
     }
-
     @Override
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
             int selectedIndex,
             int x, int y, int w, int h) {
         Rectangle selRect = selectedIndex < 0 ? null
                 : getTabBounds(selectedIndex, calcRect);
-
         g.setColor(lightHighlight);
-
         // Draw unbroken line if tabs are not on LEFT, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        
         if (tabPlacement != LEFT || selectedIndex < 0
                 || (selRect.x + selRect.width + 1 < x)
                 || (selRect.y < y || selRect.y > y + h)) {
@@ -405,20 +357,16 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             }
         }
     }
-
     @Override
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
             int selectedIndex,
             int x, int y, int w, int h) {
         Rectangle selRect = selectedIndex < 0 ? null
                 : getTabBounds(selectedIndex, calcRect);
-
         g.setColor(shadow);
-
         // Draw unbroken line if tabs are not on BOTTOM, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        
         if (tabPlacement != BOTTOM || selectedIndex < 0
                 || (selRect.y - 1 > h)
                 || (selRect.x < x || selRect.x > x + w)) {
@@ -437,22 +385,17 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 g.drawLine(selRect.x + selRect.width-1, y + h - 1, x + w - 1, y + h - 1);
             }
         }
-
     }
-
     @Override
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
             int selectedIndex,
             int x, int y, int w, int h) {
         Rectangle selRect = selectedIndex < 0 ? null
                 : getTabBounds(selectedIndex, calcRect);
-
         g.setColor(shadow);
-
         // Draw unbroken line if tabs are not on RIGHT, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        
         if (tabPlacement != RIGHT || selectedIndex < 0
                 || (selRect.x - 1 > w)
                 || (selRect.y < y || selRect.y > y + h)) {
@@ -464,7 +407,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             g.drawLine(x + w - 2, y + 1, x + w - 2, selRect.y - 1);
             g.setColor(darkShadow);
             g.drawLine(x + w - 1, y, x + w - 1, selRect.y - 1);
-
             if (selRect.y + selRect.height < y + h - 2) {
                 g.setColor(shadow);
                 g.drawLine(x + w - 2, selRect.y + selRect.height,
@@ -475,7 +417,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             }
         }
     }
-
     @Override
     protected int getTabLabelShiftX(int tabPlacement, int tabIndex, boolean isSelected) {
         Rectangle tabRect = rects[tabIndex];
@@ -494,7 +435,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         }
         return nudge;
     }
-
     @Override
     protected int getTabLabelShiftY(int tabPlacement, int tabIndex, boolean isSelected) {
         Rectangle tabRect = rects[tabIndex];
@@ -514,11 +454,9 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         }
         return nudge;
     }
-
     private boolean scrollableTabLayoutEnabled() {
         return tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT;
     }
-
     @Override
     protected LayoutManager createLayoutManager() {
         if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
@@ -532,13 +470,10 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         Font font = PaletteLookAndFeel.getInstance().getFont("TabbedPane.selectedFont");
         return tabPane.getFontMetrics(font);
     }
-
     protected class TabbedPaneLayout extends BasicTabbedPaneUI.TabbedPaneLayout {
-
         public TabbedPaneLayout() {
             PaletteTabbedPaneUI.this.super();
         }
-
         @Override
         protected void normalizeTabRuns(int tabPlacement, int tabCount,
                 int start, int max) {
@@ -551,12 +486,10 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 super.normalizeTabRuns(tabPlacement, tabCount, start, max);
             }
         }
-
         // Don't rotate runs!
         @Override
         protected void rotateTabRuns(int tabPlacement, int selectedRun) {
         }
-
         // Don't pad selected tab
         @Override
         protected void padSelectedTab(int tabPlacement, int selectedIndex) {

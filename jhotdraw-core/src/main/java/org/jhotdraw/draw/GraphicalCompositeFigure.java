@@ -2,7 +2,7 @@
  * @(#)GraphicalCompositeFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -49,7 +49,6 @@ import org.jhotdraw.xml.DOMOutput;
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
 
     private static final long serialVersionUID = 1L;
-
     protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
     private HashSet<AttributeKey<?>> forbiddenAttributes;
     /**
@@ -67,7 +66,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener, Serializable {
 
         private static final long serialVersionUID = 1L;
-
         private GraphicalCompositeFigure owner;
 
         private PresentationFigureHandler(GraphicalCompositeFigure owner) {
@@ -113,7 +111,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Constructor which creates a GraphicalCompositeFigure with
      * a given graphical figure for presenting it.
      *
-     * @param	newPresentationFigure	figure which renders the container
+     * @param newPresentationFigure figure which renders the container
      */
     public GraphicalCompositeFigure(Figure newPresentationFigure) {
         super();
@@ -249,7 +247,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      *
      *
      *
-     * @param newPresentationFigure	figure takes over the presentation tasks
+     * @param newPresentationFigure figure takes over the presentation tasks
      */
     public void setPresentationFigure(Figure newPresentationFigure) {
         if (this.presentationFigure != null) {
@@ -359,7 +357,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
 
     protected void writeAttributes(DOMOutput out) throws IOException {
         Figure prototype = (Figure) out.getPrototype();
-
         boolean isElementOpen = false;
         for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
             AttributeKey<?> key = entry.getKey();
@@ -421,7 +418,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     }
 
     protected AttributeKey<?> getAttributeKey(String name) {
-        return AttributeKeys.supportedAttributeMap.get(name);
+        return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
     }
 
     @Override

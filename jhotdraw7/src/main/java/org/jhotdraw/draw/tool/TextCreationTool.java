@@ -2,14 +2,10 @@
  * @(#)TextCreationTool.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextField;
@@ -60,7 +56,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     private static final long serialVersionUID = 1L;
     private FloatingTextField   textField;
     private TextHolderFigure  typingTarget;
-    
     /** Creates a new instance. */
     public TextCreationTool(TextHolderFigure prototype) {
         super(prototype);
@@ -69,7 +64,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>,Object> attributes) {
         super(prototype, attributes);
     }
-    
     @Override
     public void deactivate(DrawingEditor editor) {
         endEdit();
@@ -83,7 +77,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
-
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
@@ -92,7 +85,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         } else {
             super.mousePressed(e);
             // update view so the created figure is drawn before the floating text
-            // figure is overlaid. 
+            // figure is overlaid.
             TextHolderFigure textHolder = (TextHolderFigure)getCreatedFigure();
             getView().clearSelection();
             getView().addToSelection(textHolder);
@@ -100,39 +93,30 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             updateCursor(getView(), e.getPoint());
         }
     }
-    
     @Override
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
-    
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textField == null) {
             textField = new FloatingTextField();
             textField.addActionListener(this);
         }
-        
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
-        
         textField.createOverlay(getView(), textHolder);
         textField.requestFocus();
         typingTarget = textHolder;
     }
-    
-    
     @Override
     public void mouseReleased(MouseEvent evt) {
     }
-    
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textField.getText();
-
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
             } else {
@@ -146,13 +130,11 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             }
             UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     return labels.getString("attribute.text.text");
                 }
-
                 @Override
                 public void undo() {
                     super.undo();
@@ -160,7 +142,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                     editedFigure.setText(oldText);
                     editedFigure.changed();
                 }
-
                 @Override
                 public void redo() {
                     super.redo();
@@ -170,15 +151,12 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-            
             textField.endOverlay();
         }
-        //	        view().checkDamage();
+        //         view().checkDamage();
     }
-    
     @Override
     public void keyReleased(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ESCAPE || isToolDoneAfterCreation()) {
@@ -197,11 +175,9 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         beginEdit((TextHolderFigure) createdFigure);
         updateCursor(getView(), new Point(0,0));
     }
-    
     public boolean isEditing() {
         return typingTarget != null;
     }
-    
     @Override
     public void updateCursor(DrawingView view, Point p) {
         if (view.isEnabled()) {

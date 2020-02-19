@@ -2,7 +2,7 @@
  * @(#)UndoAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
@@ -34,17 +34,15 @@ import org.jhotdraw.util.*;
 public class UndoAction extends AbstractViewAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.undo";
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == AbstractAction.NAME) {
                 putValue(AbstractAction.NAME, evt.getNewValue());
-            } else if (name == "enabled") {
+            } else if ("enabled".equals(name)) {
                 updateEnabledState();
             }
         }

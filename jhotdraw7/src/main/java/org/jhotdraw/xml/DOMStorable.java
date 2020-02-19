@@ -2,15 +2,13 @@
  * @(#)DOMStorable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.xml;
-
 import java.io.*;
 /**
- * Interface for objects that can be made persistent using 
+ * Interface for objects that can be made persistent using
  * <code>DOMOutput.writeObject</code> and <code>DOMInput.readObject</code>.
  * <p>
  * By convention every object implementing the DOMStorable interface MUST

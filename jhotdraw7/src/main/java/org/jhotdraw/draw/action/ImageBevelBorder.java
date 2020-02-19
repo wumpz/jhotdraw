@@ -2,16 +2,13 @@
  * @(#)ImageBevelBorder.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
-
 import java.awt.*;
 import javax.swing.border.*;
 import java.awt.image.*;
-
 /**
  * Draws a filled bevel border using an image and insets.
  * The image must consist of a bevel and a fill area.
@@ -36,7 +33,6 @@ public class ImageBevelBorder implements Border {
      * The image to be used for drawing.
      */
     private BufferedImage image;
-    
     /**
      * The border insets
      */
@@ -45,13 +41,11 @@ public class ImageBevelBorder implements Border {
      * The insets of the image.
      */
     private Insets imageInsets;
-    
     /**
      * This attribute is set to true, when the image
      * is used to fill the content area too.
      */
     private boolean fillContentArea;
-    
     /**
      * Creates a new instance with the given image and insets.
      * The image has the same insets as the border.
@@ -59,7 +53,6 @@ public class ImageBevelBorder implements Border {
     public ImageBevelBorder(Image img, Insets borderInsets) {
         this(img, borderInsets, borderInsets, true);
     }
-    
     /**
      * Creates a new instance with the given image and insets.
      * The image has different insets than the border.
@@ -90,7 +83,6 @@ public class ImageBevelBorder implements Border {
         this.borderInsets = borderInsets;
         this.fillContentArea = fillContentArea;
     }
-    
     /**
      * Returns true if the border is opaque.
      * This implementation always returns false.
@@ -99,7 +91,6 @@ public class ImageBevelBorder implements Border {
     public boolean isBorderOpaque() {
         return false;
     }
-    
     /**
      * Returns the insets of the border.
      * @param c the component for which this border insets value applies
@@ -108,8 +99,6 @@ public class ImageBevelBorder implements Border {
     public Insets getBorderInsets(Component c) {
         return (Insets) borderInsets.clone();
     }
-    
-    
     /**
      * Paints the bevel image for the specified component with the
      * specified position and size.
@@ -123,10 +112,8 @@ public class ImageBevelBorder implements Border {
     @Override
     public void paintBorder(Component c, Graphics gr, int x, int y, int width, int height) {
         if (image == null) return;
-        
         // Cast Graphics to Graphics2D
         Graphics2D g = (Graphics2D) gr;
-        
         // Set some variables for easy access of insets and image size
         int top = imageInsets.top;
         int left = imageInsets.left;
@@ -134,8 +121,6 @@ public class ImageBevelBorder implements Border {
         int right = imageInsets.right;
         int imgWidth = image.getWidth();
         int imgHeight = image.getHeight();
-        
-        
         // Optimisation: Draw image directly if it fits into the component
         if (fillContentArea) {
             if (width == imgWidth && height == imgHeight) {
@@ -143,7 +128,6 @@ public class ImageBevelBorder implements Border {
                 return;
             }
         }
-        
         // Optimisation: Remove insets, if image width or image height fits
         if (width == imgWidth) {
             left = imgWidth;
@@ -153,7 +137,6 @@ public class ImageBevelBorder implements Border {
             top = imgHeight;
             bottom = 0;
         }
-        
         // Adjust insets if component is too small
         if (width < left + right) {
             left = Math.min(left, width / 2); //Math.max(0, left + (width - left - right) / 2);
@@ -163,7 +146,6 @@ public class ImageBevelBorder implements Border {
             top = Math.min(top, height / 2); //Math.max(0, top + (height - top - bottom) / 2);
             bottom = height - top;
         }
-        
         // Draw the Leads
         if (top > 0 && left > 0) {
             g.drawImage(
@@ -198,11 +180,9 @@ public class ImageBevelBorder implements Border {
             c
             );
         }
-        
         // Draw the edges
         BufferedImage subImg = null;
         TexturePaint paint;
-        
         // North
         if (top > 0 && left + right < width) {
             subImg = image.getSubimage(left, 0, imgWidth - right - left, top);
@@ -231,7 +211,6 @@ public class ImageBevelBorder implements Border {
             g.setPaint(paint);
             g.fillRect(x+width-right, y + top, right, height - top - bottom);
         }
-        
         // Fill the center
         if (fillContentArea) {
             g.setColor(Color.yellow);

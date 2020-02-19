@@ -2,7 +2,7 @@
  * @(#)AbstractViewAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action;
@@ -30,9 +30,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractViewAction extends AbstractAction {
 
     private static final long serialVersionUID = 1L;
-
     private Application app;
-
     private View view;
     private String propertyName;
     /**
@@ -47,7 +45,6 @@ public abstract class AbstractViewAction extends AbstractAction {
      */
     private boolean combinedEnabled = true;
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == Application.ACTIVE_VIEW_PROPERTY) { // Strings get interned
@@ -56,7 +53,6 @@ public abstract class AbstractViewAction extends AbstractAction {
         }
     };
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
@@ -179,12 +175,10 @@ public abstract class AbstractViewAction extends AbstractAction {
     public void setEnabled(boolean newValue) {
         boolean oldValue = combinedEnabled;
         this.enabled = newValue;
-
         combinedEnabled = getApplication().isEnabled()
                 && (isMayCreateView() || getActiveView() != null
                 && getActiveView().isEnabled())
                 && this.enabled;
-
         firePropertyChange(ENABLED_PROPERTY,
                 oldValue,
                 combinedEnabled);

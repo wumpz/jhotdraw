@@ -2,12 +2,10 @@
  * @(#)ElbowLiner.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.liner;
-
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
@@ -18,7 +16,6 @@ import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
-
 /**
  * A {@link Liner} that constrains a connection to orthogonal lines.
  *
@@ -28,7 +25,6 @@ import org.jhotdraw.xml.DOMStorable;
 public class ElbowLiner
         implements Liner, DOMStorable {
     private double shoulderSize;
-    
     /** Creates a new instance. */
     public ElbowLiner() {
         this(20);
@@ -36,12 +32,10 @@ public class ElbowLiner
     public ElbowLiner(double slantSize) {
         this.shoulderSize = slantSize;
     }
-    
     @Override
     public Collection<Handle> createHandles(BezierPath path) {
         return Collections.emptyList();
     }
-    
     @Override
     public void lineout(ConnectionFigure figure) {
         BezierPath path = ((LineConnectionFigure) figure).getBezierPath();
@@ -50,7 +44,6 @@ public class ElbowLiner
         if (start == null || end == null || path == null) {
             return;
         }
-        
         // Special treatment if the connection connects the same figure
         if (figure.getStartFigure() == figure.getEndFigure()) {
             // Ensure path has exactly four nodes
@@ -72,11 +65,8 @@ public class ElbowLiner
             if (eoutcode == 0) {
                 eoutcode = Geom.outcode(sb, eb);
             }
-            
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-            
-            
             switch (soutcode) {
                 case Geom.OUT_TOP : eoutcode = Geom.OUT_LEFT; break;
                 case Geom.OUT_RIGHT : eoutcode = Geom.OUT_TOP; break;
@@ -88,7 +78,6 @@ public class ElbowLiner
                     break;
             }
             path.get(1).moveTo(sp.x + shoulderSize, sp.y);
-            
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + shoulderSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -107,7 +96,6 @@ public class ElbowLiner
             } else {
                 path.get(3).moveTo(ep.x, ep.y - shoulderSize);
             }
-            
             switch (soutcode) {
                 case Geom.OUT_RIGHT :
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
@@ -126,10 +114,8 @@ public class ElbowLiner
         } else {
             Point2D.Double sp = start.findStart(figure);
             Point2D.Double ep = end.findEnd(figure);
-            
             path.clear();
             path.add(new BezierPath.Node(sp.x,sp.y));
-            
             if (sp.x == ep.x || sp.y == ep.y) {
                 path.add(new BezierPath.Node(ep.x,ep.y));
             } else {
@@ -143,7 +129,6 @@ public class ElbowLiner
                 eb.y += 5d;
                 eb.width -= 10d;
                 eb.height -= 10d;
-                
                 int soutcode = sb.outcode(sp);
                 if (soutcode == 0) {
                     soutcode = Geom.outcode(sb, eb);
@@ -152,7 +137,6 @@ public class ElbowLiner
                 if (eoutcode == 0) {
                     eoutcode = Geom.outcode(eb, sb);
                 }
-                
                 if ((soutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0 &&
                         (eoutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0) {
                     path.add(new BezierPath.Node(sp.x, (sp.y + ep.y)/2));
@@ -166,23 +150,18 @@ public class ElbowLiner
                 } else {
                     path.add(new BezierPath.Node(ep.x, sp.y));
                 }
-                
                 path.add(new BezierPath.Node(ep.x,ep.y));
             }
         }
-        
         // Ensure all path nodes are straight
         for (BezierPath.Node node : path) {
             node.setMask(BezierPath.C0_MASK);
         }
-        
         path.invalidatePath();
     }
-    
     @Override
     public void read(DOMInput in) {
     }
-    
     @Override
     public void write(DOMOutput out) {
     }

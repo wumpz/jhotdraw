@@ -2,7 +2,7 @@
  * @(#)JPopupButtonBeanInfo.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -16,7 +16,6 @@ import java.beans.*;
  * @version $Id$
  */
 public class JPopupButtonBeanInfo extends SimpleBeanInfo {
-
     // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
     private static BeanDescriptor beanDescriptor = null;
     private static BeanDescriptor getBdescriptor(){
@@ -27,42 +26,32 @@ public class JPopupButtonBeanInfo extends SimpleBeanInfo {
         }
         beanDescriptor.setValue("isContainer", Boolean.FALSE);
         beanDescriptor.setDisplayName("JPopupButton");
-
         return beanDescriptor;     }//GEN-LAST:BeanDescriptor
-
     // Properties information will be obtained from introspection.//GEN-FIRST:Properties
     private static PropertyDescriptor[] properties = null;
-    private static PropertyDescriptor[] getPdescriptor(){//GEN-HEADEREND:Properties
-
+    private static PropertyDescriptor[] getPdescriptor(){ //GEN-HEADEREND:Properties
         // Here you can add code for customizing the properties array.
         return properties;     }//GEN-LAST:Properties
-
     // Event set information will be obtained from introspection.//GEN-FIRST:Events
     private static EventSetDescriptor[] eventSets = null;
-    private static EventSetDescriptor[] getEdescriptor(){//GEN-HEADEREND:Events
-
+    private static EventSetDescriptor[] getEdescriptor(){ //GEN-HEADEREND:Events
         // Here you can add code for customizing the event sets array.
         return eventSets;     }//GEN-LAST:Events
-
     // Method information will be obtained from introspection.//GEN-FIRST:Methods
     private static MethodDescriptor[] methods = null;
-    private static MethodDescriptor[] getMdescriptor(){//GEN-HEADEREND:Methods
-
+    private static MethodDescriptor[] getMdescriptor(){ //GEN-HEADEREND:Methods
         // Here you can add code for customizing the methods array.
         return methods;     }//GEN-LAST:Methods
-
-    private static java.awt.Image iconColor16 = null;//GEN-BEGIN:IconsDef
+    private static java.awt.Image iconColor16 = null; //GEN-BEGIN:IconsDef
     private static java.awt.Image iconColor32 = null;
     private static java.awt.Image iconMono16 = null;
-    private static java.awt.Image iconMono32 = null;//GEN-END:IconsDef
-    private static String iconNameC16 = null;//GEN-BEGIN:Icons
+    private static java.awt.Image iconMono32 = null; //GEN-END:IconsDef
+    private static String iconNameC16 = null; //GEN-BEGIN:Icons
     private static String iconNameC32 = null;
     private static String iconNameM16 = null;
-    private static String iconNameM32 = null;//GEN-END:Icons
-
-    private static int defaultPropertyIndex = -1;//GEN-BEGIN:Idx
-    private static int defaultEventIndex = -1;//GEN-END:Idx
-
+    private static String iconNameM32 = null; //GEN-END:Icons
+    private static int defaultPropertyIndex = -1; //GEN-BEGIN:Idx
+    private static int defaultEventIndex = -1; //GEN-END:Idx
 //GEN-FIRST:Superclass
     // Here you can add code for customizing the Superclass BeanInfo.
 //GEN-LAST:Superclass
@@ -212,5 +201,4 @@ public class JPopupButtonBeanInfo extends SimpleBeanInfo {
                 return null;
         }
     }
-
 }

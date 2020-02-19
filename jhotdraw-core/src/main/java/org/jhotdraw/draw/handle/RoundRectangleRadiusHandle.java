@@ -2,7 +2,7 @@
  * @(#)RoundRectRadiusHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -100,7 +100,6 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
                 Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
         Point2D.Double oldArc = view.viewToDrawing(originalArc);
         Point2D.Double newArc = view.viewToDrawing(viewArc);
-
         ResourceBundleUtil labels
                 = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         CompositeFigureEdit edit = new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));

@@ -80,67 +80,53 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     protected void installDefaults() {
         JTextComponent editor = getComponent();
         PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
-
         String prefix = getPropertyPrefix();
         Font f = editor.getFont();
         if ((f == null) || (f instanceof UIResource)) {
             editor.setFont(plaf.getFont(prefix + ".font"));
         }
-
         Color bg = editor.getBackground();
         if ((bg == null) || (bg instanceof UIResource)) {
             editor.setBackground(plaf.getColor(prefix + ".background"));
         }
-
         Color fg = editor.getForeground();
         if ((fg == null) || (fg instanceof UIResource)) {
             editor.setForeground(plaf.getColor(prefix + ".foreground"));
         }
-
         Color color = editor.getCaretColor();
         if ((color == null) || (color instanceof UIResource)) {
             editor.setCaretColor(plaf.getColor(prefix + ".caretForeground"));
         }
-
         Color s = editor.getSelectionColor();
         if ((s == null) || (s instanceof UIResource)) {
             editor.setSelectionColor(plaf.getColor(prefix + ".selectionBackground"));
         }
-
         Color sfg = editor.getSelectedTextColor();
         if ((sfg == null) || (sfg instanceof UIResource)) {
             editor.setSelectedTextColor(plaf.getColor(prefix + ".selectionForeground"));
         }
-
         Color dfg = editor.getDisabledTextColor();
         if ((dfg == null) || (dfg instanceof UIResource)) {
             editor.setDisabledTextColor(plaf.getColor(prefix + ".inactiveForeground"));
         }
-
         Border b = editor.getBorder();
         if ((b == null) || (b instanceof UIResource)) {
             editor.setBorder(plaf.getBorder(prefix + ".border"));
         }
-
         Insets margin = editor.getMargin();
         if (margin == null || margin instanceof UIResource) {
             editor.setMargin(plaf.getInsets(prefix + ".margin"));
         }
-
         errorIndicatorForeground = plaf.getColor(prefix + ".errorIndicatorForeground");
-
         editor.setOpaque(plaf.getBoolean(prefix + ".opaque"));
-
     }
 
     @Override
     protected void paintSafely(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
-
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
         super.paintSafely(g);
     }
 

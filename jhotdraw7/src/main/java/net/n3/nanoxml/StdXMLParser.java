@@ -25,16 +25,11 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
-
-
 /**
  * StdXMLParser is the core parser of NanoXML.
  *
@@ -45,32 +40,23 @@ import java.util.Properties;
 public class StdXMLParser
    implements IXMLParser
 {
-
    /**
     * The builder which creates the logical structure of the XML data.
     */
    private IXMLBuilder builder;
-
-
    /**
     * The reader from which the parser retrieves its data.
     */
    private IXMLReader reader;
-
-
    /**
     * The entity resolver.
     */
    private IXMLEntityResolver entityResolver;
-
-
    /**
     * The validator that will process entity references and validate the XML
     * data.
     */
    private IXMLValidator validator;
-
-
    /**
     * Creates a new parser.
     */
@@ -81,8 +67,6 @@ public class StdXMLParser
       this.reader = null;
       this.entityResolver = new XMLEntityResolver();
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -95,8 +79,6 @@ public class StdXMLParser
       this.validator = null;
       super.finalize();
    }
-
-
    /**
     * Sets the builder which creates the logical structure of the XML data.
     *
@@ -106,8 +88,6 @@ public class StdXMLParser
    {
       this.builder = builder;
    }
-
-
    /**
     * Returns the builder which creates the logical structure of the XML data.
     *
@@ -117,8 +97,6 @@ public class StdXMLParser
    {
       return this.builder;
    }
-
-
    /**
     * Sets the validator that validates the XML data.
     *
@@ -128,8 +106,6 @@ public class StdXMLParser
    {
       this.validator = validator;
    }
-
-
    /**
     * Returns the validator that validates the XML data.
     *
@@ -139,8 +115,6 @@ public class StdXMLParser
    {
       return this.validator;
    }
-
-
    /**
     * Sets the entity resolver.
     *
@@ -150,8 +124,6 @@ public class StdXMLParser
    {
       this.entityResolver = resolver;
    }
-
-
    /**
     * Returns the entity resolver.
     *
@@ -161,8 +133,6 @@ public class StdXMLParser
    {
       return this.entityResolver;
    }
-
-
    /**
     * Sets the reader from which the parser retrieves its data.
     *
@@ -172,8 +142,6 @@ public class StdXMLParser
    {
       this.reader = reader;
    }
-
-
    /**
     * Returns the reader from which the parser retrieves its data.
     *
@@ -183,15 +151,13 @@ public class StdXMLParser
    {
       return this.reader;
    }
-
-
    /**
     * Parses the data and lets the builder create the logical data structure.
     *
     * @return the logical structure built by the builder
     *
     * @throws net.n3.nanoxml.XMLException
-    *		if an error occurred reading or parsing the data
+    *  if an error occurred reading or parsing the data
     */
    public Object parse()
       throws XMLException
@@ -210,8 +176,6 @@ public class StdXMLParser
         // throw new XMLException(e);
       }
    }
-
-
    /**
     * Scans the XML data for elements.
     *
@@ -228,21 +192,18 @@ public class StdXMLParser
             XMLUtil.processEntity(str, this.reader, this.entityResolver);
             continue;
          }
-
          switch (ch) {
             case '<':
                this.scanSomeTag(false, // don't allow CDATA
                                 null,  // no default namespace
                                 new Properties());
                break;
-
             case ' ':
             case '\t':
             case '\r':
             case '\n':
                // skip whitespace
                break;
-
             default:
                XMLUtil.errorInvalidInput(reader.getSystemID(),
                                          reader.getLineNr(),
@@ -252,8 +213,6 @@ public class StdXMLParser
          }
       }
    }
-
-
    /**
     * Scans an XML tag.
     *
@@ -271,29 +230,23 @@ public class StdXMLParser
    {
       String str = XMLUtil.read(this.reader, '&');
       char ch = str.charAt(0);
-
       if (ch == '&') {
          XMLUtil.errorUnexpectedEntity(reader.getSystemID(),
                                        reader.getLineNr(),
                                        str);
       }
-
       switch (ch) {
          case '?':
             this.processPI();
             break;
-
          case '!':
             this.processSpecialTag(allowCDATA);
             break;
-
          default:
             this.reader.unread(ch);
             this.processElement(defaultNamespace, namespaces);
       }
    }
-
-
    /**
     * Processes a "processing instruction".
     *
@@ -307,15 +260,11 @@ public class StdXMLParser
       String target = XMLUtil.scanIdentifier(this.reader);
       XMLUtil.skipWhitespace(this.reader, null);
       Reader reader = new PIReader(this.reader);
-
       if (! target.equalsIgnoreCase("xml")) {
          this.builder.newProcessingInstruction(target, reader);
       }
-
       reader.close();
    }
-
-
    /**
     * Processes a tag that starts with a bang (&lt;!...&gt;).
     *
@@ -329,13 +278,11 @@ public class StdXMLParser
    {
       String str = XMLUtil.read(this.reader, '&');
       char ch = str.charAt(0);
-
       if (ch == '&') {
          XMLUtil.errorUnexpectedEntity(reader.getSystemID(),
                                        reader.getLineNr(),
                                        str);
       }
-
       switch (ch) {
          case '[':
             if (allowCDATA) {
@@ -344,20 +291,15 @@ public class StdXMLParser
                XMLUtil.errorUnexpectedCDATA(reader.getSystemID(),
                                             reader.getLineNr());
             }
-
             return;
-
          case 'D':
             this.processDocType();
             return;
-
          case '-':
             XMLUtil.skipComment(this.reader);
             return;
       }
    }
-
-
    /**
     * Processes a CDATA section.
     *
@@ -372,7 +314,6 @@ public class StdXMLParser
                                     reader.getLineNr(),
                                     "<![[CDATA[");
       }
-
       this.validator.PCDataAdded(this.reader.getSystemID(),
                                  this.reader.getLineNr());
       Reader reader = new CDATAReader(this.reader);
@@ -380,13 +321,11 @@ public class StdXMLParser
                              this.reader.getLineNr());
       reader.close();
    }
-
-
    /**
     * Processes a document type declaration.
     *
     * @throws java.lang.Exception
-    *		if an error occurred reading or parsing the data
+    *  if an error occurred reading or parsing the data
     */
    protected void processDocType()
       throws Exception
@@ -397,14 +336,12 @@ public class StdXMLParser
                                     "<!DOCTYPE");
          return;
       }
-
       XMLUtil.skipWhitespace(this.reader, null);
       String systemID = null;
       StringBuffer publicID = new StringBuffer();
       String rootElement = XMLUtil.scanIdentifier(this.reader);
       XMLUtil.skipWhitespace(this.reader, null);
       char ch = this.reader.read();
-
       if (ch == 'P') {
          systemID = XMLUtil.scanPublicID(publicID, reader);
          XMLUtil.skipWhitespace(this.reader, null);
@@ -414,7 +351,6 @@ public class StdXMLParser
          XMLUtil.skipWhitespace(this.reader, null);
          ch = this.reader.read();
       }
-
       if (ch == '[') {
          this.validator.parseDTD(publicID.toString(),
                                  this.reader,
@@ -423,7 +359,6 @@ public class StdXMLParser
          XMLUtil.skipWhitespace(this.reader, null);
          ch = this.reader.read();
       }
-
       if (ch != '>') {
          XMLUtil.errorExpectedInput(reader.getSystemID(),
                                     reader.getLineNr(),
@@ -445,8 +380,6 @@ public class StdXMLParser
       }
 // END PATCH W. Randelshofer Don't read DTD
    }
-
-
    /**
     * Processes a regular element.
     *
@@ -465,40 +398,32 @@ public class StdXMLParser
       XMLUtil.skipWhitespace(this.reader, null);
       String prefix = null;
       int colonIndex = name.indexOf(':');
-
       if (colonIndex > 0) {
          prefix = name.substring(0, colonIndex);
          name = name.substring(colonIndex + 1);
       }
-
       ArrayList<String> attrNames = new ArrayList<String>();
       ArrayList<String> attrValues = new ArrayList<String>();
       ArrayList<String> attrTypes = new ArrayList<String>();
-
       this.validator.elementStarted(fullName,
                                     this.reader.getSystemID(),
                                     this.reader.getLineNr());
       char ch;
-
       for (;;) {
          ch = this.reader.read();
-
          if ((ch == '/') || (ch == '>')) {
             break;
          }
-
          this.reader.unread(ch);
          this.processAttribute(attrNames, attrValues, attrTypes);
          XMLUtil.skipWhitespace(this.reader, null);
       }
-
       Properties extraAttributes = new Properties();
       this.validator.elementAttributesProcessed(fullName,
                                                 extraAttributes,
                                                 this.reader.getSystemID(),
                                                 this.reader.getLineNr());
       Enumeration<Object> enm = extraAttributes.keys();
-
       while (enm.hasMoreElements()) {
          String key = (String) enm.nextElement();
          String value = extraAttributes.getProperty(key);
@@ -506,19 +431,16 @@ public class StdXMLParser
          attrValues.add(value);
          attrTypes.add("CDATA");
       }
-
       for (int i = 0; i < attrNames.size(); i++) {
          String key = attrNames.get(i);
          String value = attrValues.get(i);
          String type = attrTypes.get(i);
-
          if ("xmlns".equals(key)) {
             defaultNamespace = value;
          } else if (key.startsWith("xmlns:")) {
             namespaces.put(key.substring(6), value);
          }
       }
-
       if (prefix == null) {
          this.builder.startElement(name, prefix, defaultNamespace,
                                    this.reader.getSystemID(),
@@ -529,18 +451,14 @@ public class StdXMLParser
                                    this.reader.getSystemID(),
                                    this.reader.getLineNr());
       }
-
       for (int i = 0; i < attrNames.size(); i++) {
          String key = attrNames.get(i);
-
          if (key.startsWith("xmlns")) {
             continue;
          }
-
          String value = attrValues.get(i);
          String type = attrTypes.get(i);
          colonIndex = key.indexOf(':');
-
          if (colonIndex > 0) {
             String attPrefix = key.substring(0, colonIndex);
             key = key.substring(colonIndex + 1);
@@ -551,7 +469,6 @@ public class StdXMLParser
             this.builder.addAttribute(key, null, null, value, type);
          }
       }
-
       if (prefix == null) {
          this.builder.elementAttributesProcessed(name, prefix,
                                                  defaultNamespace);
@@ -560,38 +477,30 @@ public class StdXMLParser
                                                  namespaces
                                                    .getProperty(prefix));
       }
-
       if (ch == '/') {
          if (this.reader.read() != '>') {
             XMLUtil.errorExpectedInput(reader.getSystemID(),
                                        reader.getLineNr(),
                                        "`>'");
          }
-
          this.validator.elementEnded(name,
                                      this.reader.getSystemID(),
                                      this.reader.getLineNr());
-
          if (prefix == null) {
             this.builder.endElement(name, prefix, defaultNamespace);
          } else {
             this.builder.endElement(name, prefix,
                                     namespaces.getProperty(prefix));
          }
-
          return;
       }
-
       StringBuffer buffer = new StringBuffer(16);
-
       for (;;) {
          buffer.setLength(0);
          String str;
-
          for (;;) {
             XMLUtil.skipWhitespace(this.reader, buffer);
             str = XMLUtil.read(this.reader, '&');
-
             if ((str.charAt(0) == '&') && (str.charAt(1) != '#')) {
                XMLUtil.processEntity(str, this.reader,
                                      this.entityResolver);
@@ -599,27 +508,21 @@ public class StdXMLParser
                break;
             }
          }
-
          if (str.charAt(0) == '<') {
             str = XMLUtil.read(this.reader, '\0');
-
             if (str.charAt(0) == '/') {
                XMLUtil.skipWhitespace(this.reader, null);
                str = XMLUtil.scanIdentifier(this.reader);
-
                if (! str.equals(fullName)) {
                   XMLUtil.errorWrongClosingTag(reader.getSystemID(),
                                                reader.getLineNr(),
                                                name, str);
                }
-
                XMLUtil.skipWhitespace(this.reader, null);
-
                if (this.reader.read() != '>') {
                   XMLUtil.errorClosingTagNotEmpty(reader.getSystemID(),
                                                   reader.getLineNr());
                }
-
                this.validator.elementEnded(fullName,
                                            this.reader.getSystemID(),
                                            this.reader.getLineNr());
@@ -654,8 +557,6 @@ public class StdXMLParser
          }
       }
    }
-
-
    /**
     * Processes an attribute of an element.
     *
@@ -673,13 +574,11 @@ public class StdXMLParser
    {
       String key = XMLUtil.scanIdentifier(this.reader);
       XMLUtil.skipWhitespace(this.reader, null);
-
       if (! "=".equals(XMLUtil.read(this.reader, '&'))) {
          XMLUtil.errorExpectedInput(reader.getSystemID(),
                                     reader.getLineNr(),
                                     "`='");
       }
-
       XMLUtil.skipWhitespace(this.reader, null);
       String value = XMLUtil.scanString(this.reader, '&',
                                         this.entityResolver);
@@ -690,5 +589,4 @@ public class StdXMLParser
                                     this.reader.getSystemID(),
                                     this.reader.getLineNr());
    }
-
 }

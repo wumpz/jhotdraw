@@ -2,12 +2,10 @@
  * @(#)AbstractSaveUnsavedChangesAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action;
-
-
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -22,7 +20,6 @@ import org.jhotdraw.app.View;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * This abstract class can be extended to implement an {@code Action} that asks
  * to save unsaved changes of a {@link org.jhotdraw.app.View} before a destructive
@@ -41,15 +38,11 @@ import org.jhotdraw.net.URIUtil;
  */
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
     private static final long serialVersionUID = 1L;
-
-    
     private Component oldFocusOwner;
-
     /** Creates a new instance. */
     public AbstractSaveUnsavedChangesAction(Application app, View view) {
         super(app, view);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         Application app=getApplication();
@@ -69,7 +62,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             Window wAncestor = SwingUtilities.getWindowAncestor(v.getComponent());
             oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
             v.setEnabled(false);
-
             if (v.hasUnsavedChanges()) {
                 URI unsavedURI = v.getURI();
                 JOptionPane pane = new JOptionPane(
@@ -78,16 +70,15 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                         (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>" +
                         labels.getString("file.saveBefore.doYouWantToSave.details"),
                         JOptionPane.WARNING_MESSAGE);
-                Object[] options = { 
+                Object[] options = {
                     labels.getString("file.saveBefore.saveOption.text"),
-                    labels.getString("file.saveBefore.cancelOption.text"), 
+                    labels.getString("file.saveBefore.cancelOption.text"),
                     labels.getString("file.saveBefore.dontSaveOption.text")
                 };
                 pane.setOptions(options);
                 pane.setInitialValue(options[0]);
                 pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                 JSheet.showSheet(pane, v.getComponent(), new SheetListener() {
-
                     @Override
                     public void optionSelected(SheetEvent evt) {
                         Object value = evt.getValue();
@@ -101,7 +92,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                         }
                     }
                 });
-
             } else {
                 doIt(v);
                 v.setEnabled(true);
@@ -111,7 +101,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             }
         }
     }
-
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
         if (chsr == null) {
@@ -120,13 +109,11 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         }
         return chsr;
     }
-
     protected void saveView(final View v) {
         if (v.getURI() == null) {
             URIChooser chooser = getChooser(v);
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -149,22 +136,18 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             saveViewToURI(v, v.getURI(), null);
         }
     }
-
     protected void saveViewToURI(final View v, final URI uri, final URIChooser chooser) {
         v.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 v.write(uri, chooser);
             }
-
             @Override
             protected void done() {
                 v.setURI(uri);
                 v.markChangesAsSaved();
                 doIt(v);
             }
-
             @Override
             protected void failed(Throwable value) {
                 String message = (value.getMessage() != null) ? value.getMessage() : value.toString();
@@ -175,7 +158,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                         + ((message == null) ? "" : message),
                         JOptionPane.ERROR_MESSAGE);
             }
-
             @Override
             protected void finished() {
                 v.setEnabled(true);
@@ -185,7 +167,5 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             }
         });
     }
-    
-
     protected abstract void doIt(View p);
 }

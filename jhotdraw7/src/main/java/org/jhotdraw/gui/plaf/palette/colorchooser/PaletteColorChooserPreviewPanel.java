@@ -1,18 +1,15 @@
 /*
- * @(#)PaletteColorChooserPreviewPanel.java  
+ * @(#)PaletteColorChooserPreviewPanel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette.colorchooser;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
-
 /**
  * PaletteColorChooserPreviewPanel.
  *
@@ -29,7 +26,6 @@ public class PaletteColorChooserPreviewPanel extends JPanel implements UIResourc
         //setBorder(new VisualMargin(3,0,3,0));
         setToolTipText("on"); // set dummy text, to switch tooltip on
     }
-    
     public void paintComponent(Graphics g) {
         Insets insets = getInsets();
         int x = insets.left;
@@ -43,12 +39,10 @@ public class PaletteColorChooserPreviewPanel extends JPanel implements UIResourc
         g.setColor(getForeground());
         g.fillRect(x+2,y+2,w-4,h-4);
     }
-    
     public String getToolTipText(MouseEvent evt) {
         Color color = getForeground();
         return (color == null) ? null : color.getRed()+", "+ color.getGreen() + ", " + color.getBlue();
     }
-    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -56,13 +50,9 @@ public class PaletteColorChooserPreviewPanel extends JPanel implements UIResourc
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setPreferredSize(new java.awt.Dimension(26, 26));
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    
 }

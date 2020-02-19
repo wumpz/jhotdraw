@@ -2,12 +2,10 @@
  * @(#)CompositeModel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.undo;
-
 import javax.swing.undo.*;
 /**
  * This is basically the same like javax.swing.undo.CompoundEdit but
@@ -37,7 +35,6 @@ public class CompositeEdit extends CompoundEdit {
     private String presentationName;
     private boolean isSignificant;
     private boolean isVerbose;
-    
     public void setVerbose(boolean b) {
         isVerbose = b;
     }
@@ -84,7 +81,6 @@ public class CompositeEdit extends CompoundEdit {
         this.presentationName = presentationName;
         this.isSignificant = isSignificant;
     }
-    
     /**
      * Returns the presentation name.
      * If the presentation name is null, then CompoundEdit.getPresentatioName
@@ -115,7 +111,6 @@ public class CompositeEdit extends CompoundEdit {
     public String getRedoPresentationName() {
         return ((presentationName != null) ? UndoRedoManager.getLabels().getString("edit.redo.text")+" "+presentationName : super.getRedoPresentationName());
     }
-    
     /**
      * If this edit is inProgress, accepts anEdit and returns
      * true.
@@ -139,7 +134,6 @@ public class CompositeEdit extends CompoundEdit {
             return super.addEdit(anEdit);
         }
     }
-    
     /**
      * Returns false if this edit is insignificant - for example one
      * that maintains the user's selection, but does not change

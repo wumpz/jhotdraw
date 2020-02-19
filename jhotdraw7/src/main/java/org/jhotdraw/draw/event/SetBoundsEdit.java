@@ -2,13 +2,10 @@
  * @(#)SetBoundsEdit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
 import java.awt.geom.*;
@@ -23,7 +20,6 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
     private AbstractFigure owner;
     private Point2D.Double oldAnchor, oldLead;
     private Point2D.Double newAnchor, newLead;
-    
     /** Creates a new instance. */
     public SetBoundsEdit(AbstractFigure owner, Point2D.Double oldAnchor, Point2D.Double oldLead, Point2D.Double newAnchor, Point2D.Double newLead) {
         this.owner = owner;
@@ -37,7 +33,6 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         // XXX - Localize me
         return "Abmessungen \u00e4ndern";
     }
-    
     @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof SetBoundsEdit) {
@@ -64,7 +59,6 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         }
         return false;
     }
-    
     @Override
     public void redo() throws CannotRedoException {
         super.redo();

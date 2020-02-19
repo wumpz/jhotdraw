@@ -2,8 +2,8 @@
  * @(#)JActivityView.java  2.1 2011-05-01
  *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -35,7 +35,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class JActivityView extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
-
     public static final String REQUEST_REMOVE_PROPERTY = "requestRemove";
     private ActivityModel model;
 
@@ -55,7 +54,6 @@ public class JActivityView extends javax.swing.JPanel {
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
             ActivityManager.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     updateProperties(evt);
@@ -164,7 +162,6 @@ public class JActivityView extends javax.swing.JPanel {
     private void updateLabelVisibility() {
         boolean isError = model.getError() != null;
         boolean isWarning = model.getWarning() != null;
-
         errorLabel.setVisible(isError);
         warningLabel.setVisible(!isError && isWarning);
         noteLabel.setVisible(!isError && !isWarning);
@@ -205,7 +202,6 @@ public class JActivityView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         titleLabel = new javax.swing.JLabel();
         noteLabel = new javax.swing.JLabel();
         warningLabel = new javax.swing.JLabel();
@@ -214,9 +210,7 @@ public class JActivityView extends javax.swing.JPanel {
         cancelButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
         separator = new javax.swing.JSeparator();
-
         setLayout(new java.awt.GridBagLayout());
-
         titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | java.awt.Font.BOLD));
         titleLabel.setText("title");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -226,7 +220,6 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 12);
         add(titleLabel, gridBagConstraints);
-
         noteLabel.setFont(noteLabel.getFont().deriveFont(noteLabel.getFont().getSize()-2f));
         noteLabel.setText("note");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -236,7 +229,6 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 12, 0, 12);
         add(noteLabel, gridBagConstraints);
-
         warningLabel.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         warningLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jhotdraw/gui/images/ProgressView.warningIcon.png"))); // NOI18N
         warningLabel.setText("warning");
@@ -246,7 +238,6 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 12, 0, 12);
         add(warningLabel, gridBagConstraints);
-
         errorLabel.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         errorLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jhotdraw/gui/images/ProgressView.errorIcon.png"))); // NOI18N
         errorLabel.setText("error");
@@ -264,7 +255,6 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
         add(progressBar, gridBagConstraints);
-
         cancelButton.setText(labels.getString("ActivityView.cancel.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,7 +267,6 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 0, 12, 12);
         add(cancelButton, gridBagConstraints);
-
         closeButton.setText(labels.getString("ActivityView.close.text")); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,16 +288,13 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(separator, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
+    private void close(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_close
         closeButton.setEnabled(false);
         putClientProperty(REQUEST_REMOVE_PROPERTY, true);
     }//GEN-LAST:event_close
-
-    private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
+    private void cancel(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cancel
         model.cancel();
         model.setNote("Cancelling...");
-
     }//GEN-LAST:event_cancel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

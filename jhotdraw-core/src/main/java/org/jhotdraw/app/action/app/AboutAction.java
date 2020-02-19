@@ -2,7 +2,7 @@
  * @(#)AboutAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
@@ -32,7 +32,6 @@ import org.jhotdraw.util.*;
 public class AboutAction extends AbstractApplicationAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.about";
 
     /**
@@ -47,15 +46,12 @@ public class AboutAction extends AbstractApplicationAction {
     @Override
     public void actionPerformed(ActionEvent evt) {
         Application app = getApplication();
-
         Component c = app.getComponent();
-
         // This ensures that we open the option pane on the center of the screen
         // on Mac OS X.
         if (c == null || c.getBounds().isEmpty()) {
             c = null;
         }
-
         JOptionPane.showMessageDialog(c,
                 "<html>" + UIManager.getString("OptionPane.css")
                 + "<p><b>" + app.getName() + (app.getVersion() == null ? "" : " " + app.getVersion()) + "</b><br>" + app.getCopyright().replace("\n", "<br>")

@@ -2,11 +2,10 @@
  * @(#)OSXOpenFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
-
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import java.awt.event.*;
@@ -17,7 +16,6 @@ import org.jhotdraw.app.PrintableView;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.gui.BackgroundTask;
-
 /**
  * Prints a file for which a print request was sent to the application.
  * <p>
@@ -39,17 +37,14 @@ import org.jhotdraw.gui.BackgroundTask;
  */
 public class PrintApplicationFileAction extends PrintFileAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.printFile";
     private JFileChooser fileChooser;
     private int entries;
-
     /** Creates a new instance. */
     public PrintApplicationFileAction(Application app) {
         super(app, null);
         putValue(Action.NAME, "OSX Print File");
     }
-
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         final String filename = evt.getActionCommand();
@@ -62,12 +57,10 @@ public class PrintApplicationFileAction extends PrintFileAction {
         app.add(p);
 //            app.show(p);
         p.execute(new BackgroundTask() {
-
             @Override
             public void construct() throws IOException {
                 p.read(new File(filename).toURI(), null);
             }
-
             @Override
             protected void done() {
                 p.setURI(new File(filename).toURI());
@@ -80,7 +73,6 @@ public class PrintApplicationFileAction extends PrintFileAction {
                 p.setEnabled(true);
                 app.dispose(p);
             }
-
             @Override
             protected void failed(Throwable value) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

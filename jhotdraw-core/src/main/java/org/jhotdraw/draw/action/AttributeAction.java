@@ -2,7 +2,7 @@
  * @(#)AttributeAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -24,7 +24,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class AttributeAction extends AbstractSelectedAction {
 
     private static final long serialVersionUID = 1L;
-
     protected Map<AttributeKey<?>, Object> attributes;
 
     /**
@@ -59,7 +58,6 @@ public class AttributeAction extends AbstractSelectedAction {
         super(editor);
         this.attributes = new HashMap<>();
         attributes.put(key, value);
-
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         putValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY, key.getPresentationName());
@@ -69,7 +67,6 @@ public class AttributeAction extends AbstractSelectedAction {
     public AttributeAction(DrawingEditor editor, Map<AttributeKey<?>, Object> attributes, String name, Icon icon) {
         super(editor);
         this.attributes = (attributes == null) ? new HashMap<>() : attributes;
-
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         updateEnabledState();
@@ -92,7 +89,6 @@ public class AttributeAction extends AbstractSelectedAction {
         for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
             getEditor().setDefaultAttribute((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
-
         final ArrayList<Figure> selectedFigures = new ArrayList<>(figures);
         final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
         for (Figure figure : selectedFigures) {

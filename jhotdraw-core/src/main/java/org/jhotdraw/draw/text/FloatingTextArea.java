@@ -2,7 +2,7 @@
  *  @(#)FloatingTextArea.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.text;
@@ -54,7 +54,6 @@ public class FloatingTextArea {
     protected DrawingView view;
     private TextHolderFigure editedFigure;
     private FigureListener figureHandler = new FigureAdapter() {
-
         @Override
         public void attributeChanged(FigureEvent e) {
             updateWidget();
@@ -156,7 +155,6 @@ public class FloatingTextArea {
         if (editScrollContainer != null) {
             editScrollContainer.setVisible(false);
             view.getComponent().remove(editScrollContainer);
-
             Rectangle bounds = editScrollContainer.getBounds();
             view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }

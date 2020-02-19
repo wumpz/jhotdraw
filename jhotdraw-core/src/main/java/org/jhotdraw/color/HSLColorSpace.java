@@ -1,9 +1,9 @@
 /*
  * @(#)HSLColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -21,7 +21,6 @@ import static java.lang.Math.*;
 public class HSLColorSpace extends AbstractNamedColorSpace {
 
     private static final long serialVersionUID = 1L;
-
     private static HSLColorSpace instance;
 
     public static HSLColorSpace getInstance() {
@@ -40,7 +39,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         float hue = components[0];
         float saturation = components[1];
         float lightness = components[2];
-
         // compute p and q from saturation and lightness
         float q;
         if (lightness < 0.5f) {
@@ -49,34 +47,28 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
             q = lightness + saturation - (lightness * saturation);
         }
         float p = 2f * lightness - q;
-
         // normalize hue to -1..+1
         float hk = hue - (float) Math.floor(hue); // / 360f;
-
         // compute red, green and blue
         float red = hk + 1f / 3f;
         float green = hk;
         float blue = hk - 1f / 3f;
-
         // normalize rgb values
         if (red < 0) {
             red = red + 1f;
         } else if (red > 1) {
             red = red - 1f;
         }
-
         if (green < 0) {
             green = green + 1f;
         } else if (green > 1) {
             green = green - 1f;
         }
-
         if (blue < 0) {
             blue = blue + 1f;
         } else if (blue > 1) {
             blue = blue - 1f;
         }
-
         // adjust rgb values
         if (red < 1f / 6f) {
             red = p + ((q - p) * 6 * red);
@@ -87,7 +79,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         } else {
             red = p;
         }
-
         if (green < 1f / 6f) {
             green = p + ((q - p) * 6 * green);
         } else if (green < 0.5f) {
@@ -97,7 +88,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         } else {
             green = p;
         }
-
         if (blue < 1f / 6f) {
             blue = p + ((q - p) * 6 * blue);
         } else if (blue < 0.5f) {
@@ -107,7 +97,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         } else {
             blue = p;
         }
-
         rgb[0] = clamp(red, 0, 1);
         rgb[1] = clamp(green, 0, 1);
         rgb[2] = clamp(blue, 0, 1);
@@ -119,14 +108,11 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
         float b = rgbvalue[2];
-
         float max = Math.max(Math.max(r, g), b);
         float min = Math.min(Math.min(r, g), b);
-
         float hue;
         float saturation;
         float luminance;
-
         if (max == min) {
             hue = 0;
         } else if (max == r && g >= b) {
@@ -138,9 +124,7 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         } else /*if (max == b)*/ {
             hue = 60f * (r - g) / (max - min) + 240f;
         }
-
         luminance = (max + min) / 2f;
-
         if (max == min) {
             saturation = 0;
         } else if (luminance <= 0.5f) {
@@ -148,7 +132,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         } else /* if (lightness  > 0.5f)*/ {
             saturation = (max - min) / (2 - (max + min));
         }
-
         component[0] = hue / 360f;
         component[1] = saturation;
         component[2] = luminance;
@@ -186,7 +169,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public int hashCode() {
-
         return getClass().getSimpleName().hashCode();
     }
 

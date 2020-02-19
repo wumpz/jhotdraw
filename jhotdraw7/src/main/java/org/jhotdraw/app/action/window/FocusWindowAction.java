@@ -2,12 +2,10 @@
  * @(#)FocusWindowAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.window;
-
-
 import org.jhotdraw.util.*;
 import java.beans.*;
 import java.awt.*;
@@ -16,7 +14,6 @@ import javax.swing.*;
 import java.net.URI;
 import org.jhotdraw.app.View;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * Requests focus for a Frame.
  *
@@ -25,11 +22,9 @@ import org.jhotdraw.net.URIUtil;
  */
 public class FocusWindowAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "window.focus";
     private View view;
     private PropertyChangeListener ppc;
-
     /** Creates a new instance. */
     public FocusWindowAction(View view) {
         this.view = view;
@@ -37,9 +32,7 @@ public class FocusWindowAction extends AbstractAction {
         labels.configureAction(this, ID);
         //setEnabled(false);
         setEnabled(view != null);
-
         ppc = new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
@@ -52,11 +45,9 @@ public class FocusWindowAction extends AbstractAction {
             view.addPropertyChangeListener(ppc);
         }
     }
-
     public void dispose() {
         setView(null);
     }
-
     public void setView(View newValue) {
         if (view != null) {
             view.removePropertyChangeListener(ppc);
@@ -66,7 +57,6 @@ public class FocusWindowAction extends AbstractAction {
             view.addPropertyChangeListener(ppc);
         }
     }
-
     @Override
     public Object getValue(String key) {
         if (Action.NAME.equals(key) && view != null) {
@@ -75,7 +65,6 @@ public class FocusWindowAction extends AbstractAction {
             return super.getValue(key);
         }
     }
-
     private String getTitle() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         String title = labels.getString("unnamedFile");
@@ -93,19 +82,15 @@ public class FocusWindowAction extends AbstractAction {
                     view.getApplication() == null?"":view.getApplication().getName(), view.getMultipleOpenId()));
         }
         return title;
-
     }
-
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
                 view.getComponent());
     }
-
     private Component getRootPaneContainer() {
         return SwingUtilities.getRootPane(
                 view.getComponent()).getParent();
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         /*

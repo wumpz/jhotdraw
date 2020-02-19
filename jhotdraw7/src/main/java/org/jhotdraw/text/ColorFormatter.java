@@ -1,14 +1,12 @@
 /*
  * @(#)ColorFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
-
-
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.text.DecimalFormat;
@@ -23,7 +21,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.color.ColorUtil;
 import org.jhotdraw.color.HSBColorSpace;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * {@code ColorFormatter} is used to format colors into a textual representation
  * which can be edited in an entry field.
@@ -37,7 +34,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * If only 3 digits are entered, they are expanded to 6 digits by
  * replicating each digit.<br>
  * This syntactical form can represent 16777216 colors.
- * Examples: {@code #9400D3} (i.e. a dark violet), {@code #FFD700} 
+ * Examples: {@code #9400D3} (i.e. a dark violet), {@code #FFD700}
  * (i.e. a golden color), {@code #000} (i.e. black) {@code #fff} (i.e. white).
  * </li>
  * <li><b>Format.RGB_INTEGER_SHORT</b> - {@code red green blue},
@@ -50,7 +47,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * </li>
  * <li><b>Format.RGB_INTEGER</b> - {@code "rgb" red green blue},
  * or {@code red green blue} optionally separated by commas.<br>
- * Each value represents one sRGB color component. 
+ * Each value represents one sRGB color component.
  * Each value is in the range 0 to 255.
  * This syntactical form can represent 16777216 colors.
  * Examples: {@code rgb 233 150 122} (i.e. a salmon pink), {@code rgb 255 165 0}
@@ -58,7 +55,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * </li>
  * <li><b>Format.RGB_PERCENTAGE</b> - {@code "rgb%" red green blue},
  * or {@code red"%" green"%" blue"%"} optionally separated by commas.<br>
- * Each value represents one sRGB color component. 
+ * Each value represents one sRGB color component.
  * Each value is in the range 0.0 to 100.0.
  * This syntactical form can represent 10^9 colors.
  * </li>
@@ -85,12 +82,10 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public class ColorFormatter extends DefaultFormatter {
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies the formats supported by ColorFormatter.
      */
     public enum Format {
-
         RGB_HEX,
         RGB_INTEGER_SHORT,
         RGB_INTEGER,
@@ -147,11 +142,9 @@ public class ColorFormatter extends DefaultFormatter {
      */
     protected Preferences prefs;
     protected DecimalFormat numberFormat;
-
     public ColorFormatter() {
         this(Format.RGB_INTEGER, true, true);
     }
-
     public ColorFormatter(Format outputFormat, boolean allowsNullValue, boolean isAdaptive) {
         this.outputFormat = outputFormat;
         this.allowsNullValue = allowsNullValue;
@@ -162,7 +155,6 @@ public class ColorFormatter extends DefaultFormatter {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator('.');
         numberFormat.setDecimalFormatSymbols(dfs);
-
         // Retrieve last used input format from preferences
         prefs = PreferencesUtil.userNodeForPackage(getClass());
         try {
@@ -173,10 +165,8 @@ public class ColorFormatter extends DefaultFormatter {
         if (isAdaptive && lastUsedInputFormat != null) {
             this.outputFormat = lastUsedInputFormat;
         }
-
         setOverwriteMode(false);
     }
-
     /**
      * Sets the output format.
      * @param newValue
@@ -187,21 +177,18 @@ public class ColorFormatter extends DefaultFormatter {
         }
         outputFormat = newValue;
     }
-
     /**
      * Gets the output format.
      */
     public Format getOutputFormat() {
         return outputFormat;
     }
-
     /**
      * Gets the last used input format.
      */
     public Format getLastUsedInputFormat() {
         return lastUsedInputFormat;
     }
-
     /**
      * Sets whether a null value is allowed.
      * @param newValue
@@ -209,14 +196,12 @@ public class ColorFormatter extends DefaultFormatter {
     public void setAllowsNullValue(boolean newValue) {
         allowsNullValue = newValue;
     }
-
     /**
      * Returns true, if null value is allowed.
      */
     public boolean getAllowsNullValue() {
         return allowsNullValue;
     }
-
     /**
      * Sets whether the color formatter adaptively selects its output
      * format depending on the last input format used by the user.
@@ -229,14 +214,12 @@ public class ColorFormatter extends DefaultFormatter {
             outputFormat = lastUsedInputFormat;
         }
     }
-
     /**
      * Returns true, if the color formatter is adaptive.
      */
     public boolean isAdaptive() {
         return isAdaptive;
     }
-
     private void setLastUsedInputFormat(Format newValue) {
         lastUsedInputFormat = newValue;
         if (isAdaptive) {
@@ -244,10 +227,8 @@ public class ColorFormatter extends DefaultFormatter {
         }
         prefs.put("ColorFormatter.lastUsedInputFormat", newValue.name());
     }
-
     @Override
     public Object stringToValue(String str) throws ParseException {
-
         // Handle null and empty case
         if (str == null || str.trim().length() == 0) {
             if (allowsNullValue) {
@@ -256,7 +237,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw new ParseException("Null value is not allowed.", 0);
             }
         }
-
         // Format RGB_HEX
         Matcher matcher = rgbHexPattern.matcher(str);
         if (matcher.matches()) {
@@ -265,9 +245,9 @@ public class ColorFormatter extends DefaultFormatter {
                 String group1 = matcher.group(1);
                 if (group1.length() == 3) {
                     return new Color(Integer.parseInt(
-                            "" + group1.charAt(0) + group1.charAt(0) + 
-                            group1.charAt(1) + group1.charAt(1) + 
-                            group1.charAt(2) + group1.charAt(2), 
+                            "" + group1.charAt(0) + group1.charAt(0) +
+                            group1.charAt(1) + group1.charAt(1) +
+                            group1.charAt(2) + group1.charAt(2),
                             16));
                 } else if (group1.length() == 6) {
                     return new Color(Integer.parseInt(group1, 16));
@@ -280,7 +260,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format RGB_INTEGER_SHORT and RGB_INTEGER
         matcher = rgbIntegerShortPattern.matcher(str);
         if (matcher.matches()) {
@@ -294,8 +273,8 @@ public class ColorFormatter extends DefaultFormatter {
         if (matcher.matches()) {
             try {
                 return new Color(
-                        Integer.parseInt(matcher.group(1)), 
-                        Integer.parseInt(matcher.group(2)), 
+                        Integer.parseInt(matcher.group(1)),
+                        Integer.parseInt(matcher.group(2)),
                         Integer.parseInt(matcher.group(3)));
             } catch (NumberFormatException nfe) {
                 ParseException pe = new ParseException(str, 0);
@@ -307,15 +286,14 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format RGB_PERCENTAGE
         matcher = rgbPercentagePattern.matcher(str);
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.RGB_PERCENTAGE);
             try {
                 return new Color(
-                        numberFormat.parse(matcher.group(1)).floatValue() / 100f, 
-                        numberFormat.parse(matcher.group(2)).floatValue() / 100f, 
+                        numberFormat.parse(matcher.group(1)).floatValue() / 100f,
+                        numberFormat.parse(matcher.group(2)).floatValue() / 100f,
                         numberFormat.parse(matcher.group(3)).floatValue() / 100f);
             } catch (NumberFormatException nfe) {
                 ParseException pe = new ParseException(str, 0);
@@ -327,7 +305,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format HSB_PERCENTAGE
         matcher = hsbPercentagePattern.matcher(str);
         if (matcher.matches()) {
@@ -335,8 +312,8 @@ public class ColorFormatter extends DefaultFormatter {
             try {
                 return new Color(HSBColorSpace.getInstance(),
                         new float[]{
-                            matcher.group(1) == null ? 0f : numberFormat.parse(matcher.group(1)).floatValue() / 360f, 
-                            matcher.group(2) == null ? 1f : numberFormat.parse(matcher.group(2)).floatValue() / 100f, 
+                            matcher.group(1) == null ? 0f : numberFormat.parse(matcher.group(1)).floatValue() / 360f,
+                            matcher.group(2) == null ? 1f : numberFormat.parse(matcher.group(2)).floatValue() / 100f,
                             matcher.group(3) == null ? 1f : numberFormat.parse(matcher.group(3)).floatValue() / 100f},
                         1f);
             } catch (NumberFormatException nfe) {
@@ -349,7 +326,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format GRAY_PERCENTAGE
         matcher = grayPercentagePattern.matcher(str);
         if (matcher.matches()) {
@@ -369,14 +345,11 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         throw new ParseException(str, 0);
     }
-
     @Override
     public String valueToString(Object value) throws ParseException {
         String str = null;
-
         if (value == null) {
             if (allowsNullValue) {
                 str = "";
@@ -387,11 +360,8 @@ public class ColorFormatter extends DefaultFormatter {
             if (!(value instanceof Color)) {
                 throw new ParseException("Value is not a color " + value, 0);
             }
-
             Color c = (Color) value;
-
             Format f = outputFormat;
-
             if (isAdaptive) {
                 switch (c.getColorSpace().getType()) {
                     case ColorSpace.TYPE_HSV:
@@ -427,7 +397,7 @@ public class ColorFormatter extends DefaultFormatter {
                         components = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), new float[3]);
                     }
                     str = "hsb " + numberFormat.format(components[0] * 360) + " "
-                            + numberFormat.format(components[1] * 100) + " " 
+                            + numberFormat.format(components[1] * 100) + " "
                             + numberFormat.format(components[2] * 100) + "";
                     break;
                 }
@@ -445,7 +415,6 @@ public class ColorFormatter extends DefaultFormatter {
         }
         return str;
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * {@code ColorFormatter}.
@@ -454,7 +423,6 @@ public class ColorFormatter extends DefaultFormatter {
     public static AbstractFormatterFactory createFormatterFactory() {
         return createFormatterFactory(Format.RGB_INTEGER_SHORT, true, true);
     }
-
     /**
      * Convenience method for creating a formatter factory with a
      * 8@code ColorFormatter}.

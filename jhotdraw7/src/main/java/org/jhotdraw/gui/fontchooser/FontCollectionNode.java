@@ -2,12 +2,10 @@
  * @(#)FontCollectionNode.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.fontchooser;
-
-
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +13,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
-
 /**
  * A FontCollectionNode is a MutableTreeNode which only allows FontFamilyNode
  * as child nodes.
@@ -24,37 +21,29 @@ import javax.swing.tree.TreeNode;
  * @version $Id$
  */
 public class FontCollectionNode implements MutableTreeNode, Comparable<FontCollectionNode>, Cloneable {
-
-    
     private MutableTreeNode parent;
     private String name;
     private ArrayList<FontFamilyNode> children;
     private boolean isEditable;
-
     public FontCollectionNode(String name) {
         this.name = name;
         children = new ArrayList<FontFamilyNode>();
     }
-
     public FontCollectionNode(String name, ArrayList<FontFamilyNode> families) {
         this.name = name;
         this.children = families;
     }
-
     @Override
     public int compareTo(FontCollectionNode that) {
         return Collator.getInstance().compare(this.name, that.name);
     }
-
     public String getName() {
         return name;
     }
-
     @Override
     public String toString() {
         return name;
     }
-
     @Override
     public FontCollectionNode clone() {
         FontCollectionNode that;
@@ -72,15 +61,12 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
         }
         return that;
     }
-
     public void add(FontFamilyNode newChild) {
         insert(newChild, getChildCount());
     }
-
     public void addAll(Collection<FontFamilyNode> c) {
         children.addAll(c);
     }
-
     @Override
     public void insert(MutableTreeNode newChild, int index) {
         FontCollectionNode oldParent = (FontCollectionNode) newChild.getParent();
@@ -90,96 +76,77 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
         newChild.setParent(this);
         children.add(index, (FontFamilyNode) newChild);
     }
-
     @Override
     public void remove(int childIndex) {
         MutableTreeNode child = (MutableTreeNode) getChildAt(childIndex);
         children.remove(childIndex);
         child.setParent(null);
     }
-
     @Override
     public void remove(MutableTreeNode aChild) {
         if (aChild == null) {
             throw new IllegalArgumentException("argument is null");
         }
-
         if (!isNodeChild(aChild)) {
             throw new IllegalArgumentException("argument is not a child");
         }
-        remove(getIndex(aChild));	// linear search
+        remove(getIndex(aChild)); // linear search
     }
-
     @Override
     public void setUserObject(Object object) {
         throw new UnsupportedOperationException("Not supported.");
     }
-
     @Override
     public void removeFromParent() {
         if (parent != null) {
             parent.remove(this);
         }
     }
-
     @Override
     public void setParent(MutableTreeNode newParent) {
         this.parent = newParent;
     }
-
     @Override
     public FontFamilyNode getChildAt(int childIndex) {
         return children.get(childIndex);
     }
-
     @Override
     public int getChildCount() {
         return children.size();
     }
-
     @Override
-    
     public MutableTreeNode getParent() {
         return parent;
     }
-
     @Override
     public int getIndex(TreeNode node) {
         return children.indexOf(node);
     }
-
     @Override
     public boolean getAllowsChildren() {
         return true;
     }
-
     @Override
     public boolean isLeaf() {
         return children.isEmpty();
     }
-
     @Override
     public Enumeration<FontFamilyNode> children() {
         return Collections.enumeration(children);
     }
-
     public java.util.List<FontFamilyNode> families() {
         return Collections.unmodifiableList(children);
     }
-    
     //  Child Queries
-    
-
     /**
      * Returns true if <code>aNode</code> is a child of this node.  If
      * <code>aNode</code> is null, this method returns false.
      *
-     * @return	true if <code>aNode</code> is a child of this node; false if 
-     *  		<code>aNode</code> is null
+     * @return true if <code>aNode</code> is a child of this node; false if
+     *    <code>aNode</code> is null
      */
     public boolean isNodeChild(TreeNode aNode) {
         boolean retval;
-
         if (aNode == null) {
             retval = false;
         } else {
@@ -189,14 +156,11 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
                 retval = (aNode.getParent() == this);
             }
         }
-
         return retval;
     }
-
     public boolean isEditable() {
         return isEditable;
     }
-
     public void setEditable(boolean newValue) {
         isEditable = newValue;
     }

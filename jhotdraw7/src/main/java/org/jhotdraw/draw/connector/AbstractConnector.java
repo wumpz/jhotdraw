@@ -2,13 +2,10 @@
  * @(#)AbstractConnector.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.connector;
-
-
 import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;
@@ -35,15 +32,12 @@ public class AbstractConnector implements Connector, DOMStorable {
      * Whether we should connect to the figure or to its decorator.
      */
     private boolean isConnectToDecorator;
-    
     /**
      * Whether the state of this connector is persistent.
      * Set this to true only, when the user interface allows to change the
      * state of the connector.
      */
     private boolean isStatePersistent;
-    
-    
     /**
      * Constructs a connector that has no owner. It is only
      * used internally to resurrect a connectors from a
@@ -58,7 +52,6 @@ public class AbstractConnector implements Connector, DOMStorable {
     public AbstractConnector(Figure owner) {
         this.owner = owner;
     }
-    
     public void setConnectToDecorator(boolean newValue) {
         isConnectToDecorator = newValue;
     }
@@ -68,7 +61,6 @@ public class AbstractConnector implements Connector, DOMStorable {
     protected final Figure getConnectorTarget(Figure f) {
         return (isConnectToDecorator && ((DecoratedFigure) f).getDecorator() != null) ? ((DecoratedFigure) f).getDecorator() : f;
     }
-    
     /**
      * Tests if a point is contained in the connector.
      * This implementation tests if the point is contained by the figure
@@ -78,17 +70,14 @@ public class AbstractConnector implements Connector, DOMStorable {
     public boolean contains(Point2D.Double p) {
         return getOwner().contains(p);
     }
-    
     @Override
     public Point2D.Double findStart(ConnectionFigure connection) {
         return findPoint(connection);
     }
-    
     @Override
     public Point2D.Double findEnd(ConnectionFigure connection) {
         return findPoint(connection);
     }
-    
     /**
      * Gets the connection point. Override when the connector
      * does not need to distinguish between the start and end
@@ -97,7 +86,6 @@ public class AbstractConnector implements Connector, DOMStorable {
     protected Point2D.Double findPoint(ConnectionFigure connection) {
         return Geom.center(getBounds());
     }
-    
     /**
      * Gets the connector's owner.
      */
@@ -111,7 +99,6 @@ public class AbstractConnector implements Connector, DOMStorable {
     protected void setOwner(Figure newValue) {
         owner = newValue;
     }
-    
     @Override
     public Object clone() {
         try {
@@ -139,12 +126,10 @@ public class AbstractConnector implements Connector, DOMStorable {
      */
     public void updateEndLocation(Point2D.Double p) {
     }
-    
     @Override
     public Point2D.Double getAnchor() {
         return Geom.center(getBounds());
     }
-    
     @Override
     public void updateAnchor(Point2D.Double p) {
     }
@@ -154,8 +139,6 @@ public class AbstractConnector implements Connector, DOMStorable {
             ((DecoratedFigure) getOwner()).getDecorator().getBounds() :
             getOwner().getBounds();
     }
-    
-    
     @Override
     public void read(DOMInput in) throws IOException {
         if (isStatePersistent) {
@@ -169,7 +152,6 @@ public class AbstractConnector implements Connector, DOMStorable {
         this.owner = (Figure) in.readObject(0);
         in.closeElement();
     }
-    
     @Override
     public void write(DOMOutput out) throws IOException {
         if (isStatePersistent) {
@@ -181,13 +163,11 @@ public class AbstractConnector implements Connector, DOMStorable {
         out.writeObject(getOwner());
         out.closeElement();
     }
-    
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Point2D.Double anchor = getAnchor();
         return new Rectangle2D.Double(anchor.x - 4, anchor.y - 4, 8, 8);
     }
-    
     @Override
     public void draw(Graphics2D g) {
         Point2D.Double anchor = getAnchor();

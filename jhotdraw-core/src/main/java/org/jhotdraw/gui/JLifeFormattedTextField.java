@@ -2,7 +2,7 @@
  * @(#)JLifeFormattedTextField.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -23,7 +23,6 @@ import javax.swing.text.*;
 public class JLifeFormattedTextField extends JFormattedTextField {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Last valid value.
      */
@@ -72,11 +71,9 @@ public class JLifeFormattedTextField extends JFormattedTextField {
     public void setDocument(Document newValue) {
         Document oldValue = getDocument();
         super.setDocument(newValue);
-
         if (documentHandler == null) {
             documentHandler = new DocumentHandler();
         }
-
         if (oldValue != null) {
             oldValue.removeDocumentListener(documentHandler);
         }
@@ -115,7 +112,7 @@ public class JLifeFormattedTextField extends JFormattedTextField {
                     Object newValue = getFormatter().stringToValue(getText());
                     setValue(newValue);
                 } catch (ParseException ex) {
-                    //ex.printStackTrace();// do nothing
+                    //ex.printStackTrace(); // do nothing
                 }
             }
         }
@@ -155,32 +152,26 @@ public class JLifeFormattedTextField extends JFormattedTextField {
         if (type instanceof DateFormat) {
             return new DefaultFormatterFactory(new DateFormatter((DateFormat) type));
         }
-
         if (type instanceof NumberFormat) {
             return new DefaultFormatterFactory(new NumberFormatter(
                     (NumberFormat) type));
         }
-
         if (type instanceof Format) {
             return new DefaultFormatterFactory(new InternationalFormatter(
                     (Format) type));
         }
-
         if (type instanceof Date) {
             return new DefaultFormatterFactory(new DateFormatter());
         }
-
         if (type instanceof Number) {
             AbstractFormatter displayFormatter = new NumberFormatter();
             ((NumberFormatter) displayFormatter).setValueClass(type.getClass());
             AbstractFormatter editFormatter = new NumberFormatter(
                     new DecimalFormat("#.#"));
             ((NumberFormatter) editFormatter).setValueClass(type.getClass());
-
             return new DefaultFormatterFactory(displayFormatter,
                     displayFormatter, editFormatter);
         }
-
         return new DefaultFormatterFactory(new DefaultFormatter());
     }
 

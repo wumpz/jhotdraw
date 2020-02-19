@@ -2,11 +2,10 @@
  * @(#)PertApplet.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.pert;
-
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
@@ -20,7 +19,6 @@ import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.xml.*;
-
 /**
  * PertApplet.
  *
@@ -29,10 +27,8 @@ import org.jhotdraw.xml.*;
  */
 public class PertApplet extends JApplet {
     private static final long serialVersionUID = 1L;
-
     private static final String NAME = "JHotDraw Pert";
     private PertPanel drawingPanel;
-
     /**
      * We override getParameter() to make it work even if we have no Applet
      * context.
@@ -45,11 +41,9 @@ public class PertApplet extends JApplet {
             return null;
         }
     }
-
     protected String getVersion() {
         return PertApplet.class.getPackage().getImplementationVersion();
     }
-
     /**
      * Initializes the applet PertApplet
      */
@@ -64,7 +58,6 @@ public class PertApplet extends JApplet {
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
         }
-
         // Set our own popup factory, because the one that comes with Mac OS X
         // creates translucent popups which is not useful for color selection
         // using pop menus.
@@ -73,21 +66,17 @@ public class PertApplet extends JApplet {
         } catch (Throwable e) {
             // If we can't set the popup factory, we have to use what is there.
         }
-
-
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
+        String[] labels = getAppletInfo().split("\n"); //Strings.split(getAppletInfo(), '\n');
         for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
-
         // We load the data using a worker thread
         // --------------------------------------
         new Worker<Drawing>() {
-
     @Override
             public Drawing construct() throws IOException {
                 Drawing result;
@@ -109,20 +98,17 @@ public class PertApplet extends JApplet {
                 }
                 return result;
             }
-
             @Override
             protected void done(Drawing result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new PertPanel());
-
                 initComponents();
                 if (result != null) {
                     setDrawing(result);
                 }
             }
-
             @Override
             protected void failed(Throwable value) {
                 Container c = getContentPane();
@@ -130,12 +116,10 @@ public class PertApplet extends JApplet {
                 c.removeAll();
                 c.add(drawingPanel = new PertPanel());
                 value.printStackTrace();
-
                 initComponents();
                 getDrawing().add(new TextFigure(value.toString()));
                 value.printStackTrace();
             }
-
             @Override
             protected void finished() {
                 Container c = getContentPane();
@@ -144,33 +128,26 @@ public class PertApplet extends JApplet {
             }
         }.start();
     }
-
     private void setDrawing(Drawing d) {
         drawingPanel.setDrawing(d);
     }
-
     private Drawing getDrawing() {
         return drawingPanel.getDrawing();
     }
-
     /**
      * Configure Drawing object to support copy and paste.
      */
     private void initDrawing(Drawing d) {
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-
         DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
                 new PertFactory());
         inputFormats.add(ioFormat);
         outputFormats.add(ioFormat);
-
         outputFormats.add(new ImageOutputFormat());
-
         d.setInputFormats(inputFormats);
         d.setOutputFormats(outputFormats);
     }
-
     public void setData(String text) {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
@@ -187,10 +164,8 @@ public class PertApplet extends JApplet {
             } finally {
                 in.close();
             }
-
         }
     }
-
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
@@ -206,17 +181,14 @@ public class PertApplet extends JApplet {
         } finally {
             out.close();
         }
-
         return out.toString();
     }
-
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
                     {"data", "String", "the data to be displayed by this applet."},
                     {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},};
     }
-
     @Override
     public String getAppletInfo() {
         return NAME +
@@ -225,7 +197,6 @@ public class PertApplet extends JApplet {
                 "\nThis software is licensed under LGPL or" +
                 "\nCreative Commons 3.0 BY";
     }
-
     /** This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -234,12 +205,9 @@ public class PertApplet extends JApplet {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         toolButtonGroup = new javax.swing.ButtonGroup();
-
     }// </editor-fold>//GEN-END:initComponents
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
     @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw Pert Applet");

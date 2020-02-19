@@ -2,28 +2,24 @@
  * @(#)AbstractView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
-
-
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * This abstract class can be extended to implement a {@link View}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class AbstractView extends JPanel implements View {
     private static final long serialVersionUID = 1L;
-
     private Application application;
     /**
      * The executor used to perform background tasks for the View in a
@@ -60,44 +56,37 @@ public abstract class AbstractView extends JPanel implements View {
      * or has not been saved yet.
      */
     protected URI uri;
-
     /**
      * Creates a new instance.
      */
     public AbstractView() {
         preferences = PreferencesUtil.userNodeForPackage(getClass());
     }
-
     /** Initializes the view.
      * This method does nothing, subclasses don't neet to call super. */
     @Override
     public void init() {
     }
-
     /** Starts the view.
      * This method does nothing, subclasses don't neet to call super. */
     @Override
     public void start() {
     }
-
     /** Activates the view.
      * This method does nothing, subclasses don't neet to call super. */
     @Override
     public void activate() {
     }
-
     /** Deactivates the view.
      * This method does nothing, subclasses don't neet to call super. */
     @Override
     public void deactivate() {
     }
-
     /** Stops the view.
      * This method does nothing, subclasses don't neet to call super. */
     @Override
     public void stop() {
     }
-
     /**
      * Gets rid of all the resources of the view.
      * No other methods should be invoked on the view afterwards.
@@ -109,27 +98,22 @@ public abstract class AbstractView extends JPanel implements View {
             executor.shutdown();
             executor = null;
         }
-
         if (disposables != null) {
             for (Disposable d : (LinkedList<Disposable>)disposables.clone()) {
                 d.dispose();
             }
             disposables = null;
         }
-
         removeAll();
     }
-
     @Override
     public boolean canSaveTo(URI uri) {
         return true;
     }
-
     @Override
    public URI getURI() {
         return uri;
     }
-
     @Override
     public void setURI(URI newValue) {
         URI oldValue = uri;
@@ -139,8 +123,6 @@ public abstract class AbstractView extends JPanel implements View {
         }
         firePropertyChange(URI_PROPERTY, oldValue, newValue);
     }
-
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -148,10 +130,8 @@ public abstract class AbstractView extends JPanel implements View {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     @Override
@@ -160,12 +140,10 @@ public abstract class AbstractView extends JPanel implements View {
         application = newValue;
         firePropertyChange("application", oldValue, newValue);
     }
-
     @Override
     public Application getApplication() {
         return application;
     }
-
     @Override
     public JComponent getComponent() {
         return this;
@@ -174,7 +152,6 @@ public abstract class AbstractView extends JPanel implements View {
     public boolean isEmpty() {
         return getURI()==null&&!hasUnsavedChanges();
     }
-
     /**
      * Returns true, if the view has unsaved changes.
      * This is a bound property.
@@ -183,13 +160,11 @@ public abstract class AbstractView extends JPanel implements View {
     public boolean hasUnsavedChanges() {
         return hasUnsavedChanges;
     }
-
     protected void setHasUnsavedChanges(boolean newValue) {
         boolean oldValue = hasUnsavedChanges;
         hasUnsavedChanges = newValue;
         firePropertyChange(HAS_UNSAVED_CHANGES_PROPERTY, oldValue, newValue);
     }
-
     /**
      * Executes the specified runnable on the worker thread of the view.
      * Execution is performed sequentially in the same sequence as the
@@ -202,48 +177,40 @@ public abstract class AbstractView extends JPanel implements View {
         }
         executor.execute(worker);
     }
-
     @Override
     public void setMultipleOpenId(int newValue) {
         int oldValue = multipleOpenId;
         multipleOpenId = newValue;
         firePropertyChange(MULTIPLE_OPEN_ID_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public int getMultipleOpenId() {
         return multipleOpenId;
     }
-
     @Override
     public void setShowing(boolean newValue) {
         boolean oldValue = isShowing;
         isShowing = newValue;
         firePropertyChange(SHOWING_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public boolean isShowing() {
         return isShowing;
     }
-
     @Override
     public void markChangesAsSaved() {
         setHasUnsavedChanges(false);
     }
-
     @Override
     public void setTitle(String newValue) {
         String oldValue = title;
         title = newValue;
         firePropertyChange(TITLE_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public String getTitle() {
         return title;
     }
-
     /**
      * Adds a disposable object, which will be disposed when the specified view
      * is disposed.
@@ -257,7 +224,6 @@ public abstract class AbstractView extends JPanel implements View {
         }
         disposables.add(disposable);
     }
-
     /**
      * Removes a disposable object, which was previously added.
      *

@@ -2,12 +2,10 @@
  * @(#)DragHandle.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformEdit;
 import java.awt.*;
@@ -32,12 +30,10 @@ public class DragHandle extends AbstractHandle {
      * The previously handled x and y coordinates.
      */
     private Point2D.Double oldPoint;
-    
     /** Creates a new instance. */
     public DragHandle(Figure owner) {
         super(owner);
     }
-    
     /**
      * Draws nothing.
      * Drag Handles have no visual appearance of their own.
@@ -58,14 +54,12 @@ public class DragHandle extends AbstractHandle {
         f.willChange();
         f.transform(tx);
         f.changed();
-        
         oldPoint = newPoint;
     }
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         AffineTransform tx = new AffineTransform();
         tx.translate(lead.x - anchor.x, lead.y - anchor.y);
-        
         LinkedList<Figure> draggedFigures = new LinkedList<Figure>();
         draggedFigures.add(getOwner());
         Point2D.Double dropPoint = getView().viewToDrawing(lead);
@@ -92,12 +86,10 @@ public class DragHandle extends AbstractHandle {
                     );
         }
     }
-    
     @Override
     public boolean contains(Point p) {
         return getOwner().contains(getView().viewToDrawing(p));
     }
-    
     @Override
     protected Rectangle basicGetBounds() {
         return getView().drawingToView(getOwner().getDrawingArea());

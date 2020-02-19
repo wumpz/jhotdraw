@@ -1,23 +1,21 @@
 /*
  * @(#)ActivityMonitorSample.java
- * 
+ *
  * Copyright (c) 2011 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.jhotdraw.gui.DefaultActivityModel;
 import org.jhotdraw.gui.JActivityWindow;
 import org.jhotdraw.gui.ActivityModel;
-
 /**
- * This example program shows how to monitor background tasks using  
- * {@link org.jhotdraw.gui.ActivityModel}, {@link org.jhotdraw.gui.JActivityIndicator} 
+ * This example program shows how to monitor background tasks using
+ * {@link org.jhotdraw.gui.ActivityModel}, {@link org.jhotdraw.gui.JActivityIndicator}
  * and {@link org.jhotdraw.gui.JActivityWindow}.
  *
  * @author Werner Randelshofer
@@ -25,7 +23,6 @@ import org.jhotdraw.gui.ActivityModel;
  */
 public class ActivityMonitorSample extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
-
     private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 private int count;
     /** Creates new form ActivityMonitorSample */
@@ -34,17 +31,12 @@ private int count;
         ownerARadio.setActionCommand("A");
         ownerBRadio.setActionCommand("B");
         ownerCRadio.setActionCommand("C");
-
         indicatorA.setActivityOwner("A");
         indicatorB.setActivityOwner("B");
         indicatorC.setActivityOwner("C");
-        
-        
         // Ensures that the activity window is running
         JActivityWindow.getInstance();
-
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -53,7 +45,6 @@ private int count;
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         ownerGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -76,42 +67,27 @@ private int count;
         jLabel5 = new javax.swing.JLabel();
         indicatorC = new org.jhotdraw.gui.JActivityIndicator();
         jLabel6 = new javax.swing.JLabel();
-
         FormListener formListener = new FormListener();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Activity Monitoring Demo");
-
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Start New Activity"));
-
         jLabel1.setText("Activity Group:");
-
         ownerGroup.add(ownerARadio);
         ownerARadio.setSelected(true);
         ownerARadio.setText("A");
-
         ownerGroup.add(ownerBRadio);
         ownerBRadio.setText("B");
-
         ownerGroup.add(ownerCRadio);
         ownerCRadio.setText("C");
-
         durationLabel.setText("Duration:");
-
         durationSpinner.setModel(new javax.swing.SpinnerNumberModel(10, 1, 60, 5));
-
         durationUnitsLabel.setText("seconds");
-
         cancelableCheckBox.setSelected(true);
         cancelableCheckBox.setText("The activity can be canceled");
-
         startButton.setText("Start");
         startButton.addActionListener(formListener);
-
         warningCheckBox.setText("The activity will issue a warning");
-
         errorCheckBox.setText("The activity will issue an error");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -169,25 +145,15 @@ private int count;
                         .addComponent(startButton)))
                 .addGap(33, 33, 33))
         );
-
         jLabel2.setText("Indicator for all activities:");
-
         indicatorAll.addMouseListener(formListener);
-
         jLabel3.setText("Indicator for activities in A:");
-
         indicatorA.addMouseListener(formListener);
-
         jLabel4.setText("Indicator for activities in B:");
-
         indicatorB.addMouseListener(formListener);
-
         jLabel5.setText("Indicator for activities in C:");
-
         indicatorC.addMouseListener(formListener);
-
         jLabel6.setText("Click on one of the indicators to open the activity window.");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -240,12 +206,9 @@ private int count;
                     .addComponent(indicatorC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
         pack();
     }
-
     // Code for dispatching events from components to event handlers.
-
     private class FormListener implements java.awt.event.ActionListener, java.awt.event.MouseListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,7 +216,6 @@ private int count;
                 ActivityMonitorSample.this.startPerformed(evt);
             }
         }
-
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             if (evt.getSource() == indicatorAll) {
                 ActivityMonitorSample.this.indicatorClicked(evt);
@@ -268,22 +230,16 @@ private int count;
                 ActivityMonitorSample.this.indicatorClicked(evt);
             }
         }
-
         public void mouseEntered(java.awt.event.MouseEvent evt) {
         }
-
         public void mouseExited(java.awt.event.MouseEvent evt) {
         }
-
         public void mousePressed(java.awt.event.MouseEvent evt) {
         }
-
         public void mouseReleased(java.awt.event.MouseEvent evt) {
         }
     }// </editor-fold>//GEN-END:initComponents
-
-private void startPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startPerformed
-
+private void startPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_startPerformed
     final int duration = ((Number) durationSpinner.getValue()).intValue();
     final boolean willFail = errorCheckBox.isSelected();
     final boolean willWarn = warningCheckBox.isSelected();
@@ -293,7 +249,6 @@ private void startPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s
     pm.setCancelable(cancelableCheckBox.isSelected());
     pm.setNote("Waiting for processor");
     Runnable r = new Runnable() {
-
         @Override
         public void run() {
             try {
@@ -332,19 +287,15 @@ private void startPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_s
         }
     };
     executor.execute(r);
-
 }//GEN-LAST:event_startPerformed
-
-private void indicatorClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_indicatorClicked
+private void indicatorClicked(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_indicatorClicked
     JActivityWindow.getInstance().setVisible(true);
 }//GEN-LAST:event_indicatorClicked
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 new ActivityMonitorSample().setVisible(true);

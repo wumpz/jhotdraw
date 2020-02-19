@@ -2,18 +2,15 @@
  * @(#)FontFaceNode.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.fontchooser;
-
-
 import java.awt.Font;
 import java.util.Collections;
 import java.util.Enumeration;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
-
 /**
  * A FontFaceNode is a MutableTreeNode which does not allow children.
  *
@@ -21,16 +18,13 @@ import javax.swing.tree.TreeNode;
  * @version $Id$
  */
 public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, Cloneable {
-
     private FontFamilyNode parent;
     private Font typeface;
     private String name;
-
     public FontFaceNode(Font typeface) {
         this.typeface = typeface;
         this.name = beautifyName(typeface.getPSName());
     }
-
     protected String beautifyName(String name) {
         // 'Beautify' the name
         int p = name.lastIndexOf('-');
@@ -96,97 +90,78 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         name = buf.toString();
         return name;
     }
-
     public void setName(String newValue) {
         this.name = newValue;
     }
-
     public String getName() {
         return name;
     }
-
     public Font getFont() {
         return typeface;
     }
-
     @Override
     public String toString() {
         return name;
     }
-
     @Override
     public void insert(MutableTreeNode child, int index) {
         throw new UnsupportedOperationException("Not allowed.");
     }
-
     @Override
     public void remove(int index) {
         throw new UnsupportedOperationException("Not allowed.");
     }
-
     @Override
     public void remove(MutableTreeNode node) {
         throw new UnsupportedOperationException("Not allowed.");
     }
-
     @Override
     public void setUserObject(Object object) {
         throw new UnsupportedOperationException("Not allowed.");
     }
-
     @Override
     public void removeFromParent() {
         if (parent != null) {
             parent.remove(this);
         }
     }
-
-    @Override 
+    @Override
     public void setParent(MutableTreeNode newParent) {
         this.parent = (FontFamilyNode) newParent;
     }
-
     @Override
     public TreeNode getChildAt(int childIndex) {
         throw new IndexOutOfBoundsException("" + childIndex);
     }
-
     @Override
     public int getChildCount() {
         return 0;
     }
-
-    @Override 
+    @Override
     public TreeNode getParent() {
         return parent;
     }
-
     @Override
     public int getIndex(TreeNode node) {
         return -1;
     }
-
     @Override
     public boolean getAllowsChildren() {
         return false;
     }
-
     @Override
     public boolean isLeaf() {
         return true;
     }
-
     @SuppressWarnings("unchecked")
     @Override
     public Enumeration<TreeNode> children() {
         return Collections.enumeration(Collections.EMPTY_LIST);
     }
-
     @Override
     public int compareTo(FontFaceNode that) {
         return this.name.compareTo(that.name);
     }
-
     @Override
     public FontFaceNode clone() {
         FontFaceNode that;
@@ -200,7 +175,6 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         that.parent = null;
         return that;
     }
-
     public boolean isEditable() {
         return false;
     }

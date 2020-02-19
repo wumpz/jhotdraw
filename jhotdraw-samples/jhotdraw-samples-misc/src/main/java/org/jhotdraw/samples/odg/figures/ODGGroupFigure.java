@@ -2,12 +2,10 @@
  * @(#)ODGGroupFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg.figures;
-
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -26,13 +24,10 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 public class ODGGroupFigure extends GroupFigure implements ODGFigure {
     private static final long serialVersionUID = 1L;
     private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>,Object>();
-    
-    
     /** Creates a new instance. */
     public ODGGroupFigure() {
         ODGAttributeKeys.setDefaults(this);
     }
-    
     @Override public <T> void set(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
             attributes.put(key, value);
@@ -53,7 +48,6 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
             set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
     }
-    
     @Override
     public void draw(Graphics2D g)  {
         double opacity = get(OPACITY);
@@ -61,14 +55,11 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-                
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-                
                 if (! drawingArea.isEmpty()) {
-                    
                     BufferedImage buf = new BufferedImage(
                             (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
                             (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
@@ -90,7 +81,6 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
             }
         }
     }
-    
     @Override
     public Rectangle2D.Double getBounds() {
         if (cachedBounds == null) {
@@ -112,7 +102,6 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
         return (Rectangle2D.Double) cachedBounds.clone();
     }
-    
     @Override public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
@@ -120,12 +109,10 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
         return handles;
     }
-    
     @Override
     public boolean isEmpty() {
         return getChildCount() == 0;
     }
-    
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();

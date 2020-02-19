@@ -2,12 +2,10 @@
  * @(#)JFontChooser.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -20,16 +18,14 @@ import javax.swing.tree.*;
 import org.jhotdraw.gui.fontchooser.*;
 import org.jhotdraw.gui.plaf.*;
 import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
-
 /**
  * Font chooser dialog.
- * 
+ *
  * @author  Werner Randelshofer
  * @version $Id$
  */
 public class JFontChooser extends JComponent {
     private static final long serialVersionUID = 1L;
-
     /**
      * @see #getUIClassID
      * @see #readObject
@@ -89,28 +85,23 @@ public class JFontChooser extends JComponent {
      */
     private static FutureTask<Font[]> future;
     private TreeModelListener modelHandler = new TreeModelListener() {
-
     @Override
         public void treeNodesChanged(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
-
     @Override
         public void treeNodesInserted(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
-
     @Override
         public void treeNodesRemoved(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
-
     @Override
         public void treeStructureChanged(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
     };
-
     /** Creates new form JFontChooser */
     public JFontChooser() {
         loadAllFonts();
@@ -118,7 +109,6 @@ public class JFontChooser extends JComponent {
         model.addTreeModelListener(modelHandler);
         updateUI();
         addPropertyChangeListener(new PropertyChangeListener() {
-
     @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName() == "ancestor" && evt.getNewValue() != null) {
@@ -132,7 +122,6 @@ public class JFontChooser extends JComponent {
             }
         });
     }
-
     /**
      * Resets the UI property with a value from the current look and feel.
      *
@@ -148,7 +137,6 @@ public class JFontChooser extends JComponent {
             setUI(PaletteFontChooserUI.createUI(this));
         }
     }
-
     /**
      * Returns the look and feel (L&amp;F) object that renders this component.
      *
@@ -158,7 +146,6 @@ public class JFontChooser extends JComponent {
     public FontChooserUI getUI() {
         return (FontChooserUI) ui;
     }
-
     /**
      * Sets the look and feel (L&amp;F) object that renders this component.
      *
@@ -168,7 +155,6 @@ public class JFontChooser extends JComponent {
     public void setUI(FontChooserUI ui) {
         super.setUI(ui);
     }
-
     /**
      * Returns a string that specifies the name of the L&amp;F class
      * that renders this component.
@@ -181,7 +167,6 @@ public class JFontChooser extends JComponent {
     public String getUIClassID() {
         return uiClassID;
     }
-
     /**
      * Called by the UI when the user hits the Approve button
      * (labeled "Open" or "Save", by default). This can also be
@@ -199,7 +184,6 @@ public class JFontChooser extends JComponent {
         }
         fireActionPerformed(APPROVE_SELECTION);
     }
-
     /**
      * Called by the UI when the user chooses the Cancel button.
      * This can also be called by the programmer.
@@ -216,19 +200,17 @@ public class JFontChooser extends JComponent {
         }
         fireActionPerformed(CANCEL_SELECTION);
     }
-
     /**
      * Adds an <code>ActionListener</code> to the font chooser.
      *
      * @param l  the listener to be added
-     * 
+     *
      * @see #approveSelection
      * @see #cancelSelection
      */
     public void addActionListener(ActionListener l) {
         listenerList.add(ActionListener.class, l);
     }
-
     /**
      * Removes an <code>ActionListener</code> from the font chooser.
      *
@@ -239,7 +221,6 @@ public class JFontChooser extends JComponent {
     public void removeActionListener(ActionListener l) {
         listenerList.remove(ActionListener.class, l);
     }
-
     /**
      * Notifies all listeners that have registered interest for
      * notification on this event type. The event instance
@@ -271,17 +252,15 @@ public class JFontChooser extends JComponent {
             }
         }
     }
-
     /**
      * Gets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @return The selected font, or null, if no font is selected.
      */
     public TreePath getSelectionPath() {
         return selectionPath;
     }
-
     /**
      * Sets the selected Font.
      * This is a bound property.
@@ -289,7 +268,7 @@ public class JFontChooser extends JComponent {
      * Changing the selection path, causes a change of the
      * selected font, if the selected font is not the last
      * path segment of the selection path.
-     * 
+     *
      * @param newValue The new selected font, or null if no font is to be
      * selected..
      */
@@ -301,19 +280,16 @@ public class JFontChooser extends JComponent {
             setSelectedFont(((FontFaceNode) selectionPath.getLastPathComponent()).getFont());
         }
     }
-
     /**
-     * Starts loading all fonts from the local graphics environment 
+     * Starts loading all fonts from the local graphics environment
      * using a worker thread.
      */
     public synchronized static void loadAllFonts() {
         if (future == null) {
             future = new FutureTask<Font[]>(new Callable<Font[]>() {
-
     @Override
                 public Font[] call() throws Exception {
                     Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-
                     // get rid of bogus fonts
                     ArrayList<Font> goodFonts = new ArrayList<Font>(fonts.length);
                     for (Font f : fonts) {
@@ -332,13 +308,12 @@ public class JFontChooser extends JComponent {
             new Thread(future).start();
         }
     }
-
     /**
      * Gets all fonts from the graphics environment. This may take a long
-     * time. It is recommended to call loadAllFonts during the startup 
+     * time. It is recommended to call loadAllFonts during the startup
      * of an application. If you do this, you can retrieve the fonts from
      * this method from the AWT Event Dispatcher Thread.
-     * 
+     *
      * @return All fonts.
      */
     public static synchronized Font[] getAllFonts() {
@@ -351,26 +326,24 @@ public class JFontChooser extends JComponent {
             return new Font[0];
         }
     }
-
     /**
      * Gets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @return The selected font, or null, if no font is selected.
      */
     public Font getSelectedFont() {
         return selectedFont;
     }
-
     /**
      * Sets the selected Font.
      * <p>
      * Changing the selected font, causes a change of the
      * selection path, if the selected font is not the last
      * path segment of the selection path.
-     * 
+     *
      * This is a bound property.
-     * 
+     *
      * @param newValue The new selected font, or null if no font is to be
      * selected.
      */
@@ -380,13 +353,12 @@ public class JFontChooser extends JComponent {
         firePropertyChange(SELECTED_FONT_PROPERTY, oldValue, newValue);
         updateSelectionPath(newValue);
     }
-
     /**
      * Updates the selection path to the selected font.
      * <p>
      * This method is invoked, when a font is selected, and when then
      * structure of the model has changed.
-     * 
+     *
      * @param newValue
      */
     protected void updateSelectionPath(Font newValue) {
@@ -399,11 +371,9 @@ public class JFontChooser extends JComponent {
                 FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
                 FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
                 FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
-
                 FontCollectionNode newCollection = oldCollection;
                 FontFamilyNode newFamily = oldFamily;
                 FontFaceNode newFace = null;
-
                 // search in the current family
                 if (newFace == null && newFamily != null) {
                     for (FontFaceNode face : newFamily.faces()) {
@@ -443,7 +413,6 @@ public class JFontChooser extends JComponent {
                         }
                     }
                 }
-
                 if (newFace != null) {
                     setSelectionPath(new TreePath(new Object[]{
                                 getModel().getRoot(), newCollection, newFamily, newFace
@@ -454,21 +423,19 @@ public class JFontChooser extends JComponent {
             }
         }
     }
-
     /**
      * Gets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @return The selected font, or null, if no font is selected.
      */
     public FontChooserModel getModel() {
         return model;
     }
-
     /**
      * Sets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @param newValue The new selected font, or null if no font is to be
      * selected..
      */
@@ -493,7 +460,6 @@ public class JFontChooser extends JComponent {
     private void initComponents() {
     }// </editor-fold>//GEN-END:initComponents
      */
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

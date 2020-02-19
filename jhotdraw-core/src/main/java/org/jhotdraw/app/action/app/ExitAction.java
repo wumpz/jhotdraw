@@ -2,7 +2,7 @@
  * @(#)ExitAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
@@ -37,7 +37,6 @@ import org.jhotdraw.util.*;
 public class ExitAction extends AbstractApplicationAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.exit";
     private Component oldFocusOwner;
     private View unsavedView;
@@ -73,14 +72,12 @@ public class ExitAction extends AbstractApplicationAction {
                 app.setEnabled(true);
                 return;
             }
-
             final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             switch (unsavedViewsCount) {
-                case 0: {
+                case 0:
                     doExit();
                     break;
-                }
-                case 1: {
+                case 1:
                     unsavedView = documentToBeReviewed;
                     oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
                     unsavedView.setEnabled(false);
@@ -90,12 +87,15 @@ public class ExitAction extends AbstractApplicationAction {
                                     (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
                             + labels.getString("application.exit.doYouWantToSave.details"),
                             JOptionPane.WARNING_MESSAGE);
-                    Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
+                    Object[] options = {
+                        labels.getString("application.exit.saveOption"),
+                        labels.getString("application.exit.cancelOption"),
+                        labels.getString("application.exit.dontSaveOption")
+                    };
                     pane.setOptions(options);
                     pane.setInitialValue(options[0]);
                     pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                     JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
-
                         @Override
                         public void optionSelected(SheetEvent evt) {
                             Object value = evt.getValue();
@@ -110,18 +110,20 @@ public class ExitAction extends AbstractApplicationAction {
                             }
                         }
                     });
-
                     break;
-                }
-                default: {
-                    JOptionPane pane = new JOptionPane(
+                default:
+                    pane = new JOptionPane(
                             "<html>" + UIManager.get("OptionPane.css")
                             + "<b>" + labels.getFormatted("application.exit.doYouWantToReview.message", unsavedViewsCount) + "</b><p>"
                             + labels.getString("application.exit.doYouWantToReview.details"),
                             JOptionPane.QUESTION_MESSAGE);
-                    Object[] options = {labels.getString("application.exit.reviewChangesOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.discardChangesOption")};
-                    pane.setOptions(options);
-                    pane.setInitialValue(options[0]);
+                    Object[] options2 = {
+                        labels.getString("application.exit.reviewChangesOption"),
+                        labels.getString("application.exit.cancelOption"),
+                        labels.getString("application.exit.discardChangesOption")
+                    };
+                    pane.setOptions(options2);
+                    pane.setInitialValue(options2[0]);
                     pane.putClientProperty(
                             "Quaqua.OptionPane.destructiveOption", 2);
                     JDialog dialog = pane.createDialog(app.getComponent(), null);
@@ -141,7 +143,6 @@ public class ExitAction extends AbstractApplicationAction {
                         unsavedView = documentToBeReviewed;
                         reviewChanges();
                     }
-                }
             }
         }
     }
@@ -161,7 +162,6 @@ public class ExitAction extends AbstractApplicationAction {
             URIChooser chooser = getChooser(v);
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -197,7 +197,6 @@ public class ExitAction extends AbstractApplicationAction {
             pane.setInitialValue(options[0]);
             pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
             JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(SheetEvent evt) {
                     Object value = evt.getValue();
@@ -222,7 +221,6 @@ public class ExitAction extends AbstractApplicationAction {
         if (v.getURI() == null) {
             URIChooser chooser = getChooser(v);
             JSheet.showSaveSheet(chooser, unsavedView.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == URIChooser.APPROVE_OPTION) {
@@ -267,7 +265,6 @@ public class ExitAction extends AbstractApplicationAction {
     protected void saveToFile(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 v.write(uri, chooser);
@@ -303,7 +300,6 @@ public class ExitAction extends AbstractApplicationAction {
     protected void saveToFileAndReviewNext(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 v.write(uri, chooser);

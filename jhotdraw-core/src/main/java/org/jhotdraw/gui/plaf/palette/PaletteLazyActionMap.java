@@ -131,7 +131,6 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
     private void loadIfNecessary() {
         if (loader != null) {
             Object ldr = loader;
-
             loader = null;
             Class<?> klass = (Class) ldr;
             try {

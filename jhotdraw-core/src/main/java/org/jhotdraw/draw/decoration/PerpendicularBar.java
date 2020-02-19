@@ -2,13 +2,13 @@
  * @(#)PerpendicularBar.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.decoration;
 
-import org.jhotdraw.draw.*;
 import java.awt.geom.Path2D;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
@@ -35,7 +35,6 @@ public class PerpendicularBar extends AbstractLineDecoration implements DOMStora
      */
     public PerpendicularBar(double height) {
         super(false, true, false);
-
         this.height = height;
     }
 
@@ -47,10 +46,8 @@ public class PerpendicularBar extends AbstractLineDecoration implements DOMStora
     protected Path2D.Double getDecoratorPath(Figure f) {
         Path2D.Double path = new Path2D.Double();
         double halfHeight = height / 2;
-
         path.moveTo(+halfHeight, 0);
         path.lineTo(-halfHeight, 0);
-
         return path;
     }
 

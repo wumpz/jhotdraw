@@ -2,20 +2,16 @@
  * @(#)ClearFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
-
-
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
 import org.jhotdraw.gui.BackgroundTask;
-
 /**
  * Clears (empties) the contents of the active view.
  * <p>
@@ -38,14 +34,12 @@ import org.jhotdraw.gui.BackgroundTask;
 public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.clear";
-    
     /** Creates a new instance. */
     public ClearFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.clear");
     }
-    
     @Override public void doIt(final View view) {
         view.setEnabled(false);
         view.execute(new BackgroundTask() {

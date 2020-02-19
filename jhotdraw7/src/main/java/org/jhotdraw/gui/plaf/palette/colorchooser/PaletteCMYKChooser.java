@@ -6,7 +6,6 @@
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
-
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
@@ -21,7 +20,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteLabelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
-
 /**
  * A color chooser with CMYK color sliders.
  *
@@ -32,20 +30,16 @@ public class PaletteCMYKChooser
         extends AbstractColorChooserPanel
         implements UIResource {
     private static final long serialVersionUID = 1L;
-
     private ColorSliderModel ccModel;
     private int updateRecursion = 0;
     private PaletteLookAndFeel labels;
-
     /** Creates new form. */
     public PaletteCMYKChooser() {
     }
-
     @Override
     protected void buildChooser() {
         PaletteLookAndFeel plaf=labels=PaletteLookAndFeel.getInstance();
         initComponents();
-        
         setUI(PalettePanelUI.createUI(this));
         cyanFieldPanel.setUI((PanelUI) PalettePanelUI.createUI(cyanFieldPanel));
         magentaFieldPanel.setUI((PanelUI) PalettePanelUI.createUI(magentaFieldPanel));
@@ -63,8 +57,6 @@ public class PaletteCMYKChooser
         magentaField.setUI((TextUI) PaletteTextFieldUI.createUI(magentaField));
         yellowField.setUI((TextUI) PaletteTextFieldUI.createUI(yellowField));
         blackField.setUI((TextUI) PaletteTextFieldUI.createUI(blackField));
-
-        
         Font font = plaf.getFont("ColorChooser.font");
         cyanLabel.setFont(font);
         cyanSlider.setFont(font);
@@ -82,7 +74,6 @@ public class PaletteCMYKChooser
         blackSlider.setFont(font);
         blackField.setFont(font);
         blackFieldLabel.setFont(font);
-        
         int textSliderGap = plaf.getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             Border fieldBorder = new EmptyBorder(0, textSliderGap, 0, 0);
@@ -91,10 +82,8 @@ public class PaletteCMYKChooser
             yellowFieldPanel.setBorder(fieldBorder);
             blackFieldPanel.setBorder(fieldBorder);
         }
-
         // The NominalCMYKColorSliderModel works fine:
         // ccModel = new NominalCMYKColorSliderModel();
-
         /* Unfortunately the following does not work due to Java bug #4760025 as
          * described at http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4760025*/
         try {
@@ -104,7 +93,6 @@ public class PaletteCMYKChooser
             //e.printStackTrace();
             ccModel = new PaletteColorSliderModel(new CMYKNominalColorSpace());
         }
-
         ccModel.configureSlider(0, cyanSlider);
         ccModel.configureSlider(1, magentaSlider);
         ccModel.configureSlider(2, yellowSlider);
@@ -122,14 +110,11 @@ public class PaletteCMYKChooser
             yellowFieldLabel.putClientProperty("Quaqua.Component.visualMargin", borderMargin);
             blackFieldLabel.putClientProperty("Quaqua.Component.visualMargin", borderMargin);
         }
-
         new ColorSliderTextFieldHandler(cyanField, ccModel, 0);
         new ColorSliderTextFieldHandler(magentaField, ccModel, 1);
         new ColorSliderTextFieldHandler(yellowField, ccModel, 2);
         new ColorSliderTextFieldHandler(blackField, ccModel, 3);
-
         ccModel.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent evt) {
                 if (updateRecursion++ == 0) {
@@ -142,29 +127,24 @@ public class PaletteCMYKChooser
         magentaField.setMinimumSize(magentaField.getPreferredSize());
         yellowField.setMinimumSize(yellowField.getPreferredSize());
         blackField.setMinimumSize(blackField.getPreferredSize());
-
         EmptyBorder bm = new EmptyBorder(0,0,0,0);
         cyanLabel.setBorder(bm);
         magentaLabel.setBorder(bm);
         yellowLabel.setBorder(bm);
         blackLabel.setBorder(bm);
     }
-
     @Override
     public String getDisplayName() {
         return PaletteLookAndFeel.getInstance().getString("ColorChooser.cmykSliders");
     }
-
     @Override
     public Icon getLargeDisplayIcon() {
         return PaletteLookAndFeel.getInstance().getIcon("ColorChooser.colorSlidersIcon");
     }
-
     @Override
     public Icon getSmallDisplayIcon() {
         return getLargeDisplayIcon();
     }
-
     @Override
     public void updateChooser() {
         if (updateRecursion++ == 0) {
@@ -172,11 +152,9 @@ public class PaletteCMYKChooser
         }
         updateRecursion--;
     }
-
     public void setColorToModel(Color color) {
         getColorSelectionModel().setSelectedColor(color);
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -185,7 +163,6 @@ public class PaletteCMYKChooser
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         cyanLabel = new javax.swing.JLabel();
         cyanSlider = new javax.swing.JSlider();
         cyanFieldPanel = new javax.swing.JPanel();
@@ -207,16 +184,13 @@ public class PaletteCMYKChooser
         blackField = new javax.swing.JTextField();
         blackFieldLabel = new javax.swing.JLabel();
         springPanel = new javax.swing.JPanel();
-
         setLayout(new java.awt.GridBagLayout());
-
         cyanLabel.setText(labels.getString("ColorChooser.cmykCyanText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(cyanLabel, gridBagConstraints);
-
         cyanSlider.setMajorTickSpacing(100);
         cyanSlider.setMinorTickSpacing(50);
         cyanSlider.setPaintTicks(true);
@@ -226,9 +200,7 @@ public class PaletteCMYKChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(cyanSlider, gridBagConstraints);
-
         cyanFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         cyanField.setColumns(3);
         cyanField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         cyanField.setText("0");
@@ -241,24 +213,20 @@ public class PaletteCMYKChooser
             }
         });
         cyanFieldPanel.add(cyanField);
-
         cyanFieldLabel.setText("%");
         cyanFieldPanel.add(cyanFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(cyanFieldPanel, gridBagConstraints);
-
         magentaLabel.setText(labels.getString("ColorChooser.cmykMagentaText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(magentaLabel, gridBagConstraints);
-
         magentaSlider.setMajorTickSpacing(100);
         magentaSlider.setMinorTickSpacing(50);
         magentaSlider.setPaintTicks(true);
@@ -268,9 +236,7 @@ public class PaletteCMYKChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(magentaSlider, gridBagConstraints);
-
         magentaFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         magentaField.setColumns(3);
         magentaField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         magentaField.setText("0");
@@ -283,24 +249,20 @@ public class PaletteCMYKChooser
             }
         });
         magentaFieldPanel.add(magentaField);
-
         magentaFieldLabel.setText("%");
         magentaFieldPanel.add(magentaFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(magentaFieldPanel, gridBagConstraints);
-
         yellowLabel.setText(labels.getString("ColorChooser.cmykYellowText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(yellowLabel, gridBagConstraints);
-
         yellowSlider.setMajorTickSpacing(100);
         yellowSlider.setMinorTickSpacing(50);
         yellowSlider.setPaintTicks(true);
@@ -310,9 +272,7 @@ public class PaletteCMYKChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(yellowSlider, gridBagConstraints);
-
         yellowFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         yellowField.setColumns(3);
         yellowField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         yellowField.setText("0");
@@ -325,24 +285,20 @@ public class PaletteCMYKChooser
             }
         });
         yellowFieldPanel.add(yellowField);
-
         yellowFieldLabel.setText("%");
         yellowFieldPanel.add(yellowFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(yellowFieldPanel, gridBagConstraints);
-
         blackLabel.setText(labels.getString("ColorChooser.cmykBlackText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(blackLabel, gridBagConstraints);
-
         blackSlider.setMajorTickSpacing(100);
         blackSlider.setMinorTickSpacing(50);
         blackSlider.setPaintTicks(true);
@@ -352,9 +308,7 @@ public class PaletteCMYKChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(blackSlider, gridBagConstraints);
-
         blackFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         blackField.setColumns(3);
         blackField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         blackField.setText("0");
@@ -367,17 +321,14 @@ public class PaletteCMYKChooser
             }
         });
         blackFieldPanel.add(blackField);
-
         blackFieldLabel.setText("%");
         blackFieldPanel.add(blackFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(blackFieldPanel, gridBagConstraints);
-
         springPanel.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -385,24 +336,19 @@ public class PaletteCMYKChooser
         gridBagConstraints.weighty = 1.0;
         add(springPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void fieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldFocusGained
+    private void fieldFocusGained(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_fieldFocusGained
         ((JTextField) evt.getSource()).selectAll();
     }//GEN-LAST:event_fieldFocusGained
-
-    private void blackFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_blackFieldFocusLost
+    private void blackFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_blackFieldFocusLost
         blackField.setText(Integer.toString(ccModel.getBoundedRangeModel(3).getValue()));
     }//GEN-LAST:event_blackFieldFocusLost
-
-    private void yellowFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_yellowFieldFocusLost
+    private void yellowFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_yellowFieldFocusLost
         yellowField.setText(Integer.toString(ccModel.getBoundedRangeModel(2).getValue()));
     }//GEN-LAST:event_yellowFieldFocusLost
-
-    private void magentaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_magentaFieldFocusLost
+    private void magentaFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_magentaFieldFocusLost
         magentaField.setText(Integer.toString(ccModel.getBoundedRangeModel(1).getValue()));
     }//GEN-LAST:event_magentaFieldFocusLost
-
-    private void cyanFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cyanFieldFocusLost
+    private void cyanFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_cyanFieldFocusLost
         cyanField.setText(Integer.toString(ccModel.getBoundedRangeModel(0).getValue()));
     }//GEN-LAST:event_cyanFieldFocusLost
     // Variables declaration - do not modify//GEN-BEGIN:variables

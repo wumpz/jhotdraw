@@ -2,17 +2,14 @@
  * @(#)DrawingComponentRepainter.java
  *
  * Copyright (c) 2008-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
-
-
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.draw.*;
-
 /**
  * Calls repaint on components, which show attributes of a drawing object
  * on the current view of the editor.
@@ -22,10 +19,8 @@ import org.jhotdraw.draw.*;
  */
 public class DrawingComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, Disposable {
-
     private DrawingEditor editor;
     private JComponent component;
-
     public DrawingComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
         this.component = component;
@@ -37,16 +32,13 @@ public class DrawingComponentRepainter extends FigureAdapter
                     view.getDrawing().addFigureListener(this);
                 }
             }
-
             editor.addPropertyChangeListener(this);
         }
     }
-
     @Override
     public void attributeChanged(FigureEvent evt) {
         component.repaint();
     }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
@@ -80,7 +72,6 @@ public class DrawingComponentRepainter extends FigureAdapter
             component.repaint();
         }
     }
-
     @Override
     public void dispose() {
         if (editor != null) {

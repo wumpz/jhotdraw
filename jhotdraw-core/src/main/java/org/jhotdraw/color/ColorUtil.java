@@ -1,9 +1,9 @@
 /*
  * @(#)ColorUtil.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -27,7 +27,7 @@ import org.jhotdraw.text.ColorToolTipTextFormatter;
 public class ColorUtil {
 
     private static ColorToolTipTextFormatter formatter;
-    private static final ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+    private static final ColorSpace SRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
 
     /**
      * Prevent instance creation.
@@ -54,7 +54,6 @@ public class ColorUtil {
      */
     public static Color toColor(ColorSpace colorSpace, float... components) {
         return new CompositeColor(colorSpace, components, 1f);
-
     }
 
     /**
@@ -82,7 +81,6 @@ public class ColorUtil {
 
     public static int CStoRGB24(ColorSpace colorSpace, float[] components, float[] rgb) {
         CStoRGB(colorSpace, components, rgb);
-
         // If the color is not displayable in RGB, we return transparent black.
         if (rgb[0] < 0f || rgb[1] < 0f || rgb[2] < 0f || rgb[0] > 1f || rgb[1] > 1f || rgb[2] > 1f) {
             return 0;
@@ -162,7 +160,6 @@ public class ColorUtil {
                 }
             }
         }
-
         if (a instanceof ICC_ColorSpace) {
             // Fall back if no description is available
             StringBuilder buf = new StringBuilder();
@@ -255,7 +252,7 @@ public class ColorUtil {
      * Faster CIEXYZtoRGB method which uses the provided output array.
      */
     public static float[] CIEXYZtoRGB(float[] xyz, float[] rgb) {
-        float[] tmp = sRGB.fromCIEXYZ(xyz);
+        float[] tmp = SRGB.fromCIEXYZ(xyz);
         System.arraycopy(tmp, 0, rgb, 0, 3);
         return rgb;
     }
@@ -264,7 +261,7 @@ public class ColorUtil {
      * Faster RGBtoCIEXYZ method which uses the provided output array.
      */
     public static float[] RGBtoCIEXYZ(float[] rgb, float[] xyz) {
-        float[] tmp = sRGB.toCIEXYZ(rgb);
+        float[] tmp = SRGB.toCIEXYZ(rgb);
         System.arraycopy(tmp, 0, xyz, 0, 3);
         return xyz;
     }

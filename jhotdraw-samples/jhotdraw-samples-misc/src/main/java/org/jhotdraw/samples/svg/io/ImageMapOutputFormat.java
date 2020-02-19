@@ -2,11 +2,10 @@
  * @(#)ImageMapOutputFormat.java
  *
  * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
-
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
@@ -41,7 +40,6 @@ import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.jhotdraw.util.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 /**
  * ImageMapOutputFormat exports a SVG drawing as an HTML 4.01 <code>MAP</code>
  * element.
@@ -53,7 +51,6 @@ import org.w3c.dom.NodeList;
  * @version $Id$
  */
 public class ImageMapOutputFormat implements OutputFormat {
-
     /**
      * The affine transformation for the output. This is used
      * to create scaled image maps.
@@ -70,33 +67,27 @@ public class ImageMapOutputFormat implements OutputFormat {
      * image dimension.
      */
     private Rectangle bounds = new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
-
     /**
      * Creates a new instance.
      */
     public ImageMapOutputFormat() {
     }
-
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("HTML Image Map", "html");
     }
-
     @Override
     public String getFileExtension() {
         return "html";
     }
-
     @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
-
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri), drawing);
     }
-
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(
                 new FileOutputStream(file));
@@ -106,12 +97,10 @@ public class ImageMapOutputFormat implements OutputFormat {
             out.close();
         }
     }
-
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing.getChildren());
     }
-
     /**
      * Writes the drawing to the specified output stream.
      * This method applies the specified drawingTransform to the drawing, and draws
@@ -121,7 +110,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         write(out, drawing.getChildren(), drawingTransform, imageSize);
     }
-
     /**
      * Writes the figures to the specified output stream.
      * This method applies the specified drawingTransform to the drawing, and draws
@@ -131,10 +119,8 @@ public class ImageMapOutputFormat implements OutputFormat {
      */
     public void write(OutputStream out, java.util.List<Figure> figures,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
-
         this.drawingTransform = (drawingTransform == null) ? new AffineTransform() : drawingTransform;
         this.bounds = (imageSize == null) ? new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE) : new Rectangle(0, 0, imageSize.width, imageSize.height);
-
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
         try {
@@ -143,14 +129,11 @@ public class ImageMapOutputFormat implements OutputFormat {
             Logger.getLogger(ImageMapOutputFormat.class.getName()).log(Level.SEVERE, null, ex);
             throw new IOException(ex);
         }
-
         Element document = dBuilder.newDocument().createElement("map");
-
         // Note: Image map elements need to be written from front to back
         for (Figure f : new ReversedList<Figure>(figures)) {
             writeElement(document, f);
         }
-
         // Strip AREA elements with "nohref" attributes from the end of the
         // map
         if (!isIncludeNohref) {
@@ -162,7 +145,6 @@ public class ImageMapOutputFormat implements OutputFormat {
                 }
             }
         }
-
         try {
             // Write XML content
             TransformerFactory tf = TransformerFactory.newInstance();
@@ -177,13 +159,11 @@ public class ImageMapOutputFormat implements OutputFormat {
             throw new IOException(ex);
         }
     }
-
     /**
      * All other write methods delegate their work to here.
      */
     public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
         Rectangle2D.Double drawingRect = null;
-
         for (Figure f : figures) {
             if (drawingRect == null) {
                 drawingRect = f.getBounds();
@@ -191,25 +171,21 @@ public class ImageMapOutputFormat implements OutputFormat {
                 drawingRect.add(f.getBounds());
             }
         }
-
         AffineTransform tx = new AffineTransform();
         tx.translate(
                 -Math.min(0, drawingRect.x),
                 -Math.min(0, drawingRect.y));
-
         write(out, figures, tx,
                 new Dimension(
                         (int) (Math.abs(drawingRect.x) + drawingRect.width),
                         (int) (Math.abs(drawingRect.y) + drawingRect.height)));
     }
-
     @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         write(buf, figures);
         return new InputStreamTransferable(new DataFlavor("text/html", "HTML Image Map"), buf.toByteArray());
     }
-
     protected void writeElement(Element parent, Figure f) throws IOException {
         if (f instanceof SVGEllipseFigure) {
             writeEllipseElement(parent, (SVGEllipseFigure) f);
@@ -254,7 +230,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             System.out.println("Unable to write: " + f);
         }
     }
-
     /**
      * Writes the <code>shape</code>, <code>coords</code>, <code>href</code>,
      * <code>nohref</code> Attribute for the specified figure and ellipse.
@@ -268,12 +243,10 @@ public class ImageMapOutputFormat implements OutputFormat {
         } else {
             t.preConcatenate(drawingTransform);
         }
-
         if ((t.getType()
                 & (AffineTransform.TYPE_UNIFORM_SCALE | AffineTransform.TYPE_TRANSLATION))
                 == t.getType()
                 && ellipse.width == ellipse.height) {
-
             Point2D.Double start = new Point2D.Double(ellipse.x, ellipse.y);
             Point2D.Double end = new Point2D.Double(ellipse.x + ellipse.width, ellipse.y + ellipse.height);
             t.transform(start, start);
@@ -282,7 +255,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             ellipse.y = Math.min(start.y, end.y);
             ellipse.width = Math.abs(start.x - end.x);
             ellipse.height = Math.abs(start.y - end.y);
-
             elem.setAttribute("shape", "circle");
             elem.setAttribute("coords",
                     (int) (ellipse.x + ellipse.width / 2d) + ","
@@ -294,7 +266,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             return writePolyAttributes(elem, f, (Shape) ellipse);
         }
     }
-
     /**
      * Writes the <code>shape</code>, <code>coords</code>, <code>href</code>,
      * <code>nohref</code> Attribute for the specified figure and rectangle.
@@ -308,11 +279,9 @@ public class ImageMapOutputFormat implements OutputFormat {
         } else {
             t.preConcatenate(drawingTransform);
         }
-
         if ((t.getType()
                 & (AffineTransform.TYPE_UNIFORM_SCALE | AffineTransform.TYPE_TRANSLATION))
                 == t.getType()) {
-
             Point2D.Double start = new Point2D.Double(rect.x, rect.y);
             Point2D.Double end = new Point2D.Double(rect.x + rect.width, rect.y + rect.height);
             t.transform(start, start);
@@ -322,7 +291,6 @@ public class ImageMapOutputFormat implements OutputFormat {
                     (int) Math.min(start.y, end.y),
                     (int) Math.abs(start.x - end.x),
                     (int) Math.abs(start.y - end.y));
-
             elem.setAttribute("shape", "rect");
             elem.setAttribute("coords",
                     r.x + ","
@@ -335,7 +303,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             return writePolyAttributes(elem, f, (Shape) rect);
         }
     }
-
     private void writeHrefAttribute(Element elem, SVGFigure f) {
         String link = f.get(LINK);
         if (link != null && link.trim().length() > 0) {
@@ -350,7 +317,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             elem.setAttribute("nohref", "true");
         }
     }
-
     /**
      * Writes the <code>shape</code>, <code>coords</code>, <code>href</code>,
      * <code>nohref</code> Attribute for the specified figure and shape.
@@ -364,7 +330,6 @@ public class ImageMapOutputFormat implements OutputFormat {
         } else {
             t.preConcatenate(drawingTransform);
         }
-
         StringBuilder buf = new StringBuilder();
         float[] coords = new float[6];
         Path2D.Double path = new Path2D.Double();
@@ -404,7 +369,6 @@ public class ImageMapOutputFormat implements OutputFormat {
         writeHrefAttribute(elem, f);
         return path.intersects(new Rectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height));
     }
-
     private void writePathElement(Element parent, SVGPathFigure f) throws IOException {
         GrowStroke growStroke = new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0));
         BasicStroke basicStroke = new BasicStroke((float) getStrokeTotalWidth(f, 1.0));
@@ -419,22 +383,18 @@ public class ImageMapOutputFormat implements OutputFormat {
             parent.appendChild(elem);
         }
     }
-
     private void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
             parent.appendChild(elem);
         }
     }
-
     private void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
-
         if (writePolyAttributes(elem, f, new BasicStroke((float) getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
             parent.appendChild(elem);
         }
     }
-
     private void writeLineElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(new Line2D.Double(
@@ -442,7 +402,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             parent.appendChild(elem);
         }
     }
-
     private void writeRectElement(Element parent, SVGRectFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("AREA");
         boolean isContained;
@@ -464,7 +423,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             parent.appendChild(elem);
         }
     }
-
     private void writeTextElement(Element parent, SVGTextFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("AREA");
         Rectangle2D.Double rect = f.getBounds();
@@ -477,7 +435,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             parent.appendChild(elem);
         }
     }
-
     private void writeTextAreaElement(Element parent, SVGTextAreaFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("AREA");
         Rectangle2D.Double rect = f.getBounds();
@@ -490,7 +447,6 @@ public class ImageMapOutputFormat implements OutputFormat {
             parent.appendChild(elem);
         }
     }
-
     private void writeEllipseElement(Element parent, SVGEllipseFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         Rectangle2D.Double r = f.getBounds();
@@ -500,14 +456,12 @@ public class ImageMapOutputFormat implements OutputFormat {
             parent.appendChild(elem);
         }
     }
-
     private void writeGElement(Element parent, SVGGroupFigure f) throws IOException {
         // Note: Image map elements need to be written from front to back
         for (Figure child : new ReversedList<Figure>(f.getChildren())) {
             writeElement(parent, child);
         }
     }
-
     private void writeImageElement(Element parent, SVGImageFigure f) {
         Element elem = parent.getOwnerDocument().createElement("area");
         Rectangle2D.Double rect = f.getBounds();

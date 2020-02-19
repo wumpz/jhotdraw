@@ -33,25 +33,19 @@ public class PaletteButtonUI extends BasicButtonUI {
     @Override
     protected void installDefaults(AbstractButton b) {
         super.installDefaults(b);
-
         // load shared instance defaults
         String pp = getPropertyPrefix();
-
         LookAndFeel.installProperty(b, "opaque", Boolean.FALSE);
-
         if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
             b.setMargin(new InsetsUIResource(0, 0, 0, 0));
         }
-
         PaletteLookAndFeel.installColorsAndFont(b, pp + "background",
                 pp + "foreground", pp + "font");
         PaletteLookAndFeel.installBorder(b, pp + "border");
-
         Object rollover = UIManager.get(pp + "rollover");
         if (rollover != null) {
             LookAndFeel.installProperty(b, "rolloverEnabled", rollover);
         }
-
         b.setFocusable(false);
     }
 

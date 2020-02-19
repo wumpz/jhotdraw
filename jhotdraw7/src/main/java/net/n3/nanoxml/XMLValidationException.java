@@ -26,7 +26,6 @@
  *  3. This notice may not be removed or altered from any source distribution.
  */
 package net.n3.nanoxml;
-
 /**
  * An XMLValidationException is thrown when the XML passed to the XML parser is
  * well-formed but not valid.
@@ -36,7 +35,6 @@ package net.n3.nanoxml;
  */
 public class XMLValidationException
         extends XMLException {
-
     private static final long serialVersionUID = 1L;
     /**
      * An element was missing.
@@ -86,7 +84,6 @@ public class XMLValidationException
      * The value of the attribute where the exception occurred.
      */
     private String attributeValue;
-
     /**
      * Creates a new exception.
      *
@@ -117,7 +114,6 @@ public class XMLValidationException
         this.attributeName = attributeName;
         this.attributeValue = attributeValue;
     }
-
     /**
      * Cleans up the object when it's destroyed.
      */
@@ -128,7 +124,6 @@ public class XMLValidationException
         this.attributeValue = null;
         super.finalize();
     }
-
     /**
      * Returns the name of the element in which the validation is violated. If
      * there is no current element, null is returned.
@@ -136,7 +131,6 @@ public class XMLValidationException
     public String getElementName() {
         return this.elementName;
     }
-
     /**
      * Returns the name of the attribute in which the validation is violated. If
      * there is no current attribute, null is returned.
@@ -144,7 +138,6 @@ public class XMLValidationException
     public String getAttributeName() {
         return this.attributeName;
     }
-
     /**
      * Returns the value of the attribute in which the validation is violated.
      * If there is no current attribute, null is returned.

@@ -2,7 +2,7 @@
  * @(#)MoveHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -95,7 +95,6 @@ public class MoveHandle extends LocatorHandle {
             f.willChange();
             f.transform(tx);
             f.changed();
-
             oldPoint = newPoint;
         }
     }
@@ -115,7 +114,6 @@ public class MoveHandle extends LocatorHandle {
         Figure f = getOwner();
         if (f.isTransformable()) {
             AffineTransform tx = new AffineTransform();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     tx.translate(0, -1);
@@ -140,7 +138,6 @@ public class MoveHandle extends LocatorHandle {
             fireUndoableEditHappened(
                     new TransformEdit(f, tx));
         }
-
     }
 
     static public Handle south(

@@ -2,18 +2,16 @@
  * @(#)DefaultDrawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.util.*;
 import java.util.*;
 import org.jhotdraw.geom.Geom;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * A default implementation of {@link Drawing} useful for drawings which contain
  * only a few figures. <p> For larger drawings, {@link QuadTreeDrawing} is
@@ -26,23 +24,18 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class DefaultDrawing
         extends AbstractDrawing {
-
     private static final long serialVersionUID = 1L;
-    
     private boolean needsSorting = false;
-
     /**
      * Creates a new instance.
      */
     public DefaultDrawing() {
     }
-
     @Override
     public void basicAdd(int index, Figure figure) {
         super.basicAdd(index, figure);
         invalidateSortOrder();
     }
-
     @Override
     public void draw(Graphics2D g) {
         synchronized (getLock()) {
@@ -57,7 +50,6 @@ public class DefaultDrawing
             draw(g, toDraw);
         }
     }
-
     public void draw(Graphics2D g, Collection<Figure> children) {
         Rectangle2D clipBounds = g.getClipBounds();
         if (clipBounds != null) {
@@ -74,7 +66,6 @@ public class DefaultDrawing
             }
         }
     }
-
     @Override
     public java.util.List<Figure> sort(Collection<? extends Figure> c) {
         HashSet<Figure> unsorted = new HashSet<Figure>();
@@ -94,7 +85,6 @@ public class DefaultDrawing
         }
         return sorted;
     }
-
     @Override
     public Figure findFigure(Point2D.Double p) {
         for (Figure f : getFiguresFrontToBack()) {
@@ -104,7 +94,6 @@ public class DefaultDrawing
         }
         return null;
     }
-
     @Override
     public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
         for (Figure f : getFiguresFrontToBack()) {
@@ -114,7 +103,6 @@ public class DefaultDrawing
         }
         return null;
     }
-
     @Override
     public Figure findFigureBehind(Point2D.Double p, Figure figure) {
         boolean isBehind = false;
@@ -129,7 +117,6 @@ public class DefaultDrawing
         }
         return null;
     }
-
     @Override
     public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
         int inFrontOf = children.size();
@@ -146,7 +133,6 @@ public class DefaultDrawing
         }
         return null;
     }
-
     @Override
     public Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore) {
         for (Figure f : getFiguresFrontToBack()) {
@@ -156,7 +142,6 @@ public class DefaultDrawing
         }
         return null;
     }
-
     @Override
     public java.util.List<Figure> findFigures(Rectangle2D.Double bounds) {
         LinkedList<Figure> intersection = new LinkedList<Figure>();
@@ -167,7 +152,6 @@ public class DefaultDrawing
         }
         return intersection;
     }
-
     @Override
     public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
         LinkedList<Figure> contained = new LinkedList<Figure>();
@@ -183,13 +167,11 @@ public class DefaultDrawing
         }
         return contained;
     }
-
     @Override
     public Figure findFigureInside(Point2D.Double p) {
         Figure f = findFigure(p);
         return (f == null) ? null : f.findFigureInside(p);
     }
-
     /**
      * Returns an iterator to iterate in Z-order front to back over the
      * children.
@@ -199,14 +181,12 @@ public class DefaultDrawing
         ensureSorted();
         return new ReversedList<Figure>(getChildren());
     }
-
     /**
      * Invalidates the sort order.
      */
     private void invalidateSortOrder() {
         needsSorting = true;
     }
-
     /**
      * Ensures that the children are sorted in z-order sequence from back to
      * front.
@@ -217,27 +197,22 @@ public class DefaultDrawing
             needsSorting = false;
         }
     }
-
     @Override
     protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
         // empty
     }
-
     @Override
     public int indexOf(Figure figure) {
         return children.indexOf(figure);
     }
-
     @Override
     protected void drawFill(Graphics2D g) {
         //  throw new UnsupportedOperationException("Not supported yet.");
     }
-
     @Override
     protected void drawStroke(Graphics2D g) {
         //  throw new UnsupportedOperationException("Not supported yet.");
     }
-
     @Override
     public void drawCanvas(Graphics2D g) {
         if (get(CANVAS_WIDTH) != null && get(CANVAS_HEIGHT) != null) {
@@ -248,11 +223,9 @@ public class DefaultDrawing
                 canvasColor = new Color(
                         (canvasColor.getRGB() & 0xffffff)
                         | ((int) (fillOpacity * 255) << 24), true);
-
                 // Fill the canvas
                 Rectangle2D.Double r = new Rectangle2D.Double(
                         0, 0, get(CANVAS_WIDTH), get(CANVAS_HEIGHT));
-
                 g.setColor(canvasColor);
                 g.fill(r);
             }

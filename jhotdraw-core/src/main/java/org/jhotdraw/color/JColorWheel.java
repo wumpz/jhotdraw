@@ -2,7 +2,7 @@
  * @(#)JColorWheel.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -31,7 +31,6 @@ public class JColorWheel extends JPanel {
     private boolean isFlipX, isFlipY;
 
     public enum Type {
-
         POLAR,
         SQUARE,
         DISK,
@@ -77,7 +76,6 @@ public class JColorWheel extends JPanel {
             float[] hsb = getColorAt(e.getX(), e.getY());
             model.setComponent(angularIndex, hsb[angularIndex]);
             model.setComponent(radialIndex, hsb[radialIndex]);
-
             // FIXME - We should only repaint the damaged area
             repaint();
         }
@@ -222,7 +220,6 @@ public class JColorWheel extends JPanel {
     protected void paintWheel(Graphics2D g) {
         int w = getWidth() - wheelInsets.left - wheelInsets.right;
         int h = getHeight() - wheelInsets.top - wheelInsets.bottom;
-
         if (colorWheelImage == null || colorWheelImage.getWidth(this) != w || colorWheelImage.getHeight(this) != h) {
             if (colorWheelImage != null) {
                 colorWheelImage.flush();
@@ -230,7 +227,6 @@ public class JColorWheel extends JPanel {
             colorWheelProducer = createWheelProducer(w, h);
             colorWheelImage = createImage(colorWheelProducer);
         }
-
         colorWheelProducer.setVerticalValue(model.getComponent(verticalIndex));
         if (colorWheelProducer.needsGeneration()) {
             // To keep the UI responsive, we only perform the time consuming
@@ -243,13 +239,11 @@ public class JColorWheel extends JPanel {
                 colorWheelProducer.regenerateColorWheel();
             }
         }
-
         g.drawImage(colorWheelImage, wheelInsets.left, wheelInsets.top, this);
     }
 
     protected void paintThumb(Graphics2D g) {
         Point p = getThumbLocation();
-
         g.setColor(Color.white);
         g.fillRect(p.x - 1, p.y - 1, 2, 2);
         g.setColor(Color.black);
@@ -259,7 +253,6 @@ public class JColorWheel extends JPanel {
     protected Point getCenter() {
         int w = getWidth() - wheelInsets.left - wheelInsets.right;
         int h = getHeight() - wheelInsets.top - wheelInsets.bottom;
-
         return new Point(
                 wheelInsets.left + w / 2,
                 wheelInsets.top + h / 2);
@@ -300,7 +293,6 @@ public class JColorWheel extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

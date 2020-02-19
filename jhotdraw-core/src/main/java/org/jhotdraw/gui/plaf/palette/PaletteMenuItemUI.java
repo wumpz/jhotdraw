@@ -2,7 +2,7 @@
  * @(#)PaletteMenuItemUI.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -50,10 +50,8 @@ public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
     @Override
     public void paint(Graphics g, JComponent c) {
         JMenuItem b = (JMenuItem) c;
-
         // Paint background
         paintBackground(g, b, selectionBackground);
-
         // Paint the icon
         //((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         Icon icon = b.getIcon();

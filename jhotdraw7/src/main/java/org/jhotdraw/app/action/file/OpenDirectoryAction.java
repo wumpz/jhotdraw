@@ -1,18 +1,15 @@
 /*
  * @(#)OpenDirectoryAction.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
-
 import javax.swing.JFileChooser;
 import org.jhotdraw.app.*;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * Presents an {@code URIChooser} for selecting a directory and loads the
  * selected URI into an empty view. If no empty view is available, a new view is
@@ -36,7 +33,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class OpenDirectoryAction extends OpenFileAction {
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.openDirectory";
-
     /** Creates a new instance. */
     public OpenDirectoryAction(Application app) {
         super(app);

@@ -2,12 +2,10 @@
  * @(#)CreationTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
 import java.awt.*;
@@ -15,7 +13,6 @@ import java.awt.geom.*;
 import java.awt.event.*;
 import java.util.*;
 import org.jhotdraw.util.*;
-
 /**
  * A {@link Tool} to create a new figure by drawing its bounds.
  * The figure to be created is specified by a prototype.
@@ -54,7 +51,6 @@ import org.jhotdraw.util.*;
  */
 public class CreationTool extends AbstractTool {
     private static final long serialVersionUID = 1L;
-
     /**
      * Attributes to be applied to the created ConnectionFigure.
      * These attributes override the default attributes of the
@@ -89,16 +85,13 @@ public class CreationTool extends AbstractTool {
      * figures consecutively.
      */
     private boolean isToolDoneAfterCreation = true;
-
     /** Creates a new instance. */
     public CreationTool(String prototypeClassName) {
         this(prototypeClassName, null, null);
     }
-
     public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
-
     public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes, String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
@@ -114,7 +107,6 @@ public class CreationTool extends AbstractTool {
         }
         this.presentationName = name;
     }
-
     /** Creates a new instance with the specified prototype but without an
      * attribute set. The CreationTool clones this prototype each time a new
      *  Figure needs to be created. When a new Figure is created, the
@@ -125,7 +117,6 @@ public class CreationTool extends AbstractTool {
     public CreationTool(Figure prototype) {
         this(prototype, null, null);
     }
-
     /** Creates a new instance with the specified prototype but without an
      * attribute set. The CreationTool clones this prototype each time a new
      * Figure needs to be created. When a new Figure is created, the
@@ -140,7 +131,6 @@ public class CreationTool extends AbstractTool {
     public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
-
     /**
      * Creates a new instance with the specified prototype and attribute set.
      *
@@ -161,11 +151,9 @@ public class CreationTool extends AbstractTool {
         }
         this.presentationName = name;
     }
-
     public Figure getPrototype() {
         return prototype;
     }
-
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
@@ -173,7 +161,6 @@ public class CreationTool extends AbstractTool {
             getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         }
     }
-
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
@@ -187,7 +174,6 @@ public class CreationTool extends AbstractTool {
             createdFigure = null;
         }
     }
-
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
@@ -199,7 +185,6 @@ public class CreationTool extends AbstractTool {
         createdFigure.setBounds(p, p);
         getDrawing().add(createdFigure);
     }
-
     @Override
     public void mouseDragged(MouseEvent evt) {
         if (createdFigure != null) {
@@ -211,7 +196,6 @@ public class CreationTool extends AbstractTool {
             createdFigure.changed();
         }
     }
-
     @Override
     public void mouseReleased(MouseEvent evt) {
         if (createdFigure != null) {
@@ -239,18 +223,15 @@ public class CreationTool extends AbstractTool {
                 final Drawing addedDrawing = getDrawing();
                 getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                     @Override
                     public String getPresentationName() {
                         return presentationName;
                     }
-
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
                         addedDrawing.remove(addedFigure);
                     }
-
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -269,7 +250,6 @@ public class CreationTool extends AbstractTool {
             }
         }
     }
-
     @SuppressWarnings("unchecked")
     protected Figure createFigure() {
         Figure f = prototype.clone();
@@ -281,15 +261,12 @@ public class CreationTool extends AbstractTool {
         }
         return f;
     }
-
     protected Figure getCreatedFigure() {
         return createdFigure;
     }
-
     protected Figure getAddedFigure() {
         return createdFigure;
     }
-
     /**
      * This method allows subclasses to do perform additonal user interactions
      * after the new figure has been created.
@@ -303,7 +280,6 @@ public class CreationTool extends AbstractTool {
             fireToolDone();
         }
     }
-
     /**
      * If this is set to false, the CreationTool does not fire toolDone
      * after a new Figure has been created. This allows to create multiple
@@ -313,7 +289,6 @@ public class CreationTool extends AbstractTool {
         boolean oldValue = isToolDoneAfterCreation;
         isToolDoneAfterCreation = newValue;
     }
-
     /**
      * Returns true, if this tool fires toolDone immediately after a new
      * figure has been created.
@@ -321,7 +296,6 @@ public class CreationTool extends AbstractTool {
     public boolean isToolDoneAfterCreation() {
         return isToolDoneAfterCreation;
     }
-
     @Override
     public void updateCursor(DrawingView view, Point p) {
         if (view.isEnabled()) {

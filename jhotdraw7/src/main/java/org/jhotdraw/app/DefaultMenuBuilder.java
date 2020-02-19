@@ -1,14 +1,12 @@
 /*
  * @(#)DefaultMenuBuilder.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
-
-
 import java.util.List;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -39,7 +37,6 @@ import org.jhotdraw.app.action.file.OpenFileAction;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
-
 /**
  * {@code DefaultMenuBuilder}.
  *
@@ -49,7 +46,6 @@ import org.jhotdraw.app.action.file.SaveFileAsAction;
 public class DefaultMenuBuilder implements MenuBuilder {
     /** Whether icons in menu items shall be removed. */
     public boolean suppressIcons;
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AbstractPreferencesAction}</li>
@@ -63,7 +59,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link ExitAction}</li>
@@ -77,7 +72,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link ClearFileAction}</li>
@@ -91,7 +85,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link NewWindowAction}</li>
@@ -105,7 +98,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link NewFileAction}</li>
@@ -119,7 +111,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link LoadFileAction}</li>
@@ -137,7 +128,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link OpenFileAction}</li>
@@ -155,7 +145,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link CloseFileAction}</li>
@@ -169,7 +158,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link SaveFileAction}</li>
@@ -187,7 +175,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link ExportFileAction}</li>
@@ -201,7 +188,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link PrintFileAction}</li>
@@ -215,12 +201,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Does nothing. */
     @Override
     public void addOtherFileItems(JMenu m, Application app, View v) {
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link UndoAction}</li>
@@ -238,7 +222,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link CutAction}</li>
@@ -268,7 +251,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link SelectAllAction}</li>
@@ -286,7 +268,6 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AbstractFindAction}</li>
@@ -300,32 +281,26 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     /** Does nothing. */
     @Override
     public void addOtherEditItems(JMenu m, Application app, View v) {
     }
-
     /** Does nothing. */
     @Override
     public void addOtherViewItems(JMenu m, Application app, View v) {
     }
-
     /** Does nothing. */
     @Override
     public void addOtherMenus(List<JMenu> m, Application app, View v) {
     }
-
     /** Does nothing. */
     @Override
     public void addOtherWindowItems(JMenu m, Application app, View v) {
     }
-
     /** Does nothing. */
     @Override
     public void addHelpItems(JMenu m, Application app, View v) {
     }
-
     /** Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AboutAction}</li>
@@ -339,17 +314,12 @@ public class DefaultMenuBuilder implements MenuBuilder {
             add(m,a);
         }
     }
-
     public boolean isSuppressIcons() {
         return suppressIcons;
     }
-
     public void setSuppressIcons(boolean suppressIcons) {
         this.suppressIcons = suppressIcons;
     }
-
-
-
     /** Adds an action to a menu. Returns the menu item that was added.
      * This method is invoked for each action that is added to a menu.
      * Override this method to customize the menu item that is being created.

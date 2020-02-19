@@ -5,23 +5,19 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg.gui;
-
-
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.util.*;
-
 /**
  * MessagePanel.
  * <p>
- * The MessagePanel covers the whole content pane of the DrawingApplet. 
+ * The MessagePanel covers the whole content pane of the DrawingApplet.
  * The DrawingApplet registers with the  DrawingComponent as an
- * ActionListener to receive "save" and "cancel" action 
+ * ActionListener to receive "save" and "cancel" action
  * commands.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -29,19 +25,16 @@ public class MessagePanel extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
     private EventListenerList listeners;
     private ResourceBundleUtil labels;
-    
     /** Creates new instance. */
     public MessagePanel() {
         this(null, null);
     }
-    
     public MessagePanel(Icon icon, String message) {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         initComponents();
         setIcon(icon);
         setMessage(message);
     }
-    
     public void setMessage(String message) {
         messageLabel.setText(message);
     }
@@ -53,7 +46,6 @@ public class MessagePanel extends javax.swing.JPanel {
             listeners = new EventListenerList();
             listeners.add(ActionListener.class, listener);
         }
-        
     }
     public void removeActionListener(ActionListener listener) {
         if (listeners != null) {
@@ -63,7 +55,6 @@ public class MessagePanel extends javax.swing.JPanel {
             }
         }
     }
-    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -72,11 +63,9 @@ public class MessagePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         iconLabel = new javax.swing.JLabel();
         messageLabel = new javax.swing.JLabel();
         closeButton = new javax.swing.JButton();
-
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setLayout(new java.awt.GridBagLayout());
@@ -87,7 +76,6 @@ public class MessagePanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         add(messageLabel, gridBagConstraints);
-
         closeButton.setText(labels.getString("messagePanel.close.text")); // NOI18N
         closeButton.setActionCommand("close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -101,18 +89,14 @@ public class MessagePanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         add(closeButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closePerformed
+    private void closePerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_closePerformed
         for (ActionListener l : listeners.getListeners(ActionListener.class)) {
             l.actionPerformed(evt);
         }
     }//GEN-LAST:event_closePerformed
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
     private javax.swing.JLabel iconLabel;
     private javax.swing.JLabel messageLabel;
     // End of variables declaration//GEN-END:variables
-    
 }

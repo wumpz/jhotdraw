@@ -81,14 +81,12 @@ public class SelectionComponentDisplayer
         }
         if (newValue != component.isVisible()) {
             component.setVisible(newValue);
-
             // The following is needed to trick BoxLayout
             if (newValue) {
                 component.setPreferredSize(null);
             } else {
                 component.setPreferredSize(new Dimension(0, 0));
             }
-
             component.revalidate();
         }
     }

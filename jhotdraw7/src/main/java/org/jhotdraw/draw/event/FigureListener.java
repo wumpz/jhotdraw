@@ -2,15 +2,11 @@
  * @(#)FigureListener.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
-
 import java.util.*;
-
 /**
  * Interface implemented by observers of {@link org.jhotdraw.draw.Figure} objects.
  *
@@ -33,7 +29,6 @@ import java.util.*;
  * @version $Id$
  */
 public interface FigureListener extends EventListener {
-    
     /**
      * Sent when the drawing area used by the figure needs to be repainted.
      */
@@ -55,7 +50,6 @@ public interface FigureListener extends EventListener {
      * Sent when the geometry (for example the bounds) of the figure has changed.
      */
     public void figureChanged(FigureEvent e);
-    
     /**
      * Sent when a figure was added to a drawing.
      */
@@ -68,5 +62,4 @@ public interface FigureListener extends EventListener {
      * Sent when the figure requests to be removed from a drawing.
      */
     public void figureRequestRemove(FigureEvent e);
-    
 }

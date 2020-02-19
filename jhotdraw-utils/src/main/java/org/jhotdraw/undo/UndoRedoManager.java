@@ -2,7 +2,7 @@
  * @(#)UndoRedoManager.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.undo;
@@ -21,12 +21,11 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager {
+public class UndoRedoManager extends UndoManager { //javax.swing.undo.UndoManager {
 
     private static final long serialVersionUID = 1L;
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
     private static final boolean DEBUG = false;
-
     /**
      * The resource bundle used for internationalisation.
      */
@@ -38,7 +37,6 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * last call to discardAllEdits.
      */
     private boolean hasSignificantEdits = false;
-
     /**
      * This flag is set to true when an undo or redo
      * operation is in progress. The UndoRedoManager
@@ -46,7 +44,6 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
      * this flag is true.
      */
     private boolean undoOrRedoInProgress;
-
     /**
      * Sending this UndoableEdit event to the UndoRedoManager
      * disables the Undo and Redo functions of the manager.
@@ -90,7 +87,6 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
@@ -117,9 +113,7 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
                 System.out.println("Cannot redo: " + e);
             }
         }
-
     }
-
     /**
      * The undo action instance.
      */
@@ -242,7 +236,6 @@ public class UndoRedoManager extends UndoManager {//javax.swing.undo.UndoManager
         }
         undoAction.putValue(Action.NAME, label);
         undoAction.putValue(Action.SHORT_DESCRIPTION, label);
-
         if (canRedo()) {
             redoAction.setEnabled(true);
             label = getRedoPresentationName();

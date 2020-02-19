@@ -2,12 +2,10 @@
  * @(#)ExitAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
-
-
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.event.*;
@@ -22,7 +20,6 @@ import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
-
 /**
  * Exits the application after letting the user review all unsaved views.
  * <p>
@@ -39,18 +36,15 @@ import org.jhotdraw.net.URIUtil;
  */
 public class ExitAction extends AbstractApplicationAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.exit";
     private Component oldFocusOwner;
     private View unsavedView;
-
     /** Creates a new instance. */
     public ExitAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
@@ -73,7 +67,6 @@ public class ExitAction extends AbstractApplicationAction {
                 app.setEnabled(true);
                 return;
             }
-
             final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             switch (unsavedViewsCount) {
                 case 0: {
@@ -95,7 +88,6 @@ public class ExitAction extends AbstractApplicationAction {
                     pane.setInitialValue(options[0]);
                     pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                     JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
-
                     @Override
                         public void optionSelected(SheetEvent evt) {
                             Object value = evt.getValue();
@@ -110,7 +102,6 @@ public class ExitAction extends AbstractApplicationAction {
                             }
                         }
                     });
-
                     break;
                 }
                 default: {
@@ -153,14 +144,12 @@ public class ExitAction extends AbstractApplicationAction {
         }
         return chsr;
     }
-
     protected void saveChanges() {
         View v = unsavedView;
         if (v.getURI() == null) {
             URIChooser chooser = getChooser(v);
             //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
@@ -179,7 +168,6 @@ public class ExitAction extends AbstractApplicationAction {
             saveToFile(v.getURI(), null);
         }
     }
-
     protected void reviewChanges() {
         if (unsavedView.isEnabled()) {
             final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -188,7 +176,7 @@ public class ExitAction extends AbstractApplicationAction {
             URI unsavedURI = unsavedView.getURI();
             JOptionPane pane = new JOptionPane(
                     "<html>" + UIManager.getString("OptionPane.css")
-                    + labels.getFormatted("application.exit.doYouWantToSave.message", 
+                    + labels.getFormatted("application.exit.doYouWantToSave.message",
                     (unsavedURI==null)?unsavedView.getTitle():URIUtil.getName(unsavedURI)),
                     JOptionPane.WARNING_MESSAGE);
             Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
@@ -196,7 +184,6 @@ public class ExitAction extends AbstractApplicationAction {
             pane.setInitialValue(options[0]);
             pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
             JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(SheetEvent evt) {
                     Object value = evt.getValue();
@@ -215,13 +202,11 @@ public class ExitAction extends AbstractApplicationAction {
             getApplication().setEnabled(true);
         }
     }
-
     protected void saveChangesAndReviewNext() {
         final View v = unsavedView;
         if (v.getURI() == null) {
             URIChooser chooser = getChooser(v);
             JSheet.showSaveSheet(chooser, unsavedView.getComponent(), new SheetListener() {
-
                 @Override
                 public void optionSelected(final SheetEvent evt) {
                     if (evt.getOption() == URIChooser.APPROVE_OPTION) {
@@ -240,7 +225,6 @@ public class ExitAction extends AbstractApplicationAction {
             saveToFileAndReviewNext(v.getURI(), null);
         }
     }
-
     protected void reviewNext() {
         int unsavedViewsCount = 0;
         View documentToBeReviewed = null;
@@ -262,22 +246,18 @@ public class ExitAction extends AbstractApplicationAction {
             //System.out.println("exit silently aborted");
         }
     }
-
     protected void saveToFile(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 v.write(uri, chooser);
             }
-
             @Override
             protected void done() {
                 v.setURI(uri);
                 doExit();
             }
-
             @Override
             protected void failed(Throwable error) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -287,7 +267,6 @@ public class ExitAction extends AbstractApplicationAction {
                         + error,
                         JOptionPane.ERROR_MESSAGE);
             }
-
             @Override
             public void finished() {
                 v.setEnabled(true);
@@ -298,23 +277,19 @@ public class ExitAction extends AbstractApplicationAction {
             }
         });
     }
-
     protected void saveToFileAndReviewNext(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new BackgroundTask() {
-
             @Override
             protected void construct() throws IOException {
                 v.write(uri, chooser);
             }
-
             @Override
             protected void done() {
                 v.setURI(uri);
                 getApplication().dispose(unsavedView);
                 reviewNext();
             }
-
             @Override
             protected void failed(Throwable error) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -331,7 +306,6 @@ public class ExitAction extends AbstractApplicationAction {
             }
         });
     }
-
     protected void doExit() {
         getApplication().destroy();
     }

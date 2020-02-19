@@ -2,7 +2,7 @@
  * @(#)AbstractDrawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -26,7 +26,7 @@ import org.jhotdraw.xml.*;
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
 
     private static final long serialVersionUID = 1L;
-    private static final Object lock = new JPanel().getTreeLock();
+    private static final Object LOCK = new JPanel().getTreeLock();
     private transient FontRenderContext fontRenderContext;
     private LinkedList<InputFormat> inputFormats = new LinkedList<>();
     private LinkedList<OutputFormat> outputFormats = new LinkedList<>();
@@ -106,7 +106,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
      */
     @Override
     public Object getLock() {
-        return lock;
+        return LOCK;
     }
 
     @Override
@@ -153,7 +153,6 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     /*@Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double drawingArea;
-
         Dimension2DDouble canvasSize = getCanvasSize();
         if (canvasSize != null) {
             drawingArea = new Rectangle2D.Double(

@@ -195,8 +195,8 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
 
     /*
      * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
+     * notification on this event type.  The event instance
+     * is lazily created using the parameters passed into
      * the fire method.
      *
      * @param source the node where the tree model has changed

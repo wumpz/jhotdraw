@@ -2,18 +2,15 @@
  * @(#)CutAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.gui.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
-
 /**
  * Cuts the selected region and places its contents into the system clipboard.
  * <p>
@@ -33,14 +30,11 @@ import org.jhotdraw.util.*;
  */
 public class CutAction extends AbstractSelectionAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.cut";
-
     /** Creates a new instance which acts on the currently focused component. */
     public CutAction() {
         this(null);
     }
-
     /** Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
@@ -51,7 +45,6 @@ public class CutAction extends AbstractSelectionAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;

@@ -25,16 +25,11 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayDeque;
 import java.util.Stack;
-
-
 /**
  * StdXMLBuilder is a concrete implementation of IXMLBuilder which creates a
  * tree of IXMLElement from an XML data source.
@@ -48,25 +43,18 @@ import java.util.Stack;
 public class StdXMLBuilder
    implements IXMLBuilder
 {
-
    /**
     * This stack contains the current element and its parents.
     */
    private ArrayDeque<IXMLElement> stack;
-
-
    /**
     * The root element of the parsed XML tree.
     */
    private IXMLElement root;
-
-
    /**
     * Prototype element for creating the tree.
     */
    private IXMLElement prototype;
-
-
    /**
     * Creates the builder.
     */
@@ -74,8 +62,6 @@ public class StdXMLBuilder
    {
       this(new XMLElement());
    }
-
-
    /**
     * Creates the builder.
     *
@@ -87,8 +73,6 @@ public class StdXMLBuilder
       this.root = null;
       this.prototype = prototype;
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -101,8 +85,6 @@ public class StdXMLBuilder
       this.stack = null;
       super.finalize();
    }
-
-
    /**
     * This method is called before the parser starts processing its input.
     *
@@ -115,8 +97,6 @@ public class StdXMLBuilder
       this.stack = new ArrayDeque<IXMLElement>();
       this.root = null;
    }
-
-
    /**
     * This method is called when a processing instruction is encountered.
     * PIs with target "xml" are handled by the parser.
@@ -129,8 +109,6 @@ public class StdXMLBuilder
    {
       // nothing to do
    }
-
-
    /**
     * This method is called when a new XML element is encountered.
     *
@@ -152,25 +130,19 @@ public class StdXMLBuilder
                             int    lineNr)
    {
       String fullName = name;
-
       if (nsPrefix != null) {
          fullName = nsPrefix + ':' + name;
       }
-
       IXMLElement elt = this.prototype.createElement(fullName, nsURI,
                                                      systemID, lineNr);
-
       if (this.stack.isEmpty()) {
          this.root = elt;
       } else {
          IXMLElement top = this.stack.peek();
          top.addChild(elt);
       }
-
       this.stack.push(elt);
    }
-
-
    /**
     * This method is called when the attributes of an XML element have been
     * processed.
@@ -191,8 +163,6 @@ public class StdXMLBuilder
    {
       // nothing to do
    }
-
-
    /**
     * This method is called when the end of an XML elemnt is encountered.
     *
@@ -210,18 +180,14 @@ public class StdXMLBuilder
                           String nsURI)
    {
       IXMLElement elt = this.stack.pop();
-
       if (elt.getChildrenCount() == 1) {
          IXMLElement child = elt.getChildAtIndex(0);
-
          if (child.getName() == null) {
             elt.setContent(child.getContent());
             elt.removeChildAtIndex(0);
          }
       }
    }
-
-
    /**
     * This method is called when a new attribute of an XML element is
     * encountered.
@@ -247,27 +213,21 @@ public class StdXMLBuilder
       throws Exception
    {
       String fullName = key;
-
       if (nsPrefix != null) {
          fullName = nsPrefix + ':' + key;
       }
-
       IXMLElement top = this.stack.peek();
-
       if (top.hasAttribute(fullName)) {
          throw new XMLParseException(top.getSystemID(),
                                      top.getLineNr(),
                                      "Duplicate attribute: " + key);
       }
-
       if (nsPrefix != null) {
          top.setAttribute(fullName, nsURI, value);
       } else {
          top.setAttribute(fullName, value);
       }
    }
-
-
    /**
     * This method is called when a PCDATA element is encountered. A Java
     * reader is supplied from which you can read the data. The reader will
@@ -288,39 +248,30 @@ public class StdXMLBuilder
       int sizeRead = 0;
       StringBuffer str = new StringBuffer(bufSize);
       char[] buf = new char[bufSize];
-
       for (;;) {
          if (sizeRead >= bufSize) {
             bufSize *= 2;
             str.ensureCapacity(bufSize);
          }
-
          int size;
-
          try {
             size = reader.read(buf);
          } catch (IOException e) {
             break;
          }
-
          if (size < 0) {
             break;
          }
-
          str.append(buf, 0, size);
          sizeRead += size;
       }
-
       IXMLElement elt = this.prototype.createElement(null, systemID, lineNr);
       elt.setContent(str.toString());
-
       if (! this.stack.isEmpty()) {
          IXMLElement top = this.stack.peek();
          top.addChild(elt);
       }
    }
-
-
    /**
     * Returns the result of the building process. This method is called just
     * before the <I>parse</I> method of IXMLParser returns.
@@ -333,5 +284,4 @@ public class StdXMLBuilder
    {
       return this.root;
    }
-
 }

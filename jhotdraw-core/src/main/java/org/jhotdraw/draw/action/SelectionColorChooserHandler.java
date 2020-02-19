@@ -25,13 +25,12 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction
         implements ChangeListener {
 
     private static final long serialVersionUID = 1L;
-
     protected AttributeKey<Color> key;
     protected JColorChooser colorChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
-    //protected Map<AttributeKey, Object> attributes;
 
+    //protected Map<AttributeKey, Object> attributes;
     /**
      * Creates a new instance.
      */
@@ -40,7 +39,6 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction
         this.key = key;
         this.colorChooser = colorChooser;
         this.popupMenu = popupMenu;
-
         //colorChooser.addActionListener(this);
         colorChooser.getSelectionModel().addChangeListener(this);
         updateEnabledState();
@@ -59,12 +57,10 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction
     protected void applySelectedColorToFigures() {
         final ArrayList<Figure> selectedFigures = new ArrayList<>(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
-
         Color selectedColor = colorChooser.getColor();
         if (selectedColor != null && selectedColor.getAlpha() == 0) {
             selectedColor = null;
         }
-
         for (Figure figure : selectedFigures) {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();

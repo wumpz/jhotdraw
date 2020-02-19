@@ -2,11 +2,10 @@
  * @(#)AbstractDrawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
@@ -16,7 +15,6 @@ import javax.swing.event.*;
 import javax.swing.undo.*;
 import java.util.*;
 import java.io.*;
-
 /**
  * This abstract class can be extended to implement a {@link Drawing}.
  *
@@ -30,21 +28,17 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     private LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
     private LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
     private static final boolean DEBUG = false;
-
     /** Creates a new instance. */
     public AbstractDrawing() {
     }
-
     @Override
     public void addUndoableEditListener(UndoableEditListener l) {
         listenerList.add(UndoableEditListener.class, l);
     }
-
     @Override
     public void removeUndoableEditListener(UndoableEditListener l) {
         listenerList.remove(UndoableEditListener.class, l);
     }
-
     /**
      *  Notify all listenerList that have registered interest for
      * notification on this event type.
@@ -68,17 +62,14 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
             }
         }
     }
-
     @Override
     public FontRenderContext getFontRenderContext() {
         return fontRenderContext;
     }
-
     @Override
     public void setFontRenderContext(FontRenderContext frc) {
         fontRenderContext = frc;
     }
-
     @Override
     public void read(DOMInput in) throws IOException {
         in.openElement("figures");
@@ -88,7 +79,6 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         }
         in.closeElement();
     }
-
     @Override
     public void write(DOMOutput out) throws IOException {
         out.openElement("figures");
@@ -97,7 +87,6 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         }
         out.closeElement();
     }
-
     /**
      * The drawing view synchronizes on the lock when drawing a drawing.
      */
@@ -105,12 +94,10 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     public Object getLock() {
         return lock;
     }
-
     @Override
     public void addInputFormat(InputFormat format) {
         inputFormats.add(format);
     }
-
     @Override
     public void addOutputFormat(OutputFormat format) {
         outputFormats.add(format);
@@ -118,22 +105,18 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
             System.out.println(this + ".addOutputFormat(" + format + ")");
         }
     }
-
     @Override
     public void setOutputFormats(java.util.List<OutputFormat> formats) {
         this.outputFormats = new LinkedList<OutputFormat>(formats);
     }
-
     @Override
     public void setInputFormats(java.util.List<InputFormat> formats) {
         this.inputFormats = new LinkedList<InputFormat>(formats);
     }
-
     @Override
     public java.util.List<InputFormat> getInputFormats() {
         return inputFormats;
     }
-
     @Override
     public java.util.List<OutputFormat> getOutputFormats() {
         if (DEBUG) {
@@ -141,16 +124,13 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
         }
         return outputFormats;
     }
-
     @Override
     public Drawing getDrawing() {
         return this;
     }
-
     /*@Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double drawingArea;
-
         Dimension2DDouble canvasSize = getCanvasSize();
         if (canvasSize != null) {
             drawingArea = new Rectangle2D.Double(

@@ -2,7 +2,7 @@
  * @(#)AbstractApplicationAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action;
@@ -37,7 +37,6 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
 
     private static final long serialVersionUID = 1L;
-
     private Application app;
     private PropertyChangeListener applicationListener;
 
@@ -69,7 +68,6 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
 
     private PropertyChangeListener createApplicationListener() {
         return new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("enabled".equals(evt.getPropertyName())) {
@@ -118,7 +116,6 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     public void setEnabled(boolean newValue) {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
-
         firePropertyChange("enabled", oldValue && app.isEnabled(), newValue && app.isEnabled());
     }
 

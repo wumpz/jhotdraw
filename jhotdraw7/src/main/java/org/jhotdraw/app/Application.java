@@ -2,12 +2,10 @@
  * @(#)Application.java
  *
  * Copyright (c) 1996-2011 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
-
-
 import java.awt.Component;
 import java.awt.Window;
 import java.beans.PropertyChangeListener;
@@ -17,7 +15,6 @@ import java.util.List;
 import javax.swing.ActionMap;
 import javax.swing.JMenu;
 import org.jhotdraw.gui.URIChooser;
-
 /**
  * An <em>application</em> handles the lifecycle of {@link View} objects and
  * provides windows to present them on screen.
@@ -54,7 +51,7 @@ import org.jhotdraw.gui.URIChooser;
  *         model.setViewClassName("org.jhotdraw.myapplication.MyView");
  *         app.setModel(model);
  *         app.launch(args);
- *     } 
+ *     }
  * </pre>
  * <hr>
  * <b>Features</b>
@@ -86,7 +83,6 @@ import org.jhotdraw.gui.URIChooser;
  * @version $Id$
  */
 public interface Application {
-
     /**
      * The property name of the activeView property.
      */
@@ -95,7 +91,6 @@ public interface Application {
      * The property name of the recentURIs property.
      */
     public static final String RECENT_URIS_PROPERTY = "recentURIs";
-
     /**
      * Launches the application from the main method.
      * <p>
@@ -117,7 +112,6 @@ public interface Application {
      * @param args The arguments of the main method
      */
     public void launch(String[] args);
-
     /**
      * Configures the application using the provided arguments array.
      * <p>
@@ -129,7 +123,6 @@ public interface Application {
      * @param args The arguments of the main method
      */
     public void configure(String[] args);
-
     /**
      * Initializes the application.
      * <p>
@@ -141,7 +134,6 @@ public interface Application {
      * For example with {@code ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");}
      */
     public void init();
-
     /**
      * Starts the application.
      * <p>
@@ -159,7 +151,6 @@ public interface Application {
      *             for a given list of URI's.
      */
     public void start(List<URI> uris);
-
     /**
      * Stops the application without saving any unsaved views.
      * <p>
@@ -169,7 +160,6 @@ public interface Application {
      * This method must be called from AWT Event Dispatcher Thread.
      */
     public void stop();
-
     /**
      * Stops the application and then calls System.exit(0).
      * <p>
@@ -179,17 +169,15 @@ public interface Application {
      * This method must be called from AWT Event Dispatcher Thread.
      */
     public void destroy();
-
     /**
      * Creates a new view for this application and initializes it, by calling
      * {@link View#init}.
-     * The view has not been added to the application yet. 
+     * The view has not been added to the application yet.
      * To make the view usable with this application, call {@link #add(View)}.
      * To make it visible, first call {@code add(View)}, then {@link #show(View)}.
      * @return the created view
      */
     public View createView();
-
     /**
      * Adds a view to this application.
      * Fires a "documentCount" property change event.
@@ -197,7 +185,6 @@ public interface Application {
      * @param v the view
      */
     public void add(View v);
-
     /**
      * Removes a view from this application and removes it from the users
      * view.
@@ -206,49 +193,41 @@ public interface Application {
      * @param v the view
      */
     public void remove(View v);
-
     /**
      * Shows a view.
      * @param v the view
      */
     public void show(View v);
-
     /**
      * Hides a view.
      * @param v the view
      */
     public void hide(View v);
-
     /**
      * This is a convenience method for removing a view and disposing it.
      * @param v the view
      */
     public void dispose(View v);
-
     /**
      * Returns a read only collection view of the views of this application.
      * @return the views
      */
     public Collection<View> views();
-
     /**
-     * Returns the active view. This is used for OSXApplication and 
+     * Returns the active view. This is used for OSXApplication and
      * MDIApplication which share actions among multiple View instances.
      * Active view may be become null, if the
      * application has no view.
      * <p>
-     * This is a bound property. 
+     * This is a bound property.
      * @return the active view or null
      */
-    
     public View getActiveView();
-
     /**
      * Returns the enabled state of the application.
      * @return the value
      */
     public boolean isEnabled();
-
     /**
      * Sets the enabled state of the application.
      *
@@ -259,7 +238,7 @@ public interface Application {
      *
      * Actions that act on the application must check in their actionPerformed
      * method whether the application is enabled.
-     * If the application is disabled, they must do nothing. 
+     * If the application is disabled, they must do nothing.
      * If the application is enabled, they must disable the application,
      * perform the action and then enable the application again.
      *
@@ -267,76 +246,63 @@ public interface Application {
      * @param newValue the value
      */
     public void setEnabled(boolean newValue);
-
     /**
      * Adds a property change listener.
      * @param l the listener
      */
     public void addPropertyChangeListener(PropertyChangeListener l);
-
     /**
      * Removes a property change listener.
      * @param l the listener
      */
     public void removePropertyChangeListener(PropertyChangeListener l);
-
     /**
      * Returns the name of the application.
      * @return the value
      */
     public String getName();
-
     /**
      * Returns the version of the application.
      * @return the value
      */
     public String getVersion();
-
     /**
      * Returns the copyright of the application.
      * @return the value
      */
     public String getCopyright();
-
     /**
      * Sets the application model.
      * @param newValue the value
      */
     public void setModel(ApplicationModel newValue);
-
     /**
      * Returns the application model.
      * @return the value
      */
     public ApplicationModel getModel();
-
     /**
      * Returns true, if this application shares tools among multiple views.
      * @return the value
      */
     public boolean isSharingToolsAmongViews();
-
     /**
-     * Returns the application component. 
+     * Returns the application component.
      * This may return null, if the application is not represented by a component
      * of its own on the user interface.
      * @return the value
      */
-    
     public Component getComponent();
-
     /**
      * Adds a palette window to the application.
      * @param palette the palette
      */
     public void addPalette(Window palette);
-
     /**
      * Removes a palette window from the application.
      * @param palette the palette
      */
     public void removePalette(Window palette);
-
     /**
      * Adds a (non-palette) window to the application.
      *
@@ -345,13 +311,11 @@ public interface Application {
      * if the window is associated to the application.
      */
     public void addWindow(Window window, View view);
-
     /**
      * Removes a (non-palette) window from the application.
      * @param window the window
      */
     public void removeWindow(Window window);
-
     /**
      * Returns the recently opened URIs. By convention, this is an unmodifiable list.
      * The first item in the list is the most recently opened URI.
@@ -361,7 +325,6 @@ public interface Application {
      * @return the recently opened URIs
      */
     public java.util.List<URI> getRecentURIs();
-
     /**
      * Adds an URI to the start of the list of recent URIs.
      * <p>
@@ -375,7 +338,6 @@ public interface Application {
      * @param uri the value
      */
     public void addRecentURI(URI uri);
-
     /**
      * Clears the list of recent URIs.
      * This fires a property change event for the property "recentURIs".
@@ -387,52 +349,41 @@ public interface Application {
      * See {@link org.jhotdraw.app}.
      */
     public void clearRecentURIs();
-
     /**
      * Creates a file menu for the specified view or for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createFileMenu(View v);
-
     /**
      * Creates an edit menu for the specified view or for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createEditMenu(View v);
-
     /**
      * Creates a view menu for the specified view or for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createViewMenu(View v);
-
     /**
      * Creates a window menu for the specified view or for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createWindowMenu(View v);
-
-    /** 
+    /**
      * Creates a help menu for the specified view of for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createHelpMenu(View v);
-
     /**
      * Gets an open chooser for the specified view or for the entire application.
      *
@@ -440,7 +391,6 @@ public interface Application {
      * @return A chooser.
      */
     public URIChooser getOpenChooser(View v);
-
     /**
      * Gets a save chooser for the specified view or for the entire application.
      *
@@ -448,7 +398,6 @@ public interface Application {
      * @return A chooser.
      */
     public URIChooser getSaveChooser(View v);
-
     /**
      * Gets an export chooser for the specified view or for the entire application.
      *
@@ -456,7 +405,6 @@ public interface Application {
      * @return A chooser.
      */
     public URIChooser getExportChooser(View v);
-
     /**
      * Gets an import chooser for the specified view or for the entire application.
      *
@@ -464,7 +412,6 @@ public interface Application {
      * @return A chooser.
      */
     public URIChooser getImportChooser(View v);
-
     /**
      * Gets an action map for the specified view or for the entire application.
      *
@@ -472,7 +419,6 @@ public interface Application {
      * @return the action map
      */
     public ActionMap getActionMap(View v);
-
     /** Returns an unmodifiable list of all views of the application.
      * <p>
      * The list of views is used by the <em>Allow multiple views per URI</em> feature.

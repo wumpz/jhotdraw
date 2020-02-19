@@ -2,18 +2,16 @@
  * @(#)ApplyAttributesAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.undo.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
 /**
  * ApplyAttributesAction.
  *
@@ -22,10 +20,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class ApplyAttributesAction extends AbstractSelectedAction {
     private static final long serialVersionUID = 1L;
-
     private Set<AttributeKey<?>> excludedAttributes = new HashSet<AttributeKey<?>>(
             Arrays.asList(new AttributeKey<?>[]{TRANSFORM, TEXT}));
-
     /** Creates a new instance. */
     public ApplyAttributesAction(DrawingEditor editor) {
         super(editor);
@@ -33,28 +29,23 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
         labels.configureAction(this, "edit.applyAttributes");
         updateEnabledState();
     }
-
     /**
      * Set of attributes that is excluded when applying default attributes.
      */
     public void setExcludedAttributes(Set<AttributeKey<?>> a) {
         this.excludedAttributes = new HashSet<AttributeKey<?>>(a);
     }
-
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         applyAttributes();
     }
-
     @SuppressWarnings("unchecked")
     public void applyAttributes() {
         DrawingEditor editor = getEditor();
-
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         CompositeEdit edit = new CompositeEdit(labels.getString("edit.applyAttributes.text"));
         DrawingView view = getView();
         view.getDrawing().fireUndoableEditHappened(edit);
-
         for (Figure figure : view.getSelectedFigures()) {
             figure.willChange();
             for (Map.Entry<AttributeKey<?>, Object> entry : editor.getDefaultAttributes().entrySet()) {
@@ -66,7 +57,6 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
         }
         view.getDrawing().fireUndoableEditHappened(edit);
     }
-
     public void selectionChanged(FigureSelectionEvent evt) {
         setEnabled(getView().getSelectionCount() == 1);
     }

@@ -2,7 +2,7 @@
  * @(#)DefaultHandleTracker.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -61,10 +61,8 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         public void handleRequestSecondaryHandles(HandleEvent e) {
             // empty
         }
-
     }
     private EventHandler eventHandler = new EventHandler();
-
     /**
      * Last dragged mouse location. This variable is only non-null when
      * the mouse is being pressed or dragged.
@@ -81,7 +79,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
      * The hover Figure is the figure, over which the mouse is currently
      * hovering.
      */
-
     private Figure hoverFigure = null;
 
     /**
@@ -146,7 +143,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         multicaster.keyPressed(evt);
         if (!evt.isConsumed()) {
             super.keyPressed(evt);
-
             // Forward key presses to the handler
             if (dragLocation != null) {
                 multicaster.trackStep(anchor, dragLocation,
@@ -225,7 +221,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
                     figure = drawing.findFigureBehind(p, figure);
                 }
             }
-
             updateHoverHandles(view, figure);
         }
     }
@@ -243,7 +238,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         dragLocation = new Point(evt.getX(), evt.getY());
         multicaster.trackEnd(anchor, dragLocation,
                 evt.getModifiersEx(), getView());
-
         // Note: we must not fire "Tool Done" in this method, because then we can not
         // listen to keyboard events for the handle.
         Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);

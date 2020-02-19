@@ -2,12 +2,10 @@
  * @(#)ODGBezierFigure.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
-
-
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
@@ -18,29 +16,24 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
-
 /**
  * ODGBezierFigure is not an actual ODG element, it is used by ODGPathFigure to
  * represent a single BezierPath segment within an ODG path.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
     private static final long serialVersionUID = 1L;
-
     private transient Rectangle2D.Double cachedDrawingArea;
-
     /** Creates a new instance. */
     public ODGBezierFigure() {
         this(false);
     }
-
     public ODGBezierFigure(boolean isClosed) {
         super(isClosed);
         set(UNCLOSED_PATH_FILLED, true);
     }
-
     public Collection<Handle> createHandles(ODGPathFigure pathFigure, int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
@@ -57,7 +50,6 @@ public class ODGBezierFigure extends BezierFigure {
         }
         return handles;
     }
-
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
@@ -67,7 +59,6 @@ public class ODGBezierFigure extends BezierFigure {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -75,7 +66,6 @@ public class ODGBezierFigure extends BezierFigure {
                         addNode(index, newNode);
                         changed();
                     }
-
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
@@ -91,7 +81,6 @@ public class ODGBezierFigure extends BezierFigure {
         }
         return false;
     }
-
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -107,11 +96,9 @@ public class ODGBezierFigure extends BezierFigure {
             super.transform(tx);
         }
     }
-
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-
             if (get(TRANSFORM) == null) {
                 cachedDrawingArea = path.getBounds2D();
             } else {
@@ -122,7 +109,6 @@ public class ODGBezierFigure extends BezierFigure {
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
-
     /**
      * Transforms all coords of the figure by the current TRANSFORM attribute
      * and then sets the TRANSFORM attribute to null.
@@ -134,7 +120,6 @@ public class ODGBezierFigure extends BezierFigure {
         }
         invalidate();
     }
-
     @Override
     public void invalidate() {
         super.invalidate();

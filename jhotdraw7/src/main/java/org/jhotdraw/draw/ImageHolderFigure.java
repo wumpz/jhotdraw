@@ -2,16 +2,12 @@
  * @(#)ImageHolderFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
-
 import java.awt.image.*;
 import java.io.*;
-
 /**
  * The interface of a {@link Figure} which has some editable image contents.
  * <p>
@@ -25,7 +21,7 @@ import java.io.*;
  * The image tool creates new figures by cloning a prototype figure object.
  * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
  * <br>
- * Prototype: {@link ImageHolderFigure}; 
+ * Prototype: {@link ImageHolderFigure};
  * Client: {@link org.jhotdraw.draw.tool.ImageTool}.
  *
  *
@@ -44,13 +40,13 @@ import java.io.*;
 public interface ImageHolderFigure extends Figure {
     /**
      * Loads an image from a File.
-     * By convention this method is never invoked on the AWT Event Dispatcher 
+     * By convention this method is never invoked on the AWT Event Dispatcher
      * Thread.
      */
     public void loadImage(File f) throws IOException;
     /**
      * Loads an image from an Input Stream.
-     * By convention this method is never invoked on the AWT Event Dispatcher 
+     * By convention this method is never invoked on the AWT Event Dispatcher
      * Thread.
      */
     public void loadImage(InputStream in) throws IOException;
@@ -62,7 +58,6 @@ public interface ImageHolderFigure extends Figure {
      * Sets the buffered image for the figure.
      */
     public void setBufferedImage(BufferedImage image);
-    
     /**
      * Sets the image.
      *
@@ -79,5 +74,4 @@ public interface ImageHolderFigure extends Figure {
      * not have an image.
      */
     public byte[] getImageData();
-
 }

@@ -2,7 +2,7 @@
  * @(#)TextEditingTool.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -46,7 +46,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class TextEditingTool extends AbstractTool implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-
     private FloatingTextField textField;
     private TextHolderFigure typingTarget;
 
@@ -79,11 +78,9 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
             textField = new FloatingTextField();
             textField.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
-
         textField.createOverlay(getView(), textHolder);
         textField.requestFocus();
         typingTarget = textHolder;
@@ -96,11 +93,9 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textField.getText();
-
             if (newText.length() > 0) {
                 typingTarget.willChange();
                 typingTarget.setText(newText);
@@ -132,13 +127,11 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textField.endOverlay();
         }
-        //	        view().checkDamage();
+        //         view().checkDamage();
     }
 
     @Override

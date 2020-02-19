@@ -2,7 +2,7 @@
  * @(#)DeleteAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
@@ -95,7 +95,6 @@ public class DeleteAction extends TextAction {
         if (target != null) {
             // Register with a weak reference on the JComponent.
             propertyHandler = new PropertyChangeListener() {
-
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     if ("enabled".equals(evt.getPropertyName())) {
@@ -147,6 +146,7 @@ public class DeleteAction extends TextAction {
                     beep = false;
                 }
             } catch (BadLocationException bl) {
+                // allowed empty
             }
         }
         if (beep) {

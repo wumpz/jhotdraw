@@ -1,9 +1,9 @@
 /*
  * @(#)JavaNumberFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
@@ -27,7 +27,6 @@ import javax.swing.text.DefaultFormatterFactory;
 public class JavaNumberFormatter extends DefaultFormatter {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies whether the formatter allows null values.
      */
@@ -207,7 +206,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         if (value == null && allowsNullValue) {
             return "";
         }
-
         StringBuilder buf = new StringBuilder();
         if (value instanceof Double) {
             double v = ((Double) value);
@@ -224,7 +222,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
         } else if (value instanceof Float) {
             float v = ((Float) value);
             v = (float) (v * multiplier);
-            String str;// = Float.toString(v);
+            String str; // = Float.toString(v);
             BigDecimal big = new BigDecimal(v);
             int exponent = big.scale() >= 0 ? big.precision() - big.scale() : -big.scale();
             if (!usesScientificNotation || exponent > minNegativeExponent && exponent < minPositiveExponent) {
@@ -272,7 +270,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         if ((text == null || text.length() == 0) && getAllowsNullValue()) {
             return null;
         }
-
         // Remove unit from text
         if (unit != null) {
             int p = text.lastIndexOf(unit);
@@ -280,7 +277,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 text = text.substring(0, p);
             }
         }
-
         Class<?> valueClass = getValueClass();
         Object value;
         if (valueClass != null) {
@@ -318,7 +314,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
         } else {
             throw new ParseException("Unsupported value class " + valueClass, 0);
         }
-
         try {
             if (!isValidValue(value, true)) {
                 throw new ParseException("Value not within min/max range", 0);
@@ -348,7 +343,6 @@ public class JavaNumberFormatter extends DefaultFormatter {
             }
             return false;
         }
-
         try {
             if (max != null && max.compareTo((Number) value) < 0) {
                 return false;

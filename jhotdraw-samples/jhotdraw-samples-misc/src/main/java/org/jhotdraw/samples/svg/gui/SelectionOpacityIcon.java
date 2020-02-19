@@ -2,35 +2,28 @@
  * @(#)SelectionOpacityIcon.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
-
 import java.awt.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
-
 /**
  * {@code SelectionOpacityIcon} visualizes an opacity attribute of the selected
  * {@code Figure}(s) in the active {@code DrawingView} of a {@code DrawingEditor}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
     private static final long serialVersionUID = 1L;
-
-    
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
     private AttributeKey<Color> fillColorKey;
-    
     private AttributeKey<Color> strokeColorKey;
     private Shape fillShape;
     private Shape strokeShape;
-
     /** Creates a new instance.
      * @param editor The drawing editor.
      * @param opacityKey The opacityKey of the default attribute
@@ -54,7 +47,6 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
         this.fillShape = fillShape;
         this.strokeShape = strokeShape;
     }
-
     public SelectionOpacityIcon(
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
@@ -71,12 +63,10 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
         this.fillShape = fillShape;
         this.strokeShape = strokeShape;
     }
-
     @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);
-
         Double opacity;
         Color fillColor;
         Color strokeColor;
@@ -95,7 +85,6 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
             fillColor = (fillColorKey == null) ? null : fillColorKey.getDefaultValue();
             strokeColor = (strokeColorKey == null) ? null : strokeColorKey.getDefaultValue();
         }
-
         if (fillColorKey != null && fillShape != null) {
             if (opacity != null) {
                 if (fillColor == null) {

@@ -2,7 +2,7 @@
  * @(#)QuadTree.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
@@ -51,7 +51,6 @@ public class QuadTree<T> implements Serializable {
             root.add(o, (Rectangle2D.Double) bounds.clone());
         } else {
             outside.put(o, (Rectangle2D.Double) bounds.clone());
-
             if (outside.size() > maxOutside) {
                 reorganize();
             }
@@ -62,7 +61,6 @@ public class QuadTree<T> implements Serializable {
         root.join();
         outside.putAll(root.objects);
         root.objects.clear();
-
         Iterator<Map.Entry<T, Rectangle2D.Double>> i = outside.entrySet().iterator();
         Map.Entry<T, Rectangle2D.Double> entry = i.next();
         Rectangle2D.Double treeBounds = (Rectangle2D.Double) (entry.getValue()).clone();
@@ -133,13 +131,9 @@ public class QuadTree<T> implements Serializable {
          * key = Object value = Rectangle2D.Double
          */
         private HashMap<T, Rectangle2D.Double> objects;
-
         private QuadNode northEast;
-
         private QuadNode northWest;
-
         private QuadNode southEast;
-
         private QuadNode southWest;
 
         public QuadNode(Rectangle2D.Double bounds) {
@@ -167,7 +161,6 @@ public class QuadTree<T> implements Serializable {
                     && bounds.width > minSize && bounds.height > minSize) {
                 split();
             }
-
             if (isLeaf() || oBounds.contains(bounds)) {
                 // We put an object into our hashtable if we are
                 // a leaf, or if the bounds of the object contain our bounds.
@@ -204,7 +197,6 @@ public class QuadTree<T> implements Serializable {
                 southEast = new QuadNode(
                         new Rectangle2D.Double(bounds.x + hw, bounds.y + hh, bounds.width - hw, bounds.height - hh)
                 );
-
                 HashMap<T, Rectangle2D.Double> temp = objects;
                 objects = new HashMap<>();
                 for (Map.Entry<T, Rectangle2D.Double> entry : temp.entrySet()) {
@@ -219,12 +211,10 @@ public class QuadTree<T> implements Serializable {
                 northEast.join();
                 southWest.join();
                 southEast.join();
-
                 objects.putAll(northWest.objects);
                 objects.putAll(northEast.objects);
                 objects.putAll(southWest.objects);
                 objects.putAll(southEast.objects);
-
                 northWest = null;
                 northEast = null;
                 southWest = null;

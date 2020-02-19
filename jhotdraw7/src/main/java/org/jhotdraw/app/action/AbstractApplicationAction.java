@@ -2,18 +2,15 @@
  * @(#)AbstractApplicationAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action;
-
-
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
-
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
  * on an {@link Application}.
@@ -37,17 +34,14 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
     private static final long serialVersionUID = 1L;
-
     private Application app;
     private PropertyChangeListener applicationListener;
-
     /** Creates a new instance. */
     public AbstractApplicationAction(Application app) {
         this.app = app;
         installApplicationListeners(app);
         updateApplicationEnabled();
     }
-
     /*
      * Installs listeners on the application object.
      */
@@ -57,17 +51,14 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
         }
         app.addPropertyChangeListener(new WeakPropertyChangeListener(applicationListener));
     }
-
     /**
      * Installs listeners on the application object.
      */
     protected void uninstallApplicationListeners(Application app) {
         app.removePropertyChangeListener(applicationListener);
     }
-
     private PropertyChangeListener createApplicationListener() {
         return new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName() == "enabled") { // Strings get interned
@@ -76,11 +67,9 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
             }
         };
     }
-
     public Application getApplication() {
         return app;
     }
-
     /**
      * Updates the enabled state of this action depending on the new enabled
      * state of the application.
@@ -90,7 +79,6 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
                 Boolean.valueOf(!isEnabled()),
                 Boolean.valueOf(isEnabled()));
     }
-
     /**
      * Returns true if the action is enabled.
      * The enabled state of the action depends on the state that has been set
@@ -103,7 +91,6 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     public boolean isEnabled() {
         return app != null && app.isEnabled() && enabled;
     }
-
     /**
      * Enables or disables the action. The enabled state of the action
      * depends on the value that is set here and on the enabled state of
@@ -117,12 +104,10 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     public void setEnabled(boolean newValue) {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
-
         firePropertyChange("enabled",
                 Boolean.valueOf(oldValue && app.isEnabled()),
                 Boolean.valueOf(newValue && app.isEnabled()));
     }
-
     @Override
     public final void dispose() {
         if (app != null) {

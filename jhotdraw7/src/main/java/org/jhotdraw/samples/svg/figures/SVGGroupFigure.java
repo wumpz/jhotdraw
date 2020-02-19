@@ -2,11 +2,10 @@
  * @(#)SVGGroupFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
-
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -16,7 +15,6 @@ import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * SVGGroupFigure.
  *
@@ -25,14 +23,11 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     private static final long serialVersionUID = 1L;
-
     private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
-
     /** Creates a new instance. */
     public SVGGroupFigure() {
         SVGAttributeKeys.setDefaults(this);
     }
-
     @Override
     public <T> void set(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
@@ -44,24 +39,20 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
         invalidate();
     }
-
     @Override
     public <T> T get(AttributeKey<T> key) {
         return key.get(attributes);
     }
-
     @Override
     public Map<AttributeKey<?>, Object> getAttributes() {
         return new HashMap<AttributeKey<?>, Object>(attributes);
     }
-
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey<?>, Object> map) {
         for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
             set((AttributeKey<Object>)entry.getKey(), entry.getValue());
         }
     }
-
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
@@ -69,14 +60,11 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-
                 if (!drawingArea.isEmpty()) {
-
                     BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
@@ -98,7 +86,6 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
             }
         }
     }
-
     @Override
     public Rectangle2D.Double getBounds() {
         if (cachedBounds == null) {
@@ -120,7 +107,6 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
         return (Rectangle2D.Double) cachedBounds.clone();
     }
-
     @Override
     public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -135,12 +121,10 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
         return handles;
     }
-
     @Override
     public boolean isEmpty() {
         return getChildCount() == 0;
     }
-
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
@@ -160,7 +144,6 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         }
         return buf.toString();
     }
-
     @Override
     public SVGGroupFigure clone() {
         SVGGroupFigure that = (SVGGroupFigure) super.clone();

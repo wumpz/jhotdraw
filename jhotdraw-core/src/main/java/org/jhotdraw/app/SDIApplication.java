@@ -2,7 +2,7 @@
  * @(#)SDIApplication.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
@@ -133,7 +133,6 @@ import org.jhotdraw.util.prefs.*;
 public class SDIApplication extends AbstractApplication {
 
     private static final long serialVersionUID = 1L;
-
     private Preferences prefs;
 
     /**
@@ -198,12 +197,10 @@ public class SDIApplication extends AbstractApplication {
             final JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             updateViewTitle(view, f);
-
             JPanel panel = (JPanel) wrapViewComponent(view);
             f.add(panel);
             f.setSize(new Dimension(600, 400));
             f.setJMenuBar(createMenuBar(view));
-
             PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
             Point loc = f.getLocation();
             boolean moved;
@@ -222,9 +219,7 @@ public class SDIApplication extends AbstractApplication {
                 }
             } while (moved);
             f.setLocation(loc);
-
             f.addWindowListener(new WindowAdapter() {
-
                 @Override
                 public void windowClosing(final WindowEvent evt) {
                     getAction(view, CloseFileAction.ID).actionPerformed(
@@ -242,9 +237,7 @@ public class SDIApplication extends AbstractApplication {
                     setActiveView(view);
                 }
             });
-
             view.addPropertyChangeListener(new PropertyChangeListener() {
-
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
@@ -256,7 +249,6 @@ public class SDIApplication extends AbstractApplication {
                     }
                 }
             });
-
             f.setVisible(true);
             view.start();
         }
@@ -270,7 +262,6 @@ public class SDIApplication extends AbstractApplication {
         JComponent c = p.getComponent();
         if (getModel() != null) {
             LinkedList<Action> toolBarActions = new LinkedList<>();
-
             int id = 0;
             for (JToolBar tb : new ReversedList<>(getModel().createToolBars(this, p))) {
                 id++;
@@ -313,7 +304,6 @@ public class SDIApplication extends AbstractApplication {
      */
     protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
-
         // Get menus from application model
         JMenu fileMenu = null;
         JMenu editMenu = null;
@@ -348,7 +338,6 @@ public class SDIApplication extends AbstractApplication {
             }
             mb.add(mm);
         }
-
         // Create missing standard menus
         if (fileMenu == null) {
             fileMenu = createFileMenu(v);
@@ -365,7 +354,6 @@ public class SDIApplication extends AbstractApplication {
         if (helpMenu == null) {
             helpMenu = createHelpMenu(v);
         }
-
         // Insert standard menus into menu bar
         if (fileMenu != null) {
             mb.add(fileMenu, 0);
@@ -382,25 +370,20 @@ public class SDIApplication extends AbstractApplication {
         if (helpMenu != null) {
             mb.add(helpMenu);
         }
-
         return mb;
     }
 
     @Override
-
     public JMenu createFileMenu(View view) {
         JMenu m;
-
         m = new JMenu();
         labels.configureMenu(m, "file");
         MenuBuilder mb = model.getMenuBuilder();
         mb.addClearFileItems(m, this, view);
         mb.addNewFileItems(m, this, view);
         mb.addNewWindowItems(m, this, view);
-
         mb.addLoadFileItems(m, this, view);
         mb.addOpenFileItems(m, this, view);
-
         if (getAction(view, LoadFileAction.ID) != null
                 || getAction(view, OpenFileAction.ID) != null
                 || getAction(view, LoadDirectoryAction.ID) != null
@@ -408,22 +391,17 @@ public class SDIApplication extends AbstractApplication {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
-
         mb.addSaveFileItems(m, this, view);
         mb.addExportFileItems(m, this, view);
         mb.addPrintFileItems(m, this, view);
-
         mb.addOtherFileItems(m, this, view);
-
         maybeAddSeparator(m);
         mb.addCloseFileItems(m, this, view);
-
         return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
     public JMenu createEditMenu(View view) {
-
         JMenu m;
         JMenuItem mi;
         Action a;
@@ -442,7 +420,6 @@ public class SDIApplication extends AbstractApplication {
         maybeAddSeparator(m);
         mb.addPreferencesItems(m, this, view);
         removeTrailingSeparators(m);
-
         return (m.getItemCount() == 0) ? null : m;
     }
 
@@ -479,14 +456,11 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
-
     public JMenu createWindowMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "window");
-
         MenuBuilder mb = model.getMenuBuilder();
         mb.addOtherWindowItems(m, this, view);
-
         return (m.getItemCount() > 0) ? m : null;
     }
 
@@ -501,11 +475,9 @@ public class SDIApplication extends AbstractApplication {
     public JMenu createViewMenu(final View view) {
         Object object = view.getComponent().getClientProperty("toolBarActions");
         LinkedList<Action> viewActions = (LinkedList<Action>) object;
-
         JMenu m, m2;
         JMenuItem mi;
         JCheckBoxMenuItem cbmi;
-
         m = new JMenu();
         labels.configureMenu(m, "view");
         if (viewActions != null && viewActions.size() > 0) {
@@ -519,10 +491,8 @@ public class SDIApplication extends AbstractApplication {
                 m.add(m2);
             }
         }
-
         MenuBuilder mb = model.getMenuBuilder();
         mb.addOtherViewItems(m, this, view);
-
         return (m.getItemCount() > 0) ? m : null;
     }
 
@@ -530,11 +500,9 @@ public class SDIApplication extends AbstractApplication {
     public JMenu createHelpMenu(View p) {
         JMenu m;
         JMenuItem mi;
-
         m = new JMenu();
         labels.configureMenu(m, "help");
         m.add(getAction(p, AboutAction.ID));
-
         return m;
     }
 
@@ -542,7 +510,6 @@ public class SDIApplication extends AbstractApplication {
         ActionMap rootMap = new ActionMap();
         rootMap.put(AboutAction.ID, new AboutAction(this));
         rootMap.put(ClearRecentFilesMenuAction.ID, new ClearRecentFilesMenuAction(this));
-
         ActionMap moMap = mo.createActionMap(this, null);
         moMap.setParent(rootMap);
         return moMap;
@@ -552,7 +519,6 @@ public class SDIApplication extends AbstractApplication {
     protected ActionMap createViewActionMap(View v) {
         ActionMap intermediateMap = new ActionMap();
         intermediateMap.put(CloseFileAction.ID, new CloseFileAction(this, v));
-
         ActionMap vMap = model.createActionMap(this, v);
         vMap.setParent(intermediateMap);
         intermediateMap.setParent(getActionMap(null));

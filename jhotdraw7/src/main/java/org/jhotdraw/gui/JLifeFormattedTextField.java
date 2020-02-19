@@ -2,48 +2,40 @@
  * @(#)JLifeFormattedTextField.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
-
-
 import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
-
 /**
  * A JFormattedTextField which updates its value while the user is editing
  * the field.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class JLifeFormattedTextField extends JFormattedTextField {
     private static final long serialVersionUID = 1L;
-
     /**
      * Last valid value.
      */
     private Object value;
-
     /** The DocumentHandler listens for document changes while the user is
      * editing the field.
      */
     private class DocumentHandler implements DocumentListener {
-
     @Override
         public void insertUpdate(DocumentEvent e) {
             updateValue();
         }
-
     @Override
         public void removeUpdate(DocumentEvent e) {
             updateValue();
         }
-
     @Override
         public void changedUpdate(DocumentEvent e) {
             updateValue();
@@ -59,20 +51,16 @@ public class JLifeFormattedTextField extends JFormattedTextField {
      * and decrease it on each exit.
      */
     private int updatingDepth;
-
     /** Creates new instance. */
     public JLifeFormattedTextField() {
     }
-
     @Override
     public void setDocument(Document newValue) {
         Document oldValue = getDocument();
         super.setDocument(newValue);
-
         if (documentHandler == null) {
             documentHandler = new DocumentHandler();
         }
-
         if (oldValue != null) {
             oldValue.removeDocumentListener(documentHandler);
         }
@@ -81,7 +69,6 @@ public class JLifeFormattedTextField extends JFormattedTextField {
         }
         updateValue();
     }
-
     @Override
     public void setValue(Object newValue) {
         Object oldValue = this.value;
@@ -95,12 +82,10 @@ public class JLifeFormattedTextField extends JFormattedTextField {
         firePropertyChange("value", oldValue, newValue);
         updateText();
     }
-
     @Override
     public Object getValue() {
         return value;
     }
-
     /**
      * Updates the value from the text of the field.
      */
@@ -111,13 +96,12 @@ public class JLifeFormattedTextField extends JFormattedTextField {
                     Object newValue = getFormatter().stringToValue(getText());
                     setValue(newValue);
                 } catch (ParseException ex) {
-                    //ex.printStackTrace();// do nothing
+                    //ex.printStackTrace(); // do nothing
                 }
             }
         }
         updatingDepth--;
     }
-
     /**
      * Updates the text of the field from the value.
      */
@@ -142,7 +126,6 @@ public class JLifeFormattedTextField extends JFormattedTextField {
         }
         updatingDepth--;
     }
-
     /**
      * Returns an AbstractFormatterFactory suitable for the passed in
      * Object type.
@@ -151,35 +134,28 @@ public class JLifeFormattedTextField extends JFormattedTextField {
         if (type instanceof DateFormat) {
             return new DefaultFormatterFactory(new DateFormatter((DateFormat) type));
         }
-
         if (type instanceof NumberFormat) {
             return new DefaultFormatterFactory(new NumberFormatter(
                     (NumberFormat) type));
         }
-
         if (type instanceof Format) {
             return new DefaultFormatterFactory(new InternationalFormatter(
                     (Format) type));
         }
-
         if (type instanceof Date) {
             return new DefaultFormatterFactory(new DateFormatter());
         }
-
         if (type instanceof Number) {
             AbstractFormatter displayFormatter = new NumberFormatter();
             ((NumberFormatter) displayFormatter).setValueClass(type.getClass());
             AbstractFormatter editFormatter = new NumberFormatter(
                     new DecimalFormat("#.#"));
             ((NumberFormatter) editFormatter).setValueClass(type.getClass());
-
             return new DefaultFormatterFactory(displayFormatter,
                     displayFormatter, editFormatter);
         }
-
         return new DefaultFormatterFactory(new DefaultFormatter());
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

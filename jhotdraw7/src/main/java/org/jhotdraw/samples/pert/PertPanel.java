@@ -2,12 +2,10 @@
  * @(#)PertPanel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.pert;
-
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.DuplicateAction;
@@ -27,7 +25,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 /**
  * PertPanel.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -36,7 +34,6 @@ public class PertPanel extends JPanel  {
     private UndoRedoManager undoManager;
     private Drawing drawing;
     private DrawingEditor editor;
-    
     /** Creates new instance. */
     public PertPanel() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -44,10 +41,8 @@ public class PertPanel extends JPanel  {
         undoManager = new UndoRedoManager();
         editor = new DefaultDrawingEditor();
         editor.add(view);
-        
         addCreationButtonsTo(creationToolbar, editor);
         ButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
-        
         JPopupButton pb = new JPopupButton();
         pb.setItemFont(UIManager.getFont("MenuItem.font"));
         labels.configureToolBarButton(pb, "actions");
@@ -70,7 +65,6 @@ public class PertPanel extends JPanel  {
        // FIXME - We need a toggle grid action
        // pb.addSeparator();
        // pb.add(new ToggleGridAction(editor));
-        
         JMenu m = new JMenu(labels.getString("view.zoomFactor.text"));
         JRadioButtonMenuItem rbmi;
         ButtonGroup group = new ButtonGroup();
@@ -99,13 +93,10 @@ public class PertPanel extends JPanel  {
         pb.setFocusable(false);
         creationToolbar.addSeparator();
         creationToolbar.add(pb);
-        
-        
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
     }
-    
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
         view.getDrawing().removeUndoableEditListener(undoManager);
@@ -121,7 +112,6 @@ public class PertPanel extends JPanel  {
     public DrawingEditor getEditor() {
         return editor;
     }
-    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -130,22 +120,16 @@ public class PertPanel extends JPanel  {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         toolButtonGroup = new javax.swing.ButtonGroup();
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
         jPanel1 = new javax.swing.JPanel();
         creationToolbar = new javax.swing.JToolBar();
         attributesToolbar = new javax.swing.JToolBar();
-
         setLayout(new java.awt.BorderLayout());
-
         scrollPane.setViewportView(view);
-
         add(scrollPane, java.awt.BorderLayout.CENTER);
-
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
         creationToolbar.setFloatable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -153,7 +137,6 @@ public class PertPanel extends JPanel  {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(creationToolbar, gridBagConstraints);
-
         attributesToolbar.setFloatable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -161,34 +144,26 @@ public class PertPanel extends JPanel  {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(attributesToolbar, gridBagConstraints);
-
         add(jPanel1, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey<?>,Object> attributes;
-        
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        
         ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
-        
         attributes = new HashMap<AttributeKey<?>,Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
         attributes.put(AttributeKeys.TEXT_COLOR, Color.black);
         ButtonFactory.addToolTo(tb, editor, new CreationTool(new TaskFigure(), attributes), "edit.createTask", labels);
-
         attributes = new HashMap<AttributeKey<?>,Object>();
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new DependencyFigure(), attributes), "edit.createDependency", labels);
         tb.addSeparator();
         ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", drawLabels);
     }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar attributesToolbar;
     private javax.swing.JToolBar creationToolbar;
@@ -197,5 +172,4 @@ public class PertPanel extends JPanel  {
     private javax.swing.ButtonGroup toolButtonGroup;
     private org.jhotdraw.draw.DefaultDrawingView view;
     // End of variables declaration//GEN-END:variables
-    
 }

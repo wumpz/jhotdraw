@@ -2,7 +2,7 @@
  * @(#)TextCreationTool.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -88,7 +88,6 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
-
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
@@ -97,7 +96,7 @@ public class TextCreationTool extends CreationTool implements ActionListener {
         } else {
             super.mousePressed(e);
             // update view so the created figure is drawn before the floating text
-            // figure is overlaid. 
+            // figure is overlaid.
             TextHolderFigure textHolder = (TextHolderFigure) getCreatedFigure();
             getView().clearSelection();
             getView().addToSelection(textHolder);
@@ -115,11 +114,9 @@ public class TextCreationTool extends CreationTool implements ActionListener {
             textField = new FloatingTextField();
             textField.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
-
         textField.createOverlay(getView(), textHolder);
         textField.requestFocus();
         typingTarget = textHolder;
@@ -132,11 +129,9 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textField.getText();
-
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
             } else {
@@ -174,13 +169,11 @@ public class TextCreationTool extends CreationTool implements ActionListener {
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textField.endOverlay();
         }
-        //	        view().checkDamage();
+        //         view().checkDamage();
     }
 
     @Override

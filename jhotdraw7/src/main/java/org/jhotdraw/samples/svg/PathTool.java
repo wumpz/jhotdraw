@@ -2,17 +2,14 @@
  * @(#)PathTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-
-
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.draw.*;
 import java.util.*;
-
 /**
  * Tool to scribble a SVGPath
  *
@@ -21,7 +18,6 @@ import java.util.*;
  */
 public class PathTool extends BezierTool {
     private static final long serialVersionUID = 1L;
-
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -30,18 +26,15 @@ public class PathTool extends BezierTool {
      * The path prototype for new figures.
      */
     private SVGPathFigure pathPrototype;
-
     /** Creates a new instance. */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype) {
         this(pathPrototype, bezierPrototype, null);
     }
-
     /** Creates a new instance. */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, Map<AttributeKey<?>,Object> attributes) {
         super(bezierPrototype, attributes);
         this.pathPrototype = pathPrototype;
     }
-
     @SuppressWarnings("unchecked")
     protected SVGPathFigure createPath() {
         SVGPathFigure f = pathPrototype.clone();
@@ -53,7 +46,6 @@ public class PathTool extends BezierTool {
         }
         return f;
     }
-
     @Override
     protected void finishCreation(BezierFigure createdFigure, DrawingView creationView) {
         if (DEBUG) {

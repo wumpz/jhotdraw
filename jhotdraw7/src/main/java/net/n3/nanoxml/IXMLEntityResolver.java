@@ -25,13 +25,8 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
-
-
 /**
  * An IXMLEntityResolver resolves entities.
  *
@@ -40,7 +35,6 @@ import java.io.Reader;
  */
 public interface IXMLEntityResolver
 {
-
    /**
     * Adds an internal entity.
     *
@@ -49,8 +43,6 @@ public interface IXMLEntityResolver
     */
    public void addInternalEntity(String name,
                                  String value);
-
-
    /**
     * Adds an external entity.
     *
@@ -61,8 +53,6 @@ public interface IXMLEntityResolver
    public void addExternalEntity(String name,
                                  String publicID,
                                  String systemID);
-
-
    /**
     * Returns a Java reader containing the value of an entity.
     *
@@ -77,13 +67,10 @@ public interface IXMLEntityResolver
    public Reader getEntity(IXMLReader xmlReader,
                            String     name)
       throws XMLParseException;
-
-
    /**
     * Returns true if an entity is external.
     *
     * @param name the name of the entity.
     */
    public boolean isExternalEntity(String name);
-
 }

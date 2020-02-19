@@ -6,10 +6,8 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.font;
-
 import javax.swing.*;
 import org.jhotdraw.gui.JFontChooser;
-
 /**
  * FontChooserMain.
  *
@@ -18,16 +16,13 @@ import org.jhotdraw.gui.JFontChooser;
  */
 public class FontChooserMain extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
-
     /** Creates new form FontChooserMain */
     public FontChooserMain() {
         initComponents();
         add(new JFontChooser());
     }
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 try {
@@ -42,7 +37,6 @@ public class FontChooserMain extends javax.swing.JPanel {
             }
         });
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -51,7 +45,6 @@ public class FontChooserMain extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

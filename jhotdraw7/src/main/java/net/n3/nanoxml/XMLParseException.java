@@ -25,10 +25,7 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 /**
  * An XMLParseException is thrown when the XML passed to the XML parser is not
  * well-formed.
@@ -40,7 +37,6 @@ public class XMLParseException
    extends XMLException
 {
     private static final long serialVersionUID = 1L;
-
    /**
     * Creates a new exception.
     *
@@ -50,8 +46,6 @@ public class XMLParseException
    {
       super(msg);
    }
-
-
    /**
     * Creates a new exception.
     *
@@ -66,5 +60,4 @@ public class XMLParseException
    {
       super(systemID, lineNr, null, msg, true);
    }
-
 }

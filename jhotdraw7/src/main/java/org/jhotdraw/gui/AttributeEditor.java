@@ -2,15 +2,12 @@
  * @(#)AttributeEditor.java
  *
  * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui;
-
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
-
 /**
  * Interface for a field or any other kind of editor which can be used to edit
  * an attribute of the selected {@code Figure}s in a {@code DrawingView}.
@@ -39,25 +36,21 @@ public interface AttributeEditor<T> {
      * Gets the attribute value.
      */
     public T getAttributeValue();
-
     /**
-     * This method is called, if the figures of the attribute field have 
+     * This method is called, if the figures of the attribute field have
      * multiple values.
-     * 
+     *
      * @param newValue
      */
     public void setMultipleValues(boolean newValue);
-
     /**
      * This method returns the value of the multipleValues property.
      */
     public boolean isMultipleValues();
-
     /**
      * Returns true if the field is currently adjusting the value.
      */
     public boolean getValueIsAdjusting();
-
     /**
      * Adds a property change listener.
      *

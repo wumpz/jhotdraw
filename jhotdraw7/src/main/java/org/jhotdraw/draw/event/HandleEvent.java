@@ -2,13 +2,10 @@
  * @(#)HandleEvent.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.event;
-
-
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.*;
 import java.awt.*;
@@ -33,13 +30,11 @@ import java.util.*;
 public class HandleEvent extends EventObject {
     private Rectangle invalidatedArea;
     private static final long serialVersionUID=1L;
-    
     /** Creates a new instance. */
     public HandleEvent(Handle src, Rectangle invalidatedArea) {
         super(src);
         this.invalidatedArea = invalidatedArea;
     }
-    
     public Handle getHandle() {
         return (Handle) getSource();
     }

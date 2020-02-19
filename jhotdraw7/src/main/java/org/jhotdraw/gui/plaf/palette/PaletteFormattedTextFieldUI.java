@@ -2,11 +2,10 @@
  * @(#)PaletteTextFieldUI.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import javax.swing.*;
@@ -14,7 +13,6 @@ import javax.swing.border.Border;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
-
 /**
  * PaletteFormattedTextFieldUI.
  *
@@ -23,7 +21,6 @@ import javax.swing.text.*;
  */
 public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     private Color errorIndicatorForeground;
-
     /**
      * Creates a UI for a JTextField.
      *
@@ -33,7 +30,6 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     public static ComponentUI createUI(JComponent c) {
         return new PaletteFormattedTextFieldUI();
     }
-
     /**
      * Creates a view (FieldView) based on an element.
      *
@@ -63,15 +59,14 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
             }
         };
     }
-
     /**
-     * Initializes component properties, e.g. font, foreground, 
+     * Initializes component properties, e.g. font, foreground,
      * background, caret color, selection color, selected text color,
      * disabled text color, and border color.  The font, foreground, and
      * background properties are only set if their current value is either null
      * or a UIResource, other properties are set if the current
      * value is null.
-     * 
+     *
      * @see #uninstallDefaults
      * @see #installUI
      */
@@ -79,70 +74,54 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
     protected void installDefaults() {
         JTextComponent editor = getComponent();
         PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
-
         String prefix = getPropertyPrefix();
         Font f = editor.getFont();
         if ((f == null) || (f instanceof UIResource)) {
             editor.setFont(plaf.getFont(prefix + ".font"));
         }
-
         Color bg = editor.getBackground();
         if ((bg == null) || (bg instanceof UIResource)) {
             editor.setBackground(plaf.getColor(prefix + ".background"));
         }
-
         Color fg = editor.getForeground();
         if ((fg == null) || (fg instanceof UIResource)) {
             editor.setForeground(plaf.getColor(prefix + ".foreground"));
         }
-
         Color color = editor.getCaretColor();
         if ((color == null) || (color instanceof UIResource)) {
             editor.setCaretColor(plaf.getColor(prefix + ".caretForeground"));
         }
-
         Color s = editor.getSelectionColor();
         if ((s == null) || (s instanceof UIResource)) {
             editor.setSelectionColor(plaf.getColor(prefix + ".selectionBackground"));
         }
-
         Color sfg = editor.getSelectedTextColor();
         if ((sfg == null) || (sfg instanceof UIResource)) {
             editor.setSelectedTextColor(plaf.getColor(prefix + ".selectionForeground"));
         }
-
         Color dfg = editor.getDisabledTextColor();
         if ((dfg == null) || (dfg instanceof UIResource)) {
             editor.setDisabledTextColor(plaf.getColor(prefix + ".inactiveForeground"));
         }
-
         Border b = editor.getBorder();
         if ((b == null) || (b instanceof UIResource)) {
             editor.setBorder(plaf.getBorder(prefix + ".border"));
         }
-
         Insets margin = editor.getMargin();
         if (margin == null || margin instanceof UIResource) {
             editor.setMargin(plaf.getInsets(prefix + ".margin"));
         }
-
         errorIndicatorForeground = plaf.getColor(prefix+".errorIndicatorForeground");
-
         editor.setOpaque(plaf.getBoolean(prefix + ".opaque"));
-
     }
-
     @Override
     protected void paintSafely(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
-
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
         super.paintSafely(g);
     }
-
     @Override
     public void paintBackground(Graphics g) {
         JTextComponent c = getComponent();

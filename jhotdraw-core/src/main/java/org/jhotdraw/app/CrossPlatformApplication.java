@@ -1,9 +1,9 @@
 /*
  * @(#)CrossPlatformApplication.java
- * 
+ *
  * Copyright (c) 2013 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -34,10 +34,8 @@ public class CrossPlatformApplication extends SDIApplication {
     protected void initLookAndFeel() {
         try {
             String lafName = UIManager.getCrossPlatformLookAndFeelClassName();
-
             JFrame.setDefaultLookAndFeelDecorated(true);
             JDialog.setDefaultLookAndFeelDecorated(true);
-
             UIManager.setLookAndFeel(lafName);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,5 +49,4 @@ public class CrossPlatformApplication extends SDIApplication {
                     + "</head>");
         }
     }
-
 }

@@ -2,7 +2,7 @@
  * @(#)AbstractView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
@@ -23,7 +23,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public abstract class AbstractView extends JPanel implements View {
 
     private static final long serialVersionUID = 1L;
-
     private Application application;
     /**
      * The executor used to perform background tasks for the View in a
@@ -121,14 +120,12 @@ public abstract class AbstractView extends JPanel implements View {
             executor.shutdown();
             executor = null;
         }
-
         if (disposables != null) {
             for (Disposable d : (LinkedList<Disposable>) disposables.clone()) {
                 d.dispose();
             }
             disposables = null;
         }
-
         removeAll();
     }
 
@@ -160,10 +157,8 @@ public abstract class AbstractView extends JPanel implements View {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     @Override

@@ -2,7 +2,7 @@
  * @(#)DefaultApplicationModel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
@@ -81,7 +81,6 @@ public class DefaultApplicationModel
         m.put(SaveFileAction.ID, new SaveFileAction(a, v));
         m.put(SaveFileAsAction.ID, new SaveFileAsAction(a, v));
         m.put(CloseFileAction.ID, new CloseFileAction(a, v));
-
         m.put(UndoAction.ID, new UndoAction(a, v));
         m.put(RedoAction.ID, new RedoAction(a, v));
         m.put(CutAction.ID, new CutAction());
@@ -120,5 +119,4 @@ public class DefaultApplicationModel
     public void setMenuBuilder(MenuBuilder newValue) {
         menuBuilder = newValue;
     }
-
 }

@@ -2,17 +2,14 @@
  * @(#)AttributeKey.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
-
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
-
 /**
  * An <em>attribute key</em> provides typesafe access to an attribute of
  * a {@link Figure}.
@@ -28,13 +25,12 @@ import org.jhotdraw.util.*;
  * </pre>
  * <p>
  * See {@link AttributeKeys} for a list of useful attribute keys.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class AttributeKey<T> implements Serializable {
     private static final long serialVersionUID=1L;
-
     /**
      * Holds a String representation of the attribute key.
      */
@@ -55,29 +51,25 @@ public class AttributeKey<T> implements Serializable {
      * assignability of attribute values at runtime.
      */
     private Class<T> clazz;
-
     /** Creates a new instance with the specified attribute key, type token class,
      * default value null, and allowing null values. */
     public AttributeKey(String key, Class<T> clazz) {
         this(key, clazz, null, true);
     }
-
     /** Creates a new instance with the specified attribute key, type token class,
      * and default value, and allowing null values. */
     public AttributeKey(String key, Class<T> clazz, T defaultValue) {
         this(key, clazz, defaultValue, true);
     }
-
     /** Creates a new instance with the specified attribute key, type token class,
      * default value, and allowing or disallowing null values. */
     public AttributeKey(String key, Class<T> clazz, T defaultValue, boolean isNullValueAllowed) {
         this(key, clazz, defaultValue, isNullValueAllowed, null);
     }
-
     /** Creates a new instance with the specified attribute key, type token class,
-     * default value, and allowing or disallowing null values. 
-     * 
-     * @param key The key string. 
+     * default value, and allowing or disallowing null values.
+     *
+     * @param key The key string.
      * @param clazz This is used as a "type token" for assignability checks
      * at runtime.
      * @param isNullValueAllowed whether null values are allowed.
@@ -92,7 +84,6 @@ public class AttributeKey<T> implements Serializable {
         this.isNullValueAllowed = isNullValueAllowed;
         this.labels = (labels == null) ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels") : labels;
     }
-
     /**
      * Returns the key string.
      * @return key string.
@@ -100,7 +91,6 @@ public class AttributeKey<T> implements Serializable {
     public String getKey() {
         return key;
     }
-
     /**
      * Returns a localized human friendly presentation of the key.
      * @return the presentation name of the key.
@@ -108,22 +98,18 @@ public class AttributeKey<T> implements Serializable {
     public String getPresentationName() {
         return (labels == null) ? key : labels.getString("attribute." + key + ".text");
     }
-
     /**
      * Returns the default value of the attribute.
      *
      * @return the default value.
      */
-    
     public T getDefaultValue() {
         return defaultValue;
     }
-
     /**
      * Gets a clone of the value from the Figure.
      */
     @SuppressWarnings("unchecked")
-    
     public T getClone(Figure f) {
         T value = f.get(this);
         try {
@@ -134,32 +120,27 @@ public class AttributeKey<T> implements Serializable {
             throw e;
         }
     }
-
     /**
      * Gets the value of the attribute denoted by this AttributeKey from
      * a Figure.
-     * 
+     *
      * @param f A figure.
      * @return The value of the attribute.
      */
-    
     public T get(Figure f) {
         return f.get(this);
     }
-
     /**
      * Gets the value of the attribute denoted by this AttributeKey from
      * a Map.
-     * 
+     *
      * @param a A Map.
      * @return The value of the attribute.
      */
     @SuppressWarnings("unchecked")
-    
     public T get(Map<AttributeKey<?>, Object> a) {
         return a.containsKey(this) ? (T) a.get(this) : defaultValue;
     }
-
     /**
      * Convenience method for setting a value on a Figure.
      * <p>
@@ -176,7 +157,6 @@ public class AttributeKey<T> implements Serializable {
         }
         f.set(this, value);
     }
-
     /**
      * Sets the attribute and returns an UndoableEditEvent which can be used
      * to undo it.
@@ -189,17 +169,14 @@ public class AttributeKey<T> implements Serializable {
         if (value == null && !isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey " + key);
         }
-
         final Object restoreData = f.getAttributesRestoreData();
         f.set(this, value);
-
         UndoableEdit edit = new AbstractUndoableEdit() {
         private static final long serialVersionUID = 1L;
             @Override
             public String getPresentationName() {
                 return AttributeKey.this.getPresentationName();
             }
-
             @Override
             public void undo() {
                 super.undo();
@@ -207,7 +184,6 @@ public class AttributeKey<T> implements Serializable {
                 f.restoreAttributesTo(restoreData);
                 f.changed();
             }
-
             @Override
             public void redo() {
                 super.redo();
@@ -217,9 +193,7 @@ public class AttributeKey<T> implements Serializable {
             }
         };
         return edit;
-
     }
-
     /**
      * Convenience method for setting a clone of a value on a figure.
      * <p>
@@ -233,14 +207,12 @@ public class AttributeKey<T> implements Serializable {
     public void setClone(Figure f, T value) {
         try {
             f.set(this, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
-
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
         }
     }
-
     /**
      * Convenience method for putting a clone of a value on a map.
      *
@@ -250,14 +222,12 @@ public class AttributeKey<T> implements Serializable {
     public void putClone(Map<AttributeKey<?>, Object> a, T value) {
         try {
             put(a, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
-
         } catch (NoSuchMethodException ex) {
             InternalError e = new InternalError();
             e.initCause(ex);
             throw e;
         }
     }
-
     /**
      * Use this method to perform a type-safe put operation of an attribute
      * into a Map.
@@ -267,14 +237,12 @@ public class AttributeKey<T> implements Serializable {
      * @return The old value.
      */
     @SuppressWarnings("unchecked")
-    
     public T put(Map<AttributeKey<?>, Object> a, T value) {
         if (value == null && !isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey " + key);
         }
         return (T) a.put(this, value);
     }
-
     /**
      * Returns true if null values are allowed.
      * @return true if null values are allowed.
@@ -282,7 +250,6 @@ public class AttributeKey<T> implements Serializable {
     public boolean isNullValueAllowed() {
         return isNullValueAllowed;
     }
-
     /**
      * Returns true if the specified value is assignable with this key.
      *
@@ -293,21 +260,17 @@ public class AttributeKey<T> implements Serializable {
         if (value == null) {
             return isNullValueAllowed();
         }
-
         return clazz.isInstance(value);
     }
-
     /** Returns the key string. */
     @Override
     public String toString() {
         return key;
     }
-
     @Override
     public int hashCode() {
         return key.hashCode();
     }
-
     @Override
     public boolean equals(Object that) {
         if (that instanceof AttributeKey) {

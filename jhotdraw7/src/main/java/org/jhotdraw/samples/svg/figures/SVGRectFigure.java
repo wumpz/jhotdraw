@@ -2,12 +2,10 @@
  * @(#)SVGRect.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
-
-
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -19,7 +17,6 @@ import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.*;
 import org.jhotdraw.geom.*;
-
 /**
  * SVGRect.
  *
@@ -32,12 +29,9 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     public static final String ARC_WIDTH_PROPERTY = "arcWidth";
     /** Identifies the {@code arcHeight} JavaBeans property. */
     public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
-
     /** The variable acv is used for generating the locations of the control
      * points for the rounded rectangle using path.curveTo. */
     private static final double acv;
-
-
     static {
         double angle = Math.PI / 4.0;
         double a = 1.0 - Math.cos(angle);
@@ -57,22 +51,18 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
      * This is used to perform faster hit testing.
      */
     private transient Shape cachedHitShape;
-
     /** Creates a new instance. */
     public SVGRectFigure() {
         this(0, 0, 0, 0);
     }
-
     public SVGRectFigure(double x, double y, double width, double height) {
         this(x, y, width, height, 0, 0);
     }
-
     public SVGRectFigure(double x, double y, double width, double height, double rx, double ry) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, rx, ry);
         SVGAttributeKeys.setDefaults(this);
         setConnectable(false);
     }
-
     // DRAWING
     @Override
     protected void drawFill(Graphics2D g) {
@@ -82,7 +72,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             g.fill(roundrect);
         }
     }
-
     @Override
     protected void drawStroke(Graphics2D g) {
         if (roundrect.archeight == 0 && roundrect.arcwidth == 0) {
@@ -96,8 +85,8 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             double ah = roundrect.archeight / 2d;
             p.moveTo((roundrect.x + aw), (float) roundrect.y);
             p.lineTo((roundrect.x + roundrect.width - aw), (float) roundrect.y);
-            p.curveTo((roundrect.x + roundrect.width - aw * acv), (float) roundrect.y, 
-                    (roundrect.x + roundrect.width), (float)(roundrect.y + ah * acv), 
+            p.curveTo((roundrect.x + roundrect.width - aw * acv), (float) roundrect.y,
+                    (roundrect.x + roundrect.width), (float)(roundrect.y + ah * acv),
                     (roundrect.x + roundrect.width), (roundrect.y + ah));
             p.lineTo((roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah));
             p.curveTo(
@@ -116,20 +105,16 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             g.draw(p);
         }
     }
-
     // SHAPE AND BOUNDS
     public double getX() {
         return roundrect.x;
     }
-
     public double getY() {
         return roundrect.y;
     }
-
     public double getWidth() {
         return roundrect.width;
     }
-
     public double getHeight() {
         return roundrect.height;
     }
@@ -137,13 +122,10 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     public double getArcWidth() {
         return roundrect.arcwidth;
     }
-
     /** Gets the arc height. */
     public double getArcHeight() {
         return roundrect.archeight;
     }
-
-
     /** Sets the arc width. */
     public void setArcWidth(double newValue) {
         double oldValue = roundrect.arcwidth;
@@ -156,19 +138,15 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         roundrect.archeight = newValue;
         firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
     }
-
     /** Convenience method for setting both the arc width and the arc height. */
     public void setArc(double width, double height) {
         setArcWidth(width);
         setArcHeight(height);
     }
-
-
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) roundrect.getBounds2D();
     }
-
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
@@ -190,7 +168,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         }
         return r;
     }
-
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -198,7 +175,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
     }
-
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         invalidateTransformedShape();
@@ -208,12 +184,10 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         roundrect.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
         invalidate();
     }
-
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
         cachedHitShape = null;
     }
-
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             if (getArcHeight() == 0 || getArcWidth() == 0) {
@@ -227,7 +201,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         }
         return cachedTransformedShape;
     }
-
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             if (get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
@@ -240,7 +213,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         }
         return cachedHitShape;
     }
-
     /**
      * Transforms the figure.
      * @param tx The transformation.
@@ -278,7 +250,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             }
         }
     }
-
     @Override
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
@@ -288,7 +259,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
         STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
-
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
@@ -297,7 +267,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
                     FILL_GRADIENT.getClone(this),
                     STROKE_GRADIENT.getClone(this),};
     }
-
     // EDITING
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
@@ -328,13 +297,11 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         that.cachedHitShape = null;
         return that;
     }
-
     @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;
     }
-
     @Override
     public void invalidate() {
         super.invalidate();

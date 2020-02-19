@@ -2,7 +2,7 @@
  * @(#)EditGridPanel.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -33,13 +33,10 @@ public class EditGridPanel extends javax.swing.JPanel {
     public EditGridPanel() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         initComponents();
-
         widthField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 1000, 1));
         heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 1000, 1));
         thetaField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 180, 1));
-
         constrainer = new GridConstrainer(10, 10);
-
         widthField.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -50,7 +47,6 @@ public class EditGridPanel extends javax.swing.JPanel {
                 }
             }
         });
-
         heightField.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -61,7 +57,6 @@ public class EditGridPanel extends javax.swing.JPanel {
                 }
             }
         });
-
         thetaField.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -72,7 +67,6 @@ public class EditGridPanel extends javax.swing.JPanel {
                 }
             }
         });
-
     }
 
     /**
@@ -104,26 +98,18 @@ public class EditGridPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         widthLabel = new javax.swing.JLabel();
         heightLabel = new javax.swing.JLabel();
         widthField = new org.jhotdraw.gui.JLifeFormattedTextField();
         heightField = new org.jhotdraw.gui.JLifeFormattedTextField();
         thetaLabel = new javax.swing.JLabel();
         thetaField = new org.jhotdraw.gui.JLifeFormattedTextField();
-
         widthLabel.setText(labels.getString("view.grid.width.text")); // NOI18N
-
         heightLabel.setText(labels.getString("view.grid.height.text")); // NOI18N
-
         widthField.setColumns(5);
-
         heightField.setColumns(5);
-
         thetaLabel.setText(labels.getString("view.grid.theta.text")); // NOI18N
-
         thetaField.setColumns(5);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,7 +145,6 @@ public class EditGridPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jhotdraw.gui.JLifeFormattedTextField heightField;
     private javax.swing.JLabel heightLabel;
@@ -168,5 +153,4 @@ public class EditGridPanel extends javax.swing.JPanel {
     private org.jhotdraw.gui.JLifeFormattedTextField widthField;
     private javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables
-
 }

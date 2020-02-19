@@ -5,9 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.teddy.text;
-
 import java.awt.*;
 import javax.swing.text.*;
 /**
@@ -24,9 +22,6 @@ public class NumberedParagraphView extends ParagraphView {
         super(e);
         this.viewFactory = viewFactory;
     }
-    
-    
-    
     /**
      * Gets the left inset.
      *
@@ -37,8 +32,6 @@ public class NumberedParagraphView extends ParagraphView {
         short left = super.getLeftInset();
         return (viewFactory.isLineNumbersVisible()) ? (short) (left + NUMBERS_WIDTH) : left;
     }
-    
-    
     @Override
     public void paintChild(Graphics g, Rectangle r, int n) {
         super.paintChild(g, r, n);
@@ -51,7 +44,6 @@ public class NumberedParagraphView extends ParagraphView {
                 int lineNumber = getDocument().
                         getDefaultRootElement().
                         getElementIndex(getStartOffset());
-                
                 int numberX = r.x - getLeftInset();
                 //int numberY = r.y + g.getFontMetrics().getAscent();
                 int numberY = r.y + lineAscent;

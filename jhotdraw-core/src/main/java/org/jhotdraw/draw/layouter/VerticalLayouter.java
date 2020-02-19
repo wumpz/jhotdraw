@@ -2,7 +2,7 @@
  * @(#)VerticalLayouter.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.layouter;
@@ -55,7 +55,6 @@ public class VerticalLayouter extends AbstractLayouter {
         }
         layoutBounds.width += layoutInsets.left + layoutInsets.right;
         layoutBounds.height += layoutInsets.top + layoutInsets.bottom;
-
         return layoutBounds;
     }
 
@@ -63,7 +62,6 @@ public class VerticalLayouter extends AbstractLayouter {
     public Rectangle2D.Double layout(CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
         Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
         Alignment compositeAlignment = layoutable.get(COMPOSITE_ALIGNMENT);
-
         if (layoutInsets == null) {
             layoutInsets = new Insets2D.Double();
         }

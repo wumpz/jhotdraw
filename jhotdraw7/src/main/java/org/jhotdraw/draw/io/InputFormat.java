@@ -2,19 +2,15 @@
  * @(#)InputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.io;
-
-
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.net.URI;
 import javax.swing.*;
-
 /**
  * An <em>input format</em> implements a strategy for reading a {@link Drawing}
  * using a specific format from either an {@code InputStream}, an {@code URI} or
@@ -48,7 +44,6 @@ public interface InputFormat {
      * @return FileFilter to be used with a javax.swing.JFileChooser
      */
     public javax.swing.filechooser.FileFilter getFileFilter();
-    
     /**
      * Return a JFileChooser accessory that can be used to customize the input
      * format.
@@ -57,7 +52,6 @@ public interface InputFormat {
      * Returns null, if no accessory is provided for this format.
      */
     public JComponent getInputFormatAccessory();
-    
     /**
      * Reads figures from an URI and replaces the children of the drawing
      * with them.
@@ -68,7 +62,6 @@ public interface InputFormat {
      * @param drawing The drawing.
      */
     public void read(URI uri, Drawing drawing) throws IOException;
-    
     /**
      * Reads figures from an URI and adds them to the specified drawing.
      *
@@ -80,7 +73,6 @@ public interface InputFormat {
      * example, when the file has been dropped into the drawing view).
      */
     public void read(URI uri, Drawing drawing, boolean replace) throws IOException;
-
     /**
      * Reads figures from a file and adds them to the specified drawing.
      *
@@ -92,24 +84,22 @@ public interface InputFormat {
      * example, when the stream has been dropped into the drawing view).
      */
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException;
-
     /**
-     * Returns true, if this InputFormat can readFigures TransferData using the 
+     * Returns true, if this InputFormat can readFigures TransferData using the
      * specified DataFlavor.
-     * 
+     *
      * @param flavor A DataFlavor.
      */
     public boolean isDataFlavorSupported(DataFlavor flavor);
-    
     /**
      * Reads figures from the specified Transferable and adds them to the
      * specified drawing.
-     * 
-     * @param t The Transferable. 
+     *
+     * @param t The Transferable.
      * @param drawing The drawing.
      * @param replace Set this to true, if the contents of the transferable
      * replaces the contents of the drawing (for example, when loading a drawing
-     * from a transferable). Set this to false, to add the contents of the 
+     * from a transferable). Set this to false, to add the contents of the
      * transferable to the drawing (for example, when the transferable has been
      * dropped or pasted into the drawing view).
      */

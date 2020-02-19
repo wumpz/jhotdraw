@@ -1,9 +1,9 @@
 /*
  * @(#)PropertyChangeEdit.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.undo;
@@ -23,7 +23,6 @@ import javax.swing.undo.UndoableEdit;
 public class PropertyChangeEdit extends AbstractUndoableEdit {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The object to be provided as the "source" of the JavaBeans property.
      */
@@ -143,7 +142,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -171,7 +169,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
                 wasUpperCase = false;
             }
             b.append(i == 0 ? Character.toUpperCase(s.charAt(i)) : s.charAt(i));
-
         }
         return b.toString();
     }

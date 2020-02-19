@@ -1,5 +1,5 @@
 /*
- * @(#)QuaquaPanelUI.java  
+ * @(#)QuaquaPanelUI.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
@@ -75,7 +75,6 @@ public class PalettePanelUI extends BasicPanelUI {
         /*
         Border backgroundBorder = null;
         Insets insets = new Insets(0,0,0,0);
-
         if (backgroundBorder != null) {
             backgroundBorder.paintBorder(c, gr, insets.left, insets.top, c.getWidth() - insets.left - insets.right, c.getHeight() - insets.top - insets.bottom);
         }

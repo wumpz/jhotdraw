@@ -2,22 +2,23 @@
  * @(#)TriangleFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.draw.connector.ChopTriangleConnector;
-import org.jhotdraw.draw.handle.OrientationHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.AttributeKeys.Orientation;
+import org.jhotdraw.draw.connector.ChopTriangleConnector;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.OrientationHandle;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
 
 /**
  * Implements a {@link Figure} with a triangular shape.
@@ -34,7 +35,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public class TriangleFigure extends AbstractAttributedFigure {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The bounds of the triangle figure.
      */
@@ -104,7 +104,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
             );
             triangle = gs.createStrokedShape(triangle);
         }
-
         g.fill(triangle);
     }
 
@@ -112,7 +111,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     protected void drawStroke(Graphics2D g) {
         double scaleFactor = AttributeKeys.getScaleFactorFromGraphics(g);
         Shape triangle = getBezierPath();
-
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this, scaleFactor);
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
@@ -121,7 +119,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
             );
             triangle = gs.createStrokedShape(triangle);
         }
-
         g.draw(triangle);
     }
 
@@ -136,7 +133,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
 
     public BezierPath getBezierPath() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-
         BezierPath triangle = new BezierPath();
         switch (get(ORIENTATION)) {
             case NORTH:
@@ -191,7 +187,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     @Override
     public boolean contains(Point2D.Double p) {
         Shape triangle = getBezierPath();
-
         double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
@@ -238,14 +233,12 @@ public class TriangleFigure extends AbstractAttributedFigure {
         }
         width++;
         Rectangle2D.Double r = getBounds();
-
         Geom.grow(r, width, width);
         return r;
     }
 
     public Point2D.Double chop(Point2D.Double p) {
         Shape triangle = getBezierPath();
-
         double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,

@@ -2,7 +2,7 @@
  * @(#)BezierControlPointHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -94,7 +94,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                 tOwner.get(TRANSFORM).transform(p0, p0);
                 tOwner.get(TRANSFORM).transform(pc, pc);
             }
-
             Color handleFillColor;
             Color handleStrokeColor;
             Stroke stroke1;
@@ -136,7 +135,6 @@ public class BezierControlPointHandle extends AbstractHandle {
             } else {
                 drawCircle(g, handleFillColor, handleStrokeColor);
             }
-
         }
     }
 
@@ -172,11 +170,9 @@ public class BezierControlPointHandle extends AbstractHandle {
                 ex.printStackTrace();
             }
         }
-
         if (!v.keepColinear) {
             // move control point independently
             figure.setPoint(index, controlPointIndex, p);
-
         } else {
             // move control point and opposite control point on same line
             double a = Math.PI + Math.atan2(p.y - v.y[0], p.x - v.x[0]);
@@ -185,7 +181,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                     + (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
             double sina = Math.sin(a);
             double cosa = Math.cos(a);
-
             Point2D.Double p2 = new Point2D.Double(
                     r * cosa + v.x[0],
                     r * sina + v.y[0]);
@@ -194,7 +189,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
         figure.changed();
         fireAreaInvalidated(figure.getNode(index));
-
     }
 
     private void fireAreaInvalidated(BezierPath.Node v) {
@@ -224,7 +218,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                         + (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
                 double sina = Math.sin(a);
                 double cosa = Math.cos(a);
-
                 Point2D.Double p2 = new Point2D.Double(
                         r * cosa + newValue.x[0],
                         r * sina + newValue.y[0]);
@@ -289,7 +282,6 @@ public class BezierControlPointHandle extends AbstractHandle {
     public void keyPressed(KeyEvent evt) {
         final BezierFigure f = getOwner();
         BezierPath.Node oldNode = f.getNode(index);
-
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
                 f.willChange();

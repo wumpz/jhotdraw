@@ -2,19 +2,16 @@
  * @(#)ToolBarPrefsHandler.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.util.prefs;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.event.*;
-
 /**
  * ToolBarPrefsHandler.
  *
@@ -25,12 +22,10 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
     private JToolBar toolbar;
     private String prefsPrefix;
     private Preferences prefs;
-    
     public ToolBarPrefsHandler(JToolBar toolbar, String prefsPrefix, Preferences prefs) {
         this.toolbar = toolbar;
         this.prefsPrefix = prefsPrefix;
         this.prefs = prefs;
-        
         String constraint = prefs.get(prefsPrefix+".constraint", BorderLayout.NORTH);
         int orientation = (constraint.equals(BorderLayout.NORTH) || constraint.equals(BorderLayout.SOUTH)) ? JToolBar.HORIZONTAL : JToolBar.VERTICAL;
         toolbar.setOrientation(orientation);
@@ -40,13 +35,9 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         if (prefs.getBoolean(prefsPrefix+".isFloating", false)) {
             makeToolBarFloat();
         }*/
-        
         toolbar.addComponentListener(this);
         toolbar.addAncestorListener(this);
     }
-    
-    
-    
     /*
      * XXX - This does not work
     private void makeToolBarFloat() {
@@ -68,7 +59,6 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
     public void componentHidden(ComponentEvent e) {
         prefs.putBoolean(prefsPrefix+".visible", false);
     }
-    
     @Override
     public void componentMoved(ComponentEvent e) {
         locationChanged();
@@ -110,22 +100,18 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
             }
         }
     }
-    
     @Override
     public void componentResized(ComponentEvent e) {
         locationChanged();
     }
-    
     @Override
     public void componentShown(ComponentEvent e) {
         prefs.putBoolean(prefsPrefix+".visible", true);
     }
-    
     @Override
     public void ancestorAdded(AncestorEvent event) {
         locationChanged();
     }
-    
     @Override
     public void ancestorMoved(AncestorEvent event) {
         if (toolbar.getUI() instanceof BasicToolBarUI) {
@@ -134,7 +120,6 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
             }
         }
     }
-    
     @Override
     public void ancestorRemoved(AncestorEvent event) {
         if (toolbar.getUI() instanceof BasicToolBarUI) {

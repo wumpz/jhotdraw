@@ -2,11 +2,10 @@
  * @(#)SVGOutputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
-
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
@@ -15,7 +14,6 @@ import java.net.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -50,7 +48,6 @@ import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 /**
  * An output format for storing drawings as
  * Scalable Vector Graphics SVG Tiny 1.2.
@@ -59,7 +56,6 @@ import org.w3c.dom.Element;
  * @version $Id$
  */
 public class SVGOutputFormat implements OutputFormat {
-
     /**
      * This is a counter used to create the next unique identification.
      */
@@ -87,7 +83,6 @@ public class SVGOutputFormat implements OutputFormat {
      */
     private boolean isPrettyPrint;
     private static final HashMap<Integer, String> strokeLinejoinMap;
-
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
         strokeLinejoinMap.put(BasicStroke.JOIN_MITER, "miter");
@@ -95,7 +90,6 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
     private static final HashMap<Integer, String> strokeLinecapMap;
-
     static {
         strokeLinecapMap = new HashMap<Integer, String>();
         strokeLinecapMap.put(BasicStroke.CAP_BUTT, "butt");
@@ -109,29 +103,23 @@ public class SVGOutputFormat implements OutputFormat {
      * less storage space.
      */
     private static final boolean isFloatPrecision = true;
-
     /**
      * Creates a new instance.
      */
     public SVGOutputFormat() {
     }
-
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
-
     public JComponent getOutputFormatAccessory() {
         return null;
     }
-
     public void setPrettyPrint(boolean newValue) {
         isPrettyPrint = newValue;
     }
-
     public boolean isPrettyPrint() {
         return isPrettyPrint;
     }
-
     protected void writeElement(Element parent, Figure f) throws IOException {
         // Write link attribute as encosing "a" element
         if (f.get(LINK) != null && f.get(LINK).trim().length() > 0) {
@@ -143,7 +131,6 @@ public class SVGOutputFormat implements OutputFormat {
             parent.appendChild(aElement);
             parent = aElement;
         }
-
         // Write the actual element
         if (f instanceof SVGEllipseFigure) {
             SVGEllipseFigure ellipse = (SVGEllipseFigure) f;
@@ -193,7 +180,6 @@ public class SVGOutputFormat implements OutputFormat {
             System.out.println("Unable to write: " + f);
         }
     }
-
     protected void writeCircleElement(Element parent, SVGEllipseFigure f) throws IOException {
         parent.appendChild(
                 createCircle(
@@ -203,7 +189,6 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getWidth() / 2d,
                         f.getAttributes()));
     }
-
     protected Element createCircle(Element doc,
             double cx, double cy, double r,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -216,21 +201,18 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected Element createG(Element doc,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
         Element elem = doc.getOwnerDocument().createElement("g");
         writeOpacityAttribute(elem, attributes);
         return elem;
     }
-
     protected Element createLinearGradient(Element doc,
             double x1, double y1, double x2, double y2,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds,
             AffineTransform transform) throws IOException {
         Element elem = doc.getOwnerDocument().createElement("linearGradient");
-
         writeAttribute(elem, "x1", toNumber(x1), "0");
         writeAttribute(elem, "y1", toNumber(y1), "0");
         writeAttribute(elem, "x2", toNumber(x2), "1");
@@ -239,7 +221,6 @@ public class SVGOutputFormat implements OutputFormat {
                 (isRelativeToFigureBounds) ? "objectBoundingBox" : "userSpaceOnUse",
                 "objectBoundingBox");
         writeAttribute(elem, "gradientTransform", toTransform(transform), "none");
-
         for (int i = 0; i < stopOffsets.length; i++) {
             Element stop = doc.getOwnerDocument().createElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
@@ -247,17 +228,14 @@ public class SVGOutputFormat implements OutputFormat {
             writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
             elem.appendChild(stop);
         }
-
         return elem;
     }
-
     protected Element createRadialGradient(Element doc,
             double cx, double cy, double fx, double fy, double r,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
             boolean isRelativeToFigureBounds,
             AffineTransform transform) throws IOException {
         Element elem = doc.getOwnerDocument().createElement("radialGradient");
-
         writeAttribute(elem, "cx", toNumber(cx), "0.5");
         writeAttribute(elem, "cy", toNumber(cy), "0.5");
         writeAttribute(elem, "fx", toNumber(fx), toNumber(cx));
@@ -267,7 +245,6 @@ public class SVGOutputFormat implements OutputFormat {
                 (isRelativeToFigureBounds) ? "objectBoundingBox" : "userSpaceOnUse",
                 "objectBoundingBox");
         writeAttribute(elem, "gradientTransform", toTransform(transform), "none");
-
         for (int i = 0; i < stopOffsets.length; i++) {
             Element stop = doc.getOwnerDocument().createElement("stop");
             writeAttribute(stop, "offset", toNumber(stopOffsets[i]), null);
@@ -275,10 +252,8 @@ public class SVGOutputFormat implements OutputFormat {
             writeAttribute(stop, "stop-opacity", toNumber(stopOpacities[i]), "1");
             elem.appendChild(stop);
         }
-
         return elem;
     }
-
     protected void writeEllipseElement(Element parent, SVGEllipseFigure f) throws IOException {
         parent.appendChild(createEllipse(
                 document,
@@ -288,7 +263,6 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getHeight() / 2d,
                 f.getAttributes()));
     }
-
     protected Element createEllipse(Element doc,
             double cx, double cy, double rx, double ry,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -302,7 +276,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected void writeGElement(Element parent, SVGGroupFigure f) throws IOException {
         Element elem = createG(document, f.getAttributes());
         for (Figure child : f.getChildren()) {
@@ -310,7 +283,6 @@ public class SVGOutputFormat implements OutputFormat {
         }
         parent.appendChild(elem);
     }
-
     protected void writeImageElement(Element parent, SVGImageFigure f) throws IOException {
         parent.appendChild(
                 createImage(document,
@@ -321,7 +293,6 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getImageData(),
                         f.getAttributes()));
     }
-
     protected Element createImage(Element doc,
             double x, double y, double w, double h,
             byte[] imageData,
@@ -336,7 +307,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected void writePathElement(Element parent, SVGPathFigure f) throws IOException {
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
         for (int i = 0; i < beziers.length; i++) {
@@ -347,7 +317,6 @@ public class SVGOutputFormat implements OutputFormat {
                 beziers,
                 f.getAttributes()));
     }
-
     protected Element createPath(Element doc,
             BezierPath[] beziers,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -358,7 +327,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "d", toPath(beziers), null);
         return elem;
     }
-
     protected void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
@@ -367,13 +335,11 @@ public class SVGOutputFormat implements OutputFormat {
                 points.add(new Point2D.Double(node.x[0], node.y[0]));
             }
         }
-
         parent.appendChild(createPolygon(
                 document,
                 points.toArray(new Point2D.Double[points.size()]),
                 f.getAttributes()));
     }
-
     protected Element createPolygon(Element doc,
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes)
@@ -385,7 +351,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
@@ -394,17 +359,14 @@ public class SVGOutputFormat implements OutputFormat {
                 points.add(new Point2D.Double(node.x[0], node.y[0]));
             }
         }
-
         parent.appendChild(createPolyline(
                 document,
                 points.toArray(new Point2D.Double[points.size()]),
                 f.getAttributes()));
     }
-
     protected Element createPolyline(Element doc,
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
-
         Element elem = doc.getOwnerDocument().createElement("polyline");
         writeAttribute(elem, "points", toPoints(points), null);
         writeShapeAttributes(elem, attributes);
@@ -412,7 +374,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected void writeLineElement(Element parent, SVGPathFigure f)
             throws IOException {
         BezierFigure bezier = (BezierFigure) f.getChild(0);
@@ -424,7 +385,6 @@ public class SVGOutputFormat implements OutputFormat {
                 bezier.getNode(1).y[0],
                 f.getAttributes()));
     }
-
     protected Element createLine(Element doc,
             double x1, double y1, double x2, double y2,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -438,7 +398,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected void writeRectElement(Element parent, SVGRectFigure f) throws IOException {
         parent.appendChild(
                 createRect(
@@ -451,7 +410,6 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getArcHeight(),
                         f.getAttributes()));
     }
-
     protected Element createRect(Element doc,
             double x, double y, double width, double height,
             double rx, double ry,
@@ -469,7 +427,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
-
     protected void writeTextElement(Element parent, SVGTextFigure f) throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
         try {
@@ -487,7 +444,6 @@ public class SVGOutputFormat implements OutputFormat {
                         styledDoc,
                         f.getAttributes()));
     }
-
     protected Element createText(Element doc,
             Point2D.Double[] coordinates, double[] rotate,
             StyledDocument text,
@@ -523,16 +479,13 @@ public class SVGOutputFormat implements OutputFormat {
             error.initCause(e);
             throw error;
         }
-
         elem.setTextContent(str);
-
         writeShapeAttributes(elem, attributes);
         writeOpacityAttribute(elem, attributes);
         writeTransformAttribute(elem, attributes);
         writeFontAttributes(elem, attributes);
         return elem;
     }
-
     protected void writeTextAreaElement(Element parent, SVGTextAreaFigure f)
             throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
@@ -543,9 +496,7 @@ public class SVGOutputFormat implements OutputFormat {
             error.initCause(e);
             throw error;
         }
-
         Rectangle2D.Double bounds = f.getBounds();
-
         parent.appendChild(
                 createTextArea(
                         document,
@@ -553,7 +504,6 @@ public class SVGOutputFormat implements OutputFormat {
                         styledDoc,
                         f.getAttributes()));
     }
-
     protected Element createTextArea(Element doc,
             double x, double y, double w, double h,
             StyledDocument text,
@@ -564,7 +514,6 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "y", toNumber(y), "0");
         writeAttribute(elem, "width", toNumber(w), "0");
         writeAttribute(elem, "height", toNumber(h), "0");
-
         String str;
         try {
             str = text.getText(0, text.getLength());
@@ -582,14 +531,12 @@ public class SVGOutputFormat implements OutputFormat {
             contentElement.setTextContent(lines[i]);
             elem.appendChild(contentElement);
         }
-
         writeShapeAttributes(elem, attributes);
         writeTransformAttribute(elem, attributes);
         writeOpacityAttribute(elem, attributes);
         writeFontAttributes(elem, attributes);
         return elem;
     }
-
     // ------------
     // Attributes
     // ------------
@@ -600,38 +547,35 @@ public class SVGOutputFormat implements OutputFormat {
         Color color;
         String value;
         int intValue;
-
         //'color'
-        // Value:  	<color> | inherit
-        // Initial:  	 depends on user agent
-        // Applies to:  	None. Indirectly affects other properties via currentColor
-        // Inherited:  	 yes
-        // Percentages:  	 N/A
-        // Media:  	 visual
-        // Animatable:  	 yes
-        // Computed value:  	 Specified <color> value, except inherit
-        
+        // Value:   <color> | inherit
+        // Initial:    depends on user agent
+        // Applies to:   None. Indirectly affects other properties via currentColor
+        // Inherited:    yes
+        // Percentages:    N/A
+        // Media:    visual
+        // Animatable:    yes
+        // Computed value:    Specified <color> value, except inherit
         // Nothing to do: Attribute 'color' is not needed.
         //'color-rendering'
-        // Value:  	 auto | optimizeSpeed | optimizeQuality | inherit
-        // Initial:  	 auto
-        // Applies to:  	 container elements , graphics elements and 'animateColor'
-        // Inherited:  	 yes
-        // Percentages:  	 N/A
-        // Media:  	 visual
-        // Animatable:  	 yes
-        // Computed value:  	 Specified value, except inherit
-        
+        // Value:    auto | optimizeSpeed | optimizeQuality | inherit
+        // Initial:    auto
+        // Applies to:    container elements , graphics elements and 'animateColor'
+        // Inherited:    yes
+        // Percentages:    N/A
+        // Media:    visual
+        // Animatable:    yes
+        // Computed value:    Specified value, except inherit
         // Nothing to do: Attribute 'color-rendering' is not needed.
         // 'fill'
-        // Value:  	<paint> | inherit (See Specifying paint)
-        // Initial:  	 black
-        // Applies to:  	 shapes and text content elements
-        // Inherited:  	 yes
-        // Percentages:  	 N/A
-        // Media:  	 visual
-        // Animatable:  	 yes
-        // Computed value:  	 "none", system paint, specified <color> value or absolute IRI
+        // Value:   <paint> | inherit (See Specifying paint)
+        // Initial:    black
+        // Applies to:    shapes and text content elements
+        // Inherited:    yes
+        // Percentages:    N/A
+        // Media:    visual
+        // Animatable:    yes
+        // Computed value:    "none", system paint, specified <color> value or absolute IRI
         Gradient gradient = FILL_GRADIENT.get(m);
         if (gradient != null) {
             String id;
@@ -670,40 +614,37 @@ public class SVGOutputFormat implements OutputFormat {
         } else {
             writeAttribute(elem, "fill", toColor(FILL_COLOR.get(m)), "#000");
         }
-
         //'fill-opacity'
-        //Value:  	 <opacity-value> | inherit
-        //Initial:  	 1
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:    <opacity-value> | inherit
+        //Initial:    1
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "fill-opacity", FILL_OPACITY.get(m), 1d);
-
         // 'fill-rule'
-        // Value:	 nonzero | evenodd | inherit
-        // Initial: 	 nonzero
-        // Applies to:  	 shapes and text content elements
-        // Inherited:  	 yes
-        // Percentages:  	 N/A
-        // Media:  	 visual
-        // Animatable:  	 yes
-        // Computed value:  	 Specified value, except inherit
+        // Value:  nonzero | evenodd | inherit
+        // Initial:   nonzero
+        // Applies to:    shapes and text content elements
+        // Inherited:    yes
+        // Percentages:    N/A
+        // Media:    visual
+        // Animatable:    yes
+        // Computed value:    Specified value, except inherit
         if (WINDING_RULE.get(m) != WindingRule.NON_ZERO) {
             writeAttribute(elem, "fill-rule", "evenodd", "nonzero");
         }
-
         //'stroke'
-        //Value:  	<paint> | inherit (See Specifying paint)
-        //Initial:  	 none
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 "none", system paint, specified <color> value
+        //Value:   <paint> | inherit (See Specifying paint)
+        //Initial:    none
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    "none", system paint, specified <color> value
         // or absolute IRI
         gradient = STROKE_GRADIENT.get(m);
         if (gradient != null) {
@@ -743,16 +684,15 @@ public class SVGOutputFormat implements OutputFormat {
         } else {
             writeAttribute(elem, "stroke", toColor(STROKE_COLOR.get(m)), "none");
         }
-
         //'stroke-dasharray'
-        //Value:  	 none | <dasharray> | inherit
-        //Initial:  	 none
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes (non-additive)
-        //Computed value:  	 Specified value, except inherit
+        //Value:    none | <dasharray> | inherit
+        //Initial:    none
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes (non-additive)
+        //Computed value:    Specified value, except inherit
         double[] dashes = STROKE_DASHES.get(m);
         if (dashes != null) {
             StringBuilder buf = new StringBuilder();
@@ -764,88 +704,80 @@ public class SVGOutputFormat implements OutputFormat {
             }
             writeAttribute(elem, "stroke-dasharray", buf.toString(), null);
         }
-
         //'stroke-dashoffset'
-        //Value:  	<length> | inherit
-        //Initial:  	 0
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:   <length> | inherit
+        //Initial:    0
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-dashoffset", STROKE_DASH_PHASE.get(m), 0d);
-
         //'stroke-linecap'
-        //Value:  	 butt | round | square | inherit
-        //Initial:  	 butt
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:    butt | round | square | inherit
+        //Initial:    butt
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-linecap", strokeLinecapMap.get(STROKE_CAP.get(m)), "butt");
-
         //'stroke-linejoin'
-        //Value:  	 miter | round | bevel | inherit
-        //Initial:  	 miter
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:    miter | round | bevel | inherit
+        //Initial:    miter
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-linejoin", strokeLinejoinMap.get(STROKE_JOIN.get(m)), "miter");
-
         //'stroke-miterlimit'
-        //Value:  	 <miterlimit> | inherit
-        //Initial:  	 4
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:    <miterlimit> | inherit
+        //Initial:    4
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-miterlimit", STROKE_MITER_LIMIT.get(m), 4d);
-
         //'stroke-opacity'
-        //Value:  	 <opacity-value> | inherit
-        //Initial:  	 1
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:    <opacity-value> | inherit
+        //Initial:    1
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-opacity", STROKE_OPACITY.get(m), 1d);
-
         //'stroke-width'
-        //Value:  	<length> | inherit
-        //Initial:  	 1
-        //Applies to:  	 shapes and text content elements
-        //Inherited:  	 yes
-        //Percentages:  	 N/A
-        //Media:  	 visual
-        //Animatable:  	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:   <length> | inherit
+        //Initial:    1
+        //Applies to:    shapes and text content elements
+        //Inherited:    yes
+        //Percentages:    N/A
+        //Media:    visual
+        //Animatable:    yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(m), 1d);
     }
-
     /* Writes the opacity attribute.
      */
-
     protected void writeOpacityAttribute(Element elem, Map<AttributeKey<?>, Object> m)
             throws IOException {
         //'opacity'
-        //Value:  	<opacity-value> | inherit
-        //Initial:  	1
-        //Applies to:  	 'image' element
-        //Inherited:  	no
-        //Percentages:  	N/A
-        //Media:  	visual
-        //Animatable:  	yes
-        //Computed value:  	 Specified value, except inherit
+        //Value:   <opacity-value> | inherit
+        //Initial:   1
+        //Applies to:    'image' element
+        //Inherited:   no
+        //Percentages:   N/A
+        //Media:   visual
+        //Animatable:   yes
+        //Computed value:    Specified value, except inherit
         //<opacity-value>
         //The uniform opacity setting must be applied across an entire object.
         //Any values outside the range 0.0 (fully transparent) to 1.0
@@ -853,12 +785,10 @@ public class SVGOutputFormat implements OutputFormat {
         //(See Clamping values which are restricted to a particular range.)
         writeAttribute(elem, "opacity", OPACITY.get(m), 1d);
     }
-
     /* Writes the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      *
      */
-
     protected void writeTransformAttribute(Element elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         AffineTransform t = TRANSFORM.get(a);
@@ -866,98 +796,87 @@ public class SVGOutputFormat implements OutputFormat {
             writeAttribute(elem, "transform", toTransform(t), "none");
         }
     }
-
     /* Writes font attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
-
     private void writeFontAttributes(Element elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         String value;
         double doubleValue;
-
         // 'font-family'
-        // Value:  	[[ <family-name> |
+        // Value:   [[ <family-name> |
         // <generic-family> ],]* [<family-name> |
         // <generic-family>] | inherit
-        // Initial:  	depends on user agent
-        // Applies to:  	text content elements
-        // Inherited:  	yes
-        // Percentages:  	N/A
-        // Media:  	visual
-        // Animatable:  	yes
-        // Computed value:  	 Specified value, except inherit
+        // Initial:   depends on user agent
+        // Applies to:   text content elements
+        // Inherited:   yes
+        // Percentages:   N/A
+        // Media:   visual
+        // Animatable:   yes
+        // Computed value:    Specified value, except inherit
         writeAttribute(elem, "font-family", FONT_FACE.get(a).getFontName(), "Dialog");
-
         // 'font-getChildCount'
-        // Value:  	<absolute-getChildCount> | <relative-getChildCount> |
+        // Value:   <absolute-getChildCount> | <relative-getChildCount> |
         // <length> | inherit
-        // Initial:  	medium
-        // Applies to:  	text content elements
-        // Inherited:  	yes, the computed value is inherited
-        // Percentages:  	N/A
-        // Media:  	visual
-        // Animatable:  	yes
-        // Computed value:  	 Absolute length
+        // Initial:   medium
+        // Applies to:   text content elements
+        // Inherited:   yes, the computed value is inherited
+        // Percentages:   N/A
+        // Media:   visual
+        // Animatable:   yes
+        // Computed value:    Absolute length
         writeAttribute(elem, "font-size", FONT_SIZE.get(a), 0d);
-
         // 'font-style'
-        // Value:  	normal | italic | oblique | inherit
-        // Initial:  	normal
-        // Applies to:  	text content elements
-        // Inherited:  	yes
-        // Percentages:  	N/A
-        // Media:  	visual
-        // Animatable:  	yes
-        // Computed value:  	 Specified value, except inherit
+        // Value:   normal | italic | oblique | inherit
+        // Initial:   normal
+        // Applies to:   text content elements
+        // Inherited:   yes
+        // Percentages:   N/A
+        // Media:   visual
+        // Animatable:   yes
+        // Computed value:    Specified value, except inherit
         writeAttribute(elem, "font-style", (FONT_ITALIC.get(a)) ? "italic" : "normal", "normal");
-
         //'font-variant'
-        //Value:  	normal | small-caps | inherit
-        //Initial:  	normal
-        //Applies to:  	text content elements
-        //Inherited:  	yes
-        //Percentages:  	N/A
-        //Media:  	visual
-        //Animatable:  	no
-        //Computed value:  	 Specified value, except inherit
+        //Value:   normal | small-caps | inherit
+        //Initial:   normal
+        //Applies to:   text content elements
+        //Inherited:   yes
+        //Percentages:   N/A
+        //Media:   visual
+        //Animatable:   no
+        //Computed value:    Specified value, except inherit
         // XXX - Implement me
         writeAttribute(elem, "font-variant", "normal", "normal");
-
         // 'font-weight'
-        // Value:  	normal | bold | bolder | lighter | 100 | 200 | 300
+        // Value:   normal | bold | bolder | lighter | 100 | 200 | 300
         // | 400 | 500 | 600 | 700 | 800 | 900 | inherit
-        // Initial:  	normal
-        // Applies to:  	text content elements
-        // Inherited:  	yes
-        // Percentages:  	N/A
-        // Media:  	visual
-        // Animatable:  	yes
-        // Computed value:  	 one of the legal numeric values, non-numeric
+        // Initial:   normal
+        // Applies to:   text content elements
+        // Inherited:   yes
+        // Percentages:   N/A
+        // Media:   visual
+        // Animatable:   yes
+        // Computed value:    one of the legal numeric values, non-numeric
         // values shall be converted to numeric values according to the rules
         // defined below.
         writeAttribute(elem, "font-weight", (FONT_BOLD.get(a)) ? "bold" : "normal", "normal");
-
         // Note: text-decoration is an SVG 1.1 feature
         //'text-decoration'
-        //Value:  	none | [ underline || overline || line-through || blink ] | inherit
-        //Initial:  	none
-        //Applies to:  	text content elements
-        //Inherited:  	no (see prose)
-        //Percentages:  	N/A
-        //Media:  	visual
-        //Animatable:  	yes
+        //Value:   none | [ underline || overline || line-through || blink ] | inherit
+        //Initial:   none
+        //Applies to:   text content elements
+        //Inherited:   no (see prose)
+        //Percentages:   N/A
+        //Media:   visual
+        //Animatable:   yes
         writeAttribute(elem, "text-decoration", (FONT_UNDERLINE.get(a)) ? "underline" : "none", "none");
     }
-
     /* Writes viewport attributes.
      */
-
     private void writeViewportAttributes(Element elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
         Double doubleValue;
-
         if (VIEWPORT_WIDTH.get(a) != null && VIEWPORT_HEIGHT.get(a) != null) {
             // width of the viewport
             writeAttribute(elem, "width", toNumber(VIEWPORT_WIDTH.get(a)), null);
@@ -965,59 +884,50 @@ public class SVGOutputFormat implements OutputFormat {
             writeAttribute(elem, "height", toNumber(VIEWPORT_HEIGHT.get(a)), null);
         }
         //'viewport-fill'
-        //Value:	 "none" | <color> | inherit
-        //Initial:	 none
-        //Applies to:	viewport-creating elements
-        //Inherited:	 no
-        //Percentages:	 N/A
-        //Media:	 visual
-        //Animatable:	 yes
-        //Computed value:  	 "none" or specified <color> value, except inherit
+        //Value:  "none" | <color> | inherit
+        //Initial:  none
+        //Applies to: viewport-creating elements
+        //Inherited:  no
+        //Percentages:  N/A
+        //Media:  visual
+        //Animatable:  yes
+        //Computed value:    "none" or specified <color> value, except inherit
         writeAttribute(elem, "viewport-fill", toColor(VIEWPORT_FILL.get(a)), "none");
-
         //'viewport-fill-opacity'
-        //Value:	<opacity-value> | inherit
-        //Initial:	 1.0
-        //Applies to:	viewport-creating elements
-        //Inherited:	 no
-        //Percentages:	 N/A
-        //Media:	 visual
-        //Animatable:	 yes
-        //Computed value:  	 Specified value, except inherit
+        //Value: <opacity-value> | inherit
+        //Initial:  1.0
+        //Applies to: viewport-creating elements
+        //Inherited:  no
+        //Percentages:  N/A
+        //Media:  visual
+        //Animatable:  yes
+        //Computed value:    Specified value, except inherit
         writeAttribute(elem, "viewport-fill-opacity", VIEWPORT_FILL_OPACITY.get(a), 1.0);
-
     }
-
     protected void writeAttribute(Element elem, String name, String value, String defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
-
     protected void writeAttribute(Element elem, String name, String namespace, String value, String defaultValue) {
         if (!value.equals(defaultValue)) {
             elem.setAttribute(name, value);
         }
     }
-
     protected void writeAttribute(Element elem, String name, double value, double defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
-
     protected void writeAttribute(Element elem, String name, String namespace, double value, double defaultValue) {
         if (value != defaultValue) {
             elem.setAttribute(name, toNumber(value));
         }
     }
-
     /**
      * Returns a value as a SVG Path attribute.
      * as specified in http://www.w3.org/TR/SVGMobile12/paths.html#PathDataBNF
      */
     public static String toPath(BezierPath[] paths) {
         StringBuilder buf = new StringBuilder();
-
         for (int j = 0; j < paths.length; j++) {
             BezierPath path = paths[j];
-
             if (path.size() == 0) {
                 // nothing to do
             } else if (path.size() == 1) {
@@ -1033,7 +943,6 @@ public class SVGOutputFormat implements OutputFormat {
             } else {
                 BezierPath.Node previous;
                 BezierPath.Node current;
-
                 previous = current = path.get(0);
                 buf.append("M ");
                 buf.append(toNumber(current.x[0]));
@@ -1043,7 +952,6 @@ public class SVGOutputFormat implements OutputFormat {
                 for (int i = 1, n = path.size(); i < n; i++) {
                     previous = current;
                     current = path.get(i);
-
                     if ((previous.mask & BezierPath.C2_MASK) == 0) {
                         if ((current.mask & BezierPath.C1_MASK) == 0) {
                             if (nextCommand != 'L') {
@@ -1110,7 +1018,6 @@ public class SVGOutputFormat implements OutputFormat {
                     if (path.size() > 1) {
                         previous = path.get(path.size() - 1);
                         current = path.get(0);
-
                         if ((previous.mask & BezierPath.C2_MASK) == 0) {
                             if ((current.mask & BezierPath.C1_MASK) == 0) {
                                 if (nextCommand != 'L') {
@@ -1180,7 +1087,6 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return buf.toString();
     }
-
     /**
      * Returns a double array as a number attribute value.
      */
@@ -1191,7 +1097,6 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return str;
     }
-
     /**
      * Returns a Point2D.Double array as a Points attribute value.
      * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
@@ -1208,11 +1113,9 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return buf.toString();
     }
-
     /* Converts an AffineTransform into an SVG transform attribute value as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
-
     public static String toTransform(AffineTransform t) throws IOException {
         StringBuilder buf = new StringBuilder();
         switch (t.getType()) {
@@ -1285,15 +1188,12 @@ public class SVGOutputFormat implements OutputFormat {
                 buf.append(')');
                 break;
         }
-
         return buf.toString();
     }
-
     public static String toColor(Color color) {
         if (color == null) {
             return "none";
         }
-
         String value;
         value = "000000" + Integer.toHexString(color.getRGB());
         value = "#" + value.substring(value.length() - 6);
@@ -1304,17 +1204,14 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return value;
     }
-
     @Override
     public String getFileExtension() {
         return "svg";
     }
-
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri), drawing);
     }
-
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(
                 new FileOutputStream(file));
@@ -1324,12 +1221,10 @@ public class SVGOutputFormat implements OutputFormat {
             out.close();
         }
     }
-
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing, drawing.getChildren());
     }
-
     /**
      * All other write methods delegate their work to here.
      */
@@ -1342,29 +1237,22 @@ public class SVGOutputFormat implements OutputFormat {
             Logger.getLogger(ImageMapOutputFormat.class.getName()).log(Level.SEVERE, null, ex);
             throw new IOException(ex);
         }
-
         Document doc = dBuilder.newDocument();
-
         document = doc.createElementNS(SVG_NAMESPACE, "svg");
         document.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
         document.setAttribute("version", "1.2");
         document.setAttribute("baseProfile", "tiny");
         writeViewportAttributes(document, drawing.getAttributes());
-
         initStorageContext(document);
-
         defs = doc.createElement("defs");
         document.appendChild(defs);
-
         for (Figure f : figures) {
             writeElement(document, f);
         }
-
         // Write XML prolog
         PrintWriter writer = new PrintWriter(
                 new OutputStreamWriter(out, "UTF-8"));
         writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
         // Write XML content
         Transformer t;
         try {
@@ -1376,16 +1264,13 @@ public class SVGOutputFormat implements OutputFormat {
         } catch (TransformerException ex) {
             Logger.getLogger(SVGOutputFormat.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         // Flush writer
         writer.flush();
     }
-
     private void initStorageContext(Element root) {
         identifiedElements = new HashMap<Element, String>();
         gradientToIDMap = new HashMap<Gradient, String>();
     }
-
     /**
      * Gets a unique ID for the specified element.
      */
@@ -1398,7 +1283,6 @@ public class SVGOutputFormat implements OutputFormat {
             return id;
         }
     }
-
     @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();

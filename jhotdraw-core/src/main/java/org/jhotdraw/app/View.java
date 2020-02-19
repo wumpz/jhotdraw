@@ -2,7 +2,7 @@
  * @(#)View.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
@@ -374,5 +374,4 @@ public interface View extends Disposable {
      * parameter is null if no chooser was used.
      */
     public void read(URI uri, URIChooser chooser) throws IOException;
-
 }

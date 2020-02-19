@@ -1,6 +1,6 @@
 /*
  * @(#)PaletteRGBChooser.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
@@ -29,7 +29,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
 public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIResource {
 
     private static final long serialVersionUID = 1L;
-
     private ColorSliderModel ccModel = new PaletteColorSliderModel(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB));
     private int updateRecursion;
     private PaletteLookAndFeel labels;
@@ -45,7 +44,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         labels = PaletteLookAndFeel.getInstance();
         initComponents();
         PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
-
         setUI(PalettePanelUI.createUI(this));
         redLabel.setUI((LabelUI) PaletteLabelUI.createUI(redLabel));
         greenLabel.setUI((LabelUI) PaletteLabelUI.createUI(greenLabel));
@@ -53,11 +51,9 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         redField.setUI((TextUI) PaletteTextFieldUI.createUI(redField));
         greenField.setUI((TextUI) PaletteTextFieldUI.createUI(greenField));
         blueField.setUI((TextUI) PaletteTextFieldUI.createUI(blueField));
-
         ccModel.getBoundedRangeModel(0).setMaximum(255);
         ccModel.getBoundedRangeModel(1).setMaximum(255);
         ccModel.getBoundedRangeModel(2).setMaximum(255);
-
         Font font = plaf.getFont("ColorChooser.font");
         redLabel.setFont(font);
         redSlider.setFont(font);
@@ -68,7 +64,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         blueLabel.setFont(font);
         blueSlider.setFont(font);
         blueField.setFont(font);
-
         int textSliderGap = plaf.getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             Insets fieldInsets = new Insets(0, textSliderGap, 0, 0);
@@ -84,21 +79,16 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
             gbc.insets = fieldInsets;
             layout.setConstraints(blueField, gbc);
         }
-
         ccModel.configureSlider(0, redSlider);
         ccModel.configureSlider(1, greenSlider);
         ccModel.configureSlider(2, blueSlider);
-
         redField.setText(Integer.toString(redSlider.getValue()));
         greenField.setText(Integer.toString(greenSlider.getValue()));
         blueField.setText(Integer.toString(blueSlider.getValue()));
-
         new ColorSliderTextFieldHandler(redField, ccModel, 0);
         new ColorSliderTextFieldHandler(greenField, ccModel, 1);
         new ColorSliderTextFieldHandler(blueField, ccModel, 2);
-
         ccModel.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent evt) {
                 if (updateRecursion++ == 0) {
@@ -156,7 +146,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         redLabel = new javax.swing.JLabel();
         redSlider = new javax.swing.JSlider();
         redField = new javax.swing.JTextField();
@@ -167,16 +156,13 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         blueSlider = new javax.swing.JSlider();
         blueField = new javax.swing.JTextField();
         springPanel = new javax.swing.JPanel();
-
         setLayout(new java.awt.GridBagLayout());
-
         redLabel.setText(labels.getString("ColorChooser.rgbRedText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(redLabel, gridBagConstraints);
-
         redSlider.setMajorTickSpacing(255);
         redSlider.setMaximum(255);
         redSlider.setMinorTickSpacing(128);
@@ -187,7 +173,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
         add(redSlider, gridBagConstraints);
-
         redField.setColumns(3);
         redField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         redField.setText("0");
@@ -204,14 +189,12 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(redField, gridBagConstraints);
-
         greenLabel.setText(labels.getString("ColorChooser.rgbGreenText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(greenLabel, gridBagConstraints);
-
         greenSlider.setMajorTickSpacing(255);
         greenSlider.setMaximum(255);
         greenSlider.setMinorTickSpacing(128);
@@ -222,7 +205,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
         add(greenSlider, gridBagConstraints);
-
         greenField.setColumns(3);
         greenField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         greenField.setText("0");
@@ -239,14 +221,12 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(greenField, gridBagConstraints);
-
         blueLabel.setText(labels.getString("ColorChooser.rgbBlueText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(blueLabel, gridBagConstraints);
-
         blueSlider.setMajorTickSpacing(255);
         blueSlider.setMaximum(255);
         blueSlider.setMinorTickSpacing(128);
@@ -257,7 +237,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1.0;
         add(blueSlider, gridBagConstraints);
-
         blueField.setColumns(3);
         blueField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         blueField.setText("0");
@@ -274,7 +253,6 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(blueField, gridBagConstraints);
-
         springPanel.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -282,20 +260,16 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         gridBagConstraints.weighty = 1.0;
         add(springPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void fieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldFocusGained
+    private void fieldFocusGained(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_fieldFocusGained
         ((JTextField) evt.getSource()).selectAll();
     }//GEN-LAST:event_fieldFocusGained
-
-    private void blueFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_blueFieldFocusLost
+    private void blueFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_blueFieldFocusLost
         blueField.setText(Integer.toString(ccModel.getBoundedRangeModel(2).getValue()));
     }//GEN-LAST:event_blueFieldFocusLost
-
-    private void greenFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_greenFieldFocusLost
+    private void greenFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_greenFieldFocusLost
         greenField.setText(Integer.toString(ccModel.getBoundedRangeModel(1).getValue()));
     }//GEN-LAST:event_greenFieldFocusLost
-
-    private void redFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_redFieldFocusLost
+    private void redFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_redFieldFocusLost
         redField.setText(Integer.toString(ccModel.getBoundedRangeModel(0).getValue()));
     }//GEN-LAST:event_redFieldFocusLost
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,13 +2,10 @@
  * @(#)TriangleFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw;
-
 import org.jhotdraw.draw.connector.ChopTriangleConnector;
 import org.jhotdraw.draw.handle.OrientationHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -18,7 +15,6 @@ import java.awt.geom.*;
 import java.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
-
 /**
  * Implements a {@link Figure} with a triangular shape.
  * <p>
@@ -33,12 +29,10 @@ import org.jhotdraw.geom.*;
  */
 public class TriangleFigure extends AbstractAttributedFigure {
     private static final long serialVersionUID = 1L;
-    
     /**
      * The bounds of the triangle figure.
      */
     private Rectangle2D.Double rectangle;
-    
     /** Creates a new instance. */
     public TriangleFigure() {
         this(0, 0, 0, 0);
@@ -46,7 +40,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     public TriangleFigure(Orientation direction) {
         this(0, 0, 0, 0, direction);
     }
-    
     public TriangleFigure(double x, double y, double width, double height) {
         this(x, y, width, height, Orientation.NORTH);
     }
@@ -54,7 +47,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
         rectangle = new Rectangle2D.Double(x, y, width, height);
         set(ORIENTATION, direction);
     }
-    
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES
@@ -84,7 +76,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
-    
     @Override
     protected void drawFill(Graphics2D g) {
         Shape triangle = getBezierPath();
@@ -96,14 +87,11 @@ public class TriangleFigure extends AbstractAttributedFigure {
                     );
             triangle = gs.createStrokedShape(triangle);
         }
-        
         g.fill(triangle);
     }
-    
     @Override
     protected void drawStroke(Graphics2D g) {
         Shape triangle = getBezierPath();
-        
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this);
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
@@ -112,7 +100,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
                     );
             triangle = gs.createStrokedShape(triangle);
         }
-        
         g.draw(triangle);
     }
     @Override
@@ -123,10 +110,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
         }
         return handles;
     }
-    
     public BezierPath getBezierPath() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-        
         BezierPath triangle = new BezierPath();
         switch (get(ORIENTATION)) {
             case NORTH :
@@ -180,7 +165,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     @Override
     public boolean contains(Point2D.Double p) {
         Shape triangle = getBezierPath();
-        
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
@@ -225,13 +209,11 @@ public class TriangleFigure extends AbstractAttributedFigure {
         }
         width++;
         Rectangle2D.Double r = getBounds();
-        
         Geom.grow(r, width, width);
         return r;
     }
     public Point2D.Double chop(Point2D.Double p) {
         Shape triangle = getBezierPath();
-        
         double grow = AttributeKeys.getPerpendicularHitGrowth(this);
         if (grow != 0d) {
             GrowStroke gs = new GrowStroke((float) grow,
@@ -255,7 +237,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
                 (Point2D.Double) tx.transform(lead, lead)
                 );
     }
-    
     @Override
     public TriangleFigure clone() {
         TriangleFigure that = (TriangleFigure) super.clone();
@@ -270,7 +251,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
         rectangle.width = r.width;
         rectangle.height = r.height;
     }
-    
     @Override
     public Object getTransformRestoreData() {
         return rectangle.clone();

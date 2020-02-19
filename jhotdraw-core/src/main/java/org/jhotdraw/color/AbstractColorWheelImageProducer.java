@@ -1,9 +1,9 @@
 /*
  * @(#)AbstractColorWheelImageProducer.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -40,7 +40,6 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
         this.w = w;
         this.h = h;
         setAnimated(true);
-
         newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
     }
 

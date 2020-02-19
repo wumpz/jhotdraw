@@ -1,5 +1,5 @@
 /*
- * @(#)ColorSliderTextFieldHandler.java 
+ * @(#)ColorSliderTextFieldHandler.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
@@ -28,7 +28,6 @@ public class ColorSliderTextFieldHandler implements DocumentListener, ChangeList
         this.textField = textField;
         this.ccModel = ccModel;
         this.component = component;
-
         textField.getDocument().addDocumentListener(this);
         ccModel.getBoundedRangeModel(component).addChangeListener(this);
     }

@@ -25,14 +25,9 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.IOException;
-
-
 /**
  * This reader reads data from another reader until the end of a processing
  * instruction (?&gt;) has been encountered.
@@ -43,19 +38,14 @@ import java.io.IOException;
 class PIReader
    extends Reader
 {
-
    /**
     * The encapsulated reader.
     */
    private IXMLReader reader;
-
-
    /**
     * True if the end of the stream has been reached.
     */
    private boolean atEndOfData;
-
-
    /**
     * Creates the reader.
     *
@@ -66,8 +56,6 @@ class PIReader
       this.reader = reader;
       this.atEndOfData = false;
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -77,8 +65,6 @@ class PIReader
       this.reader = null;
       super.finalize();
    }
-
-
    /**
     * Reads a block of data.
     *
@@ -89,7 +75,7 @@ class PIReader
     * @return the number of chars read, or -1 if at EOF
     *
     * @throws java.io.IOException
-    *		if an error occurred reading the data
+    *  if an error occurred reading the data
     */
    public int read(char[] buffer,
                    int    offset,
@@ -99,59 +85,45 @@ class PIReader
       if (this.atEndOfData) {
          return -1;
       }
-
       int charsRead = 0;
-
       if ((offset + size) > buffer.length) {
          size = buffer.length - offset;
       }
-
       while (charsRead < size) {
          char ch = this.reader.read();
-
          if (ch == '?') {
             char ch2 = this.reader.read();
-
             if (ch2 == '>') {
                this.atEndOfData = true;
                break;
             }
-
             this.reader.unread(ch2);
          }
-
          buffer[charsRead] = ch;
          charsRead++;
       }
-
       if (charsRead == 0) {
          charsRead = -1;
       }
-
       return charsRead;
    }
-
-
    /**
     * Skips remaining data and closes the stream.
     *
     * @throws java.io.IOException
-    *		if an error occurred reading the data
+    *  if an error occurred reading the data
     */
    public void close()
       throws IOException
    {
       while (! this.atEndOfData) {
          char ch = this.reader.read();
-
          if (ch == '?') {
             char ch2 = this.reader.read();
-
             if (ch2 == '>') {
                this.atEndOfData = true;
             }
          }
       }
    }
-
 }

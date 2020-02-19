@@ -2,12 +2,10 @@
  * @(#)AttributeKeys.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
-
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -15,7 +13,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.geom.*;
-
 /**
  * Defines a put of well known {@link Figure} attributes.
  * <p>
@@ -27,7 +24,6 @@ import org.jhotdraw.geom.*;
  * @version $Id$
  */
 public class AttributeKeys {
-
     private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     /**
      * Canvas fill color. The value of this attribute is a Color object.
@@ -64,17 +60,15 @@ public class AttributeKeys {
      * Whether an unclosed path of a BezierFigure is filled. The value of this attribute is a Boolean object.
      */
     public static final AttributeKey<Boolean> UNCLOSED_PATH_FILLED = new AttributeKey<Boolean>("unclosedPathFilled", Boolean.class, false, false, labels);
-
     public static enum WindingRule {
-
         /**
          * If WINDING_RULE is put to this value, an even-odd winding rule
-         * is used for determining the interior of a path.  
+         * is used for determining the interior of a path.
          */
         EVEN_ODD,
         /**
          * If WINDING_RULE is put to this value, a non-zero winding rule
-         * is used for determining the interior of a path.  
+         * is used for determining the interior of a path.
          */
         NON_ZERO
     }
@@ -82,9 +76,7 @@ public class AttributeKeys {
      * Fill under stroke. The value of this attribute is a Boolean object.
      */
     public static final AttributeKey<WindingRule> WINDING_RULE = new AttributeKey<WindingRule>("windingRule", WindingRule.class, WindingRule.EVEN_ODD, false, labels);
-
     public static enum Underfill {
-
         /**
          * If FILL_UNDER_STROKE is put to this value, the area under the
          * stroke will not be filled.
@@ -140,7 +132,7 @@ public class AttributeKeys {
      */
     public static final AttributeKey<Double> STROKE_MITER_LIMIT = new AttributeKey<Double>("strokeMiterLimitFactor", Double.class, 3d, false, labels);
     /**
-     * A boolean used to indicate whether STROKE_MITER_LIMIT is a factor of 
+     * A boolean used to indicate whether STROKE_MITER_LIMIT is a factor of
      * STROKE_WIDTH, or whether it represents an absolute value.
      */
     public static final AttributeKey<Boolean> IS_STROKE_MITER_LIMIT_FACTOR = new AttributeKey<Boolean>("isStrokeMiterLimitFactor", Boolean.class, true, false, labels);
@@ -159,9 +151,7 @@ public class AttributeKeys {
      * absolute values.
      */
     public static final AttributeKey<Boolean> IS_STROKE_DASH_FACTOR = new AttributeKey<Boolean>("isStrokeDashFactor", Boolean.class, true, false, labels);
-
     public static enum StrokeType {
-
         /**
          * If STROKE_TYPE is put to this value, a BasicStroke instance is used
          * for stroking.
@@ -179,9 +169,7 @@ public class AttributeKeys {
      * FIXME - Type should be an enumeration.
      */
     public static final AttributeKey<StrokeType> STROKE_TYPE = new AttributeKey<StrokeType>("strokeType", StrokeType.class, StrokeType.BASIC, false, labels);
-
     public static enum StrokePlacement {
-
         /**
          * If STROKE_PLACEMENT is put to this value, the stroke is centered
          * on the path.
@@ -224,9 +212,7 @@ public class AttributeKeys {
      * Text shadow offset. The value of this attribute is a Dimension2DDouble object.
      */
     public static final AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET = new AttributeKey<Dimension2DDouble>("textShadowOffset", Dimension2DDouble.class, new Dimension2DDouble(1d, 1d), false, labels);
-
     public static enum Alignment {
-
         /** align on the left or the top */
         LEADING,
         /** align on the right or the bottom */
@@ -305,9 +291,7 @@ public class AttributeKeys {
      * Specifies the transform of a Figure.
      */
     public static final AttributeKey<AffineTransform> TRANSFORM = new AttributeKey<AffineTransform>("transform", AffineTransform.class, null, true, labels);
-
     public static enum Orientation {
-
         NORTH,
         NORTH_EAST,
         EAST,
@@ -326,8 +310,6 @@ public class AttributeKeys {
      */
     public static final Set<AttributeKey<?>> supportedAttributes;
     public static final Map<String, AttributeKey<?>> supportedAttributeMap;
-
-
     static {
         HashSet<AttributeKey<?>> as = new HashSet<AttributeKey<?>>();
         as.addAll(Arrays.asList(new AttributeKey<?>[]{
@@ -369,7 +351,6 @@ public class AttributeKeys {
         Map<String, AttributeKey<?>> sam = (Map<String, AttributeKey<?>>)Collections.unmodifiableMap(am);
         supportedAttributeMap = sam;
     }
-
     /**
      * Convenience method for computing the total stroke width from the
      * STROKE_WIDTH, STROKE_INNER_WIDTH and STROKE_TYPE attributes.
@@ -385,7 +366,6 @@ public class AttributeKeys {
             // break; not reached
         }
     }
-
     /**
      * Convenience method for computing the total stroke miter limit from the
      * STROKE_MITER_LIMIT, and IS_STROKE_MITER_LIMIT factor.
@@ -397,7 +377,6 @@ public class AttributeKeys {
             return f.get(STROKE_MITER_LIMIT);
         }
     }
-
     public static Stroke getStroke(Figure f) {
         double strokeWidth = f.get(STROKE_WIDTH);
         float miterLimit = (float) getStrokeTotalMiterLimit(f);
@@ -436,7 +415,6 @@ public class AttributeKeys {
                         Math.max(1,miterLimit),
                         dashes, Math.max(0, (float) (dashPhase * dashFactor)));
             //not reached
-
             case DOUBLE:
                 return new DoubleStroke(
                         (float) (f.get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
@@ -448,7 +426,6 @@ public class AttributeKeys {
             //not reached
         }
     }
-
     /**
      * Returns a stroke which is useful for hit-testing.
      * The stroke reflects the stroke width, but not the stroke dashes
@@ -469,7 +446,6 @@ public class AttributeKeys {
                         miterLimit,
                         null, Math.max(0, (float) (f.get(STROKE_DASH_PHASE) * dashFactor)));
             //not reached
-
             case DOUBLE:
                 return new DoubleStroke(
                         (float) (f.get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
@@ -481,7 +457,6 @@ public class AttributeKeys {
             //not reached
         }
     }
-
     public static Font getFont(Figure f) {
         Font prototype = f.get(FONT_FACE);
         if (prototype == null) {
@@ -493,7 +468,6 @@ public class AttributeKeys {
             return prototype.deriveFont(f.get(FONT_SIZE).floatValue());
         }
     }
-
     public static int getFontStyle(Figure f) {
         int style = Font.PLAIN;
         if (f.get(FONT_BOLD)) {
@@ -504,7 +478,6 @@ public class AttributeKeys {
         }
         return style;
     }
-
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to
      * fill its shape as specified by the FILL_UNDER_STROKE and STROKE_POSITION
@@ -563,17 +536,15 @@ public class AttributeKeys {
         }
         return grow;
     }
-
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to
-     * draw (aka stroke) its shape as specified by the FILL_UNDER_STROKE and 
+     * draw (aka stroke) its shape as specified by the FILL_UNDER_STROKE and
      * STROKE_POSITION attributes of a figure.
      * The value returned is the number of units that need to be grown (or shrunk)
      * perpendicular to a stroke on an outline of the shape.
      */
     public static double getPerpendicularDrawGrowth(Figure f) {
         double grow;
-
         double strokeWidth = AttributeKeys.getStrokeTotalWidth(f);
         switch (f.get(STROKE_PLACEMENT)) {
             case INSIDE:
@@ -589,7 +560,6 @@ public class AttributeKeys {
         }
         return grow;
     }
-
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to
      * make hit detections on a shape as specified by the FILL_UNDER_STROKE and STROKE_POSITION

@@ -2,15 +2,12 @@
  * @(#)DoubleStroke.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
-
-
 import java.awt.*;
 import java.awt.geom.*;
-
 /**
  * Draws a double stroke (an outline of an outline).
  * The inner width of a DoubleStroke defines the distance between the two
@@ -21,18 +18,15 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class DoubleStroke implements Stroke {
-
     private BasicStroke outlineStroke;
     private double innerWidth;
     private double outlineWidth;
     private double miterLimit;
     private float[] dashes;
     private float dashPhase;
-
     public DoubleStroke(double innerWidth, double outlineWidth) {
         this(innerWidth, outlineWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 10f, null, 0f);
     }
-
     public DoubleStroke(double innerWidth, double outlineWidth, int cap, int join, double miterLimit, float[] dashes, float dashPhase) {
         this.innerWidth = innerWidth;
         this.outlineWidth = outlineWidth;
@@ -40,18 +34,15 @@ public class DoubleStroke implements Stroke {
         // outlineStroke = new BasicStroke(outlineWidth, cap, join, miterLimit, dashes, dashPhase);
         outlineStroke = new BasicStroke((float) outlineWidth, cap, BasicStroke.JOIN_BEVEL, (float) miterLimit, dashes, dashPhase);
     }
-
     @Override
     public Shape createStrokedShape(Shape s) {
         BezierPath bp = new BezierPath();
         Path2D.Double left = new Path2D.Double();
         Path2D.Double right = new Path2D.Double();
-
         double[] coords = new double[6];
         // FIXME - We only do a flattened path
         for (PathIterator i = s.getPathIterator(null, 0.1d); !i.isDone(); i.next()) {
             int type = i.currentSegment(coords);
-
             switch (type) {
                 case PathIterator.SEG_MOVETO:
                     if (bp.size() != 0) {
@@ -81,22 +72,17 @@ public class DoubleStroke implements Stroke {
         if (bp.size() != 0) {
             traceStroke(bp, left, right);
         }
-
         // Note: This could be extended to use different stroke objects for
         // the inner and the outher path.
         right.append(left, false);
         return outlineStroke.createStrokedShape(right);
-
     }
-
     protected void traceStroke(BezierPath bp, Path2D.Double left, Path2D.Double right) {
         // XXX - We only support straight line segments here
         // Corners of the current and the previous thick line
         double[] currentCorners = new double[8];
         double[] prevCorners = new double[8];
-
         Point2D.Double intersect;
-
         // Remove duplicate nodes from bezier path.
         if (bp.isClosed()) {
             BezierPath.Node prev = bp.get(bp.size() - 1);
@@ -104,7 +90,6 @@ public class DoubleStroke implements Stroke {
                 BezierPath.Node node = bp.get(i);
                 if (prev.x[0] == node.x[0] && prev.y[0] == node.y[0]) {
                     bp.remove(i--);
-
                 } else {
                     prev = node;
                 }
@@ -115,13 +100,11 @@ public class DoubleStroke implements Stroke {
                 BezierPath.Node node = bp.get(i);
                 if (prev.x[0] == node.x[0] && prev.y[0] == node.y[0]) {
                     bp.remove(i--);
-
                 } else {
                     prev = node;
                 }
             }
         }
-
         // Handle the first point of the bezier path
         if (bp.isClosed() && bp.size() > 1) {
             prevCorners = computeThickLine(
@@ -132,20 +115,17 @@ public class DoubleStroke implements Stroke {
                     bp.get(0).x[0], bp.get(0).y[0],
                     bp.get(1).x[0], bp.get(1).y[0],
                     innerWidth, currentCorners);
-
             intersect = Geom.intersect(
                     prevCorners[0], prevCorners[1],
                     prevCorners[4], prevCorners[5],
                     currentCorners[0], currentCorners[1],
                     currentCorners[4], currentCorners[5], miterLimit);
-
             if (intersect != null) {
                 right.moveTo(intersect.x, intersect.y);
             } else {
                 right.moveTo(prevCorners[4], prevCorners[5]);
                 right.lineTo(currentCorners[0], currentCorners[1]);
             }
-
             intersect = Geom.intersect(
                     prevCorners[2], prevCorners[3],
                     prevCorners[6], prevCorners[7],
@@ -167,7 +147,6 @@ public class DoubleStroke implements Stroke {
                 left.moveTo(currentCorners[2], currentCorners[3]);
             }
         }
-
         // Handle points in the middle of the bezier path
         for (int i = 1, n = bp.size() - 1; i < n; i++) {
             double[] tmp = prevCorners;
@@ -187,7 +166,6 @@ public class DoubleStroke implements Stroke {
                 right.lineTo(prevCorners[4], prevCorners[5]);
                 right.lineTo(currentCorners[0], currentCorners[1]);
             }
-
             intersect = Geom.intersect(
                     prevCorners[2], prevCorners[3],
                     prevCorners[6], prevCorners[7],
@@ -200,7 +178,6 @@ public class DoubleStroke implements Stroke {
                 left.lineTo(currentCorners[2], currentCorners[3]);
             }
         }
-
         // Handle the last point of the bezier path
         if (bp.isClosed() && bp.size() > 0) {
             double[] tmp = prevCorners;
@@ -221,7 +198,6 @@ public class DoubleStroke implements Stroke {
                 right.lineTo(prevCorners[4], prevCorners[5]);
                 right.lineTo(currentCorners[0], currentCorners[1]);
             }
-
             intersect = Geom.intersect(
                     prevCorners[2], prevCorners[3],
                     prevCorners[6], prevCorners[7],
@@ -233,10 +209,8 @@ public class DoubleStroke implements Stroke {
                 left.lineTo(prevCorners[6], prevCorners[7]);
                 left.lineTo(currentCorners[2], currentCorners[3]);
             }
-
             right.closePath();
             left.closePath();
-
         } else {
             if (bp.size() > 1) {
                 right.lineTo(currentCorners[4], currentCorners[5]);
@@ -244,20 +218,15 @@ public class DoubleStroke implements Stroke {
             }
         }
     }
-
     private double[] computeThickLine(double[] seg, int offset, double corners[]) {
         return computeThickLine(seg[0 + offset], seg[1 + offset], seg[2 + offset], seg[3 + offset], innerWidth, corners);
     }
-
     private double[] computeThickLine(double x1, double y1, double x2, double y2, double thickness, double corners[]) {
         double dx = x2 - x1;
         double dy = y2 - y1;
-
         // line length
         double lineLength = Math.sqrt(dx * dx + dy * dy);
-
         double scale = thickness / (2d * lineLength);
-
         // The x and y increments from an endpoint needed to create a rectangle...
         double ddx = -scale * dy;
         double ddy = scale * dx;
@@ -274,7 +243,6 @@ public class DoubleStroke implements Stroke {
         corners[5] = y2 + ddy;
         corners[6] = x2 - ddx;
         corners[7] = y2 - ddy;
-
         return corners;
     }
 }

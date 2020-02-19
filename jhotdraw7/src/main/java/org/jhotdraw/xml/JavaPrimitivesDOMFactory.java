@@ -1,19 +1,16 @@
 /*
  * @(#)JavaPrimitivesDOMFactory.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
-
-
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.regex.Matcher;
-
 /**
  * {@code JavaPrimitivesDOMFactory} can be used to serialize Java primitive objects
  * and {@link DOMStorable} objects.
@@ -41,7 +38,7 @@ import java.util.regex.Matcher;
  * You can add support for additional primitive types by overriding the methods
  * {@code read} and {@code write}.
  * <p>
- * In addition to the primitive types, this factory can store and read 
+ * In addition to the primitive types, this factory can store and read
  * {@link DOMStorable} objects. No mapping for {@link DOMStorable} class names is performed.
  * For example, if a {@link DOMStorable} object has the class name {@code com.example.MyClass},
  * then the DOM element has the same name, that is: {@code &lt;com.example.MyClass&gt;}.
@@ -58,20 +55,16 @@ import java.util.regex.Matcher;
  * @version $Id$
  */
 public class JavaPrimitivesDOMFactory implements DOMFactory {
-
     private String escape(String name) {
         // Escape dollar characters by two full-stop characters
         name = name.replaceAll("\\$", "..");
         return name;
-
     }
-
     private String unescape(String name) {
         // Unescape dollar characters from two full-stop characters
         name = name.replaceAll("\\.\\.", Matcher.quoteReplacement("$"));
         return name;
     }
-
     @Override
     public String getName(Object o) {
         if (o == null) {
@@ -121,11 +114,9 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         }
         return escape(o.getClass().getName());
     }
-
     @Override
     public Object create(String name) {
         name = unescape(name);
-
         try {
             return Class.forName(name).newInstance();
         } catch (InstantiationException ex) {
@@ -142,19 +133,15 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
             throw e;
         }
     }
-
     protected String getEnumName(Enum<?> o) {
         return escape(o.getClass().getName());
     }
-
     protected String getEnumValue(Enum<?> o) {
         return o.name();
     }
-
     @SuppressWarnings("unchecked")
     protected <E extends Enum<E>> Enum<E> createEnum(String name, String value) {
         name = unescape(name);
-
         Class<E> enumClass;
         try {
             enumClass = (Class<E>) Class.forName(name);
@@ -166,7 +153,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         }
         return Enum.valueOf(enumClass, value);
     }
-
     @Override
     public void write(DOMOutput out, Object o) throws IOException {
         if (o == null) {
@@ -257,12 +243,9 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
             throw new IllegalArgumentException("Unsupported object type:" + o);
         }
     }
-
     @Override
-    
     public Object read(DOMInput in) throws IOException {
         Object o;
-
         String tagName = in.getTagName();
         if ("null".equals(tagName)) {
             o = null;

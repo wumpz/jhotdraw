@@ -2,20 +2,16 @@
  * @(#)ProjectPropertyAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.view;
-
-
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
 import org.jhotdraw.app.action.ActionUtil;
-
 /**
  * ToggleViewPropertyAction.
  *
@@ -30,7 +26,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     private Object deselectedPropertyValue;
     final private String setterName;
     final private String getterName;
-    
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -39,7 +34,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
             }
         }
     };
-    
     /** Creates a new instance. */
     public ToggleViewPropertyAction(Application app, View view, String propertyName) {
         this(app, view, propertyName, Boolean.TYPE, true, false);
@@ -61,7 +55,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
                 propertyName.substring(1);
         updateView();
     }
-    
     @Override
     public void actionPerformed(ActionEvent evt) {
         View p = getActiveView();
@@ -79,8 +72,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
             throw error;
         }
     }
-
-    
     private Object getCurrentValue() {
         View p = getActiveView();
         if (p != null) {
@@ -94,8 +85,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         }
         return null;
     }
-    
-    
     @Override
     protected void installViewListeners(View p) {
         super.installViewListeners(p);
@@ -110,7 +99,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         super.uninstallViewListeners(p);
         p.removePropertyChangeListener(viewListener);
     }
-    
     @Override protected void updateView() {
         if (getterName == null) {
             // This happens, when updateView is called before the constructor

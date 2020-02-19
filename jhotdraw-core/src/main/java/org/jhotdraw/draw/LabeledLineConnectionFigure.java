@@ -2,7 +2,7 @@
  * @(#)LabeledLineConnection.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -42,7 +42,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
     private Layouter layouter;
     private ArrayList<Figure> children = new ArrayList<>();
     private transient Rectangle2D.Double cachedDrawingArea;
-
     /**
      * Handles figure changes in the children.
      */
@@ -340,8 +339,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure
             invalidate();
         }
     }
-
 // EVENT HANDLING
+
     @Override
     public void invalidate() {
         super.invalidate();

@@ -2,7 +2,7 @@
  * @(#)CreationTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -54,7 +54,6 @@ import org.jhotdraw.util.*;
 public class CreationTool extends AbstractTool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Attributes to be applied to the created ConnectionFigure. These attributes override the
      * default attributes of the DrawingEditor.
@@ -63,7 +62,6 @@ public class CreationTool extends AbstractTool {
     /**
      * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-
     protected String presentationName;
     /**
      * Treshold for which we create a larger shape of a minimal size.
@@ -80,7 +78,6 @@ public class CreationTool extends AbstractTool {
     /**
      * The created figure.
      */
-
     protected Figure createdFigure;
     /**
      * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
@@ -190,11 +187,9 @@ public class CreationTool extends AbstractTool {
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
-
         if (getView() == null) {
             return;
         }
-
         getView().clearSelection();
         createdFigure = createFigure();
         Point2D.Double p = constrainPoint(viewToDrawing(anchor), createdFigure);

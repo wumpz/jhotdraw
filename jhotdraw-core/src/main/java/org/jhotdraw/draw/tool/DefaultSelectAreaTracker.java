@@ -2,7 +2,7 @@
  * @(#)DefaultSelectAreaTracker.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -42,7 +42,6 @@ import org.jhotdraw.draw.handle.Handle;
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The bounds of the rubberband.
      */
@@ -83,7 +82,6 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
     public void mouseReleased(MouseEvent evt) {
         selectGroup(evt.isShiftDown());
         clearRubberBand();
-
     }
 
     @Override
@@ -112,7 +110,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
             clearHoverHandles();
         } else {
             // Search first, if one of the selected figures contains
-            // the current mouse location, and is selectable. 
+            // the current mouse location, and is selectable.
             // Only then search for other
             // figures. This search sequence is consistent with the
             // search sequence of the SelectionTool.
@@ -129,7 +127,6 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
                     figure = view.getDrawing().findFigureBehind(p, figure);
                 }
             }
-
             updateHoverHandles(view, figure);
         }
     }

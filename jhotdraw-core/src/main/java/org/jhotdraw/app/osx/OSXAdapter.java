@@ -123,7 +123,6 @@ public class OSXAdapter implements InvocationHandler {
      */
     public static void setQuitHandler(ActionListener aboutHandler) {
         setHandler(new OSXAdapter("handleQuit", aboutHandler) {
-
             // Override OSXAdapter.callTarget to always return false.
             @Override
             public boolean callTarget(Object appleEvent) throws InvocationTargetException, IllegalAccessException {
@@ -187,7 +186,6 @@ public class OSXAdapter implements InvocationHandler {
         setHandler(new OSXAdapter("handleOpenFile", fileHandler) {
             // Override OSXAdapter.callTarget to send information on the
             // file to be opened
-
             @Override
             public boolean callTarget(Object appleEvent) {
                 if (appleEvent != null) {
@@ -196,6 +194,7 @@ public class OSXAdapter implements InvocationHandler {
                         String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
                         targetAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, filename));
                     } catch (Exception ex) {
+                        // allowed empty
                     }
                 }
                 return true;
@@ -215,7 +214,6 @@ public class OSXAdapter implements InvocationHandler {
         setHandler(new OSXAdapter("handlePrintFile", fileHandler) {
             // Override OSXAdapter.callTarget to send information on the
             // file to be opened
-
             @Override
             public boolean callTarget(Object appleEvent) {
                 if (appleEvent != null) {
@@ -224,6 +222,7 @@ public class OSXAdapter implements InvocationHandler {
                         String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
                         targetAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, filename));
                     } catch (Exception ex) {
+                        // allowed empty
                     }
                 }
                 return true;

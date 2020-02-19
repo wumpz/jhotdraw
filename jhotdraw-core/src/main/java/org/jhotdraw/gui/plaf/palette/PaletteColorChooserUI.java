@@ -43,24 +43,19 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     public void installUI(JComponent c) {
         chooser = (JColorChooser) c;
         AbstractColorChooserPanel[] oldPanels = chooser.getChooserPanels();
-
         installDefaults();
-
         chooser.setLayout(new BorderLayout());
         mainPanel = new PaletteColorChooserMainPanel();
         chooser.add(mainPanel);
         defaultChoosers = createDefaultChoosers();
         chooser.setChooserPanels(defaultChoosers);
-
         installPreviewPanel();
         AbstractColorChooserPanel[] newPanels = chooser.getChooserPanels();
         updateColorChooserPanels(oldPanels, newPanels);
-
         // Note: install listeners only after we have fully installed
         //       all chooser panels. If we do it earlier, we send property
         //       events too early.
         installListeners();
-
         chooser.applyComponentOrientation(c.getComponentOrientation());
     }
 
@@ -94,16 +89,13 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     @Override
     public void uninstallUI(JComponent c) {
         chooser.remove(mainPanel);
-
         uninstallListeners();
         uninstallDefaultChoosers();
         uninstallDefaults();
-
         mainPanel.setPreviewPanel(null);
         if (previewPanel instanceof UIResource) {
             chooser.setPreviewPanel(null);
         }
-
         mainPanel = null;
         previewPanel = null;
         defaultChoosers = null;
@@ -129,10 +121,8 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     protected void installListeners() {
         propertyChangeListener = createPropertyChangeListener();
         chooser.addPropertyChangeListener(propertyChangeListener);
-
         previewListener = new PreviewListener();
         chooser.getSelectionModel().addChangeListener(previewListener);
-
         previewMouseListener = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -147,7 +137,6 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     protected void uninstallListeners() {
         chooser.removePropertyChangeListener(propertyChangeListener);
         chooser.getSelectionModel().removeChangeListener(previewListener);
-
         previewPanel.removeMouseListener(previewMouseListener);
     }
 
@@ -162,7 +151,6 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         if (previewPanel != null) {
             mainPanel.setPreviewPanel(null);
         }
-
         previewPanel = chooser.getPreviewPanel();
         if ((previewPanel != null) && (mainPanel != null)
                 && (previewPanel.getSize().getHeight() + previewPanel.getSize().getWidth() == 0)) {
@@ -211,7 +199,6 @@ public class PaletteColorChooserUI extends ColorChooserUI {
                 oldPanel.uninstallChooserPanel(chooser); // uninstall
             }
         }
-
         mainPanel.removeAllColorChooserPanels();
         for (AbstractColorChooserPanel newPanel : newPanels) {
             if (newPanel != null) {
@@ -233,7 +220,6 @@ public class PaletteColorChooserUI extends ColorChooserUI {
             if (name.equals(JColorChooser.CHOOSER_PANELS_PROPERTY)) {
                 AbstractColorChooserPanel[] oldPanels = (AbstractColorChooserPanel[]) e.getOldValue();
                 AbstractColorChooserPanel[] newPanels = (AbstractColorChooserPanel[]) e.getNewValue();
-
                 for (AbstractColorChooserPanel oldPanel : oldPanels) {
                     // remove old panels
                     if (oldPanel != null) {
@@ -247,14 +233,12 @@ public class PaletteColorChooserUI extends ColorChooserUI {
                         }
                     }
                 }
-
                 mainPanel.removeAllColorChooserPanels();
                 for (AbstractColorChooserPanel newPanel : newPanels) {
                     if (newPanel != null) {
                         mainPanel.addColorChooserPanel(newPanel);
                     }
                 }
-
                 chooser.applyComponentOrientation(chooser.getComponentOrientation());
                 for (AbstractColorChooserPanel newPanel : newPanels) {
                     if (newPanel != null) {

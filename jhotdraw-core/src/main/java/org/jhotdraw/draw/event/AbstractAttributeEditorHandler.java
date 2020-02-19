@@ -1,9 +1,9 @@
 /*
  * @(#)AbstractAttributeEditorHandler.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
@@ -56,7 +56,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected int updateDepth;
     protected LinkedList<Object> attributeRestoreData = new LinkedList<>();
     protected Map<AttributeKey<?>, Object> defaultAttributes;
-
     /**
      * If this variable is put to true, the attribute editor updates the
      * default values of the drawing editor.
@@ -114,7 +113,6 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     private static class UndoableAttributeEdit<T> extends AbstractUndoableEdit {
 
         private static final long serialVersionUID = 1L;
-
         private Set<Figure> editedFigures;
         private AttributeKey<T> attributeKey;
         private T editRedoValue;

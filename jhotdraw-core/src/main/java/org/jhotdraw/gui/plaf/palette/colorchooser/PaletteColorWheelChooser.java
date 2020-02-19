@@ -1,5 +1,5 @@
 /*
- * @(#)PaletteColorWheelChooser.java 
+ * @(#)PaletteColorWheelChooser.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
@@ -27,7 +27,6 @@ import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 public class PaletteColorWheelChooser extends AbstractColorChooserPanel implements UIResource {
 
     private static final long serialVersionUID = 1L;
-
     private JColorWheel colorWheel;
     private PaletteColorSliderModel ccModel = new PaletteColorSliderModel(new HSVColorSpace());
     private int updatingChooser;
@@ -46,39 +45,29 @@ public class PaletteColorWheelChooser extends AbstractColorChooserPanel implemen
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         brightnessSlider = new javax.swing.JSlider();
-
         setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 6, 6, 6));
         setLayout(new java.awt.BorderLayout());
-
         brightnessSlider.setMajorTickSpacing(50);
         brightnessSlider.setOrientation(javax.swing.JSlider.VERTICAL);
         brightnessSlider.setPaintTicks(true);
         add(brightnessSlider, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
-
     @Override
     protected void buildChooser() {
         initComponents();
         setUI(PalettePanelUI.createUI(this));
-
         int textSliderGap = PaletteLookAndFeel.getInstance().getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             BorderLayout layout = (BorderLayout) getLayout();
             layout.setHgap(textSliderGap);
         }
-
         colorWheel = new JColorWheel();
         add(colorWheel);
-
         ccModel.configureSlider(2, brightnessSlider);
         brightnessSlider.setMaximum(200);
-
         colorWheel.setModel(ccModel);
-
         ccModel.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent evt) {
                 setColorToModel(ccModel.getColor());

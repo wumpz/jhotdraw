@@ -2,20 +2,16 @@
  * @(#)AbstractAttributedDecoratedFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.xml.*;
-
 /**
  * This abstract class can be extended to implement a {@link DecoratedFigure}
  * which has an attribute set.
@@ -27,7 +23,6 @@ public abstract class AbstractAttributedDecoratedFigure
         extends AbstractAttributedFigure implements DecoratedFigure, DOMStorable {
     private static final long serialVersionUID = 1L;
     private Figure decorator;
-    
     @Override
     public final void draw(Graphics2D g) {
         if (decorator != null) {
@@ -42,7 +37,6 @@ public abstract class AbstractAttributedDecoratedFigure
         updateDecoratorBounds();
         decorator.draw(g);
     }
-    
     @Override
     public final Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = getFigureDrawingArea();
@@ -55,7 +49,6 @@ public abstract class AbstractAttributedDecoratedFigure
     protected Rectangle2D.Double getFigureDrawingArea() {
         return super.getDrawingArea();
     }
-    
     @Override
     public void setDecorator(Figure newValue) {
         willChange();
@@ -65,7 +58,6 @@ public abstract class AbstractAttributedDecoratedFigure
         }
         changed();
     }
-    
     @Override
     public Figure getDecorator() {
         return decorator;
@@ -82,7 +74,6 @@ public abstract class AbstractAttributedDecoratedFigure
             decorator.setBounds(sp, ep);
         }
     }
-    
     @Override
     public final boolean contains(Point2D.Double p) {
         if (decorator != null) {
@@ -94,14 +85,11 @@ public abstract class AbstractAttributedDecoratedFigure
         return figureContains(p);
     }
     protected abstract boolean figureContains(Point2D.Double p);
-    
     @Override
     public void read(DOMInput in) throws IOException {
         super.read(in);
         readDecorator(in);
     }
-    
-    
     @Override
     public void write(DOMOutput out) throws IOException {
         super.write(out);

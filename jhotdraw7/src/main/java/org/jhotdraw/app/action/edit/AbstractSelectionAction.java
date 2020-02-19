@@ -1,21 +1,18 @@
 /*
  * @(#)AbstractSelectionAction.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.edit;
-
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
-
 /**
  * {@code AbstractSelectionAction} acts on the selection of a target component.
  * <p>
@@ -44,14 +41,12 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractSelectionAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
-
     /** The target of the action or null if the action acts on the currently
      * focused component.
      */
     protected JComponent target;
     /** This variable keeps a strong reference on the property change listener. */
     private PropertyChangeListener propertyHandler;
-
     /** Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
@@ -62,11 +57,9 @@ public abstract class AbstractSelectionAction extends AbstractAction {
         if (target != null) {
             // Register with a weak reference on the JComponent.
             propertyHandler = new PropertyChangeListener() {
-
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String n = evt.getPropertyName();
-
                     if ("enabled".equals(n)) {
                         updateEnabled();
                     } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
@@ -77,7 +70,6 @@ public abstract class AbstractSelectionAction extends AbstractAction {
             target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
         }
     }
-
     protected void updateEnabled() {
         if (target instanceof EditableComponent) {
             setEnabled(target.isEnabled() && !((EditableComponent) target).isSelectionEmpty());

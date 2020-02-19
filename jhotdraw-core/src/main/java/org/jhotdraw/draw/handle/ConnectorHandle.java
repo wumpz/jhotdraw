@@ -2,7 +2,7 @@
  * @(#)ConnectorHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -39,12 +39,10 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * The current connectable Figure.
      */
-
     private Figure connectableFigure;
     /**
      * The current connectable Connector.
      */
-
     private Connector connectableConnector;
     /**
      * All connectors of the connectable Figure.
@@ -95,7 +93,6 @@ public class ConnectorHandle extends AbstractHandle {
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         setConnection(createConnection());
-
         Point2D.Double p = getLocationOnDrawing();
         getConnection().setStartPoint(p);
         getConnection().setEndPoint(p);
@@ -106,7 +103,6 @@ public class ConnectorHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         //updateConnectors(lead);
         Point2D.Double p = view.viewToDrawing(lead);
-
         fireAreaInvalidated(getDrawingArea());
         Figure figure = findConnectableFigure(p, view.getDrawing());
         if (figure != connectableFigure) {
@@ -214,7 +210,6 @@ public class ConnectorHandle extends AbstractHandle {
                     && figure.contains(p)) {
                 return figure;
             }
-
         }
         return null;
     }
@@ -224,7 +219,6 @@ public class ConnectorHandle extends AbstractHandle {
      */
     protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
         Connector target = (connectableFigure == null) ? null : connectableFigure.findConnector(p, getConnection());
-
         if ((connectableFigure != null) && connectableFigure.isConnectable() && !connectableFigure.includes(getOwner()) && getConnection().canConnect(connector, target)) {
             return target;
         }

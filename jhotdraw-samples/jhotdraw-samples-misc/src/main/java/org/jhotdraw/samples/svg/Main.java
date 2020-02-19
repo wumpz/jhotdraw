@@ -2,12 +2,10 @@
  * @(#)Main.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg;
-
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 /**
@@ -20,12 +18,10 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class Main {
-    
     /** Creates a new instance. */
     public static void main(String[] args) {
         // Debug resource bundle
         ResourceBundleUtil.setVerbose(true);
-
         Application app;
         String os = System.getProperty("os.name").toLowerCase();
         if (os.startsWith("mac")) {
@@ -45,5 +41,4 @@ public class Main {
         app.setModel(model);
         app.launch(args);
     }
-    
 }

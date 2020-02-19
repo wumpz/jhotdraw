@@ -2,7 +2,7 @@
  * @(#)BezierTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -30,14 +30,11 @@ import org.jhotdraw.util.*;
 public class BezierTool extends AbstractTool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Set this to true to turn on debugging output on System.out.
      */
     private static final boolean DEBUG = false;
-
     private Boolean finishWhenMouseReleased;
-
     protected Map<AttributeKey<?>, Object> attributes;
     private boolean isToolDoneAfterCreation;
     /**
@@ -47,20 +44,17 @@ public class BezierTool extends AbstractTool {
     /**
      * The created figure.
      */
-
     protected BezierFigure createdFigure;
     private int nodeCountBeforeDrag;
     /**
      * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-
     private String presentationName;
     private Point mouseLocation;
     /**
      * Holds the view on which we are currently creating a figure.
      */
     private DrawingView creationView;
-
     private final boolean calculateFittedCurveAfterCreation;
 
     /**
@@ -126,7 +120,6 @@ public class BezierTool extends AbstractTool {
 
     @Override
     public void mousePressed(MouseEvent evt) {
-
         if (DEBUG) {
             System.out.println("BezierTool.mousePressed " + evt);
         }
@@ -138,17 +131,14 @@ public class BezierTool extends AbstractTool {
         }
         mouseLocation = evt.getPoint();
         super.mousePressed(evt);
-
         if (createdFigure != null && creationView != getView()) {
             finishCreation(createdFigure, creationView);
             createdFigure = null;
         }
-
         if (createdFigure == null) {
             creationView = getView();
             creationView.clearSelection();
             finishWhenMouseReleased = null;
-
             createdFigure = createFigure();
             createdFigure.addNode(new BezierPath.Node(
                     creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor)
@@ -185,7 +175,6 @@ public class BezierTool extends AbstractTool {
 
     protected void addPointToFigure(Point2D.Double newPoint) {
         int pointCount = createdFigure.getNodeCount();
-
         createdFigure.willChange();
         if (pointCount < 2) {
             createdFigure.addNode(new BezierPath.Node(newPoint));
@@ -213,7 +202,6 @@ public class BezierTool extends AbstractTool {
                         r.grow(2, 2);
                         if (r.contains(evt.getX(), evt.getY())) {
                             createdFigure.setClosed(true);
-
                             finishCreation(createdFigure, creationView);
                             createdFigure = null;
                             if (isToolDoneAfterCreation) {
@@ -224,7 +212,6 @@ public class BezierTool extends AbstractTool {
                     break;
                 case 2:
                     finishWhenMouseReleased = null;
-
                     finishCreation(createdFigure, creationView);
                     createdFigure = null;
                     break;
@@ -281,7 +268,6 @@ public class BezierTool extends AbstractTool {
             createdFigure.changed();
             nodeCountBeforeDrag = createdFigure.getNodeCount();
         }
-
         if (finishWhenMouseReleased == Boolean.TRUE) {
             if (createdFigure.getNodeCount() > 1) {
                 Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
@@ -295,7 +281,6 @@ public class BezierTool extends AbstractTool {
         } else if (finishWhenMouseReleased == null) {
             finishWhenMouseReleased = Boolean.FALSE;
         }
-
         // repaint dotted line
         Rectangle r = new Rectangle(anchor);
         r.add(mouseLocation);
@@ -364,7 +349,6 @@ public class BezierTool extends AbstractTool {
         } else {
             return path;
         }
-
     }
 
     public void setToolDoneAfterCreation(boolean b) {

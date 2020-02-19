@@ -2,20 +2,16 @@
  * @(#)ConnectionFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
-
-
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.geom.*;
 import org.jhotdraw.geom.*;
-
 /**
- * A <em>connection figure</em> connects two figures with a 
+ * A <em>connection figure</em> connects two figures with a
  * {@link org.jhotdraw.geom.BezierPath}.
  * <p>
  * The location of the start and end points of the bezier path is defined by
@@ -72,7 +68,6 @@ public interface ConnectionFigure
      * Returns null, if there is no start connection.
      */
     public Connector getStartConnector();
- 
     /**
      * Sets the end Connector of the connection.
      * Set this to null to disconnect the end connection.
@@ -84,13 +79,11 @@ public interface ConnectionFigure
      * Returns null, if there is no end connection.
      */
     public Connector getEndConnector();
-    
     /**
      * Updates the start and end point of the figure and fires figureChanged
      * events.
      */
     public void updateConnection();
-    
     /**
      * Returns true, if this ConnectionFigure can connect the specified
      * {@code Connector}s.
@@ -104,12 +97,10 @@ public interface ConnectionFigure
      * creates a new connection.
      */
     public boolean canConnect(Connector start);
-    
     /**
      * Sets the start point.
      */
     public void setStartPoint(Point2D.Double p);
-    
     /**
      * Sets the end point.
      */
@@ -122,7 +113,6 @@ public interface ConnectionFigure
      * Gets the node count.
      */
     public int getNodeCount();
-    
     /**
      * Returns the specified point.
      */
@@ -135,26 +125,22 @@ public interface ConnectionFigure
      * Sets the specified node.
      */
     public void setNode(int index, BezierPath.Node node);
-    
     /**
      * Gets the start point.
      */
     @Override
     public Point2D.Double getStartPoint();
-    
     /**
      * Gets the end point.
      */
     @Override
     public Point2D.Double getEndPoint();
-    
     /**
      * Gets the start figure of the connection.
      * This is a convenience method for doing getStartConnector().getOwner()
      * and handling null cases.
      */
     public Figure getStartFigure();
-    
     /**
      * Gets the end figure of the connection.
      * This is a convenience method for doing getEndConnector().getOwner()
@@ -177,7 +163,7 @@ public interface ConnectionFigure
      * accesses the child components of this figure and arranges
      * their graphical presentation.
      *
-     * @param newValue	encapsulation of a lineout algorithm.
+     * @param newValue encapsulation of a lineout algorithm.
      */
     public void setLiner(Liner newValue);
     /**

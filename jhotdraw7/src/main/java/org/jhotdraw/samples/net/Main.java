@@ -2,12 +2,10 @@
  * @(#)Main.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.net;
-
 import org.jhotdraw.app.*;
 /**
  * Main entry point of the Net sample application. Creates an {@link Application}
@@ -19,7 +17,6 @@ import org.jhotdraw.app.*;
  * @version $Id$
  */
 public class Main {
-    
     /** Creates a new instance. */
     public static void main(String[] args) {
         Application app;
@@ -32,8 +29,6 @@ public class Main {
         } else {
             app = new SDIApplication();
         }
-        
-        
         DefaultApplicationModel model = new NetApplicationModel();
         model.setName("JHotDraw Net");
         model.setVersion(Main.class.getPackage().getImplementationVersion());
@@ -43,5 +38,4 @@ public class Main {
         app.setModel(model);
         app.launch(args);
     }
-    
 }

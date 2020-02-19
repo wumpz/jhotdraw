@@ -2,12 +2,10 @@
  * @(#)EditCanvasAction.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
-
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.util.prefs.Preferences;
@@ -16,7 +14,6 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * EditCanvasAction.
  * <p>
@@ -33,7 +30,6 @@ public class EditCanvasAction extends AbstractDrawingViewAction {
     private EditCanvasPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
     private Application app;
-    
     /** Creates a new instance. */
     public EditCanvasAction(Application app, DrawingEditor editor) {
         super(editor);
@@ -41,22 +37,18 @@ public class EditCanvasAction extends AbstractDrawingViewAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
     }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         getFrame().setVisible(true);
     }
-    
    @Override protected void updateViewState() {
         if (getView() != null && settingsPanel != null) {
             settingsPanel.setDrawing(getView().getDrawing());
         }
     }
-    
     protected Application getApplication() {
         return app;
     }
-    
     protected JFrame getFrame() {
         if (frame == null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

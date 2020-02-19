@@ -2,16 +2,13 @@
  * @(#)CompositeTransferable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.datatransfer;
-
 import java.awt.datatransfer.*;
 import java.util.*;
 import java.io.*;
-
 /**
  * ComoositeTransferable.
  *
@@ -20,20 +17,16 @@ import java.io.*;
 public class CompositeTransferable implements Transferable, ClipboardOwner {
     private HashMap<DataFlavor,Transferable> transferables = new HashMap<DataFlavor,Transferable>();
     private LinkedList<DataFlavor> flavors = new LinkedList<DataFlavor>();
-    
     /** Creates a new instance of CompositeTransferable */
     public CompositeTransferable() {
     }
-    
     public void add(Transferable t) {
         DataFlavor[] f = t.getTransferDataFlavors();
         for (int i=0; i < f.length; i++) {
             if (! transferables.containsKey(f[i])) flavors.add(f[i]);
             transferables.put(f[i], t);
-            
         }
     }
-    
     /**
      * Returns an object which represents the data to be transferred.  The class
      * of the object returned is defined by the representation class of the flavor.
@@ -51,7 +44,6 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
         if (t == null) throw new UnsupportedFlavorException(flavor);
         return t.getTransferData(flavor);
     }
-    
     /**
      * Returns an array of DataFlavor objects indicating the flavors the data
      * can be provided in.  The array should be ordered according to preference
@@ -62,7 +54,6 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
     public DataFlavor[] getTransferDataFlavors() {
         return flavors.toArray(new DataFlavor[transferables.size()]);
     }
-    
     /**
      * Returns whether or not the specified data flavor is supported for
      * this object.
@@ -73,7 +64,6 @@ public class CompositeTransferable implements Transferable, ClipboardOwner {
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return transferables.containsKey(flavor);
     }
-
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
     }

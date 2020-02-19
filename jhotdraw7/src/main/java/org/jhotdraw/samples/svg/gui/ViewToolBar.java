@@ -2,11 +2,10 @@
  * @(#)CanvasToolBar.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
 import java.beans.PropertyChangeEvent;
 import javax.swing.border.*;
 import org.jhotdraw.util.*;
@@ -21,7 +20,6 @@ import org.jhotdraw.gui.JLifeFormattedTextField;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * ViewToolBar.
  * <p>
@@ -33,16 +31,13 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public class ViewToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
-
     private DrawingView view;
-
     /** Creates new instance. */
     public ViewToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
         setDisclosureStateCount(3);
     }
-
     public void setView(DrawingView view) {
         this.view = view;
         prefs = PreferencesUtil.userNodeForPackage(getClass());
@@ -50,29 +45,23 @@ public class ViewToolBar extends AbstractToolBar {
         constrainer.setHeight(prefs.getDouble("view.gridSize", 8d));
         constrainer.setWidth(prefs.getDouble("view.gridSize", 8d));
     }
-
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
             case 1: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Toggle Grid Button
                 AbstractButton toggleGridButton;
                 toggleGridButton = btn = ButtonFactory.createToggleGridButton(view);
@@ -85,7 +74,6 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.NONE;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(btn, gbc);
-
                 // Zoom button
                 btn = ButtonFactory.createZoomButton(view);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -108,18 +96,15 @@ public class ViewToolBar extends AbstractToolBar {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Grid size field and toggle grid button
                 JLifeFormattedTextField gridSizeField = new JLifeFormattedTextField();
                 gridSizeField.setColumns(4);
@@ -131,7 +116,6 @@ public class ViewToolBar extends AbstractToolBar {
                 gridSizeField.setHorizontalAlignment(JTextField.LEADING);
                 final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
                 gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
-
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("value".equals(evt.getPropertyName())) {
@@ -141,7 +125,7 @@ public class ViewToolBar extends AbstractToolBar {
                                 prefs = PreferencesUtil.userNodeForPackage(getClass());
                                 try {
                                     prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
-                                } catch (IllegalStateException e) {//ignore
+                                } catch (IllegalStateException e) { //ignore
                                 }
                                 view.getComponent().repaint();
                             }
@@ -149,7 +133,6 @@ public class ViewToolBar extends AbstractToolBar {
                     }
                 });
                 gridSizeField.setValue(constrainer.getHeight());
-
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 0;
@@ -166,7 +149,6 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.NONE;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(btn, gbc);
-
                 // Zoom factor field and zoom button
                 final JLifeFormattedTextField scaleFactorField = new JLifeFormattedTextField();
                 scaleFactorField.setColumns(4);
@@ -181,7 +163,6 @@ public class ViewToolBar extends AbstractToolBar {
                 scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
                 scaleFactorField.setValue(view.getScaleFactor());
                 scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {
-
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("value".equals(evt.getPropertyName())) {
@@ -192,7 +173,6 @@ public class ViewToolBar extends AbstractToolBar {
                     }
                 });
                 view.addPropertyChangeListener(new PropertyChangeListener() {
-
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
@@ -227,12 +207,10 @@ public class ViewToolBar extends AbstractToolBar {
         }
         return p;
     }
-
     @Override
     protected String getID() {
         return "view";
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -240,7 +218,6 @@ public class ViewToolBar extends AbstractToolBar {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setOpaque(false);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

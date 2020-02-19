@@ -2,11 +2,10 @@
  * @(#)PaletteButtonBorder.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -18,7 +17,6 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
-
 /**
  * PaletteButtonBorder.
  *
@@ -26,19 +24,16 @@ import javax.swing.plaf.UIResource;
  * @version $Id$
  */
 public class PaletteButtonBorder implements Border, UIResource {
-
     private static final float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
     private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
     private static final float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
     private static final Color[] selectedStopColors = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
-
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         if (c instanceof AbstractButton) {
             paintBorder((AbstractButton) c, g, x, y, width, height);
         }
     }
-
     public void paintBorder(AbstractButton c, Graphics gr, int x, int y, int width, int height) {
         Graphics2D g = (Graphics2D) gr;
         ButtonModel m = c.getModel();
@@ -66,7 +61,6 @@ public class PaletteButtonBorder implements Border, UIResource {
         }
         g.setColor(new Color(borderColor, true));
         g.drawRect(x, y, width - 1, height - 1);
-
         LinearGradientPaint lgp = new LinearGradientPaint(
                 new Point2D.Float(x, y), new Point2D.Float(x, y + height - 1),
                 stops, stopColors,
@@ -74,7 +68,6 @@ public class PaletteButtonBorder implements Border, UIResource {
         g.setPaint(lgp);
         g.fillRect(x + 1, y + 1, width - 2, height - 2);
     }
-
     private String getSegmentPosition(Component c) {
         String segmentPosition = null;
         if (c instanceof JComponent) {
@@ -82,7 +75,6 @@ public class PaletteButtonBorder implements Border, UIResource {
         }
         return (segmentPosition == null) ? "only" : segmentPosition;
     }
-
     @Override
     public Insets getBorderInsets(Component c) {
         Insets insets;
@@ -95,8 +87,6 @@ public class PaletteButtonBorder implements Border, UIResource {
         }
         return insets;
     }
-
-
     @Override
     public boolean isBorderOpaque() {
         return true;

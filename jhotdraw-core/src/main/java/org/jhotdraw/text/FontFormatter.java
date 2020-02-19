@@ -1,9 +1,9 @@
 /*
  * @(#)FontFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
@@ -26,7 +26,6 @@ import javax.swing.text.DefaultFormatterFactory;
 public class FontFormatter extends DefaultFormatter {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Specifies whether the formatter allows null values.
      */
@@ -50,7 +49,6 @@ public class FontFormatter extends DefaultFormatter {
     public FontFormatter(boolean allowsNullValue) {
         this.allowsNullValue = allowsNullValue;
         setOverwriteMode(false);
-
         // Map of HTML generic font families.
         // @see http://www.w3.org/TR/CSS2/fonts.html#generic-font-families
         putGenericFontFamily("serif", new Font("Serif", Font.PLAIN, 12));
@@ -108,7 +106,6 @@ public class FontFormatter extends DefaultFormatter {
 
     @Override
     public Object stringToValue(String str) throws ParseException {
-
         // Handle null and empty case
         if (str == null || str.trim().length() == 0) {
             if (allowsNullValue) {
@@ -118,7 +115,6 @@ public class FontFormatter extends DefaultFormatter {
             }
         }
         String strLC = str.trim().toLowerCase();
-
         Font f = null;
         f = genericFontFamilies.get(strLC);
         if (f == null) {
@@ -142,7 +138,6 @@ public class FontFormatter extends DefaultFormatter {
     @Override
     public String valueToString(Object value) throws ParseException {
         String str = null;
-
         if (value == null) {
             if (allowsNullValue) {
                 str = "";
@@ -153,10 +148,8 @@ public class FontFormatter extends DefaultFormatter {
             if (!(value instanceof Font)) {
                 throw new ParseException("Value is not a font " + value, 0);
             }
-
             Font f = (Font) value;
             str = f.getFontName();
-
         }
         return str;
     }

@@ -2,7 +2,7 @@
  * @(#)FloatingTextField.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.text;
@@ -84,7 +84,6 @@ public class FloatingTextField {
         textField.setFont(font);
         textField.setForeground(editedFigure.getTextColor());
         textField.setBackground(editedFigure.getFillColor());
-
         Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
         Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
         if (editedFigure.get(TRANSFORM) != null) {
@@ -147,7 +146,6 @@ public class FloatingTextField {
         if (textField != null) {
             textField.setVisible(false);
             view.getComponent().remove(textField);
-
             Rectangle bounds = textField.getBounds();
             view.getComponent().repaint(bounds.x, bounds.y, bounds.width, bounds.height);
         }

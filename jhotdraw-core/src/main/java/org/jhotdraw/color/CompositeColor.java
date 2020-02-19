@@ -1,9 +1,9 @@
 /*
  * @(#)CompositeColor.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -22,7 +22,6 @@ import java.awt.color.ColorSpace;
 public class CompositeColor extends Color {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * The color value in the native <code>ColorSpace</code> as
      * <code>float</code> components (no alpha).
@@ -54,7 +53,6 @@ public class CompositeColor extends Color {
      * @see #getColorSpace
      * @see #getColorComponents
      */
-
     private ColorSpace cs = null;
 
     /**

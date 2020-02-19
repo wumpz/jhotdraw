@@ -25,15 +25,10 @@
  *
  *  3. This notice may not be removed or altered from any source distribution.
  */
-
 package net.n3.nanoxml;
-
-
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
-
-
 /**
  * An XMLEntityResolver resolves entities.
  *
@@ -44,13 +39,10 @@ import java.util.HashMap;
 public class XMLEntityResolver
    implements IXMLEntityResolver
 {
-
    /**
     * The entities.
     */
    private HashMap<String,Object> entities;
-
-
    /**
     * Initializes the resolver.
     */
@@ -63,8 +55,6 @@ public class XMLEntityResolver
       this.entities.put("lt", "&#60;");
       this.entities.put("gt", "&#62;");
    }
-
-
    /**
     * Cleans up the object when it's destroyed.
     */
@@ -75,8 +65,6 @@ public class XMLEntityResolver
       this.entities = null;
       super.finalize();
    }
-
-
    /**
     * Adds an internal entity.
     *
@@ -90,8 +78,6 @@ public class XMLEntityResolver
          this.entities.put(name, value);
       }
    }
-
-
    /**
     * Adds an external entity.
     *
@@ -107,8 +93,6 @@ public class XMLEntityResolver
          this.entities.put(name, new String[] { publicID, systemID } );
       }
    }
-
-
    /**
     * Returns a Java reader containing the value of an entity.
     *
@@ -122,7 +106,6 @@ public class XMLEntityResolver
       throws XMLParseException
    {
       Object obj = this.entities.get(name);
-
       if (obj == null) {
          return null;
       } else if (obj instanceof java.lang.String) {
@@ -132,8 +115,6 @@ public class XMLEntityResolver
          return this.openExternalEntity(xmlReader, id[0], id[1]);
       }
    }
-
-
    /**
     * Returns true if an entity is external.
     *
@@ -144,8 +125,6 @@ public class XMLEntityResolver
       Object obj = this.entities.get(name);
       return ! (obj instanceof java.lang.String);
    }
-
-
    /**
     * Opens an external entity.
     *
@@ -161,7 +140,6 @@ public class XMLEntityResolver
       throws XMLParseException
    {
       String parentSystemID = xmlReader.getSystemID();
-
       try {
          return xmlReader.openStream(publicID, systemID);
       } catch (Exception e) {
@@ -171,5 +149,4 @@ public class XMLEntityResolver
                                      + "at system ID: " + systemID);
       }
    }
-
 }

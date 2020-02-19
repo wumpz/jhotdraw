@@ -29,7 +29,6 @@ public class HandleAttributeKeys {
      * Stroke color of disabled handles.
      */
     private static final Color STROKE_COLOR_DISABLED_ = new Color(0x80ffffff, true);
-
     /**
      * General handle size.
      */
@@ -232,7 +231,7 @@ public class HandleAttributeKeys {
      */
     public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("resizeBoundsStroke2", Stroke.class,
             new BasicStroke(1f));
-    // 
+    //
     /**
      * Disabled resize bounds stroke color 1.
      */
@@ -252,7 +251,7 @@ public class HandleAttributeKeys {
     public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2_DISABLED = new AttributeKey<Stroke>("resizeBoundsStroke2Hover", Stroke.class,
             new BasicStroke(1f));
     //---
-    // 
+    //
     /**
      * Handle bounds hover stroke color 1.
      */

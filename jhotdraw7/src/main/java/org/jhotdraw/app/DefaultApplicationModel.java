@@ -2,12 +2,10 @@
  * @(#)DefaultApplicationModel.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
-
-
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.NewFileAction;
@@ -24,7 +22,6 @@ import org.jhotdraw.app.action.edit.SelectAllAction;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
-
 /**
  * An {@link ApplicationModel} which creates a default set of {@code Action}s
  * and which does not override any of the default menu bars nor create tool bars.
@@ -60,14 +57,12 @@ public class DefaultApplicationModel
         extends AbstractApplicationModel {
     private static final long serialVersionUID = 1L;
     private MenuBuilder menuBuilder;
-
     /**
      * Does nothing.
      */
     @Override
     public void initView(Application a, View v) {
     }
-
     /**
      * Returns an {@code ActionMap} with a default set of actions (See
      * class comments).
@@ -80,7 +75,6 @@ public class DefaultApplicationModel
         m.put(SaveFileAction.ID, new SaveFileAction(a,v));
         m.put(SaveFileAsAction.ID, new SaveFileAsAction(a,v));
         m.put(CloseFileAction.ID, new CloseFileAction(a,v));
-
         m.put(UndoAction.ID, new UndoAction(a,v));
         m.put(RedoAction.ID, new RedoAction(a,v));
         m.put(CutAction.ID, new CutAction());
@@ -92,18 +86,15 @@ public class DefaultApplicationModel
         m.put(ClearSelectionAction.ID, new ClearSelectionAction());
         return m;
     }
-
     /** Returns an empty unmodifiable list. */
     @Override
     public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
     }
-
     /** Creates the DefaultMenuBuilder. */
     protected MenuBuilder createMenuBuilder() {
         return new DefaultMenuBuilder();
     }
-
     @Override
     public MenuBuilder getMenuBuilder() {
         if (menuBuilder==null) {
@@ -111,9 +102,7 @@ public class DefaultApplicationModel
         }
         return menuBuilder;
     }
-
     public void setMenuBuilder(MenuBuilder newValue) {
         menuBuilder = newValue;
     }
-
 }

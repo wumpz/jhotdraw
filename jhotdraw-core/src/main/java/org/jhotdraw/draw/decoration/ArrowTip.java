@@ -2,7 +2,7 @@
  * @(#)ArrowTip.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.decoration;
@@ -31,7 +31,6 @@ public class ArrowTip extends AbstractLineDecoration
         implements DOMStorable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Pointiness of arrow.
      */
@@ -66,7 +65,6 @@ public class ArrowTip extends AbstractLineDecoration
         // FIXME - This should take the stroke join an the outer radius into
         // account to compute the offset properly.
         double offset = (isStroked()) ? 1 : 0;
-
         Path2D.Double path = new Path2D.Double();
         path.moveTo((outerRadius * Math.sin(-angle)), (offset + outerRadius * Math.cos(-angle)));
         path.lineTo(0, offset);
@@ -75,14 +73,12 @@ public class ArrowTip extends AbstractLineDecoration
             path.lineTo(0, (innerRadius + offset));
             path.closePath();
         }
-
         return path;
     }
 
     @Override
     protected double getDecoratorPathRadius(Figure f) {
         double offset = (isStroked()) ? 0.5 : -0.1;
-
         return innerRadius + offset;
     }
 

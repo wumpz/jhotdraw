@@ -50,7 +50,6 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
             return 18;
         }
     }
-
     private ColorIcon icon;
 
     public ColorListCellRenderer() {

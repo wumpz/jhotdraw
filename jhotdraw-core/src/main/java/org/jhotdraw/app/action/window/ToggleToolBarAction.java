@@ -2,7 +2,7 @@
  * @(#)ToggleToolBarAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.window;
@@ -29,7 +29,6 @@ public class ToggleToolBarAction extends AbstractAction {
      */
     public ToggleToolBarAction(JToolBar toolBar, String label) {
         super(label);
-
         propertyHandler = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -39,7 +38,6 @@ public class ToggleToolBarAction extends AbstractAction {
                 }
             }
         };
-
         putValue(ActionUtil.SELECTED_KEY, true);
         setToolBar(toolBar);
     }
@@ -58,9 +56,7 @@ public class ToggleToolBarAction extends AbstractAction {
         if (toolBar != null) {
             toolBar.removePropertyChangeListener(propertyHandler);
         }
-
         toolBar = newValue;
-
         if (toolBar != null) {
             toolBar.addPropertyChangeListener(propertyHandler);
             putValue(ActionUtil.SELECTED_KEY, toolBar.isVisible());

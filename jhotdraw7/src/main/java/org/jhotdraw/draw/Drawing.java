@@ -2,24 +2,20 @@
  * @(#)Drawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
-
-
 import java.awt.Graphics2D;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
-
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import javax.swing.event.*;
 import java.io.*;
-
 /**
  * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold
  * multiple figures, but a figure can only be in one drawing at a time.
@@ -33,12 +29,12 @@ import java.io.*;
  * basic add and remove methods are supplied for use cases where this is not
  * desired - for example when figures need to be temporarily removed in order to
  * group or ungroup them.</li>
- * 
+ *
  * <li>A drawing can find contained figures given a point or a rectangular
  * region.
  * Specialized implementations of the {@code Drawing} interface can use
  * optimized strategies and data structures to find figures faster.</li>
- * 
+ *
  * <li>The drawing object is used by {@code Figure}, {@code Tool} and
  * {@code Handle} as a mediator for undoable edit events. This way, undoable
  * edit listeners only need to register on the drawing object in order to
@@ -53,7 +49,7 @@ import java.io.*;
  * <ul>
  * <li>A drawing may not access {@code DrawingView}, {@code DrawingEditor} or
  * {@code Tool}. The drawing framework is built on the assumption that a
- * drawing can be rendered at any time without the need for the creation of 
+ * drawing can be rendered at any time without the need for the creation of
  * views and editing tools.</li>
  * </ul>
  *
@@ -79,7 +75,7 @@ import java.io.*;
  * Strategy: {@link org.jhotdraw.draw.io.OutputFormat}; Context: {@link Drawing}.
  *
  * <p><em>Strategy</em><br>
- * {@code org.jhotdraw.draw.io.InputFormat} encapsulates a strategy for 
+ * {@code org.jhotdraw.draw.io.InputFormat} encapsulates a strategy for
  * reading drawings from input streams.<br>
  * Strategy: {@link org.jhotdraw.draw.io.InputFormat}; Context: {@link Drawing}.
  * <hr>
@@ -88,7 +84,6 @@ import java.io.*;
  * @version $Id$
  */
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
-
     /** Draws on the <em>canvas area</em>. The canvas is the background area
      * onto which the drawing is drawn.
      * <p>
@@ -109,7 +104,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     boolean add(Figure figure);
-
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -122,7 +116,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     void add(int index, Figure figure);
-
     /**
      * Adds a collection of figures to the drawing.
      * The drawing sends an {@code addNotify}  message to each figure
@@ -133,7 +126,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figures to be added to the drawing
      */
     void addAll(Collection<? extends Figure> figures);
-
     /**
      * Adds a collection of figures to the drawing.
      * The drawing sends an {@code addNotify}  message to each figure
@@ -145,7 +137,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * @param figures to be added to the drawing
      */
     void addAll(int index, Collection<? extends Figure> figures);
-
     /**
      * Removes a figure from the drawing.
      * The drawing sends a {@code removeNotify} message to the figure
@@ -157,7 +148,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     boolean remove(Figure figure);
-
     /**
      * Removes the specified figures from the drawing.
      * The drawing sends a {@code removeNotify}  message to each figure
@@ -169,17 +159,15 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * and should be removed
      */
     void removeAll(Collection<? extends Figure> figures);
-
     /**
      * Removes a figure temporarily from the drawing.
      *
      * @see #basicAdd(Figure)
-     * 
+     *
      * @param figure that is part of the drawing and should be removed
      */
     @Override
     int basicRemove(Figure figure);
-
     /**
      * Removes the specified figures temporarily from the drawing.
      *
@@ -188,19 +176,17 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * and should be removed
      */
     void basicRemoveAll(Collection<? extends Figure> figures);
-
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
      * <p>
-     * This is a convenience method for calling 
+     * This is a convenience method for calling
      * {@code basicAdd(size(), figure)}.
-     * 
+     *
      * @param figure that is part of the drawing and should be removed
      * @see #basicRemove(Figure)
      */
     @Override
     void basicAdd(Figure figure);
-
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
      *
@@ -209,31 +195,27 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     @Override
     void basicAdd(int index, Figure figure);
-
     /**
      * Reinserts the specified figures which were temporarily removed from
      * the drawing.
-     * 
-     * 
+     *
+     *
      * @param index The insertion index.
      * @param figures A collection of figures which are part of the drawing
      * and should be reinserted.
      * @see #basicRemoveAll(Collection)
      */
     void basicAddAll(int index, Collection<? extends Figure> figures);
-
     /**
      * Returns all figures that lie within or intersect the specified
      * bounds. The figures are returned in Z-order from back to front.
      */
     List<Figure> findFigures(Rectangle2D.Double bounds);
-
     /**
      * Returns all figures that lie within the specified
      * bounds. The figures are returned in Z-order from back to front.
      */
     List<Figure> findFiguresWithin(Rectangle2D.Double bounds);
-
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into children of composite figures.
@@ -242,34 +224,28 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * composite figures.
      */
     Figure findFigure(Point2D.Double p);
-
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
     Figure findFigureExcept(Point2D.Double p, Figure ignore);
-
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
     Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
-
     /**
      * Finds a top level Figure which is behind the specified Figure.
      */
     Figure findFigureBehind(Point2D.Double p, Figure figure);
-
     /**
      * Finds a top level Figure which is behind the specified Figures.
      */
     Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
-
     /**
      * Returns a list of the figures in Z-Order from front to back.
      */
     List<Figure> getFiguresFrontToBack();
-
     /**
      * Finds the innermost figure at the specified location.
      * <p>
@@ -288,71 +264,58 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * location is not contained in a figure.
      */
     @Override
-    
     Figure findFigureInside(Point2D.Double p);
-
     /**
      * Sends a figure to the back of the drawing.
      *
      * @param figure that is part of the drawing
      */
     void sendToBack(Figure figure);
-
     /**
      * Brings a figure to the front.
      *
      * @param figure that is part of the drawing
      */
     void bringToFront(Figure figure);
-
     /**
      * Returns a copy of the provided collection which is sorted
      * in z order from back to front.
      */
     List<Figure> sort(Collection<? extends Figure> figures);
-
     /**
      * Adds a listener for undooable edit events.
      */
     void addUndoableEditListener(UndoableEditListener l);
-
     /**
      * Removes a listener for undoable edit events.
      */
     void removeUndoableEditListener(UndoableEditListener l);
-
     /**
      * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     void fireUndoableEditHappened(UndoableEdit edit);
-
     /**
      * Returns the font render context used to do text leyout and text drawing.
      */
     FontRenderContext getFontRenderContext();
-
     /**
      * Sets the font render context used to do text leyout and text drawing.
      */
     void setFontRenderContext(FontRenderContext frc);
-
     /**
      * Returns the lock object on which all threads acting on Figures in this
      * drawing synchronize to prevent race conditions.
      */
     Object getLock();
-
     /**
      * Adds an input format to the drawing.
      */
     void addInputFormat(InputFormat format);
-
     /**
      * Adds an output format to the drawing.
      */
     void addOutputFormat(OutputFormat format);
-
     /**
      * Sets input formats for the Drawing in order of preferred formats.
      * <p>
@@ -360,12 +323,10 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * pasting Figures from the clipboard into the Drawing.
      */
     void setInputFormats(List<InputFormat> formats);
-
     /**
      * Gets input formats for the Drawing in order of preferred formats.
      */
     List<InputFormat> getInputFormats();
-
     /**
      * Sets output formats for the Drawing in order of preferred formats.
      * <p>
@@ -373,7 +334,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * cutting and copying Figures from the Drawing into the clipboard.
      */
     void setOutputFormats(List<OutputFormat> formats);
-
     /**
      * Gets output formats for the Drawing in order of preferred formats.
      */

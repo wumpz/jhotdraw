@@ -2,7 +2,7 @@
  * @(#)AttributeAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -23,7 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
     private static final long serialVersionUID = 1L;
-
     protected Map<AttributeKey<?>, Object> attributes;
 
     /**
@@ -58,7 +57,6 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
         super(editor);
         this.attributes = new HashMap<>();
         attributes.put(key, value);
-
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         setEnabled(true);
@@ -67,7 +65,6 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
     public DrawingAttributeAction(DrawingEditor editor, Map<AttributeKey<?>, Object> attributes, String name, Icon icon) {
         super(editor);
         this.attributes = attributes;
-
         putValue(AbstractAction.NAME, name);
         putValue(AbstractAction.SMALL_ICON, icon);
         updateEnabledState();
@@ -84,7 +81,6 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
             drawing.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
         drawing.changed();
-
         UndoableEdit edit = new AbstractUndoableEdit() {
             private static final long serialVersionUID = 1L;
 
@@ -105,7 +101,6 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
             public void undo() {
                 super.undo();
                 Iterator<Object> iRestore = restoreData.iterator();
-
                 drawing.willChange();
                 drawing.restoreAttributesTo(iRestore.next());
                 drawing.changed();

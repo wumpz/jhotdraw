@@ -1,20 +1,17 @@
 /*
  * @(#)PaletteColorSliderModel.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette.colorchooser;
-
 import java.awt.color.ColorSpace;
 import javax.swing.BoundedRangeModel;
 import javax.swing.JSlider;
 import org.jhotdraw.color.DefaultColorSliderModel;
 import org.jhotdraw.gui.plaf.palette.PaletteColorSliderUI;
-
 /**
  * PaletteColorSliderModel.
  *
@@ -23,7 +20,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteColorSliderUI;
  */
 public class PaletteColorSliderModel extends DefaultColorSliderModel {
     private static final long serialVersionUID = 1L;
-
     PaletteColorSliderModel(ColorSpace colorSpace) {
         super(colorSpace);
     }
@@ -42,10 +38,8 @@ public class PaletteColorSliderModel extends DefaultColorSliderModel {
         }
         BoundedRangeModel brm = getBoundedRangeModel(componentIndex);
         slider.setModel(brm);
-        
         slider.putClientProperty("colorSliderModel", this);
         slider.putClientProperty("colorComponentIndex", componentIndex);
         addColorSlider(slider);
     }
-
 }

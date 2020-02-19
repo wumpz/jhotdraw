@@ -2,7 +2,7 @@
  * @(#)PrintFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
@@ -52,7 +52,6 @@ import org.jhotdraw.util.*;
 public class PrintFileAction extends AbstractViewAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.print";
 
     /**
@@ -84,7 +83,6 @@ public class PrintFileAction extends AbstractViewAction {
         if (pageable == null) {
             throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
-
         try {
             PrinterJob job = PrinterJob.getPrinterJob();
             // FIXME - PrintRequestAttributeSet should be retrieved from View
@@ -119,7 +117,6 @@ public class PrintFileAction extends AbstractViewAction {
         if (pageable == null) {
             throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
-
         try {
             final PrinterJob job = PrinterJob.getPrinterJob();
             PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
@@ -159,13 +156,10 @@ public class PrintFileAction extends AbstractViewAction {
                 "Job Title",
                 jobAttr,
                 pageAttr);
-
         getActiveView().setEnabled(false);
         new BackgroundTask() {
-
             @Override
             protected void construct() throws PrinterException {
-
                 // Compute page format from settings of the print job
                 Paper paper = new Paper();
                 paper.setSize(
@@ -174,7 +168,6 @@ public class PrintFileAction extends AbstractViewAction {
                 paper.setImageableArea(64d, 32d, paper.getWidth() - 96d, paper.getHeight() - 64);
                 PageFormat pageFormat = new PageFormat();
                 pageFormat.setPaper(paper);
-
                 // Print the job
                 try {
                     for (int i = 0, n = pageable.getNumberOfPages(); i < n; i++) {
@@ -189,7 +182,6 @@ public class PrintFileAction extends AbstractViewAction {
                                     (int) (pf.getImageableHeight() * resolution / 72d),
                                     BufferedImage.TYPE_INT_RGB);
                             Graphics2D bufG = buf.createGraphics();
-
                             bufG.setBackground(Color.WHITE);
                             bufG.fillRect(0, 0, buf.getWidth(), buf.getHeight());
                             bufG.scale(resolution / 72d, resolution / 72d);

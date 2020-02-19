@@ -2,12 +2,10 @@
  * @(#)PrintFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -19,7 +17,6 @@ import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractViewAction;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.util.*;
-
 /**
  * Presents a printer chooser to the user and then prints the
  * {@link org.jhotdraw.app.View}.
@@ -51,16 +48,13 @@ import org.jhotdraw.util.*;
  */
 public class PrintFileAction extends AbstractViewAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.print";
-
     /** Creates a new instance. */
     public PrintFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         PrintableView view = (PrintableView)getActiveView();
@@ -75,13 +69,11 @@ public class PrintFileAction extends AbstractViewAction {
     /*
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
-
     public void printJava2D(PrintableView v) {
         Pageable pageable = v.createPageable();
         if (pageable == null) {
             throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
-
         try {
             PrinterJob job = PrinterJob.getPrinterJob();
             // FIXME - PrintRequestAttributeSet should be retrieved from View
@@ -110,13 +102,11 @@ public class PrintFileAction extends AbstractViewAction {
     /*
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
-
     public void printJava2DAlternative(PrintableView v) {
         Pageable pageable = v.createPageable();
         if (pageable == null) {
             throw new InternalError("View does not have a method named java.awt.Pageable createPageable()");
         }
-
         try {
             final PrinterJob job = PrinterJob.getPrinterJob();
             PrintRequestAttributeSet attr = new HashPrintRequestAttributeSet();
@@ -137,7 +127,6 @@ public class PrintFileAction extends AbstractViewAction {
             t.printStackTrace();
         }
     }
-
     /**
      * On Mac OS X with the Quartz rendering engine, the following code achieves
      * the best results.
@@ -156,13 +145,10 @@ public class PrintFileAction extends AbstractViewAction {
                 "Job Title",
                 jobAttr,
                 pageAttr);
-
         getActiveView().setEnabled(false);
         new BackgroundTask() {
-
             @Override
             protected void construct() throws PrinterException {
-
                 // Compute page format from settings of the print job
                 Paper paper = new Paper();
                 paper.setSize(
@@ -171,7 +157,6 @@ public class PrintFileAction extends AbstractViewAction {
                 paper.setImageableArea(64d, 32d, paper.getWidth() - 96d, paper.getHeight() - 64);
                 PageFormat pageFormat = new PageFormat();
                 pageFormat.setPaper(paper);
-
                 // Print the job
                 try {
                     for (int i = 0,  n = pageable.getNumberOfPages(); i < n; i++) {
@@ -186,8 +171,6 @@ public class PrintFileAction extends AbstractViewAction {
                                     (int) (pf.getImageableHeight() * resolution / 72d),
                                     BufferedImage.TYPE_INT_RGB);
                             Graphics2D bufG = buf.createGraphics();
-
-
                             bufG.setBackground(Color.WHITE);
                             bufG.fillRect(0, 0, buf.getWidth(), buf.getHeight());
                             bufG.scale(resolution / 72d, resolution / 72d);
@@ -206,7 +189,6 @@ public class PrintFileAction extends AbstractViewAction {
                     pj.end();
                 }
             }
-
             @Override
             protected void failed(Throwable error) {
                error.printStackTrace();

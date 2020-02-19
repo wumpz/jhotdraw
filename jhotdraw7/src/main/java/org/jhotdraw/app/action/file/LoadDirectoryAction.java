@@ -1,18 +1,14 @@
 /*
  * @(#)LoadDirectoryAction.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
-
-
 import org.jhotdraw.app.*;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * Les the user save unsaved changes of the active view, then presents
  * an {@code URIChooser} and then loads the selected URI into the active view.
@@ -32,7 +28,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class LoadDirectoryAction extends LoadFileAction {
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.loadDirectory";
-
     /** Creates a new instance. */
     public LoadDirectoryAction(Application app, View view) {
         super(app, view);

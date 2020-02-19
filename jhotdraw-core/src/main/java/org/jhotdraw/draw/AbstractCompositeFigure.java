@@ -2,7 +2,7 @@
  * @(#)AbstractCompositeFigure.java
  *
  * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -40,7 +40,6 @@ public abstract class AbstractCompositeFigure
         implements CompositeFigure, DOMStorable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * A Layouter determines how the children of the CompositeFigure
      * are laid out graphically.
@@ -80,12 +79,10 @@ public abstract class AbstractCompositeFigure
             if (!isChanging()) {
                 Rectangle2D.Double invalidatedArea = getDrawingArea();
                 invalidatedArea.add(e.getInvalidatedArea());
-
                 // We call invalidate/validate here, because we must layout
                 // the figure again.
                 invalidate();
                 validate();
-
                 // Forward the figureChanged event to listeners on AbstractCompositeFigure.
                 invalidatedArea.add(getDrawingArea());
                 fireFigureChanged(invalidatedArea);
@@ -309,10 +306,8 @@ public abstract class AbstractCompositeFigure
                 Math.min(anchor.y, lead.y),
                 Math.abs(anchor.x - lead.x),
                 Math.abs(anchor.y - lead.y));
-
         double sx = newBounds.width / oldBounds.width;
         double sy = newBounds.height / oldBounds.height;
-
         AffineTransform tx = new AffineTransform();
         tx.translate(-oldBounds.x, -oldBounds.y);
         if (!Double.isNaN(sx) && !Double.isNaN(sy)
@@ -485,7 +480,7 @@ public abstract class AbstractCompositeFigure
      * read and restored from a StorableInput stream.
      *
      *
-     * @param newLayouter	encapsulation of a layout algorithm.
+     * @param newLayouter encapsulation of a layout algorithm.
      */
     @Override
     public void setLayouter(Layouter newLayouter) {

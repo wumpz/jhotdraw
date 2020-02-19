@@ -2,11 +2,10 @@
  * @(#)MoveHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
@@ -15,26 +14,22 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import java.util.*;
-
 /**
  * A handle that changes the location of the owning figure, if the figure is
- * transformable. 
+ * transformable.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class MoveHandle extends LocatorHandle {
-
     /**
      * The previously handled x and y coordinates.
      */
     private Point2D.Double oldPoint;
-
     /** Creates a new instance. */
     public MoveHandle(Figure owner, Locator locator) {
         super(owner, locator);
     }
-
     /**
      * Creates handles for each corner of a
      * figure and adds them to the provided collection.
@@ -45,7 +40,6 @@ public class MoveHandle extends LocatorHandle {
         handles.add(northEast(f));
         handles.add(northWest(f));
     }
-
     /**
      * Draws this handle.
      * <p>
@@ -65,24 +59,21 @@ public class MoveHandle extends LocatorHandle {
                     getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR));
         }
     }
-
     /**
-     * Returns a cursor for the handle. 
-     * 
+     * Returns a cursor for the handle.
+     *
      * @return Returns a move cursor, if the figure
-     * is transformable. Returns a default cursor otherwise. 
+     * is transformable. Returns a default cursor otherwise.
      */
     @Override
     public Cursor getCursor() {
         return Cursor.getPredefinedCursor(
                 getOwner().isTransformable() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR);
     }
-
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         oldPoint = view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
     }
-
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Figure f = getOwner();
@@ -93,11 +84,9 @@ public class MoveHandle extends LocatorHandle {
             f.willChange();
             f.transform(tx);
             f.changed();
-
             oldPoint = newPoint;
         }
     }
-
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         if (getOwner().isTransformable()) {
@@ -107,13 +96,11 @@ public class MoveHandle extends LocatorHandle {
                     new TransformEdit(getOwner(), tx));
         }
     }
-
     @Override
     public void keyPressed(KeyEvent evt) {
         Figure f = getOwner();
         if (f.isTransformable()) {
             AffineTransform tx = new AffineTransform();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     tx.translate(0, -1);
@@ -138,44 +125,35 @@ public class MoveHandle extends LocatorHandle {
             fireUndoableEditHappened(
                     new TransformEdit(f, tx));
         }
-
     }
-
     static public Handle south(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.south());
     }
-
     static public Handle southEast(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.southEast());
     }
-
     static public Handle southWest(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.southWest());
     }
-
     static public Handle north(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.north());
     }
-
     static public Handle northEast(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.northEast());
     }
-
     static public Handle northWest(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.northWest());
     }
-
     static public Handle east(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.east());
     }
-
     static public Handle west(
             Figure owner) {
         return new MoveHandle(owner, RelativeLocator.west());

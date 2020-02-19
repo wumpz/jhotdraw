@@ -2,12 +2,10 @@
  * @(#)PaletteLookAndFeel.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
-
 import java.awt.*;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
@@ -16,7 +14,6 @@ import javax.swing.UIDefaults.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
-
 /**
  * A LookAndFeel for components in the palette windows of a drawing editor.
  *
@@ -25,8 +22,7 @@ import javax.swing.plaf.basic.*;
  */
 public class PaletteLookAndFeel extends BasicLookAndFeel {
     private static final long serialVersionUID = 1L;
-
-    /** 
+    /**
      * Shared instance.
      */
     private static PaletteLookAndFeel instance;
@@ -34,53 +30,44 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
      * Cached defaults.
      */
     private UIDefaults cachedDefaults;
-
     public static PaletteLookAndFeel getInstance() {
         if (instance == null) {
             instance = new PaletteLookAndFeel();
         }
         return instance;
     }
-
     @Override
     public String getName() {
         return "Palette Look and Feel";
     }
-
     @Override
     public String getID() {
         return "Palette";
     }
-
     @Override
     public String getDescription() {
         return "A look and feel for palette components";
     }
-
     @Override
     public boolean isNativeLookAndFeel() {
         return false;
     }
-
     @Override
     public boolean isSupportedLookAndFeel() {
         return true;
     }
-
     public UIDefaults getCachedDefaults() {
         if (cachedDefaults == null) {
             cachedDefaults = getDefaults();
         }
         return cachedDefaults;
     }
-
     /**
      * Looks up up the given key in our map and resolves LazyValues
      * or ActiveValues.
      */
     public Object get(Object key) {
         UIDefaults defaults = getCachedDefaults();
-
         /* Quickly handle the common case, without grabbing
          * a lock.
          */
@@ -89,53 +76,43 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 && !(value instanceof LazyValue)) {
             return value;
         }
-
         return value;
     }
-
     public boolean getBoolean(String key) {
         return ((Boolean) get(key)).booleanValue();
     }
-
     public Border getBorder(String key) {
         return (Border) get(key);
     }
-
     public Color getColor(String key) {
         return (Color) get(key);
     }
-
     public Font getFont(String key) {
         return (Font) get(key);
     }
-
     public Icon getIcon(String key) {
         return (Icon) get(key);
     }
-
     public int getInt(String key) {
         return (Integer) get(key);
     }
-
     public Insets getInsets(String key) {
         return (Insets) get(key);
     }
-
     public String getString(String key) {
         return (String) get(key);
     }
-
     /**
      * Convenience method for initializing a components foreground
      * background and font properties with values from the current
      * defaults table.  The properties are only set if the current
      * value is either null or a UIResource.
-     * 
+     *
      * @param c the target component for installing default color/font properties
      * @param defaultBgName the key for the default background
      * @param defaultFgName the key for the default foreground
      * @param defaultFontName the key for the default font
-     * 
+     *
      * @see #installColors
      * @see UIManager#getColor
      * @see UIManager#getFont
@@ -148,13 +125,11 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         if (f == null || f instanceof UIResource) {
             c.setFont(getInstance().getFont(defaultFontName));
         }
-
         installColors(c, defaultBgName, defaultFgName);
     }
-
     /**
-     * Convenience method for installing a component's default Border 
-     * object on the specified component if either the border is 
+     * Convenience method for installing a component's default Border
+     * object on the specified component if either the border is
      * currently null or already an instance of UIResource.
      * @param c the target component for installing default border
      * @param defaultBorderName the key specifying the default border
@@ -164,19 +139,17 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         if (b == null || b instanceof UIResource) {
             c.setBorder(getInstance().getBorder(defaultBorderName));
         }
-
     }
-
     /**
      * Convenience method for initializing a component's foreground
      * and background color properties with values from the current
      * defaults table.  The properties are only set if the current
      * value is either null or a UIResource.
-     * 
+     *
      * @param c the target component for installing default color/font properties
      * @param defaultBgName the key for the default background
      * @param defaultFgName the key for the default foreground
-     * 
+     *
      * @see #installColorsAndFont
      * @see UIManager#getColor
      */
@@ -188,17 +161,14 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         if (bg == null || bg instanceof UIResource) {
             c.setBackground(plaf.getColor(defaultBgName));
         }
-
         Color fg = c.getForeground();
         if (fg == null || fg instanceof UIResource) {
             c.setForeground(plaf.getColor(defaultFgName));
         }
     }
-
     @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
-
         // Add resource bundle to the table.
         // Since this does not seem to work in sandboxed environments, we check
         // whether we succeeded and - in case of failure - put the values in
@@ -229,34 +199,26 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 "javax.swing.plaf.FontUIResource",
                 null,
                 new Object[]{"Dialog", fontBold, 12});
-
-
         // *** Shared Colors
         ColorUIResource black = new ColorUIResource(Color.black);
-
         ColorUIResource control = new ColorUIResource(0xf0f0f0);
         ColorUIResource controlText = black;
-
         ColorUIResource selectionBackground = new ColorUIResource(0xb5d5ff);
         ColorUIResource selectionForeground = black;
-
         ColorUIResource listSelectionBackground = new ColorUIResource(0x3875d7);
         Object focusCellHighlightBorder = new UIDefaults.ProxyLazyValue(
                 "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
                 // null,
                 new Object[]{listSelectionBackground});
-
         // *** Shared Insets
         InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
-
         // *** Shared Borders
-	/*Object buttonBorder = 
+ /*Object buttonBorder =
         new ProxyLazyValue(
         "org.jhotdraw.gui.plaf.palette.BackdropBorder$UIResource",
         new Object[] {new PaletteButtonBorder()});*/
         Object buttonBorder = new BackdropBorder.UIResource(new PaletteButtonBorder());
         Object textBorder = new BackdropBorder.UIResource(new PaletteTextComponentBorder());
-
         Object[] defaults = {
             // *** Fonts
             "SmallSystemFont", dialogPlain11,
@@ -279,7 +241,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorWheelChooser",
                 "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorSlidersChooser",},
             "ColorChooser.textSliderGap", 3,
-            
             // *** FormattedTextField
             "FormattedTextField.font", fieldPlain12,
             "FormattedTextField.background", control,
@@ -303,9 +264,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "Panel.foreground", controlText,
             "Panel.opaque", Boolean.TRUE,
             // *** Ribbons
-            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 0, 0, 0), new Color(0x777777)}), 
+            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 0, 0, 0), new Color(0x777777)}),
             // *** ScrollPane
-            "ScrollPane.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 1, 1, 1), new Color(0xa5a5a5)}), 
+            "ScrollPane.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 1, 1, 1), new Color(0xa5a5a5)}),
             // *** Slider
             "Slider.background", control,
             "Slider.foreground", controlText,
@@ -344,21 +305,19 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "ToolBar.background", control,
             "ToolBar.foreground", controlText,
             "ToolBar.dockingBackground", control,
-            //	    "ToolBar.dockingForeground", red,
+            //     "ToolBar.dockingForeground", red,
             "ToolBar.floatingBackground", control,
-            //	    "ToolBar.floatingForeground", darkGray,
-            //	    "ToolBar.border", etchedBorder,
-            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), 
-        //	    "ToolBar.separatorSize", toolBarSeparatorSize,
+            //     "ToolBar.floatingForeground", darkGray,
+            //     "ToolBar.border", etchedBorder,
+            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"),
+        //     "ToolBar.separatorSize", toolBarSeparatorSize,
         };
         table.putDefaults(defaults);
     }
-
     /**
      * Returns the ui that is of type <code>klass</code>, or null if
      * one can not be found.
      */
-    
     static Object getUIOfType(ComponentUI ui, Class<?> klass) {
         if (klass.isInstance(ui)) {
             return ui;

@@ -2,14 +2,12 @@
  * @(#)StrokeToolBar.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
 import org.jhotdraw.draw.gui.JAttributeTextField;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
@@ -28,25 +26,21 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.text.ColorFormatter;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * StrokeToolBar.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class StrokeToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
-
     private SelectionComponentDisplayer displayer;
-
     /** Creates new instance. */
     public StrokeToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString("stroke.toolbar"));
         setDisclosureStateCount(3);
     }
-
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (displayer != null) {
@@ -58,29 +52,23 @@ public class StrokeToolBar extends AbstractToolBar {
             displayer = new SelectionComponentDisplayer(editor, this);
         }
     }
-
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
             case 1: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is put
                 if (editor == null) {
                     break;
                 }
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Stroke color
                 Map<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
@@ -93,7 +81,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridx = 0;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(btn, gbc);
-
                 // Opacity slider
                 JPopupButton opacityPopupButton = new JPopupButton();
                 JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
@@ -113,7 +100,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(STROKE_OPACITY, opacitySlider, editor));
-
                 // Create stroke width popup slider
                 JPopupButton strokeWidthPopupButton = new JPopupButton();
                 JAttributeSlider strokeWidthSlider = new JAttributeSlider(
@@ -128,7 +114,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 p.add(strokeWidthPopupButton, gbc);
                 disposables.add(new FigureAttributeEditorHandler<Double>(STROKE_WIDTH, strokeWidthSlider, editor));
-
                 // Create stroke dashes buttons
                 btn = ButtonFactory.createStrokeJoinButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -137,7 +122,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridy = 0;
                 gbc.insets = new Insets(0, 3, 0, 0);
                 p.add(btn, gbc);
-
                 btn = ButtonFactory.createStrokeCapButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 gbc = new GridBagConstraints();
@@ -145,7 +129,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridy = 1;
                 gbc.insets = new Insets(3, 3, 0, 0);
                 p.add(btn, gbc);
-
                 btn = ButtonFactory.createStrokeDashesButton(editor, new double[][]{
                             null,
                             {4d, 4d},
@@ -163,24 +146,19 @@ public class StrokeToolBar extends AbstractToolBar {
                 p.add(btn, gbc);
             }
             break;
-
             case 2: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is put
                 if (editor == null) {
                     break;
                 }
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Stroke color field and button
                 Map<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
                 STROKE_GRADIENT.put(defaultAttributes, null);
@@ -207,7 +185,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridx = 3;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(btn, gbc);
-
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                 opacityField.setColumns(4);
@@ -246,7 +223,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(STROKE_OPACITY, opacitySlider, editor));
-
                 // Create stroke width field with popup slider
                 JAttributeTextField<Double> strokeWidthField = new JAttributeTextField<Double>();
                 strokeWidthField.setColumns(2);
@@ -265,7 +241,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.fill = GridBagConstraints.BOTH;
                 p.add(strokeWidthField, gbc);
-
                 JPopupButton strokeWidthPopupButton = new JPopupButton();
                 JAttributeSlider strokeWidthSlider = new JAttributeSlider(
                         JSlider.VERTICAL, 0, 50, 1);
@@ -279,8 +254,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 p.add(strokeWidthPopupButton, gbc);
                 disposables.add(new FigureAttributeEditorHandler<Double>(STROKE_WIDTH, strokeWidthSlider, editor));
-
-
                 btn = ButtonFactory.createStrokeJoinButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 gbc = new GridBagConstraints();
@@ -290,7 +263,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridwidth = 2;
                 gbc.insets = new Insets(0, 3, 0, 0);
                 p.add(btn, gbc);
-
                 btn = ButtonFactory.createStrokeCapButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 gbc = new GridBagConstraints();
@@ -299,7 +271,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridy = 1;
                 gbc.insets = new Insets(3, 3, 0, 0);
                 p.add(btn, gbc);
-
                 // Create dash offset field and dashes button
                 JAttributeTextField<Double> dashOffsetField = new JAttributeTextField<Double>();
                 dashOffsetField.setColumns(1);
@@ -316,7 +287,6 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.gridwidth = 2;
                 p.add(dashOffsetField, gbc);
-
                 btn = ButtonFactory.createStrokeDashesButton(editor, new double[][]{
                             null,
                             {4d, 4d},
@@ -338,17 +308,14 @@ public class StrokeToolBar extends AbstractToolBar {
         }
         return p;
     }
-
     @Override
     protected String getID() {
         return "stroke";
     }
-
     @Override
     protected int getDefaultDisclosureState() {
         return 1;
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -356,7 +323,6 @@ public class StrokeToolBar extends AbstractToolBar {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setOpaque(false);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -26,7 +26,6 @@ import javax.swing.plaf.basic.*;
 public class PaletteLookAndFeel extends BasicLookAndFeel {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Shared instance.
      */
@@ -81,7 +80,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
      */
     public Object get(Object key) {
         UIDefaults defaults = getCachedDefaults();
-
         /* Quickly handle the common case, without grabbing
          * a lock.
          */
@@ -90,7 +88,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 && !(value instanceof LazyValue)) {
             return value;
         }
-
         return value;
     }
 
@@ -149,7 +146,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         if (f == null || f instanceof UIResource) {
             c.setFont(getInstance().getFont(defaultFontName));
         }
-
         installColors(c, defaultBgName, defaultFgName);
     }
 
@@ -166,7 +162,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         if (b == null || b instanceof UIResource) {
             c.setBorder(getInstance().getBorder(defaultBorderName));
         }
-
     }
 
     /**
@@ -190,7 +185,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
         if (bg == null || bg instanceof UIResource) {
             c.setBackground(plaf.getColor(defaultBgName));
         }
-
         Color fg = c.getForeground();
         if (fg == null || fg instanceof UIResource) {
             c.setForeground(plaf.getColor(defaultFgName));
@@ -200,7 +194,6 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     @Override
     protected void initComponentDefaults(UIDefaults table) {
         super.initComponentDefaults(table);
-
         // Add resource bundle to the table.
         // Since this does not seem to work in sandboxed environments, we check
         // whether we succeeded and - in case of failure - put the values in
@@ -231,33 +224,26 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 "javax.swing.plaf.FontUIResource",
                 null,
                 new Object[]{"Dialog", fontBold, 12});
-
         // *** Shared Colors
         ColorUIResource black = new ColorUIResource(Color.black);
-
         ColorUIResource control = new ColorUIResource(0xf0f0f0);
         ColorUIResource controlText = black;
-
         ColorUIResource selectionBackground = new ColorUIResource(0xb5d5ff);
         ColorUIResource selectionForeground = black;
-
         ColorUIResource listSelectionBackground = new ColorUIResource(0x3875d7);
         Object focusCellHighlightBorder = new UIDefaults.ProxyLazyValue(
                 "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
                 // null,
                 new Object[]{listSelectionBackground});
-
         // *** Shared Insets
         InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
-
         // *** Shared Borders
-        /*Object buttonBorder = 
+        /*Object buttonBorder =
         new ProxyLazyValue(
         "org.jhotdraw.gui.plaf.palette.BackdropBorder$UIResource",
         new Object[] {new PaletteButtonBorder()});*/
         Object buttonBorder = new BackdropBorder.UIResource(new PaletteButtonBorder());
         Object textBorder = new BackdropBorder.UIResource(new PaletteTextComponentBorder());
-
         Object[] defaults = {
             // *** Fonts
             "SmallSystemFont", dialogPlain11,
@@ -344,11 +330,11 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "ToolBar.background", control,
             "ToolBar.foreground", controlText,
             "ToolBar.dockingBackground", control,
-            //	    "ToolBar.dockingForeground", red,
+            //     "ToolBar.dockingForeground", red,
             "ToolBar.floatingBackground", control,
-            //	    "ToolBar.floatingForeground", darkGray,
-            //	    "ToolBar.border", etchedBorder,
-            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), //	    "ToolBar.separatorSize", toolBarSeparatorSize,
+            //     "ToolBar.floatingForeground", darkGray,
+            //     "ToolBar.border", etchedBorder,
+            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), //     "ToolBar.separatorSize", toolBarSeparatorSize,
         };
         table.putDefaults(defaults);
     }

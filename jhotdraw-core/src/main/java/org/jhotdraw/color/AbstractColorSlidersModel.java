@@ -20,7 +20,6 @@ import org.jhotdraw.beans.AbstractBean;
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * ChangeListener's listening to changes in this model.
      */

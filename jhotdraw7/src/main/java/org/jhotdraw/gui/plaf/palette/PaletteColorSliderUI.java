@@ -1,20 +1,17 @@
 /*
  * @(#)PaletteColorSliderUI.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
-
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JSlider;
 import javax.swing.plaf.ComponentUI;
 import org.jhotdraw.color.ColorSliderUI;
-
 /**
  * PaletteColorSliderUI.
  *
@@ -26,7 +23,6 @@ public class PaletteColorSliderUI extends ColorSliderUI {
     public PaletteColorSliderUI(JSlider b) {
         super(b);
     }
-
     public static ComponentUI createUI(JComponent b) {
         return new PaletteColorSliderUI((JSlider) b);
     }
@@ -44,5 +40,4 @@ public class PaletteColorSliderUI extends ColorSliderUI {
             }
             return icon;
     }
-
 }

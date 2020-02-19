@@ -2,7 +2,7 @@
  * @(#)TogglePaletteAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.window;
@@ -32,14 +32,12 @@ public class TogglePaletteAction extends AbstractAction {
     public TogglePaletteAction(OSXApplication app, Window palette, String label) {
         super(label);
         this.app = app;
-
         windowHandler = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent evt) {
                 putValue(ActionUtil.SELECTED_KEY, false);
             }
         };
-
         putValue(ActionUtil.SELECTED_KEY, false);
         setPalette(palette);
     }
@@ -66,9 +64,7 @@ public class TogglePaletteAction extends AbstractAction {
         if (palette != null) {
             palette.removeWindowListener(windowHandler);
         }
-
         palette = newValue;
-
         if (palette != null) {
             palette.addWindowListener(windowHandler);
             if (getValue(ActionUtil.SELECTED_KEY) == Boolean.TRUE) {

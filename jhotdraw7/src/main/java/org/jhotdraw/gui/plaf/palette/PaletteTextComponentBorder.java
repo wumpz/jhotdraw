@@ -2,11 +2,10 @@
  * @(#)PaletteTextComponentBorder.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -18,7 +17,6 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
-
 /**
  * PaletteTextComponentBorder.
  *
@@ -26,10 +24,8 @@ import javax.swing.plaf.UIResource;
  * @version $Id$
  */
 public class PaletteTextComponentBorder implements Border, UIResource {
-
     private static final float[] enabledStops = new float[]{0f, 0.2f};
     private static final Color[] enabledStopColors = new Color[]{new Color(0xc8c8c8), new Color(0xffffff)};
-
     @Override
     public void paintBorder(Component c, Graphics gr, int x, int y, int width, int height) {
         Graphics2D g = (Graphics2D) gr;
@@ -45,14 +41,12 @@ public class PaletteTextComponentBorder implements Border, UIResource {
             stops = enabledStops;
             stopColors = enabledStopColors;
         }
-
         String segmentPosition = getSegmentPosition(c);
         if (segmentPosition == "first" || segmentPosition == "middle") {
             width += 1;
         }
         g.setColor(new Color(borderColor, true));
         g.drawRect(x, y, width - 1, height - 1);
-
         LinearGradientPaint lgp = new LinearGradientPaint(
                 new Point2D.Float(x, y), new Point2D.Float(x, y + height - 1),
                 stops, stopColors,
@@ -60,7 +54,6 @@ public class PaletteTextComponentBorder implements Border, UIResource {
         g.setPaint(lgp);
         g.fillRect(x + 1, y + 1, width - 2, height - 2);
     }
-
     private String getSegmentPosition(Component c) {
         String segmentPosition = null;
         if (c instanceof JComponent) {
@@ -68,7 +61,6 @@ public class PaletteTextComponentBorder implements Border, UIResource {
         }
         return (segmentPosition == null) ? "only" : segmentPosition;
     }
-
     @Override
     public Insets getBorderInsets(Component c) {
         Insets insets;
@@ -81,7 +73,6 @@ public class PaletteTextComponentBorder implements Border, UIResource {
         }
         return insets;
     }
-
     @Override
     public boolean isBorderOpaque() {
         return true;

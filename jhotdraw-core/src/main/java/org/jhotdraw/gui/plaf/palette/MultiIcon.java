@@ -2,7 +2,7 @@
  * @(#)MultiIcon.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -26,7 +26,6 @@ public abstract class MultiIcon implements Icon {
      * This variable is null, if we are using a tiled image as our base.
      */
     protected Icon[] icons;
-
     /**
      * Holds the icon pictures in a single image. This variable is used only
      * until we create the icons array. Then it is set to null.

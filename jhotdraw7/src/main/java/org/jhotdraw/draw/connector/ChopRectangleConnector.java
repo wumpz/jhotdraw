@@ -2,12 +2,10 @@
  * @(#)ChopRectangleConnector.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.connector;
-
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
@@ -23,18 +21,14 @@ import org.jhotdraw.geom.*;
  */
 public class ChopRectangleConnector extends AbstractConnector {
     private static final long serialVersionUID = 1L;
-    
-    
     /** Creates a new instance.
      * Only used for storable.
      */
     public ChopRectangleConnector() {
     }
-    
     public ChopRectangleConnector(Figure owner) {
         super(owner);
     }
-    
     @Override
     public Point2D.Double findStart(ConnectionFigure connection) {
         Figure startFigure = connection.getStartConnector().getOwner();
@@ -51,7 +45,6 @@ public class ChopRectangleConnector extends AbstractConnector {
         }
         return chop(startFigure, from);
     }
-    
     @Override
     public Point2D.Double findEnd(ConnectionFigure connection) {
         Figure endFigure = connection.getEndConnector().getOwner();
@@ -71,10 +64,8 @@ public class ChopRectangleConnector extends AbstractConnector {
         } else {
             from = connection.getPoint(connection.getNodeCount() - 2);
         }
-        
         return chop(endFigure, from);
     }
-    
     protected Point2D.Double chop(Figure target, Point2D.Double from) {
         target = getConnectorTarget(target);
         Rectangle2D.Double r = target.getBounds();
@@ -96,5 +87,4 @@ public class ChopRectangleConnector extends AbstractConnector {
         }
         return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
     }
-    
 }

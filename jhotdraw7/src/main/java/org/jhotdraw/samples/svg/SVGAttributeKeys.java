@@ -2,17 +2,13 @@
  * @(#)SVGAttributeKeys.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg;
-
-
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * SVGAttributeKeys.
  *
@@ -21,11 +17,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class SVGAttributeKeys extends AttributeKeys {
      private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-   
     public enum TextAnchor {
         START, MIDDLE, END
     }
-    
     /**
      * Specifies the title of an SVG drawing.
      * This attribute can be null, to indicate that the drawing has no title.
@@ -53,13 +47,10 @@ public class SVGAttributeKeys extends AttributeKeys {
      * Specifies the height of an SVG viewport.
      */
     public static final AttributeKey<Double> VIEWPORT_HEIGHT = CANVAS_HEIGHT;
-    
-    
     /**
      * Specifies the text anchor of a SVGText figure.
      */
     public static final AttributeKey<TextAnchor> TEXT_ANCHOR = new AttributeKey<TextAnchor>("textAnchor", TextAnchor.class, TextAnchor.START, false, labels);
-    
     public enum TextAlign {
         START, CENTER, END
     }
@@ -71,7 +62,6 @@ public class SVGAttributeKeys extends AttributeKeys {
      * Specifies the fill gradient of a SVG figure.
      */
     public static final AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient",Gradient.class, null, true, labels);
-    
     /**
      * Specifies the fill opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
@@ -82,8 +72,6 @@ public class SVGAttributeKeys extends AttributeKeys {
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity",Double.class, 1d, false, labels);
-    
-    
     /**
      * Specifies the stroke gradient of a SVG figure.
      */
@@ -93,7 +81,6 @@ public class SVGAttributeKeys extends AttributeKeys {
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
     public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity",Double.class, 1d, false, labels);
-    
     /**
      * Specifies a link.
      * In an SVG file, the link is stored in a "a" element which encloses the
@@ -108,14 +95,11 @@ public class SVGAttributeKeys extends AttributeKeys {
      * http://www.w3.org/TR/SVGMobile12/linking.html#AElement
      */
     public static final AttributeKey<String> LINK_TARGET = new AttributeKey<String>("linkTarget", String.class,null, true, labels);
-    
-    
     /**
      * Gets the fill paint for the specified figure based on the attributes
      * FILL_GRADIENT, FILL_OPACITY, FILL_PAINT and the bounds of the figure.
      * Returns null if the figure is not filled.
      */
-    
     public static Paint getFillPaint(Figure f) {
         double opacity = f.get(FILL_OPACITY);
         if (f.get(FILL_GRADIENT) != null) {
@@ -136,7 +120,6 @@ public class SVGAttributeKeys extends AttributeKeys {
      * STROKE_GRADIENT, STROKE_OPACITY, STROKE_PAINT and the bounds of the figure.
      * Returns null if the figure is not filled.
      */
-    
     public static Paint getStrokePaint(Figure f) {
         double opacity = f.get(STROKE_OPACITY);
         if (f.get(STROKE_GRADIENT) != null) {
@@ -152,15 +135,12 @@ public class SVGAttributeKeys extends AttributeKeys {
         }
         return color;
     }
-    
-    
     /** Sets SVG default values. */
     public static void setDefaults(Figure f) {
         // Fill properties
         // http://www.w3.org/TR/SVGMobile12/painting.html#FillProperties
         f.set(FILL_COLOR, Color.black);
         f.set(WINDING_RULE, WindingRule.NON_ZERO);
-        
         // Stroke properties
         // http://www.w3.org/TR/SVGMobile12/painting.html#StrokeProperties
         f.set(STROKE_COLOR, null);

@@ -1,15 +1,13 @@
 /*
  * @(#)CIELABColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
 import java.awt.color.ColorSpace;
-
 /**
  * The 1976 CIE L*a*b* color space (CIELAB). <p> The L* coordinate of an object
  * is the lightness intensity as measured on a scale from 0 to 100, where 0
@@ -30,7 +28,6 @@ import java.awt.color.ColorSpace;
  */
 public class CIELABColorSpace extends AbstractNamedColorSpace {
     private static final long serialVersionUID = 1L;
-
     /**
      * The XYZ coordinates of the CIE Standard Illuminant D65 reference white.
      */
@@ -52,9 +49,7 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
      */
     private static final double eps = 216d / 24389d;
     private static final double k = 24389d / 27d;
-
     public enum OutsideGamutHandling {
-
         CLAMP,
         LEAVE_OUTSIDE
     };
@@ -62,30 +57,24 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
      * By default, clamps non-displayable RGB values.
      */
     private OutsideGamutHandling outsideGamutHandling = OutsideGamutHandling.CLAMP;
-
     public CIELABColorSpace() {
         super(ColorSpace.TYPE_Lab, 3);
-
         Xw = D65[0];
         Yw = D65[1];
         Zw = D65[2];
     }
-
     @Override
     public float[] toRGB(float[] colorvalue, float[] rgb) {
         float[] ciexyz=rgb;
         toCIEXYZ(colorvalue,ciexyz);
-
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
         double X = ciexyz[0];
         double Y = ciexyz[1];
         double Z = ciexyz[2];
-
         double Rs = 3.2410 * X + -1.5374 * Y + -0.4986 * Z;
         double Gs = -0.9692 * X + 1.8760 * Y + -0.0416 * Z;
         double Bs = 0.0556 * X + -0.2040 * Y + 1.0570 * Z;
-
         if (Rs <= 0.00304) {
             Rs = 12.92 * Rs;
         } else {
@@ -101,7 +90,6 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         } else {
             Bs = 1.055 * Math.pow(Bs, 1d / 2.4) - 0.055;
         }
-
         switch (outsideGamutHandling) {
             case CLAMP:
                 Rs = Math.min(1, Math.max(0, Rs));
@@ -109,20 +97,16 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
                 Bs = Math.min(1, Math.max(0, Bs));
                 break;
         }
-
-
         rgb[0]=(float) Rs;
         rgb[1]=(float) Gs;
         rgb[2]=(float) Bs;
         return rgb;
     }
-
     @Override
     public float[] fromRGB(float[] rgb, float[] component) {
         ColorUtil.RGBtoCIEXYZ(rgb, rgb);
         return fromCIEXYZ(rgb, component);
     }
-
     /**
      * Lab to XYZ.
      * <pre>
@@ -161,15 +145,10 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double L = colorvalue[0];
         double a = colorvalue[1];
         double b = colorvalue[2];
-
         double fy = (L + 16d) / 116d;
-
         double fx = a / 500d + fy;
-
         double fz = fy - b / 200d;
-
         double xr, yr, zr;
-
         double fxp3 = fx * fx * fx;
         if (fxp3 > eps) {
             xr = fxp3;
@@ -182,22 +161,18 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         } else {
             yr = L / k;
         }
-
         double fzp3 = fz * fz * fz;
         if (fzp3 > eps) {
             zr = fzp3;
         } else {
             zr = (116d * fz - 16f) / k;
         }
-
         double X = xr * Xw;
         double Y = yr * Yw;
         double Z = zr * Zw;
-
         xyz[0]=(float) X; xyz[1]=(float) Y;xyz[2]=(float) Z;
         return xyz;
     }
-
     /**
      * XYZ to Lab.
      * <pre>
@@ -234,11 +209,9 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double X = colorvalue[0];
         double Y = colorvalue[1];
         double Z = colorvalue[2];
-
         double xr = X / Xw;
         double yr = Y / Yw;
         double zr = Z / Zw;
-
         double fx, fy, fz;
         if (xr > eps) {
             fx = Math.pow(xr, 1d / 3d);
@@ -255,22 +228,18 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         } else {
             fz = (k * zr + 16) / 116;
         }
-
         double L = 116d * fy - 16;
         double a = 500d * (fx - fy);
         double b = 200d * (fy - fz);
-
         xyz[0] = (float) L;
         xyz[1] = (float) a;
         xyz[2] = (float) b;
         return xyz;
     }
-
     @Override
     public String getName() {
         return "CIE 1976 L*a*b*";
     }
-
     @Override
     public float getMinValue(int component) {
         switch (component) {
@@ -282,7 +251,6 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }
-
     @Override
     public float getMaxValue(int component) {
         switch (component) {
@@ -294,7 +262,6 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }
-
     @Override
     public String getName(int component) {
         switch (component) {
@@ -307,28 +274,22 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }
-
     public void setOutsideGamutHandling(OutsideGamutHandling b) {
         outsideGamutHandling = b;
     }
-
     public OutsideGamutHandling getOutsideGamutHandling() {
         return outsideGamutHandling;
     }
-
     public static void main(String[] arg) {
         CIELABColorSpace cs = new CIELABColorSpace();
         float[] lab = cs.fromRGB(new float[]{1, 1, 1});
         System.out.println("rgb->lab:" + lab[0] + "," + lab[1] + "," + lab[2]);
-
         float[] xyz = cs.toCIEXYZ(new float[]{0.75f, 0.25f, 0.1f});
         System.out.println("    lab->xyz:" + xyz[0] + "," + xyz[1] + "," + xyz[2]);
         lab = cs.fromCIEXYZ(xyz);
         System.out.println("R xyz->LCHab:" + lab[0] + "," + lab[1] + "," + lab[2]);
-
         lab = cs.fromCIEXYZ(new float[]{1, 1, 1});
         System.out.println("xyz->lab:" + lab[0] + "," + lab[1] + "," + lab[2]);
-
         lab = cs.fromCIEXYZ(new float[]{0.5f, 1, 1});
         System.out.println("xyz->lab:" + lab[0] + "," + lab[1] + "," + lab[2]);
     }

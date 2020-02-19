@@ -1,16 +1,14 @@
 /*
  * @(#)JNLPClipboard.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.datatransfer;
-
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.Transferable;
-
 /**
  * {@code JNLPClipboard} acts as a proxy to a JNLP
  * {@code ClipboardService} object.
@@ -24,16 +22,14 @@ import java.awt.datatransfer.Transferable;
  * <p><em>Proxy</em><br>
  * {@code JNLPClipboard} acts as a proxy to a JNLP {@code ClipboardService} object.<br>
  * Proxy: {@link JNLPClipboard}; Target: {@code javax.jnlp.ClipboardService}.
- * 
+ *
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class JNLPClipboard extends AbstractClipboard {
-
     /** The proxy target. */
     private Object target;
-
     /**
      * Creates a new proxy for the specified target object.
      * The target object must have a getContent and a setContent method
@@ -44,12 +40,10 @@ public class JNLPClipboard extends AbstractClipboard {
     public JNLPClipboard(Object target) {
         this.target = target;
     }
-
     /** Returns the proxy target. */
     public Object getTarget() {
         return target;
     }
-
     @Override
     public Transferable getContents(Object requestor) {
         try {
@@ -60,7 +54,6 @@ public class JNLPClipboard extends AbstractClipboard {
             throw error;
         }
     }
-
     @Override
     public void setContents(Transferable contents, ClipboardOwner owner) {
         try {

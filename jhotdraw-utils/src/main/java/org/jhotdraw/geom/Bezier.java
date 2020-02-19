@@ -2,7 +2,7 @@
  * @(#)Bezier.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.geom;
@@ -73,19 +73,15 @@ public class Bezier {
         // Split into segments at corners
         ArrayList<ArrayList<Point2D.Double>> segments;
         segments = splitAtCorners(digitizedPoints, 77 / 180d * Math.PI, error * error);
-
         // Clean up the data in the segments
         for (int i = 0, n = segments.size(); i < n; i++) {
             ArrayList<Point2D.Double> seg = segments.get(i);
             seg = removeClosePoints(seg, error * 2);
             seg = reduceNoise(seg, 0.8);
-
             segments.set(i, seg);
         }
-
         // Create fitted bezier path
         BezierPath fittedPath = new BezierPath();
-
         // Quickly deal with empty dataset
         boolean isEmpty = false;
         for (ArrayList<Point2D.Double> seg : segments) {
@@ -119,7 +115,6 @@ public class Bezier {
                         Point2D.Double tHat2;
                         tHat1 = computeLeftTangent(seg, 0);
                         tHat2 = computeRightTangent(seg, seg.size() - 1);
-
                         fitCubic(seg, 0, seg.size() - 1, tHat1, tHat2, errorSquared, fittedPath);
                         break;
                 }
@@ -168,7 +163,6 @@ public class Bezier {
         if (minDistance == 0) {
             return removeCoincidentPoints(digitizedPoints);
         } else {
-
             double squaredDistance = minDistance * minDistance;
             java.util.ArrayList<Point2D.Double> cleaned = new ArrayList<>();
             if (digitizedPoints.size() > 0) {
@@ -232,7 +226,6 @@ public class Bezier {
     public static ArrayList<ArrayList<Point2D.Double>> splitAtCorners(java.util.List<Point2D.Double> digitizedPoints, double maxAngle, double minDistance) {
         ArrayList<Integer> cornerIndices = findCorners(digitizedPoints, maxAngle, minDistance);
         ArrayList<ArrayList<Point2D.Double>> segments = new ArrayList<>(cornerIndices.size() + 1);
-
         if (cornerIndices.size() == 0) {
             segments.add(new ArrayList<>(digitizedPoints));
         } else {
@@ -242,7 +235,6 @@ public class Bezier {
             }
             segments.add(new ArrayList<>(digitizedPoints.subList(cornerIndices.get(cornerIndices.size() - 1), digitizedPoints.size())));
         }
-
         return segments;
     }
 
@@ -257,15 +249,11 @@ public class Bezier {
      */
     public static ArrayList<Integer> findCorners(java.util.List<Point2D.Double> digitizedPoints, double minAngle, double minDistance) {
         ArrayList<Integer> cornerIndices = new ArrayList<>();
-
         double squaredDistance = minDistance * minDistance;
-
         int previousCorner = -1;
         double previousCornerAngle = 0;
-
         for (int i = 1, n = digitizedPoints.size(); i < n - 1; i++) {
             Point2D.Double p = digitizedPoints.get(i);
-
             // search for a preceding point for corner detection
             Point2D.Double prev = null;
             boolean intersectsPreviousCorner = false;
@@ -279,7 +267,6 @@ public class Bezier {
             if (prev == null) {
                 continue;
             }
-
             // search for a succeeding point for corner detection
             Point2D.Double next = null;
             for (int j = i + 1; j < n; j++) {
@@ -291,7 +278,6 @@ public class Bezier {
             if (next == null) {
                 continue;
             }
-
             double aPrev = Math.atan2(prev.y - p.y, prev.x - p.x);
             double aNext = Math.atan2(next.y - p.y, next.x - p.x);
             double angle = Math.abs(aPrev - aNext);
@@ -361,7 +347,6 @@ public class Bezier {
     private static void fitCubic(ArrayList<Point2D.Double> d, int first, int last,
             Point2D.Double tHat1, Point2D.Double tHat2,
             double errorSquared, BezierPath bezierPath) {
-
         Point2D.Double[] bezCurve;
         /*Control points of fitted Bezier curve*/
         double[] u;
@@ -381,19 +366,15 @@ public class Bezier {
         Point2D.Double tHatCenter;
         /* Unit tangent vector at splitPoint */
         int i;
-
         // clone unit tangent vectors, so that we can alter their coordinates
         // without affecting the input values.
         tHat1 = (Point2D.Double) tHat1.clone();
         tHat2 = (Point2D.Double) tHat2.clone();
-
         iterationError = errorSquared * errorSquared;
         nPts = last - first + 1;
-
         /*  Use heuristic if region only has two points in it */
         if (nPts == 2) {
             double dist = v2DistanceBetween2Points(d.get(last), d.get(first)) / 3.0;
-
             bezCurve = new Point2D.Double[4];
             for (i = 0; i < bezCurve.length; i++) {
                 bezCurve[i] = new Point2D.Double();
@@ -402,26 +383,21 @@ public class Bezier {
             bezCurve[3] = d.get(last);
             v2Add(bezCurve[0], v2Scale(tHat1, dist), bezCurve[1]);
             v2Add(bezCurve[3], v2Scale(tHat2, dist), bezCurve[2]);
-
             bezierPath.curveTo(
                     bezCurve[1].x, bezCurve[1].y,
                     bezCurve[2].x, bezCurve[2].y,
                     bezCurve[3].x, bezCurve[3].y);
             return;
         }
-
         /*  Parameterize points, and attempt to fit curve */
         u = chordLengthParameterize(d, first, last);
         bezCurve = generateBezier(d, first, last, u, tHat1, tHat2);
-
         /*  Find max deviation of points to fitted curve */
         maxError = computeMaxError(d, first, last, bezCurve, u, splitPoint);
         if (maxError < errorSquared) {
             addCurveTo(bezCurve, bezierPath, errorSquared, first == 0 && last == d.size() - 1);
             return;
         }
-
-
         /*  If errorSquared not too large, try some reparameterization  */
  /*  and iteration */
         if (maxError < iterationError) {
@@ -438,7 +414,6 @@ public class Bezier {
                 u = uPrime;
             }
         }
-
         /* Fitting failed -- split at max errorSquared point and fit recursively */
         tHatCenter = computeCenterTangent(d, splitPoint[0]);
         if (first < splitPoint[0]) {
@@ -469,7 +444,6 @@ public class Bezier {
                 && Geom.lineContainsPoint(lastNode.x[0], lastNode.y[0], bezCurve[3].x, bezCurve[3].y, bezCurve[2].x, bezCurve[2].y, error)) {
             bezierPath.lineTo(
                     bezCurve[3].x, bezCurve[3].y);
-
         } else {
             bezierPath.curveTo(
                     bezCurve[1].x, bezCurve[1].y,
@@ -513,7 +487,6 @@ public class Bezier {
     private static Point2D.Double computeCenterTangent(ArrayList<Point2D.Double> d, int center) {
         Point2D.Double V1, V2,
                 tHatCenter = new Point2D.Double();
-
         V1 = v2SubII(d.get(center - 1), d.get(center));
         V2 = v2SubII(d.get(center), d.get(center + 1));
         tHatCenter.x = (V1.x + V2.x) / 2.0;
@@ -534,19 +507,15 @@ public class Bezier {
         int i;
         double[] u;
         /*  Parameterization */
-
         u = new double[last - first + 1];
-
         u[0] = 0.0;
         for (i = first + 1; i <= last; i++) {
             u[i - first] = u[i - first - 1]
                     + v2DistanceBetween2Points(d.get(i), d.get(i - 1));
         }
-
         for (i = first + 1; i <= last; i++) {
             u[i - first] = u[i - first] / u[last - first];
         }
-
         return (u);
     }
 
@@ -565,7 +534,6 @@ public class Bezier {
         int i;
         double[] uPrime;
         /*  New parameter values */
-
         uPrime = new double[nPts];
         for (i = first; i <= last; i++) {
             uPrime[i - first] = newtonRaphsonRootFind(bezCurve, d.get(i), u[i - first]);
@@ -589,33 +557,27 @@ public class Bezier {
         double uPrime;
         /*  Improved u */
         int i;
-
         /* Compute Q(u) */
         Q_u = bezierII(3, Q, u);
-
         /* Generate control vertices for Q' */
         for (i = 0; i <= 2; i++) {
             Q1[i] = new Point2D.Double(
                     (Q[i + 1].x - Q[i].x) * 3.0,
                     (Q[i + 1].y - Q[i].y) * 3.0);
         }
-
         /* Generate control vertices for Q'' */
         for (i = 0; i <= 1; i++) {
             Q2[i] = new Point2D.Double(
                     (Q1[i + 1].x - Q1[i].x) * 2.0,
                     (Q1[i + 1].y - Q1[i].y) * 2.0);
         }
-
         /* Compute Q'(u) and Q''(u) */
         Q1_u = bezierII(2, Q1, u);
         Q2_u = bezierII(1, Q2, u);
-
         /* Compute f(u)/f'(u) */
         numerator = (Q_u.x - P.x) * (Q1_u.x) + (Q_u.y - P.y) * (Q1_u.y);
         denominator = (Q1_u.x) * (Q1_u.x) + (Q1_u.y) * (Q1_u.y)
                 + (Q_u.x - P.x) * (Q2_u.x) + (Q_u.y - P.y) * (Q2_u.y);
-
         /* u = u - f(u)/f'(u) */
         uPrime = u - (numerator / denominator);
         return (uPrime);
@@ -644,7 +606,6 @@ public class Bezier {
         /*  Point on curve */
         Point2D.Double v;
         /*  Vector from point to curve */
-
         splitPoint[0] = (last - first + 1) / 2;
         maxDist = 0.0;
         for (i = first + 1; i < last; i++) {
@@ -672,16 +633,12 @@ public class Bezier {
      */
     private static Point2D.Double[] generateBezier(ArrayList<Point2D.Double> d, int first, int last, double[] uPrime, Point2D.Double tHat1, Point2D.Double tHat2) {
         Point2D.Double[] bezCurve;
-
         bezCurve = new Point2D.Double[4];
         for (int i = 0; i < bezCurve.length; i++) {
             bezCurve[i] = new Point2D.Double();
         }
-
-
         /*  Use the Wu/Barsky heuristic*/
         double dist = v2DistanceBetween2Points(d.get(last), d.get(first)) / 3.0;
-
         bezCurve[0] = d.get(first);
         bezCurve[3] = d.get(last);
         v2Add(bezCurve[0], v2Scale(tHat1, dist), bezCurve[1]);
@@ -702,13 +659,11 @@ public class Bezier {
         /* Point on curve at parameter t */
         Point2D.Double[] vTemp;
         /* Local copy of control points  */
-
  /* Copy array */
         vTemp = new Point2D.Double[degree + 1];
         for (i = 0; i <= degree; i++) {
             vTemp[i] = (Point2D.Double) V[i].clone();
         }
-
         /* Triangle computation */
         for (i = 1; i <= degree; i++) {
             for (j = 0; j <= degree - i; j++) {
@@ -716,7 +671,6 @@ public class Bezier {
                 vTemp[j].y = (1.0 - t) * vTemp[j].y + t * vTemp[j + 1].y;
             }
         }
-
         q = vTemp[0];
         return q;
     }
@@ -755,7 +709,6 @@ public class Bezier {
             v.x *= newlen / len;
             v.y *= newlen / len;
         }
-
         return v;
     }
 
@@ -831,7 +784,6 @@ public class Bezier {
             v.x /= len;
             v.y /= len;
         }
-
         return v;
     }
 

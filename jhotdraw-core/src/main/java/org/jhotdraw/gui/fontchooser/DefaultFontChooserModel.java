@@ -59,7 +59,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
     @SuppressWarnings("unchecked")
     public void setFonts(Font[] fonts) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
-
         // collect families and sort them alphabetically
         ArrayList<FontFamilyNode> families = new ArrayList<>();
         HashMap<String, FontFamilyNode> familyMap = new HashMap<>();
@@ -76,12 +75,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         }
         families.addAll(familyMap.values());
         Collections.sort(families);
-
         // group families into collections
         root.removeAllChildren();
-
         root.add(new FontCollectionNode(labels.getString("FontCollection.allFonts"), (ArrayList<FontFamilyNode>) families.clone()));
-
         // Web-save fonts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.web"), collectFamiliesNamed(families,
@@ -94,7 +90,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                         "Trebuchet MS",
                         "Verdana",
                         "Webdings")));
-
         /*
         // PDF Fonts
         root.add(
@@ -277,8 +272,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                         "Meiryo",
                         "Miriam",
                         "Segoe UI")));
-
-        // Scripts 
+        // Scripts
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.script"), collectFamiliesNamed(families,
                         // Fonts on Mac OS X 10.5:
@@ -349,7 +343,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                         // Fonts on Windows Vista
                         "Segoe Print",
                         "Segoe Script")));
-
         // Monospaced
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.monospaced"), collectFamiliesNamed(families,
@@ -376,7 +369,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                         "DotumChe",
                         "Miriam Fixed",
                         "Rod")));
-
         // Decorative
         root.add(
                 new FontCollectionNode(labels.getString("FontCollection.decorative"), collectFamiliesNamed(families,
@@ -484,11 +476,9 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                         "Wingdings 3",
                         "Zapf Dingbats",
                         // Fonts on Windows XP:
-
                         "Bookshelf Symbol"
                 // Fonts on Windows Vista:
                 )));
-
         // Collect font families, which are not in one of the other collections
         // (except the collection AllFonts).
         FontCollectionNode others = new FontCollectionNode(labels.getString("FontCollection.other"));
@@ -507,7 +497,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
         Collections.sort(otherFamilies);
         others.addAll(otherFamilies);
         root.add(others);
-
         fireTreeStructureChanged(this, new TreePath(root));
     }
 
@@ -520,7 +509,6 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
             if (nameMap.contains(family.getName())) {
                 coll.add(family.clone());
             }
-
         }
         return coll;
     }
@@ -532,16 +520,13 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
             result &= ((FontFaceNode) node).isEditable();
             node = (MutableTreeNode) node.getParent();
         }
-
         if (result && (node instanceof FontFamilyNode)) {
             result &= ((FontFamilyNode) node).isEditable();
             node = (MutableTreeNode) node.getParent();
         }
-
         if (result && (node instanceof FontCollectionNode)) {
             result &= ((FontCollectionNode) node).isEditable();
         }
-
         return result;
     }
 

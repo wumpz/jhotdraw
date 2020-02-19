@@ -21,7 +21,6 @@ public class PaletteUtilities extends BasicGraphicsUtils {
 
     public static final Object beginGraphics(Graphics2D graphics2d) {
         Object object = graphics2d.getRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING);
-
         /*
         AffineTransform tx = graphics2d.getTransform();
         AffineTransform savedTransform = (AffineTransform) tx.clone();
@@ -32,7 +31,6 @@ public class PaletteUtilities extends BasicGraphicsUtils {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         /*graphics2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
         RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
-
         //if (true) return savedTransform;
         return object;
     }
@@ -43,7 +41,6 @@ public class PaletteUtilities extends BasicGraphicsUtils {
         graphics2d.setTransform((AffineTransform) oldHints);
         return;
         }*/
-
         if (oldHints != null) {
             graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                     oldHints);

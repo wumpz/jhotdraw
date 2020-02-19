@@ -1,9 +1,9 @@
 /*
  * @(#)ColorFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
@@ -28,7 +28,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class ColorToolTipTextFormatter extends ColorFormatter {
 
     private static final long serialVersionUID = 1L;
-
     private ResourceBundleUtil labels;
 
     public ColorToolTipTextFormatter() {
@@ -38,7 +37,6 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
     @Override
     public String valueToString(Object value) throws ParseException {
         String str = null;
-
         if (value == null) {
             if (allowsNullValue) {
                 str = "";
@@ -49,11 +47,8 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
             if (!(value instanceof Color)) {
                 throw new ParseException("Value is not a color " + value, 0);
             }
-
             Color c = (Color) value;
-
             Format f = outputFormat;
-
             if (isAdaptive) {
                 if (c.getColorSpace().equals(HSBColorSpace.getInstance())) {
                     f = Format.HSB_PERCENTAGE;

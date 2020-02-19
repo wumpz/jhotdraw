@@ -6,7 +6,6 @@
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -19,7 +18,6 @@ import org.jhotdraw.gui.plaf.palette.PaletteLabelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
-
 /**
  * A ColorChooser with HSB sliders.
  *
@@ -30,15 +28,12 @@ public class PaletteHSBChooser
         extends AbstractColorChooserPanel
         implements UIResource {
     private static final long serialVersionUID = 1L;
-
     private ColorSliderModel ccModel = new PaletteColorSliderModel(new HSBColorSpace());
     private int updatingChooser;
     private PaletteLookAndFeel labels;
-
     /** Creates new form. */
     public PaletteHSBChooser() {
     }
-
     @Override
     protected void buildChooser() {
         PaletteLookAndFeel plaf=labels=PaletteLookAndFeel.getInstance();
@@ -56,11 +51,9 @@ public class PaletteHSBChooser
         hueField.setUI((TextUI) PaletteTextFieldUI.createUI(hueField));
         saturationField.setUI((TextUI) PaletteTextFieldUI.createUI(saturationField));
         brightnessField.setUI((TextUI) PaletteTextFieldUI.createUI(brightnessField));
-
         ccModel.getBoundedRangeModel(0).setMaximum(359);
         ccModel.getBoundedRangeModel(1).setMaximum(100);
         ccModel.getBoundedRangeModel(2).setMaximum(100);
-        
         Font font = plaf.getFont("ColorChooser.font");
         hueLabel.setFont(font);
         hueSlider.setFont(font);
@@ -74,7 +67,6 @@ public class PaletteHSBChooser
         brightnessSlider.setFont(font);
         brightnessField.setFont(font);
         brightnessFieldLabel.setFont(font);
-        
         int textSliderGap = plaf.getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             Border fieldBorder = new EmptyBorder(0, textSliderGap, 0, 0);
@@ -82,7 +74,6 @@ public class PaletteHSBChooser
             saturationFieldPanel.setBorder(fieldBorder);
             brightnessFieldPanel.setBorder(fieldBorder);
         }
-
         ccModel.configureSlider(0, hueSlider);
         ccModel.configureSlider(1, saturationSlider);
         ccModel.configureSlider(2, brightnessSlider);
@@ -100,9 +91,7 @@ public class PaletteHSBChooser
         new ColorSliderTextFieldHandler(hueField, ccModel, 0);
         new ColorSliderTextFieldHandler(saturationField, ccModel, 1);
         new ColorSliderTextFieldHandler(brightnessField, ccModel, 2);
-
         ccModel.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent evt) {
                 setColorToModel(ccModel.getColor());
@@ -116,35 +105,29 @@ public class PaletteHSBChooser
         saturationLabel.setBorder(bm);
         brightnessLabel.setBorder(bm);
     }
-
     @Override
     public String getDisplayName() {
         return PaletteLookAndFeel.getInstance().getString("ColorChooser.hsbSliders");
     }
-
     @Override
     public Icon getLargeDisplayIcon() {
         return PaletteLookAndFeel.getInstance().getIcon("ColorChooser.colorSlidersIcon");
     }
-
     @Override
     public Icon getSmallDisplayIcon() {
         return getLargeDisplayIcon();
     }
-
     @Override
     public void updateChooser() {
         updatingChooser++;
         ccModel.setColor(getColorFromModel());
         updatingChooser--;
     }
-
     public void setColorToModel(Color color) {
         if (updatingChooser == 0) {
             getColorSelectionModel().setSelectedColor(color);
         }
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -153,7 +136,6 @@ public class PaletteHSBChooser
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         hueLabel = new javax.swing.JLabel();
         hueSlider = new javax.swing.JSlider();
         hueFieldPanel = new javax.swing.JPanel();
@@ -170,16 +152,13 @@ public class PaletteHSBChooser
         brightnessField = new javax.swing.JTextField();
         brightnessFieldLabel = new javax.swing.JLabel();
         springPanel = new javax.swing.JPanel();
-
         setLayout(new java.awt.GridBagLayout());
-
         hueLabel.setText(labels.getString("ColorChooser.hsbHueText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(hueLabel, gridBagConstraints);
-
         hueSlider.setMajorTickSpacing(359);
         hueSlider.setMaximum(359);
         hueSlider.setMinorTickSpacing(180);
@@ -190,9 +169,7 @@ public class PaletteHSBChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(hueSlider, gridBagConstraints);
-
         hueFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         hueField.setColumns(3);
         hueField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         hueField.setText("0");
@@ -205,24 +182,20 @@ public class PaletteHSBChooser
             }
         });
         hueFieldPanel.add(hueField);
-
         hueFieldLabel.setText("°");
         hueFieldPanel.add(hueFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(hueFieldPanel, gridBagConstraints);
-
         saturationLabel.setText(labels.getString("ColorChooser.hsbSaturationText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(saturationLabel, gridBagConstraints);
-
         saturationSlider.setMajorTickSpacing(100);
         saturationSlider.setMinorTickSpacing(50);
         saturationSlider.setPaintTicks(true);
@@ -232,9 +205,7 @@ public class PaletteHSBChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(saturationSlider, gridBagConstraints);
-
         saturationFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         saturationField.setColumns(3);
         saturationField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         saturationField.setText("0");
@@ -247,24 +218,20 @@ public class PaletteHSBChooser
             }
         });
         saturationFieldPanel.add(saturationField);
-
         saturationFieldLabel.setText("%");
         saturationFieldPanel.add(saturationFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(saturationFieldPanel, gridBagConstraints);
-
         brightnessLabel.setText(labels.getString("ColorChooser.hsbBrightnessText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, -4, 0);
         add(brightnessLabel, gridBagConstraints);
-
         brightnessSlider.setMajorTickSpacing(100);
         brightnessSlider.setMinorTickSpacing(50);
         brightnessSlider.setPaintTicks(true);
@@ -274,9 +241,7 @@ public class PaletteHSBChooser
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         add(brightnessSlider, gridBagConstraints);
-
         brightnessFieldPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
-
         brightnessField.setColumns(3);
         brightnessField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         brightnessField.setText("0");
@@ -289,17 +254,14 @@ public class PaletteHSBChooser
             }
         });
         brightnessFieldPanel.add(brightnessField);
-
         brightnessFieldLabel.setText("%");
         brightnessFieldPanel.add(brightnessFieldLabel);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
         add(brightnessFieldPanel, gridBagConstraints);
-
         springPanel.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -307,20 +269,16 @@ public class PaletteHSBChooser
         gridBagConstraints.weighty = 1.0;
         add(springPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void fieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fieldFocusGained
+    private void fieldFocusGained(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_fieldFocusGained
         ((JTextField) evt.getSource()).selectAll();
     }//GEN-LAST:event_fieldFocusGained
-
-    private void brightnessFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_brightnessFieldFocusLost
+    private void brightnessFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_brightnessFieldFocusLost
         brightnessField.setText(Integer.toString(ccModel.getBoundedRangeModel(2).getValue()));
     }//GEN-LAST:event_brightnessFieldFocusLost
-
-    private void saturationFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_saturationFieldFocusLost
+    private void saturationFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_saturationFieldFocusLost
         saturationField.setText(Integer.toString(ccModel.getBoundedRangeModel(1).getValue()));
     }//GEN-LAST:event_saturationFieldFocusLost
-
-    private void hueFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_hueFieldFocusLost
+    private void hueFieldFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_hueFieldFocusLost
         hueField.setText(Integer.toString(ccModel.getBoundedRangeModel(0).getValue()));
     }//GEN-LAST:event_hueFieldFocusLost
     // Variables declaration - do not modify//GEN-BEGIN:variables

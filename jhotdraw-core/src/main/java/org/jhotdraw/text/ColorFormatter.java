@@ -1,9 +1,9 @@
 /*
  * @(#)ColorFormatter.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.text;
@@ -90,7 +90,6 @@ public class ColorFormatter extends DefaultFormatter {
      * Specifies the formats supported by ColorFormatter.
      */
     public enum Format {
-
         RGB_HEX,
         RGB_INTEGER_SHORT,
         RGB_INTEGER,
@@ -162,7 +161,6 @@ public class ColorFormatter extends DefaultFormatter {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator('.');
         numberFormat.setDecimalFormatSymbols(dfs);
-
         // Retrieve last used input format from preferences
         prefs = PreferencesUtil.userNodeForPackage(getClass());
         try {
@@ -173,7 +171,6 @@ public class ColorFormatter extends DefaultFormatter {
         if (isAdaptive && lastUsedInputFormat != null) {
             this.outputFormat = lastUsedInputFormat;
         }
-
         setOverwriteMode(false);
     }
 
@@ -249,7 +246,6 @@ public class ColorFormatter extends DefaultFormatter {
 
     @Override
     public Object stringToValue(String str) throws ParseException {
-
         // Handle null and empty case
         if (str == null || str.trim().length() == 0) {
             if (allowsNullValue) {
@@ -258,7 +254,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw new ParseException("Null value is not allowed.", 0);
             }
         }
-
         // Format RGB_HEX
         Matcher matcher = rgbHexPattern.matcher(str);
         if (matcher.matches()) {
@@ -282,7 +277,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format RGB_INTEGER_SHORT and RGB_INTEGER
         matcher = rgbIntegerShortPattern.matcher(str);
         if (matcher.matches()) {
@@ -309,7 +303,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format RGB_PERCENTAGE
         matcher = rgbPercentagePattern.matcher(str);
         if (matcher.matches()) {
@@ -329,7 +322,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format HSB_PERCENTAGE
         matcher = hsbPercentagePattern.matcher(str);
         if (matcher.matches()) {
@@ -351,7 +343,6 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         // Format GRAY_PERCENTAGE
         matcher = grayPercentagePattern.matcher(str);
         if (matcher.matches()) {
@@ -371,14 +362,12 @@ public class ColorFormatter extends DefaultFormatter {
                 throw pe;
             }
         }
-
         throw new ParseException(str, 0);
     }
 
     @Override
     public String valueToString(Object value) throws ParseException {
         String str = null;
-
         if (value == null) {
             if (allowsNullValue) {
                 str = "";
@@ -389,11 +378,8 @@ public class ColorFormatter extends DefaultFormatter {
             if (!(value instanceof Color)) {
                 throw new ParseException("Value is not a color " + value, 0);
             }
-
             Color c = (Color) value;
-
             Format f = outputFormat;
-
             if (isAdaptive) {
                 switch (c.getColorSpace().getType()) {
                     case ColorSpace.TYPE_HSV:

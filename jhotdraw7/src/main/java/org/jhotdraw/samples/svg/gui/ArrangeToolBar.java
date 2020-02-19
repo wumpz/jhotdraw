@@ -2,22 +2,18 @@
  * @(#)ArrangeToolBar.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-
-
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import javax.swing.border.*;
 import org.jhotdraw.util.*;
-
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.plaf.palette.*;
-
 /**
  * ArrangeToolBar.
  *
@@ -26,15 +22,12 @@ import org.jhotdraw.gui.plaf.palette.*;
  */
 public class ArrangeToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
-
     private SelectionComponentDisplayer displayer;
-
     /** Creates new instance. */
     public ArrangeToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
     }
-
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (displayer != null) {
@@ -47,31 +40,24 @@ public class ArrangeToolBar extends AbstractToolBar {
             displayer.setVisibleIfCreationTool(false);
         }
     }
-
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
             case 1: {
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
                 AbstractSelectedAction d;
-
                 btn = new JButton(d = new BringToFrontAction(editor));
                 disposables.add(d);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -82,8 +68,6 @@ public class ArrangeToolBar extends AbstractToolBar {
                 gbc.gridy = 0;
                 gbc.anchor = GridBagConstraints.EAST;
                 p.add(btn, gbc);
-
-
                 btn = new JButton(d = new SendToBackAction(editor));
                 disposables.add(d);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -102,7 +86,6 @@ public class ArrangeToolBar extends AbstractToolBar {
         }
         return p;
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -110,10 +93,8 @@ public class ArrangeToolBar extends AbstractToolBar {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setOpaque(false);
     }// </editor-fold>//GEN-END:initComponents
-
     @Override
     protected String getID() {
         return "arrange";

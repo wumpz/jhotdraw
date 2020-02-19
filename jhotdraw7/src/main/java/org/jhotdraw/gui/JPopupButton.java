@@ -2,11 +2,10 @@
  * @(#)JPopupButton.java
  *
  * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
-
 import javax.swing.event.PopupMenuEvent;
 import org.jhotdraw.gui.plaf.palette.PaletteMenuItemUI;
 import java.awt.*;
@@ -14,7 +13,6 @@ import java.beans.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.PopupMenuListener;
-
 /**
  * JPopupButton provides a popup menu.
  *
@@ -23,7 +21,6 @@ import javax.swing.event.PopupMenuListener;
  */
 public class JPopupButton extends javax.swing.JButton {
     private static final long serialVersionUID = 1L;
-
     public static final String CLOSE_AUTOMATICALLY_PROPERTY = "closeAutomatically";
     public static final String COLUMN_COUNT_PROPERTY = "columnCount";
     public static final String ITEM_FONT_PROPERTY = "itemFont";
@@ -40,10 +37,8 @@ public class JPopupButton extends javax.swing.JButton {
      * is opened.
      */
     private boolean isCloseAutomatically;
-
     private class Handler implements PropertyChangeListener, PopupMenuListener, AWTEventListener {
         // Property change listener
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
@@ -52,22 +47,17 @@ public class JPopupButton extends javax.swing.JButton {
                 repaint();
             }
         }
-
         // Popup menu listener
         @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            
         }
-
         @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
             popupBecameInvisible = System.currentTimeMillis();
         }
-
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
-
         // AWT event listener
         @Override
         public void eventDispatched(AWTEvent ev) {
@@ -76,7 +66,6 @@ public class JPopupButton extends javax.swing.JButton {
                 return;
             }
             Component src = (Component) ev.getSource();
-
             // Close popup only on mouse press on a component which has
             // the same window ancestor as our popup, but is not in the
             // popup layer of the window.
@@ -97,14 +86,12 @@ public class JPopupButton extends javax.swing.JButton {
         }
     };
     private Handler handler = new Handler();
-
     /** Creates new form JToolBarMenu */
     public JPopupButton() {
         initComponents();
         setFocusable(false);
         itemFont = ITEM_FONT;
     }
-
     /** Sets the font used for popup menu items. */
     public void setItemFont(Font newValue) {
         Font oldValue = itemFont;
@@ -114,7 +101,6 @@ public class JPopupButton extends javax.swing.JButton {
         }
         firePropertyChange(ITEM_FONT_PROPERTY, oldValue, newValue);
     }
-
     /** Updates the font of the popup menu. */
     private void updateItemFont(MenuElement menu) {
         menu.getComponent().setFont(itemFont);
@@ -122,7 +108,6 @@ public class JPopupButton extends javax.swing.JButton {
             updateItemFont(child);
         }
     }
-
     /** Sets an action which is invoked when the user clicks on the
      * specified click area.
      *
@@ -133,20 +118,16 @@ public class JPopupButton extends javax.swing.JButton {
         if (this.action != null) {
             this.action.removePropertyChangeListener(handler);
         }
-
         this.action = action;
         this.actionArea = actionClickArea;
-
         if (action != null) {
             action.addPropertyChangeListener(handler);
         }
     }
-
     /** Returns the number of columns of the popup menu. */
     public int getColumnCount() {
         return columnCount;
     }
-
     /** Sets the number of columns of the popup menu. */
     public void setColumnCount(int newValue, boolean isVertical) {
         int oldValue = columnCount;
@@ -154,7 +135,6 @@ public class JPopupButton extends javax.swing.JButton {
         getPopupMenu().setLayout(new VerticalGridLayout(0, getColumnCount(), isVertical));
         firePropertyChange(COLUMN_COUNT_PROPERTY, oldValue, newValue);
     }
-
     /** Adds an {@code Action} to the popup menu.
      * <p>
      * The {@code Action} is represented by a {@code JMenuItem}.
@@ -167,12 +147,10 @@ public class JPopupButton extends javax.swing.JButton {
         item.setFont(itemFont);
         return item;
     }
-
     /** Adds a sub-menu to the popup menu. */
     public void add(JMenu submenu) {
         updateItemFont(submenu);
     }
-
     /** Adds a {@code JComponent} to the popup menu.
      * <p>
      * If the component can open popup menus of its own, for example
@@ -190,24 +168,20 @@ public class JPopupButton extends javax.swing.JButton {
     public void add(JComponent submenu) {
         getPopupMenu().add(submenu);
     }
-
     /** Adds a menu item to the popup menu. */
     public void add(JMenuItem item) {
         getPopupMenu().add(item);
         item.setFont(itemFont);
     }
-
     /** Adds a separator to the popup menu. */
     public void addSeparator() {
         getPopupMenu().addSeparator();
     }
-
     /** Removes all items from the popup menu. */
     @Override
     public void removeAll() {
         getPopupMenu().removeAll();
     }
-
     public void setPopupMenu(JPopupMenu popupMenu) {
         if (this.popupMenu != null) {
             popupMenu.removePopupMenuListener(handler);
@@ -217,7 +191,6 @@ public class JPopupButton extends javax.swing.JButton {
             popupMenu.addPopupMenuListener(handler);
         }
     }
-
     public JPopupMenu getPopupMenu() {
         if (popupMenu == null) {
             popupMenu = new JPopupMenu();
@@ -227,43 +200,38 @@ public class JPopupButton extends javax.swing.JButton {
         }
         return popupMenu;
     }
-
     public void setPopupAlpha(float newValue) {
         float oldValue = getPopupAlpha();
         getPopupMenu().putClientProperty("Quaqua.PopupMenu.windowAlpha", newValue);
         firePropertyChange("popupAlpha", oldValue, newValue);
     }
-
     public float getPopupAlpha() {
         Float value = (Float) getPopupMenu().getClientProperty("Quaqua.PopupMenu.windowAlpha");
         return (value == null) ? 0.948f : value.floatValue();
     }
-
     /**
      * Gets the popup anchor.
-     * 
+     *
      * @return SwingConstants.SOUTH_WEST or SOUTH_EAST.
      */
     public int getPopupAnchor() {
         return popupAnchor;
     }
-
     /**
      * Sets the popup anchor.
      * <p>
      * <ul>
-     * <li>SOUTH_WEST places the popup below the button and aligns it with its 
+     * <li>SOUTH_WEST places the popup below the button and aligns it with its
      * left bound.</li>
-     * <li>SOUTH_EAST places the popup below the button and aligns it with its 
+     * <li>SOUTH_EAST places the popup below the button and aligns it with its
      * right bound.</li>
-     * </ul> 
-     * 
+     * </ul>
+     *
      * @param newValue SwingConstants.SOUTH_WEST or SOUTH_EAST.
      */
     public void setPopupAnchor(int newValue) {
         popupAnchor = newValue;
     }
-
     protected void togglePopup(java.awt.event.MouseEvent evt) {
         if (popupMenu != null && popupMenu.isShowing() || popupBecameInvisible >= evt.getWhen()) {
             popupMenu.setVisible(false);
@@ -271,14 +239,12 @@ public class JPopupButton extends javax.swing.JButton {
             showPopup(evt);
         }
     }
-
     protected void showPopup(java.awt.event.MouseEvent evt) {
         // Add your handling code here:
         if (popupMenu != null
                 && (actionArea == null
                 || !actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top))) {
             int x, y;
-
             switch (popupAnchor) {
                 case SOUTH_EAST:
                     x = getWidth() - popupMenu.getPreferredSize().width;
@@ -306,12 +272,10 @@ public class JPopupButton extends javax.swing.JButton {
                     }
                 }
             }
-
             popupMenu.show(this, x, y);
             popupMenu.repaint();
         }
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -319,7 +283,6 @@ public class JPopupButton extends javax.swing.JButton {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 handleMousePressed(evt);
@@ -329,8 +292,7 @@ public class JPopupButton extends javax.swing.JButton {
             }
         });
     }// </editor-fold>//GEN-END:initComponents
-
-    private void performAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_performAction
+    private void performAction(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_performAction
         // Add your handling code here:
         if (actionArea != null && actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top)) {
             action.actionPerformed(
@@ -339,13 +301,10 @@ public class JPopupButton extends javax.swing.JButton {
                     null,
                     evt.getWhen(),
                     evt.getModifiers()));
-
         }
     }//GEN-LAST:event_performAction
-
-    private void handleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_handleMousePressed
+    private void handleMousePressed(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_handleMousePressed
         togglePopup(evt);
-
 }//GEN-LAST:event_handleMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

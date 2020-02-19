@@ -2,7 +2,7 @@
  * @(#)ChopRectangleConnector.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.connector;
@@ -72,7 +72,6 @@ public class ChopRectangleConnector extends AbstractConnector {
         } else {
             from = connection.getPoint(connection.getNodeCount() - 2);
         }
-
         return chop(endFigure, from);
     }
 
@@ -97,5 +96,4 @@ public class ChopRectangleConnector extends AbstractConnector {
         }
         return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
     }
-
 }

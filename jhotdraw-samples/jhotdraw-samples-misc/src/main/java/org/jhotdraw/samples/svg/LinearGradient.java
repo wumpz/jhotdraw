@@ -2,18 +2,15 @@
  * @(#)LinearGradient.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * Represents an SVG LinearGradient.
  *
@@ -31,7 +28,6 @@ public class LinearGradient implements Gradient {
     private double[] stopOpacities;
     private AffineTransform transform;
     private int spreadMethod;
-    
     /** Creates a new instance. */
     public LinearGradient() {
     }
@@ -68,7 +64,6 @@ public class LinearGradient implements Gradient {
     public boolean isRelativeToFigureBounds() {
         return isRelativeToFigureBounds;
     }
-    
     public double getX1() {
         return x1;
     }
@@ -93,14 +88,12 @@ public class LinearGradient implements Gradient {
     public AffineTransform getTransform() {
         return transform;
     }
-    
     @Override
     public Paint getPaint(Figure f, double opacity) {
         // No stops, like fill = none
         if (stopColors.length == 0) {
             return new Color(0x0,true);
         }
-        
         // Compute colors and fractions for the paint
         Color[] colors = new Color[stopColors.length];
         float[] fractions = new float[stopColors.length];
@@ -115,8 +108,6 @@ public class LinearGradient implements Gradient {
                     );
             previousFraction = fractions[i];
         }
-        
-        
         // Compute the dimensions and transforms for the paint
         Point2D.Double p1;
         Point2D.Double p2;
@@ -129,7 +120,6 @@ public class LinearGradient implements Gradient {
             t.translate(bounds.x, bounds.y);
             t.scale(bounds.width, bounds.height);
         }
-        
         // Construct a solid color, if only one stop color is given, or if
         // transform is not invertible
         if (stopColors.length == 1 || t.getDeterminant() == 0) {
@@ -143,10 +133,8 @@ public class LinearGradient implements Gradient {
                 LinearGradientPaint.ColorSpaceType.SRGB,
                 t
                 );
-        
         return gp;
     }
-    
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
@@ -164,11 +152,9 @@ public class LinearGradient implements Gradient {
         buf.append(')');
         return buf.toString();
     }
-    
     public void setTransform(AffineTransform tx) {
         transform = tx;
     }
-    
     @Override
     public void transform(AffineTransform tx) {
         if (transform == null) {
@@ -192,7 +178,6 @@ public class LinearGradient implements Gradient {
             throw e;
         }
     }
-    
     @Override
     public void makeRelativeToFigureBounds(Figure f) {
         if (! isRelativeToFigureBounds) {
@@ -204,18 +189,16 @@ public class LinearGradient implements Gradient {
             y2 = (y2 - bounds.y) / bounds.height;
         }
     }
-    
     @Override
     public int hashCode() {
-	long bits = Double.doubleToLongBits(x1);
-	bits += Double.doubleToLongBits(y1) * 31;
-	bits += Double.doubleToLongBits(x2) * 35;
-	bits += Double.doubleToLongBits(y2) * 39;
-	bits += stopColors[0].hashCode() * 43;
-	bits += stopColors[stopColors.length - 1].hashCode() * 47;
-	return (((int) bits) ^ ((int) (bits >> 32)));
+ long bits = Double.doubleToLongBits(x1);
+ bits += Double.doubleToLongBits(y1) * 31;
+ bits += Double.doubleToLongBits(x2) * 35;
+ bits += Double.doubleToLongBits(y2) * 39;
+ bits += stopColors[0].hashCode() * 43;
+ bits += stopColors[stopColors.length - 1].hashCode() * 47;
+ return (((int) bits) ^ ((int) (bits >> 32)));
     }
-    
     @Override
     public boolean equals(Object o) {
         if (o instanceof LinearGradient) {

@@ -2,7 +2,7 @@
  * @(#)TranslationDirection.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -22,7 +22,6 @@ import java.awt.geom.Point2D;
  * @version $Id$
  */
 public enum TranslationDirection {
-
     NORTH,
     WEST,
     SOUTH,
@@ -39,7 +38,6 @@ public enum TranslationDirection {
     public static TranslationDirection getDirection(Point startPoint, Point endPoint) {
         int dx = endPoint.x - startPoint.x;
         int dy = endPoint.y - startPoint.y;
-
         if (dx == 0) {
             if (dy == 0) {
                 return null;
@@ -74,7 +72,6 @@ public enum TranslationDirection {
     public static TranslationDirection getDirection(Point2D.Double startPoint, Point2D.Double endPoint) {
         double dx = endPoint.x - startPoint.x;
         double dy = endPoint.y - startPoint.y;
-
         if (dx == 0) {
             if (dy == 0) {
                 return null;

@@ -1,21 +1,18 @@
 /*
  * @(#)BeansBinding.java
- * 
+ *
  * Copyright (c) 2013 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
 package org.jhotdraw.beans;
-
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-
 /**
  * Can bind a property of a JavaBean to a property of another JavaBean. <p> The
  * binding can be unidirectional or bidirectional.
@@ -25,7 +22,6 @@ import java.lang.reflect.Method;
  * @version 1.0 2013-06-13 Created.
  */
 public class BeansBinding {
-
     private String sourceProperty;
     private String targetProperty;
     private Object source;
@@ -34,9 +30,7 @@ public class BeansBinding {
     private Method targetWriteMethod;
     private Method sourceWriteMethod;
     private Method sourceReadMethod;
-
     private class Handler implements PropertyChangeListener {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getSource() == source) {
@@ -67,7 +61,6 @@ public class BeansBinding {
         }
     }
     private Handler handler = new Handler();
-
     /**
      * Creates a bidirectional binding from a source bean to a target bean.
      * Updates the value of the target bean.
@@ -83,13 +76,11 @@ public class BeansBinding {
         bidirectional = true;
         updateTarget();
     }
-    
     /** Removes the binding. */
     public void unbind() {
         setSource(null, sourceProperty);
         setTarget(null, targetProperty);
     }
-
     private void addPropertyChangeListener(Object bean, PropertyChangeListener listener) {
         try {
             Method m = bean.getClass().getMethod("addPropertyChangeListener", PropertyChangeListener.class);
@@ -100,7 +91,6 @@ public class BeansBinding {
             throw ie;
         }
     }
-
     private void removePropertyChangeListener(Object bean, PropertyChangeListener listener) {
         try {
             Method m = bean.getClass().getMethod("removePropertyChangeListener", PropertyChangeListener.class);
@@ -111,7 +101,6 @@ public class BeansBinding {
             throw ie;
         }
     }
-
     /**
      * Sets the source bean.
      *
@@ -122,7 +111,6 @@ public class BeansBinding {
         if (this.source != null) {
             removePropertyChangeListener(this.source, handler);
         }
-
         this.source = source;
         this.sourceProperty = sourceProperty;
         sourceWriteMethod = null;
@@ -131,7 +119,6 @@ public class BeansBinding {
             addPropertyChangeListener(this.source, handler);
         }
     }
-
     private void setTarget(Object target, String targetProperty) {
         if (this.target != null) {
             removePropertyChangeListener(this.target, handler);
@@ -143,7 +130,6 @@ public class BeansBinding {
             addPropertyChangeListener(this.target, handler);
         }
     }
-
     public void updateTarget() {
         try {
             Object value = getSourceReadMethod().invoke(source);
@@ -154,7 +140,6 @@ public class BeansBinding {
             throw ie;
         }
     }
-
     private Method getTargetWriteMethod() {
         if (targetWriteMethod == null) {
             try {
@@ -168,7 +153,6 @@ public class BeansBinding {
         }
         return targetWriteMethod;
     }
-
     private Method getSourceWriteMethod() {
         if (sourceWriteMethod == null) {
             try {
@@ -182,7 +166,6 @@ public class BeansBinding {
         }
         return sourceWriteMethod;
     }
-
     private Method getSourceReadMethod() {
         if (sourceReadMethod == null) {
             try {

@@ -2,7 +2,7 @@
  * @(#)AttributeToggler.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -70,7 +70,6 @@ public class AttributeToggler<T> extends AbstractAction {
                 return;
             }
         }
-
         // Determine the new value
         Iterator<Figure> i = getView().getSelectedFigures().iterator();
         T toggleValue = value1;
@@ -83,7 +82,6 @@ public class AttributeToggler<T> extends AbstractAction {
             }
         }
         final T newValue = toggleValue;
-
         //--
         final ArrayList<Figure> selectedFigures = new ArrayList<>(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());

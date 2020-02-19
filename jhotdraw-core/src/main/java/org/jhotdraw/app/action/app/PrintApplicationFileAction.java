@@ -2,7 +2,7 @@
  * @(#)OSXOpenFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.app;
@@ -39,7 +39,6 @@ import org.jhotdraw.util.*;
 public class PrintApplicationFileAction extends PrintFileAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "application.printFile";
     private JFileChooser fileChooser;
     private int entries;
@@ -65,7 +64,6 @@ public class PrintApplicationFileAction extends PrintFileAction {
         app.add(p);
 //            app.show(p);
         p.execute(new BackgroundTask() {
-
             @Override
             public void construct() throws IOException {
                 p.read(new File(filename).toURI(), null);

@@ -2,17 +2,15 @@
  * @(#)SplitPathsAction.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.action;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.odg.figures.*;
 import org.jhotdraw.util.*;
 import java.util.*;
-
 /**
  * SplitPathsAction.
  *
@@ -21,18 +19,14 @@ import java.util.*;
  */
 public class SplitAction extends UngroupAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.splitPath";
     private ResourceBundleUtil labels =
             ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-
     /** Creates a new instance. */
     public SplitAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
-
         labels.configureAction(this, ID);
     }
-
     @Override
     protected boolean canUngroup() {
         if (super.canUngroup()) {
@@ -40,7 +34,6 @@ public class SplitAction extends UngroupAction {
         }
         return false;
     }
-
     @SuppressWarnings("unchecked")
     @Override
     public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
@@ -62,7 +55,6 @@ public class SplitAction extends UngroupAction {
         view.addToSelection(paths);
         return figures;
     }
-
     @SuppressWarnings("unchecked")
     @Override
     public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {

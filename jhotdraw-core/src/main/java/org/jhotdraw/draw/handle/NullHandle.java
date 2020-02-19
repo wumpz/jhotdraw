@@ -2,7 +2,7 @@
  * @(#)NullHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
@@ -36,17 +36,14 @@ public class NullHandle extends LocatorHandle {
 
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
-
     }
 
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
-
     }
 
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
-
     }
 
     /**
@@ -71,5 +68,4 @@ public class NullHandle extends LocatorHandle {
                 getEditor().getHandleAttribute(HandleAttributeKeys.NULL_HANDLE_STROKE_COLOR)
         );
     }
-
 }

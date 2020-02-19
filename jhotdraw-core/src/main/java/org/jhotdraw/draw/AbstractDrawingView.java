@@ -88,11 +88,9 @@ import org.jhotdraw.util.ReversedList;
 public abstract class AbstractDrawingView implements DrawingView, EditableComponent {
 
     private static final Logger LOG = Logger.getLogger(AbstractDrawingView.class.getName());
-
     private Drawing drawing;
     private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     private transient final EventListenerList listenerList = new EventListenerList();
-
     /**
      * Holds the selected figures in an ordered put. The ordering reflects the sequence that was
      * used to select the figures.
@@ -103,23 +101,19 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
-
     private Handle activeHandle;
     private final List<Handle> secondaryHandles = new LinkedList<>();
     private boolean handlesAreValid = true;
-
     //TODO replace with AffineTransform to support rotation and more complex transformations from
     //document to view
     //private double scaleFactor = 1;
     //private Point translation = new Point(0, 0);
     private int detailLevel;
-
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
     private boolean paintBackground = true;
     protected BufferedImage backgroundTile;
     private final FigureListener handleInvalidator = new FigureAdapter() {
-
         @Override
         public void figureHandlesChanged(FigureEvent e) {
             invalidateHandles();
@@ -133,7 +127,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public void setPaintBackground(boolean paintBackground) {
         this.paintBackground = paintBackground;
     }
-
     private boolean paintEnabled = true;
 
     @Override
@@ -306,7 +299,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         public void figureRequestRemove(FigureEvent e) {
         }
     }
-
     private final EventHandler eventHandler = new EventHandler();
 
     public AbstractDrawingView() {
@@ -314,7 +306,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     @Override
-
     public Drawing getDrawing() {
         return drawing;
     }
@@ -351,7 +342,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         if (!isPaintEnabled()) {
             return;
         }
-
         Graphics2D g = (Graphics2D) gr;
         setViewRenderingHints(g);
         if (isPaintBackground()) {
@@ -373,9 +363,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         if (!isPaintEnabled()) {
             return;
         }
-
         Graphics2D g = (Graphics2D) gr;
-
         // Set rendering hints for quality
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -407,10 +395,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         // Position of the zero coordinate point on the view
         int x = 0;
         int y = 0;
-
         int w = getWidth();
         int h = getHeight();
-
         if (getDrawing() != null) {
             Double cw = getDrawing().get(CANVAS_WIDTH);
             Double ch = getDrawing().get(CANVAS_HEIGHT);
@@ -420,9 +406,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                 w = lowerRight.x - x;
                 h = lowerRight.y - y;
             }
-
         }
-
         return new Rectangle(x, y, w, h);
     }
 
@@ -436,7 +420,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             Graphics2D g = (Graphics2D) gr.create();
             AffineTransform tx = g.getTransform();
             g.setTransform(tx);
-
             drawing.setFontRenderContext(g.getFontRenderContext());
             drawing.drawCanvas(g);
             g.dispose();
@@ -446,11 +429,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     protected void drawConstrainer(Graphics2D g) {
         if (getConstrainer() != null) {
             Shape clip = g.getClip();
-
             Rectangle r = getCanvasViewBounds();
             g.clipRect(r.x, r.y, r.width, r.height);
             getConstrainer().draw(g, this);
-
             g.setClip(clip);
         }
     }
@@ -467,13 +448,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                     tx.concatenate(getDrawingToViewTransform());
                 }
                 g.setTransform(tx);
-
                 drawing.setFontRenderContext(g.getFontRenderContext());
                 drawing.draw(g);
-
                 g.dispose();
             }
-
         }
     }
 
@@ -483,11 +461,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             for (Handle h : getSelectionHandles()) {
                 h.draw(g);
             }
-
             for (Handle h : getSecondaryHandles()) {
                 h.draw(g);
             }
-
         }
     }
 
@@ -495,7 +471,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         if (editor != null && editor.getActiveView() == this && editor.getTool() != null) {
             editor.getTool().draw(g);
         }
-
     }
 
     @Override
@@ -506,21 +481,16 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             this.drawing.removeFigureListener(eventHandler);
             clearSelection();
         }
-
         this.drawing = newValue;
         if (this.drawing != null) {
             this.drawing.addCompositeFigureListener(eventHandler);
             this.drawing.addFigureListener(eventHandler);
         }
-
         firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
-
         // Revalidate without flickering
         revalidate();
-
         paintEnabled = false;
         javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 repaint();
@@ -534,7 +504,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     protected void repaintDrawingArea(Rectangle2D.Double r) {
         Rectangle vr = drawingToView(r);
         vr.grow(2, 2);
-
         repaint(vr);
     }
 
@@ -558,14 +527,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                     } else {
                         invalidatedArea.add(h.getDrawingArea());
                     }
-
                 }
             }
             fireSelectionChanged(oldSelection, newSelection);
             if (invalidatedArea != null) {
                 repaint(invalidatedArea);
             }
-
         }
     }
 
@@ -593,7 +560,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                         } else {
                             invalidatedArea.add(h.getDrawingArea());
                         }
-
                     }
                 }
             }
@@ -615,7 +581,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         if (selectedFigures.remove(figure)) {
             Set<Figure> newSelection = new HashSet<>(selectedFigures);
             invalidateHandles();
-
             figure.removeFigureListener(handleInvalidator);
             fireSelectionChanged(oldSelection, newSelection);
             repaint();
@@ -633,7 +598,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         } else {
             addToSelection(figure);
         }
-
     }
 
     /**
@@ -643,16 +607,13 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public void selectAll() {
         Set<Figure> oldSelection = new HashSet<>(selectedFigures);
         selectedFigures.clear();
-
         for (Figure figure : drawing.getChildren()) {
             if (figure.isSelectable()) {
                 selectedFigures.add(figure);
             }
         }
-
         Set<Figure> newSelection = new HashSet<>(selectedFigures);
         invalidateHandles();
-
         fireSelectionChanged(oldSelection, newSelection);
         repaint();
     }
@@ -667,7 +628,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             selectedFigures.clear();
             Set<Figure> newSelection = new HashSet<>(selectedFigures);
             invalidateHandles();
-
             fireSelectionChanged(oldSelection, newSelection);
         }
     }
@@ -719,7 +679,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     private void invalidateHandles() {
         if (handlesAreValid) {
             handlesAreValid = false;
-
             Rectangle invalidatedArea = null;
             for (Handle handle : selectionHandles) {
                 handle.removeHandleListener(eventHandler);
@@ -728,10 +687,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                 } else {
                     invalidatedArea.add(handle.getDrawingArea());
                 }
-
                 handle.dispose();
             }
-
             for (Handle handle : secondaryHandles) {
                 handle.removeHandleListener(eventHandler);
                 if (invalidatedArea == null) {
@@ -739,17 +696,14 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                 } else {
                     invalidatedArea.add(handle.getDrawingArea());
                 }
-
                 handle.dispose();
             }
-
             selectionHandles.clear();
             secondaryHandles.clear();
             setActiveHandle(null);
             if (invalidatedArea != null) {
                 repaint(invalidatedArea);
             }
-
         }
     }
 
@@ -774,10 +728,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                         } else {
                             invalidatedArea.add(handle.getDrawingArea());
                         }
-
                     }
                 }
-
                 if (selectionHandles.isEmpty() && detailLevel != 0) {
                     // No handles are available at the desired detail level.
                     // Retry with detail level 0.
@@ -786,13 +738,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                 }
                 break;
             }
-
             if (invalidatedArea != null) {
                 repaint(invalidatedArea);
             }
-
         }
-
     }
 
     /**
@@ -804,12 +753,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public Handle findHandle(
             Point p) {
         validateHandles();
-
         for (Handle handle : new ReversedList<>(getSecondaryHandles())) {
             if (handle.contains(p)) {
                 return handle;
             }
-
         }
         for (Handle handle : new ReversedList<>(getSelectionHandles())) {
             if (handle.contains(p)) {
@@ -827,21 +774,17 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     @Override
     public Collection<Handle> getCompatibleHandles(Handle master) {
         validateHandles();
-
         HashSet<Figure> owners = new HashSet<>();
         LinkedList<Handle> compatibleHandles = new LinkedList<>();
         owners.add(master.getOwner());
         compatibleHandles.add(master);
-
         for (Handle handle : getSelectionHandles()) {
             if (!owners.contains(handle.getOwner()) && handle.isCombinableWith(master)) {
                 owners.add(handle.getOwner());
                 compatibleHandles.add(handle);
             }
-
         }
         return compatibleHandles;
-
     }
 
     /**
@@ -899,9 +842,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                     ((FigureSelectionListener) listeners[i + 1]).selectionChanged(event);
                 }
             }
-
         }
-
         firePropertyChange(EditableComponent.SELECTION_EMPTY_PROPERTY, oldValue.isEmpty(), newValue.isEmpty());
     }
 
@@ -974,7 +915,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         for (Handle handle : selectionHandles) {
             handle.viewTransformChanged();
         }
-
         for (Handle handle : secondaryHandles) {
             handle.viewTransformChanged();
         }
@@ -1000,23 +940,19 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     @Override
     public void delete() {
         final List<Figure> deletedFigures = drawing.sort(getSelectedFigures());
-
         for (Figure f : deletedFigures) {
             if (!f.isRemovable()) {
                 return;
             }
         }
-
         // Get z-indices of deleted figures
         final int[] deletedFigureIndices = new int[deletedFigures.size()];
         for (int i = 0; i
                 < deletedFigureIndices.length; i++) {
             deletedFigureIndices[i] = drawing.indexOf(deletedFigures.get(i));
         }
-
         clearSelection();
         drawing.removeAll(deletedFigures);
-
         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
             private static final long serialVersionUID = 1L;
 
@@ -1030,13 +966,11 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             public void undo() throws CannotUndoException {
                 super.undo();
                 clearSelection();
-
                 Drawing d = drawing;
                 for (int i = 0; i
                         < deletedFigureIndices.length; i++) {
                     d.add(deletedFigureIndices[i], deletedFigures.get(i));
                 }
-
                 addToSelection(deletedFigures);
             }
 
@@ -1055,9 +989,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public void duplicate() {
         Collection<Figure> sorted = drawing.sort(getSelectedFigures());
         HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<>(sorted.size());
-
         clearSelection();
-
         final ArrayList<Figure> duplicates = new ArrayList<>(sorted.size());
         AffineTransform tx = new AffineTransform();
         tx.translate(5, 5);
@@ -1068,13 +1000,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             originalToDuplicateMap.put(f, d);
             drawing.add(d);
         }
-
         for (Figure f : duplicates) {
             f.remap(originalToDuplicateMap, false);
         }
-
         addToSelection(duplicates);
-
         drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
             private static final long serialVersionUID = 1L;
 
@@ -1102,7 +1031,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     public void removeNotify(DrawingEditor editor) {
         this.editor = null;
         repaint();
-
     }
 
     @Override
@@ -1147,7 +1075,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
                 = newValue;
         firePropertyChange(CONSTRAINER_VISIBLE_PROPERTY, oldValue, newValue);
         repaint();
-
     }
 
     @Override
@@ -1171,7 +1098,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
             g.fillRect(8, 8, 8, 8);
             g.dispose();
         }
-
         return new TexturePaint(backgroundTile,
                 new Rectangle(x, y, backgroundTile.getWidth(), backgroundTile.getHeight()));
     }
@@ -1187,12 +1113,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
         if (oldValue != null) {
             repaint(oldValue.getDrawingArea());
         }
-
         activeHandle = newValue;
         if (newValue != null) {
             repaint(newValue.getDrawingArea());
         }
-
         firePropertyChange(ACTIVE_HANDLE_PROPERTY, oldValue, newValue);
     }
 

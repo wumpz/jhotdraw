@@ -2,7 +2,7 @@
  * @(#)BoundedRangeModel.java
  *
  * Copyright (c) 1999-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 //package ch.randelshofer.io;
@@ -29,14 +29,12 @@ public class BoundedRangeInputStream
     private int nread = 0;
     private int size = 0;
     private boolean valueIsAdjusting;
-
     /**
      * Only one ChangeEvent is needed per model instance since the
      * event's only (read-only) state is the source property. The source
      * of events generated here is always "this".
      */
     protected transient ChangeEvent changeEvent = null;
-
     /**
      * The listeners waiting for model changes.
      */

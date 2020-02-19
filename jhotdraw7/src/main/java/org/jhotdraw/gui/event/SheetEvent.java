@@ -2,18 +2,14 @@
  * @(#)SheetEvent.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.event;
-
-
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.JSheet;
-
 /**
  * SheetEvent.
  *
@@ -26,7 +22,6 @@ public class SheetEvent extends EventObject {
     private int option;
     private Object value;
     private Object inputValue;
-    
     /**
      * Creates a new instance.
      */
@@ -61,7 +56,6 @@ public class SheetEvent extends EventObject {
         this.value = value;
         this.inputValue = inputValue;
     }
-    
     /**
      * Returns the pane on the sheet. This is either a JFileChooser, a URIChooser or a
      * JOptionPane.
@@ -98,11 +92,11 @@ public class SheetEvent extends EventObject {
      */
     public Object getValue() {
         return value;
-    }    
+    }
     /**
      * Returns the input value that the JOptionPane returned, if it wants input.
      */
     public Object getInputValue() {
         return inputValue;
-    }    
+    }
 }

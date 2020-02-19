@@ -1,13 +1,12 @@
 /*
  * @(#)CIELCHabColorSpace.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
 import java.awt.color.ColorSpace;
 import static java.lang.Math.*;
 /**
@@ -28,7 +27,6 @@ import static java.lang.Math.*;
  */
 public class CIELCHabColorSpace extends AbstractNamedColorSpace {
     private static final long serialVersionUID = 1L;
-
     /** The XYZ coordinates of the CIE Standard Illuminant D65 reference white.*/
     private static final double[] D65 = {0.9505d, 1d, 1.0890d};
     private double Xr;
@@ -41,30 +39,24 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
     private static final ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
     /** By default, clamps non-displayable RGB values. */
     private boolean isClampRGB = true;
-
     public CIELCHabColorSpace() {
         super(ColorSpace.TYPE_Lab, 3);
-
         Xr = D65[0];
         Yr = D65[1];
         Zr = D65[2];
     }
-
     @Override
     public float[] toRGB(float[] colorvalue, float[] rgb) {
-        float[] ciexyz =rgb;//reuse array
+        float[] ciexyz =rgb; //reuse array
         toCIEXYZ(colorvalue,ciexyz);
-
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
         double X = ciexyz[0];
         double Y = ciexyz[1];
         double Z = ciexyz[2];
-
         double Rs = 3.2410 * X + -1.5374 * Y + -0.4986 * Z;
         double Gs = -0.9692 * X + 1.8760 * Y + -0.0416 * Z;
         double Bs = 0.0556 * X + -0.2040 * Y + 1.0570 * Z;
-
         if (Rs <= 0.00304) {
             Rs = 12.92 * Rs;
         } else {
@@ -80,25 +72,21 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         } else {
             Bs = 1.055 * Math.pow(Bs, 1d / 2.4) - 0.055;
         }
-
         if (isClampRGB) {
             Rs = Math.min(1, Math.max(0, Rs));
             Gs = Math.min(1, Math.max(0, Gs));
             Bs = Math.min(1, Math.max(0, Bs));
         }
-
         rgb[0]=(float)Rs;
         rgb[1]=(float)Gs;
         rgb[2]=(float)Bs;
         return rgb;
         //       return sRGB.fromCIEXYZ(ciexyz);
     }
-
     @Override
     public float[] fromRGB(float[] rgb, float[] colorvalue) {
         return fromCIEXYZ(ColorUtil.RGBtoCIEXYZ(rgb,colorvalue),colorvalue);
     }
-
     /**
      * Lab to XYZ.
      * <pre>
@@ -140,15 +128,10 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double H = colorvalue[2]/180*PI;
         double a = C * Math.cos(H);
         double b = C * Math.sin(H);
-
         double fy = (L + 16d) / 116d;
-
         double fx = a / 500d + fy;
-
         double fz = fy - b / 200d;
-
         double xr, yr, zr;
-
         double fxp3 = fx * fx * fx;
         if (fxp3 > eps) {
             xr = fxp3;
@@ -161,22 +144,18 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         } else {
             yr = L / k;
         }
-
         double fzp3 = fz * fz * fz;
         if (fzp3 > eps) {
             zr = fzp3;
         } else {
             zr = (116d * fz - 16f) / k;
         }
-
         double X = xr * Xr;
         double Y = yr * Yr;
         double Z = zr * Zr;
-
         xyz[0]=(float)X;xyz[1]=(float)Y;xyz[2]=(float)Z;
         return xyz;
     }
-
     /**
      * XYZ to Lab.
      * <pre>
@@ -214,11 +193,9 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double X = xyz[0];
         double Y = xyz[1];
         double Z = xyz[2];
-
         double xr = X / Xr;
         double yr = Y / Yr;
         double zr = Z / Zr;
-
         double fx, fy, fz;
         if (xr > eps) {
             fx = Math.pow(xr, 1d / 3d);
@@ -235,25 +212,20 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         } else {
             fz = (k * zr + 16) / 116;
         }
-
         double L = 116d * fy - 16;
         double a = 500d * (fx - fy);
         double b = 200d * (fy - fz);
-
         double C = Math.sqrt(a*a+b*b);
         double H = Math.atan2(b, a);
-
         colorvalue[0]=(float)L;
         colorvalue[1]=(float)C;
         colorvalue[2]=(float)(H*180/PI);
 return colorvalue;
     }
-
     @Override
     public String getName() {
         return "CIE 1976 L*CHa*b*";
     }
-
     @Override
     public float getMinValue(int component) {
         switch (component) {
@@ -266,7 +238,6 @@ return colorvalue;
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }
-
     @Override
     public float getMaxValue(int component) {
         switch (component) {
@@ -279,7 +250,6 @@ return colorvalue;
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }
-
     @Override
     public String getName(int component) {
         switch (component) {
@@ -292,29 +262,22 @@ return colorvalue;
         }
         throw new IllegalArgumentException("Illegal component:" + component);
     }
-
     public void setClampRGBValues(boolean b) {
         isClampRGB = b;
     }
-
     public boolean isClampRGBValues() {
         return isClampRGB;
     }
-
     public static void main(String[] arg) {
         CIELCHabColorSpace cs = new CIELCHabColorSpace();
         float[] lchab = cs.fromRGB(new float[]{1, 1, 1});
         System.out.println("rgb->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
-
         float[] xyz = cs.toCIEXYZ(new float[]{0.75f, 0.25f, 0.1f});
         System.out.println("    lab->xyz:" + xyz[0] + "," + xyz[1] + "," + xyz[2]);
         lchab = cs.fromCIEXYZ(xyz);
         System.out.println("R xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
-
         lchab = cs.fromCIEXYZ(new float[]{1, 1, 1});
         System.out.println("xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
-
-
         lchab = cs.fromCIEXYZ(new float[]{0.5f, 1, 1});
         System.out.println("xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
     }

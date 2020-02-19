@@ -2,11 +2,10 @@
  * @(#)ODGRectRadiusHandle.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
-
 import org.jhotdraw.draw.handle.AbstractHandle;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
@@ -16,7 +15,6 @@ import org.jhotdraw.undo.*;
 import java.awt.*;
 import java.awt.geom.*;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
-
 /**
  * A Handle to manipulate the radius of a round lead rectangle.
  *
@@ -24,17 +22,14 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGRectRadiusHandle extends AbstractHandle {
-
     private static final boolean DEBUG = false;
     private static final int OFFSET = 6;
     private Dimension2DDouble originalArc2D;
     CompositeEdit edit;
-
     /** Creates a new instance. */
     public ODGRectRadiusHandle(Figure owner) {
         super(owner);
     }
-
     /**
      * Draws this handle.
      */
@@ -42,14 +37,12 @@ public class ODGRectRadiusHandle extends AbstractHandle {
     public void draw(Graphics2D g) {
         drawDiamond(g, Color.yellow, Color.black);
     }
-
     @Override
     protected Rectangle basicGetBounds() {
         Rectangle r = new Rectangle(locate());
         r.grow(getHandlesize() / 2 + 1, getHandlesize() / 2 + 1);
         return r;
     }
-
     private Point locate() {
         ODGRectFigure owner = (ODGRectFigure) getOwner();
         Rectangle2D.Double r = owner.getBounds();
@@ -61,13 +54,11 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         }
         return view.drawingToView(p);
     }
-
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         ODGRectFigure odgRect = (ODGRectFigure) getOwner();
         originalArc2D = odgRect.getArc();
     }
-
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         ODGRectFigure odgRect = (ODGRectFigure) getOwner();
@@ -86,7 +77,6 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         odgRect.setArc(p.x - r.x, p.y - r.y);
         odgRect.changed();
     }
-
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final ODGRectFigure odgRect = (ODGRectFigure) getOwner();
@@ -94,13 +84,11 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         final Dimension2DDouble newValue = odgRect.getArc();
         view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
             @Override
             public String getPresentationName() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
                 return labels.getString("arc");
             }
-
             @Override
             public void undo() throws CannotUndoException {
                 super.undo();
@@ -108,7 +96,6 @@ public class ODGRectRadiusHandle extends AbstractHandle {
                 odgRect.setArc(oldValue);
                 odgRect.changed();
             }
-
             @Override
             public void redo() throws CannotRedoException {
                 super.redo();
@@ -118,7 +105,6 @@ public class ODGRectRadiusHandle extends AbstractHandle {
             }
         });
     }
-
     @Override
     public String getToolTipText(Point p) {
         return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").

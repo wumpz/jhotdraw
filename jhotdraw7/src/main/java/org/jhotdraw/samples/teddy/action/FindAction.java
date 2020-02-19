@@ -5,10 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.teddy.action;
-
-
 import org.jhotdraw.app.*;
 import org.jhotdraw.samples.teddy.*;
 import java.awt.event.*;
@@ -23,14 +20,12 @@ public class FindAction extends AbstractFindAction {
     private static final long serialVersionUID = 1L;
     public static final String ID = AbstractFindAction.ID;
     private FindDialog findDialog;
-    
     /**
      * Creates a new instance.
      */
     public FindAction(Application app, View v) {
         super(app,v);
     }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (findDialog == null) {

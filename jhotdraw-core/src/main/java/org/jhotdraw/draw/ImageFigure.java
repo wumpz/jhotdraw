@@ -2,7 +2,7 @@
  * @(#)ImageFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -33,7 +33,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         implements ImageHolderFigure {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * This rectangle describes the bounds into which we draw the image.
      */
@@ -41,12 +40,10 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * The image data. This can be null, if the image was created from a BufferedImage.
      */
-
     private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the imageData.
      */
-
     private transient BufferedImage bufferedImage;
 
     /**
@@ -68,11 +65,9 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
             drawFill(g);
         }
         drawImage(g);
-
         if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) > 0d) {
             g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
             g.setColor(get(STROKE_COLOR));
-
             drawStroke(g);
         }
         if (get(TEXT_COLOR) != null) {
@@ -115,7 +110,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
         double grow = AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
         Geom.grow(r, grow, grow);
-
         g.draw(r);
     }
 
@@ -166,8 +160,8 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
                 (Point2D.Double) tx.transform(anchor, anchor),
                 (Point2D.Double) tx.transform(lead, lead));
     }
-    // ATTRIBUTES
 
+    // ATTRIBUTES
     @Override
     public void restoreTransformTo(Object geometry) {
         rectangle.setRect((Rectangle2D.Double) geometry);
@@ -184,8 +178,8 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         LinkedList<Action> actions = new LinkedList<>();
         return actions;
     }
-    // CONNECTING
 
+    // CONNECTING
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
@@ -274,7 +268,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * data.
      */
     @Override
-
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             try {
@@ -298,7 +291,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * data array instead of cloning it. Do not modify this array.
      */
     @Override
-
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

@@ -2,13 +2,10 @@
  * @(#)PathTool.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg;
-
-
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.samples.svg.figures.*;
 import org.jhotdraw.draw.*;
@@ -29,7 +26,6 @@ public class PathTool extends BezierTool {
      * The path prototype for new figures.
      */
     private SVGPathFigure pathPrototype;
-    
     /** Creates a new instance. */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype) {
         this(pathPrototype, bezierPrototype, null);

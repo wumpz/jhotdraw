@@ -2,7 +2,7 @@
  * @(#)AbstractAttributedFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
@@ -29,7 +29,6 @@ import org.jhotdraw.xml.DOMStorable;
 public abstract class AbstractAttributedFigure extends AbstractFigure implements DOMStorable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Holds the attributes of the figure.
      */
@@ -117,7 +116,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
         if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
             g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
             g.setColor(get(STROKE_COLOR));
-
             drawStroke(g);
         }
         if (get(TEXT_COLOR) != null) {
@@ -196,7 +194,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
 
     protected void writeAttributes(DOMOutput out) throws IOException {
         Figure prototype = (Figure) out.getPrototype();
-
         boolean isElementOpen = false;
         for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
             AttributeKey<?> key = entry.getKey();
@@ -246,7 +243,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     }
 
     protected AttributeKey<?> getAttributeKey(String name) {
-        return AttributeKeys.supportedAttributeMap.get(name);
+        return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
     }
 
     /**

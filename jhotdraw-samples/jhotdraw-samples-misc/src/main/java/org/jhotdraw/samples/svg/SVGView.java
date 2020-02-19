@@ -2,14 +2,12 @@
  * @(#)SVGView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  */
 package org.jhotdraw.samples.svg;
-
 import org.jhotdraw.undo.UndoRedoManager;
-
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.io.InputFormat;
@@ -28,7 +26,6 @@ import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
-
 /**
  * Provides a view on a SVG drawing.
  * <p>
@@ -39,7 +36,6 @@ import org.jhotdraw.samples.svg.io.SVGOutputFormat;
  */
 public class SVGView extends AbstractView {
     private static final long serialVersionUID = 1L;
-
     public static final String DRAWING_PROPERTY = "drawing";
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
@@ -49,13 +45,11 @@ public class SVGView extends AbstractView {
      */
     private UndoRedoManager undo;
     private PropertyChangeListener propertyHandler;
-
     /**
      * Creates a new View.
      */
     public SVGView() {
         initComponents();
-
         undo = svgPanel.getUndoRedoManager();
         Drawing oldDrawing = svgPanel.getDrawing();
         svgPanel.setDrawing(createDrawing());
@@ -63,51 +57,41 @@ public class SVGView extends AbstractView {
         svgPanel.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(propertyHandler = new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
     }
-
     @Override
     public void dispose() {
         clear();
-
         undo.removePropertyChangeListener(propertyHandler);
         propertyHandler = null;
         svgPanel.dispose();
         super.dispose();
     }
-
     /**
      * Creates a new Drawing for this View.
      */
     protected Drawing createDrawing() {
         return svgPanel.createDrawing();
     }
-
     /**
      * Creates a Pageable object for printing the View.
      */
     public Pageable createPageable() {
         return new DrawingPageable(svgPanel.getDrawing());
-
     }
-
     public DrawingEditor getEditor() {
         return svgPanel.getEditor();
     }
-
     public void setEditor(DrawingEditor newValue) {
         svgPanel.setEditor(newValue);
     }
-
     public UndoRedoManager getUndoManager() {
         return undo;
     }
-
     /**
      * Initializes view specific actions.
      */
@@ -115,13 +99,11 @@ public class SVGView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
-
     @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
-
     /**
      * Writes the view to the specified uri.
      */
@@ -129,7 +111,6 @@ public class SVGView extends AbstractView {
     public void write(URI uri, URIChooser chooser) throws IOException {
         new SVGOutputFormat().write(new File(uri), svgPanel.getDrawing());
     }
-
     /**
      * Reads the view from the specified uri.
      */
@@ -138,20 +119,16 @@ public class SVGView extends AbstractView {
     public void read(final URI uri, URIChooser chooser) throws IOException {
         try {
             JFileURIChooser fc = (JFileURIChooser) chooser;
-
             final Drawing drawing = createDrawing();
-
             // We start with the selected uri format in the uri chooser,
             // and then try out all formats we can import.
             // We need to try out all formats, because the user may have
             // chosen to load a uri without having used the uri chooser.
-
             HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap = null;
             if (fc != null) {
                 fileFilterInputFormatMap = (HashMap<javax.swing.filechooser.FileFilter, InputFormat>) fc.getClientProperty(SVGApplicationModel.INPUT_FORMAT_MAP_CLIENT_PROPERTY);
             }
             //private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
-
             InputFormat selectedFormat = (fc == null) ? null : fileFilterInputFormatMap.get(fc.getFileFilter());
             boolean success = false;
             if (selectedFormat != null) {
@@ -181,7 +158,6 @@ public class SVGView extends AbstractView {
                 throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(uri)));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
@@ -200,17 +176,14 @@ public class SVGView extends AbstractView {
             throw error;
         }
     }
-
     public Drawing getDrawing() {
         return svgPanel.getDrawing();
     }
-
     @Override
     public void setEnabled(boolean newValue) {
         svgPanel.setEnabled(newValue);
         super.setEnabled(newValue);
     }
-
     /**
      * Clears the view.
      */
@@ -219,7 +192,6 @@ public class SVGView extends AbstractView {
         final Drawing newDrawing = createDrawing();
         try {
             Runnable r = new Runnable() {
-
                 @Override
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
@@ -244,13 +216,11 @@ public class SVGView extends AbstractView {
             ex.printStackTrace();
         }
     }
-
     @Override
     public boolean canSaveTo(URI file) {
         return file.getPath().endsWith(".svg")
                 || file.getPath().endsWith(".svgz");
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -258,9 +228,7 @@ public class SVGView extends AbstractView {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         svgPanel = new org.jhotdraw.samples.svg.SVGDrawingPanel();
-
         setLayout(new java.awt.BorderLayout());
         add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

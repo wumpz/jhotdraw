@@ -2,18 +2,14 @@
  * @(#)ToolListener.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
-
 import java.util.*;
-
 /**
  * Interface implemented by observers of {@link org.jhotdraw.draw.tool.Tool}s.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
@@ -31,7 +27,7 @@ import java.util.*;
  */
 public interface ToolListener extends EventListener {
     /**
-     * Informs the listener that a tool has starteds interacting with a 
+     * Informs the listener that a tool has starteds interacting with a
      * specific drawing view.
      */
     void toolStarted(ToolEvent event);
@@ -49,5 +45,4 @@ public interface ToolListener extends EventListener {
      * of the canvas.
      */
     public void boundsInvalidated(ToolEvent e);
-    
 }

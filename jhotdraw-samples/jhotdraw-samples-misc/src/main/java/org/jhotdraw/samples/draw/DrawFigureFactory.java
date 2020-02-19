@@ -2,12 +2,10 @@
  * @(#)DrawFigureFactory.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.draw;
-
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.connector.ChopTriangleConnector;
@@ -42,7 +40,6 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { TextAreaFigure.class, "ta" },
         { ImageFigure.class, "image" },
         { GroupFigure.class, "g" },
-        
         { ArrowTip.class, "arrowTip" },
         { ChopRectangleConnector.class, "rConnector" },
         { ChopEllipseConnector.class, "ellipseConnector" },
@@ -50,7 +47,6 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { ChopTriangleConnector.class, "triangleConnector" },
         { ChopDiamondConnector.class, "diamondConnector" },
         { ChopBezierConnector.class, "bezierConnector" },
-        
         { ElbowLiner.class, "elbowLiner" },
         { CurvedLiner.class, "curvedLiner" },
     };
@@ -60,7 +56,6 @@ public class DrawFigureFactory extends DefaultDOMFactory {
         { AttributeKeys.Underfill.class, "underfill" },
         { AttributeKeys.Orientation.class, "orientation" },
     };
-    
     /** Creates a new instance. */
     public DrawFigureFactory() {
         for (Object[] o : classTagArray) {

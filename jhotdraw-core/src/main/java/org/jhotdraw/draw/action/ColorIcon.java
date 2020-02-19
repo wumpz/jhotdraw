@@ -2,7 +2,7 @@
  * @(#)ColorIcon.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -95,7 +95,6 @@ public class ColorIcon implements javax.swing.Icon {
             g.fillRect(x + 1, y + 1, width - 2, height - 2);
         }
         g.setColor(new Color(0x666666));
-
         // Draw the rectangle using drawLine to work around a drawing bug in
         // Apples MRJ for Java 1.5
         // g.drawRect(x, y, getIconWidth() - 1, getIconHeight() - 1);
@@ -103,6 +102,5 @@ public class ColorIcon implements javax.swing.Icon {
         g.drawLine(x + width - 1, y, x + width - 1, y + width - 1);
         g.drawLine(x + width - 1, y + height - 1, x, y + height - 1);
         g.drawLine(x, y + height - 1, x, y);
-
     }
 }

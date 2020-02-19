@@ -2,14 +2,11 @@
  * @(#)VerticalGridLayout.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui;
-
 import java.awt.*;
-
 /**
  * VerticalGridLayout.
  * <p>
@@ -20,13 +17,11 @@ import java.awt.*;
  */
 public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
         private static final long serialVersionUID = 1L;
-
     int hgap;
     int vgap;
     int rows;
     int cols;
     boolean isVertical = true;
-    
     /**
      * Creates a grid layout with a default of one column per component,
      * in a single row.
@@ -34,7 +29,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public VerticalGridLayout() {
         this(1, 0, 0, 0);
     }
-    
     /**
      * Creates a grid layout with the specified number of rows and
      * columns. All components in the layout are given equal size.
@@ -53,7 +47,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public VerticalGridLayout(int rows, int cols, boolean isVertical) {
         this(rows, cols, 0, 0, isVertical);
     }
-    
     public VerticalGridLayout(int rows, int cols, int hgap, int vgap) {
         this(rows, cols, hgap, vgap, true);
     }
@@ -78,8 +71,8 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
      * @param     hgap   the horizontal gap
      * @param     vgap   the vertical gap
      * @exception   IllegalArgumentException  if the value of both
-     *			<code>rows</code> and <code>cols</code> is
-     *			set to zero
+     *   <code>rows</code> and <code>cols</code> is
+     *   set to zero
      */
     public VerticalGridLayout(int rows, int cols, int hgap, int vgap, boolean isVertical) {
         if ((rows == 0) && (cols == 0)) {
@@ -91,7 +84,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
         this.vgap = vgap;
         this.isVertical = isVertical;
     }
-    
     /**
      * Gets the number of rows in this layout.
      * @return    the number of rows in this layout
@@ -100,7 +92,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public int getRows() {
         return rows;
     }
-    
     /**
      * Sets the number of rows in this layout to the specified value.
      * @param        rows   the number of rows in this layout
@@ -114,14 +105,12 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
         }
         this.rows = rows;
     }
-    
     public void setVertical(boolean b) {
         isVertical = b;
     }
     public boolean isVertical() {
         return isVertical;
     }
-    
     /**
      * Gets the number of columns in this layout.
      * @return     the number of columns in this layout
@@ -130,7 +119,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public int getColumns() {
         return cols;
     }
-    
     /**
      * Sets the number of columns in this layout to the specified value.
      * Setting the number of columns has no affect on the layout
@@ -149,7 +137,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
         }
         this.cols = cols;
     }
-    
     /**
      * Gets the horizontal gap between components.
      * @return       the horizontal gap between components
@@ -158,7 +145,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public int getHgap() {
         return hgap;
     }
-    
     /**
      * Sets the horizontal gap between components to the specified value.
      * @param        hgap   the horizontal gap between components
@@ -167,7 +153,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public void setHgap(int hgap) {
         this.hgap = hgap;
     }
-    
     /**
      * Gets the vertical gap between components.
      * @return       the vertical gap between components
@@ -176,7 +161,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public int getVgap() {
         return vgap;
     }
-    
     /**
      * Sets the vertical gap between components to the specified value.
      * @param         vgap  the vertical gap between components
@@ -185,7 +169,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     public void setVgap(int vgap) {
         this.vgap = vgap;
     }
-    
     /**
      * Adds the specified component with the specified name to the layout.
      * @param name the name of the component
@@ -194,7 +177,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     @Override
     public void addLayoutComponent(String name, Component comp) {
     }
-    
     /**
      * Removes the specified component from the layout.
      * @param comp the component to be removed
@@ -202,7 +184,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
     @Override
     public void removeLayoutComponent(Component comp) {
     }
-    
     /**
      * Determines the preferred size of the container argument using
      * this grid layout.
@@ -228,7 +209,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int ncomponents = parent.getComponentCount();
             int nrows = rows;
             int ncols = cols;
-            
             if (nrows > 0) {
                 ncols = (ncomponents + nrows - 1) / nrows;
             } else {
@@ -250,7 +230,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
         }
     }
-    
     /**
      * Determines the minimum size of the container argument using this
      * grid layout.
@@ -276,7 +255,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int ncomponents = parent.getComponentCount();
             int nrows = rows;
             int ncols = cols;
-            
             if (nrows > 0) {
                 ncols = (ncomponents + nrows - 1) / nrows;
             } else {
@@ -298,7 +276,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
         }
     }
-    
     /**
      * Lays out the specified container using this layout.
      * <p>
@@ -325,7 +302,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int nrows = rows;
             int ncols = cols;
             boolean ltr = parent.getComponentOrientation().isLeftToRight();
-            
             if (ncomponents == 0) {
                 return;
             }
@@ -338,7 +314,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int h = parent.getHeight() - (insets.top + insets.bottom);
             w = (w - (ncols - 1) * hgap) / ncols;
             h = (h - (nrows - 1) * vgap) / nrows;
-            
             int i;
             if (ltr) {
                 for (int c = 0, x = insets.left ; c < ncols ; c++, x += w + hgap) {
@@ -369,7 +344,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             }
         }
     }
-    
     /**
      * Returns the string representation of this grid layout's values.
      * @return     a string representation of this grid layout

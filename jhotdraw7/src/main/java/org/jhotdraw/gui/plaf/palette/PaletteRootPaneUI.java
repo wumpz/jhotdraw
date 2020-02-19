@@ -2,17 +2,15 @@
  * @(#)PaletteRootPaneUI.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
-
 import java.awt.*;
 import java.io.Serializable;
 import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.BasicRootPaneUI;
-
 /**
  * PaletteRootPaneUI.
  *
@@ -20,22 +18,17 @@ import javax.swing.plaf.basic.BasicRootPaneUI;
  * @version $Id$
  */
 public class PaletteRootPaneUI extends BasicRootPaneUI {
-
     private static RootPaneUI rootPaneUI = new PaletteRootPaneUI();
-
     public static ComponentUI createUI(JComponent c) {
         return rootPaneUI;
     }
-
     @Override
     public void installUI(JComponent c) {
         super.installUI(c);
         c.setLayout(new PaletteRootLayout((JRootPane) c));
-
     }
-
-    /** 
-     * A custom layout manager that is responsible for the layout of 
+    /**
+     * A custom layout manager that is responsible for the layout of
      * layeredPane, glassPane, and menuBar.
      * <p>
      * <strong>Warning:</strong>
@@ -49,13 +42,10 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
      */
     protected static class PaletteRootLayout implements LayoutManager2, Serializable {
     private static final long serialVersionUID = 1L;
-
         private JRootPane rootPane;
-
         public PaletteRootLayout(JRootPane rootPane) {
             this.rootPane = rootPane;
         }
-
         /**
          * Returns the amount of space the layout would like to have.
          *
@@ -82,7 +72,6 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             return new Dimension(Math.max(rd.width, mbd.width) + i.left + i.right,
                     rd.height + mbd.height + i.top + i.bottom);
         }
-
         /**
          * Returns the minimum amount of space the layout needs.
          *
@@ -110,7 +99,6 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             return new Dimension(Math.max(rd.width, mbd.width) + i.left + i.right,
                     rd.height + mbd.height + i.top + i.bottom);
         }
-
         /**
          * Returns the maximum amount of space the layout can use.
          *
@@ -138,7 +126,6 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             return new Dimension(Math.min(rd.width, mbd.width) + i.left + i.right,
                     rd.height + mbd.height + i.top + i.bottom);
         }
-
         /**
          * Instructs the layout manager to perform the layout for the specified
          * container.
@@ -153,11 +140,9 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             Component glassPane = rootPane.getGlassPane();
             Container contentPane = rootPane.getContentPane();
             JMenuBar menuBar = rootPane.getJMenuBar();
-
             int contentY = 0;
             int w = b.width - i.right - i.left;
             int h = b.height - i.top - i.bottom;
-
             if (layeredPane != null) {
                 layeredPane.setBounds(i.left, i.top, w, h);
             }
@@ -175,24 +160,18 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
                 contentPane.setBounds(0, contentY, w, h - contentY);
             }
         }
-
         public void addLayoutComponent(String name, Component comp) {
         }
-
         public void removeLayoutComponent(Component comp) {
         }
-
         public void addLayoutComponent(Component comp, Object constraints) {
         }
-
         public float getLayoutAlignmentX(Container target) {
             return 0.0f;
         }
-
         public float getLayoutAlignmentY(Container target) {
             return 0.0f;
         }
-
         public void invalidateLayout(Container target) {
         }
     }

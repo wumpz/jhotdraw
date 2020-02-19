@@ -2,11 +2,10 @@
  * @(#)OpenFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
-
 import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
 import java.awt.*;
@@ -21,7 +20,6 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-
 /**
  * Presents an {@code URIChooser} and loads the selected URI into an
  * empty view. If no empty view is available, a new view is created.
@@ -58,21 +56,17 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  */
 public class OpenFileAction extends AbstractApplicationAction {
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.open";
-
     /** Creates a new instance. */
     public OpenFileAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-
     protected URIChooser getChooser(View view) {
         // Note: We pass null here, because we want the application-wide chooser
         return getApplication().getOpenChooser(null);
     }
-
     @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
@@ -85,7 +79,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                     || !emptyView.isEnabled()) {
                 emptyView = null;
             }
-
             final View view;
             boolean disposeView;
             if (emptyView == null) {
@@ -100,9 +93,7 @@ public class OpenFileAction extends AbstractApplicationAction {
             chooser.setDialogType(JFileChooser.OPEN_DIALOG);
             if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
                 app.show(view);
-
                 URI uri = chooser.getSelectedURI();
-
                 // Prevent same URI from being opened more than once
                 if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
                     for (View v : getApplication().getViews()) {
@@ -116,7 +107,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                         }
                     }
                 }
-
                 openViewFromURI(view, uri, chooser);
             } else {
                 if (disposeView) {
@@ -126,12 +116,10 @@ public class OpenFileAction extends AbstractApplicationAction {
             }
         }
     }
-
     protected void openViewFromURI(final View view, final URI uri, final URIChooser chooser) {
         final Application app = getApplication();
         app.setEnabled(true);
         view.setEnabled(false);
-
         // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.
         int multipleOpenId = 1;
@@ -143,10 +131,8 @@ public class OpenFileAction extends AbstractApplicationAction {
         }
         view.setMultipleOpenId(multipleOpenId);
         view.setEnabled(false);
-
         // Open the file
         view.execute(new BackgroundTask() {
-
             @Override
             public void construct() throws IOException {
                 boolean exists = true;
@@ -161,7 +147,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                     throw new IOException(labels.getFormatted("file.open.fileDoesNotExist.message", URIUtil.getName(uri)));
                 }
             }
-
             @Override
             protected void done() {
                 final Application app = getApplication();
@@ -176,7 +161,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                 app.addRecentURI(uri);
                 app.setEnabled(true);
             }
-
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
@@ -192,7 +176,6 @@ public class OpenFileAction extends AbstractApplicationAction {
             }
         });
     }
-
     /** We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
@@ -201,14 +184,12 @@ public class OpenFileAction extends AbstractApplicationAction {
         final int[] returnValue = new int[1];
         final JDialog dialog = createDialog(chooser, finalParent);
         dialog.addWindowListener(new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 returnValue[0] = JFileChooser.CANCEL_OPTION;
             }
         });
         chooser.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 if ("CancelSelection".equals(e.getActionCommand())) {
@@ -222,14 +203,12 @@ public class OpenFileAction extends AbstractApplicationAction {
         });
         returnValue[0] = JFileChooser.ERROR_OPTION;
         chooser.rescanCurrentDirectory();
-
         dialog.setVisible(true);
         //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
         dialog.removeAll();
         dialog.dispose();
         return returnValue[0];
     }
-
     /** We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
@@ -238,17 +217,13 @@ public class OpenFileAction extends AbstractApplicationAction {
         if (chooser instanceof JFileChooser) {
             ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
         }
-
         JDialog dialog;
         Window window = (parent == null || (parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
         dialog = new JDialog(window, title, Dialog.ModalityType.APPLICATION_MODAL);
-
         dialog.setComponentOrientation(chooser.getComponent().getComponentOrientation());
-
         Container contentPane = dialog.getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(chooser.getComponent(), BorderLayout.CENTER);
-
         if (JDialog.isDefaultLookAndFeelDecorated()) {
             boolean supportsWindowDecorations =
                     UIManager.getLookAndFeel().getSupportsWindowDecorations();
@@ -258,17 +233,15 @@ public class OpenFileAction extends AbstractApplicationAction {
         }
         //dialog.pack();
         Preferences prefs = PreferencesUtil.userNodeForPackage(getApplication().getModel().getClass());
-
         PreferencesUtil.installFramePrefsHandler(prefs, "openChooser", dialog);
         /*
         if (window.getBounds().isEmpty()) {
         Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
-        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, 
+        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2,
         screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
         } else {
         dialog.setLocationRelativeTo(parent);
         }*/
-
         return dialog;
     }
 }

@@ -1,19 +1,17 @@
 /*
  * @(#)PropertyChangeEdit.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.undo;
-
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoableEdit;
-
 /**
  * An {@code UndoableEdit} event which can undo a change of a JavaBeans property.
  *
@@ -22,7 +20,6 @@ import javax.swing.undo.UndoableEdit;
  */
 public class PropertyChangeEdit extends AbstractUndoableEdit {
     private static final long serialVersionUID = 1L;
-
     /**
      * The object to be provided as the "source" of the JavaBeans property.
      */
@@ -42,12 +39,10 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     /** The type of the property. */
     private Class<?> type;
     private String presentationName;
-
     /** Creates a new PropertyChangeEdit. */
     public PropertyChangeEdit(Object source, String propertyName, Object oldValue, Object newValue) {
         this(source,propertyName,propertyNameToPresentationName(propertyName),oldValue,newValue);
     }
-    
     /** Creates a new PropertyChangeEdit. */
     public PropertyChangeEdit(Object source, String propertyName, String presentationName, Object oldValue, Object newValue) {
         this.source = source;
@@ -56,7 +51,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
-
     /**
      * Returns the setter for the property.
      *
@@ -72,7 +66,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
             throw ie;
         }
     }
-
     /** Undoes the change. */
     @Override
     public void undo() throws CannotRedoException {
@@ -85,7 +78,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
             throw ie;
         }
     }
-
     /** Redoes the change. */
     @Override
     public void redo() throws CannotRedoException {
@@ -98,7 +90,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
             throw ie;
         }
     }
-
     /** Returns the presentation name of the undoable edit.
      * This is the same as the property name, unless you have set a different
      * presentation name.
@@ -107,13 +98,11 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     public String getPresentationName() {
         return presentationName;
     }
-
     /** Sets the presentation name of the undoable edit.
      */
     public void setPresentationName(String presentationName) {
         this.presentationName = presentationName;
     }
-
     /** Adds the specified edit to this one, if it is a {@code PropertyChangeEdit}
      * from the same owner and the same property.
      *
@@ -129,16 +118,13 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
                 return true;
             }
         }
-
         return false;
     }
-
     /** Returns a string representation of this object useful for debugging. */
     @Override
     public String toString() {
         return super.toString() + " [" + propertyName + "," + oldValue + "," + newValue + "]";
     }
-
     /** Converts a property name into a presentation name. */
     public static String propertyNameToPresentationName(String s) {
         StringBuilder b = new StringBuilder();
@@ -153,7 +139,6 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
                 wasUpperCase = false;
             }
             b.append(i==0?Character.toUpperCase(s.charAt(i)):s.charAt(i));
-
         }
         return b.toString();
     }

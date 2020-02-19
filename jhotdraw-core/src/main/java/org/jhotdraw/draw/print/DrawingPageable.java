@@ -2,7 +2,7 @@
  * @(#)DrawingPageable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.print;
@@ -66,7 +66,6 @@ public class DrawingPageable implements Pageable {
             throw new IndexOutOfBoundsException("Invalid page index:" + pageIndex);
         }
         return new Printable() {
-
             @Override
             public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
                 return printPage(graphics, pageFormat, pageIndex);
@@ -79,10 +78,8 @@ public class DrawingPageable implements Pageable {
             return Printable.NO_SUCH_PAGE;
         }
         if (drawing.getChildCount() > 0) {
-
             Graphics2D g = (Graphics2D) graphics;
             setRenderingHints(g);
-
             // Determine the draw bounds of the drawing
             Rectangle2D.Double drawBounds = null;
             double scale = AttributeKeys.getScaleFactorFromGraphics(g);
@@ -93,18 +90,15 @@ public class DrawingPageable implements Pageable {
                     drawBounds.add(f.getDrawingArea(scale));
                 }
             }
-
             // Setup a transformation for the drawing
             AffineTransform tx = new AffineTransform();
             tx.translate(
                     pageFormat.getImageableX(),
                     pageFormat.getImageableY());
-
             // Maybe rotate drawing
             if (isAutorotate
                     && drawBounds.width > drawBounds.height
                     && pageFormat.getImageableWidth() < pageFormat.getImageableHeight()) {
-
                 double scaleFactor = Math.min(
                         pageFormat.getImageableWidth() / drawBounds.height,
                         pageFormat.getImageableHeight() / drawBounds.width);
@@ -120,7 +114,6 @@ public class DrawingPageable implements Pageable {
                 tx.translate(-drawBounds.x, -drawBounds.y);
             }
             g.transform(tx);
-
             // Draw the drawing
             drawing.draw(g);
         }

@@ -1,13 +1,12 @@
 /*
  * @(#)ColorUtil.java
- * 
+ *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
-
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
@@ -17,7 +16,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import org.jhotdraw.text.ColorToolTipTextFormatter;
-
 /**
  * A utility class for {@code Color} and {@code ColorSpace} objects.
  *
@@ -25,16 +23,13 @@ import org.jhotdraw.text.ColorToolTipTextFormatter;
  * @version $Id$
  */
 public class ColorUtil {
-
     private static ColorToolTipTextFormatter formatter;
     private static final ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-
     /**
      * Prevent instance creation.
      */
     private ColorUtil() {
     }
-
     /**
      * Returns the color components in the specified color space from a
      * {@code Color} object.
@@ -47,16 +42,13 @@ public class ColorUtil {
             return c.getComponents(colorSpace, null);
         }
     }
-
     /**
      * Returns a color object from color components in the specified color
      * space.
      */
     public static Color toColor(ColorSpace colorSpace, float... components) {
         return new CompositeColor(colorSpace, components, 1f);
-
     }
-
     /**
      * Returns the color components in the specified color space from an rgb
      * value.
@@ -64,7 +56,6 @@ public class ColorUtil {
     public static float[] fromRGB(ColorSpace colorSpace, int rgb) {
         return fromRGB(colorSpace, (rgb >>> 16) & 0xff, (rgb >>> 8) & 0xff, rgb & 0xff);
     }
-
     /**
      * Returns the color components in the specified color space from RGB
      * values.
@@ -72,24 +63,20 @@ public class ColorUtil {
     public static float[] fromRGB(ColorSpace colorSpace, int r, int g, int b) {
         return colorSpace.fromRGB(new float[]{r / 255f, g / 255f, b / 255f});
     }
-
     /**
      * Returns an rgb value from color components in the specified color space.
      */
     public static int toRGB24(ColorSpace colorSpace, float... components) {
         return CStoRGB24(colorSpace, components, new float[3]);
     }
-
     public static int CStoRGB24(ColorSpace colorSpace, float[] components, float[] rgb) {
         CStoRGB(colorSpace, components, rgb);
-
         // If the color is not displayable in RGB, we return transparent black.
         if (rgb[0] < 0f || rgb[1] < 0f || rgb[2] < 0f || rgb[0] > 1f || rgb[1] > 1f || rgb[2] > 1f) {
             return 0;
         }
         return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
     }
-
     /**
      * Returns a tool tip text for the specified color with information in the
      * color space of the color.
@@ -106,7 +93,6 @@ public class ColorUtil {
             throw error;
         }
     }
-
     /**
      * Returns true, if the two color spaces are equal.
      */
@@ -121,7 +107,6 @@ public class ColorUtil {
             return a.equals(b);
         }
     }
-
     /**
      * Returns the name of the color space. If the color space is an
      * {@code ICC_ColorSpace} the name is retrieved from the "desc" data element
@@ -162,7 +147,6 @@ public class ColorUtil {
                 }
             }
         }
-
         if (a instanceof ICC_ColorSpace) {
             // Fall back if no description is available
             StringBuilder buf = new StringBuilder();
@@ -177,7 +161,6 @@ public class ColorUtil {
             return a.getClass().getSimpleName();
         }
     }
-
     /**
      * Blackens the specified color by casting a black shadow of the specified
      * amount on the color.
@@ -189,7 +172,6 @@ public class ColorUtil {
                 Math.max(0, c.getBlue() - amount),
                 c.getAlpha());
     }
-
     /**
      * Faster toRGB method which uses the provided output array.
      */
@@ -203,7 +185,6 @@ public class ColorUtil {
             System.arraycopy(tmp, 0, rgb, 0, tmp.length);
         }
     }
-
     /**
      * Faster fromRGB method which uses the provided output array.
      */
@@ -216,7 +197,6 @@ public class ColorUtil {
         }
         return colorvalue;
     }
-
     /**
      * Faster toCIEXYZ method which uses the provided output array.
      */
@@ -229,7 +209,6 @@ public class ColorUtil {
         }
         return xyz;
     }
-
     /**
      * Faster fromCIEXYZ method which uses the provided output array.
      */
@@ -242,7 +221,6 @@ public class ColorUtil {
         }
         return colorvalue;
     }
-
     /**
      * Faster toRGB method which uses the provided output array.
      */
@@ -250,7 +228,6 @@ public class ColorUtil {
         cs.toRGB(colorvalue, rgb);
         return rgb;
     }
-
     /**
      * Faster CIEXYZtoRGB method which uses the provided output array.
      */
@@ -259,7 +236,6 @@ public class ColorUtil {
         System.arraycopy(tmp, 0, rgb, 0, 3);
         return rgb;
     }
-
     /**
      * Faster RGBtoCIEXYZ method which uses the provided output array.
      */
@@ -268,21 +244,18 @@ public class ColorUtil {
         System.arraycopy(tmp, 0, xyz, 0, 3);
         return xyz;
     }
-
     /**
      * Faster fromRGB method which uses the provided output array.
      */
     public static void CSfromRGB(NamedColorSpace cs, float[] rgb, float[] colorvalue) {
         cs.fromRGB(rgb, colorvalue);
     }
-
     /**
      * Faster toCIEXYZ method which uses the provided output array.
      */
     public static void CStoCIEXYZ(NamedColorSpace cs, float[] colorvalue, float[] xyz) {
         cs.toCIEXYZ(colorvalue, xyz);
     }
-
     /**
      * Faster fromCIEXYZ method which uses the provided output array.
      */

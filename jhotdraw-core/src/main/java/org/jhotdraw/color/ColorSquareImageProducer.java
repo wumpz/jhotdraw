@@ -2,7 +2,7 @@
  * @(#)ColorSquareImageProducer.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -57,14 +57,12 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         radials = new float[w * h];
         angulars = new float[w * h];
         alphas = new int[w * h];
-
         float maxR = colorSpace.getMaxValue(radialIndex);
         float minR = colorSpace.getMinValue(radialIndex);
         float extentR = maxR - minR;
         float maxA = colorSpace.getMaxValue(angularIndex);
         float minA = colorSpace.getMinValue(angularIndex);
         float extentA = maxA - minA;
-
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
         int yOffset = (h - side) / 2 * w;
@@ -72,12 +70,9 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         float extentY = extentX;
         for (int x = 0; x < side; x++) {
             float xRatio = (flipX) ? 1f - x / extentX : x / extentX;
-
             for (int y = 0; y < side; y++) {
                 float yRatio = (flipY) ? 1f - y / extentY : y / extentY;
-
                 int index = x + y * w + xOffset + yOffset;
-
                 alphas[index] = 0xff000000;
                 radials[index] = xRatio * extentR + minR;
                 angulars[index] = yRatio * extentA + minA;
@@ -103,7 +98,6 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         if (!isLookupValid) {
             generateLookupTables();
         }
-
         float[] components = new float[colorSpace.getNumComponents()];
         float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
@@ -130,11 +124,9 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         if (flipY) {
             angular = 1f - angular;
         }
-
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
         int yOffset = (h - side) / 2;
-
         Point p = new Point(
                 (int) (side * radial) + xOffset,
                 (int) (side * angular) + yOffset
@@ -147,7 +139,6 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
         int yOffset = (h - side) / 2;
-
         float radial = (x - xOffset) / (float) side;
         float angular = (y - yOffset) / (float) side;
         if (flipX) {
@@ -156,7 +147,6 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         if (flipY) {
             angular = 1f - angular;
         }
-
         float[] hsb = new float[3];
         hsb[angularIndex] = angular
                 * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))

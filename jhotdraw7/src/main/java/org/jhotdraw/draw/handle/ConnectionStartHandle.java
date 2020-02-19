@@ -2,16 +2,13 @@
  * @(#)ConnectionStartHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.ConnectionFigure;
 import java.awt.geom.*;
-
 /**
  * A {@link Handle} which allows to connect the start of a
  * {@link ConnectionFigure} to another figure.
@@ -20,14 +17,12 @@ import java.awt.geom.*;
  * @version $Id: ConnectionStartHandle.java -1   $
  */
 public class ConnectionStartHandle extends AbstractConnectionHandle {
-    
     /**
      * Constructs the connection handle for the given start figure.
      */
     public ConnectionStartHandle(ConnectionFigure owner) {
         super(owner);
     }
-    
     /**
      * Sets the start of the connection.
      */
@@ -35,7 +30,6 @@ public class ConnectionStartHandle extends AbstractConnectionHandle {
     protected void connect(Connector c) {
         getOwner().setStartConnector(c);
     }
-    
     /**
      * Disconnects the start figure.
      */
@@ -43,13 +37,10 @@ public class ConnectionStartHandle extends AbstractConnectionHandle {
     protected void disconnect() {
         getOwner().setStartConnector(null);
     }
-    
-    
     @Override
     protected Connector getTarget() {
         return getOwner().getStartConnector();
     }
-    
     /**
      * Sets the start point of the connection.
      */
@@ -59,7 +50,6 @@ public class ConnectionStartHandle extends AbstractConnectionHandle {
         getOwner().setStartPoint(p);
         getOwner().changed();
     }
-    
     /**
      * Returns the start point of the connection.
      */
@@ -67,15 +57,12 @@ public class ConnectionStartHandle extends AbstractConnectionHandle {
     protected Point2D.Double getLocation() {
         return getOwner().getStartPoint();
     }
-    
     @Override
     protected boolean canConnect(Connector existingEnd, Connector targetEnd) {
         return getOwner().canConnect(targetEnd, existingEnd);
     }
-
     @Override
     protected int getBezierNodeIndex() {
         return 0;
     }
-    
 }

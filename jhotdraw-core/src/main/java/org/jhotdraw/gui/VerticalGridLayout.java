@@ -2,7 +2,7 @@
  * @(#)VerticalGridLayout.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -20,7 +20,6 @@ import java.awt.*;
 public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
-
     int hgap;
     int vgap;
     int rows;
@@ -243,7 +242,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int ncomponents = parent.getComponentCount();
             int nrows = rows;
             int ncols = cols;
-
             if (nrows > 0) {
                 ncols = (ncomponents + nrows - 1) / nrows;
             } else {
@@ -291,7 +289,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int ncomponents = parent.getComponentCount();
             int nrows = rows;
             int ncols = cols;
-
             if (nrows > 0) {
                 ncols = (ncomponents + nrows - 1) / nrows;
             } else {
@@ -340,7 +337,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int nrows = rows;
             int ncols = cols;
             boolean ltr = parent.getComponentOrientation().isLeftToRight();
-
             if (ncomponents == 0) {
                 return;
             }
@@ -353,7 +349,6 @@ public class VerticalGridLayout implements LayoutManager, java.io.Serializable {
             int h = parent.getHeight() - (insets.top + insets.bottom);
             w = (w - (ncols - 1) * hgap) / ncols;
             h = (h - (nrows - 1) * vgap) / nrows;
-
             int i;
             if (ltr) {
                 for (int c = 0, x = insets.left; c < ncols; c++, x += w + hgap) {

@@ -2,19 +2,15 @@
  * @(#)TransformEdit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 import javax.swing.undo.*;
 import java.awt.geom.*;
 import java.util.*;
-
 /**
  * An {@code UndoableEdit} event which can undo a lossless transform of
  * {@link Figure}s by applying the inverse of the transform to the figures.
@@ -33,7 +29,6 @@ public class TransformEdit extends AbstractUndoableEdit {
     private static final long serialVersionUID = 1L;
     private Collection<Figure> figures;
     private AffineTransform tx;
-    
     /** Creates a new instance. */
     public TransformEdit(Figure figure, AffineTransform tx) {
         figures = new LinkedList<Figure>();
@@ -49,7 +44,6 @@ public class TransformEdit extends AbstractUndoableEdit {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         return labels.getString("edit.transform.text");
     }
-    
     @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof TransformEdit) {
@@ -74,7 +68,6 @@ public class TransformEdit extends AbstractUndoableEdit {
         }
         return false;
     }
-    
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
@@ -82,7 +75,6 @@ public class TransformEdit extends AbstractUndoableEdit {
             f.willChange();
             f.transform(tx);
                 f.changed();
-            
         }
     }
     @Override

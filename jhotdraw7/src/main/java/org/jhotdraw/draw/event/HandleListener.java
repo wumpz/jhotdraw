@@ -2,15 +2,11 @@
  * @(#)HandleListener.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
-
 import java.util.*;
-
 /**
  * Interface implemented by observers of {@link org.jhotdraw.draw.handle.Handle}s.
  * <hr>
@@ -34,7 +30,6 @@ public interface HandleListener extends EventListener {
      * Sent when an area of the drawing view needs to be repainted.
      */
     public void areaInvalidated(HandleEvent e);
-    
     /**
      * Sent when requesting to remove a handle.
      */

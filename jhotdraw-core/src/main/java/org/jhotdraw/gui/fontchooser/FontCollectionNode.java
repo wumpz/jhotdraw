@@ -101,11 +101,10 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
         if (aChild == null) {
             throw new IllegalArgumentException("argument is null");
         }
-
         if (!isNodeChild(aChild)) {
             throw new IllegalArgumentException("argument is not a child");
         }
-        remove(getIndex(aChild));	// linear search
+        remove(getIndex(aChild)); // linear search
     }
 
     @Override
@@ -136,7 +135,6 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
     }
 
     @Override
-
     public MutableTreeNode getParent() {
         return parent;
     }
@@ -170,12 +168,11 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
      * Returns true if <code>aNode</code> is a child of this node. If
      * <code>aNode</code> is null, this method returns false.
      *
-     * @return	true if <code>aNode</code> is a child of this node; false if
+     * @return true if <code>aNode</code> is a child of this node; false if
      * <code>aNode</code> is null
      */
     public boolean isNodeChild(TreeNode aNode) {
         boolean retval;
-
         if (aNode == null) {
             retval = false;
         } else {
@@ -185,7 +182,6 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
                 retval = (aNode.getParent() == this);
             }
         }
-
         return retval;
     }
 

@@ -2,15 +2,12 @@
  * @(#)AttributeChangeEdit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.event;
-
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
-
 /**
  * An {@code UndoableEdit} event which can undo a change of a {@link Figure}
  * attribute.
@@ -24,20 +21,18 @@ public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
     private AttributeKey<T> name;
     private T oldValue;
     private T newValue;
-    
     /** Creates a new instance. */
     public AttributeChangeEdit(Figure owner, AttributeKey<T> name, T oldValue, T newValue) {
         this.owner = owner;
         this.name = name;
         this.oldValue = oldValue;
         this.newValue = newValue;
-    }    
+    }
     @Override
     public String getPresentationName() {
         // FIXME - Localize me
         return "Eigenschaft \u00e4ndern";
     }
-    
     @Override
     public void redo() throws CannotRedoException {
         super.redo();

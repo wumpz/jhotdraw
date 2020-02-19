@@ -2,14 +2,11 @@
  * @(#)AbstractBean.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.beans;
-
-
 import java.beans.*;
-
 /**
  * This abstract class can be extended to implement a JavaBean. <p> Implements
  * the methods required for adding and removing property change listeners.
@@ -18,11 +15,8 @@ import java.beans.*;
  * @version $Id$
  */
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
-
     private static final long serialVersionUID = 1L;
-    
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-
     /**
      * Adds a {@code PropertyChangeListener} which can optionally be wrapped
      * into a {@code WeakPropertyChangeListener}.
@@ -32,7 +26,6 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(listener);
     }
-
     /**
      * Adds a {@code PropertyChangeListener} which can optionally be wrapped
      * into a {@code WeakPropertyChangeListener}.
@@ -43,7 +36,6 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(propertyName, listener);
     }
-
     /**
      * Removes a {@code PropertyChangeListener}. If the listener was added
      * wrapped into a {@code WeakPropertyChangeListener}, the
@@ -70,7 +62,6 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
             }
         }
     }
-
     /**
      * Removes a {@code PropertyChangeListener}. If the listener was added
      * wrapped into a {@code WeakPropertyChangeListener}, the
@@ -98,19 +89,15 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
             }
         }
     }
-
     protected void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
-
     protected void firePropertyChange(String propertyName, int oldValue, int newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
-
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
-
     @Override
     public AbstractBean clone() {
         AbstractBean that;
@@ -124,7 +111,6 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
         that.propertySupport = new PropertyChangeSupport(that);
         return that;
     }
-
     public PropertyChangeListener[] getPropertyChangeListeners() {
         return propertySupport.getPropertyChangeListeners();
     }

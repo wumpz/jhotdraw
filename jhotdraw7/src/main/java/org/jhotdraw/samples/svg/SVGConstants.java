@@ -2,17 +2,14 @@
  * @(#)SVGConstants.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg;
-
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-
 /**
  * SVGConstants.
  *
@@ -25,7 +22,6 @@ public class SVGConstants {
     public static final Map<String,Color> SVG_COLORS;
     static {
         LinkedHashMap<String,Color> map = new LinkedHashMap<String,Color>();
-        
         // SVG 1.2 Tiny colors
         map.put("black", new Color(0, 0, 0));
         map.put("green", new Color(0, 128, 0));
@@ -43,7 +39,6 @@ public class SVGConstants {
         map.put("teal", new Color(0, 128, 128));
         map.put("fuchsia", new Color(255, 0, 255));
         map.put("aqua", new Color(0, 255, 255));
-        
         // SVG 1.1 colors
         map.put("aliceblue", new Color(240, 248, 255));
         map.put("antiquewhite", new Color(250, 235, 215));
@@ -192,7 +187,6 @@ public class SVGConstants {
         map.put("whitesmoke", new Color(245, 245, 245));
         map.put("yellow", new Color(255, 255, 0));
         map.put("yellowgreen", new Color(154, 205, 50));
-        
         // SVG 1.2 Tiny system colors
         map.put("activeborder", UIManager.getColor("activeCaptionBorder"));
         map.put("activecaption", UIManager.getColor("activeCaption"));
@@ -222,10 +216,8 @@ public class SVGConstants {
         map.put("window", UIManager.getColor("window"));
         map.put("windowframe", UIManager.getColor("windowBorder"));
         map.put("windowtext", UIManager.getColor("windowText"));
-        
         SVG_COLORS = Collections.unmodifiableMap(map);
     }
-    
     public static final Map<String,WindingRule> SVG_FILL_RULES;
     static {
        HashMap<String, WindingRule> m = new HashMap<String, WindingRule>();
@@ -287,5 +279,4 @@ public class SVGConstants {
     /** Prevents instance creation. */
     private SVGConstants() {
     }
-    
 }

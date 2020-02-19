@@ -2,11 +2,10 @@
  * @(#)TransformHandleKit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
-
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.*;
@@ -18,21 +17,18 @@ import java.awt.event.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import static org.jhotdraw.draw.handle.HandleAttributeKeys.*;
-
 /**
  * A set of utility methods to create Handles which transform a Figure by using
  * its <code>transform</code> method.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class TransformHandleKit {
-
     /** Creates a new instance. */
     public TransformHandleKit() {
     }
-
     /**
      * Creates handles for each corner of a
      * figure and adds them to the provided collection.
@@ -45,7 +41,6 @@ public class TransformHandleKit {
             handles.add(northWest(f));
         }
     }
-
     /**
      * Fills the given collection with handles at each
      * the north, south, east, and west of the figure.
@@ -58,7 +53,6 @@ public class TransformHandleKit {
             handles.add(west(f));
         }
     }
-
     /**
      * Adds handles for scaling and moving a Figure.
      */
@@ -68,7 +62,6 @@ public class TransformHandleKit {
             addEdgeTransformHandles(f, handles);
         }
     }
-
     /**
      * Adds handles for scaling, moving, rotating and shearing a Figure.
      */
@@ -80,7 +73,6 @@ public class TransformHandleKit {
             handles.add(new RotateHandle(f));
         }
     }
-
     /**
      * Adds handles for scaling, moving, rotating and shearing a Figure.
      */
@@ -94,7 +86,6 @@ public class TransformHandleKit {
         addEdgeTransformHandles(f, handles);
         handles.add(new RotateHandle(f));
     }
-
     /**
      * Adds handles for scaling, moving, rotating and shearing a Figure.
      */
@@ -105,56 +96,43 @@ public class TransformHandleKit {
                 GROUP_BOUNDS_STROKE_1_DISABLED, GROUP_BOUNDS_COLOR_1_DISABLED,
                 GROUP_BOUNDS_STROKE_2_DISABLED, GROUP_BOUNDS_COLOR_2_DISABLED));
     }
-
     static public Handle south(Figure owner) {
         return new SouthHandle(owner);
     }
-
     static public Handle southEast(Figure owner) {
         return new SouthEastHandle(owner);
     }
-
     static public Handle southWest(Figure owner) {
         return new SouthWestHandle(owner);
     }
-
     static public Handle north(Figure owner) {
         return new NorthHandle(owner);
     }
-
     static public Handle northEast(Figure owner) {
         return new NorthEastHandle(owner);
     }
-
     static public Handle northWest(Figure owner) {
         return new NorthWestHandle(owner);
     }
-
     static public Handle east(Figure owner) {
         return new EastHandle(owner);
     }
-
     static public Handle west(Figure owner) {
         return new WestHandle(owner);
     }
-
     private static class TransformHandle extends LocatorHandle {
-
         private int dx, dy;
         private Object geometry;
         /** Caches the value returned by getOwner().isTransformable(): */
         private boolean isTransformableCache;
-
         TransformHandle(Figure owner, Locator loc) {
             super(owner, loc);
         }
-
         @Override
         public String getToolTipText(Point p) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             return labels.getString("handle.transform.toolTipText");
         }
-
         /**
          * Draws this handle.
          */
@@ -162,23 +140,19 @@ public class TransformHandleKit {
         public void draw(Graphics2D g) {
             if (getEditor().getTool().supportsHandleInteraction()) {
                 //drawArc(g);
-
                 drawDiamond(g,
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR),
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR));
-
             } else {
                 drawDiamond(g,
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR_DISABLED),
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR_DISABLED));
             }
         }
-
         protected void drawArc(Graphics2D g) {
             Point p = getLocation();
             g.drawArc(p.x, p.y, 6, 6, 0, 180);
         }
-
         protected Rectangle2D.Double getTransformedBounds() {
             Figure owner = getOwner();
             Rectangle2D.Double bounds = owner.getBounds();
@@ -192,7 +166,6 @@ public class TransformHandleKit {
             }
             return bounds;
         }
-
         @Override
         public void trackStart(Point anchor, int modifiersEx) {
             isTransformableCache = getOwner().isTransformable();
@@ -204,7 +177,6 @@ public class TransformHandleKit {
             dx = -anchor.x + location.x;
             dy = -anchor.y + location.y;
         }
-
         @Override
         public void trackStep(Point anchor, Point lead, int modifiersEx) {
             if (!isTransformableCache) {
@@ -212,10 +184,8 @@ public class TransformHandleKit {
             }
             Point2D.Double p = view.viewToDrawing(new Point(lead.x + dx, lead.y + dy));
             view.getConstrainer().constrainPoint(p);
-
             trackStepNormalized(p);
         }
-
         @Override
         public void trackEnd(Point anchor, Point lead, int modifiersEx) {
             if (!isTransformableCache) {
@@ -223,12 +193,9 @@ public class TransformHandleKit {
             }
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
-
         }
-
         protected void trackStepNormalized(Point2D.Double p) {
         }
-
         protected void transform(Point2D.Double anchor, Point2D.Double lead) {
             Figure f = getOwner();
             f.willChange();
@@ -240,7 +207,6 @@ public class TransformHandleKit {
                     Math.abs(anchor.y - lead.y));
             double sx = newBounds.width / oldBounds.width;
             double sy = newBounds.height / oldBounds.height;
-
             AffineTransform tx = new AffineTransform();
             tx.translate(-oldBounds.x, -oldBounds.y);
             if (!Double.isNaN(sx) && !Double.isNaN(sy)
@@ -257,13 +223,10 @@ public class TransformHandleKit {
             f.changed();
         }
     }
-
     private static class NorthEastHandle extends TransformHandle {
-
         NorthEastHandle(Figure owner) {
             super(owner, RelativeLocator.northEast());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -271,7 +234,6 @@ public class TransformHandleKit {
                     new Point2D.Double(r.x, Math.min(r.y + r.height - 1, p.y)),
                     new Point2D.Double(Math.max(r.x, p.x), r.y + r.height));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -280,7 +242,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     transform(
@@ -304,7 +265,6 @@ public class TransformHandleKit {
                     }
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     transform(
                             new Point2D.Double(r.x, r.y),
@@ -312,24 +272,19 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
         }
     }
-
     private static class EastHandle
             extends TransformHandle {
-
         EastHandle(Figure owner) {
             super(owner, RelativeLocator.east());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -337,7 +292,6 @@ public class TransformHandleKit {
                     new Point2D.Double(r.x, r.y),
                     new Point2D.Double(Math.max(r.x + 1, p.x), r.y + r.height));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -346,7 +300,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     evt.consume();
@@ -362,7 +315,6 @@ public class TransformHandleKit {
                     }
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     transform(
                             new Point2D.Double(r.x, r.y),
@@ -370,23 +322,18 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
         }
     }
-
     private static class NorthHandle extends TransformHandle {
-
         NorthHandle(Figure owner) {
             super(owner, RelativeLocator.north());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -394,7 +341,6 @@ public class TransformHandleKit {
                     new Point2D.Double(r.x, Math.min(r.y + r.height - 1, p.y)),
                     new Point2D.Double(r.x + r.width, r.y + r.height));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -403,7 +349,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     transform(
@@ -422,28 +367,22 @@ public class TransformHandleKit {
                 case KeyEvent.VK_LEFT:
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
         }
     }
-
     private static class NorthWestHandle extends TransformHandle {
-
         NorthWestHandle(Figure owner) {
             super(owner, RelativeLocator.northWest());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -451,7 +390,6 @@ public class TransformHandleKit {
                     new Point2D.Double(Math.min(r.x + r.width - 1, p.x), Math.min(r.y + r.height - 1, p.y)),
                     new Point2D.Double(r.x + r.width, r.y + r.height));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -460,7 +398,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     transform(
@@ -482,7 +419,6 @@ public class TransformHandleKit {
                             new Point2D.Double(r.x + r.width, r.y + r.height));
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     if (r.width > 1) {
                         transform(
@@ -492,23 +428,18 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
         }
     }
-
     private static class SouthEastHandle extends TransformHandle {
-
         SouthEastHandle(Figure owner) {
             super(owner, RelativeLocator.southEast());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -516,7 +447,6 @@ public class TransformHandleKit {
                     new Point2D.Double(r.x, r.y),
                     new Point2D.Double(Math.max(r.x + 1, p.x), Math.max(r.y + 1, p.y)));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -525,7 +455,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -549,7 +478,6 @@ public class TransformHandleKit {
                     }
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     transform(
                             new Point2D.Double(r.x, r.y),
@@ -557,23 +485,18 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
         }
     }
-
     private static class SouthHandle extends TransformHandle {
-
         SouthHandle(Figure owner) {
             super(owner, RelativeLocator.south());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -581,7 +504,6 @@ public class TransformHandleKit {
                     new Point2D.Double(r.x, r.y),
                     new Point2D.Double(r.x + r.width, Math.max(r.y + 1, p.y)));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -590,7 +512,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -609,28 +530,22 @@ public class TransformHandleKit {
                 case KeyEvent.VK_LEFT:
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
         }
     }
-
     private static class SouthWestHandle extends TransformHandle {
-
         SouthWestHandle(Figure owner) {
             super(owner, RelativeLocator.southWest());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -638,7 +553,6 @@ public class TransformHandleKit {
                     new Point2D.Double(Math.min(r.x + r.width - 1, p.x), r.y),
                     new Point2D.Double(r.x + r.width, Math.max(r.y + 1, p.y)));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -647,7 +561,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -669,7 +582,6 @@ public class TransformHandleKit {
                             new Point2D.Double(r.x + r.width, r.y + r.height));
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     if (r.width > 1) {
                         transform(
@@ -679,23 +591,18 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
         }
     }
-
     private static class WestHandle extends TransformHandle {
-
         WestHandle(Figure owner) {
             super(owner, RelativeLocator.west());
         }
-
         @Override
         protected void trackStepNormalized(Point2D.Double p) {
             Rectangle2D.Double r = getTransformedBounds();
@@ -703,7 +610,6 @@ public class TransformHandleKit {
                     new Point2D.Double(Math.min(r.x + r.width - 1, p.x), r.y),
                     new Point2D.Double(r.x + r.width, r.y + r.height));
         }
-
         @Override
         public void keyPressed(KeyEvent evt) {
             if (!getOwner().isTransformable()) {
@@ -712,7 +618,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     evt.consume();
@@ -726,7 +631,6 @@ public class TransformHandleKit {
                             new Point2D.Double(r.x + r.width, r.y + r.height));
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     if (r.width > 1) {
                         transform(
@@ -736,11 +640,9 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
-
         @Override
         public Cursor getCursor() {
             return Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);

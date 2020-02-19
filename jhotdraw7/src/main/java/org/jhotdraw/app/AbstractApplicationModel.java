@@ -1,20 +1,17 @@
 /*
  * @(#)AbstractApplicationModel.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app;
-
-
 import org.jhotdraw.beans.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
-
 /**
  * This abstract class can be extended to implement an {@link ApplicationModel}.
  *
@@ -23,9 +20,7 @@ import org.jhotdraw.gui.URIChooser;
  */
 public abstract class AbstractApplicationModel extends AbstractBean
         implements ApplicationModel {
-
     private static final long serialVersionUID = 1L;
-    
     protected String name;
     protected String version;
     protected String copyright;
@@ -38,44 +33,36 @@ public abstract class AbstractApplicationModel extends AbstractBean
     public static final String COPYRIGHT_PROPERTY = "copyright";
     public static final String VIEW_CLASS_NAME_PROPERTY = "viewClassName";
     public static final String VIEW_CLASS_PROPERTY = "viewClass";
-
     /** Creates a new instance. */
     public AbstractApplicationModel() {
     }
-
     public void setName(String newValue) {
         String oldValue = name;
         name = newValue;
         firePropertyChange(NAME_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public String getName() {
         return name;
     }
-
     public void setVersion(String newValue) {
         String oldValue = version;
         version = newValue;
         firePropertyChange(VERSION_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public String getVersion() {
         return version;
     }
-
     public void setCopyright(String newValue) {
         String oldValue = copyright;
         copyright = newValue;
         firePropertyChange(COPYRIGHT_PROPERTY, oldValue, newValue);
     }
-
     @Override
     public String getCopyright() {
         return copyright;
     }
-
     /**
      * Use this method for best application startup performance.
      * @param newValue the class name
@@ -85,7 +72,6 @@ public abstract class AbstractApplicationModel extends AbstractBean
         viewClassName = newValue;
         firePropertyChange(VIEW_CLASS_NAME_PROPERTY, oldValue, newValue);
     }
-
     /**
      * Use this method only, if setViewClassName() does not suit you.
      * @param newValue the class
@@ -95,7 +81,6 @@ public abstract class AbstractApplicationModel extends AbstractBean
         viewClass = newValue;
         firePropertyChange(VIEW_CLASS_PROPERTY, oldValue, newValue);
     }
-
     public Class<?> getViewClass() {
         if (viewClass == null) {
             if (viewClassName != null) {
@@ -110,7 +95,6 @@ public abstract class AbstractApplicationModel extends AbstractBean
         }
         return viewClass;
     }
-
     @Override
     public View createView() {
         try {
@@ -121,66 +105,54 @@ public abstract class AbstractApplicationModel extends AbstractBean
             throw error;
         }
     }
-
     /**
      * Creates toolbars for the application.
      */
     @Override
     public abstract List<JToolBar> createToolBars(Application a, View p);
-
     /** This method is empty. */
     @Override
     public void initView(Application a, View p) {
     }
-
     /** This method is empty. */
     @Override
     public void destroyView(Application a, View p) {
     }
-
     /** This method is empty. */
     @Override
     public void initApplication(Application a) {
     }
-
     /** This method is empty. */
     @Override
     public void destroyApplication(Application a) {
     }
-
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         URIChooser c = new JFileURIChooser();
-
         return c;
     }
-
     @Override
     public URIChooser createOpenDirectoryChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         return c;
     }
-
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
         return c;
     }
-
     /** Returns createOpenChooser. */
     @Override
     public URIChooser createImportChooser(Application a, View v) {
         return createOpenChooser(a, v);
     }
-
     /** Returns createSaveChooser. */
     @Override
     public URIChooser createExportChooser(Application a, View v) {
         return createSaveChooser(a, v);
     }
-
-    /** 
+    /**
      * {@inheritDoc}
      * The default value is true.
      */
@@ -188,7 +160,6 @@ public abstract class AbstractApplicationModel extends AbstractBean
     public boolean isOpenLastURIOnLaunch() {
         return openLastURIOnLaunch;
     }
-
     /**
      * {@inheritDoc}
      * The default value is true.
@@ -197,7 +168,6 @@ public abstract class AbstractApplicationModel extends AbstractBean
     public boolean isAllowMultipleViewsPerURI() {
         return allowMultipleViewsForURI;
     }
-
     /** Whether the application may open multiple views for the same URI.
      * <p>
      * The default value is true.
@@ -207,7 +177,6 @@ public abstract class AbstractApplicationModel extends AbstractBean
     public void setAllowMultipleViewsForURI(boolean allowMultipleViewsForURI) {
         this.allowMultipleViewsForURI = allowMultipleViewsForURI;
     }
-
     /** Whether the application should open the last opened URI on launch.
      * <p>
      * The default value is false.

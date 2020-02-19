@@ -2,12 +2,10 @@
  * @(#)TextAreaEditingTool.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
-
-
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextArea;
@@ -18,7 +16,6 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.geom.*;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 /**
  * A tool to edit existing figures that implement the TextHolderFigure
  * interface, such as TextAreaFigure.
@@ -55,21 +52,17 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class TextAreaEditingTool extends AbstractTool implements ActionListener {
     private static final long serialVersionUID = 1L;
-
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
-
     /** Creates a new instance. */
     public TextAreaEditingTool(TextHolderFigure typingTarget) {
         this.typingTarget = typingTarget;
     }
-
     @Override
     public void deactivate(DrawingEditor editor) {
         endEdit();
         super.deactivate(editor);
     }
-
     /**
      * Creates a new figure at the mouse location.
      * If editing is in progress, this finishes editing.
@@ -81,18 +74,14 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
             updateCursor(getView(), e.getPoint());
         }
     }
-
     @Override
     public void draw(Graphics2D g) {
     }
-
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
-
         //textArea.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
@@ -101,12 +90,10 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
         textArea.requestFocus();
         typingTarget = textHolder;
     }
-
     private Rectangle2D.Double getFieldBounds(TextHolderFigure figure) {
         Rectangle2D.Double r = figure.getDrawingArea();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
-
         // FIXME - Find a way to determine the parameters for grow.
         //r.grow(1,2);
         //r.width += 16;
@@ -116,15 +103,12 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
         r.height += 4;
         return r;
     }
-
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textArea.getText();
-
             typingTarget.willChange();
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
@@ -132,16 +116,13 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
                 typingTarget.setText("");
             }
             typingTarget.changed();
-
             UndoableEdit edit = new AbstractUndoableEdit() {
     private static final long serialVersionUID = 1L;
-
                 @Override
                 public String getPresentationName() {
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     return labels.getString("attribute.text.text");
                 }
-
                 @Override
                 public void undo() {
                     super.undo();
@@ -149,7 +130,6 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
                     editedFigure.setText(oldText);
                     editedFigure.changed();
                 }
-
                 @Override
                 public void redo() {
                     super.redo();
@@ -159,21 +139,17 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textArea.endOverlay();
         }
-    //	        view().checkDamage();
+    //         view().checkDamage();
     }
-
     @Override
     public void actionPerformed(ActionEvent event) {
         endEdit();
         fireToolDone();
     }
-
     @Override
     public void mouseDragged(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");

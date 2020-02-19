@@ -2,7 +2,7 @@
  * @(#)AbstractTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
@@ -38,7 +38,6 @@ import org.jhotdraw.draw.handle.Handle;
 public abstract class AbstractTool extends AbstractBean implements Tool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * This is set to true, if this is the active tool of the editor.
      */
@@ -87,7 +86,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         this.editor = editor;
         editorProxy.setTarget(editor);
         isActive = true;
-
         // Repaint all handles
         for (DrawingView v : editor.getDrawingViews()) {
             v.repaintHandles();
@@ -227,7 +225,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
             if (evt.getSource() instanceof Container) {
                 editor.setActiveView(editor.findView((Container) evt.getSource()));
             }
-
             Object obj = null;
             if (inputMap != null) {
                 // Lookup the input map of the tool
@@ -421,7 +418,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * Notify all listenerList that have registered interest for notification on this event type.
      */
     protected void fireBoundsInvalidated(Rectangle invalidatedArea) {
-
         ToolEvent event = null;
         // Notify all listeners that have registered interest for
         // Guaranteed to return a non-null array

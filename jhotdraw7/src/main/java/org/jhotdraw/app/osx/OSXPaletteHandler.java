@@ -2,19 +2,15 @@
  * @(#)OSXPaletteHandler.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.osx;
-
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.View;
-
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.
@@ -41,7 +37,6 @@ public class OSXPaletteHandler {
                 showPalettes();
             }
         }
-        
         /**
          * Invoked when the Window is no longer the focused Window, which means
          * that keyboard events will no longer be delivered to the Window or any of
@@ -52,7 +47,6 @@ public class OSXPaletteHandler {
             timer.restart();
         }
     };
-    
     /** Creates a new instance. */
     public OSXPaletteHandler(OSXApplication app) {
         this.app = app;
@@ -64,31 +58,25 @@ public class OSXPaletteHandler {
         });
         timer.setRepeats(false);
     }
-    
     public void add(Window window, View view) {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, view);
     }
-    
     public void remove(Window window) {
         windows.remove(window);
         window.removeWindowFocusListener(focusHandler);
     }
-    
     public void addPalette(Window palette) {
         palette.addWindowFocusListener(focusHandler);
         palettes.add(palette);
     }
-    
     public void removePalette(Window palette) {
         palettes.remove(palette);
         palette.removeWindowFocusListener(focusHandler);
     }
-    
     public Set<Window> getPalettes() {
         return Collections.unmodifiableSet(palettes);
     }
-    
     private void showPalettes() {
         for (Window palette : palettes) {
             if (! palette.isVisible()) {
@@ -96,7 +84,6 @@ public class OSXPaletteHandler {
             }
         }
     }
-    
     private boolean isFocused(Window w) {
         if (w.isFocused()) return true;
         Window[] ownedWindows = w.getOwnedWindows();
@@ -129,7 +116,6 @@ public class OSXPaletteHandler {
             }
         }
     }
-
     public void addWindow(Window window) {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, null);

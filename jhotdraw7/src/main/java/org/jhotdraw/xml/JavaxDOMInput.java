@@ -2,11 +2,10 @@
  * @(#)JavaxDOMInput.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
-
 import java.util.*;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
@@ -14,7 +13,6 @@ import org.w3c.dom.*;
 import java.io.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 /**
  * DOMInput.
  * <p>
@@ -27,7 +25,6 @@ import org.xml.sax.SAXException;
  * @version $Id$
  */
 public class JavaxDOMInput implements DOMInput {
-
     /**
      * This map is used to unmarshall references to objects to
      * the XML DOM. A key in this map is a String representing a marshalled
@@ -47,7 +44,6 @@ public class JavaxDOMInput implements DOMInput {
      */
     private DOMFactory factory;
     protected static DocumentBuilder documentBuilder;
-
     /**
      * Lazily create the document builder and keep a reference to it for
      * performance improvement.
@@ -69,7 +65,6 @@ public class JavaxDOMInput implements DOMInput {
         }
         return documentBuilder;
     }
-
     public JavaxDOMInput(DOMFactory factory, InputStream in) throws IOException {
         this.factory = factory;
         try {
@@ -81,7 +76,6 @@ public class JavaxDOMInput implements DOMInput {
             throw e;
         }
     }
-
     public JavaxDOMInput(DOMFactory factory, Reader in) throws IOException {
         this.factory = factory;
         try {
@@ -93,7 +87,6 @@ public class JavaxDOMInput implements DOMInput {
             throw e;
         }
     }
-
     /**
      * Returns the tag name of the current element.
      */
@@ -101,7 +94,6 @@ public class JavaxDOMInput implements DOMInput {
     public String getTagName() {
         return ((Element) current).getTagName();
     }
-
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
@@ -110,7 +102,6 @@ public class JavaxDOMInput implements DOMInput {
         String value = ((Element) current).getAttribute(name);
         return (value.length() == 0) ? defaultValue : value;
     }
-
     /**
      * Gets the text of the current element of the DOM Document.
      */
@@ -118,7 +109,6 @@ public class JavaxDOMInput implements DOMInput {
     public String getText() {
         return getText(null);
     }
-
     /**
      * Gets the text of the current element of the DOM Document.
      */
@@ -127,13 +117,10 @@ public class JavaxDOMInput implements DOMInput {
         if (current.getChildNodes().getLength() == 0) {
             return defaultValue;
         }
-
         StringBuilder buf = new StringBuilder();
         getText(current, buf);
-
         return buf.toString();
     }
-
     private static void getText(Node n, StringBuilder buf) {
         if (n.getNodeValue() != null) {
             buf.append(n.getNodeValue());
@@ -143,7 +130,6 @@ public class JavaxDOMInput implements DOMInput {
             getText(children.item(i), buf);
         }
     }
-
     /**
      * Gets an attribute of the current element of the DOM Document and of
      * all parent DOM elements.
@@ -159,7 +145,6 @@ public class JavaxDOMInput implements DOMInput {
         }
         return values;
     }
-
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
@@ -168,7 +153,6 @@ public class JavaxDOMInput implements DOMInput {
         String value = ((Element) current).getAttribute(name);
         return (value.length() == 0) ? defaultValue : Long.decode(value).intValue();
     }
-
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
@@ -177,7 +161,6 @@ public class JavaxDOMInput implements DOMInput {
         String value = ((Element) current).getAttribute(name);
         return (value.length() == 0) ? defaultValue : Double.parseDouble(value);
     }
-
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
@@ -186,7 +169,6 @@ public class JavaxDOMInput implements DOMInput {
         String value = ((Element) current).getAttribute(name);
         return (value.length() == 0) ? defaultValue : Boolean.valueOf(value).booleanValue();
     }
-
     /**
      * Returns the number of child elements of the current element.
      */
@@ -202,7 +184,6 @@ public class JavaxDOMInput implements DOMInput {
         }
         return count;
     }
-
     /**
      * Returns the number of child elements with the specified tag name
      * of the current element.
@@ -220,7 +201,6 @@ public class JavaxDOMInput implements DOMInput {
         }
         return count;
     }
-
     /**
      * Opens the element with the specified index and makes it the current node.
      */
@@ -239,7 +219,6 @@ public class JavaxDOMInput implements DOMInput {
             }
         }
     }
-
     /**
      * Opens the last element with the specified name and makes it the current node.
      */
@@ -258,7 +237,6 @@ public class JavaxDOMInput implements DOMInput {
         }
         throw new IllegalArgumentException("element not found:" + tagName);
     }
-
     /**
      * Opens the element with the specified name and index and makes it the
      * current node.
@@ -280,7 +258,6 @@ public class JavaxDOMInput implements DOMInput {
         }
         throw new IllegalArgumentException("no such child " + tagName + "[" + index + "]");
     }
-
     /**
      * Closes the current element of the DOM Document.
      * The parent of the current element becomes the current element.
@@ -295,7 +272,6 @@ public class JavaxDOMInput implements DOMInput {
         }*/
         current = current.getParentNode();
     }
-
     /**
      * Reads an object from the current element.
      */
@@ -303,7 +279,6 @@ public class JavaxDOMInput implements DOMInput {
     public Object readObject() throws IOException {
         return readObject(0);
     }
-
     /**
      * Reads an object from the current element.
      */
@@ -311,10 +286,8 @@ public class JavaxDOMInput implements DOMInput {
     public Object readObject(int index) throws IOException {
         openElement(index);
         Object o;
-
         String ref = getAttribute("ref", null);
         String id = getAttribute("id", null);
-
         if (ref != null && id != null) {
             throw new IOException("Element has both an id and a ref attribute: <" + getTagName() + " id=" + id + " ref=" + ref + ">");
         }
@@ -324,7 +297,6 @@ public class JavaxDOMInput implements DOMInput {
         if (ref != null && !idobjects.containsKey(ref)) {
             throw new IOException("Illegal ref attribute value: <" + getTagName() + " ref=" + ref + ">");
         }
-
         // Keep track of objects which have an ID
         if (ref != null) {
             o = idobjects.get(ref);
@@ -337,7 +309,6 @@ public class JavaxDOMInput implements DOMInput {
                 ((DOMStorable) o).read(this);
             }
         }
-
         closeElement();
         return o;
     }

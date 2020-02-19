@@ -2,7 +2,7 @@
  * @(#)CloseFileAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.app.action.file;
@@ -36,7 +36,6 @@ import org.jhotdraw.util.*;
 public class CloseFileAction extends AbstractSaveUnsavedChangesAction {
 
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "file.close";
 
     /**

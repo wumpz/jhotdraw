@@ -1,9 +1,9 @@
 /*
  * @(#)JLifeFormattedTextArea.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -23,7 +23,6 @@ import javax.swing.text.Document;
 public class JLifeFormattedTextArea extends JTextArea {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * This adapter is used for adapting Formatters to the JTextArea.
      */
@@ -43,13 +42,11 @@ public class JLifeFormattedTextArea extends JTextArea {
     @Override
     public void setDocument(Document newValue) {
         super.setDocument(newValue);
-
         // We must check for null here, because setDocument is called in the
         // super class constructor.
         if (formattedTextFieldAdapter == null) {
             formattedTextFieldAdapter = new JLifeFormattedTextField();
             handler = new PropertyChangeListener() {
-
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     if (evt.getSource() == formattedTextFieldAdapter
@@ -60,7 +57,6 @@ public class JLifeFormattedTextArea extends JTextArea {
             };
             formattedTextFieldAdapter.addPropertyChangeListener(handler);
         }
-
         formattedTextFieldAdapter.setDocument(newValue);
     }
 

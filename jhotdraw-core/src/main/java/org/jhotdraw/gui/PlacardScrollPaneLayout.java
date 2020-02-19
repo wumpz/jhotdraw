@@ -2,7 +2,7 @@
  * @(#)PlacardScrollPaneLayout.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -29,13 +29,11 @@ public class PlacardScrollPaneLayout extends ScrollPaneLayout {
     @Override
     public void layoutContainer(Container parent) {
         super.layoutContainer(parent);
-
         if (lowerLeft != null && hsb != null) {
             Dimension llp = lowerLeft.getPreferredSize();
 //Insets insets = parent.getInsets();
             lowerLeft.setBounds(hsb.getX(), hsb.getY(), llp.width, hsb.getHeight());
             hsb.setBounds(hsb.getX() + llp.width, hsb.getY(), hsb.getWidth() - llp.width, hsb.getHeight());
-
         }
     }
 

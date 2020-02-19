@@ -4,7 +4,6 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 /**
  * Defines a framework for document oriented applications and provides default
  * implementations.
@@ -84,7 +83,6 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-
 package org.jhotdraw.app;
 
 

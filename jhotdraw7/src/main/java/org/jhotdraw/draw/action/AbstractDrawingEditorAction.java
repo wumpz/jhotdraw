@@ -2,12 +2,10 @@
  * @(#)AbstractDrawingEditorAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
-
-
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -15,7 +13,6 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import java.beans.*;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
-
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
  * on behalf of a {@link org.jhotdraw.draw.DrawingEditor}.
@@ -35,11 +32,8 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractDrawingEditorAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
-
     protected DrawingEditor editor;
-
     private class EventHandler implements PropertyChangeListener {
-
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
@@ -48,12 +42,10 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
         }
     };
     private EventHandler eventHandler = new EventHandler();
-
     /** Creates a new instance. */
     public AbstractDrawingEditorAction(DrawingEditor editor) {
         setEditor(editor);
     }
-
     public void setEditor(DrawingEditor newValue) {
         if (eventHandler != null) {
             unregisterEventHandler();
@@ -64,23 +56,18 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
             updateEnabledState();
         }
     }
-
     protected void updateEnabledState() {
         setEnabled(editor != null && editor.isEnabled());
     }
-
     public DrawingEditor getEditor() {
         return editor;
     }
-
     protected DrawingView getView() {
         return editor.getActiveView();
     }
-
     protected Drawing getDrawing() {
         return getView().getDrawing();
     }
-
     /** Updates the enabled state of this action to reflect the enabled state
      * of the active {@code DrawingView}. If no drawing view is active, this
      * action is disabled.
@@ -88,7 +75,6 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
     protected void fireUndoableEditHappened(UndoableEdit edit) {
         getDrawing().fireUndoableEditHappened(edit);
     }
-
     /** By default, the enabled state of this action is updated to reflect
      * the enabled state of the active {@code DrawingView}.
      * Since this is not always necessary, and since many listening actions
@@ -114,14 +100,12 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
             updateEnabledState();
         }
     }
-
     /** Returns true, if this action automatically updates its enabled
      * state to reflect the enabled state of the active {@code DrawingView}.
      */
     public boolean isUpdatEnabledState() {
         return eventHandler != null;
     }
-
     /** Unregisters the event handler from the drawing editor and the
      * active drawing view.
      */
@@ -130,7 +114,6 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
             editor.removePropertyChangeListener(eventHandler);
         }
     }
-
     /** Registers the event handler from the drawing editor and the
      * active drawing view.
      */
