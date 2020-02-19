@@ -6,10 +6,12 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.draw.tool.SelectionTool;
+
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.tool.SelectionTool;
+
 /**
  * SelectionToolSample demonstrates how the <code>SelectionTool</code> works.
  * <p>
@@ -39,6 +41,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class SelectionToolSample {
+
     /**
      * Creates a new instance of SelectionToolSample
      */
@@ -74,6 +77,7 @@ public class SelectionToolSample {
         //editor.setTool(new HandleTracker(view.findHandle(view.drawingToView(lf.getStartPoint()))));
         f.setVisible(true);
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

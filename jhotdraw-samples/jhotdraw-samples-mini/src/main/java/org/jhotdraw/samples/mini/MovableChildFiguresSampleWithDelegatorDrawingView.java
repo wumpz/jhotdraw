@@ -6,23 +6,19 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.DragHandle;
-import org.jhotdraw.draw.handle.Handle;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.DragHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+
 /**
  * Example showing how to create a graphical composite figure which holds
  * component figures that can be moved independently using handles.
@@ -32,14 +28,18 @@ import org.jhotdraw.draw.*;
  * @author Tobias Warneke
  */
 public class MovableChildFiguresSampleWithDelegatorDrawingView {
+
     private static class LabeledEllipseFigure extends GraphicalCompositeFigure {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
+
         public LabeledEllipseFigure() {
             setPresentationFigure(new EllipseFigure());
             LabelFigure label = new LabelFigure("Label");
             label.transform(new AffineTransform(0, 0, 0, 0, 25, 37));
             add(label);
         }
+
         /**
          * Return default handles from the presentation figure.
          */
@@ -63,6 +63,7 @@ public class MovableChildFiguresSampleWithDelegatorDrawingView {
             return handles;
         }
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -89,17 +90,19 @@ public class MovableChildFiguresSampleWithDelegatorDrawingView {
                     protected void printComponent(Graphics g) {
                         view.printComponent(g);
                     }
+
                     @Override
                     protected void paintComponent(Graphics g) {
                         view.paintComponent(g);
                     }
+
                     @Override
                     public void setBounds(int x, int y, int width, int height) {
                         super.setBounds(x, y, width, height); //To change body of generated methods, choose Tools | Templates.
                         view.fireViewTransformChanged();
                     }
                 };
-                drawPanel.setSize(500,500);
+                drawPanel.setSize(500, 500);
                 drawPanel.setOpaque(true);
                 view.setDrawTo(drawPanel);
                 view.setDrawing(drawing);
@@ -110,7 +113,9 @@ public class MovableChildFiguresSampleWithDelegatorDrawingView {
                 editor.setTool(new DelegationSelectionTool());
                 f.setVisible(true);
             }
+
             class DrawingViewImpl extends DelegatorDrawingView {
+
                 @Override
                 public AffineTransform getDrawingToViewTransform() {
                     AffineTransform transform = new AffineTransform();

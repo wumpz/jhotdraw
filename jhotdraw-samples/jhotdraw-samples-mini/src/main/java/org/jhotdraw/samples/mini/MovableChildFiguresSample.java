@@ -6,16 +6,18 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.DragHandle;
-import org.jhotdraw.draw.handle.Handle;
+
 import java.awt.BorderLayout;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.DragHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+
 /**
  * Example showing how to create a graphical composite figure which holds
  * component figures that can be moved independently using handles.
@@ -24,14 +26,18 @@ import org.jhotdraw.draw.*;
  * @version $Id: EditorSample.java 527 2009-06-07 14:28:19Z rawcoder $
  */
 public class MovableChildFiguresSample {
+
     private static class LabeledEllipseFigure extends GraphicalCompositeFigure {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
+
         public LabeledEllipseFigure() {
             setPresentationFigure(new EllipseFigure());
             LabelFigure label = new LabelFigure("Label");
             label.transform(new AffineTransform(0, 0, 0, 0, 25, 37));
             add(label);
         }
+
         /**
          * Return default handles from the presentation figure.
          */
@@ -55,6 +61,7 @@ public class MovableChildFiguresSample {
             return handles;
         }
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

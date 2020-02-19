@@ -6,10 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.layouter.VerticalLayouter;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -18,6 +15,12 @@ import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.AttributeKeys.Alignment;
+import org.jhotdraw.draw.layouter.VerticalLayouter;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Insets2D;
+
 /**
  * Example showing how to lay out composite figures.
  *
@@ -25,6 +28,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class FileIconsSample {
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -65,7 +69,7 @@ public class FileIconsSample {
                     Insets2D.Double insets = tef.getInsets();
                     tef.setBounds(new Point2D.Double(0, 0),
                             new Point2D.Double(Math.max(100, dim.width) + insets.left + insets.right,
-                            dim.height + insets.top + insets.bottom));
+                                    dim.height + insets.top + insets.bottom));
                     tef.set(STROKE_COLOR, null);
                     tef.set(FILL_COLOR, null);
                     tef.set(TEXT_ALIGNMENT, Alignment.CENTER);

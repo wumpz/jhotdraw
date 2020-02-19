@@ -6,13 +6,15 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.draw.locator.BezierLabelLocator;
-import org.jhotdraw.draw.layouter.LocatorLayouter;
-import org.jhotdraw.draw.liner.ElbowLiner;
+
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.layouter.LocatorLayouter;
+import org.jhotdraw.draw.liner.ElbowLiner;
+import org.jhotdraw.draw.locator.BezierLabelLocator;
+import org.jhotdraw.geom.Geom;
+
 /**
  * Example showing how to connect two rectangles with a labeled connection,
  * that has a labels at both ends.
@@ -21,9 +23,13 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class LabeledLineConnectionFigureSample {
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public LabeledLineConnectionFigureSample() {
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

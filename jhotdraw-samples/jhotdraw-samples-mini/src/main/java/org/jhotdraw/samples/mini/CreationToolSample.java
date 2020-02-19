@@ -6,15 +6,17 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.io.SerializationInputOutputFormat;
+
 import java.awt.*;
 import java.util.HashMap;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
-import org.jhotdraw.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.io.SerializationInputOutputFormat;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.util.*;
+
 /**
  * Example showing how to create a drawing editor with a creation tool for
  * figures with pre-defined attribute values: the example editor creates
@@ -24,6 +26,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class CreationToolSample {
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

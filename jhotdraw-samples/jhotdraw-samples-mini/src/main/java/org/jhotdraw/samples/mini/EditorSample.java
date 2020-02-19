@@ -6,12 +6,14 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.liner.ElbowLiner;
+
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.liner.ElbowLiner;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.geom.Geom;
+
 /**
  * Example showing how to create an editor that can edit figures on a drawing
  * using the DelegationSelectionTool.
@@ -20,6 +22,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class EditorSample {
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

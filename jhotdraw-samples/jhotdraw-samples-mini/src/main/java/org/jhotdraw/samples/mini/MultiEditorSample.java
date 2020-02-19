@@ -6,13 +6,15 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.io.SerializationInputOutputFormat;
+
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.io.SerializationInputOutputFormat;
+import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.util.*;
+
 /**
  * Example showing how to create a drawing editor which acts on four drawing
  * views.
@@ -21,6 +23,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class MultiEditorSample {
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -76,6 +79,7 @@ public class MultiEditorSample {
             }
         });
     }
+
     /**
      * Creates a drawing with input and output formats, so that drawing figures
      * can be copied and pasted between drawing views.

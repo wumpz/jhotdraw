@@ -7,12 +7,14 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jhotdraw.xml.*;
+
 /**
  * {@code QuickAndDirtyDOMStorableSample} serializes a DOMStorable MyObject into
  * a String using the DefaultDOMFactory and then deserializes it from the
@@ -22,29 +24,40 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class DefaultDOMStorableSample {
+
     public static class MyObject implements DOMStorable {
+
         private String name;
-        /** DOM Storable objects must have a non-argument constructor. */
+
+        /**
+         * DOM Storable objects must have a non-argument constructor.
+         */
         public MyObject() {
         }
+
         public MyObject(String name) {
             this.name = name;
         }
+
         public String getName() {
             return name;
         }
+
         public void setName(String name) {
             this.name = name;
         }
+
         @Override
         public void write(DOMOutput out) throws IOException {
             out.addAttribute("name", name);
         }
+
         @Override
         public void read(DOMInput in) throws IOException {
             name = in.getAttribute("name", null);
         }
     }
+
     public static void main(String[] args) {
         try {
             // Set up the DefaultDOMFactory

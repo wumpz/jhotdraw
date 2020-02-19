@@ -6,16 +6,16 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.color;
-import org.jhotdraw.color.*;
+
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.jhotdraw.color.*;
+
 /**
  * A demo of color wheels and color sliders using all kinds of color systems.
  *
@@ -23,12 +23,16 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class WheelsAndSlidersMain extends javax.swing.JPanel {
+
     private static final long serialVersionUID = 1L;
     private Color color;
     private JLabel colorLabel;
     private LinkedList<ColorSliderModel> models;
+
     private class Handler implements ChangeListener {
+
         private int adjusting;
+
         @Override
         public void stateChanged(ChangeEvent e) {
             if (adjusting++ == 0) {
@@ -53,6 +57,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         }
     }
     private Handler handler;
+
     /**
      * Creates new form.
      */
@@ -89,15 +94,19 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ), 1, 0, 2, JColorWheel.Type.SQUARE));
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC), 1, 2, 0, JColorWheel.Type.SQUARE));
     }
+
     private JPanel createColorWheelChooser(ColorSpace sys) {
         return createColorWheelChooser(sys, 0, 1, 2);
     }
+
     private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex) {
         return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, JColorWheel.Type.POLAR);
     }
+
     private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type) {
         return createColorWheelChooser(sys, angularIndex, radialIndex, verticalIndex, type, false, false);
     }
+
     private JPanel createColorWheelChooser(ColorSpace sys, int angularIndex, int radialIndex, int verticalIndex, JColorWheel.Type type, boolean flipX, boolean flipY) {
         JPanel p = new JPanel(new BorderLayout());
         final DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
@@ -123,8 +132,9 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
             final JTextField tf = new JTextField();
             tf.setEditable(false);
             tf.setColumns(4);
-            ChangeListener cl=new ChangeListener() {
+            ChangeListener cl = new ChangeListener() {
                 NumberFormat df = NumberFormat.getNumberInstance();
+
                 @Override
                 public void stateChanged(ChangeEvent e) {
                     df.setMaximumFractionDigits(3);
@@ -137,9 +147,11 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         }
         return p;
     }
+
     private JPanel createSliderChooser(ColorSpace sys) {
         return createSliderChooser(sys, false);
     }
+
     private JPanel createSliderChooser(ColorSpace sys, boolean vertical) {
         JPanel p = new JPanel(new GridBagLayout());
         final DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
@@ -170,8 +182,9 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
             final JTextField tf = new JTextField();
             tf.setEditable(false);
             tf.setColumns(4);
-            ChangeListener cl=new ChangeListener() {
+            ChangeListener cl = new ChangeListener() {
                 NumberFormat df = NumberFormat.getNumberInstance();
+
                 @Override
                 public void stateChanged(ChangeEvent e) {
                     df.setMaximumFractionDigits(3);
@@ -191,6 +204,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         }
         return p;
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -203,6 +217,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
             }
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

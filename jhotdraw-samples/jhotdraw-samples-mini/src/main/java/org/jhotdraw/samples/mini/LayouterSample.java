@@ -6,10 +6,12 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.layouter.VerticalLayouter;
+
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.layouter.VerticalLayouter;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+
 /**
  * Example showing how to layout two editable text figures and a line figure
  * within a graphical composite figure.
@@ -18,6 +20,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class LayouterSample {
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

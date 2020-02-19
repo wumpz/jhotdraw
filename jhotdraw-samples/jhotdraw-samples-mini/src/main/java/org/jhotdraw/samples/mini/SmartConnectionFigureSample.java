@@ -6,14 +6,17 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.liner.ElbowLiner;
-import org.jhotdraw.draw.connector.Connector;
+
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.AttributeKeys.StrokeType;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.liner.ElbowLiner;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.geom.Geom;
+
 /**
  * Example showing how to connect two text areas with an elbow connection.
  * <p>
@@ -30,11 +33,15 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class SmartConnectionFigureSample {
+
     private static class SmartConnectionFigure extends LineConnectionFigure {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
+
         public SmartConnectionFigure() {
             setAttributeEnabled(STROKE_TYPE, false);
         }
+
         @Override
         public void handleConnect(Connector start, Connector end) {
             setAttributeEnabled(STROKE_TYPE, true);
@@ -44,6 +51,7 @@ public class SmartConnectionFigureSample {
             changed();
             setAttributeEnabled(STROKE_TYPE, false);
         }
+
         @Override
         public void handleDisconnect(Connector start, Connector end) {
             setAttributeEnabled(STROKE_TYPE, true);
@@ -53,6 +61,7 @@ public class SmartConnectionFigureSample {
             setAttributeEnabled(STROKE_TYPE, false);
         }
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
