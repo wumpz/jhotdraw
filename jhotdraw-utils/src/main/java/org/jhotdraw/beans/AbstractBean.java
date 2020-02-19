@@ -7,11 +7,12 @@
  */
 package org.jhotdraw.beans;
 
-
 import java.beans.*;
 
 /**
- * This abstract class can be extended to implement a JavaBean. <p> Implements
+ * This abstract class can be extended to implement a JavaBean.
+ * <p>
+ * Implements
  * the methods required for adding and removing property change listeners.
  *
  * @author Werner Randelshofer
@@ -20,7 +21,7 @@ import java.beans.*;
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
-    
+
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
     /**

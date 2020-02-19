@@ -64,7 +64,7 @@ public class BezierPathNGTest {
         Path2D.Double gp = instance.toGeneralPath();
         PathIterator pathIterator = gp.getPathIterator(null);
         double[] coords = new double[2];
-        int i=0;
+        int i = 0;
         while (pathIterator.isDone() == false) {
             pathIterator.currentSegment(coords);
             for (int j = 0; j < 3; j++) {
@@ -75,7 +75,7 @@ public class BezierPathNGTest {
             pathIterator.next();
         }
     }
-    
+
     /**
      * Test of toPolygonArray method, of class BezierPath.
      */
@@ -95,7 +95,7 @@ public class BezierPathNGTest {
             }
         }
     }
-    
+
     @Test
     public void testPathIterator() {
         BezierPath instance = new BezierPath();
@@ -106,7 +106,7 @@ public class BezierPathNGTest {
 
         PathIterator pathIterator = instance.getPathIterator(null);
         double[] coords = new double[2];
-        int i=0;
+        int i = 0;
         while (pathIterator.isDone() == false) {
             pathIterator.currentSegment(coords);
             for (int j = 0; j < 3; j++) {
@@ -117,7 +117,7 @@ public class BezierPathNGTest {
             pathIterator.next();
         }
     }
-    
+
     @Test
     public void testPathIterator2() {
         BezierPath instance = new BezierPath();
@@ -126,9 +126,9 @@ public class BezierPathNGTest {
         c0 = new Point2D.Double(21.0004, 56.92827);
         instance.add(c0);
 
-        PathIterator pathIterator = instance.getPathIterator(null,4);
+        PathIterator pathIterator = instance.getPathIterator(null, 4);
         double[] coords = new double[2];
-        int i=0;
+        int i = 0;
         while (pathIterator.isDone() == false) {
             pathIterator.currentSegment(coords);
             for (int j = 0; j < 3; j++) {

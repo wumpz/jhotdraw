@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides input/output functionality leveraging the java.io package.
-*/
-
+ * Provides input/output functionality leveraging the java.io package.
+ */
 package org.jhotdraw.io;
-
-
-

@@ -12,15 +12,13 @@ import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 
-
-
 /**
  * GrowStroke can be used to grow/shrink a figure by a specified line width.
  * This only works with closed convex paths having edges in clockwise direction.
  * <p>
  * Note: Although this is a Stroke object, it does not actually create a stroked
- * shape, but one that can be used for filling. 
- * 
+ * shape, but one that can be used for filling.
+ *
  * @author Werner Randelshofer.
  * @version $Id$
  */
@@ -81,7 +79,6 @@ public class GrowStroke extends DoubleStroke {
         if (bp.size() > 1) {
             traceStroke(bp, left, right);
         }
-
 
         if (Geom.contains(left.getBounds2D(), right.getBounds2D())) {
             return (grow > 0) ? left : right;

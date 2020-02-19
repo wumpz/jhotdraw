@@ -32,7 +32,8 @@ public class Geom {
 
     /**
      * Tests if a point is on a line.
-     * <p>changed Werner Randelshofer 2003-11-26
+     * <p>
+     * changed Werner Randelshofer 2003-11-26
      */
     public static boolean lineContainsPoint(int x1, int y1,
             int x2, int y2,
@@ -64,7 +65,8 @@ public class Geom {
 
     /**
      * Tests if a point is on a line.
-     * <p>changed Werner Randelshofer 2003-11-26
+     * <p>
+     * changed Werner Randelshofer 2003-11-26
      */
     public static boolean lineContainsPoint(double x1, double y1,
             double x2, double y2,
@@ -97,13 +99,21 @@ public class Geom {
 
         return (min(abs(x - px), abs(y - py)) <= tolerance);
     }
-    /** The bitmask that indicates that a point lies above the rectangle. */
+    /**
+     * The bitmask that indicates that a point lies above the rectangle.
+     */
     public static final int OUT_TOP = Rectangle2D.OUT_TOP;
-    /** The bitmask that indicates that a point lies below the rectangle. */
+    /**
+     * The bitmask that indicates that a point lies below the rectangle.
+     */
     public static final int OUT_BOTTOM = Rectangle2D.OUT_BOTTOM;
-    /** The bitmask that indicates that a point lies to the left of the rectangle. */
+    /**
+     * The bitmask that indicates that a point lies to the left of the rectangle.
+     */
     public static final int OUT_LEFT = Rectangle2D.OUT_LEFT;
-    /** The bitmask that indicates that a point lies to the right of the rectangle. */
+    /**
+     * The bitmask that indicates that a point lies to the right of the rectangle.
+     */
     public static final int OUT_RIGHT = Rectangle2D.OUT_RIGHT;
 
     /**
@@ -304,8 +314,6 @@ public class Geom {
         }
         }
         }*/
-
-
         // if none found, pick closest vertex
         if (len == Double.MAX_VALUE) {
             i = shape.getPathIterator(new AffineTransform(), 1);
@@ -349,6 +357,7 @@ public class Geom {
 
     /**
      * Constains a value to the given range.
+     *
      * @return the constrained value
      */
     public static int range(int min, int max, int value) {
@@ -363,6 +372,7 @@ public class Geom {
 
     /**
      * Constains a value to the given range.
+     *
      * @return the constrained value
      */
     public static double range(double min, double max, double value) {
@@ -413,6 +423,7 @@ public class Geom {
     /**
      * Caps the line defined by p1 and p2 by the number of units
      * specified by radius.
+     *
      * @return A new end point for the line.
      */
     public static Point2D.Double cap(Point2D.Double p1, Point2D.Double p2, double radius) {
@@ -535,8 +546,8 @@ public class Geom {
     /**
      * Standard line intersection algorithm
      * Return the point of intersection if it exists, else null.
-     **/
-    
+     *
+     */
     public static Point intersect(int xa, // line 1 point 1 x
             // from Doug Lea's PolygonFigure
             int ya, // line 1 point 1 y
@@ -558,7 +569,6 @@ public class Geom {
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
         //  XI = XA + r(XB-XA)
         //  YI = YA + r(YB-YA)
-
         double denom = ((xb - xa) * (yd - yc) - (yb - ya) * (xd - xc));
 
         double rnum = ((ya - yc) * (xd - xc) - (xa - xc) * (yd - yc));
@@ -592,9 +602,9 @@ public class Geom {
     /**
      * Standard line intersection algorithm
      * Return the point of intersection if it exists, else null
-     **/
+     *
+     */
     // from Doug Lea's PolygonFigure
-    
     public static Point2D.Double intersect(double xa, // line 1 point 1 x
             double ya, // line 1 point 1 y
             double xb, // line 1 point 2 x
@@ -615,7 +625,6 @@ public class Geom {
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
         //  XI = XA + r(XB-XA)
         //  YI = YA + r(YB-YA)
-
         double denom = ((xb - xa) * (yd - yc) - (yb - ya) * (xd - xc));
 
         double rnum = ((ya - yc) * (xd - xc) - (xa - xc) * (yd - yc));
@@ -646,7 +655,6 @@ public class Geom {
         }
     }
 
-    
     public static Point2D.Double intersect(
             double xa, // line 1 point 1 x
             double ya, // line 1 point 1 y
@@ -669,7 +677,6 @@ public class Geom {
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
         //  XI = XA + r(XB-XA)
         //  YI = YA + r(YB-YA)
-
         double denom = ((xb - xa) * (yd - yc) - (yb - ya) * (xd - xc));
 
         double rnum = ((ya - yc) * (xd - xc) - (xa - xc) * (yd - yc));
@@ -714,12 +721,12 @@ public class Geom {
      * compute distance of point from line segment, or
      * Double.MAX_VALUE if perpendicular projection is outside segment; or
      * If pts on line are same, return distance from point
-     **/
+     *
+     */
     // from Doug Lea's PolygonFigure
     public static double distanceFromLine(int xa, int ya,
             int xb, int yb,
             int xc, int yc) {
-
 
         // source:http://vision.dai.ed.ac.uk/andrewfg/c-g-a-faq.html#q7
         //Let the point be C (XC,YC) and the line be AB (XA,YA) to (XB,YB).
@@ -754,7 +761,6 @@ public class Geom {
         //      If s < 0 C is left of AB (you can just check the numerator)
         //      If s>0 C is right of AB
         //      If s=0 C is on AB
-
         int xdiff = xb - xa;
         int ydiff = yb - ya;
         long l2 = xdiff * xdiff + ydiff * ydiff;
@@ -806,6 +812,7 @@ public class Geom {
      * The <code>grow</code> method does not check whether the resulting
      * values of <code>width</code> and <code>height</code> are
      * non-negative.
+     *
      * @param h the horizontal expansion
      * @param v the vertical expansion
      */
@@ -852,4 +859,3 @@ public class Geom {
                 && (r2.getY() + max(0, r2.getHeight())) <= r1.getY() + max(0, r1.getHeight());
     }
 }
-

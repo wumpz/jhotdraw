@@ -13,8 +13,6 @@ import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 
-
-
 /**
  * Shapes.
  *
@@ -23,7 +21,9 @@ import java.awt.geom.Point2D;
  */
 public class Shapes {
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     private Shapes() {
     }
 

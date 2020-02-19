@@ -10,18 +10,19 @@ package org.jhotdraw.util;
 import java.awt.*;
 import java.awt.image.*;
 import java.net.*;
-
 import javax.swing.*;
 
 /**
  * Image processing methods.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class Images {
 
-    /** Prevent instance creation. */
+    /**
+     * Prevent instance creation.
+     */
     private Images() {
     }
 
@@ -45,7 +46,7 @@ public class Images {
     /**
      * Converts an Image to BufferedImage. If the Image is already a
      * BufferedImage, the same image is returned.
-     * 
+     *
      * @param rImg An Image.
      * @return A BufferedImage.
      */
@@ -96,7 +97,6 @@ public class Images {
                 // in order not to loose data.
                 hasAlpha = true;
             }
-
 
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             try {
@@ -186,7 +186,8 @@ public class Images {
         return parts;
     }
 
-    /** Creates a scaled instanceof the image.
+    /**
+     * Creates a scaled instanceof the image.
      * <p>
      * If either width or height is a negative number then a value is s
      * ubstituted to maintain the aspect ratio of the original image dimensions.
@@ -203,21 +204,21 @@ public class Images {
      */
     public static BufferedImage getScaledInstance(Image image, int width, int height) {
         int w, h;
-        if (width<0&&height<0) {
-            w=image.getWidth(null);
-            h=image.getHeight(null);
-        } else if (width<0) {
-            w=image.getWidth(null)*height/image.getHeight(null);
-            h=height;
-        } else if (height<0) {
-            w=width;
-            h=image.getHeight(null)*width/image.getWidth(null);
+        if (width < 0 && height < 0) {
+            w = image.getWidth(null);
+            h = image.getHeight(null);
+        } else if (width < 0) {
+            w = image.getWidth(null) * height / image.getHeight(null);
+            h = height;
+        } else if (height < 0) {
+            w = width;
+            h = image.getHeight(null) * width / image.getWidth(null);
         } else {
-            w=width;
-            h=height;
+            w = width;
+            h = height;
         }
 
-        BufferedImage scaled = new BufferedImage(w,h, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = scaled.createGraphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         g.drawImage(image, 0, 0, w, h, null);

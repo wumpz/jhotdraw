@@ -9,13 +9,13 @@ package org.jhotdraw.util.prefs;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashMap;
 
 /**
  * {@code PreferencesUtil} provides utility methods for {@code
@@ -207,7 +207,8 @@ public class PreferencesUtil
         //
     }
 
-    /** Gets the system node for the package of the class if
+    /**
+     * Gets the system node for the package of the class if
      * permitted, gets a proxy otherwise.
      *
      * @return system node or a proxy.
@@ -220,7 +221,6 @@ public class PreferencesUtil
             return systemNodes.get(c.getPackage());
         }
 
-
         try {
             return Preferences.systemNodeForPackage(c);
         } catch (Throwable t) {
@@ -231,7 +231,8 @@ public class PreferencesUtil
         }
     }
 
-    /** Gets the user node for the package of the class if
+    /**
+     * Gets the user node for the package of the class if
      * permitted, gets a proxy otherwise.
      *
      * @return user node or a proxy.
@@ -258,7 +259,9 @@ public class PreferencesUtil
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     private PreferencesUtil() {
     }
 
@@ -334,18 +337,18 @@ public class PreferencesUtil
         window.addComponentListener(
                 new ComponentAdapter() {
 
-                    @Override
-                    public void componentMoved(ComponentEvent evt) {
-                        prefs.putInt(name + ".x", evt.getComponent().getX());
-                        prefs.putInt(name + ".y", evt.getComponent().getY());
-                    }
+            @Override
+            public void componentMoved(ComponentEvent evt) {
+                prefs.putInt(name + ".x", evt.getComponent().getX());
+                prefs.putInt(name + ".y", evt.getComponent().getY());
+            }
 
-                    @Override
-                    public void componentResized(ComponentEvent evt) {
-                        prefs.putInt(name + ".width", evt.getComponent().getWidth());
-                        prefs.putInt(name + ".height", evt.getComponent().getHeight());
-                    }
-                });
+            @Override
+            public void componentResized(ComponentEvent evt) {
+                prefs.putInt(name + ".width", evt.getComponent().getWidth());
+                prefs.putInt(name + ".height", evt.getComponent().getHeight());
+            }
+        });
 
     }
 

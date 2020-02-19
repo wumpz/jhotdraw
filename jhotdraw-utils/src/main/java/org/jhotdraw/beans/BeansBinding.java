@@ -9,7 +9,6 @@
  */
 package org.jhotdraw.beans;
 
-
 import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,7 +16,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
- * Can bind a property of a JavaBean to a property of another JavaBean. <p> The
+ * Can bind a property of a JavaBean to a property of another JavaBean.
+ * <p>
+ * The
  * binding can be unidirectional or bidirectional.
  *
  *
@@ -83,8 +84,10 @@ public class BeansBinding {
         bidirectional = true;
         updateTarget();
     }
-    
-    /** Removes the binding. */
+
+    /**
+     * Removes the binding.
+     */
     public void unbind() {
         setSource(null, sourceProperty);
         setTarget(null, targetProperty);

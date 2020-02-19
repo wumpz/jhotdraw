@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.geom;
 
-
 import java.awt.*;
 import java.awt.geom.*;
 
