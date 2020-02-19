@@ -12,8 +12,8 @@
 Provides interfaces and classes for dealing with different types of events fired
 by components of the drawing framework.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

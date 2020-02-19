@@ -11,8 +11,8 @@
 /**
 Provides interfaces and classes for locating a point on a figure.
 */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.draw.locator;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+

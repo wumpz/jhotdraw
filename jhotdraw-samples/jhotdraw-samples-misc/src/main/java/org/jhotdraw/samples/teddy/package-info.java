@@ -13,9 +13,9 @@
     A sample text editor that demonstrates the JHotDraw application framework.
 </p>
 */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.samples.teddy;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+
 

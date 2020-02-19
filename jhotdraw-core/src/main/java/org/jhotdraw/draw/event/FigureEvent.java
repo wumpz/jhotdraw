@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -36,8 +36,8 @@ public class FigureEvent extends EventObject {
     private static final long serialVersionUID=1L;
     private Rectangle2D.Double invalidatedArea;
     private AttributeKey<?> attribute;
-    @Nullable private Object oldValue;
-    @Nullable private Object newValue;
+    private Object oldValue;
+    private Object newValue;
     
     /**
      * Constructs an event for the given source Figure.
@@ -51,7 +51,7 @@ public class FigureEvent extends EventObject {
     /**
      * Constructs an event for the given source Figure.
      */
-    public FigureEvent(Figure source, AttributeKey<?> attribute, @Nullable Object oldValue, @Nullable Object newValue) {
+    public FigureEvent(Figure source, AttributeKey<?> attribute, Object oldValue, Object newValue) {
         super(source);
         this.attribute = attribute;
         this.oldValue = oldValue;
@@ -68,7 +68,7 @@ public class FigureEvent extends EventObject {
     /**
      *  Gets the bounds of the invalidated area on the drawing.
      */
-    @Nullable
+    
     public Rectangle2D.Double getInvalidatedArea() {
         return invalidatedArea;
     }
@@ -76,11 +76,11 @@ public class FigureEvent extends EventObject {
     public AttributeKey<?> getAttribute() {
         return attribute;
     }
-    @Nullable
+    
     public Object getOldValue() {
         return oldValue;
     }
-    @Nullable
+    
     public Object getNewValue() {
         return newValue;
     }

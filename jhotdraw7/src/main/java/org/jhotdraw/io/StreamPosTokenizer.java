@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.io.*;
 import java.util.LinkedList;
 
@@ -26,7 +26,7 @@ import java.util.LinkedList;
 
 public class StreamPosTokenizer
         /*extends StreamTokenizer*/ {
-    @Nullable private Reader reader = null;
+    private Reader reader = null;
     
     /**
      * Position of the next character that will be read from the file.

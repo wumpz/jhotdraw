@@ -15,8 +15,8 @@
 /**
 <p>Provides simple input and output classes from/to document models (DOM).</p>
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.xml;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

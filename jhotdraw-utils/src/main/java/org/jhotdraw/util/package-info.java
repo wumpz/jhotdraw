@@ -11,8 +11,8 @@
 /**
 Contains general purpose utility classes.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.util;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

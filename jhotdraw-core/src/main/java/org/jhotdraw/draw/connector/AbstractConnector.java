@@ -9,7 +9,7 @@
 package org.jhotdraw.draw.connector;
 
 import org.jhotdraw.geom.Geom;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import java.io.IOException;
 import java.awt.*;
@@ -30,7 +30,7 @@ public class AbstractConnector implements Connector, DOMStorable {
     /**
      * The owner of the connector
      */
-    @Nullable private Figure owner;
+    private Figure owner;
     /**
      * Whether we should connect to the figure or to its decorator.
      */

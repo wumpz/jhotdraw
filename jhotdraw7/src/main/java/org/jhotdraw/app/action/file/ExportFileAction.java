@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.file;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,11 +64,11 @@ public class ExportFileAction extends AbstractViewAction {
     private boolean proposeFileName;
 
     /** Creates a new instance. */
-    public ExportFileAction(Application app, @Nullable View view) {
+    public ExportFileAction(Application app, View view) {
         this(app, view, false);
     }
 
-    public ExportFileAction(Application app, @Nullable View view, boolean proposeFileName) {
+    public ExportFileAction(Application app, View view, boolean proposeFileName) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
@@ -178,7 +178,7 @@ public class ExportFileAction extends AbstractViewAction {
     }
 
     protected void exportView(final View view, final URI uri,
-            @Nullable final URIChooser chooser) {
+            final URIChooser chooser) {
         view.execute(new BackgroundTask() {
 
             @Override

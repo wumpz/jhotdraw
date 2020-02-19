@@ -11,8 +11,8 @@
 /**
 Provides classes for printing a drawing.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.draw.print;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

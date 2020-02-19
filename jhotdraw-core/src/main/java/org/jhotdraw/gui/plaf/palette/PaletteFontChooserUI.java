@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -35,8 +35,8 @@ public class PaletteFontChooserUI extends FontChooserUI {
     private JFontChooser fontChooser;
     private PaletteFontChooserSelectionPanel selectionPanel;
     private PaletteFontChooserPreviewPanel previewPanel;
-    @Nullable private SelectionPanelHandler selectionPanelHandler;
-    @Nullable private FontChooserHandler chooserHandler;
+    private SelectionPanelHandler selectionPanelHandler;
+    private FontChooserHandler chooserHandler;
     /**
      * The value of this counter is greater 0, if the palette
      * font chooser is updating, and should ignore incoming events.
@@ -379,7 +379,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
         setNewSelectionPath(newCollection, newFamily, newFace);
     }
 
-    private void setNewSelectionPath(@Nullable FontCollectionNode newCollection, @Nullable FontFamilyNode newFamily, @Nullable FontFaceNode newFace) {
+    private void setNewSelectionPath(FontCollectionNode newCollection, FontFamilyNode newFamily, FontFaceNode newFace) {
         FontChooserModel model = fontChooser.getModel();
 
         TreePath newPath;

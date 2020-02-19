@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.color;
 
-import javax.annotation.Nullable;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.color.ColorSpace;
@@ -126,16 +126,16 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         }
     }
 
-    @Nullable public Point getColorLocation(Color c) {
+    public Point getColorLocation(Color c) {
         float[] components = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(components);
     }
 
-    @Nullable public Point getColorLocation(float[] components) {
+    public Point getColorLocation(float[] components) {
         return null;
     }
 
-    @Nullable public float[] getColorAt(int x, int y) {
+    public float[] getColorAt(int x, int y) {
         return null;
     }
 

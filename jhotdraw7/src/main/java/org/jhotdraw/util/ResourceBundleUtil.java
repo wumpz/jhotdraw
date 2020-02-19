@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.util;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -273,7 +273,7 @@ public class ResourceBundleUtil implements Serializable {
      * @return The value of the property. Returns null
      *          if the property is missing.
      */
-    @Nullable
+    
     public ImageIcon getSmallIconProperty(String key, Class<?> baseClass) {
         return getIconProperty(key,".smallIcon",baseClass);
     }
@@ -286,7 +286,7 @@ public class ResourceBundleUtil implements Serializable {
      * @return The value of the property. Returns null
      *          if the property is missing.
      */
-    @Nullable
+    
     public ImageIcon getLargeIconProperty(String key, Class<?> baseClass) {
         return getIconProperty(key,".largeIcon",baseClass);
     }
@@ -354,7 +354,7 @@ public class ResourceBundleUtil implements Serializable {
      * @param key The key of the property. This method appends ".toolTipText" to the key.
      * @return The ToolTip. Returns null if no tooltip is defined.
      */
-    @Nullable
+    
     public String getToolTipTextProperty(String key) {
         try {
             String value = getStringRecursive(key + ".toolTipText");
@@ -375,7 +375,7 @@ public class ResourceBundleUtil implements Serializable {
      * @param key The key of the property. This method appends ".text" to the key.
      * @return The ToolTip. Returns null if no tooltip is defined.
      */
-    @Nullable
+    
     public String getTextProperty(String key) {
         try {
             String value = getStringRecursive(key + ".text");
@@ -397,7 +397,7 @@ public class ResourceBundleUtil implements Serializable {
      * @return <code>javax.swing.KeyStroke.getKeyStroke(value)</code>.
      *          Returns null if the property is missing.
      */
-    @Nullable
+    
     public KeyStroke getKeyStroke(String key) {
         KeyStroke ks = null;
         try {
@@ -416,7 +416,7 @@ public class ResourceBundleUtil implements Serializable {
      * @return <code>javax.swing.KeyStroke.getKeyStroke(value)</code>.
      *          Returns null if the property is missing.
      */
-    @Nullable
+    
     public KeyStroke getAcceleratorProperty(String key) {
         KeyStroke ks = null;
         try {

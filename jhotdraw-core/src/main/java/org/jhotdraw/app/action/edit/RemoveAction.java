@@ -13,7 +13,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
-import javax.annotation.Nullable;
+
 import javax.swing.JComponent;
 
 /**
@@ -40,7 +40,7 @@ public class RemoveAction extends DeleteAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public RemoveAction(@Nullable JComponent target) {
+    public RemoveAction(JComponent target) {
         this(target,ID);
     }
     /** Creates a new instance which acts on the specified component.
@@ -48,7 +48,7 @@ public class RemoveAction extends DeleteAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public RemoveAction(@Nullable JComponent target, String id) {
+    public RemoveAction(JComponent target, String id) {
         super(target,id);
     }
 }

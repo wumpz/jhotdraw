@@ -8,7 +8,7 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.plaf.palette.colorchooser.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -27,12 +27,12 @@ import java.util.*;
  * @version $Id$
  */
 public class PaletteColorChooserUI extends ColorChooserUI {
-    @Nullable protected PaletteColorChooserMainPanel mainPanel;
-    @Nullable protected JColorChooser chooser;
+    protected PaletteColorChooserMainPanel mainPanel;
+    protected JColorChooser chooser;
     protected ChangeListener previewListener;
     protected PropertyChangeListener propertyChangeListener;
-    @Nullable protected AbstractColorChooserPanel[] defaultChoosers;
-    @Nullable protected JComponent previewPanel;
+    protected AbstractColorChooserPanel[] defaultChoosers;
+    protected JComponent previewPanel;
     private static TransferHandler defaultTransferHandler = new ColorTransferHandler();
     private MouseListener previewMouseListener;
     

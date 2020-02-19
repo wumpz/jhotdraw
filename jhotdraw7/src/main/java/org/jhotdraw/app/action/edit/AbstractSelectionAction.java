@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
@@ -48,7 +48,7 @@ public abstract class AbstractSelectionAction extends AbstractAction {
     /** The target of the action or null if the action acts on the currently
      * focused component.
      */
-    @Nullable protected JComponent target;
+    protected JComponent target;
     /** This variable keeps a strong reference on the property change listener. */
     private PropertyChangeListener propertyHandler;
 
@@ -57,7 +57,7 @@ public abstract class AbstractSelectionAction extends AbstractAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public AbstractSelectionAction(@Nullable JComponent target) {
+    public AbstractSelectionAction(JComponent target) {
         this.target = target;
         if (target != null) {
             // Register with a weak reference on the JComponent.

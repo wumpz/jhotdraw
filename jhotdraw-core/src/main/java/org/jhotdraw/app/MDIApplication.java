@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleToolBarAction;
 import org.jhotdraw.app.action.window.FocusWindowAction;
@@ -407,7 +407,7 @@ public class MDIApplication extends AbstractApplication {
     /**
      * Creates a menu bar.
      */
-    protected JMenuBar createMenuBar(@Nullable View v) {
+    protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
 
         // Get menus from application model
@@ -484,7 +484,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -541,7 +541,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createViewMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "view");
@@ -553,7 +553,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createWindowMenu(View view) {
         JMenu m;
         JMenuItem mi;
@@ -587,7 +587,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -627,9 +627,9 @@ public class MDIApplication extends AbstractApplication {
     private class WindowMenuHandler implements PropertyChangeListener {
 
         private JMenu windowMenu;
-        @Nullable private View view;
+        private View view;
 
-        public WindowMenuHandler(JMenu windowMenu, @Nullable View view) {
+        public WindowMenuHandler(JMenu windowMenu, View view) {
             this.windowMenu = windowMenu;
             this.view = view;
             MDIApplication.this.addPropertyChangeListener(this);

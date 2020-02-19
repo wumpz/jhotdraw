@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.TogglePaletteAction;
 import org.jhotdraw.app.action.window.FocusWindowAction;
@@ -356,7 +356,7 @@ public class OSXApplication extends AbstractApplication {
     /**
      * Creates a menu bar.
      */
-    protected JMenuBar createMenuBar(@Nullable View v) {
+    protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
 
         // Get menus from application model
@@ -433,7 +433,7 @@ public class OSXApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createViewMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "view");
@@ -464,7 +464,7 @@ public class OSXApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -497,7 +497,7 @@ public class OSXApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -690,10 +690,10 @@ public class OSXApplication extends AbstractApplication {
     private class WindowMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu windowMenu;
-        @Nullable
+        
         private View view;
 
-        public WindowMenuHandler(JMenu windowMenu, @Nullable View view) {
+        public WindowMenuHandler(JMenu windowMenu, View view) {
             this.windowMenu = windowMenu;
             this.view = view;
             OSXApplication.this.addPropertyChangeListener(this);

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.NewFileAction;
@@ -59,7 +59,7 @@ import org.jhotdraw.app.action.edit.ClearSelectionAction;
 public class DefaultApplicationModel
         extends AbstractApplicationModel {
     private static final long serialVersionUID = 1L;
-    @Nullable private MenuBuilder menuBuilder;
+    private MenuBuilder menuBuilder;
 
     /**
      * Does nothing.
@@ -73,7 +73,7 @@ public class DefaultApplicationModel
      * class comments).
      */
     @Override
-    public ActionMap createActionMap(Application a, @Nullable View v) {
+    public ActionMap createActionMap(Application a, View v) {
         ActionMap m=new ActionMap();
         m.put(NewFileAction.ID, new NewFileAction(a));
         m.put(OpenFileAction.ID, new OpenFileAction(a));
@@ -95,7 +95,7 @@ public class DefaultApplicationModel
 
     /** Returns an empty unmodifiable list. */
     @Override
-    public List<JToolBar> createToolBars(Application app, @Nullable View p) {
+    public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
     }
 
@@ -112,7 +112,7 @@ public class DefaultApplicationModel
         return menuBuilder;
     }
 
-    public void setMenuBuilder(@Nullable MenuBuilder newValue) {
+    public void setMenuBuilder(MenuBuilder newValue) {
         menuBuilder = newValue;
     }
 

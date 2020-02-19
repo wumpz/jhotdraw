@@ -11,8 +11,8 @@
 /**
 Provides model classes for {@link org.jhotdraw.gui.JFontChooser}.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.gui.fontchooser;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

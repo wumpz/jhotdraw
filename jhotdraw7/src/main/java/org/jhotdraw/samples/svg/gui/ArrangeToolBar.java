@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import javax.swing.border.*;
 import org.jhotdraw.util.*;
@@ -27,7 +27,7 @@ import org.jhotdraw.gui.plaf.palette.*;
 public class ArrangeToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
 
-    @Nullable private SelectionComponentDisplayer displayer;
+    private SelectionComponentDisplayer displayer;
 
     /** Creates new instance. */
     public ArrangeToolBar() {

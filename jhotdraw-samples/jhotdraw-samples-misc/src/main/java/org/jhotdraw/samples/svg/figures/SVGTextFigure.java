@@ -10,7 +10,7 @@ package org.jhotdraw.samples.svg.figures;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Dimension2DDouble;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -52,11 +52,11 @@ public class SVGTextFigure
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    @Nullable
+    
     private transient Shape cachedTextShape;
-    @Nullable
+    
     private transient Rectangle2D.Double cachedBounds;
-    @Nullable
+    
     private transient Rectangle2D.Double cachedDrawingArea;
 
     /**

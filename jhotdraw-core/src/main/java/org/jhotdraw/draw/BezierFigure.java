@@ -10,7 +10,7 @@ package org.jhotdraw.draw;
 import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.connector.ChopBezierConnector;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -65,7 +65,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
      * speed of the figure.
      */
-    @Nullable
+    
     private transient BezierPath cappedPath;
 
     /**

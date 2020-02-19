@@ -8,7 +8,7 @@
 
 package org.jhotdraw.gui.event;
 
-import javax.annotation.Nullable;
+
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.URIChooser;
@@ -24,8 +24,8 @@ public class SheetEvent extends EventObject {
     private static final long serialVersionUID = 1L;
     private Object pane;
     private int option;
-    @Nullable private Object value;
-    @Nullable private Object inputValue;
+    private Object value;
+    private Object inputValue;
     
     /**
      * Creates a new instance.
@@ -36,7 +36,7 @@ public class SheetEvent extends EventObject {
     /**
      * Creates a new instance.
      */
-    public SheetEvent(JSheet source, JFileChooser fileChooser, int option, @Nullable Object value) {
+    public SheetEvent(JSheet source, JFileChooser fileChooser, int option, Object value) {
         super(source);
         this.pane = fileChooser;
         this.option = option;
@@ -45,7 +45,7 @@ public class SheetEvent extends EventObject {
     /**
      * Creates a new instance.
      */
-    public SheetEvent(JSheet source, URIChooser chooser, int option, @Nullable Object value) {
+    public SheetEvent(JSheet source, URIChooser chooser, int option, Object value) {
         super(source);
         this.pane = chooser;
         this.option = option;
@@ -54,7 +54,7 @@ public class SheetEvent extends EventObject {
     /**
      * Creates a new instance.
      */
-    public SheetEvent(JSheet source, JOptionPane optionPane, int option, @Nullable Object value, @Nullable Object inputValue) {
+    public SheetEvent(JSheet source, JOptionPane optionPane, int option, Object value, Object inputValue) {
         super(source);
         this.pane = optionPane;
         this.option = option;

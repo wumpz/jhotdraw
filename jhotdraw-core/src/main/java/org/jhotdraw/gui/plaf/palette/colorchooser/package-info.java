@@ -11,8 +11,8 @@
 /**
 Provides user interface delegate classes for JHotDraw JComponent's.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

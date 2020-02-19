@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.Rectangle;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
@@ -22,19 +22,19 @@ import org.jhotdraw.draw.*;
 public class ZoomAction extends AbstractDrawingViewAction {
     private static final long serialVersionUID = 1L;
     private double scaleFactor;
-    @Nullable private AbstractButton button;
+    private AbstractButton button;
     private String label;
     /**
      * Creates a new instance.
      */
-    public ZoomAction(@Nullable DrawingEditor editor, double scaleFactor, @Nullable AbstractButton button) {
+    public ZoomAction(DrawingEditor editor, double scaleFactor, AbstractButton button) {
         this((DrawingView) null, scaleFactor, button);
         setEditor(editor);
     }
     /**
      * Creates a new instance.
      */
-    public ZoomAction(@Nullable DrawingView view, double scaleFactor, @Nullable AbstractButton button) {
+    public ZoomAction(DrawingView view, double scaleFactor, AbstractButton button) {
         super(view);
         this.scaleFactor = scaleFactor;
         this.button = button;

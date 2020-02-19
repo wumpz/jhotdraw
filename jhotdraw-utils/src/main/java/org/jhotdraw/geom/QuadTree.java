@@ -9,7 +9,7 @@ package org.jhotdraw.geom;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import javax.annotation.Nullable;
+
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -136,13 +136,13 @@ public class QuadTree<T> implements Serializable {
          */
         private HashMap<T, Rectangle2D.Double> objects;
 
-        @Nullable
+        
         private QuadNode northEast;
-        @Nullable
+        
         private QuadNode northWest;
-        @Nullable
+        
         private QuadNode southEast;
-        @Nullable
+        
         private QuadNode southWest;
 
         public QuadNode(Rectangle2D.Double bounds) {

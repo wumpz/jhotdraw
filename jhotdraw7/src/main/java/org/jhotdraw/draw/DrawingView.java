@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -166,20 +166,20 @@ public interface DrawingView {
      * Gets the drawing.
      * This is a bound property.
      */
-    @Nullable
+    
     public Drawing getDrawing();
 
     /**
      * Sets and installs another drawing in the view.
      * This is a bound property.
      */
-    public void setDrawing(@Nullable Drawing d);
+    public void setDrawing(Drawing d);
 
     /**
      * Sets the cursor of the DrawingView.
      * This is a bound property.
      */
-    public void setCursor(@Nullable Cursor c);
+    public void setCursor(Cursor c);
 
     /**
      * Test whether a given figure is selected.
@@ -231,7 +231,7 @@ public interface DrawingView {
      * Finds a handle at the given coordinates.
      * @return A handle, null if no handle is found.
      */
-    @Nullable
+    
     public Handle findHandle(Point p);
 
     /**
@@ -243,19 +243,19 @@ public interface DrawingView {
     /**
      * Sets the active handle.
      */
-    public void setActiveHandle(@Nullable Handle newValue);
+    public void setActiveHandle(Handle newValue);
 
     /**
      * Gets the active handle.
      */
-    @Nullable
+    
     public Handle getActiveHandle();
 
     /**
      * Finds a figure at the given point.
      * @return A figure, null if no figure is found.
      */
-    @Nullable
+    
     public Figure findFigure(Point p);
 
     /**
@@ -287,7 +287,7 @@ public interface DrawingView {
      * Gets the drawing editor associated to the DrawingView.
      * This is a bound property.
      */
-    @Nullable
+    
     public DrawingEditor getEditor();
 
     /**
@@ -332,21 +332,21 @@ public interface DrawingView {
      * otherwise it returns getInvisibleConstrainer.
      * This is a bound property.
      */
-    @Nullable public Constrainer getConstrainer();
+    public Constrainer getConstrainer();
 
     /**
      * Sets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
      */
-    public void setVisibleConstrainer(@Nullable Constrainer constrainer);
+    public void setVisibleConstrainer(Constrainer constrainer);
 
     /**
      * Gets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
      */
-    @Nullable public Constrainer getVisibleConstrainer();
+    public Constrainer getVisibleConstrainer();
 
     /**
      * Sets the editor's constrainer for this view, for use, when the

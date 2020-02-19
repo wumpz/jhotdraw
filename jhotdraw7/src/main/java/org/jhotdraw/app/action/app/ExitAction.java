@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.event.*;
@@ -263,7 +263,7 @@ public class ExitAction extends AbstractApplicationAction {
         }
     }
 
-    protected void saveToFile(final URI uri, @Nullable final URIChooser chooser) {
+    protected void saveToFile(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new BackgroundTask() {
 
@@ -299,7 +299,7 @@ public class ExitAction extends AbstractApplicationAction {
         });
     }
 
-    protected void saveToFileAndReviewNext(final URI uri, @Nullable final URIChooser chooser) {
+    protected void saveToFileAndReviewNext(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
         v.execute(new BackgroundTask() {
 

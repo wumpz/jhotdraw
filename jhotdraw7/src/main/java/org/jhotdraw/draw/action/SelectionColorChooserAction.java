@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
@@ -32,18 +32,18 @@ public class SelectionColorChooserAction extends EditorColorChooserAction {
         this(editor, key, null, null);
     }
     /** Creates a new instance. */
-    public SelectionColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, @Nullable Icon icon) {
+    public SelectionColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
         this(editor, key, null, icon);
     }
     /** Creates a new instance. */
-    public SelectionColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, @Nullable String name) {
+    public SelectionColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
         this(editor, key, name, null);
     }
-    public SelectionColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon) {
+    public SelectionColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon) {
         this(editor, key, name, icon, new HashMap<AttributeKey<?>,Object>());
     }
-    public SelectionColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, @Nullable String name, @Nullable Icon icon,
-            @Nullable Map<AttributeKey<?>,Object> fixedAttributes) {
+    public SelectionColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon,
+            Map<AttributeKey<?>,Object> fixedAttributes) {
         super(editor, key, name, icon, fixedAttributes);
     }
     

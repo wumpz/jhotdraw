@@ -8,7 +8,7 @@
 package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.undo.UndoRedoManager;
-import javax.annotation.Nullable;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ContainerEvent;
@@ -62,10 +62,10 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     private static final long serialVersionUID = 1L;
 
     private UndoRedoManager undoManager;
-    @Nullable private DrawingEditor editor;
+    private DrawingEditor editor;
     private ResourceBundleUtil labels;
     private Preferences prefs;
-    @Nullable private ContainerListener containerHandler;
+    private ContainerListener containerHandler;
 
     public UndoRedoManager getUndoRedoManager() {
         return undoManager;
@@ -241,11 +241,11 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         return view;
     }
 
-    @Nullable public DrawingEditor getEditor() {
+    public DrawingEditor getEditor() {
         return editor;
     }
 
-    public void setEditor(@Nullable DrawingEditor newValue) {
+    public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
             oldValue.remove(view);

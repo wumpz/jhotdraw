@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -33,11 +33,11 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
     /**
      * This is used to perform faster drawing.
      */
-    @Nullable private transient Shape cachedTransformedShape;
+    private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable private transient Shape cachedHitShape;
+    private transient Shape cachedHitShape;
 
     /** Creates a new instance. */
     public ODGRectFigure() {

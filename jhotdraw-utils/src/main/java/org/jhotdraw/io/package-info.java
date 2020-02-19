@@ -11,8 +11,8 @@
 /**
 Provides input/output functionality leveraging the java.io package.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.io;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

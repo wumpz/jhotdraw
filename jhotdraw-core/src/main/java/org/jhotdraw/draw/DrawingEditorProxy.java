@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -34,7 +34,7 @@ import org.jhotdraw.beans.AbstractBean;
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
     private static final long serialVersionUID = 1L;
-    @Nullable
+    
     private DrawingEditor target;
 
     private class Forwarder implements PropertyChangeListener, Serializable {
@@ -57,7 +57,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Sets the target of the proxy.
      */
-    public void setTarget(@Nullable DrawingEditor newValue) {
+    public void setTarget(DrawingEditor newValue) {
         if (target != null) {
             target.removePropertyChangeListener(forwarder);
         }
@@ -70,7 +70,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Gets the target of the proxy.
      */
-    @Nullable
+    
     public DrawingEditor getTarget() {
         return target;
     }
@@ -100,7 +100,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         target.setActiveView(newValue);
     }
 
-    @Nullable
+    
     public DrawingView getFocusedView() {
         return (target == null) ? null : target.getActiveView();
     }

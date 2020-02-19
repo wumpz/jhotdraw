@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 import java.awt.image.*;
 import java.io.*;
 
@@ -57,11 +57,11 @@ public interface ImageHolderFigure extends Figure {
     /**
      * Gets the buffered image from the figure.
      */
-    @Nullable public BufferedImage getBufferedImage();
+    public BufferedImage getBufferedImage();
     /**
      * Sets the buffered image for the figure.
      */
-    public void setBufferedImage(@Nullable BufferedImage image);
+    public void setBufferedImage(BufferedImage image);
     
     /**
      * Sets the image.
@@ -71,13 +71,13 @@ public interface ImageHolderFigure extends Figure {
      * @param bufferedImage An image constructed from the imageData. If this
      * is null, imageData must be provided.
      */
-    public void setImage(@Nullable byte[] imageData, @Nullable BufferedImage bufferedImage) throws IOException;
+    public void setImage(byte[] imageData, BufferedImage bufferedImage) throws IOException;
     /**
      * Gets the image data.
      *
      * @return imageData The image data, or null, if the ImageHolderFigure does
      * not have an image.
      */
-    @Nullable public byte[] getImageData();
+    public byte[] getImageData();
 
 }

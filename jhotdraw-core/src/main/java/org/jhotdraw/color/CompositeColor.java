@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.color;
 
-import javax.annotation.Nullable;
+
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 
@@ -33,7 +33,7 @@ public class CompositeColor extends Color {
      * @see #getRGBColorComponents
      * @see #getRGBComponents
      */
-    @Nullable
+    
     private float fvalue[] = null;
     /**
      * The alpha value as a <code>float</code> component.
@@ -52,7 +52,7 @@ public class CompositeColor extends Color {
      * @see #getColorSpace
      * @see #getColorComponents
      */
-    @Nullable
+    
     private ColorSpace cs = null;
 
     /**

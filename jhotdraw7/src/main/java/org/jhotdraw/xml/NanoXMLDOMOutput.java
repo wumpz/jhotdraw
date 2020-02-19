@@ -8,7 +8,7 @@
 
 package org.jhotdraw.xml;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;
@@ -45,7 +45,7 @@ public class NanoXMLDOMOutput implements DOMOutput, Disposable {
     /**
      * The document used for output.
      */
-    @Nullable private XMLElement document;
+    private XMLElement document;
     /**
      * The current node used for output.
      */

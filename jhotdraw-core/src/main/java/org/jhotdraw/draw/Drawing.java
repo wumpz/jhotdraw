@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 import java.awt.Graphics2D;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
@@ -241,29 +241,29 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Use {@link #findFigureInside} If you need to descend into children of
      * composite figures.
      */
-    @Nullable Figure findFigure(Point2D.Double p);
+    Figure findFigure(Point2D.Double p);
 
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    @Nullable Figure findFigureExcept(Point2D.Double p, Figure ignore);
+    Figure findFigureExcept(Point2D.Double p, Figure ignore);
 
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    @Nullable Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
+    Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
 
     /**
      * Finds a top level Figure which is behind the specified Figure.
      */
-    @Nullable Figure findFigureBehind(Point2D.Double p, Figure figure);
+    Figure findFigureBehind(Point2D.Double p, Figure figure);
 
     /**
      * Finds a top level Figure which is behind the specified Figures.
      */
-    @Nullable Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
+    Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
 
     /**
      * Returns a list of the figures in Z-Order from front to back.
@@ -288,7 +288,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * location is not contained in a figure.
      */
     @Override
-    @Nullable
+    
     Figure findFigureInside(Point2D.Double p);
 
     /**

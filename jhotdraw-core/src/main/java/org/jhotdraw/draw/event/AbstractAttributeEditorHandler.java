@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -48,13 +48,13 @@ import org.jhotdraw.draw.Figure;
  */
 public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 
-    @Nullable protected DrawingEditor editor;
-    @Nullable protected DrawingView view;
-    @Nullable protected DrawingView activeView;
+    protected DrawingEditor editor;
+    protected DrawingView view;
+    protected DrawingView activeView;
     protected AttributeEditor<T> attributeEditor;
     protected AttributeKey<T> attributeKey;
     protected int updateDepth;
-    @Nullable protected LinkedList<Object> attributeRestoreData = new LinkedList<>();
+    protected LinkedList<Object> attributeRestoreData = new LinkedList<>();
     protected Map<AttributeKey<?>, Object> defaultAttributes;
     
     /**
@@ -159,16 +159,16 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         }
     }
 
-    public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor) {
+    public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
         this(key, attributeEditor, drawingEditor, true);
     }
 
-    public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
+    public AbstractAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         this(key, null, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
     }
 
     @SuppressWarnings("unchecked")
-    public AbstractAttributeEditorHandler(AttributeKey<T> key, @Nullable Map<AttributeKey<?>, Object> defaultAttributes, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
+    public AbstractAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey<?>, Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         eventHandler = new EventHandler();
         this.defaultAttributes = (Map<AttributeKey<?>, Object>) ((defaultAttributes == null) ? Collections.emptyMap() : defaultAttributes);
         attributeEditor.setAttributeValue(key.getDefaultValue());
@@ -187,7 +187,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
      *
      * @param newValue a drawing editor.
      */
-    public void setEditor(@Nullable DrawingEditor newValue) {
+    public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (editor != null) {
             editor.removePropertyChangeListener(eventHandler);
@@ -203,7 +203,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
      * Returns the DrawingEditor to which this FigureAttributeEditorHandler is
      * attached.
      */
-    @Nullable public DrawingEditor getEditor() {
+    public DrawingEditor getEditor() {
         return editor;
     }
 
@@ -216,7 +216,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
      *
      * @param newValue a drawing view.
      */
-    public void setView(@Nullable DrawingView newValue) {
+    public void setView(DrawingView newValue) {
         this.view = newValue;
         updateActiveView();
     }
@@ -226,7 +226,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
      * attached. Returns null, if the FigureAttributeEditorHandler is attached
      * to all views of the DrawingEditor.
      */
-    @Nullable public DrawingView getView() {
+    public DrawingView getView() {
         return view;
     }
 
@@ -248,7 +248,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         return isUpdateDrawingEditorDefaults;
     }
 
-    @Nullable protected DrawingView getActiveView() {
+    protected DrawingView getActiveView() {
         if (getView() != null) {
             return getView();
         } else {

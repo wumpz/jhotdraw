@@ -8,7 +8,7 @@
 
 package org.jhotdraw.gui.plaf.palette;
 
-import javax.annotation.Nullable;
+
 import java.lang.reflect.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
@@ -25,7 +25,7 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      * Object to invoke <code>loadActionMap</code> on. This may be
      * a Class object.
      */
-    @Nullable private transient Object loader;
+    private transient Object loader;
 
     /**
      * Installs an ActionMap that will be populated by invoking the

@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -35,13 +35,13 @@ public class AttributeToggler<T> extends AbstractAction {
     private AttributeKey<T> key;
     private T value1;
     private T value2;
-    @Nullable private Action compatibleTextAction;
+    private Action compatibleTextAction;
     
     /** Creates a new instance. */
     public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2) {
         this(editor, key, value1, value2, null);
     }
-    public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2, @Nullable  Action compatibleTextAction) {
+    public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2,  Action compatibleTextAction) {
         this.editor = editor;
         this.key = key;
         this.value1 = value1;

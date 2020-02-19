@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
@@ -30,7 +30,7 @@ public abstract class AbstractView extends JPanel implements View {
      * controlled manner. This executor ensures that all background tasks
      * are executed sequentually.
      */
-    @Nullable protected ExecutorService executor;
+    protected ExecutorService executor;
     /**
      * This is set to true, if the view has unsaved changes.
      */
@@ -53,13 +53,13 @@ public abstract class AbstractView extends JPanel implements View {
      */
     private String title;
     /** List of objects that need to be disposed when this view is disposed. */
-    @Nullable private LinkedList<Disposable> disposables;
+    private LinkedList<Disposable> disposables;
     /**
      * The URI of the view.
      * Has a null value, if the view has not been loaded from a URI
      * or has not been saved yet.
      */
-    @Nullable protected URI uri;
+    protected URI uri;
 
     /**
      * Creates a new instance.
@@ -126,12 +126,12 @@ public abstract class AbstractView extends JPanel implements View {
     }
 
     @Override
-   @Nullable public URI getURI() {
+   public URI getURI() {
         return uri;
     }
 
     @Override
-    public void setURI(@Nullable URI newValue) {
+    public void setURI(URI newValue) {
         URI oldValue = uri;
         uri = newValue;
         if (preferences != null && newValue != null) {

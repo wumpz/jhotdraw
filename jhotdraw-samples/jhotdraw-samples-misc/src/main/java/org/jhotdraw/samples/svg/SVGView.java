@@ -9,7 +9,7 @@
 package org.jhotdraw.samples.svg;
 
 import org.jhotdraw.undo.UndoRedoManager;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.io.InputFormat;
@@ -48,7 +48,7 @@ public class SVGView extends AbstractView {
      * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
-    @Nullable private PropertyChangeListener propertyHandler;
+    private PropertyChangeListener propertyHandler;
 
     /**
      * Creates a new View.

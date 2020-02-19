@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.geom;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.geom.*;
 
@@ -33,7 +33,7 @@ public class DoubleStroke implements Stroke {
         this(innerWidth, outlineWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 10f, null, 0f);
     }
 
-    public DoubleStroke(double innerWidth, double outlineWidth, int cap, int join, double miterLimit, @Nullable float[] dashes, float dashPhase) {
+    public DoubleStroke(double innerWidth, double outlineWidth, int cap, int join, double miterLimit, float[] dashes, float dashPhase) {
         this.innerWidth = innerWidth;
         this.outlineWidth = outlineWidth;
         this.miterLimit = miterLimit;

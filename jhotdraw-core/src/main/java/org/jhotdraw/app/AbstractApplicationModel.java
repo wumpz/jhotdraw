@@ -9,7 +9,7 @@
 package org.jhotdraw.app;
 
 import org.jhotdraw.beans.AbstractBean;
-import javax.annotation.Nullable;
+
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.JFileURIChooser;
@@ -126,7 +126,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
      * Creates toolbars for the application.
      */
     @Override
-    public abstract List<JToolBar> createToolBars(Application a, @Nullable View p);
+    public abstract List<JToolBar> createToolBars(Application a, View p);
 
     /** This method is empty. */
     @Override
@@ -149,34 +149,34 @@ public abstract class AbstractApplicationModel extends AbstractBean
     }
 
     @Override
-    public URIChooser createOpenChooser(Application a, @Nullable View v) {
+    public URIChooser createOpenChooser(Application a, View v) {
         URIChooser c = new JFileURIChooser();
 
         return c;
     }
 
     @Override
-    public URIChooser createOpenDirectoryChooser(Application a, @Nullable View v) {
+    public URIChooser createOpenDirectoryChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
         c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         return c;
     }
 
     @Override
-    public URIChooser createSaveChooser(Application a, @Nullable View v) {
+    public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
         return c;
     }
 
     /** Returns createOpenChooser. */
     @Override
-    public URIChooser createImportChooser(Application a, @Nullable View v) {
+    public URIChooser createImportChooser(Application a, View v) {
         return createOpenChooser(a, v);
     }
 
     /** Returns createSaveChooser. */
     @Override
-    public URIChooser createExportChooser(Application a, @Nullable View v) {
+    public URIChooser createExportChooser(Application a, View v) {
         return createSaveChooser(a, v);
     }
 

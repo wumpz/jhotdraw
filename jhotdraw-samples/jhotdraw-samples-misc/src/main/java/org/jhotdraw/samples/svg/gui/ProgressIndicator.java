@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -29,14 +29,14 @@ public class ProgressIndicator extends javax.swing.JPanel {
     }
 
     /** Creates new instance. */
-    public ProgressIndicator(@Nullable String message, @Nullable String note) {
+    public ProgressIndicator(String message, String note) {
         this(message, note, 0, 100, true);
     }
 
     /** Creates new instance. */
     public ProgressIndicator(
-            @Nullable String message,
-            @Nullable String note,
+            String message,
+            String note,
             int min,
             int max,
             boolean indeterminate) {
@@ -50,15 +50,15 @@ public class ProgressIndicator extends javax.swing.JPanel {
         setIndeterminate(indeterminate);
     }
 
-    public void setMessage(@Nullable String message) {
+    public void setMessage(String message) {
         messageLabel.setText(message);
     }
 
-    @Nullable public String getMessage() {
+    public String getMessage() {
         return messageLabel.getText();
     }
 
-    public void setNote(@Nullable final String newValue) {
+    public void setNote(final String newValue) {
         String oldValue = noteLabel.getText();
         noteLabel.setText(newValue);
         if (oldValue == null || newValue == null && oldValue != newValue) {

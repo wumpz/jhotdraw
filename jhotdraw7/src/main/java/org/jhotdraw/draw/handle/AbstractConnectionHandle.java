@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.*;
@@ -30,7 +30,7 @@ import java.util.*;
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     private Connector savedTarget;
-    @Nullable private Connector connectableConnector;
+    private Connector connectableConnector;
     private Figure connectableFigure;
     private Point start;
     /**
@@ -174,7 +174,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         connectors = Collections.emptyList();
     }
 
-    @Nullable
+    
     private Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
         Figure targetFigure = findConnectableFigure(p, drawing);
 
@@ -221,7 +221,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         }
     }
 
-    @Nullable
+    
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure f : drawing.getFiguresFrontToBack()) {
             if (!f.includes(getOwner()) && f.isConnectable() && f.contains(p)) {
@@ -282,14 +282,14 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         return list;
     }
 
-    @Nullable
+    
     protected BezierPath.Node getBezierNode() {
         int index = getBezierNodeIndex();
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }
 
     @Override
-    @Nullable
+    
     public String getToolTipText(Point p) {
         ConnectionFigure f = getOwner();
         if (f.getLiner() == null && savedLiner == null) {

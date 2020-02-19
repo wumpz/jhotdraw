@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.undo.CompositeEdit;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import javax.swing.*;
 import java.beans.*;
@@ -28,7 +28,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     private static final long serialVersionUID = 1L;
 
     private AttributeKey<?>[] keys;
-    @Nullable
+    
     private Map<AttributeKey<?>, Object> fixedAttributes;
 
     /** Creates a new instance. */
@@ -36,7 +36,7 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
         this(editor, key, null, null);
     }
 
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable Map<AttributeKey<?>, Object> fixedAttributes) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, Map<AttributeKey<?>, Object> fixedAttributes) {
         this(editor, new AttributeKey<?>[]{key}, null, null, fixedAttributes);
     }
 
@@ -45,27 +45,27 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     }
 
     /** Creates a new instance. */
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable Icon icon) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, Icon icon) {
         this(editor, key, null, icon);
     }
 
     /** Creates a new instance. */
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable String name) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, String name) {
         this(editor, key, name, null);
     }
 
-    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, @Nullable String name, @Nullable Icon icon) {
+    public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, String name, Icon icon) {
         this(editor, new AttributeKey<?>[]{key}, name, icon);
     }
 
     public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?>[] keys,
-            @Nullable String name, @Nullable Icon icon) {
+            String name, Icon icon) {
         this(editor, keys, name, icon, new HashMap<AttributeKey<?>, Object>());
     }
 
     public DefaultAttributeAction(DrawingEditor editor,
-            AttributeKey<?>[] keys, @Nullable String name, @Nullable Icon icon,
-            @Nullable Map<AttributeKey<?>, Object> fixedAttributes) {
+            AttributeKey<?>[] keys, String name, Icon icon,
+            Map<AttributeKey<?>, Object> fixedAttributes) {
         super(editor);
         this.keys = keys.clone();
         putValue(AbstractAction.NAME, name);

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -57,11 +57,11 @@ public class JFontChooser extends JComponent {
     /**
      * Holds the selected path of the JFontChooser.
      */
-    @Nullable private TreePath selectionPath;
+    private TreePath selectionPath;
     /**
      * Holds the selected font of the JFontChooser.
      */
-    @Nullable private Font selectedFont;
+    private Font selectedFont;
     /**
      * Holds the model of the JFontChooser.
      */
@@ -83,7 +83,7 @@ public class JFontChooser extends JComponent {
     public static final int ERROR_OPTION = -1;
     private int returnValue = ERROR_OPTION;
     // DIALOG
-    @Nullable private JDialog dialog = null;
+    private JDialog dialog = null;
     /**
      * This future is used to load fonts lazily
      */
@@ -278,7 +278,7 @@ public class JFontChooser extends JComponent {
      * 
      * @return The selected font, or null, if no font is selected.
      */
-    @Nullable public TreePath getSelectionPath() {
+    public TreePath getSelectionPath() {
         return selectionPath;
     }
 
@@ -293,7 +293,7 @@ public class JFontChooser extends JComponent {
      * @param newValue The new selected font, or null if no font is to be
      * selected..
      */
-    public void setSelectionPath(@Nullable TreePath newValue) {
+    public void setSelectionPath(TreePath newValue) {
         TreePath oldValue = selectionPath;
         this.selectionPath = newValue;
         firePropertyChange(SELECTION_PATH_PROPERTY, oldValue, newValue);
@@ -356,7 +356,7 @@ public class JFontChooser extends JComponent {
      * 
      * @return The selected font, or null, if no font is selected.
      */
-    @Nullable public Font getSelectedFont() {
+    public Font getSelectedFont() {
         return selectedFont;
     }
 
@@ -372,7 +372,7 @@ public class JFontChooser extends JComponent {
      * @param newValue The new selected font, or null if no font is to be
      * selected.
      */
-    public void setSelectedFont(@Nullable Font newValue) {
+    public void setSelectedFont(Font newValue) {
         Font oldValue = selectedFont;
         this.selectedFont = newValue;
         firePropertyChange(SELECTED_FONT_PROPERTY, oldValue, newValue);
@@ -387,7 +387,7 @@ public class JFontChooser extends JComponent {
      * 
      * @param newValue
      */
-    protected void updateSelectionPath(@Nullable Font newValue) {
+    protected void updateSelectionPath(Font newValue) {
         if (newValue == null || selectionPath == null || selectionPath.getPathCount() != 4 ||
                 !((FontFaceNode) selectionPath.getLastPathComponent()).getFont().getFontName().equals(newValue.getFontName())) {
             if (newValue == null) {

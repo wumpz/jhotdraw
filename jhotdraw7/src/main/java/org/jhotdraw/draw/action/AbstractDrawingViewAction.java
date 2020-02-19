@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -40,9 +40,9 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractDrawingViewAction extends AbstractAction implements Disposable {
     private static final long serialVersionUID = 1L;
 
-    @Nullable private DrawingEditor editor;
-    @Nullable private DrawingView specificView;
-    @Nullable transient private DrawingView activeView;
+    private DrawingEditor editor;
+    private DrawingView specificView;
+    transient private DrawingView activeView;
 
     private class EventHandler implements PropertyChangeListener {
 
@@ -69,24 +69,24 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
             return AbstractDrawingViewAction.this+"^$EventHandler";
         }
     };
-    @Nullable private EventHandler eventHandler = new EventHandler();
+    private EventHandler eventHandler = new EventHandler();
 
     /**
      * Creates a view action which acts on the current view of the editor.
      */
-    public AbstractDrawingViewAction(@Nullable DrawingEditor editor) {
+    public AbstractDrawingViewAction(DrawingEditor editor) {
         setEditor(editor);
     }
 
     /**
      * Creates a view action which acts on the specified view.
      */
-    public AbstractDrawingViewAction(@Nullable DrawingView view) {
+    public AbstractDrawingViewAction(DrawingView view) {
         this.specificView = view;
         registerEventHandler();
     }
 
-    protected void setEditor(@Nullable DrawingEditor newValue) {
+    protected void setEditor(DrawingEditor newValue) {
         if (eventHandler != null) {
             unregisterEventHandler();
         }
@@ -97,11 +97,11 @@ public abstract class AbstractDrawingViewAction extends AbstractAction implement
         }
     }
 
-    @Nullable protected DrawingEditor getEditor() {
+    protected DrawingEditor getEditor() {
         return editor;
     }
 
-    @Nullable
+    
     protected DrawingView getView() {
         return (specificView != null || editor==null) ? specificView : editor.getActiveView();
     }

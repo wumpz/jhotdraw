@@ -9,7 +9,7 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.geom.*;
@@ -66,24 +66,24 @@ public interface ConnectionFigure
      * Set this to null to disconnect the start connection.
      * @param start the start Connector of the connection
      */
-    public void setStartConnector(@Nullable Connector start);
+    public void setStartConnector(Connector start);
     /**
      * Gets the start {@code Connector}.
      * Returns null, if there is no start connection.
      */
-    @Nullable public Connector getStartConnector();
+    public Connector getStartConnector();
  
     /**
      * Sets the end Connector of the connection.
      * Set this to null to disconnect the end connection.
      * @param end the end Connector of the connection
      */
-    public void setEndConnector(@Nullable Connector end);
+    public void setEndConnector(Connector end);
     /**
      * Gets the end Connector.
      * Returns null, if there is no end connection.
      */
-    @Nullable public Connector getEndConnector();
+    public Connector getEndConnector();
     
     /**
      * Updates the start and end point of the figure and fires figureChanged
@@ -153,14 +153,14 @@ public interface ConnectionFigure
      * This is a convenience method for doing getStartConnector().getOwner()
      * and handling null cases.
      */
-    @Nullable public Figure getStartFigure();
+    public Figure getStartFigure();
     
     /**
      * Gets the end figure of the connection.
      * This is a convenience method for doing getEndConnector().getOwner()
      * and handling null cases.
      */
-    @Nullable public Figure getEndFigure();
+    public Figure getEndFigure();
 // COMPOSITE FIGURES
     /**
      * Get a Liner object which encapsulated a lineout
@@ -170,7 +170,7 @@ public interface ConnectionFigure
      *
      * @return lineout strategy used by this figure
      */
-    @Nullable public Liner getLiner();
+    public Liner getLiner();
     /**
      * Set a Liner object which encapsulated a lineout
      * algorithm for this figure. Typically, a Liner
@@ -179,7 +179,7 @@ public interface ConnectionFigure
      *
      * @param newValue	encapsulation of a lineout algorithm.
      */
-    public void setLiner(@Nullable Liner newValue);
+    public void setLiner(Liner newValue);
     /**
      * A "lineout" algorithm is used to define how the child components
      * should be laid out in relation to each other. The task for

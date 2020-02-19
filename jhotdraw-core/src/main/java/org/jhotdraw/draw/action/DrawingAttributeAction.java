@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
-import javax.annotation.Nullable;
+
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.ActionUtil;
 import javax.swing.*;
@@ -28,25 +28,25 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
     /** Creates a new instance. */
     /** Creates a new instance. */
-    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value) {
+    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, T value) {
         this(editor, key, value, null, null);
     }
 
     /** Creates a new instance. */
-    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable Icon icon) {
+    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, Icon icon) {
         this(editor, key, value, null, icon);
     }
 
     /** Creates a new instance. */
-    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name) {
+    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name) {
         this(editor, key, value, name, null);
     }
 
-    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon) {
+    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name, Icon icon) {
         this(editor, key, value, name, icon, null);
     }
 
-    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, @Nullable T value, @Nullable String name, @Nullable Icon icon, @Nullable Action compatibleTextAction) {
+    public <T> DrawingAttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name, Icon icon, Action compatibleTextAction) {
         super(editor);
         this.attributes = new HashMap<>();
         attributes.put(key, value);

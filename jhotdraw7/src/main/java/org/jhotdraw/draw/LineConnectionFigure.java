@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -44,7 +44,7 @@ public class LineConnectionFigure extends LineFigure
     public static final String LINER_PROPERTY = "liner";
     private Connector startConnector;
     private Connector endConnector;
-    @Nullable private Liner liner;
+    private Liner liner;
     /**
      * Handles figure changes in the start and the
      * end figure.

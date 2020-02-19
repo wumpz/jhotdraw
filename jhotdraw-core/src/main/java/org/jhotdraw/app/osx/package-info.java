@@ -11,10 +11,10 @@
 /**
 Provides classes which are used by {@link org.jhotdraw.app.OSXApplication}.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.app.osx;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+
 
 

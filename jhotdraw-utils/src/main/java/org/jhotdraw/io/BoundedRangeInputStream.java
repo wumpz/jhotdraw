@@ -11,8 +11,8 @@ package org.jhotdraw.io;
 import javax.swing.event.*;
 import javax.swing.BoundedRangeModel;
 import java.io.*;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+
 /**
  * This input stream implements the BoundedRangeModel and allows
  * the observation of the input reading process.
@@ -35,7 +35,7 @@ implements BoundedRangeModel {
      * event's only (read-only) state is the source property.  The source
      * of events generated here is always "this".
      */
-    @Nullable protected transient ChangeEvent changeEvent = null;
+    protected transient ChangeEvent changeEvent = null;
     
     /** The listeners waiting for model changes. */
     protected EventListenerList listenerList = new EventListenerList();

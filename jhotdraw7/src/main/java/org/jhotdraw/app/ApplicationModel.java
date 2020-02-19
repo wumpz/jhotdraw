@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.URIChooser;
@@ -109,7 +109,7 @@ public interface ApplicationModel {
      * if the actions are to be shared by multiple views.
      * @return the created map
      */
-    public ActionMap createActionMap(Application a, @Nullable View v);
+    public ActionMap createActionMap(Application a, View v);
 
     /**
      * Creates tool bars.
@@ -122,7 +122,7 @@ public interface ApplicationModel {
      * if the toolbars are shared by multiple views.
      * @return the created tool bars
      */
-    public List<JToolBar> createToolBars(Application a, @Nullable View v);
+    public List<JToolBar> createToolBars(Application a, View v);
 
     /** Returns the abstract factory for building application menus. */
     public MenuBuilder getMenuBuilder();
@@ -135,7 +135,7 @@ public interface ApplicationModel {
      * if the chooser is shared by multiple views.
      * @return the created chooser
      */
-    public URIChooser createOpenChooser(Application a, @Nullable View v);
+    public URIChooser createOpenChooser(Application a, View v);
 
     /**
      * Creates an open chooser for directories.
@@ -145,7 +145,7 @@ public interface ApplicationModel {
      * if the chooser is shared by multiple views.
      * @return the created chooser
      */
-    public URIChooser createOpenDirectoryChooser(Application a, @Nullable View v);
+    public URIChooser createOpenDirectoryChooser(Application a, View v);
 
     /**
      * Creates a save chooser.
@@ -155,7 +155,7 @@ public interface ApplicationModel {
      * if the chooser is shared by multiple views.
      * @return the created chooser
      */
-    public URIChooser createSaveChooser(Application a, @Nullable View v);
+    public URIChooser createSaveChooser(Application a, View v);
 
     /**
      * Creates an import chooser.
@@ -165,7 +165,7 @@ public interface ApplicationModel {
      * if the chooser is shared by multiple views.
      * @return the created chooser
      */
-    public URIChooser createImportChooser(Application a, @Nullable View v);
+    public URIChooser createImportChooser(Application a, View v);
 
     /**
      * Creates an export chooser.
@@ -175,7 +175,7 @@ public interface ApplicationModel {
      * if the chooser is shared by multiple views.
      * @return the created chooser
      */
-    public URIChooser createExportChooser(Application a, @Nullable View v);
+    public URIChooser createExportChooser(Application a, View v);
 
     /** Returns true if the application should open the last opened URI on launch
      * instead of opening an empty view.

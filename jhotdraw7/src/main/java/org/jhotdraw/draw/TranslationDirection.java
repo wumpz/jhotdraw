@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -37,7 +37,7 @@ public enum TranslationDirection {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    @Nullable
+    
     public static TranslationDirection getDirection(Point startPoint, Point endPoint) {
         int dx = endPoint.x - startPoint.x;
         int dy = endPoint.y - startPoint.y;
@@ -73,7 +73,7 @@ public enum TranslationDirection {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    @Nullable
+    
     public static TranslationDirection getDirection(Point2D.Double startPoint, Point2D.Double endPoint) {
         double dx = endPoint.x - startPoint.x;
         double dy = endPoint.y - startPoint.y;

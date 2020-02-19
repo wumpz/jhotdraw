@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.action.window;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -28,7 +28,7 @@ public class MinimizeWindowAction extends AbstractViewAction {
     public static final String ID = "window.minimize";
 
     /** Creates a new instance. */
-    public MinimizeWindowAction(Application app, @Nullable View view) {
+    public MinimizeWindowAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

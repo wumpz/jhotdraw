@@ -9,7 +9,7 @@
 package org.jhotdraw.samples.svg.io;
 
 import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -82,7 +82,7 @@ public interface SVGFigureFactory {
      * @param attributes Figure attributes.
      */
     public Figure createImage(double x, double y, double width, double height, 
-           @Nullable byte[] imageData, @Nullable BufferedImage bufferedImage, Map<AttributeKey<?>,Object> attributes);
+           byte[] imageData, BufferedImage bufferedImage, Map<AttributeKey<?>,Object> attributes);
 
 
     public Gradient createLinearGradient(

@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.tool;
 
 import org.jhotdraw.geom.Insets2D;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextArea;
@@ -56,8 +56,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class TextAreaEditingTool extends AbstractTool implements ActionListener {
     private static final long serialVersionUID = 1L;
 
-    @Nullable private FloatingTextArea textArea;
-    @Nullable private TextHolderFigure typingTarget;
+    private FloatingTextArea textArea;
+    private TextHolderFigure typingTarget;
 
     /** Creates a new instance. */
     public TextAreaEditingTool(TextHolderFigure typingTarget) {

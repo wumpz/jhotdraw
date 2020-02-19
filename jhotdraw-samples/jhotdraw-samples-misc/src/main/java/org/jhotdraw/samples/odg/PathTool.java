@@ -8,7 +8,7 @@
 
 package org.jhotdraw.samples.odg;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.draw.*;
 import java.util.*;
@@ -36,7 +36,7 @@ public class PathTool extends BezierTool {
         this(pathPrototype, bezierPrototype, null);
     }
     /** Creates a new instance. */
-    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, @Nullable Map<AttributeKey<?>,Object> attributes) {
+    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, Map<AttributeKey<?>,Object> attributes) {
         super(bezierPrototype, attributes);
         this.pathPrototype = pathPrototype;
     }

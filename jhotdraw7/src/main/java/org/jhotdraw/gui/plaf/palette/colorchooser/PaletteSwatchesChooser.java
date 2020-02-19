@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.Color;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -221,7 +221,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         });
     }
 
-    public void setColorToModel(@Nullable Color color) {
+    public void setColorToModel(Color color) {
         getColorSelectionModel().setSelectedColor(color);
     }
 }

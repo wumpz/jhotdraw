@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.*;
 import java.awt.Container;
 import java.awt.dnd.DnDConstants;
@@ -37,11 +37,11 @@ import java.awt.geom.Rectangle2D;
 public class DnDTracker extends AbstractTool implements DragTracker {
     private static final long serialVersionUID = 1L;
 
-    @Nullable protected Figure anchorFigure;
+    protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
      */
-    @Nullable protected Rectangle2D.Double dragRect;
+    protected Rectangle2D.Double dragRect;
     /**
      * The previousOrigin holds the origin of all dragged figures of the
      * previous mouseDragged event. This coordinate is constrained using

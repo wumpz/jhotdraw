@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 
 
 /**
@@ -40,9 +40,9 @@ public interface DecoratedFigure extends Figure {
      * AttributeKeys.DECORATOR_INSETS. The decorator does not handle events.
      * The decorator is drawn when the figure is drawn.
      */
-    public void setDecorator(@Nullable Figure newValue);
+    public void setDecorator(Figure newValue);
     /**
      * Gets the decorator for this figure.
      */
-    @Nullable public Figure getDecorator();
+    public Figure getDecorator();
 }

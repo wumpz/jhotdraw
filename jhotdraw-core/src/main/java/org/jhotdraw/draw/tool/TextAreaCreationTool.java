@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.tool;
 
 import org.jhotdraw.geom.Insets2D;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextArea;
@@ -77,12 +77,12 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     private static final long serialVersionUID = 1L;
 
     private FloatingTextArea textArea;
-    @Nullable private TextHolderFigure typingTarget;
+    private TextHolderFigure typingTarget;
     /**
      * Rubberband color of the tool. When this is null, the tool does not
      * draw a rubberband.
      */
-    @Nullable private Color rubberbandColor = null;
+    private Color rubberbandColor = null;
 
     /** Creates a new instance. */
     public TextAreaCreationTool(TextHolderFigure prototype) {

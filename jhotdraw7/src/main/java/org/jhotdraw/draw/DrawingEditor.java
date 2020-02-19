@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import java.awt.*;
 import java.beans.*;
@@ -134,13 +134,13 @@ public interface DrawingEditor {
      * Gets the editor's active drawing view.
      * This can be null, if the editor has no views.
      */
-    @Nullable DrawingView getActiveView();
+    DrawingView getActiveView();
 
     /**
      * Sets the editor's active drawing view.
      * This can be set to null, if the editor has no views.
      */
-    void setActiveView(@Nullable DrawingView newValue);
+    void setActiveView(DrawingView newValue);
 
     /**
      * Calls deactivate on the previously active tool of this drawing editor.
@@ -169,7 +169,7 @@ public interface DrawingEditor {
      * This is used by Tool to identify the view of which it has received
      * an event.
      */
-    @Nullable public DrawingView findView(Container c);
+    public DrawingView findView(Container c);
 
     /**
      * Sets a default attribute of the editor.
@@ -179,14 +179,14 @@ public interface DrawingEditor {
      * Fires a property change event with the name of the attribute key,
      * and the prefix {@code "defaultAttribute."}.
      */
-    public <T> void setDefaultAttribute(AttributeKey<T> key, @Nullable T value);
+    public <T> void setDefaultAttribute(AttributeKey<T> key, T value);
 
     /**
      * Gets a default attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
      */
-    @Nullable public <T> T getDefaultAttribute(AttributeKey<T> key);
+    public <T> T getDefaultAttribute(AttributeKey<T> key);
 
     /**
      * Applies the default attributes to the specified figure.

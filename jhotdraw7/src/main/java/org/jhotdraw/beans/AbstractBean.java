@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.beans;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.beans.*;
 
 /**
@@ -107,7 +107,7 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    protected void firePropertyChange(String propertyName, @Nullable Object oldValue, @Nullable Object newValue) {
+    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 

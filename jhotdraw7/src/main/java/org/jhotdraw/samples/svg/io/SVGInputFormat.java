@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -65,18 +65,18 @@ public class SVGInputFormat implements InputFormat {
      * URL pointing to the SVG input file. This is used as a base URL for
      * resources that are referenced from the SVG file.
      */
-    @Nullable
+    
     private URL url;
     // FIXME - Move these maps to SVGConstants or to SVGAttributeKeys.
     /**
      * Maps to all XML elements that are identified by an xml:id.
      */
-    @Nullable
+    
     private HashMap<String, IXMLElement> identifiedElements;
     /**
      * Maps to all drawing objects from the XML elements they were created from.
      */
-    @Nullable
+    
     private HashMap<IXMLElement, Object> elementObjects;
     /**
      * Tokenizer for parsing SVG path expressions.
@@ -135,13 +135,13 @@ public class SVGInputFormat implements InputFormat {
      * Each SVG element creates a new Viewport that we store
      * here.
      */
-    @Nullable
+    
     private Stack<Viewport> viewportStack;
     /**
      * Holds the style manager used for applying cascading style sheet CSS rules
      * to the document.
      */
-    @Nullable
+    
     private StyleManager styleManager;
     /**
      * Holds the figures that are currently being read.
@@ -150,7 +150,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Holds the document that is currently being read.
      */
-    @Nullable
+    
     private IXMLElement document;
 
     /** Creates a new instance. */
@@ -374,7 +374,7 @@ public class SVGInputFormat implements InputFormat {
      * @return Returns the Figure, if the SVG element represents a Figure.
      * Returns null in all other cases.
      */
-    @Nullable
+    
     private Figure readElement(IXMLElement elem)
             throws IOException {
         if (DEBUG) {
@@ -537,7 +537,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "svg" element.
      */
-    @Nullable
+    
     private Figure readSVGElement(IXMLElement elem)
             throws IOException {
         // Establish a new viewport
@@ -1062,7 +1062,7 @@ public class SVGInputFormat implements InputFormat {
      * Evaluates an SVG "switch" element.
      *
      */
-    @Nullable
+    
     private Figure readSwitchElement(IXMLElement elem)
             throws IOException {
         for (IXMLElement child : elem.getChildren()) {
@@ -1114,7 +1114,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "use" element.
      */
-    @Nullable
+    
     @SuppressWarnings("unchecked")
     private Figure readUseElement(IXMLElement elem)
             throws IOException {
@@ -1158,8 +1158,8 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an attribute that is inherited.
      */
-    @Nullable
-    private String readInheritAttribute(IXMLElement elem, String attributeName, @Nullable String defaultValue) {
+    
+    private String readInheritAttribute(IXMLElement elem, String attributeName, String defaultValue) {
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
             String value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
             if ("inherit".equals(value)) {
@@ -1188,8 +1188,8 @@ public class SVGInputFormat implements InputFormat {
      * This is similar to {@code readInheritAttribute}, but takes care of the
      * "currentColor" magic attribute value.
      */
-    @Nullable
-    private String readInheritColorAttribute(IXMLElement elem, String attributeName, @Nullable String defaultValue) {
+    
+    private String readInheritColorAttribute(IXMLElement elem, String attributeName, String defaultValue) {
         String value = null;
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
             value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
@@ -1255,8 +1255,8 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an attribute that is not inherited, unless its value is "inherit".
      */
-    @Nullable
-    private String readAttribute(IXMLElement elem, String attributeName, @Nullable String defaultValue) {
+    
+    private String readAttribute(IXMLElement elem, String attributeName, String defaultValue) {
         if (elem.hasAttribute(attributeName, SVG_NAMESPACE)) {
             String value = elem.getAttribute(attributeName, SVG_NAMESPACE, null);
             if ("inherit".equals(value)) {
@@ -3108,7 +3108,7 @@ public class SVGInputFormat implements InputFormat {
      * Reads a paint style attribute. This can be a Color or a Gradient or null.
      * XXX - Doesn't support url(...) colors yet.
      */
-    @Nullable
+    
     private Object toPaint(IXMLElement elem, String value) throws IOException {
         String str = value;
         if (str == null) {
@@ -3175,7 +3175,7 @@ public class SVGInputFormat implements InputFormat {
      * Reads a color style attribute. This can be a Color or null.
      * FIXME - Doesn't support url(...) colors yet.
      */
-    @Nullable
+    
     private Color toColor(IXMLElement elem, String value) throws IOException {
         String str = value;
         if (str == null) {

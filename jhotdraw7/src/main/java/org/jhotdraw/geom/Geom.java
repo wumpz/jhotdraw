@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.geom;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.*;
 import java.awt.geom.*;
 import static java.lang.Math.*;
@@ -537,7 +537,7 @@ public class Geom {
      * Standard line intersection algorithm
      * Return the point of intersection if it exists, else null.
      **/
-    @Nullable
+    
     public static Point intersect(int xa, // line 1 point 1 x
             // from Doug Lea's PolygonFigure
             int ya, // line 1 point 1 y
@@ -595,7 +595,7 @@ public class Geom {
      * Return the point of intersection if it exists, else null
      **/
     // from Doug Lea's PolygonFigure
-    @Nullable
+    
     public static Point2D.Double intersect(double xa, // line 1 point 1 x
             double ya, // line 1 point 1 y
             double xb, // line 1 point 2 x
@@ -647,7 +647,7 @@ public class Geom {
         }
     }
 
-    @Nullable
+    
     public static Point2D.Double intersect(
             double xa, // line 1 point 1 x
             double ya, // line 1 point 1 y

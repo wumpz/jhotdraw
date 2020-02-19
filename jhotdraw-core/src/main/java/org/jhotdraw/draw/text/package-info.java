@@ -11,8 +11,8 @@
 /**
 Provides utility classes for {@link org.jhotdraw.draw.TextHolderFigure}s.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.draw.text;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

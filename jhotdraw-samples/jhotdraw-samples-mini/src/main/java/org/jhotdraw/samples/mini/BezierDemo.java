@@ -16,7 +16,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.annotation.Nullable;
+
 import javax.swing.*;
 
 /**
@@ -32,8 +32,8 @@ public class BezierDemo extends javax.swing.JPanel {
 
         double error;
         BezierPath digitized = new BezierPath();
-        @Nullable BezierPath bezier;
-        @Nullable ArrayList<ArrayList<Point2D.Double>> segments;
+        BezierPath bezier;
+        ArrayList<ArrayList<Point2D.Double>> segments;
 
         public void invalidate() {
             bezier = null;

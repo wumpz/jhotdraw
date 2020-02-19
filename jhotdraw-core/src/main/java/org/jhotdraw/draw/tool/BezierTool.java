@@ -10,7 +10,7 @@ package org.jhotdraw.draw.tool;
 import org.jhotdraw.geom.Bezier;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
@@ -36,9 +36,9 @@ public class BezierTool extends AbstractTool {
      * Set this to true to turn on debugging output on System.out.
      */
     private static final boolean DEBUG = false;
-    @Nullable
+    
     private Boolean finishWhenMouseReleased;
-    @Nullable
+    
     protected Map<AttributeKey<?>, Object> attributes;
     private boolean isToolDoneAfterCreation;
     /**
@@ -48,13 +48,13 @@ public class BezierTool extends AbstractTool {
     /**
      * The created figure.
      */
-    @Nullable
+    
     protected BezierFigure createdFigure;
     private int nodeCountBeforeDrag;
     /**
      * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-    @Nullable
+    
     private String presentationName;
     private Point mouseLocation;
     /**
@@ -78,15 +78,15 @@ public class BezierTool extends AbstractTool {
     /**
      * Creates a new instance.
      */
-    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
+    public BezierTool(BezierFigure prototype, Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
+    public BezierTool(BezierFigure prototype, Map<AttributeKey<?>, Object> attributes, String name) {
         this(prototype, attributes, null, true);
     }
 
-    public BezierTool(BezierFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name, boolean calculateFittedCurveAfterCreation) {
+    public BezierTool(BezierFigure prototype, Map<AttributeKey<?>, Object> attributes, String name, boolean calculateFittedCurveAfterCreation) {
         this.prototype = prototype;
         this.attributes = attributes;
         if (name == null) {

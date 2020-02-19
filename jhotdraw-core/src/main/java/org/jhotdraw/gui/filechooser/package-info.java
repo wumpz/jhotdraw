@@ -11,8 +11,8 @@
 /**
 Provides general purpose graphical user interface event classes.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.gui.filechooser;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

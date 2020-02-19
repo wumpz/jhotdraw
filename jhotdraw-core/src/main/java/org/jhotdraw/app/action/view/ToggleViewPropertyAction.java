@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.action.view;
 
-import javax.annotation.Nullable;
+
 import java.awt.event.*;
 import java.beans.*;
 import org.jhotdraw.app.Application;
@@ -41,10 +41,10 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     };
     
     /** Creates a new instance. */
-    public ToggleViewPropertyAction(Application app, @Nullable View view, String propertyName) {
+    public ToggleViewPropertyAction(Application app, View view, String propertyName) {
         this(app, view, propertyName, Boolean.TYPE, true, false);
     }
-    public ToggleViewPropertyAction(Application app, @Nullable View view, String propertyName, Class<?> propertyClass,
+    public ToggleViewPropertyAction(Application app, View view, String propertyName, Class<?> propertyClass,
             Object selectedPropertyValue, Object deselectedPropertyValue) {
         super(app, view);
         if (propertyName==null) {
@@ -80,7 +80,7 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         }
     }
 
-    @Nullable
+    
     private Object getCurrentValue() {
         View p = getActiveView();
         if (p != null) {

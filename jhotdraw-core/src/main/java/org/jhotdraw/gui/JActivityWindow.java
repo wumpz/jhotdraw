@@ -9,7 +9,7 @@
  */
 package org.jhotdraw.gui;
 
-import javax.annotation.Nullable;
+
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.*;
@@ -159,7 +159,7 @@ public class JActivityWindow extends javax.swing.JFrame {
         setActivityManager(pm);
     }
 
-    public void setActivityManager(@Nullable ActivityManager newValue) {
+    public void setActivityManager(ActivityManager newValue) {
         if (manager != null) {
             manager.removeActivityManagerListener(handler);
         }
@@ -171,7 +171,7 @@ public class JActivityWindow extends javax.swing.JFrame {
         updateInfoPanel();
     }
 
-    @Nullable public ActivityManager getActivityManager() {
+    public ActivityManager getActivityManager() {
         return manager;
     }
 

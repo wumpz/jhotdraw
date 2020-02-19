@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.util.ResourceBundle;
 import javax.swing.*;
@@ -357,7 +357,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
      * Returns the ui that is of type <code>klass</code>, or null if
      * one can not be found.
      */
-    @Nullable
+    
     static Object getUIOfType(ComponentUI ui, Class<?> klass) {
         if (klass.isInstance(ui)) {
             return ui;

@@ -8,7 +8,7 @@
 package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.Dimension2DDouble;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.handle.Handle;
@@ -291,7 +291,7 @@ public interface Figure extends Cloneable, Serializable {
      * 
      * @see AttributeKey#set
      */
-    public <T> void set(AttributeKey<T> key, @Nullable T value);
+    public <T> void set(AttributeKey<T> key, T value);
 
     /**
      * Gets an attribute from the Figure.
@@ -301,7 +301,7 @@ public interface Figure extends Cloneable, Serializable {
      * @return Returns the attribute value. If the Figure does not have an
      * attribute with the specified key, returns key.getDefaultValue().
      */
-    @Nullable public <T> T get(AttributeKey<T> key);
+    public <T> T get(AttributeKey<T> key);
 
     /**
      * Returns a view to all attributes of this figure.
@@ -391,12 +391,12 @@ public interface Figure extends Cloneable, Serializable {
      * Returns a specialized tool for the specified location.
      * <p>Returns null, if no specialized tool is available.
      */
-    @Nullable public Tool getTool(Point2D.Double p);
+    public Tool getTool(Point2D.Double p);
 
     /**
      * Returns a tooltip for the specified location on the figure.
      */
-    @Nullable public String getToolTipText(Point2D.Double p);
+    public String getToolTipText(Point2D.Double p);
 
     // CONNECTING 
     /**
@@ -413,7 +413,7 @@ public interface Figure extends Cloneable, Serializable {
      * unknown. This allows for specific connectors for different 
      * connection figures.
      */
-    @Nullable public Connector findConnector(Point2D.Double p, @Nullable ConnectionFigure prototype);
+    public Connector findConnector(Point2D.Double p, ConnectionFigure prototype);
 
     /**
      * Gets a compatible connector.
@@ -422,7 +422,7 @@ public interface Figure extends Cloneable, Serializable {
      * with the same semantics for this figure.
      * Returns null, if no compatible connector is available.
      */
-    @Nullable public Connector findCompatibleConnector(Connector c, boolean isStartConnector);
+    public Connector findCompatibleConnector(Connector c, boolean isStartConnector);
 
     /**
      * Returns all connectors of this Figure for the specified prototype of
@@ -436,7 +436,7 @@ public interface Figure extends Cloneable, Serializable {
      * unknown. This allows for specific connectors for different 
      * connection figures.
      */
-    public Collection<Connector> getConnectors(@Nullable ConnectionFigure prototype);
+    public Collection<Connector> getConnectors(ConnectionFigure prototype);
 
     // COMPOSITE FIGURES
     /**
@@ -461,7 +461,7 @@ public interface Figure extends Cloneable, Serializable {
      * @return Returns the innermost figure at the location, or null if the
      * location is not contained in a figure.
      */
-    @Nullable public Figure findFigureInside(Point2D.Double p);
+    public Figure findFigureInside(Point2D.Double p);
 
     /**
      * Returns a decompositon of a figure into its parts.

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.FigureAdapter;
@@ -59,7 +59,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * an own presentation but present only the sum of all its
      * children.
      */
-    @Nullable private Figure presentationFigure;
+    private Figure presentationFigure;
     /**
      * Handles figure changes in the children.
      */
@@ -115,7 +115,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      *
      * @param	newPresentationFigure	figure which renders the container
      */
-    public GraphicalCompositeFigure(@Nullable Figure newPresentationFigure) {
+    public GraphicalCompositeFigure(Figure newPresentationFigure) {
         super();
         setPresentationFigure(newPresentationFigure);
     }
@@ -251,7 +251,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * 
      * @param newPresentationFigure	figure takes over the presentation tasks
      */
-    public void setPresentationFigure(@Nullable Figure newPresentationFigure) {
+    public void setPresentationFigure(Figure newPresentationFigure) {
         if (this.presentationFigure != null) {
             this.presentationFigure.removeFigureListener(presentationFigureHandler);
             if (getDrawing() != null) {

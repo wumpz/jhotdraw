@@ -9,7 +9,7 @@
 
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.text.FloatingTextField;
@@ -58,8 +58,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class TextCreationTool extends CreationTool implements ActionListener {
     private static final long serialVersionUID = 1L;
-    @Nullable private FloatingTextField   textField;
-    @Nullable private TextHolderFigure  typingTarget;
+    private FloatingTextField   textField;
+    private TextHolderFigure  typingTarget;
     
     /** Creates a new instance. */
     public TextCreationTool(TextHolderFigure prototype) {

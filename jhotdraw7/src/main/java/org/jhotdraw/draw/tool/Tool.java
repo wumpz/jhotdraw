@@ -9,7 +9,7 @@
 
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolListener;
 import java.awt.*;
@@ -139,7 +139,7 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
      * @param evt A mouse event.
      * @return A tooltip text or null.
      */
-    @Nullable public String getToolTipText(DrawingView view, MouseEvent evt);
+    public String getToolTipText(DrawingView view, MouseEvent evt);
     
     /**
      * Returns true, if this tool lets the user interact with handles.

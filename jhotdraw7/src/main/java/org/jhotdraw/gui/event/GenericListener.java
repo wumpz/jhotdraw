@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.event;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.lang.reflect.*;
 
 /**
@@ -172,7 +172,7 @@ public abstract class GenericListener {
         private static final Character char_0 = (char) 0;
         private static final Byte byte_0 = (byte) 0;
 
-        @Nullable
+        
         private static final Object nullValueOf(Class<?> rt) {
             if (!rt.isPrimitive()) {
                 return null;
@@ -210,7 +210,7 @@ public abstract class GenericListener {
     }
 
     @SuppressWarnings("unchecked")
-    @Nullable
+    
     private static Method getTargetMethod(Object target,
             String targetMethodName,
             Class<?>[] parameterTypes) {
@@ -251,7 +251,7 @@ public abstract class GenericListener {
         return result;
     }
 
-    @Nullable
+    
     private static Method raiseToPublicClass(Method m) {
         Class<?> c = m.getDeclaringClass();
         if (Modifier.isPublic(m.getModifiers())
@@ -277,7 +277,7 @@ public abstract class GenericListener {
     }
 
     @SuppressWarnings("unchecked")
-    @Nullable
+    
     private static Method raiseToPublicClass(Method m, Class<?> c) {
         try {
             Method sm = c.getMethod(m.getName(), m.getParameterTypes());

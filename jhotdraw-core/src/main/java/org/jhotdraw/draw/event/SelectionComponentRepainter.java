@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nullable;
+
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Disposable;
@@ -23,8 +23,8 @@ import org.jhotdraw.draw.*;
 public class SelectionComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, FigureSelectionListener, Disposable {
 
-    @Nullable private DrawingEditor editor;
-    @Nullable private JComponent component;
+    private DrawingEditor editor;
+    private JComponent component;
 
     public SelectionComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;

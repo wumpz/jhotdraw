@@ -7,7 +7,7 @@
 package org.jhotdraw.samples.teddy;
 
 import org.jhotdraw.undo.CompositeEdit;
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.*;
@@ -25,12 +25,12 @@ import org.jhotdraw.samples.teddy.regex.Matcher;
 public class FindDialog extends javax.swing.JDialog {
     private static final long serialVersionUID = 1L;
     private Application app;
-    @Nullable private Matcher matcher;
+    private Matcher matcher;
     private Preferences prefs;
     private ResourceBundleUtil labels;
     
     /** Creates new form FindDialog */
-    private FindDialog(@Nullable Frame parent, boolean modal) {
+    private FindDialog(Frame parent, boolean modal) {
         super(parent, modal);
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
         initComponents();

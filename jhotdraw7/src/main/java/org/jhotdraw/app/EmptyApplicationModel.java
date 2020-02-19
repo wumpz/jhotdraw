@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.*;
 import javax.swing.*;
 
@@ -26,13 +26,13 @@ public class EmptyApplicationModel
 
     /** Returns an empty ActionMap. */
     @Override
-    public ActionMap createActionMap(Application a, @Nullable View v) {
+    public ActionMap createActionMap(Application a, View v) {
         return new ActionMap();
     }
 
     /** Returns an empty unmodifiable list. */
     @Override
-    public List<JToolBar> createToolBars(Application app, @Nullable View v) {
+    public List<JToolBar> createToolBars(Application app, View v) {
         return Collections.emptyList();
     }
 

@@ -11,9 +11,9 @@
 /**
 Provides an abstract JavaBeans Bean class.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.beans;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+
 

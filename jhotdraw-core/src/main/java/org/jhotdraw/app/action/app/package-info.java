@@ -10,8 +10,8 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.app.action.app;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

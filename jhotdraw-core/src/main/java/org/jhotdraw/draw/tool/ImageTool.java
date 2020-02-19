@@ -13,7 +13,7 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.BackgroundTask;
 
 /**
@@ -44,8 +44,8 @@ import org.jhotdraw.gui.BackgroundTask;
 public class ImageTool extends CreationTool {
     private static final long serialVersionUID = 1L;
 
-    @Nullable protected FileDialog fileDialog;
-    @Nullable protected JFileChooser fileChooser;
+    protected FileDialog fileDialog;
+    protected JFileChooser fileChooser;
     protected boolean useFileDialog;
     protected Thread workerThread;
 

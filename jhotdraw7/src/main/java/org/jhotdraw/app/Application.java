@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.Component;
 import java.awt.Window;
 import java.beans.PropertyChangeListener;
@@ -240,7 +240,7 @@ public interface Application {
      * This is a bound property. 
      * @return the active view or null
      */
-    @Nullable
+    
     public View getActiveView();
 
     /**
@@ -322,7 +322,7 @@ public interface Application {
      * of its own on the user interface.
      * @return the value
      */
-    @Nullable
+    
     public Component getComponent();
 
     /**
@@ -344,7 +344,7 @@ public interface Application {
      * @param view The View to which this window is associated, or null
      * if the window is associated to the application.
      */
-    public void addWindow(Window window, @Nullable View view);
+    public void addWindow(Window window, View view);
 
     /**
      * Removes a (non-palette) window from the application.
@@ -394,8 +394,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable
-    public JMenu createFileMenu(@Nullable View v);
+    
+    public JMenu createFileMenu(View v);
 
     /**
      * Creates an edit menu for the specified view or for the entire application.
@@ -403,8 +403,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable
-    public JMenu createEditMenu(@Nullable View v);
+    
+    public JMenu createEditMenu(View v);
 
     /**
      * Creates a view menu for the specified view or for the entire application.
@@ -412,8 +412,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable
-    public JMenu createViewMenu(@Nullable View v);
+    
+    public JMenu createViewMenu(View v);
 
     /**
      * Creates a window menu for the specified view or for the entire application.
@@ -421,8 +421,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable
-    public JMenu createWindowMenu(@Nullable View v);
+    
+    public JMenu createWindowMenu(View v);
 
     /** 
      * Creates a help menu for the specified view of for the entire application.
@@ -430,8 +430,8 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    @Nullable
-    public JMenu createHelpMenu(@Nullable View v);
+    
+    public JMenu createHelpMenu(View v);
 
     /**
      * Gets an open chooser for the specified view or for the entire application.
@@ -439,7 +439,7 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getOpenChooser(@Nullable View v);
+    public URIChooser getOpenChooser(View v);
 
     /**
      * Gets a save chooser for the specified view or for the entire application.
@@ -447,7 +447,7 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getSaveChooser(@Nullable View v);
+    public URIChooser getSaveChooser(View v);
 
     /**
      * Gets an export chooser for the specified view or for the entire application.
@@ -455,7 +455,7 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getExportChooser(@Nullable View v);
+    public URIChooser getExportChooser(View v);
 
     /**
      * Gets an import chooser for the specified view or for the entire application.
@@ -463,7 +463,7 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getImportChooser(@Nullable View v);
+    public URIChooser getImportChooser(View v);
 
     /**
      * Gets an action map for the specified view or for the entire application.
@@ -471,7 +471,7 @@ public interface Application {
      * @param v A view or null
      * @return the action map
      */
-    public ActionMap getActionMap(@Nullable View v);
+    public ActionMap getActionMap(View v);
 
     /** Returns an unmodifiable list of all views of the application.
      * <p>

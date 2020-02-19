@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.handle.Handle;
@@ -49,7 +49,7 @@ public class DefaultDrawingView
      * Set this to true to turn on debugging output on System.out.
      */
     private static final boolean DEBUG = false;
-    @Nullable
+    
     private Drawing drawing;
     /**
      * Holds the selected figures in an ordered put. The ordering reflects
@@ -61,15 +61,15 @@ public class DefaultDrawingView
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
-    @Nullable private Handle activeHandle;
+    private Handle activeHandle;
     private LinkedList<Handle> secondaryHandles = new LinkedList<Handle>();
     private boolean handlesAreValid = true;
-    @Nullable
+    
     private transient Dimension cachedPreferredSize;
     private double scaleFactor = 1;
     private Point translation = new Point(0, 0);
     private int detailLevel;
-    @Nullable
+    
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
     protected BufferedImage backgroundTile;
@@ -80,16 +80,16 @@ public class DefaultDrawingView
             invalidateHandles();
         }
     };
-    @Nullable
+    
     private transient Rectangle2D.Double cachedDrawingArea;
     public static final String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
     /** Whether the drawing is double buffered*/
     private boolean isDrawingDoubleBuffered = true;
     /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
-    @Nullable
+    
     private VolatileImage drawingBufferV;
     /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
-    @Nullable
+    
     private BufferedImage drawingBufferNV;
     /** Holds the drawing area (in view coordinates) which is in the drawing buffer. */
     private Rectangle bufferedArea = new Rectangle();
@@ -317,7 +317,7 @@ public class DefaultDrawingView
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
-    @Nullable
+    
     public Drawing getDrawing() {
         return drawing;
     }
@@ -698,7 +698,7 @@ public class DefaultDrawingView
     }
 
     @Override
-    public void setDrawing(@Nullable Drawing newValue) {
+    public void setDrawing(Drawing newValue) {
         Drawing oldValue = drawing;
         if (this.drawing != null) {
             this.drawing.removeCompositeFigureListener(eventHandler);
@@ -1580,7 +1580,7 @@ public class DefaultDrawingView
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setActiveHandle(@Nullable Handle newValue) {
+    public void setActiveHandle(Handle newValue) {
         Handle oldValue = activeHandle;
         if (oldValue != null) {
             repaint(oldValue.getDrawingArea());

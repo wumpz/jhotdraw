@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.teddy;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.app.action.file.PrintFileAction;
 import javax.swing.*;
 import org.jhotdraw.app.*;
@@ -35,7 +35,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public ActionMap createActionMap(Application a, @Nullable View v) {
+    public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         AbstractAction aa;
 
@@ -49,7 +49,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public void initView(Application a, @Nullable View v) {
+    public void initView(Application a, View v) {
     }
 
     /** Creates the MenuBuilder. */
@@ -58,7 +58,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         return new DefaultMenuBuilder() {
 
             @Override
-            public void addOtherViewItems(JMenu m, Application app, @Nullable View v) {
+            public void addOtherViewItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
                 JCheckBoxMenuItem cbmi;
                 cbmi = new JCheckBoxMenuItem(am.get(ToggleLineWrapAction.ID));
@@ -79,19 +79,19 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
      * This class returns an empty list - we don't want toolbars in a text editor.
      */
     @Override
-    public List<JToolBar> createToolBars(Application app, @Nullable View p) {
+    public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
     }
 
     @Override
-    public JFileURIChooser createOpenChooser(Application app, @Nullable View p) {
+    public JFileURIChooser createOpenChooser(Application app, View p) {
         JFileURIChooser chooser = new JFileURIChooser();
         chooser.setAccessory(new CharacterSetAccessory());
         return chooser;
     }
 
     @Override
-    public JFileURIChooser createSaveChooser(Application app, @Nullable View p) {
+    public JFileURIChooser createSaveChooser(Application app, View p) {
         JFileURIChooser chooser = new JFileURIChooser();
         chooser.setAccessory(new CharacterSetAccessory());
         return chooser;

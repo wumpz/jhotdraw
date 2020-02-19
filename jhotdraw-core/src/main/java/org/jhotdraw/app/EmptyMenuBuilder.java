@@ -9,7 +9,7 @@
 
 package org.jhotdraw.app;
 
-import javax.annotation.Nullable;
+
 import java.util.List;
 import javax.swing.JMenu;
 
@@ -23,90 +23,90 @@ import javax.swing.JMenu;
 public class EmptyMenuBuilder implements MenuBuilder {
 
     @Override
-    public void addPreferencesItems(JMenu m, Application app, @Nullable View v) {
+    public void addPreferencesItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addExitItems(JMenu m, Application app, @Nullable View v) {
+    public void addExitItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addClearFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addClearFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addNewWindowItems(JMenu m, Application app, @Nullable View v) {
+    public void addNewWindowItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addNewFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addNewFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addLoadFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addLoadFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addOpenFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addOpenFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addCloseFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addCloseFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addSaveFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addSaveFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addExportFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addExportFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addPrintFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addPrintFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addOtherFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherFileItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addUndoItems(JMenu m, Application app, @Nullable View v) {
+    public void addUndoItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addClipboardItems(JMenu m, Application app, @Nullable View v) {
+    public void addClipboardItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addSelectionItems(JMenu m, Application app, @Nullable View v) {
+    public void addSelectionItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addFindItems(JMenu m, Application app, @Nullable View v) {
+    public void addFindItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addOtherEditItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherEditItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addOtherViewItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherViewItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addOtherMenus(List<JMenu> m, Application app, @Nullable View v) {
+    public void addOtherMenus(List<JMenu> m, Application app, View v) {
     }
 
     @Override
-    public void addOtherWindowItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherWindowItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addHelpItems(JMenu m, Application app, @Nullable View v) {
+    public void addHelpItems(JMenu m, Application app, View v) {
     }
 
     @Override
-    public void addAboutItems(JMenu m, Application app, @Nullable View v) {
+    public void addAboutItems(JMenu m, Application app, View v) {
     }
 }

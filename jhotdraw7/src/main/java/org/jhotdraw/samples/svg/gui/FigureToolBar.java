@@ -9,7 +9,7 @@ package org.jhotdraw.samples.svg.gui;
 
 import org.jhotdraw.draw.gui.JAttributeTextField;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
@@ -35,7 +35,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class FigureToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
 
-    @Nullable private SelectionComponentDisplayer displayer;
+    private SelectionComponentDisplayer displayer;
     private ResourceBundleUtil labels;
 
     /** Creates new instance. */

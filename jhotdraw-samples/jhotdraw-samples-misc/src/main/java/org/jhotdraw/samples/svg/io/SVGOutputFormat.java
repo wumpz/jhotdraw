@@ -15,7 +15,7 @@ import java.net.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -988,11 +988,11 @@ public class SVGOutputFormat implements OutputFormat {
 
     }
 
-    protected void writeAttribute(Element elem, String name, String value, @Nullable String defaultValue) {
+    protected void writeAttribute(Element elem, String name, String value, String defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
 
-    protected void writeAttribute(Element elem, String name, String namespace, String value, @Nullable String defaultValue) {
+    protected void writeAttribute(Element elem, String name, String namespace, String value, String defaultValue) {
         if (!value.equals(defaultValue)) {
             elem.setAttribute(name, value);
         }

@@ -9,7 +9,7 @@ package org.jhotdraw.draw.handle;
 
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.*;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -34,7 +34,7 @@ public class BezierNodeHandle extends AbstractHandle {
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
-    @Nullable
+    
     private Figure transformOwner;
 
     /**
@@ -111,7 +111,7 @@ public class BezierNodeHandle extends AbstractHandle {
         }
     }
 
-    @Nullable
+    
     protected BezierPath.Node getBezierNode() {
         return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
     }

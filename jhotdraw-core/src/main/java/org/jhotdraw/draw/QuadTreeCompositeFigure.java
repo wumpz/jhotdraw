@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -129,7 +129,7 @@ public abstract class QuadTreeCompositeFigure
         return new ReversedList<>(children);
     }
     
-    @Nullable public Figure findFigure(Point2D.Double p) {
+    public Figure findFigure(Point2D.Double p) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
             case 0 :
@@ -146,7 +146,7 @@ public abstract class QuadTreeCompositeFigure
             }
         }
     }
-    @Nullable public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
+    public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
             case 0 : {
@@ -164,7 +164,7 @@ public abstract class QuadTreeCompositeFigure
             }
         }
     }
-    @Nullable public Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore) {
+    public Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
             case 0 : {
@@ -182,7 +182,7 @@ public abstract class QuadTreeCompositeFigure
             }
         }
     }
-    @Nullable public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+    public Figure findFigureBehind(Point2D.Double p, Figure figure) {
         boolean isBehind = false;
         for (Figure f : getFiguresFrontToBack()) {
             if (isBehind) {
@@ -195,7 +195,7 @@ public abstract class QuadTreeCompositeFigure
         }
         return null;
     }
-    @Nullable public Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures) {
+    public Figure findFigureBehind(Point2D.Double p, Collection<Figure> figures) {
         int inFrontOf = figures.size();
         for (Figure f : getFiguresFrontToBack()) {
             if (inFrontOf == 0) {

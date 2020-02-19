@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -33,7 +33,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    @Nullable private transient Shape cachedTransformedShape;
+    private transient Shape cachedTransformedShape;
 
     /** Creates a new instance. */
     public ODGEllipseFigure() {

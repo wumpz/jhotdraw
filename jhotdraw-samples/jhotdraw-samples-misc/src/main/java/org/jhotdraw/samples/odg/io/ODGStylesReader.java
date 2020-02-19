@@ -10,7 +10,7 @@ package org.jhotdraw.samples.odg.io;
 import java.awt.Color;
 import java.io.*;
 import java.util.*;
-import javax.annotation.Nullable;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -671,7 +671,7 @@ public class ODGStylesReader {
      * &lt;/data&gt;
      * &lt;/define&gt;
      */
-    @Nullable
+    
     private Color toColor(String value) throws IOException {
         String str = value;
         if (str == null) {

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui;
 
-import javax.annotation.Nullable;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -61,7 +61,7 @@ public abstract class Worker<T> implements Runnable {
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    @Nullable
+    
     protected abstract T construct() throws Exception;
 
     /**
@@ -74,7 +74,7 @@ public abstract class Worker<T> implements Runnable {
      *
      * @param value The return value of the construct method.
      */
-    protected void done(@Nullable T value) {
+    protected void done(T value) {
     }
 
     /**

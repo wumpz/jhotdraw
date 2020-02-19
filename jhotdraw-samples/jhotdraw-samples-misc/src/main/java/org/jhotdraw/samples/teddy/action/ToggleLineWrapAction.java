@@ -8,7 +8,7 @@
 
 package org.jhotdraw.samples.teddy.action;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.util.*;
@@ -30,7 +30,7 @@ public class ToggleLineWrapAction extends AbstractViewAction {
     /**
      * Creates a new instance.
      */
-    public ToggleLineWrapAction(Application app, @Nullable View view) {
+    public ToggleLineWrapAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
         setPropertyName("lineWrap");

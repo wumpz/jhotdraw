@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.file;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
 import java.awt.*;
@@ -56,7 +56,7 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
     private URI uri;
 
     /** Creates a new instance. */
-    public LoadRecentFileAction(Application app, @Nullable View view, URI uri) {
+    public LoadRecentFileAction(Application app, View view, URI uri) {
         super(app, view);
         this.uri = uri;
         setMayCreateView(true);

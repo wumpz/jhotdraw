@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui;
 
-import javax.annotation.Nullable;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -59,7 +59,7 @@ public abstract class BackgroundTask implements Runnable {
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    @Nullable
+    
     protected abstract void construct() throws Exception;
 
     /**

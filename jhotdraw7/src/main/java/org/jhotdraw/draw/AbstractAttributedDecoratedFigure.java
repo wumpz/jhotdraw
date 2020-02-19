@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
@@ -26,7 +26,7 @@ import org.jhotdraw.xml.*;
 public abstract class AbstractAttributedDecoratedFigure
         extends AbstractAttributedFigure implements DecoratedFigure, DOMStorable {
     private static final long serialVersionUID = 1L;
-    @Nullable private Figure decorator;
+    private Figure decorator;
     
     @Override
     public final void draw(Graphics2D g) {

@@ -19,7 +19,7 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+
 import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -75,18 +75,18 @@ public class SVGInputFormat implements InputFormat {
      * URL pointing to the SVG input file. This is used as a base URL for
      * resources that are referenced from the SVG file.
      */
-    @Nullable
+    
     private URL url;
     // FIXME - Move these maps to SVGConstants or to SVGAttributeKeys.
     /**
      * Maps to all XML elements that are identified by an xml:id.
      */
-    @Nullable
+    
     private HashMap<String, Element> identifiedElements;
     /**
      * Maps to all drawing objects from the XML elements they were created from.
      */
-    @Nullable
+    
     private HashMap<Element, Object> elementObjects;
     /**
      * Tokenizer for parsing SVG path expressions.
@@ -147,13 +147,13 @@ public class SVGInputFormat implements InputFormat {
      * Each SVG element creates a new Viewport that we store
      * here.
      */
-    @Nullable
+    
     private Stack<Viewport> viewportStack;
     /**
      * Holds the style manager used for applying cascading style sheet CSS rules
      * to the document.
      */
-    @Nullable
+    
     private StyleManager styleManager;
     /**
      * Holds the figures that are currently being read.
@@ -162,7 +162,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Holds the document that is currently being read.
      */
-    @Nullable
+    
     private Element document;
 
     /**
@@ -385,7 +385,7 @@ public class SVGInputFormat implements InputFormat {
      * @return Returns the Figure, if the SVG element represents a Figure.
      * Returns null in all other cases.
      */
-    @Nullable
+    
     private Figure readElement(Element elem)
             throws IOException {
         if (DEBUG) {
@@ -555,7 +555,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "svg" element.
      */
-    @Nullable
+    
     private Figure readSVGElement(Element elem)
             throws IOException {
         // Establish a new viewport
@@ -1086,7 +1086,7 @@ public class SVGInputFormat implements InputFormat {
      * Evaluates an SVG "switch" element.
      *
      */
-    @Nullable
+    
     private Figure readSwitchElement(Element elem)
             throws IOException {
         NodeList list = elem.getChildNodes();
@@ -1140,7 +1140,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "use" element.
      */
-    @Nullable
+    
     @SuppressWarnings("unchecked")
     private Figure readUseElement(Element elem)
             throws IOException {
@@ -1184,8 +1184,8 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an attribute that is inherited.
      */
-    @Nullable
-    private String readInheritAttribute(Element elem, String attributeName, @Nullable String defaultValue) {
+    
+    private String readInheritAttribute(Element elem, String attributeName, String defaultValue) {
         if (elem.hasAttributeNS(SVG_NAMESPACE, attributeName)) {
             String value = elem.getAttributeNS(SVG_NAMESPACE, attributeName);
             if ("inherit".equals(value)) {
@@ -1214,8 +1214,8 @@ public class SVGInputFormat implements InputFormat {
      * This is similar to {@code readInheritAttribute}, but takes care of the
      * "currentColor" magic attribute value.
      */
-    @Nullable
-    private String readInheritColorAttribute(Element elem, String attributeName, @Nullable String defaultValue) {
+    
+    private String readInheritColorAttribute(Element elem, String attributeName, String defaultValue) {
         String value = null;
         if (elem.hasAttributeNS(SVG_NAMESPACE, attributeName)) {
             value = elem.getAttributeNS(SVG_NAMESPACE, attributeName);
@@ -1281,8 +1281,8 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an attribute that is not inherited, unless its value is "inherit".
      */
-    @Nullable
-    private String readAttribute(Element elem, String attributeName, @Nullable String defaultValue) {
+    
+    private String readAttribute(Element elem, String attributeName, String defaultValue) {
         if (elem.hasAttributeNS(SVG_NAMESPACE, attributeName)) {
             String value = elem.getAttributeNS(SVG_NAMESPACE, attributeName);
             if ("inherit".equals(value)) {
@@ -3126,7 +3126,7 @@ public class SVGInputFormat implements InputFormat {
      * Reads a paint style attribute. This can be a Color or a Gradient or null.
      * XXX - Doesn't support url(...) colors yet.
      */
-    @Nullable
+    
     private Object toPaint(Element elem, String value) throws IOException {
         String str = value;
         if (str == null) {
@@ -3193,7 +3193,7 @@ public class SVGInputFormat implements InputFormat {
      * Reads a color style attribute. This can be a Color or null.
      * FIXME - Doesn't support url(...) colors yet.
      */
-    @Nullable
+    
     private Color toColor(Element elem, String value) throws IOException {
         String str = value;
         if (str == null) {

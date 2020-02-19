@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.osx;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -65,7 +65,7 @@ public class OSXPaletteHandler {
         timer.setRepeats(false);
     }
     
-    public void add(Window window, @Nullable View view) {
+    public void add(Window window, View view) {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, view);
     }

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.gui.fontchooser;
 
-import javax.annotation.Nullable;
+
 import java.text.Collator;
 import java.util.*;
 import javax.swing.tree.MutableTreeNode;
@@ -22,7 +22,7 @@ import javax.swing.tree.TreeNode;
  */
 public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNode>, Cloneable {
 
-    @Nullable
+    
     private FontCollectionNode parent;
     private String name;
     private ArrayList<FontFaceNode> children = new ArrayList<>();
@@ -109,7 +109,7 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     }
 
     @Override
-    public void setParent(@Nullable MutableTreeNode newParent) {
+    public void setParent(MutableTreeNode newParent) {
         this.parent = (FontCollectionNode) newParent;
     }
 
@@ -124,7 +124,7 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     }
 
     @Override
-    @Nullable
+    
     public TreeNode getParent() {
         return parent;
     }

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.*;
 import javax.swing.undo.*;
 import java.awt.*;
@@ -60,12 +60,12 @@ public class CreationTool extends AbstractTool {
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    @Nullable protected Map<AttributeKey<?>, Object> prototypeAttributes;
+    protected Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-    @Nullable protected String presentationName;
+    protected String presentationName;
     /**
      * Treshold for which we create a larger shape of a minimal size.
      */
@@ -82,7 +82,7 @@ public class CreationTool extends AbstractTool {
     /**
      * The created figure.
      */
-    @Nullable protected Figure createdFigure;
+    protected Figure createdFigure;
     /**
      * If this is set to false, the CreationTool does not fire toolDone
      * after a new Figure has been created. This allows to create multiple
@@ -95,11 +95,11 @@ public class CreationTool extends AbstractTool {
         this(prototypeClassName, null, null);
     }
 
-    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes) {
+    public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
 
-    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
+    public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes, String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
@@ -137,7 +137,7 @@ public class CreationTool extends AbstractTool {
      * @param attributes The CreationTool applies these attributes to the
      * prototype after having applied the default attributes from the DrawingEditor.
      */
-    public CreationTool(Figure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
+    public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
@@ -152,7 +152,7 @@ public class CreationTool extends AbstractTool {
      * is not used.
      */
     @Deprecated
-    public CreationTool(Figure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
+    public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes, String name) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (name == null) {

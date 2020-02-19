@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import org.jhotdraw.util.Images;
@@ -21,7 +21,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class ColorIcon implements javax.swing.Icon {
 
-    @Nullable private Color fillColor;
+    private Color fillColor;
     private static BufferedImage noColorImage;
     private int width;
     private int height;
@@ -32,7 +32,7 @@ public class ColorIcon implements javax.swing.Icon {
         this(new Color(rgb));
     }
 
-    public ColorIcon(@Nullable Color color) {
+    public ColorIcon(Color color) {
         this(color, (color==null)?  ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").getToolTipTextProperty("attribute.color.noColor") :color.getRed() + "," + color.getGreen() + "," + color.getBlue(), 14, 14);
     }
 
@@ -40,11 +40,11 @@ public class ColorIcon implements javax.swing.Icon {
         this(new Color(rgb), name, 14, 14);
     }
 
-    public ColorIcon(@Nullable Color color, String name) {
+    public ColorIcon(Color color, String name) {
         this(color, name, 14, 14);
     }
 
-    public ColorIcon(@Nullable Color color, String name, int width, int height) {
+    public ColorIcon(Color color, String name, int width, int height) {
         this.fillColor = color;
         this.name = name;
         this.width = width;

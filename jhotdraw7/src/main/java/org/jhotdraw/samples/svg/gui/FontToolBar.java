@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
@@ -39,7 +39,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class FontToolBar extends AbstractToolBar {
     private static final long serialVersionUID = 1L;
 
-    @Nullable private SelectionComponentDisplayer displayer;
+    private SelectionComponentDisplayer displayer;
 
     /** Creates new instance. */
     public FontToolBar() {

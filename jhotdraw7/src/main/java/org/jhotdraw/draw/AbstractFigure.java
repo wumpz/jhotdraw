@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
@@ -41,7 +41,7 @@ public abstract class AbstractFigure
     private static final long serialVersionUID = 1L;
 
     protected EventListenerList listenerList = new EventListenerList();
-    @Nullable private Drawing drawing;
+    private Drawing drawing;
     private boolean isSelectable = true;
     private boolean isRemovable = true;
     private boolean isVisible = true;
@@ -441,7 +441,7 @@ public abstract class AbstractFigure
     }
 
     @Override
-    @Nullable public Figure findFigureInside(Point2D.Double p) {
+    public Figure findFigureInside(Point2D.Double p) {
         return (contains(p)) ? this : null;
     }
 

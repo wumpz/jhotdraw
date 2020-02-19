@@ -9,7 +9,7 @@
 
 package org.jhotdraw.draw.handle;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.HandleListener;
 import java.awt.*;
@@ -75,7 +75,7 @@ public interface Handle extends KeyListener {
     /**
      * Sets the view of the handle.
      */
-    public void setView(@Nullable DrawingView view);
+    public void setView(DrawingView view);
     /**
      * Adds a listener for this handle.
      */
@@ -170,9 +170,9 @@ public interface Handle extends KeyListener {
     /**
      * Creates secondary handles.
      */
-    @Nullable public Collection<Handle> createSecondaryHandles();
+    public Collection<Handle> createSecondaryHandles();
     /**
      * Returns a tooltip for the specified location.
      */
-    @Nullable public String getToolTipText(Point p);
+    public String getToolTipText(Point p);
 }

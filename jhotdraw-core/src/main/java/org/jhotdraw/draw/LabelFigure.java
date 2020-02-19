@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class LabelFigure extends TextFigure implements FigureListener {
     private static final long serialVersionUID = 1L;
-    @Nullable private TextHolderFigure target;
+    private TextHolderFigure target;
     
     /** Creates a new instance. */
     public LabelFigure() {

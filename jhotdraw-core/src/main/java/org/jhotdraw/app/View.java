@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.URIChooser;
 import java.io.*;
 import java.beans.*;
@@ -108,7 +108,7 @@ public interface View extends Disposable {
     /**
      * Gets the application to which this view belongs.
      */
-    @Nullable public Application getApplication();
+    public Application getApplication();
     
     /**
      * Sets the application of the view.
@@ -116,7 +116,7 @@ public interface View extends Disposable {
      * Application.remove().
      * This is a bound property.
      */
-    public void setApplication(@Nullable Application newValue);
+    public void setApplication(Application newValue);
     
     /**
      * Returns the visual component of the view.
@@ -319,13 +319,13 @@ public interface View extends Disposable {
      * The URI is used by the <em>Allow multiple views per URI</em> feature.
      * See {@link org.jhotdraw.app}.
      */
-    @Nullable public URI getURI();
+    public URI getURI();
 
     /**
      * Sets the uri of the view.
      * This is a bound property.
      */
-    public void setURI(@Nullable URI newValue);
+    public void setURI(URI newValue);
 
     /**
      * Returns true, if this view can be saved to the specified URI.
@@ -350,7 +350,7 @@ public interface View extends Disposable {
      * @param chooser The chooser which was used for selecting the URI. This
      * parameter is null if no chooser was used.
      */
-    public void write(URI uri, @Nullable URIChooser chooser) throws IOException;
+    public void write(URI uri, URIChooser chooser) throws IOException;
 
     /**
      * Reads the view from the specified URI.
@@ -365,7 +365,7 @@ public interface View extends Disposable {
      * @param chooser The chooser which was used for selecting the URI. This
      * parameter is null if no chooser was used.
      */
-    public void read(URI uri, @Nullable URIChooser chooser) throws IOException;
+    public void read(URI uri, URIChooser chooser) throws IOException;
 
 
 }

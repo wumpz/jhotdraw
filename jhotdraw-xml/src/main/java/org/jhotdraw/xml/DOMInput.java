@@ -9,7 +9,7 @@
 
 package org.jhotdraw.xml;
 
-import javax.annotation.Nullable;
+
 import java.io.IOException;
 
 /**
@@ -41,15 +41,15 @@ public interface DOMInput {
     /**
      * Gets an attribute of the current element of the DOM Document.
      */
-    @Nullable public String getAttribute(String name, @Nullable  String defaultValue);
+    public String getAttribute(String name,  String defaultValue);
     /**
      * Gets the text of the current element of the DOM Document.
      */
-    @Nullable public String getText();
+    public String getText();
     /**
      * Gets the text of the current element of the DOM Document.
      */
-    @Nullable public String getText(@Nullable String defaultValue);
+    public String getText(String defaultValue);
     
     /**
      * Gets an attribute of the current element of the DOM Document.

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.OutputFormat;
 import java.awt.*;
@@ -962,11 +962,11 @@ public class SVGOutputFormat implements OutputFormat {
 
     }
 
-    protected void writeAttribute(IXMLElement elem, String name, String value, @Nullable String defaultValue) {
+    protected void writeAttribute(IXMLElement elem, String name, String value, String defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
 
-    protected void writeAttribute(IXMLElement elem, String name, String namespace, String value, @Nullable String defaultValue) {
+    protected void writeAttribute(IXMLElement elem, String name, String namespace, String value, String defaultValue) {
         if (!value.equals(defaultValue)) {
             elem.setAttribute(name, value);
         }

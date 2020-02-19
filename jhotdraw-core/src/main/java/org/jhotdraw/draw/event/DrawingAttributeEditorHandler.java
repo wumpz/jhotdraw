@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +28,7 @@ public class DrawingAttributeEditorHandler<T> extends AbstractAttributeEditorHan
 
     private Drawing drawing;
 
-    public DrawingAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor) {
+    public DrawingAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
         super(key, attributeEditor, drawingEditor, false);
     }
 

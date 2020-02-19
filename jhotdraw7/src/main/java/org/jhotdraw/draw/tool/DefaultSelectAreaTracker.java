@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.*;
 import java.awt.event.*;
@@ -65,7 +65,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
      * The hover Figure is the figure, over which the mouse is currently
      * hovering.
      */
-    @Nullable private Figure hoverFigure = null;
+    private Figure hoverFigure = null;
 
     /** Creates a new instance. */
     public DefaultSelectAreaTracker() {
@@ -170,7 +170,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
         updateHoverHandles(null, null);
     }
 
-    protected void updateHoverHandles(@Nullable DrawingView view, @Nullable Figure f) {
+    protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
             if (hoverFigure != null) {

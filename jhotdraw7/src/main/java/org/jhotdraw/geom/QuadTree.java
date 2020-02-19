@@ -9,7 +9,7 @@
 
 package org.jhotdraw.geom;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.geom.*;
 import java.io.Serializable;
 import java.util.*;
@@ -122,10 +122,10 @@ public class QuadTree<T> implements Serializable {
          */
         private HashMap<T,Rectangle2D.Double> objects;
         
-        @Nullable private QuadNode northEast;
-        @Nullable private QuadNode northWest;
-        @Nullable private QuadNode southEast;
-        @Nullable private QuadNode southWest;
+        private QuadNode northEast;
+        private QuadNode northWest;
+        private QuadNode southEast;
+        private QuadNode southWest;
         
         
         public QuadNode(Rectangle2D.Double bounds) {

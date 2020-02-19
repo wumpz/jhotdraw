@@ -11,9 +11,9 @@
 /**
  * Provides GUI components which are specific to the drawing framework.
  */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.draw.gui;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+
 

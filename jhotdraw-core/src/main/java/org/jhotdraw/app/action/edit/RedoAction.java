@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
-import javax.annotation.Nullable;
+
 import java.awt.event.*;
 import javax.swing.*;
 import java.beans.*;
@@ -52,7 +52,7 @@ public class RedoAction extends AbstractViewAction {
     };
 
     /** Creates a new instance. */
-    public RedoAction(Application app, @Nullable View view) {
+    public RedoAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
     }
@@ -67,7 +67,7 @@ public class RedoAction extends AbstractViewAction {
     }
 
     @Override
-    protected void updateView(@Nullable View oldValue, @Nullable View newValue) {
+    protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
         if (newValue != null && //
                 newValue.getActionMap().get(ID) != null && //
@@ -110,7 +110,7 @@ public class RedoAction extends AbstractViewAction {
         }
     }
 
-    @Nullable
+    
     private Action getRealRedoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

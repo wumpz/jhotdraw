@@ -8,7 +8,7 @@
 package org.jhotdraw.app;
 
 import org.jhotdraw.beans.AbstractBean;
-import javax.annotation.Nullable;
+
 import java.awt.Container;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -69,7 +69,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     protected ResourceBundleUtil labels;
     protected ApplicationModel model;
     private Preferences prefs;
-    @Nullable
+    
     private View activeView;
     public static final String VIEW_COUNT_PROPERTY = "viewCount";
     private LinkedList<URI> recentURIs = new LinkedList<>();
@@ -196,7 +196,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * 
      * @param newValue Active view, can be null.
      */
-    public void setActiveView(@Nullable View newValue) {
+    public void setActiveView(View newValue) {
         View oldValue = activeView;
         if (activeView != null) {
             activeView.deactivate();
@@ -214,7 +214,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * @return The active view can be null.
      */
     @Override
-    @Nullable
+    
     public View getActiveView() {
         return activeView;
     }
@@ -400,10 +400,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     }
 
     @Override
-    public void addWindow(Window window, @Nullable View p) {
+    public void addWindow(Window window, View p) {
     }
 
-    protected Action getAction(@Nullable View view, String actionID) {
+    protected Action getAction(View view, String actionID) {
         return getActionMap(view).get(actionID);
     }
 
@@ -412,7 +412,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * @param view the view
      * @param actionID the action id
     */
-    protected void addAction(JMenu m, @Nullable View view, String actionID) {
+    protected void addAction(JMenu m, View view, String actionID) {
         addAction(m, getAction(view, actionID));
     }
 
@@ -507,7 +507,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 Collections.unmodifiableList(recentURIs));
     }
 
-    protected JMenu createOpenRecentFileMenu(@Nullable View view) {
+    protected JMenu createOpenRecentFileMenu(View view) {
         JMenuItem mi;
         JMenu m;
 
@@ -530,10 +530,10 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
         private JMenu openRecentMenu;
         private LinkedList<Action> openRecentActions = new LinkedList<>();
-        @Nullable
+        
         private View view;
 
-        public OpenRecentMenuHandler(JMenu openRecentMenu, @Nullable View view) {
+        public OpenRecentMenuHandler(JMenu openRecentMenu, View view) {
             this.openRecentMenu = openRecentMenu;
             this.view = view;
             if (view != null) {
@@ -760,7 +760,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      * @return the map
      */
     @Override
-    public ActionMap getActionMap(@Nullable View v) {
+    public ActionMap getActionMap(View v) {
         return (v == null) ? actionMap : v.getActionMap();
     }
 }

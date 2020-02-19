@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.HandleMulticaster;
 import org.jhotdraw.draw.*;
@@ -68,7 +68,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
     /** Last dragged mouse location. This variable is only non-null when
      * the mouse is being pressed or dragged.
      */
-    @Nullable
+    
     private Point dragLocation;
     private Handle masterHandle;
     private HandleMulticaster multicaster;
@@ -81,7 +81,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
      * The hover Figure is the figure, over which the mouse is currently
      * hovering.
      */
-    @Nullable
+    
     private Figure hoverFigure = null;
 
     /** Creates a new instance. */
@@ -255,7 +255,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         updateHoverHandles(null, null);
     }
 
-    protected void updateHoverHandles(@Nullable DrawingView view, @Nullable Figure f) {
+    protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
             if (hoverFigure != null && hoverFigure.isSelectable()) {

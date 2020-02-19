@@ -9,7 +9,7 @@
  */
 package org.jhotdraw.gui;
 
-import javax.annotation.Nullable;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -37,7 +37,7 @@ public class JActivityView extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
 
     public static final String REQUEST_REMOVE_PROPERTY = "requestRemove";
-    @Nullable private ActivityModel model;
+    private ActivityModel model;
 
     private class Handler implements PropertyChangeListener, ChangeListener {
 
@@ -70,14 +70,14 @@ public class JActivityView extends javax.swing.JPanel {
     }
 
     /** Creates a new JActivityView. */
-    public JActivityView(@Nullable ActivityModel model) {
+    public JActivityView(ActivityModel model) {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
         initComponents();
         closeButton.setVisible(false);
         setModel(model);
     }
 
-    public void setModel(@Nullable ActivityModel newValue) {
+    public void setModel(ActivityModel newValue) {
         if (model != null) {
             model.removeChangeListener(handler);
             model.removePropertyChangeListener(handler);
@@ -94,11 +94,11 @@ public class JActivityView extends javax.swing.JPanel {
         }
     }
 
-    @Nullable public ActivityModel getModel() {
+    public ActivityModel getModel() {
         return model;
     }
 
-    private void updateProperties(@Nullable PropertyChangeEvent evt) {
+    private void updateProperties(PropertyChangeEvent evt) {
         if (evt == null || evt.getPropertyName() == null) {
             updateNote();
             updateWarning();

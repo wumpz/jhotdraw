@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
@@ -31,7 +31,7 @@ public class BezierControlPointHandle extends AbstractHandle {
 
     protected int index,  controlPointIndex;
     private CompositeEdit edit;
-    @Nullable private Figure transformOwner;
+    private Figure transformOwner;
     private BezierPath.Node oldNode;
 
     /** Creates a new instance. */
@@ -74,7 +74,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
     }
 
-    @Nullable
+    
     protected BezierPath.Node getBezierNode() {
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }

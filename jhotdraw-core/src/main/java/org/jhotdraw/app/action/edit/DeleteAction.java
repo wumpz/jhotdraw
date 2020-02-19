@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.edit;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -56,7 +56,7 @@ public class DeleteAction extends TextAction {
     /** The target of the action or null if the action acts on the currently
      * focused component.
      */
-    @Nullable private JComponent target;
+    private JComponent target;
     /** This variable keeps a strong reference on the property change listener. */
     private PropertyChangeListener propertyHandler;
 
@@ -70,7 +70,7 @@ public class DeleteAction extends TextAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public DeleteAction(@Nullable JComponent target) {
+    public DeleteAction(JComponent target) {
         this(target,ID);
     }
     /** Creates a new instance which acts on the specified component.
@@ -78,7 +78,7 @@ public class DeleteAction extends TextAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    protected DeleteAction(@Nullable JComponent target, String id) {
+    protected DeleteAction(JComponent target, String id) {
         super(id);
         this.target = target;
         if (target != null) {

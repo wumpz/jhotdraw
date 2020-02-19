@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.event.*;
@@ -42,11 +42,11 @@ import org.jhotdraw.net.URIUtil;
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
     private static final long serialVersionUID = 1L;
 
-    @Nullable
+    
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public AbstractSaveUnsavedChangesAction(Application app, @Nullable View view) {
+    public AbstractSaveUnsavedChangesAction(Application app, View view) {
         super(app, view);
     }
 
@@ -150,7 +150,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         }
     }
 
-    protected void saveViewToURI(final View v, final URI uri, @Nullable final URIChooser chooser) {
+    protected void saveViewToURI(final View v, final URI uri, final URIChooser chooser) {
         v.execute(new BackgroundTask() {
 
             @Override

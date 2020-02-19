@@ -11,7 +11,7 @@ import org.jhotdraw.draw.tool.SelectionTool;
 import java.awt.Dimension;
 import java.beans.*;
 import java.lang.ref.WeakReference;
-import javax.annotation.Nullable;
+
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 
@@ -28,8 +28,8 @@ import org.jhotdraw.draw.*;
 public class SelectionComponentDisplayer
         implements PropertyChangeListener, FigureSelectionListener {
 
-    @Nullable protected DrawingView view;
-    @Nullable protected DrawingEditor editor;
+    protected DrawingView view;
+    protected DrawingEditor editor;
     protected WeakReference<JComponent> weakRef;
     protected int minSelectionCount = 1;
     protected boolean isVisibleIfCreationTool = true;
@@ -94,7 +94,7 @@ public class SelectionComponentDisplayer
         }
     }
 
-    @Nullable
+    
     protected JComponent getComponent() {
         return weakRef.get();
     }

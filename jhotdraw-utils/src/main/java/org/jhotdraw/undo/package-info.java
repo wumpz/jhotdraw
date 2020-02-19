@@ -12,8 +12,8 @@
 Provides undo/redo support leveraging the javax.swing.undo package.
 
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.undo;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

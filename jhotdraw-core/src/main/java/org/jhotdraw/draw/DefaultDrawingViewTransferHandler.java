@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
@@ -52,7 +52,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
      * We keep the exported figures in this list, so that we don't need to rely
      * on figure selection, when method exportDone is called.
      */
-    @Nullable
+    
     private HashSet<Figure> exportedFigures;
 
     /**
@@ -76,7 +76,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
      * transferFigures collection.
      */
     @SuppressWarnings("unchecked")
-    protected boolean importData(final JComponent comp, Transferable t, final HashSet<Figure> transferFigures, @Nullable final Point dropPoint) {
+    protected boolean importData(final JComponent comp, Transferable t, final HashSet<Figure> transferFigures, final Point dropPoint) {
         if (DEBUG) {
             System.out.println("DefaultDrawingViewTransferHandler.importData(comp,t)");
         }
@@ -382,7 +382,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         return retValue;
     }
 
-    @Nullable
+    
     protected Transferable createTransferable(DrawingView view, java.util.Set<Figure> transferFigures) {
         if (DEBUG) {
             System.out.println("DefaultDrawingViewTransferHandler .createTransferable(" + view + "," + transferFigures + ")");

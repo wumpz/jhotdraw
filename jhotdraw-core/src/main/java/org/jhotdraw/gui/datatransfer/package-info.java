@@ -12,8 +12,8 @@
 Provides general purpose clipboard support classes leveraging the
 java.awt.datatransfer package and the javax.jnlp package.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.gui.datatransfer;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

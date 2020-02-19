@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.io.InputFormat;
 import java.awt.datatransfer.*;
@@ -351,7 +351,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Reads an ODG element.
      */
-    @Nullable
+    
     private ODGFigure readElement(IXMLElement elem)
             throws IOException {
         /*
@@ -467,7 +467,7 @@ public class ODGInputFormat implements InputFormat {
         return figure;
     }
 
-    @Nullable
+    
     private ODGFigure readEnhancedGeometryElement(
             IXMLElement elem,
             Map<AttributeKey<?>, Object> a,

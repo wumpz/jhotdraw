@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.*;
 import java.awt.*;
@@ -31,11 +31,11 @@ import java.util.*;
  * @version $Id$
  */
 public class HandleEvent extends EventObject {
-    @Nullable private Rectangle invalidatedArea;
+    private Rectangle invalidatedArea;
     private static final long serialVersionUID=1L;
     
     /** Creates a new instance. */
-    public HandleEvent(Handle src, @Nullable Rectangle invalidatedArea) {
+    public HandleEvent(Handle src, Rectangle invalidatedArea) {
         super(src);
         this.invalidatedArea = invalidatedArea;
     }
@@ -46,7 +46,7 @@ public class HandleEvent extends EventObject {
     /**
      *  Gets the bounds of the invalidated area on the drawing view.
      */
-    @Nullable public Rectangle getInvalidatedArea() {
+    public Rectangle getInvalidatedArea() {
         return invalidatedArea;
     }
 }

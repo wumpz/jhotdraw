@@ -8,7 +8,7 @@
 package org.jhotdraw.samples.svg.figures;
 
 import org.jhotdraw.geom.GrowStroke;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.Handle;
@@ -43,24 +43,24 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * This is used to perform faster drawing.
      */
-    @Nullable
+    
     private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable
+    
     private transient Shape cachedHitShape;
     /**
      * The image data. This can be null, if the image was created from a
      * BufferedImage.
      */
-    @Nullable
+    
     private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    @Nullable
+    
     private BufferedImage bufferedImage;
 
     /** Creates a new instance. */
@@ -413,7 +413,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * image from the image data.
      */
     @Override
-    @Nullable
+    
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             //System.out.println("recreateing bufferedImage");
@@ -439,7 +439,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * modify this array.
      */
     @Override
-    @Nullable
+    
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

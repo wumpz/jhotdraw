@@ -9,7 +9,7 @@
 
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+
 
 /**
  * Interface for objects which explicitly must be disposed to free resources.

@@ -41,8 +41,8 @@ The key interfaces for editing a drawing are:
     <li>{@link org.jhotdraw.draw.handle.Handle} (in sub-package "handle")</li>
 </ul>
 <p>*/
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+

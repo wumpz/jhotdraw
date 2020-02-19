@@ -10,7 +10,7 @@ package org.jhotdraw.draw;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.handle.FontSizeHandle;
@@ -45,7 +45,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;
     // cache of the TextFigure's layout
-    @Nullable
+    
     transient protected TextLayout textLayout;
 
     /**

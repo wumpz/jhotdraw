@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -43,9 +43,9 @@ public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {
     private static final long serialVersionUID = 1L;
 
-    @Nullable
+    
     private DrawingEditor editor;
-    @Nullable transient private DrawingView activeView;
+    transient private DrawingView activeView;
 
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
     private static final long serialVersionUID = 1L;
@@ -79,7 +79,7 @@ public abstract class AbstractSelectedAction
 
         }
     };
-    @Nullable private EventHandler eventHandler = new EventHandler();
+    private EventHandler eventHandler = new EventHandler();
 
     /** Creates an action which acts on the selected figures on the current view
      * of the specified editor.
@@ -107,7 +107,7 @@ public abstract class AbstractSelectedAction
         setEditor(null);
     }
 
-    public void setEditor(@Nullable DrawingEditor editor) {
+    public void setEditor(DrawingEditor editor) {
         if (eventHandler != null) {
             unregisterEventHandler();
         }
@@ -118,17 +118,17 @@ public abstract class AbstractSelectedAction
         }
     }
 
-    @Nullable
+    
     public DrawingEditor getEditor() {
         return editor;
     }
 
-    @Nullable
+    
     protected DrawingView getView() {
         return (editor == null) ? null : editor.getActiveView();
     }
 
-    @Nullable
+    
     protected Drawing getDrawing() {
         return (getView() == null) ? null : getView().getDrawing();
     }

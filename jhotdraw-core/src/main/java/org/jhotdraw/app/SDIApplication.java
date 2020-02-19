@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.window.ToggleVisibleAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
@@ -385,7 +385,7 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -419,7 +419,7 @@ public class SDIApplication extends AbstractApplication {
         return (m.getItemCount() == 0) ? null : m;
     }
 
-    @Override @Nullable
+    @Override 
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -477,7 +477,7 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
-    @Nullable
+    
     public JMenu createWindowMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "window");

@@ -9,7 +9,7 @@
  */
 package org.jhotdraw.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Formatter;
@@ -43,12 +43,12 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
     }
 
     /** Creates a new DefaultActivityModel. */
-    public DefaultActivityModel(Object owner, String title, @Nullable String note, int min, int max) {
+    public DefaultActivityModel(Object owner, String title, String note, int min, int max) {
         this(owner, title, note, min, max, false);
     }
 
     /** Creates a new DefaultActivityModel. */
-    public DefaultActivityModel(Object owner, String title, @Nullable String note, int min, final int max, final boolean isIndeterminate) {
+    public DefaultActivityModel(Object owner, String title, String note, int min, final int max, final boolean isIndeterminate) {
         super(min, 0, min, max);
         this.owner = owner;
         this.title = title;
@@ -261,7 +261,7 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    protected void firePropertyChange(String propertyName, @Nullable Object oldValue, @Nullable Object newValue) {
+    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 

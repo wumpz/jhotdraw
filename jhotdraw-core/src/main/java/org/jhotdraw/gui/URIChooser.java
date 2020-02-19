@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.gui;
 
-import javax.annotation.Nullable;
+
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
@@ -82,14 +82,14 @@ public interface URIChooser {
      * @see #setSelectedURI
      * @return the selected uri
      */
-    @Nullable public URI getSelectedURI();
+    public URI getSelectedURI();
 
     /**
      * Sets the selected URI.
      *
      * @param uri the selected uri
      */
-    public void setSelectedURI(@Nullable URI uri);
+    public void setSelectedURI(URI uri);
 
     /**
      * Returns the type of this dialog.  The default is
@@ -146,7 +146,7 @@ public interface URIChooser {
      * @see #setDialogType
      * @see #showDialog
      */
-    @Nullable public String getApproveButtonText();
+    public String getApproveButtonText();
 
     /**
      * Sets the text used in the {@code ApproveButton}  in the
@@ -157,7 +157,7 @@ public interface URIChooser {
      * @see #getApproveButtonText
      * @see #setDialogType
      */
-    public void setApproveButtonText(@Nullable String approveButtonText);
+    public void setApproveButtonText(String approveButtonText);
 
     /**
      * Returns the approve button's mnemonic.
@@ -247,7 +247,7 @@ public interface URIChooser {
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see #showDialog
      */
-    public int showOpenDialog(@Nullable Component parent) throws HeadlessException;
+    public int showOpenDialog(Component parent) throws HeadlessException;
 
     /**
      * Pops up a "Save File" file chooser dialog. Note that the
@@ -269,7 +269,7 @@ public interface URIChooser {
      * @see java.awt.GraphicsEnvironment#isHeadless
      * @see #showDialog
      */
-    public int showSaveDialog(@Nullable Component parent) throws HeadlessException;
+    public int showSaveDialog(Component parent) throws HeadlessException;
 
     /**
      * Pops a custom file chooser dialog with a custom approve button.
@@ -325,5 +325,5 @@ public interface URIChooser {
      * returns true.
      * @see java.awt.GraphicsEnvironment#isHeadless
      */
-    public int showDialog(@Nullable Component parent, String approveButtonText) throws HeadlessException;
+    public int showDialog(Component parent, String approveButtonText) throws HeadlessException;
 }

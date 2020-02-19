@@ -15,8 +15,8 @@
     Mobile 1.2 (SVG Mobile 1.2)</a>.
 </p>
 */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.samples.svg;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+

@@ -12,8 +12,8 @@
 Defines the {@link org.jhotdraw.draw.tool.Tool} interface for representing
 the state of a drawing editor and provides default implementations.
 */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.draw.tool;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+

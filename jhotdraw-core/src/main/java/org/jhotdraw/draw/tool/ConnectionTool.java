@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import javax.swing.undo.*;
@@ -58,22 +58,22 @@ public class ConnectionTool extends AbstractTool {
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    @Nullable
+    
     private Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * The Connector at the start point of the connection.
      */
-    @Nullable
+    
     protected Connector startConnector;
     /**
      * The Connector at the end point of the connection.
      */
-    @Nullable
+    
     protected Connector endConnector;
     /**
      * The created figure.
      */
-    @Nullable
+    
     protected ConnectionFigure createdFigure;
     /**
      * the prototypical figure that is used to create new
@@ -83,14 +83,14 @@ public class ConnectionTool extends AbstractTool {
     /**
      * The figure for which we enabled drawing of connectors.
      */
-    @Nullable
+    
     protected Figure targetFigure;
     protected Collection<Connector> connectors = Collections.emptyList();
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-    @Nullable
+    
     private String presentationName;
     /**
      * If this is set to false, the CreationTool does not fire toolDone
@@ -105,11 +105,11 @@ public class ConnectionTool extends AbstractTool {
         this(prototype, null, null);
     }
 
-    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
+    public ConnectionTool(ConnectionFigure prototype, Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
-    public ConnectionTool(ConnectionFigure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String presentationName) {
+    public ConnectionTool(ConnectionFigure prototype, Map<AttributeKey<?>, Object> attributes, String presentationName) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (presentationName == null) {
@@ -123,7 +123,7 @@ public class ConnectionTool extends AbstractTool {
         this(prototypeClassName, null, null);
     }
 
-    public ConnectionTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String presentationName) {
+    public ConnectionTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes, String presentationName) {
         try {
             this.prototype = (ConnectionFigure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {

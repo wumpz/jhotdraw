@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -482,7 +482,7 @@ public class AttributeKeys {
         }
     }
 
-    @Nullable public static Font getFont(Figure f) {
+    public static Font getFont(Figure f) {
         Font prototype = f.get(FONT_FACE);
         if (prototype == null) {
             return null;

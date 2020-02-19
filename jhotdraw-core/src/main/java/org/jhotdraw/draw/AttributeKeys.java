@@ -10,7 +10,7 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -509,7 +509,7 @@ public class AttributeKeys {
         }
     }
 
-    @Nullable
+    
     public static Font getFont(Figure f) {
         Font prototype = f.get(FONT_FACE);
         if (prototype == null) {

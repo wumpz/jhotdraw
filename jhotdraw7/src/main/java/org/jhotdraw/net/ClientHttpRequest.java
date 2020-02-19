@@ -12,7 +12,7 @@
  */
 package org.jhotdraw.net;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.net.URLConnection;
 import java.net.URL;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.Iterator;
 public class ClientHttpRequest {
 
     URLConnection connection;
-    @Nullable
+    
     OutputStream os = null;
     Map<String, String> cookies = new HashMap<String, String>();
     String rawCookies = "";

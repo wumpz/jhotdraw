@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.jhotdraw.app.action.file.ExportFileAction;
@@ -84,7 +84,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public ActionMap createActionMap(Application a, @Nullable View view) {
+    public ActionMap createActionMap(Application a, View view) {
         SVGView v = (SVGView) view;
         ActionMap m = super.createActionMap(a, v);
         AbstractAction aa;
@@ -121,7 +121,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         return new DefaultMenuBuilder() {
 
             @Override
-            public void addSelectionItems(JMenu m, Application app, @Nullable View v) {
+            public void addSelectionItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
 
                 super.addSelectionItems(m, app, v);
@@ -129,7 +129,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             }
 
             @Override
-            public void addOtherEditItems(JMenu m, Application app, @Nullable View v) {
+            public void addOtherEditItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
 
                 m.add(am.get(GroupAction.ID));
@@ -143,7 +143,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             }
 
             @Override
-            public void addOtherViewItems(JMenu m, Application app, @Nullable View v) {
+            public void addOtherViewItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
                 m.add(am.get(ViewSourceAction.ID));
             }
@@ -158,13 +158,13 @@ public class SVGApplicationModel extends DefaultApplicationModel {
      * @return An empty list.
      */
     @Override
-    public List<JToolBar> createToolBars(Application app, @Nullable View p) {
+    public List<JToolBar> createToolBars(Application app, View p) {
         LinkedList<JToolBar> list = new LinkedList<JToolBar>();
         return list;
     }
 
     @Override
-    public URIChooser createOpenChooser(Application a, @Nullable View v) {
+    public URIChooser createOpenChooser(Application a, View v) {
         final JFileURIChooser c = new JFileURIChooser();
         final HashMap<FileFilter, InputFormat> fileFilterInputFormatMap =
                 new HashMap<FileFilter, InputFormat>();
@@ -207,7 +207,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public URIChooser createSaveChooser(Application a, @Nullable View v) {
+    public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
 
         final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
@@ -234,7 +234,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
     }
 
     @Override
-    public URIChooser createExportChooser(Application a, @Nullable View v) {
+    public URIChooser createExportChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
 
         final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =

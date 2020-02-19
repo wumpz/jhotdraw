@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.event.ToolEvent;
@@ -106,7 +106,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return isActive;
     }
 
-    @Nullable
+    
     protected DrawingView getView() {
         return editor.getActiveView();
     }
@@ -269,7 +269,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * <p>
      * The implementation of this class returns null.
      */
-    @Nullable
+    
     protected InputMap createInputMap() {
         return null;
     }
@@ -280,7 +280,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * <p>
      * The implementation of this class returns null.
      */
-    @Nullable
+    
     protected ActionMap createActionMap() {
         return null;
     }

@@ -9,7 +9,7 @@
 
 package org.jhotdraw.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import javax.swing.*;
 import java.awt.*;
 import java.beans.*;
@@ -343,7 +343,7 @@ class MDIDesktopManager extends DefaultDesktopManager {
         }
     }
     
-    @Nullable
+    
     public JScrollPane getScrollPane() {
         if (desktop.getParent() instanceof JViewport) {
             JViewport viewPort = (JViewport)desktop.getParent();

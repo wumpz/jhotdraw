@@ -8,7 +8,7 @@
 
 package org.jhotdraw.samples.svg.gui;
 
-import javax.annotation.Nullable;
+
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -27,7 +27,7 @@ import org.jhotdraw.util.*;
  */
 public class MessagePanel extends javax.swing.JPanel {
     private static final long serialVersionUID = 1L;
-    @Nullable private EventListenerList listeners;
+    private EventListenerList listeners;
     private ResourceBundleUtil labels;
     
     /** Creates new instance. */
@@ -35,17 +35,17 @@ public class MessagePanel extends javax.swing.JPanel {
         this(null, null);
     }
     
-    public MessagePanel(@Nullable Icon icon, @Nullable String message) {
+    public MessagePanel(Icon icon, String message) {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         initComponents();
         setIcon(icon);
         setMessage(message);
     }
     
-    public void setMessage(@Nullable String message) {
+    public void setMessage(String message) {
         messageLabel.setText(message);
     }
-    public void setIcon(@Nullable Icon icon) {
+    public void setIcon(Icon icon) {
         iconLabel.setIcon(icon);
     }
     public void addActionListener(ActionListener listener) {

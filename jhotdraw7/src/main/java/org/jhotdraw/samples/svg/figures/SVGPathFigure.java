@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
@@ -36,12 +36,12 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * This cached path is used for drawing.
      */
-    @Nullable private transient Path2D.Double cachedPath;
+    private transient Path2D.Double cachedPath;
     // private transient Rectangle2D.Double cachedDrawingArea;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable private transient Shape cachedHitShape;
+    private transient Shape cachedHitShape;
     private static final boolean DEBUG = false;
 
     /** Creates a new instance. */

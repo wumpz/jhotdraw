@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action;
 
-import javax.annotation.Nullable;
+
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
@@ -32,7 +32,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
 
     private Application app;
-    @Nullable
+    
     private View view;
     private String propertyName;
     /** Set this to true if the action may create a new view if none exists.*/
@@ -66,7 +66,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     };
 
     /** Creates a new instance which acts on the specified view of the application. */
-    public AbstractViewAction(Application app, @Nullable View view) {
+    public AbstractViewAction(Application app, View view) {
         this.app = app;
         this.view = view;
         this.enabled = true;
@@ -80,7 +80,7 @@ public abstract class AbstractViewAction extends AbstractAction {
      * Updates the listeners of this action depending on the current view
      * of the application.
      */
-    protected void updateView(@Nullable View oldValue, @Nullable View newValue) {
+    protected void updateView(View oldValue, View newValue) {
         // We only need to do this, if the view has not been explicitly set
         if (view == null) {
             if (oldValue != null) {
@@ -145,7 +145,7 @@ public abstract class AbstractViewAction extends AbstractAction {
         return app;
     }
 
-    @Nullable
+    
     public View getActiveView() {
         return (view == null) ? app.getActiveView() : view;
     }

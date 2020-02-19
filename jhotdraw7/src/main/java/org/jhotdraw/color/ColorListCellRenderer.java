@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.color;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -23,9 +23,9 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
     
     private static class ColorIcon implements Icon {
 
-        @Nullable private Color color;
+        private Color color;
 
-        public void setColor(@Nullable Color newValue) {
+        public void setColor(Color newValue) {
             color = newValue;
         }
 

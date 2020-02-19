@@ -12,9 +12,9 @@
 Provides interfaces and classes for laying out the children of a
 {@link org.jhotdraw.draw.CompositeFigure}.
 */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.draw.layouter;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+
 

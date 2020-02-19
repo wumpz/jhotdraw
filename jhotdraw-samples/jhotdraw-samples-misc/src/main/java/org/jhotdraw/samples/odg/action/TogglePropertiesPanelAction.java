@@ -8,7 +8,7 @@
 
 package org.jhotdraw.samples.odg.action;
 
-import javax.annotation.Nullable;
+
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
@@ -26,7 +26,7 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
         private static final long serialVersionUID = 1L;
 
     /** Creates a new instance. */
-    public TogglePropertiesPanelAction(Application app, @Nullable View view) {
+    public TogglePropertiesPanelAction(Application app, View view) {
         super(app, view);
         setPropertyName("propertiesPanelVisible");
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");

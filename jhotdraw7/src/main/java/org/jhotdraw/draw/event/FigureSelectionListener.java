@@ -9,7 +9,7 @@
 
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+
 
 
 /**

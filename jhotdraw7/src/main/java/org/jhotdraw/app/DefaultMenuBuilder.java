@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.app;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.List;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -56,7 +56,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addPreferencesItems(JMenu m, Application app, @Nullable View v) {
+    public void addPreferencesItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AbstractPreferencesAction.ID))) {
@@ -70,7 +70,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addExitItems(JMenu m, Application app, @Nullable View v) {
+    public void addExitItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ExitAction.ID))) {
@@ -84,7 +84,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addClearFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addClearFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ClearFileAction.ID))) {
@@ -98,7 +98,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addNewWindowItems(JMenu m, Application app, @Nullable View v) {
+    public void addNewWindowItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(NewWindowAction.ID))) {
@@ -112,7 +112,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addNewFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addNewFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(NewFileAction.ID))) {
@@ -127,7 +127,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addLoadFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addLoadFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(LoadFileAction.ID))) {
@@ -145,7 +145,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addOpenFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addOpenFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(OpenFileAction.ID))) {
@@ -162,7 +162,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addCloseFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addCloseFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(CloseFileAction.ID))) {
@@ -177,7 +177,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addSaveFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addSaveFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(SaveFileAction.ID))) {
@@ -194,7 +194,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addExportFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addExportFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ExportFileAction.ID))) {
@@ -208,7 +208,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addPrintFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addPrintFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(PrintFileAction.ID))) {
@@ -218,7 +218,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
 
     /** Does nothing. */
     @Override
-    public void addOtherFileItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherFileItems(JMenu m, Application app, View v) {
     }
 
     /** Adds items for the following actions to the menu:
@@ -228,7 +228,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addUndoItems(JMenu m, Application app, @Nullable View v) {
+    public void addUndoItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(UndoAction.ID))) {
@@ -249,7 +249,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addClipboardItems(JMenu m, Application app, @Nullable View v) {
+    public void addClipboardItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(CutAction.ID))) {
@@ -276,7 +276,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addSelectionItems(JMenu m, Application app, @Nullable View v) {
+    public void addSelectionItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(SelectAllAction.ID))) {
@@ -293,7 +293,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addFindItems(JMenu m, Application app, @Nullable View v) {
+    public void addFindItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AbstractFindAction.ID))) {
@@ -303,27 +303,27 @@ public class DefaultMenuBuilder implements MenuBuilder {
 
     /** Does nothing. */
     @Override
-    public void addOtherEditItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherEditItems(JMenu m, Application app, View v) {
     }
 
     /** Does nothing. */
     @Override
-    public void addOtherViewItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherViewItems(JMenu m, Application app, View v) {
     }
 
     /** Does nothing. */
     @Override
-    public void addOtherMenus(List<JMenu> m, Application app, @Nullable View v) {
+    public void addOtherMenus(List<JMenu> m, Application app, View v) {
     }
 
     /** Does nothing. */
     @Override
-    public void addOtherWindowItems(JMenu m, Application app, @Nullable View v) {
+    public void addOtherWindowItems(JMenu m, Application app, View v) {
     }
 
     /** Does nothing. */
     @Override
-    public void addHelpItems(JMenu m, Application app, @Nullable View v) {
+    public void addHelpItems(JMenu m, Application app, View v) {
     }
 
     /** Adds items for the following actions to the menu:
@@ -332,7 +332,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * </ul>
      */
     @Override
-    public void addAboutItems(JMenu m, Application app, @Nullable View v) {
+    public void addAboutItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AboutAction.ID))) {

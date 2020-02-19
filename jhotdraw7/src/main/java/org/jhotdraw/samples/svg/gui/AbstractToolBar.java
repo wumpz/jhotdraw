@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.*;
 import java.beans.*;
 import java.util.LinkedList;
@@ -27,8 +27,8 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
     private static final long serialVersionUID = 1L;
 
-    @Nullable protected DrawingEditor editor;
-    @Nullable private JComponent[] panels;
+    protected DrawingEditor editor;
+    private JComponent[] panels;
     protected Preferences prefs;
     protected PropertyChangeListener eventHandler;
     protected LinkedList<Disposable> disposables = new LinkedList<Disposable>();
@@ -80,7 +80,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         return eventHandler;
     }
 
-    public void setEditor(@Nullable DrawingEditor editor) {
+    public void setEditor(DrawingEditor editor) {
         if (this.editor != null) {
             this.removePropertyChangeListener(getEventHandler());
             for (Disposable d : disposables) {
@@ -97,7 +97,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
     }
 
-    @Nullable public DrawingEditor getEditor() {
+    public DrawingEditor getEditor() {
         return editor;
     }
 
@@ -116,7 +116,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         return panels[state];
     }
 
-    @Nullable
+    
     /*abstract*/ protected JComponent createDisclosedComponent(int state) {
         return null;
     }

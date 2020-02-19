@@ -11,9 +11,9 @@
 /**
 Provides Actions which act on the current selection or insertion point.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.app.action.edit;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+
 

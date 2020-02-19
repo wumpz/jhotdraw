@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.file;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
@@ -40,7 +40,7 @@ public class CloseFileAction extends AbstractSaveUnsavedChangesAction {
     public static final String ID = "file.close";
 
     /** Creates a new instance. */
-    public CloseFileAction(Application app, @Nullable View view) {
+    public CloseFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);

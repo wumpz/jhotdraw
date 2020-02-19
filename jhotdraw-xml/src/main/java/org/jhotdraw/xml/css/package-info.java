@@ -15,8 +15,8 @@
 /**
 Provides support for cascading style sheets (CSS) in XML DOM.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.xml.css;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

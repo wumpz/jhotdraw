@@ -11,7 +11,7 @@ import org.jhotdraw.geom.Shapes;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.connector.Connector;
@@ -42,7 +42,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * This cachedPath is used for drawing.
      */
-    @Nullable private transient Path2D.Double cachedPath;
+    private transient Path2D.Double cachedPath;
     //private transient Rectangle2D.Double cachedDrawingArea;
     private static final boolean DEBUG = false;
 

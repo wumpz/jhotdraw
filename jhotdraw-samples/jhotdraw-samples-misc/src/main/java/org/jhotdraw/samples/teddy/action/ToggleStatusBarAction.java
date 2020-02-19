@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.teddy.action;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.util.*;
@@ -30,7 +30,7 @@ public class ToggleStatusBarAction extends AbstractViewAction {
     /**
      * Creates a new instance.
      */
-    public ToggleStatusBarAction(Application app, @Nullable View view) {
+    public ToggleStatusBarAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
         setPropertyName("statusBarVisible");

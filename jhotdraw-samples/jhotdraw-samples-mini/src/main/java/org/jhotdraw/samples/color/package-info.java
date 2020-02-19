@@ -11,8 +11,8 @@
 /**
 A sample programs showing the use of the JHotDraw color classes.
 */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.samples.color;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+

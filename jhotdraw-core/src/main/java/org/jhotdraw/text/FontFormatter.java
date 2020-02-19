@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.text;
 
-import javax.annotation.Nullable;
+
 import java.awt.Font;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class FontFormatter extends DefaultFormatter {
      * <a href="http://www.w3.org/TR/CSS2/fonts.html#generic-font-families">
      * http://www.w3.org/TR/CSS2/fonts.html#generic-font-families</a>.
      */
-    @Nullable private HashMap<String, Font> genericFontFamilies = new HashMap<>();
+    private HashMap<String, Font> genericFontFamilies = new HashMap<>();
 
     public FontFormatter() {
         this(true);

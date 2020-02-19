@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.*;
 import java.awt.*;
@@ -43,12 +43,12 @@ import java.util.*;
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
     private static final long serialVersionUID = 1L;
 
-    @Nullable
+    
     protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
      */
-    @Nullable
+    
     protected Rectangle2D.Double dragRect;
     /**
      * The previousOrigin holds the origin of all dragged figures of the
@@ -74,7 +74,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
      */
     protected Point2D.Double anchorPoint;
     private boolean isDragging;
-    @Nullable
+    
     private HashSet<Figure> transformedFigures;
 
     /** Creates a new instance. */

@@ -8,7 +8,7 @@
 
 package org.jhotdraw.app.action.file;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
@@ -39,7 +39,7 @@ public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
     public static final String ID = "file.clear";
     
     /** Creates a new instance. */
-    public ClearFileAction(Application app, @Nullable View view) {
+    public ClearFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.clear");

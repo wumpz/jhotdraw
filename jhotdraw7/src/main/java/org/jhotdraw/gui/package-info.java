@@ -26,8 +26,8 @@
  * </p>
  *
  */
-@DefaultAnnotation(NonNull.class)
+
 package org.jhotdraw.gui;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.io;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.draw.*;
 import java.awt.*;
@@ -144,7 +144,7 @@ public class ImageOutputFormat implements OutputFormat {
      * it on an image of the specified size.
      */
     public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures,
-            @Nullable AffineTransform drawingTransform, @Nullable Dimension imageSize) throws IOException {
+            AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         BufferedImage img;
         if (drawingTransform == null || imageSize == null) {
             img = toImage(drawing, figures, 1d, false);

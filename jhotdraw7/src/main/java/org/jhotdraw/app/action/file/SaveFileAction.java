@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.file;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -59,12 +59,12 @@ public class SaveFileAction extends AbstractViewAction {
     private Component oldFocusOwner;
 
     /** Creates a new instance. */
-    public SaveFileAction(Application app, @Nullable View view) {
+    public SaveFileAction(Application app, View view) {
         this(app, view, false);
     }
 
     /** Creates a new instance. */
-    public SaveFileAction(Application app, @Nullable View view, boolean saveAs) {
+    public SaveFileAction(Application app, View view, boolean saveAs) {
         super(app, view);
         this.saveAs = saveAs;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -134,7 +134,7 @@ public class SaveFileAction extends AbstractViewAction {
     }
 
     protected void saveViewToURI(final View view, final URI file,
-            @Nullable final URIChooser chooser) {
+            final URIChooser chooser) {
         view.execute(new BackgroundTask() {
 
             @Override

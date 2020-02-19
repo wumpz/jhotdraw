@@ -8,7 +8,7 @@
 
 package org.jhotdraw.geom;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.awt.geom.*;
 
 /**
@@ -35,7 +35,7 @@ public class BezierPathIterator implements PathIterator {
     /**
      * The transformation.
      */
-    @Nullable private AffineTransform affine;
+    private AffineTransform affine;
     
     /** ?? */
     private static final int curvesize[] = {2, 2, 4, 6, 0};
@@ -53,7 +53,7 @@ public class BezierPathIterator implements PathIterator {
      * AffineTransform.
      * @see BezierPath#getPathIterator
      */
-    public BezierPathIterator(BezierPath path, @Nullable AffineTransform at) {
+    public BezierPathIterator(BezierPath path, AffineTransform at) {
         this.path = path;
         this.affine = at;
     }

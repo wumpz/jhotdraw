@@ -8,7 +8,7 @@
 
 package org.jhotdraw.xml;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.util.*;
 import java.io.*;
 import net.n3.nanoxml.*;
@@ -35,7 +35,7 @@ public class NanoXMLDOMInput implements DOMInput, Disposable {
     /**
      * The document used for input.
      */
-    @Nullable private XMLElement document;
+    private XMLElement document;
     /**
      * The current node used for input.
      */

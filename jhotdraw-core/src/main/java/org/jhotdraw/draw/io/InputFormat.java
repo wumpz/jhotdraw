@@ -8,7 +8,7 @@
 
 package org.jhotdraw.draw.io;
 
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
 import java.io.*;
@@ -56,7 +56,7 @@ public interface InputFormat {
      * @return A JFileChooser accessory to be used with a javax.swing.JFileChooser
      * Returns null, if no accessory is provided for this format.
      */
-    @Nullable public JComponent getInputFormatAccessory();
+    public JComponent getInputFormatAccessory();
     
     /**
      * Reads figures from an URI and replaces the children of the drawing

@@ -11,8 +11,8 @@
 /**
 Provides classes for defining and manipulating two-dimensional geometry.
 */
-@DefaultAnnotation(Nonnull.class)
+
 package org.jhotdraw.geom;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
+
+

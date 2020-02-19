@@ -8,7 +8,7 @@
  */
 package org.jhotdraw.color;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * Interface for {@code ColorSpace} classes which have a name.
  *

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.CutAction;
 import org.jhotdraw.app.action.edit.DeleteAction;
@@ -190,7 +190,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     @Override
-    public <T> void setDefaultAttribute(AttributeKey<T> key, @Nullable T newValue) {
+    public <T> void setDefaultAttribute(AttributeKey<T> key, T newValue) {
         Object oldValue = defaultAttributes.put(key, newValue);
         firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX+key.getKey(), oldValue, newValue);
     }

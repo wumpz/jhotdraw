@@ -9,7 +9,7 @@ package org.jhotdraw.draw;
 
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import javax.annotation.Nullable;
+
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
@@ -42,12 +42,12 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * The image data. This can be null, if the image was created from a BufferedImage.
      */
-    @Nullable
+    
     private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the imageData.
      */
-    @Nullable
+    
     private transient BufferedImage bufferedImage;
 
     /**
@@ -275,7 +275,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * data.
      */
     @Override
-    @Nullable
+    
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             try {
@@ -299,7 +299,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * data array instead of cloning it. Do not modify this array.
      */
     @Override
-    @Nullable
+    
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

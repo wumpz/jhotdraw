@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.draw.event;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Disposable;
@@ -23,8 +23,8 @@ import org.jhotdraw.draw.*;
 public class DrawingComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, Disposable {
 
-    @Nullable private DrawingEditor editor;
-    @Nullable private JComponent component;
+    private DrawingEditor editor;
+    private JComponent component;
 
     public DrawingComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
