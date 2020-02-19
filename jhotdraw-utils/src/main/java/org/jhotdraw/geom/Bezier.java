@@ -583,17 +583,17 @@ public class Bezier {
     private static double newtonRaphsonRootFind(Point2D.Double[] Q, Point2D.Double P, double u) {
         double numerator, denominator;
         Point2D.Double[] Q1 = new Point2D.Double[3], Q2 = new Point2D.Double[2];
-        /*  Q' and Q''			*/
+        /*  Q' and Q''   */
         Point2D.Double Q_u, Q1_u, Q2_u;
-        /*u evaluated at Q, Q', & Q''	*/
+        /*u evaluated at Q, Q', & Q'' */
         double uPrime;
-        /*  Improved u	*/
+        /*  Improved u */
         int i;
 
-        /* Compute Q(u)	*/
+        /* Compute Q(u) */
         Q_u = bezierII(3, Q, u);
 
-        /* Generate control vertices for Q'	*/
+        /* Generate control vertices for Q' */
         for (i = 0; i <= 2; i++) {
             Q1[i] = new Point2D.Double(
                     (Q[i + 1].x - Q[i].x) * 3.0,
@@ -607,7 +607,7 @@ public class Bezier {
                     (Q1[i + 1].y - Q1[i].y) * 2.0);
         }
 
-        /* Compute Q'(u) and Q''(u)	*/
+        /* Compute Q'(u) and Q''(u) */
         Q1_u = bezierII(2, Q1, u);
         Q2_u = bezierII(1, Q2, u);
 
@@ -699,17 +699,17 @@ public class Bezier {
     private static Point2D.Double bezierII(int degree, Point2D.Double[] V, double t) {
         int i, j;
         Point2D.Double q;
-        /* Point on curve at parameter t	*/
+        /* Point on curve at parameter t */
         Point2D.Double[] vTemp;
-        /* Local copy of control points		*/
+        /* Local copy of control points  */
 
- /* Copy array	*/
+ /* Copy array */
         vTemp = new Point2D.Double[degree + 1];
         for (i = 0; i <= degree; i++) {
             vTemp[i] = (Point2D.Double) V[i].clone();
         }
 
-        /* Triangle computation	*/
+        /* Triangle computation */
         for (i = 1; i <= degree; i++) {
             for (j = 0; j <= degree - i; j++) {
                 vTemp[j].x = (1.0 - t) * vTemp[j].x + t * vTemp[j + 1].x;

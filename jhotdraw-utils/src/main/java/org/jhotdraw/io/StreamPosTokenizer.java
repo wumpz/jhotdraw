@@ -21,7 +21,7 @@ import java.util.LinkedList;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class StreamPosTokenizer /*extends StreamTokenizer*/ {
+public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
 
     private Reader reader = null;
 
@@ -914,7 +914,9 @@ public class StreamPosTokenizer /*extends StreamTokenizer*/ {
             } else if (c == slashSlash[0] && slashSlash.length == 1) {
                 // This is the scanner code if the slashSlash token
                 // is one characters long
-                while ((c = read()) != '\n' && c != '\r' && c >= 0);
+                while ((c = read()) != '\n' && c != '\r' && c >= 0) {
+                    // empty allowed
+                }
                 peekc = c;
                 return nextToken();
             } else {
@@ -944,13 +946,17 @@ public class StreamPosTokenizer /*extends StreamTokenizer*/ {
                     }
                     return nextToken();
                 } else if (c == slashSlash[1] && slashSlashCommentsP) {
-                    while ((c = read()) != '\n' && c != '\r' && c >= 0);
+                    while ((c = read()) != '\n' && c != '\r' && c >= 0) {
+                        // empty allowed
+                    }
                     peekc = c;
                     return nextToken();
                 } else {
                     // Now see if it is still a single line comment
                     if ((ct[slashSlash[0]] & CT_COMMENT) != 0) {
-                        while ((c = read()) != '\n' && c != '\r' && c >= 0);
+                        while ((c = read()) != '\n' && c != '\r' && c >= 0) {
+                            // empty allowed
+                        }
                         peekc = c;
                         return nextToken();
                     } else {
@@ -964,7 +970,9 @@ public class StreamPosTokenizer /*extends StreamTokenizer*/ {
         }
 
         if ((ctype & CT_COMMENT) != 0) {
-            while ((c = read()) != '\n' && c != '\r' && c >= 0);
+            while ((c = read()) != '\n' && c != '\r' && c >= 0) {
+                // empty allowed
+            }
             peekc = c;
             //lineno++;  removed because it counts line break twice
             return nextToken();
@@ -1134,13 +1142,11 @@ public class StreamPosTokenizer /*extends StreamTokenizer*/ {
             case TT_NOTHING:
                 ret = "NOTHING";
                 break;
-            default: {
+            default: 
                 char s[] = new char[3];
                 s[0] = s[2] = '\'';
                 s[1] = (char) ttype;
                 ret = new String(s);
-                break;
-            }
         }
         return "Token[" + ret + "], line " + lineno;
     }

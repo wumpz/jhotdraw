@@ -91,7 +91,7 @@ public class Base64 {
      * The 64 valid Base64 values.
      */
     private static final byte[] ALPHABET;
-    private static final byte[] _NATIVE_ALPHABET = /* May be something funny like EBCDIC */ {
+    private static final byte[] NATIVE_ALPHABET = /* May be something funny like EBCDIC */ {
                 (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', (byte) 'G',
                 (byte) 'H', (byte) 'I', (byte) 'J', (byte) 'K', (byte) 'L', (byte) 'M', (byte) 'N',
                 (byte) 'O', (byte) 'P', (byte) 'Q', (byte) 'R', (byte) 'S', (byte) 'T', (byte) 'U',
@@ -112,7 +112,7 @@ public class Base64 {
         try {
             __bytes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".getBytes(PREFERRED_ENCODING);
         } catch (java.io.UnsupportedEncodingException use) {
-            __bytes = _NATIVE_ALPHABET; // Fall back to native encoding
+            __bytes = NATIVE_ALPHABET; // Fall back to native encoding
         }
         ALPHABET = __bytes;
     }
@@ -322,18 +322,22 @@ public class Base64 {
             try {
                 oos.close();
             } catch (Exception e) {
+                // empty allowed
             }
             try {
                 gzos.close();
             } catch (Exception e) {
+                // empty allowed
             }
             try {
                 b64os.close();
             } catch (Exception e) {
+                // empty allowed
             }
             try {
                 baos.close();
             } catch (Exception e) {
+                // empty allowed
             }
         }
 
@@ -444,14 +448,17 @@ public class Base64 {
                 try {
                     gzos.close();
                 } catch (Exception e) {
+                    // empty allowed
                 }
                 try {
                     b64os.close();
                 } catch (Exception e) {
+                    // empty allowed
                 }
                 try {
                     baos.close();
                 } catch (Exception e) {
+                    // empty allowed
                 }
             }
 
@@ -534,8 +541,7 @@ public class Base64 {
 
             destination[destOffset] = (byte) (outBuff >>> 16);
             return 1;
-        } // Example: DkL=
-        else if (source[srcOffset + 3] == EQUALS_SIGN) {
+        } else if (source[srcOffset + 3] == EQUALS_SIGN) {
             // Two ways to do the same thing. Don't know which way I like best.
             //int outBuff =   ( ( DECODABET[ source[ srcOffset     ] ] << 24 ) >>>  6 )
             //              | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
@@ -547,8 +553,7 @@ public class Base64 {
             destination[destOffset] = (byte) (outBuff >>> 16);
             destination[destOffset + 1] = (byte) (outBuff >>> 8);
             return 2;
-        } // Example: DkLE
-        else {
+        } else {
             try {
                 // Two ways to do the same thing. Don't know which way I like best.
                 //int outBuff =   ( ( DECODABET[ source[ srcOffset     ] ] << 24 ) >>>  6 )
@@ -600,8 +605,8 @@ public class Base64 {
             sbiCrop = (byte) (source[i] & 0x7f); // Only the low seven bits
             sbiDecode = DECODABET[sbiCrop];
 
-            if (sbiDecode >= WHITE_SPACE_ENC) // White space, Equals sign or better
-            {
+            // White space, Equals sign or better
+            if (sbiDecode >= WHITE_SPACE_ENC) {
                 if (sbiDecode >= EQUALS_SIGN_ENC) {
                     b4[b4Posn++] = sbiCrop;
                     if (b4Posn > 3) {
@@ -677,14 +682,17 @@ public class Base64 {
                     try {
                         baos.close();
                     } catch (Exception e) {
+                        // empty allowed
                     }
                     try {
                         gzis.close();
                     } catch (Exception e) {
+                        // empty allowed
                     }
                     try {
                         bais.close();
                     } catch (Exception e) {
+                        // empty allowed
                     }
                 }
 
@@ -722,10 +730,12 @@ public class Base64 {
             try {
                 bais.close();
             } catch (Exception e) {
+                // empty allowed
             }
             try {
                 ois.close();
             } catch (Exception e) {
+                // empty allowed
             }
         }
 
@@ -756,6 +766,7 @@ public class Base64 {
             try {
                 bos.close();
             } catch (Exception e) {
+                // empty allowed
             }
         }
 
@@ -785,6 +796,7 @@ public class Base64 {
             try {
                 bos.close();
             } catch (Exception e) {
+                // empty allowed
             }
         }
 
@@ -884,6 +896,7 @@ public class Base64 {
             try {
                 bis.close();
             } catch (Exception e) {
+                // empty allowed
             }
         }
 

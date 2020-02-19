@@ -498,6 +498,7 @@ public class PreferencesUtil
         try {
             tabbedPane.setSelectedIndex(selectedTab);
         } catch (IndexOutOfBoundsException e) {
+            // empty allowed
         }
         tabbedPane.addChangeListener(new ChangeListener() {
 

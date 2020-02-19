@@ -39,7 +39,7 @@ public class BezierPathIterator implements PathIterator {
     /**
      * ??
      */
-    private static final int curvesize[] = {2, 2, 4, 6, 0};
+    private static final int CURVE_SIZE[] = {2, 2, 4, 6, 0};
 
     /**
      * Constructs an iterator given a BezierPath.

@@ -155,6 +155,7 @@ public class Images {
         try {
             pg.grabPixels();
         } catch (InterruptedException e) {
+            // empty allowed
         }
 
         // Get the image's color model

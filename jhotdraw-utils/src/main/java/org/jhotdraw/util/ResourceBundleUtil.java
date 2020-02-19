@@ -59,7 +59,7 @@ public class ResourceBundleUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final HashSet<String> acceleratorKeys = new HashSet<String>(
+    private static final HashSet<String> ACCELERATOR_KEYS = new HashSet<String>(
             Arrays.asList(new String[]{
         "shift", "control", "ctrl", "meta", "alt", "altGraph"
     }));
@@ -179,6 +179,7 @@ public class ResourceBundleUtil implements Serializable {
                     placeholderValue = getStringRecursive(fk);
                     break;
                 } catch (MissingResourceException e) {
+                    // empty allowed
                 }
             }
             if (placeholderValue == null) {
@@ -190,7 +191,7 @@ public class ResourceBundleUtil implements Serializable {
                 // Localize the keywords shift, control, ctrl, meta, alt, altGraph
                 StringBuilder b = new StringBuilder();
                 for (String s : placeholderValue.split(" ")) {
-                    if (acceleratorKeys.contains(s)) {
+                    if (ACCELERATOR_KEYS.contains(s)) {
                         b.append(getString("accelerator." + s));
                     } else {
                         b.append(s);
@@ -418,6 +419,7 @@ public class ResourceBundleUtil implements Serializable {
             String s = getStringRecursive(key);
             ks = (s == null) ? (KeyStroke) null : KeyStroke.getKeyStroke(s);
         } catch (NoSuchElementException e) {
+            // empty allowed
         }
         return ks;
     }
@@ -442,6 +444,7 @@ public class ResourceBundleUtil implements Serializable {
                 //e.printStackTrace();
             }
         } catch (NoSuchElementException e) {
+            // empty allowed
         }
         return ks;
     }
