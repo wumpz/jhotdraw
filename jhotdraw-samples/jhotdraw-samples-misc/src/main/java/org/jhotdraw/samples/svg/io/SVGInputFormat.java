@@ -26,6 +26,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.geom.BezierPath;
@@ -228,14 +229,20 @@ public class SVGInputFormat implements InputFormat {
         }
         this.figures = new LinkedList<Figure>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        DocumentBuilder builder;
+        try {
+            builder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(SVGInputFormat.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException(ex);
+        }
         if (DEBUG) {
             System.out.println("SVGInputFormat parser created " + (System.currentTimeMillis() - start));
         }
         try {
             document = (Element) builder.parse(in);
         } catch (SAXException ex) {
-            Logger.getLogger(SVGInputFormat.class.getLocalName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SVGInputFormat.class.getName()).log(Level.SEVERE, null, ex);
             throw new IOException(ex);
         }
 
@@ -246,26 +253,27 @@ public class SVGInputFormat implements InputFormat {
         // Search for the first 'svg' element in the XML document
         // in preorder sequence
         Element svg = document;
-        Stack<Iterator<Element>> stack = new Stack<Iterator<Element>>();
-        LinkedList<Element> ll = new LinkedList<Element>();
-        ll.add(document);
-        stack.push(ll.iterator());
-        while (!stack.empty() && stack.peek().hasNext()) {
-            Iterator<Element> iter = stack.peek();
-            Element node = iter.next();
+        Stack<Element> stack = new Stack<Element>();
+        //LinkedList<Element> ll = new LinkedList<Element>();
+        //ll.add(document);
+        stack.push((Element) document.getFirstChild());
+        while (!stack.empty() && stack.peek().getNextSibling() != null) {
+            Element iter = stack.peek();
+            Element node = (Element) iter.getNextSibling();
+            stack.set(stack.indexOf(iter), node);
 
-            Iterator<Element> children = (node.getChildren() == null) ? null : node.getChildren().iterator();
+            Element children = (Element) node.getFirstChild();
 
-            if (!iter.hasNext()) {
+            if (iter.getNextSibling() == null) {
                 stack.pop();
             }
-            if (children != null && children.hasNext()) {
+            if (children != null && children.getNextSibling() != null) {
                 stack.push(children);
             }
             if (node.getLocalName() != null
                     && node.getLocalName().equals("svg")
-                    && (node.getLocalNamespace() == null
-                    || node.getLocalNamespace().equals(SVG_NAMESPACE))) {
+                    && (node.getPrefix() == null
+                    || node.getPrefix().equals(SVG_NAMESPACE))) {
                 svg = node;
                 break;
             }
@@ -273,8 +281,8 @@ public class SVGInputFormat implements InputFormat {
 
         if (svg.getLocalName() == null
                 || !svg.getLocalName().equals("svg")
-                || (svg.getLocalNamespace() != null
-                && !svg.getLocalNamespace().equals(SVG_NAMESPACE))) {
+                || (svg.getPrefix() != null
+                && !svg.getPrefix().equals(SVG_NAMESPACE))) {
             throw new IOException("'svg' element expected: " + svg.getLocalName());
         }
         //long end1 = System.currentTimeMillis();
@@ -308,7 +316,6 @@ public class SVGInputFormat implements InputFormat {
         }
 
         // Get rid of all objects we don't need anymore to help garbage collector.
-        document.dispose();
         identifiedElements.clear();
         elementObjects.clear();
         viewportStack.clear();
@@ -345,24 +352,27 @@ public class SVGInputFormat implements InputFormat {
             cssParser.parse(elem.getTextContent(), styleManager);
         } else {
 
-            if (elem.getLocalNamespace() == null
-                    || elem.getLocalNamespace().equals(SVG_NAMESPACE)) {
+            if (elem.getPrefix() == null
+                    || elem.getPrefix().equals(SVG_NAMESPACE)) {
 
                 String style = readAttribute(elem, "style", null);
                 if (style != null) {
                     for (String styleProperty : style.split(";")) {
                         String[] stylePropertyElements = styleProperty.split(":");
                         if (stylePropertyElements.length == 2
-                                && !elem.hasAttribute(stylePropertyElements[0].trim(), SVG_NAMESPACE)) {
+                                && !elem.hasAttributeNS(SVG_NAMESPACE, stylePropertyElements[0].trim())) {
                             //if (DEBUG) System.out.println("flatten:"+Arrays.toString(stylePropertyElements));
-                            elem.setAttribute(stylePropertyElements[0].trim(), SVG_NAMESPACE, stylePropertyElements[1].trim());
+                            elem.setAttributeNS(SVG_NAMESPACE, stylePropertyElements[0].trim(),
+                                    stylePropertyElements[1].trim());
                         }
                     }
                 }
 
                 styleManager.applyStylesTo(elem);
 
-                for (Element child : elem.getChildren()) {
+                NodeList list = elem.getChildNodes();
+                for (int i = 0; i < list.getLength(); i++) {
+                    Element child = (Element) list.item(i);
                     flattenStyles(child);
                 }
             }
@@ -1016,8 +1026,8 @@ public class SVGInputFormat implements InputFormat {
                 doc.insertString(doc.getLength(), toText(elem, elem.getTextContent()), null);
             } else {
                 NodeList list = elem.getChildNodes();
-        for (int i=0;i<list.getLength();i++) {
-            Element node = (Element) list.item(i);
+                for (int i = 0; i < list.getLength(); i++) {
+                    Element node = (Element) list.item(i);
                     if (node.getLocalName() != null && node.getLocalName().equals("tspan")) {
                         readTSpanElement(node, doc);
                     } else {
@@ -1080,7 +1090,7 @@ public class SVGInputFormat implements InputFormat {
     private Figure readSwitchElement(Element elem)
             throws IOException {
         NodeList list = elem.getChildNodes();
-        for (int i=0;i<list.getLength();i++) {
+        for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
             String[] requiredFeatures = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFeatures", ""));
             String[] requiredExtensions = toWSOrCommaSeparatedArray(readAttribute(child, "requiredExtensions", ""));
@@ -1901,10 +1911,12 @@ public class SVGInputFormat implements InputFormat {
      * hashtable {@code identifiedElements}.
      */
     private void identifyElements(Element elem) {
-        identifiedElements.put(elem.getAttribute("id", ""), elem);
-        identifiedElements.put(elem.getAttribute("xml:id", ""), elem);
+        identifiedElements.put(elem.getAttribute("id"), elem);
+        identifiedElements.put(elem.getAttribute("xml:id"), elem);
 
-        for (Element child : elem.getChildren()) {
+        NodeList list = elem.getChildNodes();
+        for (int i = 0; i < list.getLength(); i++) {
+            Element child = (Element) list.item(i);
             identifyElements(child);
         }
     }
@@ -1935,7 +1947,6 @@ public class SVGInputFormat implements InputFormat {
     /* Reads text attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Text
      */
-
     private void readTextAttributes(Element elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
@@ -1991,7 +2002,6 @@ public class SVGInputFormat implements InputFormat {
     /* Reads text flow attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#TextFlow
      */
-
     private void readTextFlowAttributes(Element elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
@@ -2015,7 +2025,6 @@ public class SVGInputFormat implements InputFormat {
     /* Reads the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
-
     private void readTransformAttribute(Element elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         String value;
@@ -2027,7 +2036,6 @@ public class SVGInputFormat implements InputFormat {
 
     /* Reads solid color attributes.
      */
-
     private void readSolidColorElement(Element elem)
             throws IOException {
         HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
@@ -2262,7 +2270,6 @@ public class SVGInputFormat implements InputFormat {
 
     /* Reads shape attributes for the SVG "use" element.
      */
-
     private void readUseShapeAttributes(Element elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object objectValue;
@@ -2674,7 +2681,6 @@ public class SVGInputFormat implements InputFormat {
 
     /* Reads viewport attributes.
      */
-
     private void readViewportAttributes(Element elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object value;
@@ -2725,7 +2731,6 @@ public class SVGInputFormat implements InputFormat {
     /* Reads graphics attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#GraphicsAttribute
      */
-
     private void readGraphicsAttributes(Element elem, Figure f)
             throws IOException {
         Object value;
@@ -2852,36 +2857,37 @@ public class SVGInputFormat implements InputFormat {
         double y2 = toLength(elem, readAttribute(elem, "y2", "0"), 0.01);
         boolean isRelativeToFigureBounds = readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
 
-        ArrayList<Element> stops = elem.getChildrenNamed("stop", SVG_NAMESPACE);
-        if (stops.size() == 0) {
-            stops = elem.getChildrenNamed("stop");
+        NodeList stops = elem.getElementsByTagNameNS(SVG_NAMESPACE, "stop");
+        if (stops.getLength() == 0) {
+            stops = elem.getElementsByTagName("stop");
         }
-        if (stops.size() == 0) {
+        if (stops.getLength() == 0) {
             // FIXME - Implement xlink support throughouth SVGInputFormat
             String xlink = readAttribute(elem, "xlink:href", "");
             if (xlink.startsWith("#")
                     && identifiedElements.get(xlink.substring(1)) != null) {
 
-                stops = identifiedElements.get(xlink.substring(1)).getChildrenNamed("stop", SVG_NAMESPACE);
-                if (stops.size() == 0) {
-                    stops = identifiedElements.get(xlink.substring(1)).getChildrenNamed("stop");
+                stops = identifiedElements.get(xlink.substring(1)).getElementsByTagNameNS(SVG_NAMESPACE, "stop");
+                if (stops.getLength() == 0) {
+                    stops = identifiedElements.get(xlink.substring(1)).getElementsByTagName("stop");
                 }
             }
         }
-        if (stops.size() == 0) {
+        if (stops.getLength() == 0) {
             if (DEBUG) {
                 System.out.println("SVGInpuFormat: Warning no stops in linearGradient " + elem);
             }
         }
 
-        double[] stopOffsets = new double[stops.size()];
-        Color[] stopColors = new Color[stops.size()];
-        double[] stopOpacities = new double[stops.size()];
-        for (int i = 0; i < stops.size(); i++) {
-            Element stopElem = stops.get(i);
+        double[] stopOffsets = new double[stops.getLength()];
+        Color[] stopColors = new Color[stops.getLength()];
+        double[] stopOpacities = new double[stops.getLength()];
+        for (int i = 0; i < stops.getLength(); i++) {
+            Element stopElem = (Element) stops.item(i);
             String offsetStr = readAttribute(stopElem, "offset", "0");
             if (offsetStr.endsWith("%")) {
-                stopOffsets[i] = toDouble(stopElem, offsetStr.substring(0, offsetStr.length() - 1), 0, 0, 100) / 100d;
+                stopOffsets[i] = toDouble(stopElem, offsetStr.substring(0, offsetStr.length() - 1),
+                        0, 0, 100) / 100d;
             } else {
                 stopOffsets[i] = toDouble(stopElem, offsetStr, 0, 0, 1);
             }
@@ -2938,27 +2944,27 @@ public class SVGInputFormat implements InputFormat {
         boolean isRelativeToFigureBounds
                 = readAttribute(elem, "gradientUnits", "objectBoundingBox").equals("objectBoundingBox");
 
-        ArrayList<Element> stops = elem.getChildrenNamed("stop", SVG_NAMESPACE);
-        if (stops.size() == 0) {
-            stops = elem.getChildrenNamed("stop");
+        NodeList stops = elem.getElementsByTagNameNS(SVG_NAMESPACE, "stop");
+        if (stops.getLength() == 0) {
+            stops = elem.getElementsByTagName("stop");
         }
-        if (stops.size() == 0) {
+        if (stops.getLength() == 0) {
             // FIXME - Implement xlink support throughout SVGInputFormat
             String xlink = readAttribute(elem, "xlink:href", "");
             if (xlink.startsWith("#")
                     && identifiedElements.get(xlink.substring(1)) != null) {
-                stops = identifiedElements.get(xlink.substring(1)).getChildrenNamed("stop", SVG_NAMESPACE);
-                if (stops.size() == 0) {
-                    stops = identifiedElements.get(xlink.substring(1)).getChildrenNamed("stop");
+                stops = identifiedElements.get(xlink.substring(1)).getElementsByTagNameNS(SVG_NAMESPACE, "stop");
+                if (stops.getLength() == 0) {
+                    stops = identifiedElements.get(xlink.substring(1)).getElementsByTagName("stop");
                 }
             }
         }
 
-        double[] stopOffsets = new double[stops.size()];
-        Color[] stopColors = new Color[stops.size()];
-        double[] stopOpacities = new double[stops.size()];
-        for (int i = 0; i < stops.size(); i++) {
-            Element stopElem = stops.get(i);
+        double[] stopOffsets = new double[stops.getLength()];
+        Color[] stopColors = new Color[stops.getLength()];
+        double[] stopOpacities = new double[stops.getLength()];
+        for (int i = 0; i < stops.getLength(); i++) {
+            Element stopElem = (Element) stops.item(i);
             String offsetStr = readAttribute(stopElem, "offset", "0");
             if (offsetStr.endsWith("%")) {
                 stopOffsets[i] = toDouble(stopElem, offsetStr.substring(0, offsetStr.length() - 1), 0, 0, 100) / 100d;
@@ -3004,7 +3010,6 @@ public class SVGInputFormat implements InputFormat {
     /* Reads font attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
-
     private void readFontAttributes(Element elem, Map<AttributeKey<?>, Object> a)
             throws IOException {
         String value;
@@ -3284,7 +3289,6 @@ public class SVGInputFormat implements InputFormat {
      * as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
-
     public static AffineTransform toTransform(Element elem, String str) throws IOException {
         AffineTransform t = new AffineTransform();
 
