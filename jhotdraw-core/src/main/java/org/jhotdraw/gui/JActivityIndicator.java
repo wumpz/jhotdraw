@@ -59,10 +59,10 @@ public class JActivityIndicator extends javax.swing.JPanel {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == ActivityModel.INDETERMINATE_PROPERTY) {
+            if ((evt.getPropertyName() == null && ActivityModel.INDETERMINATE_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(ActivityModel.INDETERMINATE_PROPERTY))) {
                 updateIndeterminate();
             }
-            if (evt.getPropertyName() == ActivityModel.NOTE_PROPERTY) {
+            if ((evt.getPropertyName() == null && ActivityModel.NOTE_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(ActivityModel.NOTE_PROPERTY))) {
                 updateToolTip();
             }
         }

@@ -114,20 +114,20 @@ public class JActivityView extends javax.swing.JPanel {
             return;
         }
         String name = evt.getPropertyName();
-        if (name == ActivityModel.NOTE_PROPERTY) {
+        if ((name == null && ActivityModel.NOTE_PROPERTY == null) || (name != null && name.equals(ActivityModel.NOTE_PROPERTY))) {
             updateNote();
-        } else if (name == ActivityModel.WARNING_PROPERTY) {
+        } else if ((name == null && ActivityModel.WARNING_PROPERTY == null) || (name != null && name.equals(ActivityModel.WARNING_PROPERTY))) {
             updateWarning();
-        } else if (name == ActivityModel.ERROR_PROPERTY) {
+        } else if ((name == null && ActivityModel.ERROR_PROPERTY == null) || (name != null && name.equals(ActivityModel.ERROR_PROPERTY))) {
             updateError();
-        } else if (name == ActivityModel.CANCELABLE_PROPERTY) {
+        } else if ((name == null && ActivityModel.CANCELABLE_PROPERTY == null) || (name != null && name.equals(ActivityModel.CANCELABLE_PROPERTY))) {
             updateCancelable();
-        } else if (name == ActivityModel.CANCELED_PROPERTY) {
+        } else if ((name == null && ActivityModel.CANCELED_PROPERTY == null) || (name != null && name.equals(ActivityModel.CANCELED_PROPERTY))) {
             updateCanceled();
             updateCancelable();
-        } else if (name == ActivityModel.INDETERMINATE_PROPERTY) {
+        } else if ((name == null && ActivityModel.INDETERMINATE_PROPERTY == null) || (name != null && name.equals(ActivityModel.INDETERMINATE_PROPERTY))) {
             updateIndeterminate();
-        } else if (name == ActivityModel.CLOSED_PROPERTY) {
+        } else if ((name == null && ActivityModel.CLOSED_PROPERTY == null) || (name != null && name.equals(ActivityModel.CLOSED_PROPERTY))) {
             updateCancelable();
             updateCanceled();
             updateClosed();
@@ -288,11 +288,11 @@ public class JActivityView extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(separator, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-    private void close(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_close
+    private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
         closeButton.setEnabled(false);
         putClientProperty(REQUEST_REMOVE_PROPERTY, true);
     }//GEN-LAST:event_close
-    private void cancel(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cancel
+    private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
         model.cancel();
         model.setNote("Cancelling...");
     }//GEN-LAST:event_cancel

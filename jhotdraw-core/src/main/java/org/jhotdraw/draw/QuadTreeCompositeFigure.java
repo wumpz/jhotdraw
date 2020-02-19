@@ -134,60 +134,54 @@ public abstract class QuadTreeCompositeFigure
         switch (c.size()) {
             case 0:
                 return null;
-            case 1: {
+            case 1: 
                 Figure f = c.iterator().next();
                 return (f.contains(p)) ? f : null;
-            }
-            default: {
-                for (Figure f : getFiguresFrontToBack()) {
-                    if (c.contains(f) && f.contains(p)) {
-                        return f;
+            
+            default: 
+                for (Figure f2 : getFiguresFrontToBack()) {
+                    if (c.contains(f2) && f2.contains(p)) {
+                        return f2;
                     }
                 }
                 return null;
-            }
+            
         }
     }
 
     public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
-            case 0: {
+            case 0: 
                 return null;
-            }
-            case 1: {
+            case 1: 
                 Figure f = c.iterator().next();
                 return (f == ignore || !f.contains(p)) ? null : f;
-            }
-            default: {
-                for (Figure f : getFiguresFrontToBack()) {
-                    if (f != ignore && f.contains(p)) {
-                        return f;
+            default: 
+                for (Figure f2 : getFiguresFrontToBack()) {
+                    if (f2 != ignore && f2.contains(p)) {
+                        return f2;
                     }
                 }
                 return null;
-            }
         }
     }
 
     public Figure findFigureExcept(Point2D.Double p, Collection<Figure> ignore) {
         Collection<Figure> c = quadTree.findContains(p);
         switch (c.size()) {
-            case 0: {
+            case 0:
                 return null;
-            }
-            case 1: {
+            case 1:
                 Figure f = c.iterator().next();
                 return (!ignore.contains(f) || !f.contains(p)) ? null : f;
-            }
-            default: {
-                for (Figure f : getFiguresFrontToBack()) {
-                    if (!ignore.contains(f) && f.contains(p)) {
-                        return f;
+            default:
+                for (Figure f2 : getFiguresFrontToBack()) {
+                    if (!ignore.contains(f2) && f2.contains(p)) {
+                        return f2;
                     }
                 }
                 return null;
-            }
         }
     }
 

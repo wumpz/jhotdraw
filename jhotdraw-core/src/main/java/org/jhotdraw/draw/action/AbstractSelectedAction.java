@@ -50,7 +50,7 @@ public abstract class AbstractSelectedAction
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+            if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
                 if (activeView != null) {
                     activeView.removeFigureSelectionListener(this);
                     activeView.removePropertyChangeListener(this);

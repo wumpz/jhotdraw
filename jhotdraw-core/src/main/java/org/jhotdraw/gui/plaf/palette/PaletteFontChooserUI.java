@@ -475,13 +475,13 @@ public class PaletteFontChooserUI extends FontChooserUI {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == JFontChooser.SELECTION_PATH_PROPERTY) {
+            if ((name == null && JFontChooser.SELECTION_PATH_PROPERTY == null) || (name != null && name.equals(JFontChooser.SELECTION_PATH_PROPERTY))) {
                 updateCollectionList();
                 updateFamilyList();
                 updateFaceList();
-            } else if (name == JFontChooser.SELECTED_FONT_PROPERTY) {
+            } else if ((name == null && JFontChooser.SELECTED_FONT_PROPERTY == null) || (name != null && name.equals(JFontChooser.SELECTED_FONT_PROPERTY))) {
                 updatePreview();
-            } else if (name == JFontChooser.MODEL_PROPERTY) {
+            } else if ((name == null && JFontChooser.MODEL_PROPERTY == null) || (name != null && name.equals(JFontChooser.MODEL_PROPERTY))) {
                 FontChooserModel m = (FontChooserModel) evt.getOldValue();
                 if (m != null) {
                     m.removeTreeModelListener(this);

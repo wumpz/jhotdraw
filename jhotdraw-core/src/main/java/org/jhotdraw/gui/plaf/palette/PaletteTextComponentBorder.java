@@ -46,7 +46,7 @@ public class PaletteTextComponentBorder implements Border, UIResource {
             stopColors = enabledStopColors;
         }
         String segmentPosition = getSegmentPosition(c);
-        if (segmentPosition == "first" || segmentPosition == "middle") {
+        if ("first".equals(segmentPosition) || "middle".equals(segmentPosition)) {
             width += 1;
         }
         g.setColor(new Color(borderColor, true));
@@ -71,8 +71,8 @@ public class PaletteTextComponentBorder implements Border, UIResource {
     public Insets getBorderInsets(Component c) {
         Insets insets;
         String segmentPosition = getSegmentPosition(c);
-        if (segmentPosition == "first"
-                || segmentPosition == "middle") {
+        if ("first".equals(segmentPosition)
+                || "middle".equals(segmentPosition)) {
             insets = new Insets(3, 3, 3, 2);
         } else {
             insets = new Insets(3, 3, 3, 3);

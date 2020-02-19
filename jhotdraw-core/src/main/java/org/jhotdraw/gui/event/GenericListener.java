@@ -160,8 +160,8 @@ public abstract class GenericListener {
         protected String proxyToString(Object proxy) {
             return proxy.getClass().getName() + '@' + Integer.toHexString(proxy.hashCode());
         }
-        private static final Character char_0 = (char) 0;
-        private static final Byte byte_0 = (byte) 0;
+        private static final Character CHAR_0 = (char) 0;
+        private static final Byte BYTE_0 = (byte) 0;
 
         private static final Object nullValueOf(Class<?> rt) {
             if (!rt.isPrimitive()) {
@@ -171,10 +171,10 @@ public abstract class GenericListener {
             } else if (rt == boolean.class) {
                 return Boolean.FALSE;
             } else if (rt == char.class) {
-                return char_0;
+                return CHAR_0;
             } else {
                 // this will convert to any other kind of number
-                return byte_0;
+                return BYTE_0;
             }
         }
     }

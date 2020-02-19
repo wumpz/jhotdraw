@@ -667,7 +667,7 @@ public class OSXApplication extends AbstractApplication {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == VIEW_COUNT_PROPERTY || "paletteCount".equals(name)) {
+            if (((name == null && VIEW_COUNT_PROPERTY == null) || (name != null && name.equals(VIEW_COUNT_PROPERTY))) || "paletteCount".equals(name)) {
                 updateWindowMenu();
             }
         }

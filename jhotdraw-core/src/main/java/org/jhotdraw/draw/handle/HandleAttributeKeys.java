@@ -24,11 +24,11 @@ public class HandleAttributeKeys {
     /**
      * Fill color of disabled handles.
      */
-    private static final Color FILL_COLOR_DISABLED_ = new Color(0x80000000, true);
+    private static final Color FILL_COLOR_DISABLED = new Color(0x80000000, true);
     /**
      * Stroke color of disabled handles.
      */
-    private static final Color STROKE_COLOR_DISABLED_ = new Color(0x80ffffff, true);
+    private static final Color STROKE_COLOR_DISABLED = new Color(0x80ffffff, true);
     /**
      * General handle size.
      */
@@ -48,11 +48,11 @@ public class HandleAttributeKeys {
     /**
      * General handle stroke color.
      */
-    public static final AttributeKey<Color> HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("handleStrokeColor", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("handleStrokeColor", Color.class, STROKE_COLOR_DISABLED);
     /**
      * General handle fill color.
      */
-    public static final AttributeKey<Color> HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("handleFillColor", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("handleFillColor", Color.class, FILL_COLOR_DISABLED);
     //--
     /**
      * Rotate handle stroke color.
@@ -66,11 +66,11 @@ public class HandleAttributeKeys {
     /**
      * Rotate handle stroke color.
      */
-    public static final AttributeKey<Color> ROTATE_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("rotateHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> ROTATE_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("rotateHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Rotate handle fill color.
      */
-    public static final AttributeKey<Color> ROTATE_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("rotateHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> ROTATE_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("rotateHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED);
     //--
     /**
      * Bezier control point handle stroke color.
@@ -147,19 +147,19 @@ public class HandleAttributeKeys {
     /**
      * Bezier control point handle stroke color.
      */
-    public static final AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Bezier control point handle fill color.
      */
-    public static final AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Bezier tangent line stroke color 1.
      */
-    public static final AttributeKey<Color> BEZIER_TANGENT_COLOR_1_DISABLED = new AttributeKey<Color>("bezierTangentColor1Disabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> BEZIER_TANGENT_COLOR_1_DISABLED = new AttributeKey<Color>("bezierTangentColor1Disabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Bezier tangent line stroke color 2.
      */
-    public static final AttributeKey<Color> BEZIER_TANGENT_COLOR_2_DISABLED = new AttributeKey<Color>("bezierTangentColor1Disabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> BEZIER_TANGENT_COLOR_2_DISABLED = new AttributeKey<Color>("bezierTangentColor1Disabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Bezier tangent line stroke 1.
      */
@@ -173,11 +173,11 @@ public class HandleAttributeKeys {
     /**
      * Bezier node handle stroke color.
      */
-    public static final AttributeKey<Color> BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Bezier node handle fill color.
      */
-    public static final AttributeKey<Color> BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointFillColorDisabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("bezierControlPointFillColorDisabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Bezier path stroke color 1.
      */
@@ -235,11 +235,11 @@ public class HandleAttributeKeys {
     /**
      * Disabled resize bounds stroke color 1.
      */
-    public static final AttributeKey<Color> RESIZE_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("resizeBoundsColor1Hover", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> RESIZE_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("resizeBoundsColor1Hover", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Disabled resize bounds hover color 2.
      */
-    public static final AttributeKey<Color> RESIZE_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("resizeBoundsColor2Hover", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> RESIZE_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("resizeBoundsColor2Hover", Color.class, FILL_COLOR_DISABLED);
     /**
      * Disabled resize bounds stroke 1.
      */
@@ -283,11 +283,11 @@ public class HandleAttributeKeys {
     /**
      * Transform handle stroke color.
      */
-    public static final AttributeKey<Color> TRANSFORM_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("transformHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> TRANSFORM_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("transformHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Transform handle fill color.
      */
-    public static final AttributeKey<Color> TRANSFORM_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("transformHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> TRANSFORM_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("transformHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Transform bounds color 1.
      */
@@ -330,11 +330,11 @@ public class HandleAttributeKeys {
     /**
      * Transform bounds disabled color 1.
      */
-    public static final AttributeKey<Color> TRANSFORM_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("transformBoundsColor1Disabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> TRANSFORM_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("transformBoundsColor1Disabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Transform bounds disabled color 2.
      */
-    public static final AttributeKey<Color> TRANSFORM_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("transformBoundsColor2Disabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> TRANSFORM_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("transformBoundsColor2Disabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Transform bounds disabled stroke 1.
      */
@@ -359,11 +359,11 @@ public class HandleAttributeKeys {
     /**
      * Group handle stroke color.
      */
-    public static final AttributeKey<Color> GROUP_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("transformHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> GROUP_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("transformHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Group handle fill color.
      */
-    public static final AttributeKey<Color> GROUP_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("transformHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> GROUP_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("transformHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Group bounds color 1.
      */
@@ -406,11 +406,11 @@ public class HandleAttributeKeys {
     /**
      * Group bounds disabled color 1.
      */
-    public static final AttributeKey<Color> GROUP_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("transformBoundsColor1Disabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> GROUP_BOUNDS_COLOR_1_DISABLED = new AttributeKey<Color>("transformBoundsColor1Disabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Group bounds disabled color 2.
      */
-    public static final AttributeKey<Color> GROUP_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("transformBoundsColor2Disabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> GROUP_BOUNDS_COLOR_2_DISABLED = new AttributeKey<Color>("transformBoundsColor2Disabled", Color.class, FILL_COLOR_DISABLED);
     /**
      * Group bounds disabled stroke 1.
      */
@@ -491,9 +491,9 @@ public class HandleAttributeKeys {
     /**
      * Attribute handle stroke color.
      */
-    public static final AttributeKey<Color> ATTRIBUTE_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("attributeHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED_);
+    public static final AttributeKey<Color> ATTRIBUTE_HANDLE_STROKE_COLOR_DISABLED = new AttributeKey<Color>("attributeHandleStrokeColorDisabled", Color.class, STROKE_COLOR_DISABLED);
     /**
      * Attribute handle fill color.
      */
-    public static final AttributeKey<Color> ATTRIBUTE_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("attributeSizeHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED_);
+    public static final AttributeKey<Color> ATTRIBUTE_HANDLE_FILL_COLOR_DISABLED = new AttributeKey<Color>("attributeSizeHandleFillColorDisabled", Color.class, FILL_COLOR_DISABLED);
 }

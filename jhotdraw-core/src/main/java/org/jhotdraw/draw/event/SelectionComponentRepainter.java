@@ -49,7 +49,7 @@ public class SelectionComponentRepainter extends FigureAdapter
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
-        if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+        if ((name == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (name != null && name.equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
             DrawingView view = (DrawingView) evt.getOldValue();
             if (view != null) {
                 view.removePropertyChangeListener(this);
@@ -67,7 +67,7 @@ public class SelectionComponentRepainter extends FigureAdapter
                 }
             }
             component.repaint();
-        } else if (name == DrawingView.DRAWING_PROPERTY) {
+        } else if ((name == null && DrawingView.DRAWING_PROPERTY == null) || (name != null && name.equals(DrawingView.DRAWING_PROPERTY))) {
             Drawing drawing = (Drawing) evt.getOldValue();
             if (drawing != null) {
                 drawing.removeFigureListener(this);

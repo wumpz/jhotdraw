@@ -370,7 +370,7 @@ public class ButtonFactory {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+                if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
                     if (evt.getNewValue() == null) {
                         zoomPopupButton.setText("100 %");
                     } else {
@@ -1633,7 +1633,7 @@ public class ButtonFactory {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 // String constants are interned
-                if (evt.getPropertyName() == DrawingView.CONSTRAINER_VISIBLE_PROPERTY) {
+                if ((evt.getPropertyName() == null && DrawingView.CONSTRAINER_VISIBLE_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(DrawingView.CONSTRAINER_VISIBLE_PROPERTY))) {
                     toggleButton.setSelected(view.isConstrainerVisible());
                 }
             }

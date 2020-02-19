@@ -998,13 +998,13 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             JToolBar toolBar = (JToolBar) evt.getSource();
             PaletteToolBarUI ui = (PaletteToolBarUI) PaletteLookAndFeel.getUIOfType(
                     toolBar.getUI(), PaletteToolBarUI.class);
-            if (NAVIGATE_RIGHT == key) {
+            if ((NAVIGATE_RIGHT == null && key == null) || (NAVIGATE_RIGHT != null && NAVIGATE_RIGHT.equals(key))) {
                 ui.navigateFocusedComp(EAST);
-            } else if (NAVIGATE_LEFT == key) {
+            } else if ((NAVIGATE_LEFT == null && key == null) || (NAVIGATE_LEFT != null && NAVIGATE_LEFT.equals(key))) {
                 ui.navigateFocusedComp(WEST);
-            } else if (NAVIGATE_UP == key) {
+            } else if ((NAVIGATE_UP == null && key == null) || (NAVIGATE_UP != null && NAVIGATE_UP.equals(key))) {
                 ui.navigateFocusedComp(NORTH);
-            } else if (NAVIGATE_DOWN == key) {
+            } else if ((NAVIGATE_DOWN == null && key == null) || (NAVIGATE_DOWN != null && NAVIGATE_DOWN.equals(key))) {
                 ui.navigateFocusedComp(SOUTH);
             }
         }
@@ -1124,9 +1124,9 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String propertyName = evt.getPropertyName();
-            if (propertyName == "lookAndFeel") {
+            if ("lookAndFeel".equals(propertyName)) {
                 toolBar.updateUI();
-            } else if (propertyName == "orientation") {
+            } else if ("orientation".equals(propertyName)) {
                 // Search for JSeparator components and change it's orientation
                 // to match the toolbar and flip it's orientation.
                 Component[] components = toolBar.getComponents();
@@ -1149,7 +1149,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                         }
                     }
                 }
-            } else if (propertyName == IS_ROLLOVER) {
+            } else if ((propertyName == null && IS_ROLLOVER == null) || (propertyName != null && propertyName.equals(IS_ROLLOVER))) {
                 installNormalBorders(toolBar);
                 setRolloverBorders(((Boolean) evt.getNewValue()));
             }

@@ -48,7 +48,7 @@ public class SelectionComponentDisplayer
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
-        if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+        if ((name == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (name != null && name.equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
             if (view != null) {
                 view.removePropertyChangeListener(this);
                 view.removeFigureSelectionListener(this);
@@ -59,7 +59,7 @@ public class SelectionComponentDisplayer
                 view.addFigureSelectionListener(this);
             }
             updateVisibility();
-        } else if (name == DrawingEditor.TOOL_PROPERTY) {
+        } else if ((name == null && DrawingEditor.TOOL_PROPERTY == null) || (name != null && name.equals(DrawingEditor.TOOL_PROPERTY))) {
             updateVisibility();
         }
     }

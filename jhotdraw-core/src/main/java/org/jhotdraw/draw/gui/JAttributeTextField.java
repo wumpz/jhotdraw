@@ -99,7 +99,7 @@ public class JAttributeTextField<T> extends JLifeFormattedTextField implements A
     @Override
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         super.firePropertyChange(propertyName, oldValue, newValue);
-        if (propertyName == "value") {
+        if ("value".equals(propertyName)) {
             super.firePropertyChange(ATTRIBUTE_VALUE_PROPERTY, oldValue, newValue);
         }
     }

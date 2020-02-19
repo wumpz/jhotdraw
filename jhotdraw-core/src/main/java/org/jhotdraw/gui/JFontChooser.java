@@ -33,7 +33,7 @@ public class JFontChooser extends JComponent {
      * @see #getUIClassID
      * @see #readObject
      */
-    private static final String uiClassID = "FontChooserUI";
+    private static final String UI_CLASS_ID = "FontChooserUI";
     /**
      * Identifies the "selectedFont" property.
      */
@@ -122,7 +122,7 @@ public class JFontChooser extends JComponent {
         addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == "ancestor" && evt.getNewValue() != null) {
+                if ("ancestor".equals(evt.getPropertyName()) && evt.getNewValue() != null) {
                     try {
                         ((DefaultFontChooserModel) model).setFonts(getAllFonts());
                     } catch (Exception ex) {
@@ -180,7 +180,7 @@ public class JFontChooser extends JComponent {
      */
     @Override
     public String getUIClassID() {
-        return uiClassID;
+        return UI_CLASS_ID;
     }
 
     /**

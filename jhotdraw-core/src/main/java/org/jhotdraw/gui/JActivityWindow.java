@@ -115,7 +115,7 @@ public class JActivityWindow extends javax.swing.JFrame {
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == JActivityView.REQUEST_REMOVE_PROPERTY) {
+            if ((evt.getPropertyName() == null && JActivityView.REQUEST_REMOVE_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(JActivityView.REQUEST_REMOVE_PROPERTY))) {
                 removeActivityModel(((JActivityView) evt.getSource()).getModel());
             }
         }
@@ -371,11 +371,11 @@ public class JActivityWindow extends javax.swing.JFrame {
             }
         }
     }// </editor-fold>//GEN-END:initComponents
-    private void disclosureStateChanged(java.awt.event.ItemEvent evt) { //GEN-FIRST:event_disclosureStateChanged
+    private void disclosureStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_disclosureStateChanged
         viewPanel.setVisible(disclosureToggle.isSelected());
         pack();
     }//GEN-LAST:event_disclosureStateChanged
-    private void cancelAll(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cancelAll
+    private void cancelAll(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelAll
         Component[] components = progressPanel.getComponents();
         for (Component component : components) {
             if (component instanceof JActivityView) {

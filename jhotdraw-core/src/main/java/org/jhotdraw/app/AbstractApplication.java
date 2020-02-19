@@ -544,7 +544,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == RECENT_URIS_PROPERTY) {
+            if ((name == null && RECENT_URIS_PROPERTY == null) || (name != null && name.equals(RECENT_URIS_PROPERTY))) {
                 updateOpenRecentMenu();
             }
         }

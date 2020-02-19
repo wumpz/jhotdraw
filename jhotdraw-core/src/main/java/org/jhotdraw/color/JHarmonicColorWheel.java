@@ -105,7 +105,7 @@ public class JHarmonicColorWheel extends JColorWheel {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == HarmonicColorModel.COLOR_SPACE_PROPERTY) {
+            if ((name == null && HarmonicColorModel.COLOR_SPACE_PROPERTY == null) || (name != null && name.equals(HarmonicColorModel.COLOR_SPACE_PROPERTY))) {
                 model.setColorSpace(harmonicModel.getColorSpace());
                 model.setComponent(1, 1f);
                 colorWheelProducer = createWheelProducer(getWidth(), getHeight());

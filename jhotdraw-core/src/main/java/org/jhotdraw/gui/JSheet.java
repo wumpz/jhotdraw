@@ -75,11 +75,11 @@ public class JSheet extends JDialog {
     /**
      * If this is set to true, the JSheet uses native Mac OS X sheets.
      */
-    private static final boolean isNativeSheetSupported;
+    private static final boolean IS_NATIVE_SHEET_SUPPORTED;
     /**
      * If this is set to true, the JSheet uses native document modal dialogs.
      */
-    private static final boolean isDocumentModalitySupported;
+    private static final boolean IS_DOCUMENT_MODALITY_SUPPORTED;
     /**
      * This variable is only used in Java 1.5 and previous versions. In order to
      * make the sheet document modal, we have to block events on the owner
@@ -91,9 +91,9 @@ public class JSheet extends JDialog {
 
     static {
         // SoyLatte doesn't properly support document modal dialogs yet.
-        isDocumentModalitySupported = !System.getProperty("os.name").equals("Darwin")
+        IS_DOCUMENT_MODALITY_SUPPORTED = !System.getProperty("os.name").equals("Darwin")
                 && System.getProperty("java.version").compareTo("1.6") >= 0;
-        isNativeSheetSupported = System.getProperty("os.name").toLowerCase().startsWith("mac os x")
+        IS_NATIVE_SHEET_SUPPORTED = System.getProperty("os.name").toLowerCase().startsWith("mac os x")
                 && System.getProperty("java.version").compareTo("1.6") >= 0;
     }
 
@@ -269,14 +269,14 @@ public class JSheet extends JDialog {
      * If this returns true, the JSheet uses native support for sheet display.
      */
     private static boolean isNativeSheetSupported() {
-        return isNativeSheetSupported;
+        return IS_NATIVE_SHEET_SUPPORTED;
     }
 
     /**
      * If this returns true, the JSheet uses native support for sheet display.
      */
     private static boolean isDocumentModalitySupported() {
-        return isDocumentModalitySupported;
+        return IS_DOCUMENT_MODALITY_SUPPORTED;
     }
 
     @Override

@@ -88,13 +88,13 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         public void propertyChange(PropertyChangeEvent evt) {
             Object src = evt.getSource();
             String name = evt.getPropertyName();
-            if (src == editor && name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+            if (src == editor && ((name == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (name != null && name.equals(DrawingEditor.ACTIVE_VIEW_PROPERTY)))) {
                 updateActiveView();
             } else if (src == editor && name.equals(DrawingEditor.DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + attributeKey.getKey())) {
                 updateAttributeEditor();
-            } else if (src == attributeEditor && name == AttributeEditor.ATTRIBUTE_VALUE_PROPERTY) {
+            } else if (src == attributeEditor && ((name == null && AttributeEditor.ATTRIBUTE_VALUE_PROPERTY == null) || (name != null && name.equals(AttributeEditor.ATTRIBUTE_VALUE_PROPERTY)))) {
                 updateFigures();
-            } else if (src == activeView && name == DrawingView.DRAWING_PROPERTY) {
+            } else if (src == activeView && ((name == null && DrawingView.DRAWING_PROPERTY == null) || (name != null && name.equals(DrawingView.DRAWING_PROPERTY)))) {
                 updateActiveView();
             } else if (figuresOfInterest != null && figuresOfInterest.contains(src)) {
                 updateFigures();

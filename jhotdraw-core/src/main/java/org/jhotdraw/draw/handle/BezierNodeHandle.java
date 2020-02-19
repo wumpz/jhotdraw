@@ -168,7 +168,7 @@ public class BezierNodeHandle extends AbstractHandle {
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final BezierFigure f = getOwner();
-        BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();;
+        BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();
         BezierPath.Node newValue = f.getNode(index);
         // Change node type
         if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0

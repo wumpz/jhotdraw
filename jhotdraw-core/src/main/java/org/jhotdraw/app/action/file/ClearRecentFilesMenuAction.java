@@ -58,7 +58,7 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
         return new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == Application.RECENT_URIS_PROPERTY) { // Strings get interned
+                if ((evt.getPropertyName() == null && Application.RECENT_URIS_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(Application.RECENT_URIS_PROPERTY))) { // Strings get interned
                     updateEnabled();
                 }
             }

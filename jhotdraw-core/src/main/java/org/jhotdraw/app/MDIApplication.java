@@ -291,8 +291,8 @@ public class MDIApplication extends AbstractApplication {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
-                    if (name == View.HAS_UNSAVED_CHANGES_PROPERTY
-                            || name == View.URI_PROPERTY) {
+                    if (((name == null && View.HAS_UNSAVED_CHANGES_PROPERTY == null) || (name != null && name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)))
+                            || ((name == null && View.URI_PROPERTY == null) || (name != null && name.equals(View.URI_PROPERTY)))) {
                         updateViewTitle(v, f);
                     }
                 }
@@ -593,7 +593,7 @@ public class MDIApplication extends AbstractApplication {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == VIEW_COUNT_PROPERTY || "paletteCount".equals(name)) {
+            if (((name == null && VIEW_COUNT_PROPERTY == null) || (name != null && name.equals(VIEW_COUNT_PROPERTY))) || "paletteCount".equals(name)) {
                 updateWindowMenu();
             }
         }

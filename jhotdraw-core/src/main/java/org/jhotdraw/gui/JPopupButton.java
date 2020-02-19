@@ -301,7 +301,6 @@ public class JPopupButton extends javax.swing.JButton {
             switch (popupAnchor) {
                 case SOUTH_EAST:
                     x = getWidth() - popupMenu.getPreferredSize().width;
-                    ;
                     y = getHeight();
                     break;
                 case SOUTH_WEST:
@@ -347,7 +346,7 @@ public class JPopupButton extends javax.swing.JButton {
             }
         });
     }// </editor-fold>//GEN-END:initComponents
-    private void performAction(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_performAction
+    private void performAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_performAction
         // Add your handling code here:
         if (actionArea != null && actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top)) {
             action.actionPerformed(
@@ -358,7 +357,7 @@ public class JPopupButton extends javax.swing.JButton {
                             evt.getModifiers()));
         }
     }//GEN-LAST:event_performAction
-    private void handleMousePressed(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_handleMousePressed
+    private void handleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_handleMousePressed
         togglePopup(evt);
 }//GEN-LAST:event_handleMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
