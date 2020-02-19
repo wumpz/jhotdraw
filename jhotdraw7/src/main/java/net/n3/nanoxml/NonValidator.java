@@ -147,7 +147,7 @@ public class NonValidator
          } else if (ch == '<') {
             this.processElement(reader, entityResolver);
          } else if (ch == ']') {
-            return; // end internal DTD
+            return; 
          } else {
             XMLUtil.errorInvalidInput(reader.getSystemID(),
                                       reader.getLineNr(),
@@ -159,7 +159,7 @@ public class NonValidator
 
             if (external && (reader.getStreamLevel() < origLevel)) {
                reader.unread(ch);
-               return; // end external DTD
+               return; 
             }
          } while ((ch == ' ') || (ch == '\t') || (ch == '\n')
                   || (ch == '\r'));

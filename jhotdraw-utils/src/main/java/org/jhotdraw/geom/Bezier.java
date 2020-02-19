@@ -367,7 +367,7 @@ public class Bezier {
         double[] u;
         /*  Parameter values for point  */
         double maxError;
-        /*  Maximum fitting errorSquared	 */
+        /*  Maximum fitting errorSquared */
         int[] splitPoint = new int[1];
         /*  Point to split point set at.
         This is an array of size one, because we need it as an input/output parameter.
@@ -533,7 +533,7 @@ public class Bezier {
     private static double[] chordLengthParameterize(ArrayList<Point2D.Double> d, int first, int last) {
         int i;
         double[] u;
-        /*  Parameterization		*/
+        /*  Parameterization */
 
         u = new double[last - first + 1];
 
@@ -564,7 +564,7 @@ public class Bezier {
         int nPts = last - first + 1;
         int i;
         double[] uPrime;
-        /*  New parameter values	*/
+        /*  New parameter values */
 
         uPrime = new double[nPts];
         for (i = first; i <= last; i++) {

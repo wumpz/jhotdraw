@@ -1063,7 +1063,7 @@ public class ODGInputFormat implements InputFormat {
                     break;
 
                 case 'N':
-                    // endpath
+                    
                     // Ends the current put of sub-paths. The sub-
                     // paths will be filled by using the “even-odd”
                     // filling rule. Other following subpaths will be
