@@ -43,10 +43,10 @@ import org.jhotdraw.util.*;
  * ButtonFactory.
  * <p>
  * Design pattern:<br> Name: Abstract Factory.<br> Role:
- * Abstract Factory.<br> Partners: {@link org.jhotdraw.samples.draw.DrawApplicationModel}
+ * Abstract Factory.<br> Partners: org.jhotdraw.samples.draw.DrawApplicationModel
  * as Client,
- * {@link org.jhotdraw.samples.draw.DrawView} as Client,
- * {@link org.jhotdraw.samples.draw.DrawingPanel} as Client.
+ * org.jhotdraw.samples.draw.DrawView as Client,
+ * org.jhotdraw.samples.draw.DrawingPanel as Client.
  *
  * FIXME - All buttons created using the ButtonFactory must automatically become
  * disabled/enabled, when the DrawingEditor is disabled/enabled.
