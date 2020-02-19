@@ -383,7 +383,7 @@ public class AttributeKeys {
     /**
      * Returns a scale factor derived from a AffineTransform.
      *
-     * @param g
+     * @param transform
      * @return
      */
     public static double getScaleFactor(AffineTransform transform) {

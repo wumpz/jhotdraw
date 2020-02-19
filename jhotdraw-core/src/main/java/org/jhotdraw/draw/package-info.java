@@ -8,8 +8,7 @@
  * @version $Id$
  */
 /**
- * <
- * p>
+ * <p>
  * Defines a framework for structured drawing editors and provides default
  * implementations.
  * </p>
