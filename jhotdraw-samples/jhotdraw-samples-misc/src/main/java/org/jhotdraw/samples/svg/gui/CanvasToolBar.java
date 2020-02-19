@@ -52,7 +52,7 @@ public class CanvasToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -158,9 +158,9 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 3, 0, 0);
                 gbc.gridwidth = 2;
                 p.add(heightField, gbc);
-            }
+
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 // Abort if no editor is set
@@ -175,11 +175,9 @@ public class CanvasToolBar extends AbstractToolBar {
                 p3.setOpaque(false);
                 p.removeAll();
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                GridBagLayout layout = new GridBagLayout();
+                labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                layout = new GridBagLayout();
                 p.setLayout(layout);
-                GridBagConstraints gbc;
-                AbstractButton btn;
                 // Fill color field with button
                 JAttributeTextField<Color> colorField = new JAttributeTextField<Color>();
                 colorField.setColumns(7);
@@ -210,7 +208,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 opacityField.setHorizontalAlignment(JAttributeTextField.RIGHT);
                 opacityField.putClientProperty("Palette.Component.segmentPosition", "first");
                 opacityField.setUI((PaletteFormattedTextFieldUI) PaletteFormattedTextFieldUI.createUI(opacityField));
-                JavaNumberFormatter formatter = new JavaNumberFormatter(0d, 100d, 100d, false, "%");
+                formatter = new JavaNumberFormatter(0d, 100d, 100d, false, "%");
                 formatter.setUsesScientificNotation(false);
                 formatter.setMaximumFractionDigits(1);
                 opacityField.setFormatterFactory(new DefaultFormatterFactory(formatter));
@@ -222,8 +220,8 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p1.add(opacityField, gbc);
-                JPopupButton opacityPopupButton = new JPopupButton();
-                JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                opacityPopupButton = new JPopupButton();
+                opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new DrawingAttributeEditorHandler<Double>(CANVAS_FILL_OPACITY, opacitySlider, editor));
@@ -241,8 +239,6 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 p1.add(opacityPopupButton, gbc);
                 // Width and height fields
-                JLabel widthLabel, heightLabel;
-                JAttributeTextField<Double> widthField, heightField;
                 widthLabel = new javax.swing.JLabel();
                 heightLabel = new javax.swing.JLabel();
                 widthField = new JAttributeTextField<Double>();
@@ -310,7 +306,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.gridy = 2;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(p3, gbc);
-            }
+
             break;
         }
         return p;

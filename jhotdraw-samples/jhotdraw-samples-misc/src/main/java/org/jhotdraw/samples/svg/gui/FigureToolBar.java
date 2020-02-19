@@ -61,7 +61,7 @@ public class FigureToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
@@ -93,9 +93,9 @@ public class FigureToolBar extends AbstractToolBar {
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
-            }
+
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
@@ -104,8 +104,6 @@ public class FigureToolBar extends AbstractToolBar {
                 if (editor == null) {
                     break;
                 }
-                GridBagConstraints gbc;
-                AbstractButton btn;
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                 opacityField.setColumns(4);
@@ -126,8 +124,8 @@ public class FigureToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 gbc.weightx = 1d;
                 p.add(opacityField, gbc);
-                JPopupButton opacityPopupButton = new JPopupButton();
-                JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                opacityPopupButton = new JPopupButton();
+                opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                 opacityPopupButton.add(opacitySlider);
                 labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
@@ -146,7 +144,6 @@ public class FigureToolBar extends AbstractToolBar {
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
-            }
             break;
         }
         return p;

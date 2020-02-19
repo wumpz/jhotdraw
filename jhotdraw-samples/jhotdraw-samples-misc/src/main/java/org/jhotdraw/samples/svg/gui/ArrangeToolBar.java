@@ -52,7 +52,7 @@ public class ArrangeToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -89,7 +89,7 @@ public class ArrangeToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.NORTH;
                 gbc.weighty = 1f;
                 p.add(btn, gbc);
-            }
+
             break;
         }
         return p;

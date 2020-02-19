@@ -47,7 +47,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
      * The variable acv is used for generating the locations of the control
      * points for the rounded rectangle using path.curveTo.
      */
-    private static final double acv;
+    private static final double ACV;
 
     static {
         double angle = Math.PI / 4.0;
@@ -55,7 +55,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         double b = Math.tan(angle);
         double c = Math.sqrt(1.0 + b * b) - 1 + a;
         double cv = 4.0 / 3.0 * a * b / c;
-        acv = (1.0 - cv);
+        ACV = (1.0 - cv);
     }
     /**
      */
@@ -109,21 +109,21 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             double ah = roundrect.archeight / 2d;
             p.moveTo((roundrect.x + aw), (float) roundrect.y);
             p.lineTo((roundrect.x + roundrect.width - aw), (float) roundrect.y);
-            p.curveTo((roundrect.x + roundrect.width - aw * acv), (float) roundrect.y,
-                    (roundrect.x + roundrect.width), (float) (roundrect.y + ah * acv),
+            p.curveTo((roundrect.x + roundrect.width - aw * ACV), (float) roundrect.y,
+                    (roundrect.x + roundrect.width), (float) (roundrect.y + ah * ACV),
                     (roundrect.x + roundrect.width), (roundrect.y + ah));
             p.lineTo((roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah));
             p.curveTo(
-                    (roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah * acv),
-                    (roundrect.x + roundrect.width - aw * acv), (roundrect.y + roundrect.height),
+                    (roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah * ACV),
+                    (roundrect.x + roundrect.width - aw * ACV), (roundrect.y + roundrect.height),
                     (roundrect.x + roundrect.width - aw), (roundrect.y + roundrect.height));
             p.lineTo((roundrect.x + aw), (roundrect.y + roundrect.height));
-            p.curveTo((roundrect.x + aw * acv), (roundrect.y + roundrect.height),
-                    (roundrect.x), (roundrect.y + roundrect.height - ah * acv),
+            p.curveTo((roundrect.x + aw * ACV), (roundrect.y + roundrect.height),
+                    (roundrect.x), (roundrect.y + roundrect.height - ah * ACV),
                     (float) roundrect.x, (roundrect.y + roundrect.height - ah));
             p.lineTo((float) roundrect.x, (roundrect.y + ah));
-            p.curveTo((roundrect.x), (roundrect.y + ah * acv),
-                    (roundrect.x + aw * acv), (float) (roundrect.y),
+            p.curveTo((roundrect.x), (roundrect.y + ah * ACV),
+                    (roundrect.x + aw * ACV), (float) (roundrect.y),
                     (float) (roundrect.x + aw), (float) (roundrect.y));
             p.closePath();
             g.draw(p);
@@ -319,7 +319,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             roundrect.clone(),
             TRANSFORM.getClone(this),
             FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this),};
+            STROKE_GRADIENT.getClone(this)};
     }
 
     // EDITING

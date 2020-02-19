@@ -23,7 +23,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 public class CharacterSetAccessory extends javax.swing.JPanel {
 
     private static final long serialVersionUID = 1L;
-    private static final Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
+    private static final Preferences PREFS = PreferencesUtil.userNodeForPackage(TeddyView.class);
     private static Object[] availableCharSets;
 
     /**
@@ -35,12 +35,12 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
         } else {
             initComponentsWin();
         }
-        String selectedItem = prefs.get("characterSet", "UTF-8");
+        String selectedItem = PREFS.get("characterSet", "UTF-8");
         charSetCombo.setModel(new DefaultComboBoxModel(new String[]{selectedItem}));
         charSetCombo.setSelectedItem(selectedItem);
         charSetCombo.setEnabled(false);
         fetchAvailableCharSets();
-        String lineSeparator = prefs.get("lineSeparator", "\n");
+        String lineSeparator = PREFS.get("lineSeparator", "\n");
         if ("\r".equals(lineSeparator)) {
             lineSepCombo.setSelectedIndex(0);
         } else if ("\n".equals(lineSeparator)) {
@@ -83,7 +83,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
     }
 
     public String getCharacterSet() {
-        prefs.put("characterSet", (String) charSetCombo.getSelectedItem());
+        PREFS.put("characterSet", (String) charSetCombo.getSelectedItem());
         return (String) charSetCombo.getSelectedItem();
     }
 
@@ -101,7 +101,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                 lineSeparator = "\r\n";
                 break;
         }
-        prefs.put("lineSeparator", lineSeparator);
+        PREFS.put("lineSeparator", lineSeparator);
         return lineSeparator;
     }
 

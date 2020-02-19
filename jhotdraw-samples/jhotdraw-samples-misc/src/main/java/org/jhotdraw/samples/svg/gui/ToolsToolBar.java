@@ -57,7 +57,7 @@ public class ToolsToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1:
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -163,7 +163,6 @@ public class ToolsToolBar extends AbstractToolBar {
                 gbc.gridy = 2;
                 gbc.insets = new Insets(3, 3, 0, 0);
                 p.add(btn, gbc);
-            }
             break;
         }
         return p;

@@ -85,21 +85,21 @@ public class SVGOutputFormat implements OutputFormat {
      * Set this to true for pretty printing.
      */
     private boolean isPrettyPrint;
-    private static final HashMap<Integer, String> strokeLinejoinMap;
+    private static final HashMap<Integer, String> STROKE_LINEJOIN;
 
     static {
-        strokeLinejoinMap = new HashMap<Integer, String>();
-        strokeLinejoinMap.put(BasicStroke.JOIN_MITER, "miter");
-        strokeLinejoinMap.put(BasicStroke.JOIN_ROUND, "round");
-        strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
+        STROKE_LINEJOIN = new HashMap<Integer, String>();
+        STROKE_LINEJOIN.put(BasicStroke.JOIN_MITER, "miter");
+        STROKE_LINEJOIN.put(BasicStroke.JOIN_ROUND, "round");
+        STROKE_LINEJOIN.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
-    private static final HashMap<Integer, String> strokeLinecapMap;
+    private static final HashMap<Integer, String> STROKE_LINECAP;
 
     static {
-        strokeLinecapMap = new HashMap<Integer, String>();
-        strokeLinecapMap.put(BasicStroke.CAP_BUTT, "butt");
-        strokeLinecapMap.put(BasicStroke.CAP_ROUND, "round");
-        strokeLinecapMap.put(BasicStroke.CAP_SQUARE, "square");
+        STROKE_LINECAP = new HashMap<Integer, String>();
+        STROKE_LINECAP.put(BasicStroke.CAP_BUTT, "butt");
+        STROKE_LINECAP.put(BasicStroke.CAP_ROUND, "round");
+        STROKE_LINECAP.put(BasicStroke.CAP_SQUARE, "square");
     }
     /**
      * Set this variable to true if values should be written with float precision
@@ -107,7 +107,7 @@ public class SVGOutputFormat implements OutputFormat {
      * Float precision is less accurate then double precision, but it uses
      * less storage space.
      */
-    private static final boolean isFloatPrecision = true;
+    private static final boolean IS_FLOAT_PRECISION = true;
 
     /**
      * Creates a new instance.
@@ -759,7 +759,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:    visual
         //Animatable:    yes
         //Computed value:    Specified value, except inherit
-        writeAttribute(elem, "stroke-linecap", strokeLinecapMap.get(STROKE_CAP.get(m)), "butt");
+        writeAttribute(elem, "stroke-linecap", STROKE_LINECAP.get(STROKE_CAP.get(m)), "butt");
         //'stroke-linejoin'
         //Value:    miter | round | bevel | inherit
         //Initial:    miter
@@ -769,7 +769,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Media:    visual
         //Animatable:    yes
         //Computed value:    Specified value, except inherit
-        writeAttribute(elem, "stroke-linejoin", strokeLinejoinMap.get(STROKE_JOIN.get(m)), "miter");
+        writeAttribute(elem, "stroke-linejoin", STROKE_LINEJOIN.get(STROKE_JOIN.get(m)), "miter");
         //'stroke-miterlimit'
         //Value:    <miterlimit> | inherit
         //Initial:    4
@@ -1137,7 +1137,7 @@ public class SVGOutputFormat implements OutputFormat {
      * Returns a double array as a number attribute value.
      */
     public static String toNumber(double number) {
-        String str = (isFloatPrecision) ? Float.toString((float) number) : Double.toString(number);
+        String str = (IS_FLOAT_PRECISION) ? Float.toString((float) number) : Double.toString(number);
         if (str.endsWith(".0")) {
             str = str.substring(0, str.length() - 2);
         }

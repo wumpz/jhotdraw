@@ -203,7 +203,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
             ellipse.clone(),
             TRANSFORM.getClone(this),
             FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this),};
+            STROKE_GRADIENT.getClone(this)};
     }
 
     // ATTRIBUTES

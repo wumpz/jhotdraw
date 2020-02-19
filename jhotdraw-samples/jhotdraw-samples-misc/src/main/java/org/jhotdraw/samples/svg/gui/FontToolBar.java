@@ -101,7 +101,7 @@ public class FontToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -210,9 +210,9 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-            }
+            
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -220,19 +220,17 @@ public class FontToolBar extends AbstractToolBar {
                 if (editor == null) {
                     break;
                 }
-                JPanel p1 = new JPanel(new GridBagLayout());
-                JPanel p2 = new JPanel(new GridBagLayout());
-                JPanel p3 = new JPanel(new GridBagLayout());
+                p1 = new JPanel(new GridBagLayout());
+                p2 = new JPanel(new GridBagLayout());
+                p3 = new JPanel(new GridBagLayout());
                 p1.setOpaque(false);
                 p2.setOpaque(false);
                 p3.setOpaque(false);
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                GridBagLayout layout = new GridBagLayout();
+                labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                layout = new GridBagLayout();
                 p.setLayout(layout);
-                GridBagConstraints gbc;
-                AbstractButton btn;
                 // Font face field and popup button
-                JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
+                faceField = new JAttributeTextField<Font>();
                 faceField.setColumns(12);
                 faceField.setToolTipText(labels.getString("attribute.font.toolTipText"));
                 faceField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -256,7 +254,7 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
                 // Font size field with slider
-                JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
+                sizeField = new JAttributeTextField<Double>();
                 sizeField.setColumns(1);
                 sizeField.setToolTipText(labels.getString("attribute.fontSize.toolTipText"));
                 sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -274,8 +272,8 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.weightx = 1f;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 p2.add(sizeField, gbc);
-                JPopupButton sizePopupButton = new JPopupButton();
-                JAttributeSlider sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
+                sizePopupButton = new JPopupButton();
+                sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
                 sizePopupButton.add(sizeSlider);
                 labels.configureToolBarButton(sizePopupButton, "attribute.fontSize");
                 sizePopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(sizePopupButton));
@@ -321,7 +319,7 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-            }
+            
             break;
         }
         return p;

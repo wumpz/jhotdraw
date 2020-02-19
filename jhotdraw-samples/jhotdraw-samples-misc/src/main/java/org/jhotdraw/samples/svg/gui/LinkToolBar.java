@@ -60,7 +60,7 @@ public class LinkToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
@@ -142,9 +142,9 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(targetField, gbc);
-            }
+            
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
@@ -153,11 +153,7 @@ public class LinkToolBar extends AbstractToolBar {
                 if (editor == null) {
                     break;
                 }
-                GridBagConstraints gbc;
-                AbstractButton btn;
                 // Link field
-                JScrollPane scrollPane;
-                JAttributeTextArea<String> linkField;
                 scrollPane = new javax.swing.JScrollPane();
                 linkField = new JAttributeTextArea<String>();
                 scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -183,8 +179,6 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.weighty = 1d;
                 p.add(scrollPane, gbc);
                 // Target field
-                JLabel targetLabel;
-                JAttributeTextField<String> targetField;
                 targetLabel = new javax.swing.JLabel();
                 targetLabel.setUI((LabelUI) PaletteLabelUI.createUI(targetLabel));
                 targetLabel.setToolTipText(labels.getString("attribute.figureLinkTarget.toolTipText"));
@@ -213,7 +207,7 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(targetField, gbc);
-            }
+            
             break;
         }
         return p;

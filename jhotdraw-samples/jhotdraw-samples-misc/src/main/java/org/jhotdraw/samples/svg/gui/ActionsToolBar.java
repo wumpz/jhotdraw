@@ -112,7 +112,7 @@ public class ActionsToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -169,7 +169,6 @@ public class ActionsToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 p.add(pb, gbc);
                 break;
-            }
         }
         return p;
     }

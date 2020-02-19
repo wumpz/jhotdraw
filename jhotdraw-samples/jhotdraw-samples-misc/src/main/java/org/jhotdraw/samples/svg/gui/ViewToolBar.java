@@ -57,7 +57,7 @@ public class ViewToolBar extends AbstractToolBar {
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -98,9 +98,9 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.weightx = 1;
                 btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
                 p.add(btn, gbc);
-            }
+            
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
@@ -108,11 +108,9 @@ public class ViewToolBar extends AbstractToolBar {
                 if (editor == null) {
                     break;
                 }
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                GridBagLayout layout = new GridBagLayout();
+                labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                layout = new GridBagLayout();
                 p.setLayout(layout);
-                GridBagConstraints gbc;
-                AbstractButton btn;
                 // Grid size field and toggle grid button
                 JLifeFormattedTextField gridSizeField = new JLifeFormattedTextField();
                 gridSizeField.setColumns(4);
@@ -210,7 +208,7 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.weighty = 1;
                 btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, scaleFactorField.getPreferredSize().height));
                 p.add(btn, gbc);
-            }
+            
             break;
         }
         return p;

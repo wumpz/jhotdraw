@@ -281,7 +281,7 @@ public class SVGTextFigure
             TRANSFORM.getClone(this),
             restoredCoordinates,
             FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this),};
+            STROKE_GRADIENT.getClone(this)};
     }
 
     // ATTRIBUTES

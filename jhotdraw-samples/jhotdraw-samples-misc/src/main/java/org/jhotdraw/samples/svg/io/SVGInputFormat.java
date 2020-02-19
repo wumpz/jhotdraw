@@ -847,12 +847,14 @@ public class SVGInputFormat implements InputFormat {
                 try {
                     lastX = toNumber(elem, xStr[i]);
                 } catch (NumberFormatException ex) {
+                    // allow empty
                 }
             }
             if (yStr.length > i) {
                 try {
                     lastY = toNumber(elem, yStr[i]);
                 } catch (NumberFormatException ex) {
+                    // allow empty
                 }
             }
             coordinates[i] = new Point2D.Double(lastX, lastY);
@@ -971,7 +973,7 @@ public class SVGInputFormat implements InputFormat {
             throw ex;
         }
     }
-    private static final HashSet<String> supportedFeatures = new HashSet<String>(
+    private static final HashSet<String> SUPPORTED_FEATURES = new HashSet<String>(
             Arrays.asList(new String[]{
         "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
         //"http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",
@@ -1024,7 +1026,7 @@ public class SVGInputFormat implements InputFormat {
             String[] requiredFormats = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFormats", ""));
             String[] requiredFonts = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFonts", ""));
             boolean isMatch;
-            isMatch = supportedFeatures.containsAll(Arrays.asList(requiredFeatures))
+            isMatch = SUPPORTED_FEATURES.containsAll(Arrays.asList(requiredFeatures))
                     && requiredExtensions.length == 0
                     && requiredFormats.length == 0
                     && requiredFonts.length == 0;
@@ -1682,7 +1684,7 @@ public class SVGInputFormat implements InputFormat {
                     path.quadTo(c1.x, c1.y, p.x, p.y);
                     nextCommand = 's';
                     break;
-                case 'A': {
+                case 'A': 
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("rx coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
@@ -1717,31 +1719,31 @@ public class SVGInputFormat implements InputFormat {
                     path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p.x, p.y);
                     nextCommand = 'A';
                     break;
-                }
-                case 'a': {
+                
+                case 'a': 
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("rx coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
                     // If rX or rY have negative signs, these are dropped;
                     // the absolute value is used instead.
-                    double rx = tt.nval;
+                    rx = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("ry coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    double ry = tt.nval;
+                    ry = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("x-axis-rotation missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    double xAxisRotation = tt.nval;
+                    xAxisRotation = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("large-arc-flag missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    boolean largeArcFlag = tt.nval != 0;
+                    largeArcFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("sweep-flag missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    boolean sweepFlag = tt.nval != 0;
+                    sweepFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("x coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
@@ -1753,7 +1755,7 @@ public class SVGInputFormat implements InputFormat {
                     path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p.x, p.y);
                     nextCommand = 'a';
                     break;
-                }
+                
                 default:
                     if (DEBUG) {
                         System.out.println("SVGInputFormat.toPath aborting after illegal path command: " + command + " found in path " + str);
@@ -2842,6 +2844,7 @@ public class SVGInputFormat implements InputFormat {
                 font = (Font) fontFormatter.stringToValue(familyNames[i]);
                 break;
             } catch (ParseException e) {
+                // allow empty
             }
         }
         if (font == null) {
@@ -2851,6 +2854,7 @@ public class SVGInputFormat implements InputFormat {
                 try {
                     font = (Font) fontFormatter.stringToValue(familyNames[0]);
                 } catch (ParseException e) {
+                    // allow empty
                 }
                 fontFormatter.setAllowsUnknownFont(false);
             }

@@ -47,7 +47,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     private static final long serialVersionUID = 1L;
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
     private boolean editable = true;
-    private static final BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
+    private static final BasicStroke DASHES = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
     /**
      * This is a cached value to improve the performance of method isTextOverflow();
      */
@@ -353,7 +353,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             bounds.clone(),
             TRANSFORM.getClone(this),
             FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this),};
+            STROKE_GRADIENT.getClone(this)};
     }
 // ATTRIBUTES
 
