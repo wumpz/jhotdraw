@@ -6,11 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
+ */
 /**
-Provides the NodeFigure for network diagrams.
-*/
+ * Provides the NodeFigure for network diagrams.
+ */
 package org.jhotdraw.samples.net.figures;
-
-
-

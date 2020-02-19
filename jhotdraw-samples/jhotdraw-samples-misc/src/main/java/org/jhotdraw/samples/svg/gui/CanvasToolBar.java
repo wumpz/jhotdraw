@@ -6,24 +6,29 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
-import org.jhotdraw.draw.event.DrawingComponentRepainter;
-import org.jhotdraw.text.JavaNumberFormatter;
-import javax.swing.border.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
+
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.LabelUI;
 import javax.swing.plaf.SliderUI;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.DefaultFormatterFactory;
+import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_OPACITY;
+import static org.jhotdraw.draw.AttributeKeys.CANVAS_HEIGHT;
+import static org.jhotdraw.draw.AttributeKeys.CANVAS_WIDTH;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
+import org.jhotdraw.draw.event.DrawingComponentRepainter;
+import org.jhotdraw.draw.gui.JAttributeSlider;
+import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.text.ColorFormatter;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.util.*;
+
 /**
  * CanvasToolBar.
  *
@@ -31,13 +36,18 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class CanvasToolBar extends AbstractToolBar {
+
     private static final long serialVersionUID = 1L;
-    /** Creates new instance. */
+
+    /**
+     * Creates new instance.
+     */
     public CanvasToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
         setDisclosureStateCount(3);
     }
+
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
@@ -57,7 +67,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 AbstractButton btn;
                 AbstractSelectedAction d;
                 // Fill color
-                 btn = ButtonFactory.createDrawingColorChooserButton(editor,
+                btn = ButtonFactory.createDrawingColorChooserButton(editor,
                         CANVAS_FILL_COLOR, "attribute.canvasFillColor", labels,
                         null, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -79,7 +89,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new DrawingOpacityIcon(editor, CANVAS_FILL_OPACITY, CANVAS_FILL_COLOR, null, Images.createImage(getClass(), labels.getString("attribute.canvasFillOpacity.icon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 disposables.add(new DrawingComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
                 gbc.gridx = 2;
@@ -135,7 +145,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 heightField.setUI((TextUI) PaletteFormattedTextFieldUI.createUI(widthField));
                 heightField.setColumns(3);
                 heightField.setToolTipText(labels.getString("attribute.canvasHeight.toolTipText"));
-                 formatter = new JavaNumberFormatter(1d, 4096d, 1d, true);
+                formatter = new JavaNumberFormatter(1d, 4096d, 1d, true);
                 formatter.setUsesScientificNotation(false);
                 heightField.setFormatterFactory(new DefaultFormatterFactory(formatter));
                 heightField.setHorizontalAlignment(JTextField.LEADING);
@@ -184,7 +194,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p1.add(colorField, gbc);
-                 btn = ButtonFactory.createDrawingColorChooserButton(editor,
+                btn = ButtonFactory.createDrawingColorChooserButton(editor,
                         CANVAS_FILL_COLOR, "attribute.canvasFillColor", labels,
                         null, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -222,7 +232,7 @@ public class CanvasToolBar extends AbstractToolBar {
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new DrawingOpacityIcon(editor, CANVAS_FILL_OPACITY, CANVAS_FILL_COLOR, null, Images.createImage(getClass(), labels.getString("attribute.canvasFillOpacity.icon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 disposables.add(new DrawingComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
                 gbc.gridx = 1;
@@ -305,11 +315,14 @@ public class CanvasToolBar extends AbstractToolBar {
         }
         return p;
     }
+
     @Override
     protected String getID() {
         return "canvas";
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

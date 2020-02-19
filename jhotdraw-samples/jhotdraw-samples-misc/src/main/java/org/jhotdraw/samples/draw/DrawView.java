@@ -7,19 +7,10 @@
  *
  */
 package org.jhotdraw.samples.draw;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+
+import java.awt.*;
 import java.awt.geom.*;
 import java.awt.print.Pageable;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
@@ -31,8 +22,18 @@ import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
+
 /**
  * Provides a view on a drawing.
  * <p>
@@ -42,7 +43,8 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class DrawView extends AbstractView {
-      private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
     /**
      * Each DrawView uses its own undo redo manager.
      * This allows for undoing and redoing actions per view.
@@ -53,13 +55,14 @@ public class DrawView extends AbstractView {
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
+
     /**
      * Creates a new view.
      */
     public DrawView() {
         initComponents();
         scrollPane.setLayout(new PlacardScrollPaneLayout());
-        scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         setEditor(new DefaultDrawingEditor());
         undo = new UndoRedoManager();
         view.setDrawing(createDrawing());
@@ -75,42 +78,45 @@ public class DrawView extends AbstractView {
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
         pButton = ButtonFactory.createZoomButton(view);
-        pButton.putClientProperty("Quaqua.Button.style","placard");
-        pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
+        pButton.putClientProperty("Quaqua.Button.style", "placard");
+        pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         placardPanel.add(pButton, BorderLayout.WEST);
         pButton = ButtonFactory.createToggleGridButton(view);
-        pButton.putClientProperty("Quaqua.Button.style","placard");
-        pButton.putClientProperty("Quaqua.Component.visualMargin",new Insets(0,0,0,0));
+        pButton.putClientProperty("Quaqua.Button.style", "placard");
+        pButton.putClientProperty("Quaqua.Component.visualMargin", new Insets(0, 0, 0, 0));
         pButton.setFont(UIManager.getFont("SmallSystemFont"));
         labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
     }
+
     /**
      * Creates a new Drawing for this view.
      */
     protected Drawing createDrawing() {
         Drawing drawing = new QuadTreeDrawing();
-        DOMStorableInputOutputFormat ioFormat =
-                new DOMStorableInputOutputFormat(new DrawFigureFactory());
+        DOMStorableInputOutputFormat ioFormat
+                = new DOMStorableInputOutputFormat(new DrawFigureFactory());
         drawing.addInputFormat(ioFormat);
         ImageFigure prototype = new ImageFigure();
         drawing.addInputFormat(new ImageInputFormat(prototype));
         drawing.addInputFormat(new TextInputFormat(new TextFigure()));
         TextAreaFigure taf = new TextAreaFigure();
-        taf.setBounds(new Point2D.Double(10,10), new Point2D.Double(60,40));
+        taf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(60, 40));
         drawing.addInputFormat(new TextInputFormat(taf));
         drawing.addOutputFormat(ioFormat);
         drawing.addOutputFormat(new ImageOutputFormat());
         return drawing;
     }
+
     /**
      * Creates a Pageable object for printing the view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
     }
+
     /**
      * Initializes view specific actions.
      */
@@ -118,11 +124,13 @@ public class DrawView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+
     @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
+
     /**
      * Writes the view to the specified uri.
      */
@@ -132,6 +140,7 @@ public class DrawView extends AbstractView {
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
         outputFormat.write(f, drawing);
     }
+
     /**
      * Reads the view from the specified uri.
      */
@@ -140,15 +149,15 @@ public class DrawView extends AbstractView {
         try {
             final Drawing drawing = createDrawing();
             boolean success = false;
-                for (InputFormat sfi : drawing.getInputFormats()) {
-                        try {
-                            sfi.read(f, drawing, true);
-                            success = true;
-                            break;
-                        } catch (Exception e) {
-                        // try with the next input format
-                        }
-                    }
+            for (InputFormat sfi : drawing.getInputFormats()) {
+                try {
+                    sfi.read(f, drawing, true);
+                    success = true;
+                    break;
+                } catch (Exception e) {
+                    // try with the next input format
+                }
+            }
             if (!success) {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(f)));
@@ -172,6 +181,7 @@ public class DrawView extends AbstractView {
             throw error;
         }
     }
+
     /**
      * Sets a drawing editor for the view.
      */
@@ -184,12 +194,14 @@ public class DrawView extends AbstractView {
             editor.add(view);
         }
     }
+
     /**
      * Gets the drawing editor of the view.
      */
     public DrawingEditor getEditor() {
         return editor;
     }
+
     /**
      * Clears the view.
      */
@@ -212,11 +224,14 @@ public class DrawView extends AbstractView {
             ex.printStackTrace();
         }
     }
+
     @Override
     public boolean canSaveTo(URI file) {
         return new File(file).getName().endsWith(".xml");
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

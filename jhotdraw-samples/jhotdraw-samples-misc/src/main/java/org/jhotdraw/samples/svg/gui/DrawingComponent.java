@@ -6,9 +6,11 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
+
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+
 /**
  * The DrawingComponent holds the drawing editor used by the DrawingApplet.
  * <p>
@@ -22,18 +24,22 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public interface DrawingComponent {
+
     /**
      * Returns the component of the DrawingComponent.
      */
     public JComponent getComponent();
+
     /**
      * Returns the drawing of the DrawingComponent.
      */
     public Drawing getDrawing();
+
     /**
      * Sets the drawing of the DrawingComponent.
      */
     public void setDrawing(Drawing newValue);
+
     /**
      * Adds an ActionListener.
      * <p>
@@ -44,10 +50,12 @@ public interface DrawingComponent {
      * when the user clicks at the cancel button on the drawing component.
      */
     public void addActionListener(ActionListener listener);
+
     /**
      * Removes an ActionListener.
      */
     public void removeActionListener(ActionListener listener);
+
     /**
      * Returns a summary about the changes made on the drawing.
      */

@@ -6,8 +6,10 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
+
 import org.jhotdraw.app.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+
 /**
  * Main entry point of the SVG sample application. Creates an {@link Application}
  * depending on the operating system we run, sets the {@link SVGApplicationModel}
@@ -18,7 +20,10 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class Main {
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public static void main(String[] args) {
         // Debug resource bundle
         ResourceBundleUtil.setVerbose(true);
@@ -27,7 +32,7 @@ public class Main {
         if (os.startsWith("mac")) {
             app = new OSXApplication();
         } else if (os.startsWith("win")) {
-          //  app = new MDIApplication();
+            //  app = new MDIApplication();
             app = new SDIApplication();
         } else {
             app = new SDIApplication();
@@ -35,8 +40,8 @@ public class Main {
         SVGApplicationModel model = new SVGApplicationModel();
         model.setName("JHotDraw SVG");
         model.setVersion(Main.class.getPackage().getImplementationVersion());
-        model.setCopyright("Copyright 2006-2010 (c) by the authors of JHotDraw.\n" +
-                "This software is licensed under LGPL and Creative Commons 3.0 Attribution.");
+        model.setCopyright("Copyright 2006-2010 (c) by the authors of JHotDraw.\n"
+                + "This software is licensed under LGPL and Creative Commons 3.0 Attribution.");
         model.setViewClassName("org.jhotdraw.samples.svg.SVGView");
         app.setModel(model);
         app.launch(args);

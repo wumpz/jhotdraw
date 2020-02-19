@@ -9,7 +9,9 @@
  * http://www.developer.com/java/other/article.php/3318421
  */
 package org.jhotdraw.samples.teddy.text;
+
 import javax.swing.text.*;
+
 /**
  * NumberedEditorKit.
  * <p>
@@ -23,8 +25,10 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class NumberedEditorKit extends StyledEditorKit {
+
     private static final long serialVersionUID = 1L;
     private NumberedViewFactory viewFactory;
+
     @Override
     public ViewFactory getViewFactory() {
         if (viewFactory == null) {

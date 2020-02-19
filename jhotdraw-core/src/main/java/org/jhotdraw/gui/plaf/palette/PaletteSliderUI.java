@@ -21,12 +21,12 @@ import javax.swing.plaf.basic.*;
  */
 public class PaletteSliderUI extends BasicSliderUI {
 
-    private static final float[] enabledStops = new float[]{0f, 0.35f, 0.351f, 1f};
-    private static final Color[] enabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xcccccc), new Color(0xbababa), new Color(0xf3f3f3)};
-    private static final float[] disabledStops = new float[]{0f, 0.35f, 0.351f, 1f};
-    private static final Color[] disabledStopColors = new Color[]{new Color(0xf3f3f3), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xf3f3f3)};
-    private static final float[] selectedStops = new float[]{0f, 0.2f, 1f};
-    private static final Color[] selectedStopColors = new Color[]{new Color(0x999999), new Color(0xaaaaaa), new Color(0x666666)};
+    private static final float[] ENABLED_STOPS = new float[]{0f, 0.35f, 0.351f, 1f};
+    private static final Color[] ENABLED_STOP_COLORS = new Color[]{new Color(0xf3f3f3), new Color(0xcccccc), new Color(0xbababa), new Color(0xf3f3f3)};
+    private static final float[] DISABLED_STOPS = new float[]{0f, 0.35f, 0.351f, 1f};
+    private static final Color[] DISABLED_STOP_COLORS = new Color[]{new Color(0xf3f3f3), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xf3f3f3)};
+    private static final float[] SELECTED_STOPS = new float[]{0f, 0.2f, 1f};
+    private static final Color[] SELECTED_STOP_COLORS = new Color[]{new Color(0x999999), new Color(0xaaaaaa), new Color(0x666666)};
 
     public static ComponentUI createUI(JComponent b) {
         return new PaletteSliderUI((JSlider) b);
@@ -117,16 +117,16 @@ public class PaletteSliderUI extends BasicSliderUI {
         if (slider.isEnabled()) {
             g.setColor(slider.getBackground());
             if (slider.getModel().getValueIsAdjusting()) {
-                stops = selectedStops;
-                stopColors = selectedStopColors;
+                stops = SELECTED_STOPS;
+                stopColors = SELECTED_STOP_COLORS;
             } else {
-                stops = enabledStops;
-                stopColors = enabledStopColors;
+                stops = ENABLED_STOPS;
+                stopColors = ENABLED_STOP_COLORS;
             }
         } else {
             g.setColor(slider.getBackground().darker());
-            stops = enabledStops;
-            stopColors = enabledStopColors;
+            stops = ENABLED_STOPS;
+            stopColors = ENABLED_STOP_COLORS;
         }
         Boolean paintThumbArrowShape
                 = (Boolean) slider.getClientProperty("Slider.paintThumbArrowShape");

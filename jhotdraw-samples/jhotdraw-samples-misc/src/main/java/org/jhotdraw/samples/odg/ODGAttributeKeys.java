@@ -6,10 +6,13 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg;
+
 import java.awt.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.samples.odg.ODGConstants.FillStyle;
+import org.jhotdraw.samples.odg.ODGConstants.StrokeStyle;
 import org.jhotdraw.util.ResourceBundleUtil;
-import static org.jhotdraw.samples.odg.ODGConstants.*;
+
 /**
  * ODGAttributeKeys.
  * <p>
@@ -22,19 +25,23 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
  * @version $Id$
  */
 public class ODGAttributeKeys extends AttributeKeys {
-     private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-    /** Prevent instance creation */
+
+    private static final ResourceBundleUtil LABELS = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+
+    /**
+     * Prevent instance creation
+     */
     private ODGAttributeKeys() {
     }
     /**
      * The attribute draw:name assigns a name to the drawing shape.
      */
-    public static final AttributeKey<String> NAME = new AttributeKey<String>("name", String.class, null, true, labels);
+    public static final AttributeKey<String> NAME = new AttributeKey<String>("name", String.class, null, true, LABELS);
     /**
      * Specifies the overall opacity of a ODG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity", Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity", Double.class, 1d, false, LABELS);
     /**
      * Specifies the fill style of a ODG figure.
      *
@@ -51,16 +58,16 @@ public class ODGAttributeKeys extends AttributeKeys {
      * • hatch: the drawing object is filled with the hatch specified by the draw:fill-hatch-name
      * attribute.
      */
-    public static final AttributeKey<FillStyle> FILL_STYLE = new AttributeKey<FillStyle>("fill", FillStyle.class, FillStyle.SOLID, false, labels);
+    public static final AttributeKey<FillStyle> FILL_STYLE = new AttributeKey<FillStyle>("fill", FillStyle.class, FillStyle.SOLID, false, LABELS);
     /**
      * Specifies the fill gradient of a ODG figure.
      */
-    public static final AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient", Gradient.class, null, true, labels);
+    public static final AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient", Gradient.class, null, true, LABELS);
     /**
      * Specifies the fill opacity of a ODG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public static final AttributeKey<Double> FILL_OPACITY = new AttributeKey<Double>("fillOpacity", Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> FILL_OPACITY = new AttributeKey<Double>("fillOpacity", Double.class, 1d, false, LABELS);
     /**
      * Specifies the stroke style of a ODG figure.
      *
@@ -68,16 +75,17 @@ public class ODGAttributeKeys extends AttributeKeys {
      * none means that no stroke is drawn, and the value solid means that a solid stroke is drawn. If
      * the value is dash, the stroke referenced by the draw:stroke-dash property is drawn.
      */
-    public static final AttributeKey<StrokeStyle> STROKE_STYLE = new AttributeKey<StrokeStyle>("stroke", StrokeStyle.class, StrokeStyle.SOLID, false, labels);
+    public static final AttributeKey<StrokeStyle> STROKE_STYLE = new AttributeKey<StrokeStyle>("stroke", StrokeStyle.class, StrokeStyle.SOLID, false, LABELS);
     /**
      * Specifies the stroke gradient of a ODG figure.
      */
-    public static final AttributeKey<Gradient> STROKE_GRADIENT = new AttributeKey<Gradient>("strokeGradient", Gradient.class, null, true, labels);
+    public static final AttributeKey<Gradient> STROKE_GRADIENT = new AttributeKey<Gradient>("strokeGradient", Gradient.class, null, true, LABELS);
     /**
      * Specifies the stroke opacity of a ODG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity", Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity", Double.class, 1d, false, LABELS);
+
     /**
      * Gets the fill paint for the specified figure based on the attributes
      * FILL_GRADIENT, FILL_OPACITY, FILL_PAINT and the bounds of the figure.
@@ -98,6 +106,7 @@ public class ODGAttributeKeys extends AttributeKeys {
         }
         return color;
     }
+
     /**
      * Gets the stroke paint for the specified figure based on the attributes
      * STROKE_GRADIENT, STROKE_OPACITY, STROKE_PAINT and the bounds of the figure.
@@ -118,6 +127,7 @@ public class ODGAttributeKeys extends AttributeKeys {
         }
         return color;
     }
+
     public static Stroke getStroke(Figure f) {
         double strokeWidth = f.get(STROKE_WIDTH);
         if (strokeWidth == 0) {
@@ -125,7 +135,10 @@ public class ODGAttributeKeys extends AttributeKeys {
         }
         return new BasicStroke((float) strokeWidth);
     }
-    /** Sets ODG default values. */
+
+    /**
+     * Sets ODG default values.
+     */
     public static void setDefaults(Figure f) {
         // Fill properties
         f.set(FILL_COLOR, Color.black);

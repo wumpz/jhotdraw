@@ -6,6 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
+
 /**
  * Creates SVG elements from Figures.
  *

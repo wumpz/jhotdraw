@@ -109,29 +109,29 @@ public class ColorFormatter extends DefaultFormatter {
     /**
      * This regular expression is used for parsing the RGB_HEX format.
      */
-    protected static final Pattern rgbHexPattern = Pattern.compile("^\\s*(?:[rR][gG][bB]\\s*#|#)\\s*([0-9a-fA-F]{3,6})\\s*$");
+    protected static final Pattern RGB_HEX_PATTERN = Pattern.compile("^\\s*(?:[rR][gG][bB]\\s*#|#)\\s*([0-9a-fA-F]{3,6})\\s*$");
     /**
      * This regular expression is used for parsing the RGB_INTEGER format.
      */
-    protected static final Pattern rgbIntegerShortPattern = Pattern.compile("^\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
+    protected static final Pattern RGB_INTEGER_SHORT_PATTERN = Pattern.compile("^\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
     /**
      * This regular expression is used for parsing the RGB_INTEGER format.
      */
-    protected static final Pattern rgbIntegerPattern = Pattern.compile("^\\s*(?:[rR][gG][bB])?\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
+    protected static final Pattern RGB_INTEGER_PATTERN = Pattern.compile("^\\s*(?:[rR][gG][bB])?\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
     /**
      * This regular expression is used for parsing the RGB_PERCENTAGE format.
      */
-    protected static final Pattern rgbPercentagePattern = Pattern.compile("^\\s*(?:[rR][gG][bB][%])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+    protected static final Pattern RGB_PERCENTAGE_PATTERN = Pattern.compile("^\\s*(?:[rR][gG][bB][%])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
     /**
      * This regular expression is used for parsing the HSB_PERCENTAGE format.
      * This format is recognized when the degree sign is present.
      */
-    protected static final Pattern hsbPercentagePattern = Pattern.compile("^\\s*(?:[hH][sS][bB])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+    protected static final Pattern HSB_PERCENTAGE_PATTERN = Pattern.compile("^\\s*(?:[hH][sS][bB])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
     /**
      * This regular expression is used for parsing the GRAY_PERCENTAGE format.
      * This format is recognized when the degree sign is present.
      */
-    protected static final Pattern grayPercentagePattern = Pattern.compile("^\\s*(?:[gG][rR][aA][yY])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+    protected static final Pattern GRAY_PERCENTAGE_PATTERN = Pattern.compile("^\\s*(?:[gG][rR][aA][yY])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
     /**
      * Specifies whether the formatter allows null values.
      */
@@ -255,7 +255,7 @@ public class ColorFormatter extends DefaultFormatter {
             }
         }
         // Format RGB_HEX
-        Matcher matcher = rgbHexPattern.matcher(str);
+        Matcher matcher = RGB_HEX_PATTERN.matcher(str);
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.RGB_HEX);
             try {
@@ -278,11 +278,11 @@ public class ColorFormatter extends DefaultFormatter {
             }
         }
         // Format RGB_INTEGER_SHORT and RGB_INTEGER
-        matcher = rgbIntegerShortPattern.matcher(str);
+        matcher = RGB_INTEGER_SHORT_PATTERN.matcher(str);
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.RGB_INTEGER_SHORT);
         } else {
-            matcher = rgbIntegerPattern.matcher(str);
+            matcher = RGB_INTEGER_PATTERN.matcher(str);
             if (matcher.matches()) {
                 setLastUsedInputFormat(Format.RGB_INTEGER);
             }
@@ -304,7 +304,7 @@ public class ColorFormatter extends DefaultFormatter {
             }
         }
         // Format RGB_PERCENTAGE
-        matcher = rgbPercentagePattern.matcher(str);
+        matcher = RGB_PERCENTAGE_PATTERN.matcher(str);
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.RGB_PERCENTAGE);
             try {
@@ -323,7 +323,7 @@ public class ColorFormatter extends DefaultFormatter {
             }
         }
         // Format HSB_PERCENTAGE
-        matcher = hsbPercentagePattern.matcher(str);
+        matcher = HSB_PERCENTAGE_PATTERN.matcher(str);
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.HSB_PERCENTAGE);
             try {
@@ -344,7 +344,7 @@ public class ColorFormatter extends DefaultFormatter {
             }
         }
         // Format GRAY_PERCENTAGE
-        matcher = grayPercentagePattern.matcher(str);
+        matcher = GRAY_PERCENTAGE_PATTERN.matcher(str);
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.GRAY_PERCENTAGE);
             try {
@@ -407,7 +407,7 @@ public class ColorFormatter extends DefaultFormatter {
                 case RGB_PERCENTAGE:
                     str = "rgb% " + numberFormat.format(c.getRed() / 255f) + " " + numberFormat.format(c.getGreen() / 255f) + " " + numberFormat.format(c.getBlue() / 255f) + "";
                     break;
-                case HSB_PERCENTAGE: {
+                case HSB_PERCENTAGE: 
                     float[] components;
                     if (c.getColorSpace().getType() == ColorSpace.TYPE_HSV) {
                         components = c.getComponents(null);
@@ -418,9 +418,7 @@ public class ColorFormatter extends DefaultFormatter {
                             + numberFormat.format(components[1] * 100) + " "
                             + numberFormat.format(components[2] * 100) + "";
                     break;
-                }
-                case GRAY_PERCENTAGE: {
-                    float[] components;
+                case GRAY_PERCENTAGE: 
                     if (c.getColorSpace().getType() == ColorSpace.TYPE_GRAY) {
                         components = c.getComponents(null);
                     } else {
@@ -428,7 +426,6 @@ public class ColorFormatter extends DefaultFormatter {
                     }
                     str = "gray " + numberFormat.format(components[0] * 100) + "";
                     break;
-                }
             }
         }
         return str;

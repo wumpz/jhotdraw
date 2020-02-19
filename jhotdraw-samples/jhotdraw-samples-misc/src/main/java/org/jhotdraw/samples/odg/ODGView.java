@@ -7,50 +7,51 @@
  *
  */
 package org.jhotdraw.samples.odg;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.samples.odg.io.ODGInputFormat;
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.beans.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw.app.*;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.samples.odg.io.ODGInputFormat;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.jhotdraw.samples.svg.io.ImageMapOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
+
 /**
  * Provides a view on a ODG drawing.
  * <p>
  * See {@link View} interface on how this view interacts with an application.
-*
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ODGView extends AbstractView {
+
     private static final long serialVersionUID = 1L;
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
@@ -66,6 +67,7 @@ public class ODGView extends AbstractView {
     private DrawingEditor editor;
     private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
     private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
+
     /**
      * Creates a new view.
      */
@@ -102,6 +104,7 @@ public class ODGView extends AbstractView {
         propertiesPanel.setVisible(preferences.getBoolean("propertiesPanelVisible", false));
         propertiesPanel.setView(view);
     }
+
     /**
      * Creates a new Drawing for this view.
      */
@@ -122,15 +125,18 @@ public class ODGView extends AbstractView {
         drawing.setOutputFormats(outputFormats);
         return drawing;
     }
+
     /**
      * Creates a Pageable object for printing the view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -142,6 +148,7 @@ public class ODGView extends AbstractView {
             newValue.add(view);
         }
     }
+
     /**
      * Initializes view specific actions.
      */
@@ -149,11 +156,13 @@ public class ODGView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+
     @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
+
     /**
      * Writes the view to the specified uri.
      */
@@ -161,6 +170,7 @@ public class ODGView extends AbstractView {
     public void write(URI f, URIChooser fc) throws IOException {
         new SVGOutputFormat().write(new File(f), view.getDrawing());
     }
+
     /**
      * Reads the view from the specified uri.
      */
@@ -195,14 +205,17 @@ public class ODGView extends AbstractView {
             throw error;
         }
     }
+
     public Drawing getDrawing() {
         return view.getDrawing();
     }
+
     @Override
     public void setEnabled(boolean newValue) {
         view.setEnabled(newValue);
         super.setEnabled(newValue);
     }
+
     public void setPropertiesPanelVisible(boolean newValue) {
         boolean oldValue = propertiesPanel.isVisible();
         propertiesPanel.setVisible(newValue);
@@ -210,25 +223,31 @@ public class ODGView extends AbstractView {
         preferences.putBoolean("propertiesPanelVisible", newValue);
         validate();
     }
+
     public boolean isPropertiesPanelVisible() {
         return propertiesPanel.isVisible();
     }
+
     public boolean isGridVisible() {
         return view.isConstrainerVisible();
     }
+
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
     }
+
     public double getScaleFactor() {
         return view.getScaleFactor();
     }
+
     public void setScaleFactor(double newValue) {
         double oldValue = getScaleFactor();
         view.setScaleFactor(newValue);
         firePropertyChange("scaleFactor", oldValue, newValue);
     }
+
     /**
      * Clears the view.
      */
@@ -251,11 +270,14 @@ public class ODGView extends AbstractView {
             ex.printStackTrace();
         }
     }
+
     @Override
     public boolean canSaveTo(URI uri) {
         return uri.getPath().endsWith(".odg");
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

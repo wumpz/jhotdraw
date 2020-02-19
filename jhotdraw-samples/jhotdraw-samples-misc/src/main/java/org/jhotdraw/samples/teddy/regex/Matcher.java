@@ -6,7 +6,9 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy.regex;
+
 import javax.swing.text.*;
+
 /**
  * Searches for an occurence of a case (in)sensitive text on a document. This is
  * a rather slow implementation that does not use advanced techniques such as
@@ -16,6 +18,7 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class Matcher {
+
     /**
      * The document to be examined.
      */
@@ -40,6 +43,7 @@ public class Matcher {
      * The match type.
      */
     private MatchType matchType;
+
     /**
      * Creates a new instance of Matcher which performs a case sensitive search.
      *
@@ -49,6 +53,7 @@ public class Matcher {
     public Matcher(Document document, String findString) {
         this(document, findString, true, MatchType.CONTAINS);
     }
+
     /**
      * Creates a new instance of Matcher
      *
@@ -70,21 +75,26 @@ public class Matcher {
         }
         this.matchType = matchType;
     }
+
     public String getFindString() {
         return findString;
     }
+
     public boolean isMatchCase() {
         return matchLowerCase == matchUpperCase;
     }
+
     public MatchType getMatchType() {
         return matchType;
     }
+
     /**
      * Sets the start index for the findNext(), findPrevious() methods.
      */
     public void setStartIndex(int newValue) {
         startIndex = newValue;
     }
+
     /**
      * Resets this matcher and then attempts to find the next subsequence of the
      * input sequence that matches the pattern, starting at the specified index.
@@ -97,6 +107,7 @@ public class Matcher {
         this.startIndex = startIndex;
         return findNext();
     }
+
     /**
      * Attempts to find the next subsequence of the input sequence that matches
      * the pattern.
@@ -140,7 +151,7 @@ public class Matcher {
                             switch (matchType) {
                                 case CONTAINS:
                                     return foundIndex;
-                                    // break; <- never reached
+                                // break; <- never reached
                                 case STARTS_WITH:
                                     if (!isWordChar(foundIndex - 1)) {
                                         return foundIndex;
@@ -168,6 +179,7 @@ public class Matcher {
             throw new IndexOutOfBoundsException();
         }
     }
+
     /**
      * Resets this matcher and then attempts to find the previous subsequence of
      * the input sequence that matches the pattern, starting at the specified
@@ -181,6 +193,7 @@ public class Matcher {
         this.startIndex = startIndex;
         return findPrevious();
     }
+
     /**
      * Attempts to find the previous subsequence of the input sequence that
      * matches the pattern.
@@ -245,12 +258,14 @@ public class Matcher {
             throw new IndexOutOfBoundsException();
         }
     }
+
     /**
      * Resets the startIndex of the matcher to 0.
      */
     public void reset() {
         startIndex = 0;
     }
+
     private boolean isWordChar(int index) {
         try {
             char ch = document.getText(index, 1).charAt(0);

@@ -6,6 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.io;
+
 /**
  * ODGFigureFactory.
  *

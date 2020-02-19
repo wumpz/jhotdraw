@@ -6,9 +6,11 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
+
 /**
  * Represents an SVG Gradient.
  *
@@ -16,9 +18,14 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public interface Gradient extends Cloneable {
+
     public Paint getPaint(Figure f, double opacity);
+
     public boolean isRelativeToFigureBounds();
+
     public void transform(AffineTransform tx);
+
     public Object clone();
+
     public void makeRelativeToFigureBounds(Figure f);
 }

@@ -6,25 +6,27 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.draw;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.tool.BezierTool;
-import org.jhotdraw.draw.tool.TextCreationTool;
-import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.draw.tool.ImageTool;
-import org.jhotdraw.draw.liner.ElbowLiner;
-import org.jhotdraw.draw.liner.CurvedLiner;
-import org.jhotdraw.draw.tool.ConnectionTool;
-import org.jhotdraw.draw.decoration.ArrowTip;
-import org.jhotdraw.gui.URIChooser;
-import org.jhotdraw.util.*;
+
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.decoration.ArrowTip;
+import org.jhotdraw.draw.liner.CurvedLiner;
+import org.jhotdraw.draw.liner.ElbowLiner;
+import org.jhotdraw.draw.tool.BezierTool;
+import org.jhotdraw.draw.tool.ConnectionTool;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.ImageTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+import org.jhotdraw.util.*;
+
 /**
  * Provides factory methods for creating views, menu bars and toolbars.
  * <p>
@@ -34,26 +36,33 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class DrawApplicationModel extends DefaultApplicationModel {
+
     private static final long serialVersionUID = 1L;
     /**
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public DrawApplicationModel() {
     }
+
     public DefaultDrawingEditor getSharedEditor() {
         if (sharedEditor == null) {
             sharedEditor = new DefaultDrawingEditor();
         }
         return sharedEditor;
     }
+
     @Override
-    public void initView(Application a,View p) {
+    public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((DrawView) p).setEditor(getSharedEditor());
         }
     }
+
     /**
      * Creates toolbars for the application.
      * This class always returns an empty list. Subclasses may return other
@@ -85,11 +94,13 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         list.add(tb);
         return list;
     }
+
     private void addCreationButtonsTo(JToolBar tb, DrawingEditor editor) {
         addDefaultCreationButtonsTo(tb, editor,
                 ButtonFactory.createDrawingActions(editor),
                 ButtonFactory.createSelectionActions(editor));
     }
+
     public void addDefaultCreationButtonsTo(JToolBar tb, final DrawingEditor editor,
             Collection<Action> drawingActions, Collection<Action> selectionActions) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -121,16 +132,18 @@ public class DrawApplicationModel extends DefaultApplicationModel {
         ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
         ButtonFactory.addToolTo(tb, editor, new ImageTool(new ImageFigure()), "edit.createImage", labels);
     }
+
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml", "xml"));
         return c;
     }
+
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml","xml"));
+        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml", "xml"));
         return c;
     }
 }

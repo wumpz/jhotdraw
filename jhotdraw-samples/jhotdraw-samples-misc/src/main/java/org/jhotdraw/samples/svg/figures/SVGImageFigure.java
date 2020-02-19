@@ -1,4 +1,4 @@
- /*
+/*
  * @(#)SVGImage.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
@@ -6,11 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.event.TransformRestoreEdit;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -20,10 +16,17 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.samples.svg.SVGAttributeKeys;
+
 /**
  * SVGImage.
  *
@@ -31,6 +34,7 @@ import org.jhotdraw.samples.svg.SVGAttributeKeys;
  * @version $Id$
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
+
     private static final long serialVersionUID = 1L;
     /**
      * This rectangle describes the bounds into which we draw the image.
@@ -54,15 +58,20 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * imageData.
      */
     private BufferedImage bufferedImage;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SVGImageFigure() {
         this(0, 0, 0, 0);
     }
+
     public SVGImageFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
         SVGAttributeKeys.setDefaults(this);
         setConnectable(false);
     }
+
     // DRAWING
     @Override
     public void draw(Graphics2D g) {
@@ -99,35 +108,44 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             }
         }
     }
+
     @Override
     protected void drawFill(Graphics2D g) {
     }
+
     @Override
     protected void drawStroke(Graphics2D g) {
     }
+
     // SHAPE AND BOUNDS
     public double getX() {
         return rectangle.x;
     }
+
     public double getY() {
         return rectangle.y;
     }
+
     public double getWidth() {
         return rectangle.width;
     }
+
     public double getHeight() {
         return rectangle.height;
     }
+
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) rectangle.clone();
     }
+
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
         Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
         return r;
     }
+
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -135,6 +153,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
     }
+
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         invalidateTransformedShape();
@@ -143,10 +162,12 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         rectangle.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
         rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
+
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
         cachedHitShape = null;
     }
+
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             cachedTransformedShape = (Shape) rectangle.clone();
@@ -156,6 +177,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return cachedTransformedShape;
     }
+
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             cachedHitShape = new GrowStroke(
@@ -164,8 +186,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return cachedHitShape;
     }
+
     /**
      * Transforms the figure.
+     *
      * @param tx The transformation.
      */
     @Override
@@ -188,6 +212,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     (Point2D.Double) tx.transform(lead, lead));
         }
     }
+
     // ATTRIBUTES
     @Override
     public void restoreTransformTo(Object geometry) {
@@ -200,13 +225,15 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             set(TRANSFORM, (AffineTransform) ((AffineTransform) o[1]).clone());
         }
     }
+
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
-                    rectangle.clone(),
-                    get(TRANSFORM)
-                };
+            rectangle.clone(),
+            get(TRANSFORM)
+        };
     }
+
     // EDITING
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
@@ -227,13 +254,15 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return handles;
     }
+
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
@@ -247,7 +276,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             if (rectangle.width != bufferedImage.getWidth()
                     || rectangle.height != bufferedImage.getHeight()) {
                 actions.add(new AbstractAction(labels.getString("edit.setToImageSize.text")) {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         Object geometry = getTransformRestoreData();
@@ -267,7 +297,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             double figureRatio = rectangle.height / rectangle.width;
             if (Math.abs(imageRatio - figureRatio) > 0.001) {
                 actions.add(new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         Object geometry = getTransformRestoreData();
@@ -280,7 +311,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     }
                 });
                 actions.add(new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         Object geometry = getTransformRestoreData();
@@ -296,6 +328,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return actions;
     }
+
     // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
@@ -307,16 +340,19 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         that.cachedHitShape = null;
         return that;
     }
+
     @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0 || imageData == null && bufferedImage == null;
     }
+
     @Override
     public void invalidate() {
         super.invalidate();
         invalidateTransformedShape();
     }
+
     /**
      * Sets the image.
      * <p>
@@ -337,6 +373,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         this.bufferedImage = bufferedImage;
         changed();
     }
+
     /**
      * Sets the image data.
      * This clears the buffered image.
@@ -351,6 +388,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         this.bufferedImage = null;
         changed();
     }
+
     /**
      * Sets the buffered image.
      * This clears the image data.
@@ -362,6 +400,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         this.bufferedImage = image;
         changed();
     }
+
     /**
      * Gets the buffered image. If necessary, this method creates the buffered
      * image from the image data.
@@ -382,6 +421,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return bufferedImage;
     }
+
     /**
      * Gets the image data. If necessary, this method creates the image
      * data from the buffered image.
@@ -408,6 +448,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return imageData;
     }
+
     @Override
     public void loadImage(File file) throws IOException {
         InputStream in = new FileInputStream(file);
@@ -422,6 +463,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             in.close();
         }
     }
+
     @Override
     public void loadImage(InputStream in) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

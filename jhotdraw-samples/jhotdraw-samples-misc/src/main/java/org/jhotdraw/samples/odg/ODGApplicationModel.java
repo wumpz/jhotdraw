@@ -6,26 +6,26 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg;
-import org.jhotdraw.app.action.view.ViewPropertyAction;
-import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
-import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
-import org.jhotdraw.draw.tool.CreationTool;
+
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.jhotdraw.util.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
+import org.jhotdraw.app.action.view.ViewPropertyAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
@@ -34,6 +34,8 @@ import org.jhotdraw.samples.odg.figures.ODGPathFigure;
 import org.jhotdraw.samples.odg.figures.ODGRectFigure;
 import org.jhotdraw.samples.svg.action.CombineAction;
 import org.jhotdraw.samples.svg.action.SplitAction;
+import org.jhotdraw.util.*;
+
 /**
  * Provides meta-data and factory methods for an application.
  * <p>
@@ -43,22 +45,28 @@ import org.jhotdraw.samples.svg.action.SplitAction;
  * @version $Id$
  */
 public class ODGApplicationModel extends DefaultApplicationModel {
+
     private static final long serialVersionUID = 1L;
-    private static final double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
+    private static final double[] SCALE_FACTORS = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     /**
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ODGApplicationModel() {
         setViewClass(ODGView.class);
     }
+
     public DefaultDrawingEditor getSharedEditor() {
         if (sharedEditor == null) {
             sharedEditor = new DefaultDrawingEditor();
         }
         return sharedEditor;
     }
+
     public static Collection<Action> createDrawingActions(DrawingEditor editor) {
         LinkedList<Action> a = new LinkedList<Action>();
         a.add(new CutAction());
@@ -68,6 +76,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         a.add(new SelectSameAction(editor));
         return a;
     }
+
     public static Collection<Action> createSelectionActions(DrawingEditor editor) {
         LinkedList<Action> a = new LinkedList<Action>();
         a.add(new DuplicateAction());
@@ -81,6 +90,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         a.add(new SendToBackAction(editor));
         return a;
     }
+
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey<?>, Object> attributes;
@@ -100,6 +110,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
     }
+
     /**
      * Creates toolbar buttons and adds them to the specified JToolBar
      */
@@ -116,29 +127,32 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         bar.addSeparator();
         ButtonFactory.addFontButtonsTo(bar, editor);
     }
+
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
         STROKE_GRADIENT.put(defaultAttributes, (Gradient) null);
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
-                STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                "attribute.strokeColor", labels,
-                defaultAttributes));
+                        STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
+                        "attribute.strokeColor", labels,
+                        defaultAttributes));
         defaultAttributes = new HashMap<AttributeKey<?>, Object>();
         FILL_GRADIENT.put(defaultAttributes, (Gradient) null);
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
-                FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                "attribute.fillColor", labels,
-                defaultAttributes));
+                        FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
+                        "attribute.fillColor", labels,
+                        defaultAttributes));
     }
+
     private void addStrokeButtonsTo(JToolBar bar, DrawingEditor editor) {
         bar.add(ButtonFactory.createStrokeWidthButton(editor));
         bar.add(ButtonFactory.createStrokeDashesButton(editor));
         bar.add(ButtonFactory.createStrokeCapButton(editor));
         bar.add(ButtonFactory.createStrokeJoinButton(editor));
     }
+
     /**
      * Creates toolbars for the application.
      */
@@ -168,12 +182,14 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         list.add(tb);
         return list;
     }
+
     @Override
     public void initView(Application a, View p) {
         if (a.isSharingToolsAmongViews()) {
             ((ODGView) p).setEditor(getSharedEditor());
         }
     }
+
     @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
@@ -182,13 +198,14 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
         m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v, ODGView.GRID_VISIBLE_PROPERTY));
         drawLabels.configureAction(aa, "view.toggleGrid");
-        for (double sf : scaleFactors) {
+        for (double sf : SCALE_FACTORS) {
             m.put((int) (sf * 100) + "%",
                     aa = new ViewPropertyAction(a, v, "scaleFactor", Double.TYPE, new Double(sf)));
             aa.putValue(Action.NAME, (int) (sf * 100) + " %");
         }
         return m;
     }
+
     @Override
     public URIChooser createOpenChooser(Application a, View view) {
         final JFileURIChooser c = new JFileURIChooser();
@@ -208,7 +225,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         }
         c.setFileFilter(firstFF);
         c.addPropertyChangeListener(new PropertyChangeListener() {
-    @Override
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if ("fileFilterChanged".equals(evt.getPropertyName())) {
                     InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
@@ -218,6 +235,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         });
         return c;
     }
+
     @Override
     public URIChooser createSaveChooser(Application a, View view) {
         JFileURIChooser c = new JFileURIChooser();
@@ -226,7 +244,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         if (view == null) {
             view = new ODGView();
         }
-        for (OutputFormat format : ((ODGView)view).getDrawing().getOutputFormats()) {
+        for (OutputFormat format : ((ODGView) view).getDrawing().getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
@@ -234,6 +252,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         }
         return c;
     }
+
     @Override
     public URIChooser createExportChooser(Application a, View view) {
         JFileURIChooser c = new JFileURIChooser();
@@ -242,7 +261,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         if (view == null) {
             view = new ODGView();
         }
-        for (OutputFormat format : ((ODGView)view).getDrawing().getOutputFormats()) {
+        for (OutputFormat format : ((ODGView) view).getDrawing().getOutputFormats()) {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);

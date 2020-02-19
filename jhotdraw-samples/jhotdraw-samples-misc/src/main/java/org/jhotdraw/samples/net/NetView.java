@@ -7,19 +7,9 @@
  *
  */
 package org.jhotdraw.samples.net;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
-import java.awt.print.Pageable;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
+
 import java.awt.*;
+import java.awt.print.Pageable;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
@@ -27,10 +17,21 @@ import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.*;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.samples.net.figures.NodeFigure;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
+
 /**
  * Provides a view on a Pert drawing.
  * <p>
@@ -40,6 +41,7 @@ import org.jhotdraw.samples.net.figures.NodeFigure;
  * @version $Id$
  */
 public class NetView extends AbstractView {
+
     private static final long serialVersionUID = 1L;
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     /**
@@ -53,6 +55,7 @@ public class NetView extends AbstractView {
      */
     private DrawingEditor editor;
     private AbstractButton toggleGridButton;
+
     /**
      * Creates a new view.
      */
@@ -99,36 +102,42 @@ public class NetView extends AbstractView {
             }
         });
     }
+
     public boolean isGridVisible() {
         return view.isConstrainerVisible();
     }
+
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
     }
+
     /**
      * Creates a new Drawing for this view.
      */
     protected Drawing createDrawing() {
         DefaultDrawing drawing = new DefaultDrawing();
-        DOMStorableInputOutputFormat ioFormat =
-                new DOMStorableInputOutputFormat(new NetFactory());
+        DOMStorableInputOutputFormat ioFormat
+                = new DOMStorableInputOutputFormat(new NetFactory());
         drawing.addInputFormat(ioFormat);
         drawing.addInputFormat(new TextInputFormat(new NodeFigure()));
         drawing.addOutputFormat(ioFormat);
         drawing.addOutputFormat(new ImageOutputFormat());
         return drawing;
     }
+
     /**
      * Creates a Pageable object for printing the view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -139,12 +148,15 @@ public class NetView extends AbstractView {
             newValue.add(view);
         }
     }
+
     public double getScaleFactor() {
         return view.getScaleFactor();
     }
+
     public void setScaleFactor(double newValue) {
         view.setScaleFactor(newValue);
     }
+
     /**
      * Initializes view specific actions.
      */
@@ -152,11 +164,13 @@ public class NetView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+
     @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
+
     /**
      * Writes the view to the specified uri.
      */
@@ -166,6 +180,7 @@ public class NetView extends AbstractView {
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
         outputFormat.write(f, drawing);
     }
+
     /**
      * Reads the view from the specified uri.
      */
@@ -194,6 +209,7 @@ public class NetView extends AbstractView {
             throw error;
         }
     }
+
     /**
      * Clears the view.
      */
@@ -216,11 +232,14 @@ public class NetView extends AbstractView {
             ex.printStackTrace();
         }
     }
+
     @Override
     public boolean canSaveTo(URI file) {
         return new File(file).getName().endsWith(".xml");
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

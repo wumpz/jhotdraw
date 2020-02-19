@@ -6,31 +6,25 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-import org.jhotdraw.undo.UndoRedoManager;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import java.lang.reflect.InvocationTargetException;
-import java.util.prefs.*;
-import org.jhotdraw.util.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.prefs.*;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -38,8 +32,13 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import org.jhotdraw.app.Disposable;
-import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.gui.ToolBarLayout;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
@@ -47,8 +46,10 @@ import org.jhotdraw.samples.svg.io.ImageMapOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+
 /**
  * JSVGDrawingAppletPanel.
  *
@@ -56,15 +57,18 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGDrawingPanel extends JPanel implements Disposable {
+
     private static final long serialVersionUID = 1L;
     private UndoRedoManager undoManager;
     private DrawingEditor editor;
     private ResourceBundleUtil labels;
     private Preferences prefs;
     private ContainerListener containerHandler;
+
     public UndoRedoManager getUndoRedoManager() {
         return undoManager;
     }
+
     public void setUndoRedoManager(UndoRedoManager undo) {
         if (undoManager != null && getView().getDrawing() != null) {
             getView().getDrawing().removeUndoableEditListener(undoManager);
@@ -74,13 +78,17 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             getView().getDrawing().addUndoableEditListener(undoManager);
         }
     }
+
     private class ItemChangeHandler implements ItemListener {
+
         private JToolBar toolbar;
         private String prefkey;
+
         public ItemChangeHandler(JToolBar toolbar, String prefkey) {
             this.toolbar = toolbar;
             this.prefkey = prefkey;
         }
+
         @Override
         public void itemStateChanged(ItemEvent e) {
             boolean b = e.getStateChange() == ItemEvent.SELECTED;
@@ -89,7 +97,10 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             validate();
         }
     }
-    /** Creates new instance. */
+
+    /**
+     * Creates new instance.
+     */
     public SVGDrawingPanel() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         try {
@@ -144,12 +155,14 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                     }
                 }
             }
+
             @Override
             public void componentRemoved(ContainerEvent e) {
             }
         });
         setEditor(new DefaultDrawingEditor());
     }
+
     @Override
     public void dispose() {
         toolsPane.removeContainerListener(containerHandler);
@@ -172,6 +185,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         viewToolBar.dispose();
         removeAll();
     }
+
     /**
      * Creates a new Drawing object which can be used with this
      * {@code SVGDrawingPanel}.
@@ -181,7 +195,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         inputFormats.add(new SVGZInputFormat());
         inputFormats.add(new ImageInputFormat(new SVGImageFigure(), "PNG", "Portable Network Graphics (PNG)", "png", "image/png"));
-        inputFormats.add(new ImageInputFormat(new SVGImageFigure(), "JPG", "Joint Photographics Experts Group (JPEG)", "jpg","image/jpg"));
+        inputFormats.add(new ImageInputFormat(new SVGImageFigure(), "JPG", "Joint Photographics Experts Group (JPEG)", "jpg", "image/jpg"));
         inputFormats.add(new ImageInputFormat(new SVGImageFigure(), "GIF", "Graphics Interchange Format (GIF)", "gif", "image/gif"));
         inputFormats.add(new TextInputFormat(new SVGTextFigure()));
         drawing.setInputFormats(inputFormats);
@@ -195,6 +209,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         drawing.setOutputFormats(outputFormats);
         return drawing;
     }
+
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
         if (view.getDrawing() != null) {
@@ -203,15 +218,19 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         view.setDrawing(d);
         d.addUndoableEditListener(undoManager);
     }
+
     public Drawing getDrawing() {
         return view.getDrawing();
     }
+
     public DrawingView getView() {
         return view;
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -241,6 +260,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             editor.setActiveView(temp);
         }
     }
+
     /**
      * Reads a drawing from the specified file into the SVGDrawingPanel.
      * <p>
@@ -294,6 +314,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         }
         throw firstIOException;
     }
+
     /**
      * Reads a drawing from the specified file into the SVGDrawingPanel using
      * the specified input format.
@@ -335,6 +356,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
             }
         }
     }
+
     /**
      * Writes the drawing from the SVGDrawingPanel into a file.
      * <p>
@@ -382,6 +404,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         }
         throw new IOException("No output format for " + f.getName());
     }
+
     /**
      * Writes the drawing from the SVGDrawingPanel into a file using the
      * specified output format.
@@ -421,7 +444,9 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         Drawing saveDrawing = helper[0];
         format.write(f, saveDrawing);
     }
-    /** Sets the actions for the "Action" popup menu in the toolbar.
+
+    /**
+     * Sets the actions for the "Action" popup menu in the toolbar.
      * <p>
      * This list may contain null items which are used to denote a
      * separator in the popup menu.
@@ -431,7 +456,9 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     public void setPopupActions(List<Action> actions) {
         actionToolBar.setPopupActions(actions);
     }
-    /** Gets the actions of the "Action" popup menu in the toolbar.
+
+    /**
+     * Gets the actions of the "Action" popup menu in the toolbar.
      * This list may contain null items which are used to denote a
      * separator in the popup menu.
      *
@@ -440,10 +467,13 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     public List<Action> getPopupActions() {
         return actionToolBar.getPopupActions();
     }
+
     public JComponent getComponent() {
         return this;
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

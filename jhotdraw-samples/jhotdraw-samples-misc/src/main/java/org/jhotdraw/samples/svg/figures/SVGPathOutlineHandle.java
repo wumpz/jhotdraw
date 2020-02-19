@@ -6,11 +6,13 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
-import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.draw.*;
+
 import java.awt.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.handle.AbstractHandle;
+import org.jhotdraw.draw.handle.HandleAttributeKeys;
+
 /**
  * A non-interactive {@link org.jhotdraw.draw.handle.Handle} which draws the
  * outline of a {@link SVGPathFigure} to make editing easier.
@@ -19,41 +21,55 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGPathOutlineHandle extends AbstractHandle {
+
     /**
      * Set this to true, if the handle is used for marking a figure over
      * which the mouse pointer is hovering.
      */
     private boolean isHoverHandle = false;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SVGPathOutlineHandle(SVGPathFigure owner) {
         this(owner, false);
     }
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SVGPathOutlineHandle(SVGPathFigure owner, boolean isHoverHandle) {
         super(owner);
         this.isHoverHandle = isHoverHandle;
     }
+
     @Override
     public SVGPathFigure getOwner() {
         return (SVGPathFigure) super.getOwner();
     }
+
     @Override
     protected Rectangle basicGetBounds() {
         return view.drawingToView(getOwner().getDrawingArea());
     }
+
     @Override
     public boolean contains(Point p) {
         return false;
     }
+
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
     }
+
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
     }
+
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
+
     @Override
     public void draw(Graphics2D g) {
         SVGPathFigure o = getOwner();

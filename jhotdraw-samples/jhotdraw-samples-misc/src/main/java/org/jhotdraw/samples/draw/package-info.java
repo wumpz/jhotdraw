@@ -6,11 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
+ */
 /**
-A simple drawing editor showcasing the drawing capabilities of the framework.
-*/
+ * A simple drawing editor showcasing the drawing capabilities of the framework.
+ */
 package org.jhotdraw.samples.draw;
-
-
-

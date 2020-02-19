@@ -6,7 +6,9 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
+
 import org.jhotdraw.draw.Figure;
+
 /**
  * ODGFigure.
  *
@@ -14,6 +16,7 @@ import org.jhotdraw.draw.Figure;
  * @version $Id$
  */
 public interface ODGFigure extends Figure {
+
     /**
      * Returns true, if this figure is empty for one of the following
      * reasons:

@@ -6,27 +6,29 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy;
-import org.jhotdraw.undo.UndoRedoManager;
-import java.awt.event.*;
-import org.jhotdraw.app.*;
-import org.jhotdraw.samples.teddy.text.*;
-import org.jhotdraw.samples.teddy.regex.*;
-import org.jhotdraw.samples.teddy.io.*;
-import java.lang.reflect.*;
+
 import java.awt.*;
+import java.awt.event.*;
 import java.beans.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.net.URI;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.undo.*;
-import java.io.*;
-import java.net.URI;
+import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.samples.teddy.io.*;
+import org.jhotdraw.samples.teddy.regex.*;
+import org.jhotdraw.samples.teddy.text.*;
+import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.prefs.PreferencesUtil;
+
 /**
  * Provides a view on a text document.
  * <p>
@@ -36,13 +38,17 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class TeddyView extends AbstractView {
+
     private static final long serialVersionUID = 1L;
     private static Preferences prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     protected JTextPane editor;
+
     private static class EditorPanel extends JPanel implements Scrollable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
         private JTextComponent editor;
         private boolean isLineWrap;
+
         public void setEditor(JTextComponent newValue) {
             editor = newValue;
             removeAll();
@@ -51,31 +57,38 @@ public class TeddyView extends AbstractView {
             setBackground(UIManager.getColor("TextField.background"));
             setOpaque(true);
         }
+
         public void setLineWrap(boolean newValue) {
             isLineWrap = newValue;
             editor.revalidate();
             editor.repaint();
         }
+
         public boolean getLineWrap() {
             return isLineWrap;
         }
+
         @Override
         public Dimension getPreferredScrollableViewportSize() {
             // System.out.println("EditorViewport: "+editor.getPreferredScrollableViewportSize());
             return editor.getPreferredScrollableViewportSize();
         }
+
         @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
             return editor.getScrollableUnitIncrement(visibleRect, orientation, direction);
         }
+
         @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
             return editor.getScrollableBlockIncrement(visibleRect, orientation, direction);
         }
+
         @Override
         public boolean getScrollableTracksViewportWidth() {
             return isLineWrap;
         }
+
         @Override
         public boolean getScrollableTracksViewportHeight() {
             return editor.getScrollableTracksViewportHeight();
@@ -94,7 +107,10 @@ public class TeddyView extends AbstractView {
      * The Matcher used to perform find operation.
      */
     private Matcher matcher;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public TeddyView() {
         prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
         initComponents();
@@ -138,54 +154,63 @@ public class TeddyView extends AbstractView {
             }
         });
     }
+
     protected JTextPane createEditor() {
         return new JTextPane();
     }
+
     @Override
     public void init() {
         initActions();
     }
+
     @Override
     public void setEnabled(boolean newValue) {
         super.setEnabled(newValue);
         editor.setEnabled(newValue);
         scrollPane.setEnabled(newValue);
     }
+
     public void setStatusBarVisible(boolean newValue) {
         boolean oldValue = statusBar.isVisible();
         statusBar.setVisible(newValue);
         prefs.putBoolean("statusBarVisible", newValue);
         firePropertyChange("statusBarVisible", oldValue, newValue);
     }
+
     public boolean isStatusBarVisible() {
         return statusBar.isVisible();
     }
+
     public void setLineWrap(boolean newValue) {
         boolean oldValue = editorViewport.getLineWrap();
         editorViewport.setLineWrap(newValue);
         prefs.putBoolean("lineWrap", newValue);
         firePropertyChange("lineWrap", oldValue, newValue);
     }
+
     public boolean isLineWrap() {
         return editorViewport.getLineWrap();
     }
+
     private void initActions() {
         getActionMap().put(UndoAction.ID, undoManager.getUndoAction());
         getActionMap().put(RedoAction.ID, undoManager.getRedoAction());
     }
+
     @Override
     public void read(URI f, URIChooser chooser) throws IOException {
         String characterSet;
         if (chooser == null
                 || !(chooser instanceof JFileURIChooser)
-                || !(((JFileURIChooser) chooser).getAccessory() instanceof CharacterSetAccessory)
-                ) {
+                || !(((JFileURIChooser) chooser).getAccessory() instanceof CharacterSetAccessory)) {
             characterSet = prefs.get("characterSet", "UTF-8");
         } else {
             characterSet = ((CharacterSetAccessory) ((JFileURIChooser) chooser).getAccessory()).getCharacterSet();
         }
         read(f, characterSet);
     }
+
     public void read(URI f, String characterSet) throws IOException {
         final Document doc = readDocument(new File(f), characterSet);
         try {
@@ -206,13 +231,13 @@ public class TeddyView extends AbstractView {
             throw error;
         }
     }
+
     @Override
     public void write(URI f, URIChooser chooser) throws IOException {
         String characterSet, lineSeparator;
         if (chooser == null
                 || !(chooser instanceof JFileURIChooser)
-                || !(((JFileURIChooser) chooser).getAccessory() instanceof CharacterSetAccessory)
-                ) {
+                || !(((JFileURIChooser) chooser).getAccessory() instanceof CharacterSetAccessory)) {
             characterSet = prefs.get("characterSet", "UTF-8");
             lineSeparator = prefs.get("lineSeparator", "\n");
         } else {
@@ -221,6 +246,7 @@ public class TeddyView extends AbstractView {
         }
         write(f, characterSet, lineSeparator);
     }
+
     public void write(URI f, String characterSet, String lineSeparator) throws IOException {
         writeDocument(editor.getDocument(), new File(f), characterSet, lineSeparator);
         try {
@@ -238,6 +264,7 @@ public class TeddyView extends AbstractView {
             throw error;
         }
     }
+
     /**
      * Reads a document from a file using the specified character set.
      */
@@ -269,6 +296,7 @@ public class TeddyView extends AbstractView {
             in.close();
         }
     }
+
     @Override
     public void clear() {
         final Document newDocument = createDocument();
@@ -288,11 +316,13 @@ public class TeddyView extends AbstractView {
             ex.printStackTrace();
         }
     }
+
     protected StyledDocument createDocument() {
         DefaultStyledDocument doc = new DefaultStyledDocument();
         doc.setParagraphAttributes(0, 1, ((StyledEditorKit) editor.getEditorKit()).getInputAttributes(), true);
         return doc;
     }
+
     /**
      * Writes a document into a file using the specified character set.
      */
@@ -312,7 +342,9 @@ public class TeddyView extends AbstractView {
             undoManager.discardAllEdits();
         }
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -336,6 +368,7 @@ public class TeddyView extends AbstractView {
     public Document getDocument() {
         return editor.getDocument();
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -348,6 +381,7 @@ public class TeddyView extends AbstractView {
             e.printStackTrace();
         }
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -355,6 +389,7 @@ public class TeddyView extends AbstractView {
     public int getSelectionStart() {
         return editor.getSelectionStart();
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the project text area.
@@ -362,6 +397,7 @@ public class TeddyView extends AbstractView {
     public int getSelectionEnd() {
         return editor.getSelectionEnd();
     }
+
     /**
      * Determines the number of lines contained in the area.
      *
@@ -371,6 +407,7 @@ public class TeddyView extends AbstractView {
         Element map = getDocument().getDefaultRootElement();
         return map.getElementCount();
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need to act on the text area of the View.
@@ -395,6 +432,7 @@ public class TeddyView extends AbstractView {
             }
         }
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -411,6 +449,7 @@ public class TeddyView extends AbstractView {
             return map.getElementIndex(offset);
         }
     }
+
     /**
      * Accessor for text area.
      * This is used by Actions that need ot act on the text area of the View.
@@ -428,9 +467,11 @@ public class TeddyView extends AbstractView {
             return lineElem.getStartOffset();
         }
     }
+
     public void fireEdit(UndoableEdit edit) {
         undoManager.addEdit(edit);
     }
+
     private void caretUpdate(javax.swing.event.CaretEvent evt) {
         try {
             int pos = editor.getCaretPosition();
@@ -441,6 +482,7 @@ public class TeddyView extends AbstractView {
             caretInfoLabel.setText(e.toString());
         }
     }
+
     public void setLineNumbersVisible(boolean newValue) {
         NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().
                 getViewFactory();
@@ -453,6 +495,7 @@ public class TeddyView extends AbstractView {
             editor.repaint();
         }
     }
+
     public boolean isLineNumbersVisible() {
         NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().
                 getViewFactory();

@@ -51,11 +51,9 @@ public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
             // Return if we haven't initialized yet
             return;
         }
-        {
-            JPanel centerView = new JPanel(new BorderLayout());
-            centerView.add(ccp);
-            tabbedPane.add(centerView, displayName);
-        }
+        JPanel centerView = new JPanel(new BorderLayout());
+        centerView.add(ccp);
+        tabbedPane.add(centerView, displayName);
     }
 
     public void removeAllColorChooserPanels() {

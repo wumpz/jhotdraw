@@ -6,11 +6,12 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
 import org.jhotdraw.draw.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+
 /**
  * Represents an SVG LinearGradient.
  *
@@ -18,6 +19,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class LinearGradient implements Gradient {
+
     private double x1;
     private double y1;
     private double x2;
@@ -28,9 +30,13 @@ public class LinearGradient implements Gradient {
     private double[] stopOpacities;
     private AffineTransform transform;
     private int spreadMethod;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public LinearGradient() {
     }
+
     public LinearGradient(
             double x1, double y1, double x2, double y2,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
@@ -46,66 +52,79 @@ public class LinearGradient implements Gradient {
         this.isRelativeToFigureBounds = isRelativeToFigureBounds;
         this.transform = tx;
     }
+
     public void setGradientVector(double x1, double y1, double x2, double y2) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
     }
+
     public void setStops(double[] offsets, Color[] colors, double[] stopOpacities) {
         this.stopOffsets = offsets.clone();
         this.stopColors = colors.clone();
         this.stopOpacities = stopOpacities.clone();
     }
+
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
     }
+
     @Override
     public boolean isRelativeToFigureBounds() {
         return isRelativeToFigureBounds;
     }
+
     public double getX1() {
         return x1;
     }
+
     public double getY1() {
         return y1;
     }
+
     public double getX2() {
         return x2;
     }
+
     public double getY2() {
         return y2;
     }
+
     public double[] getStopOffsets() {
         return stopOffsets.clone();
     }
+
     public Color[] getStopColors() {
         return stopColors.clone();
     }
+
     public double[] getStopOpacities() {
         return stopOpacities.clone();
     }
+
     public AffineTransform getTransform() {
         return transform;
     }
+
     @Override
     public Paint getPaint(Figure f, double opacity) {
         // No stops, like fill = none
         if (stopColors.length == 0) {
-            return new Color(0x0,true);
+            return new Color(0x0, true);
         }
         // Compute colors and fractions for the paint
         Color[] colors = new Color[stopColors.length];
         float[] fractions = new float[stopColors.length];
         float previousFraction = 0;
-        for (int i=0; i < stopColors.length; i++) {
+        for (int i = 0; i < stopColors.length; i++) {
             // Each fraction must be larger or equal the previous fraction.
             fractions[i] = Math.min(1f, Math.max(previousFraction, (float) stopOffsets[i]));
             colors[i] = new Color(
-                    (stopColors[i].getRGB() & 0xffffff) |
-                    ((int) (opacity * stopOpacities[i] * 255) << 24),
+                    (stopColors[i].getRGB() & 0xffffff)
+                    | ((int) (opacity * stopOpacities[i] * 255) << 24),
                     true
-                    );
+            );
             previousFraction = fractions[i];
         }
         // Compute the dimensions and transforms for the paint
@@ -132,17 +151,20 @@ public class LinearGradient implements Gradient {
                 LinearGradientPaint.CycleMethod.NO_CYCLE,
                 LinearGradientPaint.ColorSpaceType.SRGB,
                 t
-                );
+        );
         return gp;
     }
+
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("LinearGradient@");
         buf.append(hashCode());
         buf.append('(');
-        for (int i=0; i < stopOffsets.length; i++) {
-            if (i != 0) buf.append(',');
+        for (int i = 0; i < stopOffsets.length; i++) {
+            if (i != 0) {
+                buf.append(',');
+            }
             buf.append(stopOffsets[i]);
             buf.append('=');
             buf.append(stopOpacities[i]);
@@ -152,9 +174,11 @@ public class LinearGradient implements Gradient {
         buf.append(')');
         return buf.toString();
     }
+
     public void setTransform(AffineTransform tx) {
         transform = tx;
     }
+
     @Override
     public void transform(AffineTransform tx) {
         if (transform == null) {
@@ -163,6 +187,7 @@ public class LinearGradient implements Gradient {
             transform.preConcatenate(tx);
         }
     }
+
     @Override
     public Object clone() {
         try {
@@ -178,9 +203,10 @@ public class LinearGradient implements Gradient {
             throw e;
         }
     }
+
     @Override
     public void makeRelativeToFigureBounds(Figure f) {
-        if (! isRelativeToFigureBounds) {
+        if (!isRelativeToFigureBounds) {
             isRelativeToFigureBounds = true;
             Rectangle2D.Double bounds = f.getBounds();
             x1 = (x1 - bounds.x) / bounds.width;
@@ -189,16 +215,18 @@ public class LinearGradient implements Gradient {
             y2 = (y2 - bounds.y) / bounds.height;
         }
     }
+
     @Override
     public int hashCode() {
- long bits = Double.doubleToLongBits(x1);
- bits += Double.doubleToLongBits(y1) * 31;
- bits += Double.doubleToLongBits(x2) * 35;
- bits += Double.doubleToLongBits(y2) * 39;
- bits += stopColors[0].hashCode() * 43;
- bits += stopColors[stopColors.length - 1].hashCode() * 47;
- return (((int) bits) ^ ((int) (bits >> 32)));
+        long bits = Double.doubleToLongBits(x1);
+        bits += Double.doubleToLongBits(y1) * 31;
+        bits += Double.doubleToLongBits(x2) * 35;
+        bits += Double.doubleToLongBits(y2) * 39;
+        bits += stopColors[0].hashCode() * 43;
+        bits += stopColors[stopColors.length - 1].hashCode() * 47;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof LinearGradient) {
@@ -207,15 +235,16 @@ public class LinearGradient implements Gradient {
             return false;
         }
     }
+
     public boolean equals(LinearGradient that) {
-        return x1 == that.x1 &&
-                y1 == that.y1 &&
-                x2 == that.x2 &&
-                y2 == that.y2 &&
-                isRelativeToFigureBounds == that.isRelativeToFigureBounds &&
-                Arrays.equals(stopOffsets, that.stopOffsets) &&
-                Arrays.equals(stopOpacities, that.stopOpacities) &&
-                Arrays.equals(stopColors, that.stopColors) &&
-                transform.equals(that.transform);
+        return x1 == that.x1
+                && y1 == that.y1
+                && x2 == that.x2
+                && y2 == that.y2
+                && isRelativeToFigureBounds == that.isRelativeToFigureBounds
+                && Arrays.equals(stopOffsets, that.stopOffsets)
+                && Arrays.equals(stopOpacities, that.stopOpacities)
+                && Arrays.equals(stopColors, that.stopColors)
+                && transform.equals(that.transform);
     }
 }

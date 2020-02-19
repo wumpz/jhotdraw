@@ -6,6 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.io;
+
 /**
  * Default implementation of {@link ODGFigureFactory}.
  *
@@ -13,7 +14,10 @@ package org.jhotdraw.samples.odg.io;
  * @version $Id$
  */
 public class DefaultODGFigureFactory implements ODGFigureFactory {
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public DefaultODGFigureFactory() {
     }
 }

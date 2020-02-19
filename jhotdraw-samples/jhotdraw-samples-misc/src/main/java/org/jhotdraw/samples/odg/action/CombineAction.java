@@ -6,27 +6,34 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.action;
+
+import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.util.*;
-import java.util.*;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
+import org.jhotdraw.util.*;
+
 /**
  * CombinePathsAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class CombineAction extends GroupAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "edit.combinePaths";
-    private ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-    /** Creates a new instance. */
+    private ResourceBundleUtil labels
+            = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
+
+    /**
+     * Creates a new instance.
+     */
     public CombineAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
         labels.configureAction(this, ID);
     }
+
     @Override
     protected boolean canGroup() {
         boolean canCombine = getView().getSelectionCount() > 1;
@@ -40,6 +47,7 @@ public class CombineAction extends GroupAction {
         }
         return canCombine;
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
@@ -51,7 +59,7 @@ public class CombineAction extends GroupAction {
             ODGPathFigure path = new ODGPathFigure();
             path.removeAllChildren();
             for (Map.Entry<AttributeKey<?>, Object> entry : group.getAttributes().entrySet()) {
-                path.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                path.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
             path.add(f);
             view.getDrawing().basicAdd(path);
@@ -61,6 +69,7 @@ public class CombineAction extends GroupAction {
         view.addToSelection(paths);
         return figures;
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public void groupFigures(DrawingView view, CompositeFigure group, Collection<Figure> figures) {
@@ -71,7 +80,7 @@ public class CombineAction extends GroupAction {
         group.willChange();
         ((ODGPathFigure) group).removeAllChildren();
         for (Map.Entry<AttributeKey<?>, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            group.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
             ODGPathFigure path = (ODGPathFigure) f;

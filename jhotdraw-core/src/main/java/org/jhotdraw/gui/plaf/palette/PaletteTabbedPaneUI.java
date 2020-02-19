@@ -36,8 +36,8 @@ import javax.swing.text.View;
  */
 public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
 
-    private static final float[] enabledStops = new float[]{0f, 0.35f, 0.4f, 1f};
-    private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
+    private static final float[] ENABLED_STOPS = new float[]{0f, 0.35f, 0.4f, 1f};
+    private static final Color[] ENABLED_STOP_COLORS = new Color[]{new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)};
     private boolean tabsOverlapBorder;
     private Color selectedColor;
     private boolean tabsOpaque = true;
@@ -65,7 +65,7 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         selectedTabPadInsets = laf.getInsets("TabbedPane.selectedTabPadInsets");
         tabAreaInsets = laf.getInsets("TabbedPane.tabAreaInsets");
         tabsOverlapBorder = laf.getBoolean("TabbedPane.tabsOverlapBorder");
-        ;  // will probably not
+        // will probably not
         // work as expected since we don't override enough colors from BasicTabbedPaneUI
         contentBorderInsets = laf.getInsets("TabbedPane.contentBorderInsets");
         tabRunOverlay = laf.getInt("TabbedPane.tabRunOverlay");
@@ -202,7 +202,7 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
                 if (!isSelected) {
                     LinearGradientPaint lgp = new LinearGradientPaint(
                             new Point2D.Float(x, y), new Point2D.Float(x, y + h - 1),
-                            enabledStops, enabledStopColors,
+                            ENABLED_STOPS, ENABLED_STOP_COLORS,
                             MultipleGradientPaint.CycleMethod.REPEAT);
                     g.setPaint(lgp);
                 }

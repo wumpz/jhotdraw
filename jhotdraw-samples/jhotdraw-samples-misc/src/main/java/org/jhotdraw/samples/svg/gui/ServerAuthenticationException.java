@@ -6,7 +6,9 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
+
 import java.io.*;
+
 /**
  * Thrown to indicate that a request failed because we didn't authenticate
  * successfully.
@@ -19,12 +21,15 @@ import java.io.*;
  * @version $Id$
  */
 public class ServerAuthenticationException extends IOException {
-        private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a new instance of <code>ServerAuthenticationException</code> without detail message.
      */
     public ServerAuthenticationException() {
     }
+
     /**
      * Constructs an instance of <code>ServerAuthenticationException</code> with the specified detail message.
      *

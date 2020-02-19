@@ -6,7 +6,9 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
+
 import org.jhotdraw.draw.*;
+
 /**
  * SVGFigure.
  *
@@ -14,6 +16,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public interface SVGFigure extends Figure {
+
     /**
      * Returns true, if this figure is empty for one of the following
      * reasons:

@@ -21,13 +21,13 @@ import javax.swing.plaf.basic.*;
 public class PaletteButtonUI extends BasicButtonUI {
 
     // Shared UI object
-    private static final PaletteButtonUI buttonUI = new PaletteButtonUI();
+    private static final PaletteButtonUI BUTTON_UI = new PaletteButtonUI();
 
     // ********************************
     //          Create PLAF
     // ********************************
     public static ComponentUI createUI(JComponent c) {
-        return buttonUI;
+        return BUTTON_UI;
     }
 
     @Override

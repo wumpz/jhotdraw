@@ -32,7 +32,7 @@ import javax.swing.plaf.*;
  */
 public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
-    private static final boolean isFloatingAllowed = false;
+    private static final boolean IS_FLOATING_ALLOWED = false;
     protected JToolBar toolBar;
     private boolean floating;
     private int floatingX;
@@ -691,7 +691,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 dragWindow.setVisible(false);
             }
             this.floating = b;
-            if (b && isFloatingAllowed) {
+            if (b && IS_FLOATING_ALLOWED) {
                 if (dockingSource == null) {
                     dockingSource = toolBar.getParent();
                     dockingSource.remove(toolBar);
@@ -887,6 +887,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                     dragWindow.setVisible(true);
                 }
             } catch (IllegalComponentStateException e) {
+                // allowed empty
             }
         }
     }
@@ -917,6 +918,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
                 }
                 dragWindow.setOffset(null);
             } catch (IllegalComponentStateException e) {
+                // allowed empty
             }
         }
     }

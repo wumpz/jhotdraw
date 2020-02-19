@@ -6,18 +6,21 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg;
-import org.jhotdraw.draw.tool.BezierTool;
-import org.jhotdraw.draw.*;
+
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
+
 /**
  * Tool to scribble a ODGPath
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PathTool extends BezierTool {
+
     private static final long serialVersionUID = 1L;
     /**
      * Set this to true to turn on debugging output on System.out.
@@ -27,28 +30,39 @@ public class PathTool extends BezierTool {
      * The path prototype for new figures.
      */
     private SVGPathFigure pathPrototype;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype) {
         this(pathPrototype, bezierPrototype, null);
     }
-    /** Creates a new instance. */
-    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, Map<AttributeKey<?>,Object> attributes) {
+
+    /**
+     * Creates a new instance.
+     */
+    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, Map<AttributeKey<?>, Object> attributes) {
         super(bezierPrototype, attributes);
         this.pathPrototype = pathPrototype;
     }
+
     @SuppressWarnings("unchecked")
     protected SVGPathFigure createPath() {
         SVGPathFigure f = pathPrototype.clone();
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
             for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
         }
         return f;
     }
-    @Override protected void finishCreation(BezierFigure createdFigure, DrawingView creationView) {
-        if (DEBUG) System.out.println("PathTool.finishCreation "+createdFigure);
+
+    @Override
+    protected void finishCreation(BezierFigure createdFigure, DrawingView creationView) {
+        if (DEBUG) {
+            System.out.println("PathTool.finishCreation " + createdFigure);
+        }
         creationView.getDrawing().remove(createdFigure);
         SVGPathFigure createdPath = createPath();
         createdPath.removeAllChildren();

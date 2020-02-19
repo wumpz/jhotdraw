@@ -6,6 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.io;
+
 import java.awt.Color;
 import java.io.*;
 import java.util.*;
@@ -19,6 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 /**
  * ODGStylesReader reads an ODG &lt;document-styles&gt; element,
  * and creates a map of AttributeKey's and values.
@@ -28,8 +30,11 @@ import org.xml.sax.SAXException;
  * @version $Id$
  */
 public class ODGStylesReader {
+
     private static final boolean DEBUG = false;
+
     private static class Style extends HashMap<AttributeKey<?>, Object> {
+
         private static final long serialVersionUID = 1L;
         public String name;
         public String family;
@@ -66,12 +71,14 @@ public class ODGStylesReader {
      * way, a separation of content and layout is achieved.
      */
     private HashMap<String, Style> automaticStyles;
+
     /**
      * Creates a new instance.
      */
     public ODGStylesReader() {
         reset();
     }
+
     public Map<AttributeKey<?>, Object> getAttributes(String styleName, String familyName) {
         //String key = familyName+"-"+styleName;
         String key = styleName;
@@ -95,6 +102,7 @@ public class ODGStylesReader {
             return a;
         }
     }
+
     /**
      * Reads a &lt;document-styles&gt; element from the specified
      * XML file.
@@ -133,11 +141,13 @@ public class ODGStylesReader {
         }
         read(document);
     }
+
     private void reset() {
         commonStyles = new HashMap<String, Style>();
         automaticStyles = new HashMap<String, Style>();
         masterStyles = new HashMap<String, Style>();
     }
+
     /**
      * Reads a &lt;document-styles&gt; element from the specified
      * XML element.
@@ -159,6 +169,7 @@ public class ODGStylesReader {
             }
         }
     }
+
     /**
      * Reads a &lt;default-style&gt; element from the specified
      * XML element.
@@ -214,6 +225,7 @@ public class ODGStylesReader {
             }
         }
     }
+
     /**
      * Reads a &lt;document-content&gt; element from the specified
      * XML element.
@@ -241,6 +253,7 @@ public class ODGStylesReader {
             System.out.println("ODGStylesReader </" + elem.getLocalName() + ">");
         }
     }
+
     /**
      * Reads a &lt;document-styles&gt; element from the specified
      * XML element.
@@ -277,6 +290,7 @@ public class ODGStylesReader {
             System.out.println("ODGStylesReader </" + elem.getLocalName() + ">");
         }
     }
+
     /**
      * Reads a &lt;style:drawing-page-properties&gt; element from the specified
      * XML element.
@@ -289,6 +303,7 @@ public class ODGStylesReader {
             System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
+
     /**
      * Reads a &lt;style:graphic-properties&gt; element from the specified
      * XML element.
@@ -351,6 +366,7 @@ public class ODGStylesReader {
             // if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> child <"+child.getName()+" ...>...</>");
         }
     }
+
     /**
      * Reads a &lt;styles&gt; element from the specified
      * XML element.
@@ -408,6 +424,7 @@ public class ODGStylesReader {
             }
         }
     }
+
     /**
      * Reads a &lt;styles&gt; element from the specified
      * XML element.
@@ -420,6 +437,7 @@ public class ODGStylesReader {
     private void readStylesElement(Element elem) throws IOException {
         readStylesChildren(elem, commonStyles);
     }
+
     /**
      * Reads the children of a styles element.
      *
@@ -460,6 +478,7 @@ public class ODGStylesReader {
             }
         }
     }
+
     /**
      * Reads a &lt;automatic-styles&gt; element from the specified
      * XML element.
@@ -472,6 +491,7 @@ public class ODGStylesReader {
     private void readAutomaticStylesElement(Element elem) throws IOException {
         readStylesChildren(elem, automaticStyles);
     }
+
     /**
      * Reads a &lt;draw:layer-put&gt; element from the specified
      * XML element.
@@ -485,6 +505,7 @@ public class ODGStylesReader {
             System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
+
     /**
      * Reads a &lt;text:list-style&gt; element from the specified
      * XML element.
@@ -498,6 +519,7 @@ public class ODGStylesReader {
             System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
+
     /**
      * Reads a &lt;master-styles&gt; element from the specified
      * XML element.
@@ -510,6 +532,7 @@ public class ODGStylesReader {
     private void readMasterStylesElement(Element elem) throws IOException {
         readStylesChildren(elem, masterStyles);
     }
+
     /**
      * Reads a &lt;draw:marker&gt; element from the specified
      * XML element.
@@ -525,6 +548,7 @@ public class ODGStylesReader {
     private void readMarkerElement(Element elem, HashMap<String, Style> styles) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
+
     /**
      * Reads a &lt;style:master-page&gt; element from the specified
      * XML element.
@@ -538,6 +562,7 @@ public class ODGStylesReader {
             System.out.println("ODGStylesReader unsupported <" + elem.getLocalName() + "> element.");
         }
     }
+
     /**
      * Reads a &lt;style:page-layout&gt; element from the specified
      * XML element.
@@ -553,6 +578,7 @@ public class ODGStylesReader {
     private void readPageLayoutElement(Element elem, HashMap<String, Style> styles) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
+
     /**
      * Reads a &lt;style:paragraph-properties&gt; element from the specified
      * XML element.
@@ -569,6 +595,7 @@ public class ODGStylesReader {
     private void readParagraphPropertiesElement(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
+
     /**
      * Reads a &lt;style:text-properties&gt; element from the specified
      * XML element.
@@ -585,6 +612,7 @@ public class ODGStylesReader {
     private void readTextPropertiesElement(Element elem, HashMap<AttributeKey<?>, Object> a) throws IOException {
         //if (DEBUG) System.out.println("ODGStylesReader unsupported <"+elem.getName()+"> element.");
     }
+
     /**
      * Returns a value as a length.
      *
@@ -619,6 +647,7 @@ public class ODGStylesReader {
         }
         return Double.parseDouble(str) * scaleFactor;
     }
+
     /**
      * Reads a color style attribute.
      * &lt;define name="color"&gt;

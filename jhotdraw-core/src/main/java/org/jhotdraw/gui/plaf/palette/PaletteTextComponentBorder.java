@@ -27,8 +27,8 @@ import javax.swing.plaf.UIResource;
  */
 public class PaletteTextComponentBorder implements Border, UIResource {
 
-    private static final float[] enabledStops = new float[]{0f, 0.2f};
-    private static final Color[] enabledStopColors = new Color[]{new Color(0xc8c8c8), new Color(0xffffff)};
+    private static final float[] ENABLED_STOPS = new float[]{0f, 0.2f};
+    private static final Color[] ENABLED_STOP_COLORS = new Color[]{new Color(0xc8c8c8), new Color(0xffffff)};
 
     @Override
     public void paintBorder(Component c, Graphics gr, int x, int y, int width, int height) {
@@ -38,12 +38,12 @@ public class PaletteTextComponentBorder implements Border, UIResource {
         Color[] stopColors;
         if (!c.isEnabled()) {
             borderColor = 0x80a5a5a5;
-            stops = enabledStops;
-            stopColors = enabledStopColors;
+            stops = ENABLED_STOPS;
+            stopColors = ENABLED_STOP_COLORS;
         } else {
             borderColor = 0xffa5a5a5;
-            stops = enabledStops;
-            stopColors = enabledStopColors;
+            stops = ENABLED_STOPS;
+            stopColors = ENABLED_STOP_COLORS;
         }
         String segmentPosition = getSegmentPosition(c);
         if ("first".equals(segmentPosition) || "middle".equals(segmentPosition)) {

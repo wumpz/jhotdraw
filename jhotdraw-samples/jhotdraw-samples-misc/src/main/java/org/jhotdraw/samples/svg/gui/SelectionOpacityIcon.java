@@ -6,9 +6,11 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
+
 import java.awt.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
+
 /**
  * {@code SelectionOpacityIcon} visualizes an opacity attribute of the selected
  * {@code Figure}(s) in the active {@code DrawingView} of a {@code DrawingEditor}.
@@ -17,6 +19,7 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
+
     private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
@@ -24,7 +27,10 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
     private AttributeKey<Color> strokeColorKey;
     private Shape fillShape;
     private Shape strokeShape;
-    /** Creates a new instance.
+
+    /**
+     * Creates a new instance.
+     *
      * @param editor The drawing editor.
      * @param opacityKey The opacityKey of the default attribute
      * @param imageLocation the icon image
@@ -47,6 +53,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
         this.fillShape = fillShape;
         this.strokeShape = strokeShape;
     }
+
     public SelectionOpacityIcon(
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
@@ -63,6 +70,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
         this.fillShape = fillShape;
         this.strokeShape = strokeShape;
     }
+
     @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;

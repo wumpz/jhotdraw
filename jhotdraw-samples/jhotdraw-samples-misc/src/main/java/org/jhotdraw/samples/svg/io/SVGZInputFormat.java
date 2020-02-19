@@ -6,10 +6,12 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+
 import java.io.*;
 import java.util.zip.GZIPInputStream;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+
 /**
  * SVGZInputFormat supports reading of uncompressed and compressed SVG images.
  *
@@ -17,14 +19,20 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class SVGZInputFormat extends SVGInputFormat {
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SVGZInputFormat() {
     }
+
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter("Scalable Vector Graphics (SVG, SVGZ)", new String[] {"svg", "svgz"});
+        return new ExtensionFileFilter("Scalable Vector Graphics (SVG, SVGZ)", new String[]{"svg", "svgz"});
     }
-    @Override public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
+
+    @Override
+    public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         BufferedInputStream bin = (in instanceof BufferedInputStream) ? (BufferedInputStream) in : new BufferedInputStream(in);
         bin.mark(2);
         int magic = (bin.read() & 0xff) | ((bin.read() & 0xff) << 8);

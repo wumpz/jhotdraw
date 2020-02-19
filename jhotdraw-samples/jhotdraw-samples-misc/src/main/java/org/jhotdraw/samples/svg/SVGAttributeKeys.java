@@ -6,9 +6,11 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
+
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
+
 /**
  * SVGAttributeKeys.
  *
@@ -16,7 +18,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class SVGAttributeKeys extends AttributeKeys {
-     private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+
+    private static final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+
     public enum TextAnchor {
         START, MIDDLE, END
     }
@@ -51,17 +55,18 @@ public class SVGAttributeKeys extends AttributeKeys {
      * Specifies the text anchor of a SVGText figure.
      */
     public static final AttributeKey<TextAnchor> TEXT_ANCHOR = new AttributeKey<TextAnchor>("textAnchor", TextAnchor.class, TextAnchor.START, false, labels);
+
     public enum TextAlign {
         START, CENTER, END
     }
     /**
      * Specifies the text alignment of a SVGText figure.
      */
-    public static final AttributeKey<TextAlign> TEXT_ALIGN = new AttributeKey<TextAlign>("textAlign",TextAlign.class,TextAlign.START, false, labels);
+    public static final AttributeKey<TextAlign> TEXT_ALIGN = new AttributeKey<TextAlign>("textAlign", TextAlign.class, TextAlign.START, false, labels);
     /**
      * Specifies the fill gradient of a SVG figure.
      */
-    public static final AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient",Gradient.class, null, true, labels);
+    public static final AttributeKey<Gradient> FILL_GRADIENT = new AttributeKey<Gradient>("fillGradient", Gradient.class, null, true, labels);
     /**
      * Specifies the fill opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
@@ -71,7 +76,7 @@ public class SVGAttributeKeys extends AttributeKeys {
      * Specifies the overall opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity",Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> OPACITY = new AttributeKey<Double>("opacity", Double.class, 1d, false, labels);
     /**
      * Specifies the stroke gradient of a SVG figure.
      */
@@ -80,21 +85,22 @@ public class SVGAttributeKeys extends AttributeKeys {
      * Specifies the stroke opacity of a SVG figure.
      * This is a value between 0 and 1 whereas 0 is translucent and 1 is fully opaque.
      */
-    public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity",Double.class, 1d, false, labels);
+    public static final AttributeKey<Double> STROKE_OPACITY = new AttributeKey<Double>("strokeOpacity", Double.class, 1d, false, labels);
     /**
      * Specifies a link.
      * In an SVG file, the link is stored in a "a" element which encloses the
      * figure.
      * http://www.w3.org/TR/SVGMobile12/linking.html#AElement
      */
-    public static final AttributeKey<String> LINK = new AttributeKey<String>("link",String.class, null, true, labels);
+    public static final AttributeKey<String> LINK = new AttributeKey<String>("link", String.class, null, true, labels);
     /**
      * Specifies a link target.
      * In an SVG file, the link is stored in a "a" element which encloses the
      * figure.
      * http://www.w3.org/TR/SVGMobile12/linking.html#AElement
      */
-    public static final AttributeKey<String> LINK_TARGET = new AttributeKey<String>("linkTarget", String.class,null, true, labels);
+    public static final AttributeKey<String> LINK_TARGET = new AttributeKey<String>("linkTarget", String.class, null, true, labels);
+
     /**
      * Gets the fill paint for the specified figure based on the attributes
      * FILL_GRADIENT, FILL_OPACITY, FILL_PAINT and the bounds of the figure.
@@ -115,6 +121,7 @@ public class SVGAttributeKeys extends AttributeKeys {
         }
         return color;
     }
+
     /**
      * Gets the stroke paint for the specified figure based on the attributes
      * STROKE_GRADIENT, STROKE_OPACITY, STROKE_PAINT and the bounds of the figure.
@@ -135,7 +142,10 @@ public class SVGAttributeKeys extends AttributeKeys {
         }
         return color;
     }
-    /** Sets SVG default values. */
+
+    /**
+     * Sets SVG default values.
+     */
     public static void setDefaults(Figure f) {
         // Fill properties
         // http://www.w3.org/TR/SVGMobile12/painting.html#FillProperties
@@ -153,6 +163,7 @@ public class SVGAttributeKeys extends AttributeKeys {
         f.set(STROKE_DASH_PHASE, 0d);
         f.set(IS_STROKE_DASH_FACTOR, false);
     }
+
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to
      * make hit detections on a shape as specified by the FILL_UNDER_STROKE and STROKE_POSITION

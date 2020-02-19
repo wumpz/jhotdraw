@@ -6,15 +6,17 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.pert;
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.connector.LocatorConnector;
-import org.jhotdraw.draw.connector.ChopRectangleConnector;
-import org.jhotdraw.draw.decoration.ArrowTip;
+
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.ChopRectangleConnector;
+import org.jhotdraw.draw.connector.LocatorConnector;
+import org.jhotdraw.draw.decoration.ArrowTip;
+import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.samples.pert.figures.DependencyFigure;
 import org.jhotdraw.samples.pert.figures.SeparatorLineFigure;
 import org.jhotdraw.samples.pert.figures.TaskFigure;
 import org.jhotdraw.xml.*;
+
 /**
  * PertFactory.
  *
@@ -22,23 +24,27 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class PertFactory extends DefaultDOMFactory {
-    private static final Object[][] classTagArray = {
-        { DefaultDrawing.class, "PertDiagram" },
-        { TaskFigure.class, "task" },
-        { DependencyFigure.class, "dep" },
-        { ListFigure.class, "list" },
-        { TextFigure.class, "text" },
-        { GroupFigure.class, "g" },
-        { TextAreaFigure.class, "ta" },
-        { SeparatorLineFigure.class, "separator" },
-        { ChopRectangleConnector.class, "rectConnector" },
-        { LocatorConnector.class, "locConnector" },
-        { RelativeLocator.class, "relativeLocator" },
-        { ArrowTip.class, "arrowTip" }
+
+    private static final Object[][] CLASS_TAGS = {
+        {DefaultDrawing.class, "PertDiagram"},
+        {TaskFigure.class, "task"},
+        {DependencyFigure.class, "dep"},
+        {ListFigure.class, "list"},
+        {TextFigure.class, "text"},
+        {GroupFigure.class, "g"},
+        {TextAreaFigure.class, "ta"},
+        {SeparatorLineFigure.class, "separator"},
+        {ChopRectangleConnector.class, "rectConnector"},
+        {LocatorConnector.class, "locConnector"},
+        {RelativeLocator.class, "relativeLocator"},
+        {ArrowTip.class, "arrowTip"}
     };
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public PertFactory() {
-        for (Object[] o : classTagArray) {
+        for (Object[] o : CLASS_TAGS) {
             addStorableClass((String) o[1], (Class) o[0]);
         }
     }

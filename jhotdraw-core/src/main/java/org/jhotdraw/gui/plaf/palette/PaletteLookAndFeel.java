@@ -264,7 +264,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "ColorChooser.defaultChoosers", new String[]{
                 "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteSwatchesChooser",
                 "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorWheelChooser",
-                "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorSlidersChooser",},
+                "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorSlidersChooser"},
             "ColorChooser.textSliderGap", 3,
             // *** FormattedTextField
             "FormattedTextField.font", fieldPlain12,

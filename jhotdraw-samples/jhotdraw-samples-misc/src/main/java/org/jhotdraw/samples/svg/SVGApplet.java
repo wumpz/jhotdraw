@@ -6,14 +6,8 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.io.BoundedRangeInputStream;
+
 import java.applet.AppletContext;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -22,12 +16,20 @@ import java.net.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.io.BoundedRangeInputStream;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.gui.MessagePanel;
 import org.jhotdraw.samples.svg.gui.ProgressIndicator;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
+import org.jhotdraw.util.*;
+
 /**
  * This is the base class for concrete implementations of SVG drawing
  * applets.
@@ -46,6 +48,7 @@ import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
  * @version $Id$
  */
 public class SVGApplet extends JApplet {
+
     private static final long serialVersionUID = 1L;
     private SVGDrawingPanel drawingComponent;
     /**
@@ -53,6 +56,7 @@ public class SVGApplet extends JApplet {
      */
     private String version;
     private long start;
+
     public SVGApplet() {
         setBackground(Color.WHITE);
         start = System.currentTimeMillis();
@@ -60,6 +64,7 @@ public class SVGApplet extends JApplet {
         ((JComponent) getContentPane()).setBorder(new MatteBorder(new Insets(1, 1, 1, 1), new Color(0xa5a5a5)));
         //ResourceBundleUtil.setVerbose(true);
     }
+
     /**
      * Same as <code>Applet.getParameter()</code> but doesn't throw a
      * NullPointerException when used without an Applet context.
@@ -72,6 +77,7 @@ public class SVGApplet extends JApplet {
             return null;
         }
     }
+
     /**
      * Same as <code>Applet.getParameter()</code> but doesn't throw a
      * NullPointerException when used without an Applet context.
@@ -84,6 +90,7 @@ public class SVGApplet extends JApplet {
             return defaultValue;
         }
     }
+
     /**
      * Displays a progress indicator and then invokes <code>loadDrawing</code>
      * on a worker thread. Displays the drawing panel when done successfully.
@@ -141,6 +148,7 @@ public class SVGApplet extends JApplet {
                 t.join();
                 return drawing;
             }
+
             @Override
             protected void done(Drawing result) {
                 Container c = getContentPane();
@@ -149,10 +157,11 @@ public class SVGApplet extends JApplet {
                 c.add(drawingComponent.getComponent());
                 initComponents();
                 if (result != null) {
-                        setDrawing(result);
+                    setDrawing(result);
                 }
                 drawingComponent.revalidate();
             }
+
             @Override
             protected void failed(Throwable result) {
                 Container c = getContentPane();
@@ -175,6 +184,7 @@ public class SVGApplet extends JApplet {
                 });
                 mp.revalidate();
             }
+
             @Override
             protected void finished() {
                 long end = System.currentTimeMillis();
@@ -182,18 +192,21 @@ public class SVGApplet extends JApplet {
             }
         }.start();
     }
+
     /**
      * Sets the drawing on the drawing panel.
      */
     private void setDrawing(Drawing d) {
         drawingComponent.setDrawing(d);
     }
+
     /**
      * Gets the drawing from the drawing panel.
      */
     private Drawing getDrawing() {
         return drawingComponent.getDrawing();
     }
+
     /**
      * Gets the version of the applet.
      */
@@ -220,6 +233,7 @@ public class SVGApplet extends JApplet {
         }
         return version;
     }
+
     /**
      * Returns information about the applet.
      */
@@ -231,6 +245,7 @@ public class SVGApplet extends JApplet {
                 + "\nThis software is licensed under LGPL or"
                 + "\nCreative Commons 2.5 BY";
     }
+
     /**
      * Creates the drawing.
      */
@@ -248,6 +263,7 @@ public class SVGApplet extends JApplet {
         drawing.addOutputFormat(new ImageOutputFormat("BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
         return drawing;
     }
+
     /**
      * Creates the drawing component.
      */
@@ -256,15 +272,18 @@ public class SVGApplet extends JApplet {
         p.setEditor(new DefaultDrawingEditor());
         return p;
     }
+
     protected SVGDrawingPanel getDrawingComponent() {
         return drawingComponent;
     }
+
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
-                    {"data", "String", "the data to be displayed by this applet."},
-                    {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."}};
+            {"data", "String", "the data to be displayed by this applet."},
+            {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."}};
     }
+
     /**
      * Loads the drawing.
      * By convention this method is invoked on a worker thread.
@@ -330,6 +349,7 @@ public class SVGApplet extends JApplet {
         }
         return drawing;
     }
+
     /**
      * Closes the applet. This method can be implemented by invoking
      * <code>getAppletContext().showDocument(...)</code>.
@@ -351,8 +371,10 @@ public class SVGApplet extends JApplet {
             }
         }
     }
+
     /**
      * Escapes all '<', '>' and '&' characters in a string.
+     *
      * @param str A String.
      * @return HTMlEncoded String.
      */
@@ -380,6 +402,7 @@ public class SVGApplet extends JApplet {
             return buf.toString();
         }
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -395,7 +418,9 @@ public class SVGApplet extends JApplet {
             }
         });
     }
-    /** This method is called from within the init() method to
+
+    /**
+     * This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

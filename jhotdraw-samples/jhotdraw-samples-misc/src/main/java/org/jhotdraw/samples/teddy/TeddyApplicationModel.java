@@ -6,16 +6,18 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy;
-import org.jhotdraw.app.action.file.PrintFileAction;
+
+import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
-import java.util.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.samples.teddy.action.FindAction;
 import org.jhotdraw.samples.teddy.action.ToggleLineNumbersAction;
 import org.jhotdraw.samples.teddy.action.ToggleLineWrapAction;
 import org.jhotdraw.samples.teddy.action.ToggleStatusBarAction;
+
 /**
  * Provides meta-data and factory methods for an application.
  * <p>
@@ -25,10 +27,15 @@ import org.jhotdraw.samples.teddy.action.ToggleStatusBarAction;
  * @version $Id$
  */
 public class TeddyApplicationModel extends DefaultApplicationModel {
+
     private static final long serialVersionUID = 1L;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public TeddyApplicationModel() {
     }
+
     @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
@@ -40,10 +47,14 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
         m.put(PrintFileAction.ID, null);
         return m;
     }
+
     @Override
     public void initView(Application a, View v) {
     }
-    /** Creates the MenuBuilder. */
+
+    /**
+     * Creates the MenuBuilder.
+     */
     @Override
     protected MenuBuilder createMenuBuilder() {
         return new DefaultMenuBuilder() {
@@ -63,6 +74,7 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
             }
         };
     }
+
     /**
      * Creates toolbars for the application.
      * This class returns an empty list - we don't want toolbars in a text editor.
@@ -71,12 +83,14 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
     public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
     }
+
     @Override
     public JFileURIChooser createOpenChooser(Application app, View p) {
         JFileURIChooser chooser = new JFileURIChooser();
         chooser.setAccessory(new CharacterSetAccessory());
         return chooser;
     }
+
     @Override
     public JFileURIChooser createSaveChooser(Application app, View p) {
         JFileURIChooser chooser = new JFileURIChooser();

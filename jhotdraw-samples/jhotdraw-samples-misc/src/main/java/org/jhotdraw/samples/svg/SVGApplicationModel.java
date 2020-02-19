@@ -6,16 +6,17 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw.app.*;
+import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.InputFormat;
@@ -26,6 +27,7 @@ import org.jhotdraw.samples.svg.action.CombineAction;
 import org.jhotdraw.samples.svg.action.SplitAction;
 import org.jhotdraw.samples.svg.action.ViewSourceAction;
 import org.jhotdraw.samples.svg.figures.SVGGroupFigure;
+
 /**
  * Provides meta-data and factory methods for an application.
  * <p>
@@ -35,10 +37,15 @@ import org.jhotdraw.samples.svg.figures.SVGGroupFigure;
  * @version $Id$
  */
 public class SVGApplicationModel extends DefaultApplicationModel {
+
     private static final long serialVersionUID = 1L;
-    /** Client property on the URIFileChooser. */
+    /**
+     * Client property on the URIFileChooser.
+     */
     public static final String INPUT_FORMAT_MAP_CLIENT_PROPERTY = "InputFormatMap";
-    /** Client property on the URIFileChooser. */
+    /**
+     * Client property on the URIFileChooser.
+     */
     public static final String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY = "OutputFormatMap";
     private static final double[] scaleFactors = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     private GridConstrainer gridConstrainer;
@@ -46,36 +53,42 @@ public class SVGApplicationModel extends DefaultApplicationModel {
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SVGApplicationModel() {
         gridConstrainer = new GridConstrainer(12, 12);
     }
+
     public DefaultDrawingEditor getSharedEditor() {
         if (sharedEditor == null) {
             sharedEditor = new DefaultDrawingEditor();
         }
         return sharedEditor;
     }
+
     @Override
     public void initView(Application a, View view) {
         SVGView v = (SVGView) view;
         DrawingEditor editor;
         if (a.isSharingToolsAmongViews()) {
-            v.setEditor(editor=getSharedEditor());
+            v.setEditor(editor = getSharedEditor());
         } else {
-            v.setEditor(editor=new DefaultDrawingEditor());
+            v.setEditor(editor = new DefaultDrawingEditor());
         }
         AbstractSelectedAction action;
-        ActionMap m =view.getActionMap();
-        m.put(SelectSameAction.ID,new SelectSameAction(editor));
-        m.put(GroupAction.ID,new GroupAction(editor, new SVGGroupFigure()));
-        m.put(UngroupAction.ID,new UngroupAction(editor, new SVGGroupFigure()));
-        m.put(CombineAction.ID,new CombineAction(editor));
-        m.put(SplitAction.ID,new SplitAction(editor));
-        m.put(BringToFrontAction.ID,new BringToFrontAction(editor));
-        m.put(SendToBackAction.ID,new SendToBackAction(editor));
+        ActionMap m = view.getActionMap();
+        m.put(SelectSameAction.ID, new SelectSameAction(editor));
+        m.put(GroupAction.ID, new GroupAction(editor, new SVGGroupFigure()));
+        m.put(UngroupAction.ID, new UngroupAction(editor, new SVGGroupFigure()));
+        m.put(CombineAction.ID, new CombineAction(editor));
+        m.put(SplitAction.ID, new SplitAction(editor));
+        m.put(BringToFrontAction.ID, new BringToFrontAction(editor));
+        m.put(SendToBackAction.ID, new SendToBackAction(editor));
         //view.addDisposable(action);
     }
+
     @Override
     public ActionMap createActionMap(Application a, View view) {
         SVGView v = (SVGView) view;
@@ -91,20 +104,23 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         }
         DrawingEditor editor;
         if (a.isSharingToolsAmongViews()) {
-            editor=getSharedEditor();
+            editor = getSharedEditor();
         } else {
-           editor = (v == null) ? null : v.getEditor();
+            editor = (v == null) ? null : v.getEditor();
         }
-        m.put(SelectSameAction.ID,new SelectSameAction(editor));
-        m.put(GroupAction.ID,new GroupAction(editor, new SVGGroupFigure()));
-        m.put(UngroupAction.ID,new UngroupAction(editor, new SVGGroupFigure()));
-        m.put(CombineAction.ID,new CombineAction(editor));
-        m.put(SplitAction.ID,new SplitAction(editor));
-        m.put(BringToFrontAction.ID,new BringToFrontAction(editor));
-        m.put(SendToBackAction.ID,new SendToBackAction(editor));
+        m.put(SelectSameAction.ID, new SelectSameAction(editor));
+        m.put(GroupAction.ID, new GroupAction(editor, new SVGGroupFigure()));
+        m.put(UngroupAction.ID, new UngroupAction(editor, new SVGGroupFigure()));
+        m.put(CombineAction.ID, new CombineAction(editor));
+        m.put(SplitAction.ID, new SplitAction(editor));
+        m.put(BringToFrontAction.ID, new BringToFrontAction(editor));
+        m.put(SendToBackAction.ID, new SendToBackAction(editor));
         return m;
     }
-    /** Creates the MenuBuilder. */
+
+    /**
+     * Creates the MenuBuilder.
+     */
     @Override
     protected MenuBuilder createMenuBuilder() {
         return new DefaultMenuBuilder() {
@@ -114,6 +130,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
                 super.addSelectionItems(m, app, v);
                 m.add(am.get(SelectSameAction.ID));
             }
+
             @Override
             public void addOtherEditItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
@@ -125,6 +142,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
                 m.add(am.get(BringToFrontAction.ID));
                 m.add(am.get(SendToBackAction.ID));
             }
+
             @Override
             public void addOtherViewItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
@@ -132,6 +150,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             }
         };
     }
+
     /**
      * Overriden to create no toolbars.
      *
@@ -144,11 +163,12 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         LinkedList<JToolBar> list = new LinkedList<JToolBar>();
         return list;
     }
+
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         final JFileURIChooser c = new JFileURIChooser();
-        final HashMap<FileFilter, InputFormat> fileFilterInputFormatMap =
-                new HashMap<FileFilter, InputFormat>();
+        final HashMap<FileFilter, InputFormat> fileFilterInputFormatMap
+                = new HashMap<FileFilter, InputFormat>();
         c.putClientProperty(INPUT_FORMAT_MAP_CLIENT_PROPERTY, fileFilterInputFormatMap);
         javax.swing.filechooser.FileFilter firstFF = null;
         if (v == null) {
@@ -178,11 +198,12 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         });
         return c;
     }
+
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
-                new HashMap<FileFilter, OutputFormat>();
+        final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap
+                = new HashMap<FileFilter, OutputFormat>();
         c.putClientProperty(OUTPUT_FORMAT_MAP_CLIENT_PROPERTY, fileFilterOutputFormatMap);
         if (v == null) {
             v = new SVGView();
@@ -196,11 +217,12 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         }
         return c;
     }
+
     @Override
     public URIChooser createExportChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap =
-                new HashMap<FileFilter, OutputFormat>();
+        final HashMap<FileFilter, OutputFormat> fileFilterOutputFormatMap
+                = new HashMap<FileFilter, OutputFormat>();
         c.putClientProperty("ffOutputFormatMap", fileFilterOutputFormatMap);
         if (v == null) {
             v = new SVGView();

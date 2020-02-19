@@ -6,8 +6,10 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy;
+
 import javax.swing.*;
 import javax.swing.text.*;
+
 /**
  * A happy marriage between JTextArea and JEditorPane.
  *
@@ -15,21 +17,27 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class JEditorArea extends JEditorPane {
+
     private static final long serialVersionUID = 1L;
     private boolean wrap;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public JEditorArea() {
         setEditorKit(new StyledEditorKit());
         initComponents();
     }
+
     public StyledEditorKit getStyledEditorKit() {
         return (StyledEditorKit) getEditorKit();
     }
+
     /**
-     * Sets the line-wrapping policy of the text area.  If set
+     * Sets the line-wrapping policy of the text area. If set
      * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width.  If set to false,
-     * the lines will always be unwrapped.  A {@code PropertyChange}
+     * to fit within the allocated width. If set to false,
+     * the lines will always be unwrapped. A {@code PropertyChange}
      * event ("lineWrap") is fired when the policy is changed.
      * By default this property is false.
      *
@@ -39,15 +47,16 @@ public class JEditorArea extends JEditorPane {
     public void setLineWrap(boolean newValue) {
         boolean oldValue = wrap;
         if (oldValue != newValue) {
-        this.wrap = newValue;
-        firePropertyChange("lineWrap", oldValue, newValue);
-        rebuildView();
+            this.wrap = newValue;
+            firePropertyChange("lineWrap", oldValue, newValue);
+            rebuildView();
         }
     }
+
     /**
-     * Gets the line-wrapping policy of the text area.  If set
+     * Gets the line-wrapping policy of the text area. If set
      * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width.  If set to false,
+     * to fit within the allocated width. If set to false,
      * the lines will always be unwrapped.
      *
      * @return if lines will be wrapped
@@ -55,9 +64,10 @@ public class JEditorArea extends JEditorPane {
     public boolean getLineWrap() {
         return wrap;
     }
+
     /**
      * Returns true if a viewport should always force the width of this
-     * Scrollable to match the width of the viewport.  This is implemented
+     * Scrollable to match the width of the viewport. This is implemented
      * to return true if the line wrapping policy is true, and false
      * if lines are not being wrapped.
      *
@@ -68,13 +78,15 @@ public class JEditorArea extends JEditorPane {
     public boolean getScrollableTracksViewportWidth() {
         return wrap;
     }
+
     public void rebuildView() {
         revalidate();
         repaint();
     }
+
     /**
      * Replaces text from the indicated start to end position with the
-     * new text specified.  Does nothing if the model is null.  Simply
+     * new text specified. Does nothing if the model is null. Simply
      * does a delete if the new string is null or empty.
      * <p>
      * This method is thread safe, although most Swing methods
@@ -85,10 +97,10 @@ public class JEditorArea extends JEditorPane {
      * @param str the text to use as the replacement
      * @param start the start position &gt;= 0
      * @param end the end position &gt;= start
-     * @exception IllegalArgumentException  if part of the range is an
-     *  invalid position in the model
+     * @exception IllegalArgumentException if part of the range is an
+     * invalid position in the model
      */
-     public void replaceRange(String str, int start, int end) {
+    public void replaceRange(String str, int start, int end) {
         if (end < start) {
             throw new IllegalArgumentException("end before start");
         }
@@ -96,10 +108,9 @@ public class JEditorArea extends JEditorPane {
         if (doc != null) {
             try {
                 if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(start, end - start, str,
-                                                    null);
-                }
-                else {
+                    ((AbstractDocument) doc).replace(start, end - start, str,
+                            null);
+                } else {
                     doc.remove(start, end - start);
                     doc.insertString(start, str, null);
                 }
@@ -108,6 +119,7 @@ public class JEditorArea extends JEditorPane {
             }
         }
     }
+
     /**
      * Translates an offset into the components text to a
      * line number.
@@ -115,23 +127,24 @@ public class JEditorArea extends JEditorPane {
      * @param offset the offset &gt;= 0
      * @return the line number &gt;= 0
      * @exception BadLocationException thrown if the offset is
-     *   less than zero or greater than the document length.
+     * less than zero or greater than the document length.
      */
     public int getLineOfOffset(int offset) throws BadLocationException {
         Document doc = getDocument();
         if (offset < 0) {
             throw new BadLocationException("Can't translate offset to line", -1);
         } else if (offset > doc.getLength()) {
-            throw new BadLocationException("Can't translate offset to line", doc.getLength()+1);
+            throw new BadLocationException("Can't translate offset to line", doc.getLength() + 1);
         } else {
             Element map = getDocument().getDefaultRootElement();
             return map.getElementIndex(offset);
         }
     }
+
     /**
      * Determines the offset of the start of the given line.
      *
-     * @param line  the line number to translate &gt;= 0
+     * @param line the line number to translate &gt;= 0
      * @return the offset &gt;= 0
      * @exception BadLocationException thrown if the line is
      * less than zero or greater or equal to the number of
@@ -146,13 +159,15 @@ public class JEditorArea extends JEditorPane {
         if (line < 0) {
             throw new BadLocationException("Negative line", -1);
         } else if (line >= lineCount) {
-            throw new BadLocationException("No such line", doc.getLength()+1);
+            throw new BadLocationException("No such line", doc.getLength() + 1);
         } else {
             Element lineElem = map.getElement(line);
             return lineElem.getStartOffset();
         }
     }
-     /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

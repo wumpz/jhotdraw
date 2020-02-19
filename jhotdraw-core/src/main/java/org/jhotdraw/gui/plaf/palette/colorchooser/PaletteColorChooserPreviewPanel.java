@@ -21,8 +21,8 @@ import javax.swing.plaf.*;
 public class PaletteColorChooserPreviewPanel extends JPanel implements UIResource {
 
     private static final long serialVersionUID = 1L;
-    private static final Color previewBorderColor = new Color(0x949494);
-    private static final Color previewBackgroundColor = new Color(0xffffff);
+    private static final Color PREVIEW_BORDER_COLOR = new Color(0x949494);
+    private static final Color PREVIEW_BACKGROUND_COLOR = new Color(0xffffff);
 
     /**
      * Creates new form.
@@ -40,9 +40,9 @@ public class PaletteColorChooserPreviewPanel extends JPanel implements UIResourc
         int y = insets.top;
         int w = getWidth() - insets.left - insets.right;
         int h = getHeight() - insets.top - insets.bottom;
-        g.setColor(previewBackgroundColor);
+        g.setColor(PREVIEW_BACKGROUND_COLOR);
         g.fillRect(x + 1, y + 1, w - 2, h - 2);
-        g.setColor(previewBorderColor);
+        g.setColor(PREVIEW_BORDER_COLOR);
         g.drawRect(x, y, w - 1, h - 1);
         g.setColor(getForeground());
         g.fillRect(x + 2, y + 2, w - 4, h - 4);

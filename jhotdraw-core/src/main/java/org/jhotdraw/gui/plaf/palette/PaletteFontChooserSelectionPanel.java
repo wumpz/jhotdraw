@@ -85,10 +85,10 @@ public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
         collectionsPanel.setPreferredSize(new java.awt.Dimension(80, 200));
         collectionsPanel.setLayout(new java.awt.BorderLayout());
         collectionsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        collectionList.setFont(collectionList.getFont().deriveFont((float)11));
+        collectionList.setFont(collectionList.getFont().deriveFont((float) 11));
         collectionsScrollPane.setViewportView(collectionList);
         collectionsPanel.add(collectionsScrollPane, java.awt.BorderLayout.CENTER);
-        collectionsLabel.setFont(collectionsLabel.getFont().deriveFont((float)11));
+        collectionsLabel.setFont(collectionsLabel.getFont().deriveFont((float) 11));
         collectionsLabel.setText(labels.getString("FontCollection.collections")); // NOI18N
         collectionsPanel.add(collectionsLabel, java.awt.BorderLayout.PAGE_START);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -99,10 +99,10 @@ public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
         familiesPanel.setPreferredSize(new java.awt.Dimension(140, 200));
         familiesPanel.setLayout(new java.awt.BorderLayout());
         familiesScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        familyList.setFont(familyList.getFont().deriveFont((float)11));
+        familyList.setFont(familyList.getFont().deriveFont((float) 11));
         familiesScrollPane.setViewportView(familyList);
         familiesPanel.add(familiesScrollPane, java.awt.BorderLayout.CENTER);
-        familyLabel.setFont(familyLabel.getFont().deriveFont((float)11));
+        familyLabel.setFont(familyLabel.getFont().deriveFont((float) 11));
         familyLabel.setText(labels.getString("FontCollection.family")); // NOI18N
         familiesPanel.add(familyLabel, java.awt.BorderLayout.PAGE_START);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -115,10 +115,10 @@ public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
         facesPanel.setLayout(new java.awt.BorderLayout());
         facesScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         facesScrollPane.setPreferredSize(new java.awt.Dimension(130, 240));
-        faceList.setFont(faceList.getFont().deriveFont((float)11));
+        faceList.setFont(faceList.getFont().deriveFont((float) 11));
         facesScrollPane.setViewportView(faceList);
         facesPanel.add(facesScrollPane, java.awt.BorderLayout.CENTER);
-        faceLabel.setFont(faceLabel.getFont().deriveFont((float)11));
+        faceLabel.setFont(faceLabel.getFont().deriveFont((float) 11));
         faceLabel.setText(labels.getString("FontCollection.typeface")); // NOI18N
         facesPanel.add(faceLabel, java.awt.BorderLayout.PAGE_START);
         gridBagConstraints = new java.awt.GridBagConstraints();

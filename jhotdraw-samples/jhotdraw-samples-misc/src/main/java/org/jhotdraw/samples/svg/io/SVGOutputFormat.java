@@ -6,6 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
+
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
@@ -48,6 +49,7 @@ import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 /**
  * An output format for storing drawings as
  * Scalable Vector Graphics SVG Tiny 1.2.
@@ -56,6 +58,7 @@ import org.w3c.dom.Element;
  * @version $Id$
  */
 public class SVGOutputFormat implements OutputFormat {
+
     /**
      * This is a counter used to create the next unique identification.
      */
@@ -83,6 +86,7 @@ public class SVGOutputFormat implements OutputFormat {
      */
     private boolean isPrettyPrint;
     private static final HashMap<Integer, String> strokeLinejoinMap;
+
     static {
         strokeLinejoinMap = new HashMap<Integer, String>();
         strokeLinejoinMap.put(BasicStroke.JOIN_MITER, "miter");
@@ -90,6 +94,7 @@ public class SVGOutputFormat implements OutputFormat {
         strokeLinejoinMap.put(BasicStroke.JOIN_BEVEL, "bevel");
     }
     private static final HashMap<Integer, String> strokeLinecapMap;
+
     static {
         strokeLinecapMap = new HashMap<Integer, String>();
         strokeLinecapMap.put(BasicStroke.CAP_BUTT, "butt");
@@ -103,23 +108,29 @@ public class SVGOutputFormat implements OutputFormat {
      * less storage space.
      */
     private static final boolean isFloatPrecision = true;
+
     /**
      * Creates a new instance.
      */
     public SVGOutputFormat() {
     }
+
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
+
     public JComponent getOutputFormatAccessory() {
         return null;
     }
+
     public void setPrettyPrint(boolean newValue) {
         isPrettyPrint = newValue;
     }
+
     public boolean isPrettyPrint() {
         return isPrettyPrint;
     }
+
     protected void writeElement(Element parent, Figure f) throws IOException {
         // Write link attribute as encosing "a" element
         if (f.get(LINK) != null && f.get(LINK).trim().length() > 0) {
@@ -180,6 +191,7 @@ public class SVGOutputFormat implements OutputFormat {
             System.out.println("Unable to write: " + f);
         }
     }
+
     protected void writeCircleElement(Element parent, SVGEllipseFigure f) throws IOException {
         parent.appendChild(
                 createCircle(
@@ -189,6 +201,7 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getWidth() / 2d,
                         f.getAttributes()));
     }
+
     protected Element createCircle(Element doc,
             double cx, double cy, double r,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -201,12 +214,14 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected Element createG(Element doc,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
         Element elem = doc.getOwnerDocument().createElement("g");
         writeOpacityAttribute(elem, attributes);
         return elem;
     }
+
     protected Element createLinearGradient(Element doc,
             double x1, double y1, double x2, double y2,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
@@ -230,6 +245,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return elem;
     }
+
     protected Element createRadialGradient(Element doc,
             double cx, double cy, double fx, double fy, double r,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
@@ -254,6 +270,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return elem;
     }
+
     protected void writeEllipseElement(Element parent, SVGEllipseFigure f) throws IOException {
         parent.appendChild(createEllipse(
                 document,
@@ -263,6 +280,7 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getHeight() / 2d,
                 f.getAttributes()));
     }
+
     protected Element createEllipse(Element doc,
             double cx, double cy, double rx, double ry,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -276,6 +294,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writeGElement(Element parent, SVGGroupFigure f) throws IOException {
         Element elem = createG(document, f.getAttributes());
         for (Figure child : f.getChildren()) {
@@ -283,6 +302,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         parent.appendChild(elem);
     }
+
     protected void writeImageElement(Element parent, SVGImageFigure f) throws IOException {
         parent.appendChild(
                 createImage(document,
@@ -293,6 +313,7 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getImageData(),
                         f.getAttributes()));
     }
+
     protected Element createImage(Element doc,
             double x, double y, double w, double h,
             byte[] imageData,
@@ -307,6 +328,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writePathElement(Element parent, SVGPathFigure f) throws IOException {
         BezierPath[] beziers = new BezierPath[f.getChildCount()];
         for (int i = 0; i < beziers.length; i++) {
@@ -317,6 +339,7 @@ public class SVGOutputFormat implements OutputFormat {
                 beziers,
                 f.getAttributes()));
     }
+
     protected Element createPath(Element doc,
             BezierPath[] beziers,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -327,6 +350,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeAttribute(elem, "d", toPath(beziers), null);
         return elem;
     }
+
     protected void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
@@ -340,6 +364,7 @@ public class SVGOutputFormat implements OutputFormat {
                 points.toArray(new Point2D.Double[points.size()]),
                 f.getAttributes()));
     }
+
     protected Element createPolygon(Element doc,
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes)
@@ -351,6 +376,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
@@ -364,6 +390,7 @@ public class SVGOutputFormat implements OutputFormat {
                 points.toArray(new Point2D.Double[points.size()]),
                 f.getAttributes()));
     }
+
     protected Element createPolyline(Element doc,
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -374,6 +401,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writeLineElement(Element parent, SVGPathFigure f)
             throws IOException {
         BezierFigure bezier = (BezierFigure) f.getChild(0);
@@ -385,6 +413,7 @@ public class SVGOutputFormat implements OutputFormat {
                 bezier.getNode(1).y[0],
                 f.getAttributes()));
     }
+
     protected Element createLine(Element doc,
             double x1, double y1, double x2, double y2,
             Map<AttributeKey<?>, Object> attributes) throws IOException {
@@ -398,6 +427,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writeRectElement(Element parent, SVGRectFigure f) throws IOException {
         parent.appendChild(
                 createRect(
@@ -410,6 +440,7 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getArcHeight(),
                         f.getAttributes()));
     }
+
     protected Element createRect(Element doc,
             double x, double y, double width, double height,
             double rx, double ry,
@@ -427,6 +458,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeTransformAttribute(elem, attributes);
         return elem;
     }
+
     protected void writeTextElement(Element parent, SVGTextFigure f) throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
         try {
@@ -444,6 +476,7 @@ public class SVGOutputFormat implements OutputFormat {
                         styledDoc,
                         f.getAttributes()));
     }
+
     protected Element createText(Element doc,
             Point2D.Double[] coordinates, double[] rotate,
             StyledDocument text,
@@ -486,6 +519,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeFontAttributes(elem, attributes);
         return elem;
     }
+
     protected void writeTextAreaElement(Element parent, SVGTextAreaFigure f)
             throws IOException {
         DefaultStyledDocument styledDoc = new DefaultStyledDocument();
@@ -504,6 +538,7 @@ public class SVGOutputFormat implements OutputFormat {
                         styledDoc,
                         f.getAttributes()));
     }
+
     protected Element createTextArea(Element doc,
             double x, double y, double w, double h,
             StyledDocument text,
@@ -537,6 +572,7 @@ public class SVGOutputFormat implements OutputFormat {
         writeFontAttributes(elem, attributes);
         return elem;
     }
+
     // ------------
     // Attributes
     // ------------
@@ -765,6 +801,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Computed value:    Specified value, except inherit
         writeAttribute(elem, "stroke-width", STROKE_WIDTH.get(m), 1d);
     }
+
     /* Writes the opacity attribute.
      */
     protected void writeOpacityAttribute(Element elem, Map<AttributeKey<?>, Object> m)
@@ -785,6 +822,7 @@ public class SVGOutputFormat implements OutputFormat {
         //(See Clamping values which are restricted to a particular range.)
         writeAttribute(elem, "opacity", OPACITY.get(m), 1d);
     }
+
     /* Writes the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      *
@@ -796,6 +834,7 @@ public class SVGOutputFormat implements OutputFormat {
             writeAttribute(elem, "transform", toTransform(t), "none");
         }
     }
+
     /* Writes font attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
@@ -871,6 +910,7 @@ public class SVGOutputFormat implements OutputFormat {
         //Animatable:   yes
         writeAttribute(elem, "text-decoration", (FONT_UNDERLINE.get(a)) ? "underline" : "none", "none");
     }
+
     /* Writes viewport attributes.
      */
     private void writeViewportAttributes(Element elem, Map<AttributeKey<?>, Object> a)
@@ -904,22 +944,27 @@ public class SVGOutputFormat implements OutputFormat {
         //Computed value:    Specified value, except inherit
         writeAttribute(elem, "viewport-fill-opacity", VIEWPORT_FILL_OPACITY.get(a), 1.0);
     }
+
     protected void writeAttribute(Element elem, String name, String value, String defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
+
     protected void writeAttribute(Element elem, String name, String namespace, String value, String defaultValue) {
         if (!value.equals(defaultValue)) {
             elem.setAttribute(name, value);
         }
     }
+
     protected void writeAttribute(Element elem, String name, double value, double defaultValue) {
         writeAttribute(elem, name, SVG_NAMESPACE, value, defaultValue);
     }
+
     protected void writeAttribute(Element elem, String name, String namespace, double value, double defaultValue) {
         if (value != defaultValue) {
             elem.setAttribute(name, toNumber(value));
         }
     }
+
     /**
      * Returns a value as a SVG Path attribute.
      * as specified in http://www.w3.org/TR/SVGMobile12/paths.html#PathDataBNF
@@ -1087,6 +1132,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return buf.toString();
     }
+
     /**
      * Returns a double array as a number attribute value.
      */
@@ -1097,6 +1143,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return str;
     }
+
     /**
      * Returns a Point2D.Double array as a Points attribute value.
      * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
@@ -1113,6 +1160,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return buf.toString();
     }
+
     /* Converts an AffineTransform into an SVG transform attribute value as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
@@ -1190,6 +1238,7 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return buf.toString();
     }
+
     public static String toColor(Color color) {
         if (color == null) {
             return "none";
@@ -1204,14 +1253,17 @@ public class SVGOutputFormat implements OutputFormat {
         }
         return value;
     }
+
     @Override
     public String getFileExtension() {
         return "svg";
     }
+
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri), drawing);
     }
+
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(
                 new FileOutputStream(file));
@@ -1221,10 +1273,12 @@ public class SVGOutputFormat implements OutputFormat {
             out.close();
         }
     }
+
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing, drawing.getChildren());
     }
+
     /**
      * All other write methods delegate their work to here.
      */
@@ -1267,10 +1321,12 @@ public class SVGOutputFormat implements OutputFormat {
         // Flush writer
         writer.flush();
     }
+
     private void initStorageContext(Element root) {
         identifiedElements = new HashMap<Element, String>();
         gradientToIDMap = new HashMap<Gradient, String>();
     }
+
     /**
      * Gets a unique ID for the specified element.
      */
@@ -1283,6 +1339,7 @@ public class SVGOutputFormat implements OutputFormat {
             return id;
         }
     }
+
     @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();

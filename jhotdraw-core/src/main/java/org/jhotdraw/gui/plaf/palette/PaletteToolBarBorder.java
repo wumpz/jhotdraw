@@ -23,13 +23,13 @@ public class PaletteToolBarBorder
         implements SwingConstants {
 
     private static final long serialVersionUID = 1L;
-    private static final float[] enabledStops = new float[]{0f, 0.5f, 1f};
-    private static final Color[] enabledStopColors = new Color[]{new Color(0xf8f8f8), new Color(0xc8c8c8), new Color(0xf8f8f8)};
-    private static final float[] selectedStops = new float[]{0f, 0.1f, 0.9f, 1f};
-    private static final Color[] selectedStopColors = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
-    private static final Color bright = new Color(0x999999, true);
-    private static final Color dark = new Color(0x8c8c8c);
-    private static final Color divider = new Color(0x9f9f9f);
+    private static final float[] ENABLED_STOPS = new float[]{0f, 0.5f, 1f};
+    private static final Color[] ENABLED_STOP_COLORS = new Color[]{new Color(0xf8f8f8), new Color(0xc8c8c8), new Color(0xf8f8f8)};
+    private static final float[] SELECTED_STOPS = new float[]{0f, 0.1f, 0.9f, 1f};
+    private static final Color[] SELECTED_STOP_COLORS = new Color[]{new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)};
+    private static final Color BRIGHT = new Color(0x999999, true);
+    private static final Color DARK = new Color(0x8c8c8c);
+    private static final Color DIVIDER = new Color(0x9f9f9f);
 
     /*
     private static final Color dark = new Color(0x999999);
@@ -56,8 +56,8 @@ public class PaletteToolBarBorder
                         int barX = 0;
                         int barY = 0;
                         int borderColor = 0xffa5a5a5;
-                        float[] stops = enabledStops;
-                        Color[] stopColors = enabledStopColors;
+                        float[] stops = ENABLED_STOPS;
+                        Color[] stopColors = ENABLED_STOP_COLORS;
                         g.setColor(new Color(borderColor, true));
                         g.drawRect(barX, barY, barW - 1, barH - 1);
                         LinearGradientPaint lgp = new LinearGradientPaint(
@@ -92,19 +92,19 @@ public class PaletteToolBarBorder
                             g.setTransform(savedTransform);
                         }
                     } else {
-                        g.setColor(bright);
+                        g.setColor(BRIGHT);
                         g.fillRect(hw - hx - 3, hy + 2, 1, hh - 4);
                         g.fillRect(hw - hx - 5, hy + 2, 1, hh - 4);
-                        g.setColor(dark);
+                        g.setColor(DARK);
                         g.fillRect(hw - hx - 2, hy + 2, 1, hh - 4);
                         g.fillRect(hw - hx - 6, hy + 2, 1, hh - 4);
                     }
-                } else // vertical
-                {
-                    g.setColor(bright);
+                } else {
+                    // vertical
+                    g.setColor(BRIGHT);
                     g.fillRect(hx + 2, hy + 2, hw - 4, 1);
                     g.fillRect(hx + 2, hy + 5, hw - 4, 1);
-                    g.setColor(dark);
+                    g.setColor(DARK);
                     g.fillRect(hx + 2, hy + 3, hw - 4, 1);
                     g.fillRect(hx + 2, hy + 6, hw - 4, 1);
                 }

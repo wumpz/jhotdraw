@@ -76,7 +76,7 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
                             numberFormat.format(c.getGreen() / 255f),
                             numberFormat.format(c.getBlue() / 255f));
                     break;
-                case HSB_PERCENTAGE: {
+                case HSB_PERCENTAGE: 
                     float[] components;
                     if (c.getColorSpace().equals(HSBColorSpace.getInstance())) {
                         components = c.getComponents(null);
@@ -88,9 +88,8 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
                             numberFormat.format(components[1] * 100),
                             numberFormat.format(components[2] * 100));
                     break;
-                }
-                case GRAY_PERCENTAGE: {
-                    float[] components;
+                
+                case GRAY_PERCENTAGE: 
                     if (c.getColorSpace().equals(ColorSpace.getInstance(ColorSpace.CS_GRAY))) {
                         components = c.getComponents(null);
                     } else {
@@ -99,7 +98,6 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
                     str = labels.getFormatted("attribute.color.grayComponents.toolTipText",
                             numberFormat.format(components[0] * 100));
                     break;
-                }
             }
         }
         return str;

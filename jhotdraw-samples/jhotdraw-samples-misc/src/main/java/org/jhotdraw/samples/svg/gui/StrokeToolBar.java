@@ -6,26 +6,28 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.draw.event.SelectionComponentRepainter;
-import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
-import org.jhotdraw.draw.event.SelectionComponentDisplayer;
-import org.jhotdraw.text.JavaNumberFormatter;
-import javax.swing.border.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.util.*;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.SliderUI;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.text.ColorFormatter;
+import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
+import org.jhotdraw.draw.event.SelectionComponentDisplayer;
+import org.jhotdraw.draw.event.SelectionComponentRepainter;
+import org.jhotdraw.draw.gui.JAttributeSlider;
+import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.plaf.palette.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.text.ColorFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.util.*;
+
 /**
  * StrokeToolBar.
  *
@@ -33,14 +35,19 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class StrokeToolBar extends AbstractToolBar {
+
     private static final long serialVersionUID = 1L;
     private SelectionComponentDisplayer displayer;
-    /** Creates new instance. */
+
+    /**
+     * Creates new instance.
+     */
     public StrokeToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString("stroke.toolbar"));
         setDisclosureStateCount(3);
     }
+
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (displayer != null) {
@@ -52,6 +59,7 @@ public class StrokeToolBar extends AbstractToolBar {
             displayer = new SelectionComponentDisplayer(editor, this);
         }
     }
+
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
@@ -89,7 +97,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new SelectionOpacityIcon(editor, STROKE_OPACITY, null, STROKE_COLOR, Images.createImage(getClass(), labels.getString("attribute.strokeOpacity.icon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
@@ -130,13 +138,13 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 3, 0, 0);
                 p.add(btn, gbc);
                 btn = ButtonFactory.createStrokeDashesButton(editor, new double[][]{
-                            null,
-                            {4d, 4d},
-                            {2d, 2d},
-                            {4d, 2d},
-                            {2d, 4d},
-                            {8d, 2d},
-                            {6d, 2d, 2d, 2d},}, labels, disposables);
+                    null,
+                    {4d, 4d},
+                    {2d, 2d},
+                    {4d, 2d},
+                    {2d, 4d},
+                    {8d, 2d},
+                    {6d, 2d, 2d, 2d},}, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 gbc = new GridBagConstraints();
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -211,7 +219,7 @@ public class StrokeToolBar extends AbstractToolBar {
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new SelectionOpacityIcon(editor, STROKE_OPACITY, null, STROKE_COLOR, Images.createImage(getClass(), labels.getString("attribute.strokeOpacity.icon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
@@ -288,13 +296,13 @@ public class StrokeToolBar extends AbstractToolBar {
                 gbc.gridwidth = 2;
                 p.add(dashOffsetField, gbc);
                 btn = ButtonFactory.createStrokeDashesButton(editor, new double[][]{
-                            null,
-                            {4d, 4d},
-                            {2d, 2d},
-                            {4d, 2d},
-                            {2d, 4d},
-                            {8d, 2d},
-                            {6d, 2d, 2d, 2d},}, labels, disposables);
+                    null,
+                    {4d, 4d},
+                    {2d, 2d},
+                    {4d, 2d},
+                    {2d, 4d},
+                    {8d, 2d},
+                    {6d, 2d, 2d, 2d},}, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
                 gbc = new GridBagConstraints();
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -308,15 +316,19 @@ public class StrokeToolBar extends AbstractToolBar {
         }
         return p;
     }
+
     @Override
     protected String getID() {
         return "stroke";
     }
+
     @Override
     protected int getDefaultDisclosureState() {
         return 1;
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

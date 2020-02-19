@@ -6,11 +6,13 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.pert.figures;
+
+import java.awt.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.decoration.ArrowTip;
-import java.awt.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.draw.*;
+
 /**
  * DependencyFigure.
  *
@@ -18,8 +20,12 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class DependencyFigure extends LineConnectionFigure {
+
     private static final long serialVersionUID = 1L;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public DependencyFigure() {
         set(STROKE_COLOR, new Color(0x000099));
         set(STROKE_WIDTH, 1d);
@@ -30,6 +36,7 @@ public class DependencyFigure extends LineConnectionFigure {
         setAttributeEnabled(FONT_ITALIC, false);
         setAttributeEnabled(FONT_UNDERLINE, false);
     }
+
     /**
      * Checks if two figures can be connected. Implement this method
      * to constrain the allowed connections between figures.
@@ -49,10 +56,12 @@ public class DependencyFigure extends LineConnectionFigure {
         }
         return false;
     }
+
     @Override
     public boolean canConnect(Connector start) {
         return (start.getOwner() instanceof TaskFigure);
     }
+
     /**
      * Handles the disconnection of a connection.
      * Override this method to handle this event.
@@ -64,6 +73,7 @@ public class DependencyFigure extends LineConnectionFigure {
         sf.removeDependency(this);
         ef.removeDependency(this);
     }
+
     /**
      * Handles the connection of a connection.
      * Override this method to handle this event.
@@ -75,15 +85,18 @@ public class DependencyFigure extends LineConnectionFigure {
         sf.addDependency(this);
         ef.addDependency(this);
     }
+
     @Override
     public DependencyFigure clone() {
         DependencyFigure that = (DependencyFigure) super.clone();
         return that;
     }
+
     @Override
     public int getLayer() {
         return 1;
     }
+
     @Override
     public void removeNotify(Drawing d) {
         if (getStartFigure() != null) {

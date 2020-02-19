@@ -7,29 +7,30 @@
  *
  */
 package org.jhotdraw.samples.pert;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
-import java.awt.print.Pageable;
-import java.util.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
+
 import java.awt.*;
+import java.awt.print.Pageable;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URI;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.app.*;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
+
 /**
  * Provides a view on a Pert drawing.
  * <p>
@@ -39,6 +40,7 @@ import org.jhotdraw.gui.URIChooser;
  * @version $Id$
  */
 public class PertView extends AbstractView {
+
     private static final long serialVersionUID = 1L;
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     /**
@@ -51,6 +53,7 @@ public class PertView extends AbstractView {
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
+
     /**
      * Creates a new view.
      */
@@ -87,13 +90,14 @@ public class PertView extends AbstractView {
         //setGridVisible(preferences.getBoolean("view.gridVisible", false));
         //setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
     }
+
     /**
      * Creates a new Drawing for this view.
      */
     protected Drawing createDrawing() {
         DefaultDrawing drawing = new DefaultDrawing();
-        DOMStorableInputOutputFormat ioFormat =
-                new DOMStorableInputOutputFormat(new PertFactory());
+        DOMStorableInputOutputFormat ioFormat
+                = new DOMStorableInputOutputFormat(new PertFactory());
         LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
         inputFormats.add(ioFormat);
         drawing.setInputFormats(inputFormats);
@@ -103,15 +107,18 @@ public class PertView extends AbstractView {
         drawing.setOutputFormats(outputFormats);
         return drawing;
     }
+
     /**
      * Creates a Pageable object for printing this view.
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public void setEditor(DrawingEditor newValue) {
         DrawingEditor oldValue = editor;
         if (oldValue != null) {
@@ -122,24 +129,29 @@ public class PertView extends AbstractView {
             newValue.add(view);
         }
     }
+
     public void setGridVisible(boolean newValue) {
         boolean oldValue = isGridVisible();
         view.setConstrainerVisible(newValue);
         firePropertyChange(GRID_VISIBLE_PROPERTY, oldValue, newValue);
         preferences.putBoolean("view.gridVisible", newValue);
     }
+
     public boolean isGridVisible() {
         return view.isConstrainerVisible();
     }
+
     public double getScaleFactor() {
         return view.getScaleFactor();
     }
+
     public void setScaleFactor(double newValue) {
         double oldValue = getScaleFactor();
         view.setScaleFactor(newValue);
         firePropertyChange("scaleFactor", oldValue, newValue);
         preferences.putDouble("view.scaleFactor", newValue);
     }
+
     /**
      * Initializes view specific actions.
      */
@@ -147,11 +159,13 @@ public class PertView extends AbstractView {
         getActionMap().put(UndoAction.ID, undo.getUndoAction());
         getActionMap().put(RedoAction.ID, undo.getRedoAction());
     }
+
     @Override
     protected void setHasUnsavedChanges(boolean newValue) {
         super.setHasUnsavedChanges(newValue);
         undo.setHasSignificantEdits(newValue);
     }
+
     /**
      * Writes the view to the specified uri.
      */
@@ -161,6 +175,7 @@ public class PertView extends AbstractView {
         OutputFormat outputFormat = drawing.getOutputFormats().get(0);
         outputFormat.write(f, drawing);
     }
+
     /**
      * Reads the view from the specified uri.
      */
@@ -189,6 +204,7 @@ public class PertView extends AbstractView {
             throw error;
         }
     }
+
     /**
      * Clears the view.
      */
@@ -211,11 +227,14 @@ public class PertView extends AbstractView {
             ex.printStackTrace();
         }
     }
+
     @Override
     public boolean canSaveTo(URI uri) {
         return uri.getPath().endsWith(".xml");
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

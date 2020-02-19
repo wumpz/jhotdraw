@@ -6,13 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
-import org.jhotdraw.geom.Shapes;
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -21,11 +15,26 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.PATH_CLOSED;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_CAP;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_JOIN;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.draw.AttributeKeys.WINDING_RULE;
+import org.jhotdraw.draw.AttributeKeys.WindingRule;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.Shapes;
+import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
+import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.ODGConstants;
 import org.jhotdraw.util.*;
-import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
-import org.jhotdraw.samples.odg.Gradient;
+
 /**
  * ODGPath is a composite Figure which contains one or more
  * ODGBezierFigures as its children.
@@ -34,6 +43,7 @@ import org.jhotdraw.samples.odg.Gradient;
  * @version $Id$
  */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
+
     private static final long serialVersionUID = 1L;
     /**
      * This cachedPath is used for drawing.
@@ -41,11 +51,15 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     private transient Path2D.Double cachedPath;
     //private transient Rectangle2D.Double cachedDrawingArea;
     private static final boolean DEBUG = false;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ODGPathFigure() {
         add(new ODGBezierFigure());
         ODGAttributeKeys.setDefaults(this);
     }
+
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
@@ -79,6 +93,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         }
     }
+
     @Override
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
@@ -105,6 +120,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             g.setTransform(savedTransform);
         }
     }
+
     @Override
     public void drawFill(Graphics2D g) {
         boolean isClosed = getChild(0).get(PATH_CLOSED);
@@ -112,16 +128,19 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             g.fill(getPath());
         }
     }
+
     @Override
     public void drawStroke(Graphics2D g) {
         g.draw(getPath());
     }
+
     @Override
     public void invalidate() {
         super.invalidate();
         cachedPath = null;
         cachedDrawingArea = null;
     }
+
     protected Path2D.Double getPath() {
         if (cachedPath == null) {
             cachedPath = new Path2D.Double();
@@ -135,6 +154,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return cachedPath;
     }
+
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -161,6 +181,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
+
     @Override
     public boolean contains(Point2D.Double p) {
         getPath();
@@ -199,6 +220,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return false;
     }
+
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         if (getChildCount() == 1 && getChild(0).getNodeCount() <= 2) {
@@ -209,6 +231,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             super.setBounds(anchor, lead);
         }
     }
+
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -239,6 +262,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         invalidate();
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public void restoreTransformTo(Object geometry) {
@@ -252,6 +276,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         FILL_GRADIENT.setClone(this, (Gradient) restoreData[2]);
         STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public Object getTransformRestoreData() {
@@ -260,20 +285,23 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             paths.add(getChild(i).getBezierPath());
         }
         return new Object[]{
-                    paths,
-                    TRANSFORM.getClone(this),
-                    FILL_GRADIENT.getClone(this),
-                    STROKE_GRADIENT.getClone(this),};
+            paths,
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this)};
     }
+
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         super.set(key, newValue);
         invalidate();
     }
+
     @Override
     protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
         // empty!
     }
+
     @Override
     public boolean isEmpty() {
         for (Figure child : getChildren()) {
@@ -284,6 +312,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return true;
     }
+
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -302,13 +331,15 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return handles;
     }
+
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
@@ -318,18 +349,21 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
             actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
                     //TransformEdit edit = new TransformEdit(ODGPathFigure.this, )
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                        private static final long serialVersionUID = 1L;
+
                         @Override
                         public String getPresentationName() {
                             return labels.getString("flattenTransform");
                         }
+
                         @Override
                         public void undo() throws CannotUndoException {
                             super.undo();
@@ -337,6 +371,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                             restoreTransformTo(restoreData);
                             changed();
                         }
+
                         @Override
                         public void redo() throws CannotRedoException {
                             super.redo();
@@ -354,7 +389,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         }
         actions.add(new AbstractAction(labels.getString("closePath")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent evt) {
                 for (Figure child : getChildren()) {
@@ -366,7 +402,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("openPath")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent evt) {
                 for (Figure child : getChildren()) {
@@ -378,7 +415,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent evt) {
                 willChange();
@@ -388,7 +426,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void actionPerformed(ActionEvent evt) {
                 ODGPathFigure.this.willChange();
@@ -399,15 +438,18 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         });
         return actions;
     }
+
     // CONNECTING
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // ODG does not support connectors
     }
+
     @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return null; // ODG does not support connectors
     }
+
     /**
      * Handles a mouse click.
      */
@@ -426,19 +468,23 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return false;
     }
+
     @Override
     public void add(final int index, final Figure figure) {
         super.add(index, (ODGBezierFigure) figure);
     }
+
     @Override
     public ODGBezierFigure getChild(int index) {
         return (ODGBezierFigure) super.getChild(index);
     }
+
     @Override
     public ODGPathFigure clone() {
         ODGPathFigure that = (ODGPathFigure) super.clone();
         return that;
     }
+
     public void flattenTransform() {
         willChange();
         AffineTransform tx = get(TRANSFORM);

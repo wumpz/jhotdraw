@@ -6,22 +6,23 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.action;
+
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.prefs.Preferences;
+import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.*;
-import javax.swing.*;
-import javax.swing.event.UndoableEditListener;
-import org.jhotdraw.app.Disposable;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.samples.svg.SVGView;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.prefs.PreferencesUtil;
+
 /**
  * ViewSourceAction.
  *
@@ -29,18 +30,23 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class ViewSourceAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "view.viewSource";
     /**
      * We store the dialog as a client property in the view.
      */
     private static final String DIALOG_CLIENT_PROPERTY = "view.viewSource.dialog";
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ViewSourceAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -81,7 +87,7 @@ public class ViewSourceAction extends AbstractViewAction {
                         if (newDrawing != null) {
                             newDrawing.addUndoableEditListener(undoableEditHandler);
                         }
-                        if (newDrawing!=null) {
+                        if (newDrawing != null) {
                             updateSource(newDrawing, ta);
                         }
                     } else if (evt.getPropertyName() == View.TITLE_PROPERTY) {
@@ -94,8 +100,8 @@ public class ViewSourceAction extends AbstractViewAction {
             final Disposable disposable = new Disposable() {
                 @Override
                 public void dispose() {
-                    if (v.getDrawing()!=null) {
-                    v.getDrawing().removeUndoableEditListener(undoableEditHandler);
+                    if (v.getDrawing() != null) {
+                        v.getDrawing().removeUndoableEditListener(undoableEditHandler);
                     }
                     v.removePropertyChangeListener(propertyChangeHandler);
                     getApplication().removeWindow(dialog);
@@ -120,6 +126,7 @@ public class ViewSourceAction extends AbstractViewAction {
         getApplication().addWindow(dialog, v);
         dialog.setVisible(true);
     }
+
     private void updateSource(Drawing drawing, JTextArea textArea) {
         SVGOutputFormat format = new SVGOutputFormat();
         format.setPrettyPrint(true);

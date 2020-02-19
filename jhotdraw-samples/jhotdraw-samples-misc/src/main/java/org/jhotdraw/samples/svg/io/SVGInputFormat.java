@@ -6,6 +6,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.io;
+
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -43,6 +44,7 @@ import org.jhotdraw.xml.css.StyleManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 /**
  * SVGInputFormat.
  * This format is aimed to comply to the Scalable Vector Graphics (SVG) Tiny 1.2
@@ -59,6 +61,7 @@ import org.xml.sax.SAXException;
  * @version $Id$
  */
 public class SVGInputFormat implements InputFormat {
+
     /**
      * Set this to true, to getChild debug output on if (DEBUG) System.out.
      */
@@ -90,10 +93,12 @@ public class SVGInputFormat implements InputFormat {
      * FontFormatter for parsing font family names.
      */
     private FontFormatter fontFormatter = new FontFormatter();
+
     /**
      * Each SVG element establishes a new Viewport.
      */
     private static class Viewport {
+
         /**
          * The width of the Viewport.
          */
@@ -125,6 +130,7 @@ public class SVGInputFormat implements InputFormat {
          */
         public boolean isPreserveAspectRatio = true;
         private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
+
         @Override
         public String toString() {
             return "widthPercentFactor:" + widthPercentFactor + ";"
@@ -151,26 +157,32 @@ public class SVGInputFormat implements InputFormat {
      * Holds the document that is currently being read.
      */
     private Element document;
+
     /**
      * Creates a new instance.
      */
     public SVGInputFormat() {
         this(new DefaultSVGFigureFactory());
     }
+
     public SVGInputFormat(SVGFigureFactory factory) {
         this.factory = factory;
     }
+
     @Override
     public void read(URI uri, Drawing drawing) throws IOException {
         read(new File(uri), drawing);
     }
+
     @Override
     public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
         read(new File(uri), drawing, replace);
     }
+
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
+
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         this.url = file.toURI().toURL();
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
@@ -181,6 +193,7 @@ public class SVGInputFormat implements InputFormat {
         }
         this.url = null;
     }
+
     public void read(URL url, Drawing drawing, boolean replace) throws IOException {
         this.url = url;
         InputStream in = url.openStream();
@@ -191,6 +204,7 @@ public class SVGInputFormat implements InputFormat {
         }
         this.url = null;
     }
+
     /**
      * This is the main reading method.
      *
@@ -295,6 +309,7 @@ public class SVGInputFormat implements InputFormat {
         viewportStack = null;
         styleManager = null;
     }
+
     private void initStorageContext(Element root) {
         identifiedElements = new HashMap<String, Element>();
         identifyElements(root);
@@ -303,6 +318,7 @@ public class SVGInputFormat implements InputFormat {
         viewportStack.push(new Viewport());
         styleManager = new StyleManager();
     }
+
     /**
      * Flattens all CSS styles.
      * Styles defined in a "style" attribute and in CSS rules are converted
@@ -339,6 +355,7 @@ public class SVGInputFormat implements InputFormat {
             }
         }
     }
+
     /**
      * Reads an SVG element of any kind.
      *
@@ -425,6 +442,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return f;
     }
+
     /**
      * Reads an SVG "defs" element.
      */
@@ -436,6 +454,7 @@ public class SVGInputFormat implements InputFormat {
             child = (Element) child.getNextSibling();
         }
     }
+
     /**
      * Reads an SVG "g" element.
      */
@@ -463,6 +482,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return g;
     }
+
     /**
      * Reads an SVG "a" element.
      */
@@ -501,6 +521,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return (g.getChildCount() == 1) ? g.getChild(0) : g;
     }
+
     /**
      * Reads an SVG "svg" element.
      */
@@ -574,6 +595,7 @@ public class SVGInputFormat implements InputFormat {
         viewportStack.pop();
         return null;
     }
+
     /**
      * Reads an SVG "rect" element.
      */
@@ -602,6 +624,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "circle" element.
      */
@@ -619,6 +642,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "ellipse" element.
      */
@@ -637,6 +661,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "image" element.
      */
@@ -721,6 +746,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "line" element.
      */
@@ -750,6 +776,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "polyline" element.
      */
@@ -765,6 +792,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "polygon" element.
      */
@@ -780,6 +808,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "path" element.
      */
@@ -795,6 +824,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "text" element.
      */
@@ -864,6 +894,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "textArea" element.
      */
@@ -912,6 +943,7 @@ public class SVGInputFormat implements InputFormat {
         elementObjects.put(elem, figure);
         return figure;
     }
+
     /**
      * Reads an SVG "tspan" element.
      */
@@ -960,8 +992,7 @@ public class SVGInputFormat implements InputFormat {
         "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
         "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
         "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
-        "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",
-    //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking", //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
@@ -977,6 +1008,7 @@ public class SVGInputFormat implements InputFormat {
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
     //"http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
     }));
+
     /**
      * Evaluates an SVG "switch" element.
      *
@@ -1027,6 +1059,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return null;
     }
+
     /**
      * Reads an SVG "use" element.
      */
@@ -1066,6 +1099,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return null;
     }
+
     /**
      * Reads an attribute that is inherited.
      */
@@ -1092,6 +1126,7 @@ public class SVGInputFormat implements InputFormat {
             return defaultValue;
         }
     }
+
     /**
      * Reads a color attribute that is inherited.
      * This is similar to {@code readInheritAttribute}, but takes care of the
@@ -1122,6 +1157,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return value;
     }
+
     /**
      * Reads a font size attribute that is inherited.
      * As specified by
@@ -1156,6 +1192,7 @@ public class SVGInputFormat implements InputFormat {
             return toNumber(elem, value);
         }
     }
+
     /**
      * Reads an attribute that is not inherited, unless its value is "inherit".
      */
@@ -1178,6 +1215,7 @@ public class SVGInputFormat implements InputFormat {
             return defaultValue;
         }
     }
+
     /**
      * Returns a value as a width.
      * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeLength
@@ -1187,6 +1225,7 @@ public class SVGInputFormat implements InputFormat {
         return toLength(elem, str,
                 viewportStack.peek().widthPercentFactor);
     }
+
     /**
      * Returns a value as a height.
      * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeLength
@@ -1196,6 +1235,7 @@ public class SVGInputFormat implements InputFormat {
         return toLength(elem, str,
                 viewportStack.peek().heightPercentFactor);
     }
+
     /**
      * Returns a value as a number.
      * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeNumber
@@ -1203,6 +1243,7 @@ public class SVGInputFormat implements InputFormat {
     private double toNumber(Element elem, String str) throws IOException {
         return toLength(elem, str, viewportStack.peek().numberFactor);
     }
+
     /**
      * Returns a value as a length.
      * http://www.w3.org/TR/SVGMobile12/types.html#DataTypeLength
@@ -1241,6 +1282,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return Double.parseDouble(str) * scaleFactor;
     }
+
     /**
      * Returns a value as a String array.
      * The values are separated by commas with optional white space.
@@ -1248,6 +1290,7 @@ public class SVGInputFormat implements InputFormat {
     public static String[] toCommaSeparatedArray(String str) throws IOException {
         return str.split("\\s*,\\s*");
     }
+
     /**
      * Returns a value as a String array.
      * The values are separated by whitespace or by commas with optional white
@@ -1261,6 +1304,7 @@ public class SVGInputFormat implements InputFormat {
             return result;
         }
     }
+
     /**
      * Returns a value as a String array.
      * The values are separated by commas with optional quotes and white space.
@@ -1285,6 +1329,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return values.toArray(new String[values.size()]);
     }
+
     /**
      * Returns a value as a Point2D.Double array.
      * as specified in http://www.w3.org/TR/SVGMobile12/shapes.html#PointsBNF
@@ -1299,6 +1344,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return points;
     }
+
     /**
      * Returns a value as a BezierPath array.
      * as specified in http://www.w3.org/TR/SVGMobile12/paths.html#PathDataBNF
@@ -1721,6 +1767,7 @@ public class SVGInputFormat implements InputFormat {
         }
         return paths.toArray(new BezierPath[paths.size()]);
     }
+
     /* Reads core attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#CoreAttribute
      */
@@ -1735,6 +1782,7 @@ public class SVGInputFormat implements InputFormat {
         // xml:space
         // class
     }
+
     /**
      * Puts all elments with an "id" or an "xml:id" attribute into the
      * hashtable {@code identifiedElements}.
@@ -1748,6 +1796,7 @@ public class SVGInputFormat implements InputFormat {
             identifyElements(child);
         }
     }
+
     /* Reads object/group opacity as described in
      * http://www.w3.org/TR/SVGMobile12/painting.html#groupOpacity
      */
@@ -1770,6 +1819,7 @@ public class SVGInputFormat implements InputFormat {
         double value = toDouble(elem, readAttribute(elem, "opacity", "1"), 1, 0, 1);
         OPACITY.put(a, value);
     }
+
     /* Reads text attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Text
      */
@@ -1821,6 +1871,7 @@ public class SVGInputFormat implements InputFormat {
             TEXT_ALIGN.put(a, SVG_TEXT_ALIGNS.get(value));
         }
     }
+
     /* Reads text flow attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#TextFlow
      */
@@ -1841,6 +1892,7 @@ public class SVGInputFormat implements InputFormat {
             System.out.println("SVGInputFormat not implemented line-increment=" + value);
         }
     }
+
     /* Reads the transform attribute as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
      */
@@ -1852,6 +1904,7 @@ public class SVGInputFormat implements InputFormat {
             TRANSFORM.put(a, toTransform(elem, value));
         }
     }
+
     /* Reads solid color attributes.
      */
     private void readSolidColorElement(Element elem)
@@ -1883,6 +1936,7 @@ public class SVGInputFormat implements InputFormat {
         }
         elementObjects.put(elem, color);
     }
+
     /**
      * Reads shape attributes.
      */
@@ -2067,6 +2121,7 @@ public class SVGInputFormat implements InputFormat {
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-width", "1"));
         STROKE_WIDTH.put(a, doubleValue);
     }
+
     /* Reads shape attributes for the SVG "use" element.
      */
     private void readUseShapeAttributes(Element elem, HashMap<AttributeKey<?>, Object> a)
@@ -2267,6 +2322,7 @@ public class SVGInputFormat implements InputFormat {
             STROKE_WIDTH.put(a, doubleValue);
         }
     }
+
     /**
      * Reads line and polyline attributes.
      */
@@ -2451,6 +2507,7 @@ public class SVGInputFormat implements InputFormat {
         doubleValue = toNumber(elem, readInheritAttribute(elem, "stroke-width", "1"));
         STROKE_WIDTH.put(a, doubleValue);
     }
+
     /* Reads viewport attributes.
      */
     private void readViewportAttributes(Element elem, HashMap<AttributeKey<?>, Object> a)
@@ -2497,6 +2554,7 @@ public class SVGInputFormat implements InputFormat {
         doubleValue = toDouble(elem, readAttribute(elem, "viewport-fill-opacity", "1.0"));
         VIEWPORT_FILL_OPACITY.put(a, doubleValue);
     }
+
     /* Reads graphics attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#GraphicsAttribute
      */
@@ -2605,6 +2663,7 @@ public class SVGInputFormat implements InputFormat {
             System.out.println("SVGInputFormat not implemented visibility=" + value);
         }
     }
+
     /**
      * Reads an SVG "linearGradient" element.
      */
@@ -2681,6 +2740,7 @@ public class SVGInputFormat implements InputFormat {
                 isRelativeToFigureBounds, tx);
         elementObjects.put(elem, gradient);
     }
+
     /**
      * Reads an SVG "radialGradient" element.
      */
@@ -2754,6 +2814,7 @@ public class SVGInputFormat implements InputFormat {
                 tx);
         elementObjects.put(elem, gradient);
     }
+
     /* Reads font attributes as listed in
      * http://www.w3.org/TR/SVGMobile12/feature.html#Font
      */
@@ -2861,6 +2922,7 @@ public class SVGInputFormat implements InputFormat {
         value = readAttribute(elem, "text-decoration", "none");
         FONT_UNDERLINE.put(a, value.equals("underline"));
     }
+
     /**
      * Reads a paint style attribute. This can be a Color or a Gradient or null.
      * XXX - Doesn't support url(...) colors yet.
@@ -2924,6 +2986,7 @@ public class SVGInputFormat implements InputFormat {
             return null;
         }
     }
+
     /**
      * Reads a color style attribute. This can be a Color or null.
      * FIXME - Doesn't support url(...) colors yet.
@@ -2980,12 +3043,14 @@ public class SVGInputFormat implements InputFormat {
             return null;
         }
     }
+
     /**
      * Reads a double attribute.
      */
     private double toDouble(Element elem, String value) throws IOException {
         return toDouble(elem, value, 0, Double.MIN_VALUE, Double.MAX_VALUE);
     }
+
     /**
      * Reads a double attribute.
      */
@@ -3001,6 +3066,7 @@ public class SVGInputFormat implements InputFormat {
             throw ex;*/
         }
     }
+
     /**
      * Reads a text attribute.
      * This method takes the "xml:space" attribute into account.
@@ -3014,6 +3080,7 @@ public class SVGInputFormat implements InputFormat {
             return value;
         }
     }
+
     /* Converts an SVG transform attribute value into an AffineTransform
      * as specified in
      * http://www.w3.org/TR/SVGMobile12/coords.html#TransformAttribute
@@ -3122,19 +3189,23 @@ public class SVGInputFormat implements InputFormat {
         }
         return t;
     }
+
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
     }
+
     @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
+
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.getPrimaryType().equals("image")
                 && flavor.getSubType().equals("svg+xml");
     }
+
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         InputStream in = (InputStream) t.getTransferData(new DataFlavor("image/svg+xml", "Image SVG"));

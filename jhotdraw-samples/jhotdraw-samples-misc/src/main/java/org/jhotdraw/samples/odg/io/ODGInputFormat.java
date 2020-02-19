@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.samples.odg.io;
 
-
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
@@ -63,7 +62,9 @@ public class ODGInputFormat implements InputFormat {
     private Document document;
     private ODGStylesReader styles;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ODGInputFormat() {
     }
 
@@ -178,7 +179,7 @@ public class ODGInputFormat implements InputFormat {
     public void readFiguresFromDocumentContent(InputStream in, Drawing drawing, boolean replace) throws IOException {
         this.figures = new LinkedList<Figure>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-         
+
         try {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(in);
@@ -191,7 +192,7 @@ public class ODGInputFormat implements InputFormat {
         if (styles == null) {
             styles = new ODGStylesReader();
         }
-        
+
         styles.read(document.getDocumentElement());
 
         // Search for the first 'office:drawing' element in the XML document
@@ -201,23 +202,23 @@ public class ODGInputFormat implements InputFormat {
         //LinkedList<Element> ll = new LinkedList<Element>();
         //ll.add(document.getDocumentElement());
         stack.push(document.getDocumentElement().getFirstChild());
-        while (!stack.empty() && stack.peek().getNextSibling()!=null) {
+        while (!stack.empty() && stack.peek().getNextSibling() != null) {
             Node iter = stack.peek();
             Node node = iter.getNextSibling();
             if (node.getNextSibling() == null) {
                 stack.pop();
             } else {
-                stack.set( stack.indexOf(iter), node);
+                stack.set(stack.indexOf(iter), node);
             }
             Node children = node.getFirstChild();
-            if (children.getNextSibling()!=null) {
+            if (children.getNextSibling() != null) {
                 stack.push(children);
             }
             if (node.getLocalName() != null
                     && node.getLocalName().equals("drawing")
                     && (node.getPrefix() == null
                     || node.getPrefix().equals(OFFICE_NAMESPACE))) {
-                drawingElem = (Element)node;
+                drawingElem = (Element) node;
                 break;
             }
         }
@@ -281,7 +282,7 @@ public class ODGInputFormat implements InputFormat {
          */
 
         NodeList list = elem.getChildNodes();
-        for (int i=0;i<list.getLength();i++) {
+        for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
             if (child.getPrefix() == null
                     || child.getPrefix().equals(DRAWING_NAMESPACE)) {
@@ -349,7 +350,7 @@ public class ODGInputFormat implements InputFormat {
         • Presentation notes
          */
         NodeList list = elem.getChildNodes();
-        for (int i=0;i<list.getLength();i++) {
+        for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
             ODGFigure figure = readElement(child);
             if (figure != null) {
@@ -361,7 +362,6 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Reads an ODG element.
      */
-    
     private ODGFigure readElement(Element elem)
             throws IOException {
         /*
@@ -451,7 +451,8 @@ public class ODGInputFormat implements InputFormat {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    /** A <draw:custom-shape> represents a shape that is capable of rendering
+    /**
+     * A <draw:custom-shape> represents a shape that is capable of rendering
      * complex figures. It is offering font work and extrusion functiona-
      * lity. A custom shape may have a geometry that influences its shape.
      * This geometry may be visualized in office application user
@@ -475,7 +476,7 @@ public class ODGInputFormat implements InputFormat {
 
         ODGFigure figure = null;
         NodeList list = elem.getElementsByTagNameNS(DRAWING_NAMESPACE, "enhanced-geometry");
-        for (int i=0;i<list.getLength();i++) {
+        for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
             figure = readEnhancedGeometryElement(child, a, figureBounds);
         }
@@ -483,7 +484,6 @@ public class ODGInputFormat implements InputFormat {
         return figure;
     }
 
-    
     private ODGFigure readEnhancedGeometryElement(
             Element elem,
             Map<AttributeKey<?>, Object> a,
@@ -493,7 +493,7 @@ public class ODGInputFormat implements InputFormat {
          * <draw:custom-shape> element if its draw:engine attribute has been
          * omitted.
          */
-        /* The draw:type attribute contains the name of a shape type. This name
+ /* The draw:type attribute contains the name of a shape type. This name
          * can be used to offer specialized user interfaces for certain classes
          * of shapes, like for arrows, smileys, etc.
          * The shape type is rendering engine dependent and does not influence
@@ -504,7 +504,7 @@ public class ODGInputFormat implements InputFormat {
         String type = Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "type")).orElse("non-primitive");
 
         String pathAttr = Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "enhanced-path")).orElse(null);
-        EnhancedPath path = pathAttr!=null?toEnhancedPath(pathAttr):null;
+        EnhancedPath path = pathAttr != null ? toEnhancedPath(pathAttr) : null;
 
         /* The svg:viewBox attribute establishes a user coordinate system inside
          * the physical coordinate system of the shape specified by the position
@@ -516,7 +516,7 @@ public class ODGInputFormat implements InputFormat {
          * of the user coordinate system.
          */
         String[] viewBoxValues = toWSOrCommaSeparatedArray(
-               Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "viewBox")).orElse("0 0 100 100")
+                Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "viewBox")).orElse("0 0 100 100")
         );
         Rectangle2D.Double viewBox = new Rectangle2D.Double(
                 toNumber(viewBoxValues[0]),
@@ -539,7 +539,6 @@ public class ODGInputFormat implements InputFormat {
         // FIXME - Implement Extrusion Allowed
         // FIXME - Implement Text Path Allowed
         // FIXME - Implement Concentric Gradient Allowed
-
         ODGFigure figure;
         if ("rectangle".equals(type)) {
             figure = createEnhancedGeometryRectangleFigure(figureBounds, a);
@@ -549,8 +548,6 @@ public class ODGInputFormat implements InputFormat {
             System.out.println("ODGInputFormat.readEnhancedGeometryElement not implemented for " + elem);
             figure = null;
         }
-
-
 
         return figure;
     }
@@ -677,7 +674,7 @@ public class ODGInputFormat implements InputFormat {
      * Frames can contain:
      * • Text boxes
      * • Objects represented either in the OpenDocument format or in a object
-     *      specific binary format
+     * specific binary format
      * • Images
      * • Applets
      * • Plug-ins
@@ -708,7 +705,7 @@ public class ODGInputFormat implements InputFormat {
         CompositeFigure g = createGroupFigure();
 
         NodeList list = elem.getChildNodes();
-        for (int i=0;i<list.getLength();i++) {
+        for (int i = 0; i < list.getLength(); i++) {
             Element child = (Element) list.item(i);
             Figure childFigure = readElement(child);
             if (childFigure != null) {
@@ -997,7 +994,6 @@ public class ODGInputFormat implements InputFormat {
         tt.whitespaceChars(0, ' ');
         tt.whitespaceChars(',', ',');
 
-
         char nextCommand = 'M';
         char command = 'M';
         Commands:
@@ -1063,7 +1059,7 @@ public class ODGInputFormat implements InputFormat {
                     break;
 
                 case 'N':
-                    
+
                     // Ends the current put of sub-paths. The sub-
                     // paths will be filled by using the “even-odd”
                     // filling rule. Other following subpaths will be
@@ -1221,7 +1217,7 @@ public class ODGInputFormat implements InputFormat {
      */
     private Object nextEnhancedCoordinate(StreamPosTokenizer tt, String str) throws IOException {
         switch (tt.nextToken()) {
-            case '?': {
+            case '?': 
                 StringBuilder buf = new StringBuilder();
                 buf.append('?');
                 int ch = tt.nextChar();
@@ -1231,18 +1227,16 @@ public class ODGInputFormat implements InputFormat {
                 }
                 tt.pushCharBack(ch);
                 return buf.toString();
-            }
-            case '$': {
-                StringBuilder buf = new StringBuilder();
+            case '$': 
+                buf = new StringBuilder();
                 buf.append('$');
-                int ch = tt.nextChar();
+                ch = tt.nextChar();
                 for (; ch >= '0' && ch <= '9';
                         ch = tt.nextChar()) {
                     buf.append((char) ch);
                 }
                 tt.pushCharBack(ch);
                 return buf.toString();
-            }
             case StreamPosTokenizer.TT_NUMBER:
                 return tt.nval;
             default:
@@ -1298,7 +1292,8 @@ public class ODGInputFormat implements InputFormat {
         return tx;
     }
 
-    /** Converts an ODG draw:transform attribute value into an AffineTransform.
+    /**
+     * Converts an ODG draw:transform attribute value into an AffineTransform.
      * <p>
      * The draw:transform attribute specifies a list of transformations that can be applied to a
      * drawing shape.
@@ -1405,7 +1400,6 @@ public class ODGInputFormat implements InputFormat {
                     t2.rotate(-angle);
                     t.preConcatenate(t2);
 
-
                 } else if ("skewX".equals(type)) {
                     double angle;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1457,7 +1451,6 @@ public class ODGInputFormat implements InputFormat {
         tt.parsePlusAsNumber();
         tt.whitespaceChars(0, ' ');
         tt.whitespaceChars(',', ',');
-
 
         char nextCommand = 'M';
         char command = 'M';
@@ -1793,8 +1786,7 @@ public class ODGInputFormat implements InputFormat {
 
                     break;
 
-
-                case 'A': {
+                case 'A': 
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("rx coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
@@ -1831,31 +1823,31 @@ public class ODGInputFormat implements InputFormat {
 
                     nextCommand = 'A';
                     break;
-                }
-                case 'a': {
+
+                case 'a': 
                     // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("rx coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
                     // If rX or rY have negative signs, these are dropped;
                     // the absolute value is used instead.
-                    double rx = tt.nval;
+                    rx = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("ry coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    double ry = tt.nval;
+                    ry = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("x-axis-rotation missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    double xAxisRotation = tt.nval;
+                    xAxisRotation = tt.nval;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("large-arc-flag missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    boolean largeArcFlag = tt.nval != 0;
+                    largeArcFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("sweep-flag missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
-                    boolean sweepFlag = tt.nval != 0;
+                    sweepFlag = tt.nval != 0;
                     if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
                         throw new IOException("x coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
@@ -1869,7 +1861,6 @@ public class ODGInputFormat implements InputFormat {
 
                     nextCommand = 'a';
                     break;
-                }
                 default:
                     if (DEBUG) {
                         System.out.println("SVGInputFormat.toPath aborting after illegal path command: " + command + " found in path " + str);

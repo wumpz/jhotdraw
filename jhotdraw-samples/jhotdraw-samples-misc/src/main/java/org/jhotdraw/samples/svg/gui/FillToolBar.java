@@ -6,26 +6,28 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
-import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.draw.event.SelectionComponentRepainter;
-import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
-import org.jhotdraw.draw.event.SelectionComponentDisplayer;
-import org.jhotdraw.text.JavaNumberFormatter;
-import javax.swing.border.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.SliderUI;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
+import org.jhotdraw.draw.event.SelectionComponentDisplayer;
+import org.jhotdraw.draw.event.SelectionComponentRepainter;
+import org.jhotdraw.draw.gui.JAttributeSlider;
+import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.text.ColorFormatter;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.text.ColorFormatter;
+import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.util.*;
+
 /**
  * FillToolBar.
  *
@@ -33,14 +35,19 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class FillToolBar extends AbstractToolBar {
+
     private static final long serialVersionUID = 1L;
     private SelectionComponentDisplayer displayer;
-    /** Creates new instance. */
+
+    /**
+     * Creates new instance.
+     */
     public FillToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
         setDisclosureStateCount(3);
     }
+
     @Override
     public void setEditor(DrawingEditor newValue) {
         if (displayer != null) {
@@ -52,6 +59,7 @@ public class FillToolBar extends AbstractToolBar {
             displayer = new SelectionComponentDisplayer(editor, this);
         }
     }
+
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
@@ -96,7 +104,7 @@ public class FillToolBar extends AbstractToolBar {
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new SelectionOpacityIcon(editor, FILL_OPACITY, FILL_COLOR, null, Images.createImage(getClass(), labels.getString("attribute.fillOpacity.largeIcon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
@@ -146,7 +154,7 @@ public class FillToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p1.add(colorField, gbc);
-                 btn = ButtonFactory.createSelectionColorChooserButton(editor,
+                btn = ButtonFactory.createSelectionColorChooserButton(editor,
                         FILL_COLOR, "attribute.fillColor", labels,
                         defaultAttributes, new Rectangle(3, 3, 10, 10), PaletteColorChooserUI.class, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -182,7 +190,7 @@ public class FillToolBar extends AbstractToolBar {
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 opacityPopupButton.setIcon(
                         new SelectionOpacityIcon(editor, FILL_OPACITY, FILL_COLOR, null, Images.createImage(getClass(), labels.getString("attribute.fillOpacity.largeIcon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
@@ -213,15 +221,19 @@ public class FillToolBar extends AbstractToolBar {
         }
         return p;
     }
+
     @Override
     protected String getID() {
         return "fill";
     }
+
     @Override
     protected int getDefaultDisclosureState() {
         return 1;
     }
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

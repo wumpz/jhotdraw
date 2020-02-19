@@ -6,8 +6,10 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy;
+
 import java.util.HashMap;
 import org.jhotdraw.app.Application;
+
 /**
  * Main entry point of the Teddy sample application. Creates an
  * {@link Application} depending on the operating system we run, sets the
@@ -19,10 +21,14 @@ import org.jhotdraw.app.Application;
  * @version $Id$
  */
 public class Main {
+
     public static final String NAME = "JHotDraw Teddy";
     public static final String COPYRIGHT = "© 1996-2013 by the original authors of JHotDraw and all its contributors.";
+
     /**
-     * Launches the application. <p> Supported command line parameters:
+     * Launches the application.
+     * <p>
+     * Supported command line parameters:
      * <pre>
      * -app osx|mdi|sdi|cross     // Application type
      * </pre>

@@ -6,21 +6,25 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.*;
-import java.io.*;
-import javax.swing.*;
+
 import java.awt.*;
+import java.io.*;
 import java.util.*;
+import javax.swing.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.samples.svg.io.SVGInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
+
 /**
  * A tool to create new figures from an input file. If the file holds a bitmap
  * image, this tool creates a SVGImageFigure. If the file holds a SVG or a SVGZ
- * image, ths tool creates a SVGGroupFigure. <p> Immediately, after the
+ * image, ths tool creates a SVGGroupFigure.
+ * <p>
+ * Immediately, after the
  * ImageTool has been activated, it opens a JFileChooser, letting the user
  * specify a file. The the user then performs the following mouse gesture: <ol>
  * <li>Press the mouse button and drag the mouse over the DrawingView. This
@@ -30,6 +34,7 @@ import org.jhotdraw.samples.svg.io.SVGZInputFormat;
  * @version $Id$
  */
 public class SVGCreateFromFileTool extends CreationTool {
+
     private static final long serialVersionUID = 1L;
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
@@ -37,6 +42,7 @@ public class SVGCreateFromFileTool extends CreationTool {
     protected CompositeFigure groupPrototype;
     protected ImageHolderFigure imagePrototype;
     protected boolean useFileDialog;
+
     /**
      * Creates a new instance.
      */
@@ -45,6 +51,7 @@ public class SVGCreateFromFileTool extends CreationTool {
         this.groupPrototype = groupPrototype;
         this.imagePrototype = imagePrototype;
     }
+
     /**
      * Creates a new instance.
      */
@@ -53,6 +60,7 @@ public class SVGCreateFromFileTool extends CreationTool {
         this.groupPrototype = groupPrototype;
         this.imagePrototype = imagePrototype;
     }
+
     public void setUseFileDialog(boolean newValue) {
         useFileDialog = newValue;
         if (useFileDialog) {
@@ -61,9 +69,11 @@ public class SVGCreateFromFileTool extends CreationTool {
             fileDialog = null;
         }
     }
+
     public boolean isUseFileDialog() {
         return useFileDialog;
     }
+
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
@@ -106,6 +116,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                         in.read(file.toURI(), drawing);
                         return drawing;
                     }
+
                     @Override
                     protected void done(Drawing drawing) {
                         CompositeFigure parent;
@@ -123,6 +134,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                             parent.changed();
                         }
                     }
+
                     @Override
                     protected void failed(Throwable t) {
                         JOptionPane.showMessageDialog(v.getComponent(),
@@ -132,6 +144,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                         getDrawing().remove(createdFigure);
                         fireToolDone();
                     }
+
                     @Override
                     protected void finished() {
                     }
@@ -146,6 +159,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                     protected void construct() throws IOException {
                         loaderFigure.loadImage(file);
                     }
+
                     @Override
                     protected void done() {
                         try {
@@ -161,6 +175,7 @@ public class SVGCreateFromFileTool extends CreationTool {
                                     JOptionPane.ERROR_MESSAGE);
                         }
                     }
+
                     @Override
                     protected void failed(Throwable t) {
                         JOptionPane.showMessageDialog(v.getComponent(),
@@ -181,6 +196,7 @@ public class SVGCreateFromFileTool extends CreationTool {
             }
         }
     }
+
     @Override
     protected Figure createFigure() {
         if (prototype instanceof CompositeFigure) {
@@ -192,12 +208,14 @@ public class SVGCreateFromFileTool extends CreationTool {
             return super.createFigure();
         }
     }
+
     private JFileChooser getFileChooser() {
         if (fileChooser == null) {
             fileChooser = new JFileChooser();
         }
         return fileChooser;
     }
+
     private FileDialog getFileDialog() {
         if (fileDialog == null) {
             fileDialog = new FileDialog(new Frame());

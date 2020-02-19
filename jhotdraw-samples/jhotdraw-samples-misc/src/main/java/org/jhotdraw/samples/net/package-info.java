@@ -6,11 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
+ */
 /**
-A very simple network diagram editor.
-*/
+ * A very simple network diagram editor.
+ */
 package org.jhotdraw.samples.net;
-
-
-

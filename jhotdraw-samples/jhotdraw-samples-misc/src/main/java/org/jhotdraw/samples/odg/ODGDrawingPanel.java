@@ -6,21 +6,20 @@
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.util.*;
+
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.samples.svg.action.CombineAction;
 import org.jhotdraw.samples.svg.action.SplitAction;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
@@ -30,6 +29,9 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
+
 /**
  * ODGDrawingPanel.
  *
@@ -38,10 +40,12 @@ import org.jhotdraw.samples.svg.figures.SVGTextFigure;
  * @version $Id$
  */
 public class ODGDrawingPanel extends JPanel {
+
     private static final long serialVersionUID = 1L;
     private UndoRedoManager undoManager;
     private Drawing drawing;
     private DrawingEditor editor;
+
     /**
      * Creates new instance.
      */
@@ -107,21 +111,26 @@ public class ODGDrawingPanel extends JPanel {
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
     }
+
     public void setDrawing(Drawing d) {
         undoManager.discardAllEdits();
         view.getDrawing().removeUndoableEditListener(undoManager);
         view.setDrawing(d);
         d.addUndoableEditListener(undoManager);
     }
+
     public Drawing getDrawing() {
         return view.getDrawing();
     }
+
     public DrawingView getView() {
         return view;
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
+
     public static Collection<Action> createSelectionActions(DrawingEditor editor) {
         LinkedList<Action> a = new LinkedList<Action>();
         a.add(new DuplicateAction());
@@ -135,6 +144,7 @@ public class ODGDrawingPanel extends JPanel {
         a.add(new SendToBackAction(editor));
         return a;
     }
+
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey<?>, Object> attributes;
@@ -162,6 +172,7 @@ public class ODGDrawingPanel extends JPanel {
         tat.setRubberbandColor(Color.BLACK);
         ButtonFactory.addToolTo(tb, editor, tat, "edit.createTextArea", drawLabels);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
