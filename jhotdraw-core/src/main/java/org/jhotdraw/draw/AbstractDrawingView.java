@@ -799,12 +799,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
 
     @Override
     public Collection<Figure> findFigures(Rectangle r) {
-        return drawing == null ? Collections.EMPTY_LIST : drawing.findFigures(viewToDrawing(r));
+        return drawing == null ? Collections.emptyList() : drawing.findFigures(viewToDrawing(r));
     }
 
     @Override
     public Collection<Figure> findFiguresWithin(Rectangle r) {
-        return drawing == null ? Collections.EMPTY_LIST : drawing.findFiguresWithin(viewToDrawing(r));
+        return drawing == null ? Collections.emptyList() : drawing.findFiguresWithin(viewToDrawing(r));
     }
 
     @Override
