@@ -12,7 +12,17 @@ import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.geom.GrowStroke;
@@ -29,6 +39,8 @@ import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.jhotdraw.util.*;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * ImageMapOutputFormat exports a SVG drawing as an HTML 4.01 <code>MAP</code>
@@ -59,7 +71,9 @@ public class ImageMapOutputFormat implements OutputFormat {
      */
     private Rectangle bounds = new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ImageMapOutputFormat() {
     }
 
@@ -77,9 +91,10 @@ public class ImageMapOutputFormat implements OutputFormat {
     public JComponent getOutputFormatAccessory() {
         return null;
     }
+
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
-        write(new File(uri),drawing);
+        write(new File(uri), drawing);
     }
 
     public void write(File file, Drawing drawing) throws IOException {
@@ -111,7 +126,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      * Writes the figures to the specified output stream.
      * This method applies the specified drawingTransform to the drawing, and draws
      * it on an image of the specified getChildCount.
-     * 
+     *
      * All other write methods delegate their work to here.
      */
     public void write(OutputStream out, java.util.List<Figure> figures,
@@ -120,7 +135,16 @@ public class ImageMapOutputFormat implements OutputFormat {
         this.drawingTransform = (drawingTransform == null) ? new AffineTransform() : drawingTransform;
         this.bounds = (imageSize == null) ? new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE) : new Rectangle(0, 0, imageSize.width, imageSize.height);
 
-        XMLElement document = new XMLElement("map");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder;
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(ImageMapOutputFormat.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException(ex);
+        }
+
+        Element document = dBuilder.newDocument().createElement("map");
 
         // Note: Image map elements need to be written from front to back
         for (Figure f : new ReversedList<Figure>(figures)) {
@@ -130,26 +154,28 @@ public class ImageMapOutputFormat implements OutputFormat {
         // Strip AREA elements with "nohref" attributes from the end of the
         // map
         if (!isIncludeNohref) {
-            for (int i = document.getChildrenCount() - 1; i >= 0; i--) {
-                XMLElement child = (XMLElement) document.getChildAtIndex(i);
+            NodeList list = document.getChildNodes();
+            for (int i = list.getLength() - 1; i >= 0; i--) {
+                Element child = (Element) list.item(i);
                 if (child.hasAttribute("nohref")) {
-                    document.removeChildAtIndex(i);
+                    document.removeChild(child);
                 }
             }
         }
 
-
-        // Write XML content
-        PrintWriter writer = new PrintWriter(
-                new OutputStreamWriter(out, "UTF-8"));
-        //new XMLWriter(writer).write(document);
-        for (Object o : document.getChildren()) {
-            XMLElement child = (XMLElement) o;
-            new XMLWriter(writer).write(child);
+        try {
+            // Write XML content
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer t = tf.newTransformer();
+            NodeList list = document.getChildNodes();
+            for (int i = list.getLength() - 1; i >= 0; i--) {
+                Element child = (Element) list.item(i);
+                t.transform(new DOMSource(child), new StreamResult(out));
+            }
+        } catch (TransformerException ex) {
+            Logger.getLogger(ImageMapOutputFormat.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException(ex);
         }
-
-        // Flush writer
-        writer.flush();
     }
 
     /**
@@ -173,8 +199,8 @@ public class ImageMapOutputFormat implements OutputFormat {
 
         write(out, figures, tx,
                 new Dimension(
-                (int) (Math.abs(drawingRect.x) + drawingRect.width),
-                (int) (Math.abs(drawingRect.y) + drawingRect.height)));
+                        (int) (Math.abs(drawingRect.x) + drawingRect.width),
+                        (int) (Math.abs(drawingRect.y) + drawingRect.height)));
     }
 
     @Override
@@ -184,7 +210,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         return new InputStreamTransferable(new DataFlavor("text/html", "HTML Image Map"), buf.toByteArray());
     }
 
-    protected void writeElement(IXMLElement parent, Figure f) throws IOException {
+    protected void writeElement(Element parent, Figure f) throws IOException {
         if (f instanceof SVGEllipseFigure) {
             writeEllipseElement(parent, (SVGEllipseFigure) f);
         } else if (f instanceof SVGGroupFigure) {
@@ -235,7 +261,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the circle is inside of the image bounds.
      */
-    private boolean writeCircleAttributes(IXMLElement elem, SVGFigure f, Ellipse2D.Double ellipse) {
+    private boolean writeCircleAttributes(Element elem, SVGFigure f, Ellipse2D.Double ellipse) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
             t = drawingTransform;
@@ -243,10 +269,10 @@ public class ImageMapOutputFormat implements OutputFormat {
             t.preConcatenate(drawingTransform);
         }
 
-        if ((t.getType() &
-                (AffineTransform.TYPE_UNIFORM_SCALE | AffineTransform.TYPE_TRANSLATION)) ==
-                t.getType() &&
-                ellipse.width == ellipse.height) {
+        if ((t.getType()
+                & (AffineTransform.TYPE_UNIFORM_SCALE | AffineTransform.TYPE_TRANSLATION))
+                == t.getType()
+                && ellipse.width == ellipse.height) {
 
             Point2D.Double start = new Point2D.Double(ellipse.x, ellipse.y);
             Point2D.Double end = new Point2D.Double(ellipse.x + ellipse.width, ellipse.y + ellipse.height);
@@ -259,9 +285,9 @@ public class ImageMapOutputFormat implements OutputFormat {
 
             elem.setAttribute("shape", "circle");
             elem.setAttribute("coords",
-                    (int) (ellipse.x + ellipse.width / 2d) + "," +
-                    (int) (ellipse.y + ellipse.height / 2d) + "," +
-                    (int) (ellipse.width / 2d));
+                    (int) (ellipse.x + ellipse.width / 2d) + ","
+                    + (int) (ellipse.y + ellipse.height / 2d) + ","
+                    + (int) (ellipse.width / 2d));
             writeHrefAttribute(elem, f);
             return bounds.intersects(ellipse.getBounds());
         } else {
@@ -275,7 +301,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the rect is inside of the image bounds.
      */
-    private boolean writeRectAttributes(IXMLElement elem, SVGFigure f, Rectangle2D.Double rect) {
+    private boolean writeRectAttributes(Element elem, SVGFigure f, Rectangle2D.Double rect) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
             t = drawingTransform;
@@ -283,9 +309,9 @@ public class ImageMapOutputFormat implements OutputFormat {
             t.preConcatenate(drawingTransform);
         }
 
-        if ((t.getType() &
-                (AffineTransform.TYPE_UNIFORM_SCALE | AffineTransform.TYPE_TRANSLATION)) ==
-                t.getType()) {
+        if ((t.getType()
+                & (AffineTransform.TYPE_UNIFORM_SCALE | AffineTransform.TYPE_TRANSLATION))
+                == t.getType()) {
 
             Point2D.Double start = new Point2D.Double(rect.x, rect.y);
             Point2D.Double end = new Point2D.Double(rect.x + rect.width, rect.y + rect.height);
@@ -299,10 +325,10 @@ public class ImageMapOutputFormat implements OutputFormat {
 
             elem.setAttribute("shape", "rect");
             elem.setAttribute("coords",
-                    r.x + "," +
-                    r.y + "," +
-                    (r.x + r.width) + "," +
-                    (r.y + r.height));
+                    r.x + ","
+                    + r.y + ","
+                    + (r.x + r.width) + ","
+                    + (r.y + r.height));
             writeHrefAttribute(elem, f);
             return bounds.intersects(r);
         } else {
@@ -310,7 +336,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
-    private void writeHrefAttribute(IXMLElement elem, SVGFigure f) {
+    private void writeHrefAttribute(Element elem, SVGFigure f) {
         String link = f.get(LINK);
         if (link != null && link.trim().length() > 0) {
             elem.setAttribute("href", link);
@@ -331,7 +357,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the polygon is inside of the image bounds.
      */
-    private boolean writePolyAttributes(IXMLElement elem, SVGFigure f, Shape shape) {
+    private boolean writePolyAttributes(Element elem, SVGFigure f, Shape shape) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
             t = drawingTransform;
@@ -379,46 +405,46 @@ public class ImageMapOutputFormat implements OutputFormat {
         return path.intersects(new Rectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height));
     }
 
-    private void writePathElement(IXMLElement parent, SVGPathFigure f) throws IOException {
-        GrowStroke growStroke = new GrowStroke( (getStrokeTotalWidth(f, 1.0) / 2d),  getStrokeTotalWidth(f, 1.0));
+    private void writePathElement(Element parent, SVGPathFigure f) throws IOException {
+        GrowStroke growStroke = new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0));
         BasicStroke basicStroke = new BasicStroke((float) getStrokeTotalWidth(f, 1.0));
         for (Figure child : f.getChildren()) {
             SVGBezierFigure bezier = (SVGBezierFigure) child;
-            IXMLElement elem = parent.createElement("area");
+            Element elem = parent.getOwnerDocument().createElement("area");
             if (bezier.isClosed()) {
                 writePolyAttributes(elem, f, growStroke.createStrokedShape(bezier.getBezierPath()));
             } else {
                 writePolyAttributes(elem, f, basicStroke.createStrokedShape(bezier.getBezierPath()));
             }
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writePolygonElement(IXMLElement parent, SVGPathFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("area");
-        if (writePolyAttributes(elem, f, new GrowStroke( (getStrokeTotalWidth(f, 1.0) / 2d),  getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
-            parent.addChild(elem);
+    private void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("area");
+        if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
+            parent.appendChild(elem);
         }
     }
 
-    private void writePolylineElement(IXMLElement parent, SVGPathFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("area");
+    private void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("area");
 
         if (writePolyAttributes(elem, f, new BasicStroke((float) getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writeLineElement(IXMLElement parent, SVGPathFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("area");
-        if (writePolyAttributes(elem, f, new GrowStroke( (getStrokeTotalWidth(f, 1.0) / 2d),  getStrokeTotalWidth(f, 1.0)).createStrokedShape(new Line2D.Double(
+    private void writeLineElement(Element parent, SVGPathFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("area");
+        if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(new Line2D.Double(
                 f.getStartPoint(), f.getEndPoint())))) {
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writeRectElement(IXMLElement parent, SVGRectFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("AREA");
+    private void writeRectElement(Element parent, SVGRectFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("AREA");
         boolean isContained;
         if (f.getArcHeight() == 0 && f.getArcWidth() == 0) {
             Rectangle2D.Double rect = f.getBounds();
@@ -430,17 +456,17 @@ public class ImageMapOutputFormat implements OutputFormat {
             isContained = writeRectAttributes(elem, f, rect);
         } else {
             isContained = writePolyAttributes(elem, f,
-                    new GrowStroke( (getStrokeTotalWidth(f, 1.0) / 2d),  getStrokeTotalWidth(f, 1.0)).createStrokedShape(new RoundRectangle2D.Double(
-                    f.getX(), f.getY(), f.getWidth(), f.getHeight(),
-                    f.getArcWidth(), f.getArcHeight())));
+                    new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(new RoundRectangle2D.Double(
+                            f.getX(), f.getY(), f.getWidth(), f.getHeight(),
+                            f.getArcWidth(), f.getArcHeight())));
         }
         if (isContained) {
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writeTextElement(IXMLElement parent, SVGTextFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("AREA");
+    private void writeTextElement(Element parent, SVGTextFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("AREA");
         Rectangle2D.Double rect = f.getBounds();
         double grow = getPerpendicularHitGrowth(f, 1.0);
         rect.x -= grow;
@@ -448,12 +474,12 @@ public class ImageMapOutputFormat implements OutputFormat {
         rect.width += grow;
         rect.height += grow;
         if (writeRectAttributes(elem, f, rect)) {
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writeTextAreaElement(IXMLElement parent, SVGTextAreaFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("AREA");
+    private void writeTextAreaElement(Element parent, SVGTextAreaFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("AREA");
         Rectangle2D.Double rect = f.getBounds();
         double grow = getPerpendicularHitGrowth(f, 1.0);
         rect.x -= grow;
@@ -461,31 +487,31 @@ public class ImageMapOutputFormat implements OutputFormat {
         rect.width += grow;
         rect.height += grow;
         if (writeRectAttributes(elem, f, rect)) {
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writeEllipseElement(IXMLElement parent, SVGEllipseFigure f) throws IOException {
-        IXMLElement elem = parent.createElement("area");
+    private void writeEllipseElement(Element parent, SVGEllipseFigure f) throws IOException {
+        Element elem = parent.getOwnerDocument().createElement("area");
         Rectangle2D.Double r = f.getBounds();
         double grow = getPerpendicularHitGrowth(f, 1.0);
         Ellipse2D.Double ellipse = new Ellipse2D.Double(r.x - grow, r.y - grow, r.width + grow, r.height + grow);
         if (writeCircleAttributes(elem, f, ellipse)) {
-            parent.addChild(elem);
+            parent.appendChild(elem);
         }
     }
 
-    private void writeGElement(IXMLElement parent, SVGGroupFigure f) throws IOException {
+    private void writeGElement(Element parent, SVGGroupFigure f) throws IOException {
         // Note: Image map elements need to be written from front to back
         for (Figure child : new ReversedList<Figure>(f.getChildren())) {
             writeElement(parent, child);
         }
     }
 
-    private void writeImageElement(IXMLElement parent, SVGImageFigure f) {
-        IXMLElement elem = parent.createElement("area");
+    private void writeImageElement(Element parent, SVGImageFigure f) {
+        Element elem = parent.getOwnerDocument().createElement("area");
         Rectangle2D.Double rect = f.getBounds();
         writeRectAttributes(elem, f, rect);
-        parent.addChild(elem);
+        parent.appendChild(elem);
     }
 }
