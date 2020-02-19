@@ -7,21 +7,23 @@
  */
 package org.jhotdraw.app;
 
-
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.*;
+import java.beans.*;
+import java.io.*;
+import java.net.URI;
+import java.util.*;
+import java.util.prefs.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.action.app.AboutAction;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
-import org.jhotdraw.app.action.window.ToggleToolBarAction;
-import org.jhotdraw.app.action.window.FocusWindowAction;
-import org.jhotdraw.app.action.window.ArrangeWindowsAction;
-import org.jhotdraw.app.action.window.MaximizeWindowAction;
-import org.jhotdraw.app.action.window.MinimizeWindowAction;
-import org.jhotdraw.app.action.file.SaveFileAsAction;
-import org.jhotdraw.app.action.file.SaveFileAction;
-import org.jhotdraw.app.action.file.PrintFileAction;
-import org.jhotdraw.app.action.file.NewFileAction;
-import org.jhotdraw.app.action.file.OpenFileAction;
-import org.jhotdraw.app.action.file.CloseFileAction;
-import org.jhotdraw.app.action.file.OpenDirectoryAction;
-import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.app.ExitAction;
+import org.jhotdraw.app.action.app.OpenApplicationFileAction;
 import org.jhotdraw.app.action.edit.AbstractFindAction;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.CopyAction;
@@ -32,31 +34,28 @@ import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.app.action.app.AboutAction;
-import org.jhotdraw.app.action.app.OpenApplicationFileAction;
-import org.jhotdraw.app.action.app.ExitAction;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.net.URI;
-import java.util.*;
-import java.util.prefs.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.action.file.ClearFileAction;
 import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.CloseFileAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
 import org.jhotdraw.app.action.file.LoadDirectoryAction;
 import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.NewFileAction;
 import org.jhotdraw.app.action.file.NewWindowAction;
+import org.jhotdraw.app.action.file.OpenDirectoryAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.PrintFileAction;
+import org.jhotdraw.app.action.file.SaveFileAction;
+import org.jhotdraw.app.action.file.SaveFileAsAction;
+import org.jhotdraw.app.action.window.ArrangeWindowsAction;
+import org.jhotdraw.app.action.window.FocusWindowAction;
+import org.jhotdraw.app.action.window.MaximizeWindowAction;
+import org.jhotdraw.app.action.window.MinimizeWindowAction;
+import org.jhotdraw.app.action.window.ToggleToolBarAction;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
+import org.jhotdraw.util.prefs.*;
 
 /**
  * {@code MDIApplication} handles the lifecycle of multiple {@link View}s
@@ -68,7 +67,7 @@ import org.jhotdraw.net.URIUtil;
  * >Windows User Experience Interaction Guidelines</a>.
  * <p>
  * An application consists of a parent {@code JFrame} which holds a {@code JDesktopPane}.
- * The views reside in {@code JInternalFrame}s inside of the {@code JDesktopPane}. 
+ * The views reside in {@code JInternalFrame}s inside of the {@code JDesktopPane}.
  * The parent frame also contains a menu bar, toolbars and palette windows for
  * the views.
  * <p>
@@ -146,6 +145,7 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class MDIApplication extends AbstractApplication {
+
     private static final long serialVersionUID = 1L;
 
     private JFrame parentFrame;
@@ -154,7 +154,9 @@ public class MDIApplication extends AbstractApplication {
     private Preferences prefs;
     private LinkedList<Action> toolBarActions;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public MDIApplication() {
     }
 
@@ -275,7 +277,7 @@ public class MDIApplication extends AbstractApplication {
                 for (View aView : views()) {
                     if (aView != v && aView.isShowing()
                             && SwingUtilities.getRootPane(aView.getComponent()).getParent().
-                            getLocation().equals(loc)) {
+                                    getLocation().equals(loc)) {
                         Point offset = SwingUtilities.convertPoint(SwingUtilities.getRootPane(aView.getComponent()), 0, 0, SwingUtilities.getRootPane(aView.getComponent()).getParent());
                         loc.x += Math.max(offset.x, offset.y);
                         loc.y += Math.max(offset.x, offset.y);
@@ -287,14 +289,13 @@ public class MDIApplication extends AbstractApplication {
             f.setLocation(loc);
 
             //paletteHandler.add(f, v);
-
             f.addInternalFrameListener(new InternalFrameAdapter() {
 
                 @Override
                 public void internalFrameClosing(final InternalFrameEvent evt) {
                     getAction(v, CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
-                            "windowClosing"));
+                                    "windowClosing"));
                 }
 
                 @Override
@@ -333,7 +334,6 @@ public class MDIApplication extends AbstractApplication {
             });
 
             //f.setJMenuBar(createMenuBar(v));
-
             f.getContentPane().add(v.getComponent());
             f.setVisible(true);
             desktopPane.add(f);
@@ -484,7 +484,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -498,10 +498,10 @@ public class MDIApplication extends AbstractApplication {
         mb.addLoadFileItems(m, this, view);
         mb.addOpenFileItems(m, this, view);
 
-        if (getAction(view, LoadFileAction.ID) != null ||//
-                getAction(view, OpenFileAction.ID) != null ||//
-                getAction(view, LoadDirectoryAction.ID) != null ||//
-                getAction(view, OpenDirectoryAction.ID) != null) {
+        if (getAction(view, LoadFileAction.ID) != null
+                || getAction(view, OpenFileAction.ID) != null
+                || getAction(view, LoadDirectoryAction.ID) != null
+                || getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
@@ -541,7 +541,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createViewMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "view");
@@ -553,7 +553,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createWindowMenu(View view) {
         JMenu m;
         JMenuItem mi;
@@ -587,7 +587,7 @@ public class MDIApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -623,7 +623,9 @@ public class MDIApplication extends AbstractApplication {
         return (m.getItemCount() == 0) ? null : m;
     }
 
-    /** Updates the menu items in the "Window" menu. */
+    /**
+     * Updates the menu items in the "Window" menu.
+     */
     private class WindowMenuHandler implements PropertyChangeListener {
 
         private JMenu windowMenu;
@@ -651,7 +653,7 @@ public class MDIApplication extends AbstractApplication {
             m.add(getAction(view, ArrangeWindowsAction.VERTICAL_ID));
             m.add(getAction(view, ArrangeWindowsAction.HORIZONTAL_ID));
             m.addSeparator();
-            for (View pr: views()) {
+            for (View pr : views()) {
                 if (getAction(pr, FocusWindowAction.ID) != null) {
                     m.add(getAction(pr, FocusWindowAction.ID));
                 }
@@ -667,9 +669,12 @@ public class MDIApplication extends AbstractApplication {
         }
     }
 
-    /** This transfer handler opens a new view for each dropped file. */
+    /**
+     * This transfer handler opens a new view for each dropped file.
+     */
     private class DropFileTransferHandler extends TransferHandler {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {

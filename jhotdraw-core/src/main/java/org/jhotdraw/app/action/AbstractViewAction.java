@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app.action;
 
-
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
@@ -21,25 +20,29 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * If the current View object is disabled or is null, the
  * AbstractViewAction is disabled as well.
  * <p>
- * A property name can be specified. When the specified property 
+ * A property name can be specified. When the specified property
  * changes or when the current view changes, method updateView
  * is invoked.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class AbstractViewAction extends AbstractAction {
+
     private static final long serialVersionUID = 1L;
 
     private Application app;
-    
+
     private View view;
     private String propertyName;
-    /** Set this to true if the action may create a new view if none exists.*/
+    /**
+     * Set this to true if the action may create a new view if none exists.
+     */
     private boolean mayCreateView;
     public static final String VIEW_PROPERTY = "view";
     public static final String ENABLED_PROPERTY = "enabled";
-    /** Combined enabled value consisting of the enabled state of this action and 
+    /**
+     * Combined enabled value consisting of the enabled state of this action and
      * the enabled state of the view and the application.
      */
     private boolean combinedEnabled = true;
@@ -65,7 +68,9 @@ public abstract class AbstractViewAction extends AbstractAction {
         }
     };
 
-    /** Creates a new instance which acts on the specified view of the application. */
+    /**
+     * Creates a new instance which acts on the specified view of the application.
+     */
     public AbstractViewAction(Application app, View view) {
         this.app = app;
         this.view = view;
@@ -145,13 +150,12 @@ public abstract class AbstractViewAction extends AbstractAction {
         return app;
     }
 
-    
     public View getActiveView() {
         return (view == null) ? app.getActiveView() : view;
     }
 
     /**
-     * Returns true if the action <i>and</i> the application and <i>the</i> view 
+     * Returns true if the action <i>and</i> the application and <i>the</i> view
      * is enabled.
      *
      * @return true if the action is enabled, false otherwise
@@ -167,8 +171,8 @@ public abstract class AbstractViewAction extends AbstractAction {
      * depends on the value that is set here and on the enabled state of
      * the application.
      *
-     * @param newValue  true to enable the action, false to
-     *                  disable it
+     * @param newValue true to enable the action, false to
+     * disable it
      * @see Action#setEnabled
      */
     @Override
@@ -186,14 +190,17 @@ public abstract class AbstractViewAction extends AbstractAction {
                 combinedEnabled);
     }
 
-    /** Set this to true if the action may create a new view if none exists.
+    /**
+     * Set this to true if the action may create a new view if none exists.
      * If this is false, the action will be disabled, if no view is available.
      */
     protected void setMayCreateView(boolean b) {
         mayCreateView = b;
     }
 
-    /** Returns to true if the action may create a new view if none exists.*/
+    /**
+     * Returns to true if the action may create a new view if none exists.
+     */
     protected boolean isMayCreateView() {
         return mayCreateView;
     }

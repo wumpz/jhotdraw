@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.text;
 
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -26,6 +25,7 @@ import javax.swing.text.DefaultFormatterFactory;
  * @version $Id$
  */
 public class JavaNumberFormatter extends DefaultFormatter {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -71,6 +71,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
     public JavaNumberFormatter(double min, double max, double multiplier, boolean allowsNullValue) {
         this(min, max, multiplier, allowsNullValue, null);
     }
+
     /**
      * Creates a NumberFormatter with the specified Format instance.
      */
@@ -114,7 +115,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
      * @return Minimum legal value that can be input
      */
     @SuppressWarnings("rawtypes")
-    public  Comparable getMinimum() {
+    public Comparable getMinimum() {
         return min;
     }
 
@@ -332,13 +333,13 @@ public class JavaNumberFormatter extends DefaultFormatter {
      * Returns true if <code>value</code> is between the min/max.
      *
      * @param wantsCCE If false, and a ClassCastException is thrown in
-     *                 comparing the values, the exception is consumed and
-     *                 false is returned.
+     * comparing the values, the exception is consumed and
+     * false is returned.
      */
     @SuppressWarnings("unchecked")
     boolean isValidValue(Object value, boolean wantsCCE) {
         try {
-            if (min != null && min.compareTo((Number)value) > 0) {
+            if (min != null && min.compareTo((Number) value) > 0) {
                 return false;
             }
         } catch (ClassCastException cce) {
@@ -349,7 +350,7 @@ public class JavaNumberFormatter extends DefaultFormatter {
         }
 
         try {
-            if (max != null && max.compareTo((Number)value) < 0) {
+            if (max != null && max.compareTo((Number) value) < 0) {
                 return false;
             }
         } catch (ClassCastException cce) {
@@ -361,12 +362,16 @@ public class JavaNumberFormatter extends DefaultFormatter {
         return true;
     }
 
-    /** If non-null the unit string is appended to the value. */
+    /**
+     * If non-null the unit string is appended to the value.
+     */
     public void setUnit(String value) {
         unit = value;
     }
 
-    /** If non-null the unit string is appended to the value. */
+    /**
+     * If non-null the unit string is appended to the value.
+     */
     public String getUnit() {
         return unit;
     }

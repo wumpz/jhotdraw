@@ -56,7 +56,7 @@ public class JPopupButton extends javax.swing.JButton {
         // Popup menu listener
         @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            //
+            
         }
 
         @Override

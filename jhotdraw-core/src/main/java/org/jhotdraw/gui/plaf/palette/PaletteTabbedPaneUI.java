@@ -132,7 +132,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             (textRect.x - tabRect.x) - tabScroller.croppedEdge.getCroppedSideWidth();
             clippedTitle = SwingUtilities2.clipStringIfNecessary(null, metrics, title, availTextWidth);
             }*/
-
             paintText(g, tabPlacement, font, metrics,
                     tabIndex, clippedTitle, textRect, isSelected);
 
@@ -360,7 +359,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         // Draw unbroken line if tabs are not on TOP, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        //
         if (tabPlacement != TOP || selectedIndex < 0
                 || (selRect.y + selRect.height + 1 < y)
                 || (selRect.x < x || selRect.x > x + w)) {
@@ -390,7 +388,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         // Draw unbroken line if tabs are not on LEFT, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        //
         if (tabPlacement != LEFT || selectedIndex < 0
                 || (selRect.x + selRect.width + 1 < x)
                 || (selRect.y < y || selRect.y > y + h)) {
@@ -417,7 +414,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         // Draw unbroken line if tabs are not on BOTTOM, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        //
         if (tabPlacement != BOTTOM || selectedIndex < 0
                 || (selRect.y - 1 > h)
                 || (selRect.x < x || selRect.x > x + w)) {
@@ -428,12 +424,12 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
             // Break line to show visual connection to selected tab
             //g.drawLine(x + 1, y + h - 2, selRect.x - 1, y + h - 2);
             g.setColor(shadow);
-            g.drawLine(x, y + h - 1, selRect.x , y + h - 1);
+            g.drawLine(x, y + h - 1, selRect.x, y + h - 1);
             if (selRect.x + selRect.width < x + w - 2) {
                 //g.setColor(shadow);
                 //g.drawLine(selRect.x + selRect.width, y+h-2, x+w-2, y+h-2);
                 g.setColor(shadow);
-                g.drawLine(selRect.x + selRect.width-1, y + h - 1, x + w - 1, y + h - 1);
+                g.drawLine(selRect.x + selRect.width - 1, y + h - 1, x + w - 1, y + h - 1);
             }
         }
 
@@ -451,7 +447,6 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         // Draw unbroken line if tabs are not on RIGHT, OR
         // selected tab is not in run adjacent to content, OR
         // selected tab is not visible (SCROLL_TAB_LAYOUT)
-        //
         if (tabPlacement != RIGHT || selectedIndex < 0
                 || (selRect.x - 1 > w)
                 || (selRect.y < y || selRect.y > y + h)) {
@@ -525,6 +520,7 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         }
         return new TabbedPaneLayout();
     }
+
     @Override
     protected FontMetrics getFontMetrics() {
         //Font font = tabPane.getFont();

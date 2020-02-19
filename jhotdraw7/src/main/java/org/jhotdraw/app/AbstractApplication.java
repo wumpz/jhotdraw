@@ -454,7 +454,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      */
     protected void maybeAddSeparator(JMenu m) {
         JPopupMenu pm = m.getPopupMenu();
-        if (pm.getComponentCount() > 0 //
+        if (pm.getComponentCount() > 0 
                 && !(pm.getComponent(pm.getComponentCount() - 1) instanceof JSeparator)) {
             m.addSeparator();
         }
@@ -513,11 +513,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         JMenu m;
 
         m = new JMenu();
-        labels.configureMenu(m, //
-                (getAction(view, LoadFileAction.ID) != null || //
-                getAction(view, LoadDirectoryAction.ID) != null) ?//
-                "file.loadRecent" ://
-                "file.openRecent"//
+        labels.configureMenu(m, 
+                (getAction(view, LoadFileAction.ID) != null || 
+                getAction(view, LoadDirectoryAction.ID) != null) ?
+                "file.loadRecent" :
+                "file.openRecent"
                 );
         m.setIcon(null);
         m.add(getAction(view, ClearRecentFilesMenuAction.ID));
@@ -571,7 +571,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 openRecentMenu.removeAll();
 
                 // Create new actions and add them to the menu
-                if (getAction(view, LoadFileAction.ID) != null || //
+                if (getAction(view, LoadFileAction.ID) != null || 
                         getAction(view, LoadDirectoryAction.ID) != null) {
                     for (URI f : getRecentURIs()) {
                         LoadRecentFileAction action = new LoadRecentFileAction(AbstractApplication.this, view, f);

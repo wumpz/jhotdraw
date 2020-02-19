@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app;
 
-
 import java.awt.Component;
 import java.awt.Window;
 import java.beans.PropertyChangeListener;
@@ -54,28 +53,31 @@ import org.jhotdraw.gui.URIChooser;
  *         model.setViewClassName("org.jhotdraw.myapplication.MyView");
  *         app.setModel(model);
  *         app.launch(args);
- *     } 
+ *     }
  * </pre>
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * When the application is launched, it opens the last opened URI in a view.<br>
  * {@code Application} also provides an API for data suppliers in {@link #addRecentURI},
  * {@link #getRecentURIs}, {@link #clearRecentURIs}.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
-     * <hr>
-     * <b>Design Patterns</b>
-     *
-     * <p><em>Framework</em><br>
-     * The interfaces and classes listed below together with the {@code Action}
-     * classes in the org.jhotddraw.app.action package define the contracts of a
-     * framework for document oriented applications:<br>
-     * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
-     *
- * <p><em>Abstract Factory</em><br>
+ * <hr>
+ * <b>Design Patterns</b>
+ *
+ * <p>
+ * <em>Framework</em><br>
+ * The interfaces and classes listed below together with the {@code Action}
+ * classes in the org.jhotddraw.app.action package define the contracts of a
+ * framework for document oriented applications:<br>
+ * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
+ *
+ * <p>
+ * <em>Abstract Factory</em><br>
  * {@code MenuBuilder} is used by {@code Application} for creating menu items.
  * The {@code MenuBuilder} is provided by {@code ApplicationModel}.<br>
  * Abstract Factory: {@link MenuBuilder}<br>
@@ -114,6 +116,7 @@ public interface Application {
      * This method implements behavior for the following features:
      * <em>Launch application</em>, <em>Open last URI on launch</em>.
      * See {@link org.jhotdraw.app}.
+     *
      * @param args The arguments of the main method
      */
     public void launch(String[] args);
@@ -126,6 +129,7 @@ public interface Application {
      * This method implements behavior for the following feature:
      * <em>Open URIs from command line on launch</em>.
      * See {@link org.jhotdraw.app}.
+     *
      * @param args The arguments of the main method
      */
     public void configure(String[] args);
@@ -156,7 +160,7 @@ public interface Application {
      * See {@link org.jhotdraw.app}.
      *
      * @param uris Upon launch, the application may be requested to open views
-     *             for a given list of URI's.
+     * for a given list of URI's.
      */
     public void start(List<URI> uris);
 
@@ -183,9 +187,10 @@ public interface Application {
     /**
      * Creates a new view for this application and initializes it, by calling
      * {@link View#init}.
-     * The view has not been added to the application yet. 
+     * The view has not been added to the application yet.
      * To make the view usable with this application, call {@link #add(View)}.
      * To make it visible, first call {@code add(View)}, then {@link #show(View)}.
+     *
      * @return the created view
      */
     public View createView();
@@ -194,6 +199,7 @@ public interface Application {
      * Adds a view to this application.
      * Fires a "documentCount" property change event.
      * Invokes method setApplication(this) on the view object.
+     *
      * @param v the view
      */
     public void add(View v);
@@ -203,48 +209,54 @@ public interface Application {
      * view.
      * Fires a "documentCount" property change event.
      * Invokes method setApplication(null) on the view object.
+     *
      * @param v the view
      */
     public void remove(View v);
 
     /**
      * Shows a view.
+     *
      * @param v the view
      */
     public void show(View v);
 
     /**
      * Hides a view.
+     *
      * @param v the view
      */
     public void hide(View v);
 
     /**
      * This is a convenience method for removing a view and disposing it.
+     *
      * @param v the view
      */
     public void dispose(View v);
 
     /**
      * Returns a read only collection view of the views of this application.
+     *
      * @return the views
      */
     public Collection<View> views();
 
     /**
-     * Returns the active view. This is used for OSXApplication and 
+     * Returns the active view. This is used for OSXApplication and
      * MDIApplication which share actions among multiple View instances.
      * Active view may be become null, if the
      * application has no view.
      * <p>
-     * This is a bound property. 
+     * This is a bound property.
+     *
      * @return the active view or null
      */
-    
     public View getActiveView();
 
     /**
      * Returns the enabled state of the application.
+     *
      * @return the value
      */
     public boolean isEnabled();
@@ -259,80 +271,91 @@ public interface Application {
      *
      * Actions that act on the application must check in their actionPerformed
      * method whether the application is enabled.
-     * If the application is disabled, they must do nothing. 
+     * If the application is disabled, they must do nothing.
      * If the application is enabled, they must disable the application,
      * perform the action and then enable the application again.
      *
      * This is a bound property.
+     *
      * @param newValue the value
      */
     public void setEnabled(boolean newValue);
 
     /**
      * Adds a property change listener.
+     *
      * @param l the listener
      */
     public void addPropertyChangeListener(PropertyChangeListener l);
 
     /**
      * Removes a property change listener.
+     *
      * @param l the listener
      */
     public void removePropertyChangeListener(PropertyChangeListener l);
 
     /**
      * Returns the name of the application.
+     *
      * @return the value
      */
     public String getName();
 
     /**
      * Returns the version of the application.
+     *
      * @return the value
      */
     public String getVersion();
 
     /**
      * Returns the copyright of the application.
+     *
      * @return the value
      */
     public String getCopyright();
 
     /**
      * Sets the application model.
+     *
      * @param newValue the value
      */
     public void setModel(ApplicationModel newValue);
 
     /**
      * Returns the application model.
+     *
      * @return the value
      */
     public ApplicationModel getModel();
 
     /**
      * Returns true, if this application shares tools among multiple views.
+     *
      * @return the value
      */
     public boolean isSharingToolsAmongViews();
 
     /**
-     * Returns the application component. 
+     * Returns the application component.
      * This may return null, if the application is not represented by a component
      * of its own on the user interface.
+     *
      * @return the value
      */
-    
     public Component getComponent();
 
     /**
      * Adds a palette window to the application.
+     *
      * @param palette the palette
      */
     public void addPalette(Window palette);
 
     /**
      * Removes a palette window from the application.
+     *
      * @param palette the palette
      */
     public void removePalette(Window palette);
@@ -348,6 +371,7 @@ public interface Application {
 
     /**
      * Removes a (non-palette) window from the application.
+     *
      * @param window the window
      */
     public void removeWindow(Window window);
@@ -358,6 +382,7 @@ public interface Application {
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
      * See {@link org.jhotdraw.app}.
+     *
      * @return the recently opened URIs
      */
     public java.util.List<URI> getRecentURIs();
@@ -372,6 +397,7 @@ public interface Application {
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
      * See {@link org.jhotdraw.app}.
+     *
      * @param uri the value
      */
     public void addRecentURI(URI uri);
@@ -394,7 +420,6 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createFileMenu(View v);
 
     /**
@@ -403,7 +428,6 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createEditMenu(View v);
 
     /**
@@ -412,7 +436,6 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createViewMenu(View v);
 
     /**
@@ -421,16 +444,14 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createWindowMenu(View v);
 
-    /** 
+    /**
      * Creates a help menu for the specified view of for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-    
     public JMenu createHelpMenu(View v);
 
     /**
@@ -473,10 +494,12 @@ public interface Application {
      */
     public ActionMap getActionMap(View v);
 
-    /** Returns an unmodifiable list of all views of the application.
+    /**
+     * Returns an unmodifiable list of all views of the application.
      * <p>
      * The list of views is used by the <em>Allow multiple views per URI</em> feature.
      * See {@link org.jhotdraw.app}.
+     *
      * @return the views
      */
     public List<View> getViews();

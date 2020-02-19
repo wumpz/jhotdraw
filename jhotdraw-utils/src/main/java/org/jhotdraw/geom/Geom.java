@@ -563,7 +563,7 @@ public class Geom {
         //     (YA-YC)(XD-XC)-(XA-XC)(YD-YC)
         // r = -----------------------------  (eqn 1)
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
-        //
+        
         //     (YA-YC)(XB-XA)-(XA-XC)(YB-YA)
         // s = -----------------------------  (eqn 2)
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
@@ -619,7 +619,7 @@ public class Geom {
         //     (YA-YC)(XD-XC)-(XA-XC)(YD-YC)
         // r = -----------------------------  (eqn 1)
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
-        //
+        
         //     (YA-YC)(XB-XA)-(XA-XC)(YB-YA)
         // s = -----------------------------  (eqn 2)
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
@@ -671,7 +671,7 @@ public class Geom {
         //     (YA-YC)(XD-XC)-(XA-XC)(YD-YC)
         // r = -----------------------------  (eqn 1)
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
-        //
+        
         //     (YA-YC)(XB-XA)-(XA-XC)(YB-YA)
         // s = -----------------------------  (eqn 2)
         //     (XB-XA)(YD-YC)-(YB-YA)(XD-XC)
@@ -732,32 +732,32 @@ public class Geom {
         //Let the point be C (XC,YC) and the line be AB (XA,YA) to (XB,YB).
         //The length of the
         //      line segment AB is L:
-        //
+        
         //                    ___________________
         //                   |        2         2
         //              L = \| (XB-XA) + (YB-YA)
         //and
-        //
+        
         //                  (YA-YC)(YA-YB)-(XA-XC)(XB-XA)
         //              r = -----------------------------
         //                              L**2
-        //
+        
         //                  (YA-YC)(XB-XA)-(XA-XC)(YB-YA)
         //              s = -----------------------------
         //                              L**2
-        //
+        
         //      Let I be the point of perpendicular projection of C onto AB, the
-        //
+        
         //              XI=XA+r(XB-XA)
         //              YI=YA+r(YB-YA)
-        //
+        
         //      Distance from A to I = r*L
         //      Distance from C to I = s*L
-        //
+        
         //      If r < 0 I is on backward extension of AB
         //      If r>1 I is on ahead extension of AB
         //      If 0<=r<=1 I is on AB
-        //
+        
         //      If s < 0 C is left of AB (you can just check the numerator)
         //      If s>0 C is right of AB
         //      If s=0 C is on AB

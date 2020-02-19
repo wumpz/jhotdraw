@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.action;
 
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import org.jhotdraw.util.Images;
@@ -16,7 +15,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * ColorIcon.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class ColorIcon implements javax.swing.Icon {
@@ -27,13 +26,15 @@ public class ColorIcon implements javax.swing.Icon {
     private int height;
     private String name;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ColorIcon(int rgb) {
         this(new Color(rgb));
     }
 
     public ColorIcon(Color color) {
-        this(color, (color==null)?  ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").getToolTipTextProperty("attribute.color.noColor") :color.getRed() + "," + color.getGreen() + "," + color.getBlue(), 14, 14);
+        this(color, (color == null) ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").getToolTipTextProperty("attribute.color.noColor") : color.getRed() + "," + color.getGreen() + "," + color.getBlue(), 14, 14);
     }
 
     public ColorIcon(int rgb, String name) {
@@ -50,7 +51,7 @@ public class ColorIcon implements javax.swing.Icon {
         this.width = width;
         this.height = height;
         if (noColorImage == null) {
-            noColorImage = Images.toBufferedImage(Images.createImage(ColorIcon.class,"/org/jhotdraw/draw/action/images/attribute.color.noColor.png"));
+            noColorImage = Images.toBufferedImage(Images.createImage(ColorIcon.class, "/org/jhotdraw/draw/action/images/attribute.color.noColor.png"));
         }
     }
 
@@ -75,7 +76,7 @@ public class ColorIcon implements javax.swing.Icon {
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         //Graphics2D g = (Graphics2D) gr;
-        if (fillColor == null||fillColor.getAlpha()==0) {
+        if (fillColor == null || fillColor.getAlpha() == 0) {
             if (width == noColorImage.getWidth() && height == noColorImage.getHeight()) {
                 g.drawImage(noColorImage, x, y, c);
             } else {
@@ -87,8 +88,8 @@ public class ColorIcon implements javax.swing.Icon {
                 g.fillPolygon(xpoints, ypoints, xpoints.length);
             }
         } else {
- //           g.setColor(Color.WHITE);
- //           g.fillRect(x + 1, y + 1, width - 2, height - 2);
+            //           g.setColor(Color.WHITE);
+            //           g.fillRect(x + 1, y + 1, width - 2, height - 2);
             g.setColor(fillColor);
 //            g.fillRect(x + 2, y + 2, width - 4, height - 4);
             g.fillRect(x + 1, y + 1, width - 2, height - 2);

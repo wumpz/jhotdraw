@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app;
 
-
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.URIChooser;
@@ -20,14 +19,16 @@ import org.jhotdraw.gui.URIChooser;
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * When the application is started, the last opened URI is opened in a view.<br>
  * {@link #isOpenLastURIOnLaunch()} is used by {@link Application#start} to
  * determine whether this feature is enabled.
  * See {@link org.jhotdraw.app} for a list of participating classes.
  * </p>
  *
- * <p><em>Allow multiple views for URI</em><br>
+ * <p>
+ * <em>Allow multiple views for URI</em><br>
  * Allows opening the same URI in multiple views.
  * When the feature is disabled, opening multiple views is prevented, and saving
  * to a file for which another view is open is prevented.<br>
@@ -37,7 +38,8 @@ import org.jhotdraw.gui.URIChooser;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below together with the {@code Action}
  * classes in the org.jhotddraw.app.action package define the contracts of a
  * framework for document oriented applications:<br>
@@ -51,51 +53,64 @@ public interface ApplicationModel {
 
     /**
      * Returns the name of the application.
+     *
      * @return the value
      */
     public String getName();
 
     /**
      * Returns the version of the application.
+     *
      * @return the value
      */
     public String getVersion();
 
     /**
      * Returns the copyright of the application.
+     *
      * @return the value
      */
     public String getCopyright();
 
     /**
      * Creates a new view for the application.
+     *
      * @return the created view
      */
     public View createView();
 
-    /** Initializes the application.
+    /**
+     * Initializes the application.
+     *
      * @param a the application
      */
     public void initApplication(Application a);
 
-    /** Destroys the application. 
+    /**
+     * Destroys the application.
+     *
      * @param a the application
-    */
+     */
     public void destroyApplication(Application a);
 
-    /** Initializes the supplied view for the application. 
+    /**
+     * Initializes the supplied view for the application.
+     *
      * @param a the application
      * @param v the view
-    */
+     */
     public void initView(Application a, View v);
 
-    /** Destroys the supplied view. 
+    /**
+     * Destroys the supplied view.
+     *
      * @param a the application
      * @param v the view
      */
     public void destroyView(Application a, View v);
 
-    /** Creates an action map.
+    /**
+     * Creates an action map.
      * <p>
      * This method is invoked once for the application, and once for each
      * created view.
@@ -124,7 +139,9 @@ public interface ApplicationModel {
      */
     public List<JToolBar> createToolBars(Application a, View v);
 
-    /** Returns the abstract factory for building application menus. */
+    /**
+     * Returns the abstract factory for building application menus.
+     */
     public MenuBuilder getMenuBuilder();
 
     /**
@@ -177,17 +194,19 @@ public interface ApplicationModel {
      */
     public URIChooser createExportChooser(Application a, View v);
 
-    /** Returns true if the application should open the last opened URI on launch
+    /**
+     * Returns true if the application should open the last opened URI on launch
      * instead of opening an empty view.
      * <p>
      * This method defines an API for the <em>Open last URI on Launch</em> feature.
      * See {@link org.jhotdraw.app}.
-     * 
+     *
      * @return True if last used URI shall be opened on launch.
      */
     public boolean isOpenLastURIOnLaunch();
 
-    /** Returns true if the application may open multiple views for the same
+    /**
+     * Returns true if the application may open multiple views for the same
      * URI.
      * <p>
      * This method defines an API for the <em>Allow multiple views for URI</em> feature.

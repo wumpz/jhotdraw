@@ -6,7 +6,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
 import java.awt.color.ColorSpace;
@@ -22,11 +21,13 @@ import org.jhotdraw.gui.plaf.palette.PaletteColorSliderUI;
  * @version $Id$
  */
 public class PaletteColorSliderModel extends DefaultColorSliderModel {
+
     private static final long serialVersionUID = 1L;
 
     PaletteColorSliderModel(ColorSpace colorSpace) {
         super(colorSpace);
     }
+
     /**
      * Configures a JSlider for this model.
      * If the JSlider is already configured for another model,
@@ -42,7 +43,7 @@ public class PaletteColorSliderModel extends DefaultColorSliderModel {
         }
         BoundedRangeModel brm = getBoundedRangeModel(componentIndex);
         slider.setModel(brm);
-        
+
         slider.putClientProperty("colorSliderModel", this);
         slider.putClientProperty("colorComponentIndex", componentIndex);
         addColorSlider(slider);

@@ -2,10 +2,9 @@
  * @(#)AbstractHarmonicRule.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.color;
 
 /**
@@ -15,13 +14,13 @@ package org.jhotdraw.color;
  * @version $Id$
  */
 public abstract class AbstractHarmonicRule implements HarmonicRule {
+
     protected int baseIndex;
     protected int[] derivedIndices;
-    
-    
+
     @Override
     public void setBaseIndex() {
-       // this.baseIndex = baseIndex;
+        // this.baseIndex = baseIndex;
     }
 
     @Override

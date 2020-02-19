@@ -55,7 +55,7 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         ccModel.getBoundedRangeModel(1).setMaximum(255);
         ccModel.getBoundedRangeModel(2).setMaximum(255);
 
-        //
+        
         Font font = plaf.getFont("ColorChooser.font");
         redLabel.setFont(font);
         redSlider.setFont(font);
@@ -66,7 +66,7 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
         blueLabel.setFont(font);
         blueSlider.setFont(font);
         blueField.setFont(font);
-        //
+        
         int textSliderGap = plaf.getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             Insets fieldInsets = new Insets(0, textSliderGap, 0, 0);

@@ -46,10 +46,10 @@ public class HSBColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public float[] fromRGB(float[] rgb, float[] component) {
-        Color.RGBtoHSB(//
-                (int) (rgb[0] * 255),//
-                (int) (rgb[1] * 255),//
-                (int) (rgb[2] * 255),//
+        Color.RGBtoHSB(
+                (int) (rgb[0] * 255),
+                (int) (rgb[1] * 255),
+                (int) (rgb[2] * 255),
                 component);
         return component;
     }

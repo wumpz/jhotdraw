@@ -10,6 +10,7 @@ package org.jhotdraw.color;
 
 import java.awt.color.ColorSpace;
 import static java.lang.Math.*;
+
 /**
  * The 1976 CIE L*CHa*b* color space (CIELCH).
  * <p>
@@ -27,19 +28,28 @@ import static java.lang.Math.*;
  * @version $Id$
  */
 public class CIELCHabColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
-    /** The XYZ coordinates of the CIE Standard Illuminant D65 reference white.*/
+    /**
+     * The XYZ coordinates of the CIE Standard Illuminant D65 reference white.
+     */
     private static final double[] D65 = {0.9505d, 1d, 1.0890d};
     private double Xr;
-    /** The Y coordinate of the D50 reference white.*/
+    /**
+     * The Y coordinate of the D50 reference white.
+     */
     private double Yr;
-    /** The Z coordinate of the D50 reference white.*/
+    /**
+     * The Z coordinate of the D50 reference white.
+     */
     private double Zr;
     private static final double eps = 216d / 24389d;
     private static final double k = 24389d / 27d;
     private static final ColorSpace sRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-    /** By default, clamps non-displayable RGB values. */
+    /**
+     * By default, clamps non-displayable RGB values.
+     */
     private boolean isClampRGB = true;
 
     public CIELCHabColorSpace() {
@@ -52,8 +62,8 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public float[] toRGB(float[] colorvalue, float[] rgb) {
-        float[] ciexyz =rgb;//reuse array
-        toCIEXYZ(colorvalue,ciexyz);
+        float[] ciexyz = rgb;//reuse array
+        toCIEXYZ(colorvalue, ciexyz);
 
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
@@ -87,16 +97,16 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
             Bs = Math.min(1, Math.max(0, Bs));
         }
 
-        rgb[0]=(float)Rs;
-        rgb[1]=(float)Gs;
-        rgb[2]=(float)Bs;
+        rgb[0] = (float) Rs;
+        rgb[1] = (float) Gs;
+        rgb[2] = (float) Bs;
         return rgb;
         //       return sRGB.fromCIEXYZ(ciexyz);
     }
 
     @Override
     public float[] fromRGB(float[] rgb, float[] colorvalue) {
-        return fromCIEXYZ(ColorUtil.RGBtoCIEXYZ(rgb,colorvalue),colorvalue);
+        return fromCIEXYZ(ColorUtil.RGBtoCIEXYZ(rgb, colorvalue), colorvalue);
     }
 
     /**
@@ -137,7 +147,7 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
     public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
         double L = colorvalue[0];
         double C = colorvalue[1];
-        double H = colorvalue[2]/180*PI;
+        double H = colorvalue[2] / 180 * PI;
         double a = C * Math.cos(H);
         double b = C * Math.sin(H);
 
@@ -173,7 +183,9 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double Y = yr * Yr;
         double Z = zr * Zr;
 
-        xyz[0]=(float)X;xyz[1]=(float)Y;xyz[2]=(float)Z;
+        xyz[0] = (float) X;
+        xyz[1] = (float) Y;
+        xyz[2] = (float) Z;
         return xyz;
     }
 
@@ -240,13 +252,13 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double a = 500d * (fx - fy);
         double b = 200d * (fy - fz);
 
-        double C = Math.sqrt(a*a+b*b);
+        double C = Math.sqrt(a * a + b * b);
         double H = Math.atan2(b, a);
 
-        colorvalue[0]=(float)L;
-        colorvalue[1]=(float)C;
-        colorvalue[2]=(float)(H*180/PI);
-return colorvalue;
+        colorvalue[0] = (float) L;
+        colorvalue[1] = (float) C;
+        colorvalue[2] = (float) (H * 180 / PI);
+        return colorvalue;
     }
 
     @Override
@@ -313,7 +325,6 @@ return colorvalue;
 
         lchab = cs.fromCIEXYZ(new float[]{1, 1, 1});
         System.out.println("xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
-
 
         lchab = cs.fromCIEXYZ(new float[]{0.5f, 1, 1});
         System.out.println("xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);

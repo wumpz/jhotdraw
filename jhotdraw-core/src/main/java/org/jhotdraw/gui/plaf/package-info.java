@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides user interface delegate classes for JHotDraw JComponent's.
-*/
-
+ * Provides user interface delegate classes for JHotDraw JComponent's.
+ */
 package org.jhotdraw.gui.plaf;
-
-
-

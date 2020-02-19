@@ -7,17 +7,15 @@
  */
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.geom.Insets2D;
-
-import org.jhotdraw.draw.text.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.text.FloatingTextArea;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.text.*;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -54,16 +52,18 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The text creation and editing tools and the {@code TextHolderFigure}
  * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for  structured drawing editors.<br>
+ * JHotDraw framework for structured drawing editors.<br>
  * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
  * {@link TextAreaCreationTool}, {@link TextEditingTool},
  * {@link TextAreaEditingTool}, {@link FloatingTextField},
  * {@link FloatingTextArea}.
  *
- * <p><em>Prototype</em><br>
+ * <p>
+ * <em>Prototype</em><br>
  * The text creation tools create new figures by cloning a prototype
  * {@code TextHolderFigure} object.<br>
  * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool},
@@ -74,6 +74,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
+
     private static final long serialVersionUID = 1L;
 
     private FloatingTextArea textArea;
@@ -84,12 +85,14 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
      */
     private Color rubberbandColor = null;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TextAreaCreationTool(TextHolderFigure prototype) {
         super(prototype);
     }
 
-    public TextAreaCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>,Object> attributes) {
+    public TextAreaCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
         super(prototype, attributes);
     }
 
@@ -140,11 +143,11 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         getView().addToSelection(createdFigure);
         beginEdit((TextHolderFigure) createdFigure);
     }
+
     /*
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
      */
-
     @Override
     public void draw(Graphics2D g) {
         if (createdFigure != null && rubberbandColor != null) {
@@ -157,7 +160,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         if (textArea == null) {
             textArea = new FloatingTextArea();
 
-        //textArea.addActionListener(this);
+            //textArea.addActionListener(this);
         }
 
         if (textHolder != typingTarget && typingTarget != null) {
@@ -197,14 +200,14 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
             } else {
                 if (createdFigure != null) {
                     getDrawing().remove(getAddedFigure());
-                // XXX - Fire undoable edit here!!
+                    // XXX - Fire undoable edit here!!
                 } else {
                     typingTarget.setText("");
                 }
             }
 
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -235,7 +238,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
 
             textArea.endOverlay();
         }
-    //	        view().checkDamage();
+        //	        view().checkDamage();
     }
 
     @Override

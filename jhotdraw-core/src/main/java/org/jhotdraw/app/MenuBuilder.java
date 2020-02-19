@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.app;
 
-
 import java.util.List;
 import javax.swing.JMenu;
 
@@ -34,7 +33,8 @@ import javax.swing.JMenu;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Abstract Factory</em><br>
+ * <p>
+ * <em>Abstract Factory</em><br>
  * {@code MenuBuilder} is used by {@code Application} for creating menu items.
  * The {@code MenuBuilder} is provided by {@code ApplicationModel}.
  * Abstract Factory: {@link MenuBuilder}<br>
@@ -46,7 +46,8 @@ import javax.swing.JMenu;
  */
 public interface MenuBuilder {
 
-    /** Optionally adds one or more "Preferences" items to a menu.
+    /**
+     * Optionally adds one or more "Preferences" items to a menu.
      * <p>
      * Most applications use this method for adding items to the last section
      * of the "Edit" menu.
@@ -63,7 +64,8 @@ public interface MenuBuilder {
      */
     void addPreferencesItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Exit" items to a menu.
+    /**
+     * Optionally adds one or more "Exit" items to a menu.
      * <p>
      * Most applications use this method for adding items to the last section
      * of the "File" menu.
@@ -80,7 +82,8 @@ public interface MenuBuilder {
      */
     void addExitItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Clear File" items to a menu.
+    /**
+     * Optionally adds one or more "Clear File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "File" menu.
@@ -92,7 +95,8 @@ public interface MenuBuilder {
      */
     void addClearFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "New Window" items to a menu.
+    /**
+     * Optionally adds one or more "New Window" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "File" menu.
@@ -104,7 +108,8 @@ public interface MenuBuilder {
      */
     void addNewWindowItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "New File" items to a menu.
+    /**
+     * Optionally adds one or more "New File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "File" menu.
@@ -116,7 +121,8 @@ public interface MenuBuilder {
      */
     void addNewFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Load file" items to a menu.
+    /**
+     * Optionally adds one or more "Load file" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "File" menu.
@@ -128,7 +134,8 @@ public interface MenuBuilder {
      */
     void addLoadFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Open File" items to a menu.
+    /**
+     * Optionally adds one or more "Open File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "File" menu.
@@ -140,7 +147,8 @@ public interface MenuBuilder {
      */
     void addOpenFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Close File" items to a menu.
+    /**
+     * Optionally adds one or more "Close File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "File" menu.
@@ -152,7 +160,8 @@ public interface MenuBuilder {
      */
     void addCloseFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Save File" items to a menu.
+    /**
+     * Optionally adds one or more "Save File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "File" menu.
@@ -164,7 +173,8 @@ public interface MenuBuilder {
      */
     void addSaveFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Export File" items to a menu.
+    /**
+     * Optionally adds one or more "Export File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "File" menu.
@@ -176,7 +186,8 @@ public interface MenuBuilder {
      */
     void addExportFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Print File" items to a menu.
+    /**
+     * Optionally adds one or more "Print File" items to a menu.
      * <p>
      * Most applications use this method for adding items to the third section
      * of the "File" menu.
@@ -188,7 +199,8 @@ public interface MenuBuilder {
      */
     void addPrintFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more file related items to a menu.
+    /**
+     * Optionally adds one or more file related items to a menu.
      * <p>
      * Most applications use this method for adding items to the third section
      * of the "File" menu.
@@ -200,7 +212,8 @@ public interface MenuBuilder {
      */
     void addOtherFileItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Undo" items to a menu.
+    /**
+     * Optionally adds one or more "Undo" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "Edit" menu.
@@ -212,7 +225,8 @@ public interface MenuBuilder {
      */
     void addUndoItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Clipboard" items to a menu.
+    /**
+     * Optionally adds one or more "Clipboard" items to a menu.
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "Edit" menu.
@@ -224,7 +238,8 @@ public interface MenuBuilder {
      */
     void addClipboardItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Selection" items to a menu.
+    /**
+     * Optionally adds one or more "Selection" items to a menu.
      * <p>
      * Most applications use this method for adding items to the third section
      * of the "Edit" menu.
@@ -236,7 +251,8 @@ public interface MenuBuilder {
      */
     void addSelectionItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Find" items to a menu.
+    /**
+     * Optionally adds one or more "Find" items to a menu.
      * <p>
      * Most applications use this method for adding items to the fourth section
      * of the "Edit" menu.
@@ -248,7 +264,8 @@ public interface MenuBuilder {
      */
     void addFindItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more editing related items to a menu.
+    /**
+     * Optionally adds one or more editing related items to a menu.
      * <p>
      * Most applications use this method for adding items to the fifth section
      * of the "Edit" menu.
@@ -260,7 +277,8 @@ public interface MenuBuilder {
      */
     void addOtherEditItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more view related items to a menu.
+    /**
+     * Optionally adds one or more view related items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "View" menu.
@@ -272,7 +290,8 @@ public interface MenuBuilder {
      */
     void addOtherViewItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more additional menus to a menu bar or a pop up
+    /**
+     * Optionally adds one or more additional menus to a menu bar or a pop up
      * menu.
      * <p>
      * Most applications add additional menus between the "View" menu and the
@@ -285,7 +304,8 @@ public interface MenuBuilder {
      */
     void addOtherMenus(List<JMenu> m, Application app, View v);
 
-    /** Optionally adds one or more window related items to a menu.
+    /**
+     * Optionally adds one or more window related items to a menu.
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "Window" menu. (The first section usually contains application
@@ -299,7 +319,8 @@ public interface MenuBuilder {
      */
     void addOtherWindowItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "Help" items to a menu.
+    /**
+     * Optionally adds one or more "Help" items to a menu.
      * <p>
      * Most applications use this method for adding items to the first section
      * of the "Help" menu.
@@ -311,7 +332,8 @@ public interface MenuBuilder {
      */
     void addHelpItems(JMenu m, Application app, View v);
 
-    /** Optionally adds one or more "About" items to a menu.
+    /**
+     * Optionally adds one or more "About" items to a menu.
      * <p>
      * Most applications use this method for adding items to the last section
      * of the "Help" menu.

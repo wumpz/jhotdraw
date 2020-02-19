@@ -13,10 +13,11 @@ import java.awt.geom.*;
 /**
  * Constrains a point such that it falls on a grid.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class GridConstrainer extends AbstractConstrainer {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -29,9 +30,9 @@ public class GridConstrainer extends AbstractConstrainer {
      * The value 0 turns the constrainer off for the vertical axis.
      */
     private double height;
-    
+
     /**
-     * The theta for constrained rotations on the grid.  
+     * The theta for constrained rotations on the grid.
      * The value 0 turns the constrainer off for rotations.
      */
     private double theta;
@@ -62,7 +63,7 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     /**
-     * Creates a new instance with the specified grid size, 
+     * Creates a new instance with the specified grid size,
      * and by 11.25° (in degrees) for rotations.
      * The grid is visible.
      *
@@ -84,6 +85,7 @@ public class GridConstrainer extends AbstractConstrainer {
     public GridConstrainer(double width, double height, boolean visible) {
         this(width, height, Math.PI / 8d, visible);
     }
+
     /**
      * Creates a new instance with the specified grid size.
      *
@@ -139,7 +141,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * Constrains a point to the closest grid point in any direction.
      */
     @Override
-    public Point2D.Double constrainPoint(Point2D.Double p, Figure ... figure) {
+    public Point2D.Double constrainPoint(Point2D.Double p, Figure... figure) {
         p.x = Math.round(p.x / width) * width;
         p.y = Math.round(p.y / height) * height;
         return p;
@@ -154,7 +156,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * @param dir A direction.
      * @return Returns the constrained point.
      */
-    protected Point2D.Double constrainPoint(Point2D.Double p, TranslationDirection dir, Figure ... figure) {
+    protected Point2D.Double constrainPoint(Point2D.Double p, TranslationDirection dir, Figure... figure) {
         Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone(), figure);
 
         switch (dir) {
@@ -205,7 +207,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * Moves a point to the closest grid point in a direction.
      */
     @Override
-    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir, Figure ... figure) {
+    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir, Figure... figure) {
         Point2D.Double p0 = constrainPoint((Point2D.Double) p.clone(), figure);
 
         switch (dir) {
@@ -237,7 +239,7 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, Figure ... figure) {
+    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, Figure... figure) {
         Point2D.Double p0 = constrainPoint(new Point2D.Double(r.x, r.y), figure);
         Point2D.Double p1 = constrainPoint(new Point2D.Double(r.x + r.width, r.y + r.height), figure);
 
@@ -265,7 +267,7 @@ public class GridConstrainer extends AbstractConstrainer {
      * @param dir A direction.
      * @return Returns the constrained rectangle.
      */
-    protected Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure ... figure) {
+    protected Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure... figure) {
         Point2D.Double p0 = new Point2D.Double(r.x, r.y);
 
         switch (dir) {
@@ -302,7 +304,7 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure ... figure) {
+    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure... figure) {
         double x = r.x;
         double y = r.y;
 
@@ -392,7 +394,7 @@ public class GridConstrainer extends AbstractConstrainer {
             // pixels apart on the view coordinate system.
             if (width * view.getScaleFactor() > 2) {
                 g.setColor(minorColor);
-                for (int i = (int) (origin.x / width),  m = (int) ((origin.x + bounds.width) / width) + 1; i <= m; i++) {
+                for (int i = (int) (origin.x / width), m = (int) ((origin.x + bounds.width) / width) + 1; i <= m; i++) {
                     g.setColor((i % majorGridSpacing == 0) ? majorColor : minorColor);
 
                     point.x = width * i;
@@ -402,7 +404,7 @@ public class GridConstrainer extends AbstractConstrainer {
                 }
             } else if (width * majorGridSpacing * view.getScaleFactor() > 2) {
                 g.setColor(majorColor);
-                for (int i = (int) (origin.x / width),  m = (int) ((origin.x + bounds.width) / width) + 1; i <= m; i++) {
+                for (int i = (int) (origin.x / width), m = (int) ((origin.x + bounds.width) / width) + 1; i <= m; i++) {
                     if (i % majorGridSpacing == 0) {
                         point.x = width * i;
                         t.transform(point, viewPoint);
@@ -416,7 +418,7 @@ public class GridConstrainer extends AbstractConstrainer {
             // pixels apart on the view coordinate system.
             if (height * view.getScaleFactor() > 2) {
                 g.setColor(minorColor);
-                for (int i = (int) (origin.y / height),  m = (int) ((origin.y + bounds.height) / height) + 1; i <= m; i++) {
+                for (int i = (int) (origin.y / height), m = (int) ((origin.y + bounds.height) / height) + 1; i <= m; i++) {
                     g.setColor((i % majorGridSpacing == 0) ? majorColor : minorColor);
 
                     point.y = height * i;
@@ -426,7 +428,7 @@ public class GridConstrainer extends AbstractConstrainer {
                 }
             } else if (height * majorGridSpacing * view.getScaleFactor() > 2) {
                 g.setColor(majorColor);
-                for (int i = (int) (origin.y / height),  m = (int) ((origin.y + bounds.height) / height) + 1; i <= m; i++) {
+                for (int i = (int) (origin.y / height), m = (int) ((origin.y + bounds.height) / height) + 1; i <= m; i++) {
                     if (i % majorGridSpacing == 0) {
                         point.y = height * i;
                         t.transform(point, viewPoint);
@@ -439,7 +441,7 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public double constrainAngle(double angle, Figure ... figure) {
+    public double constrainAngle(double angle, Figure... figure) {
         // No step specified then no constraining
         if (theta == 0) {
             return angle;
@@ -450,7 +452,7 @@ public class GridConstrainer extends AbstractConstrainer {
     }
 
     @Override
-    public double rotateAngle(double angle, RotationDirection dir, Figure ... figure) {
+    public double rotateAngle(double angle, RotationDirection dir, Figure... figure) {
         // Check parameters
         if (dir == null) {
             throw new IllegalArgumentException("dir must not be null");
@@ -459,15 +461,14 @@ public class GridConstrainer extends AbstractConstrainer {
         // Rotate into the specified direction by theta
         angle = constrainAngle(angle, figure);
         switch (dir) {
-            case CLOCKWISE :
+            case CLOCKWISE:
                 angle += theta;
                 break;
-            case COUNTER_CLOCKWISE :
-            default: 
+            case COUNTER_CLOCKWISE:
+            default:
                 angle -= theta;
                 break;
         }
         return angle;
     }
 }
-

@@ -82,7 +82,7 @@ public class LinkHandle extends AbstractHandle {
     @Override public String getToolTipText(Point p) {
         
         return (getOwner().get(LINK)!=null)  ?
-            ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels").//
+            ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels").
             getString("handle.link.toolTipText") :
             null;
     }

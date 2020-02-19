@@ -13,14 +13,15 @@ import java.beans.PropertyChangeListener;
  * This interface must be implemented by components
  * which are editable.
  * <p>
- * FIXME - Investigate if we can replace this interface by querying the 
+ * FIXME - Investigate if we can replace this interface by querying the
  * TransferHandler of a component and retrieve its cut/copy/paste actions.
  * See http://java.sun.com/docs/books/tutorial/uiswing/dnd/intro.html#cut
  *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
@@ -36,7 +37,9 @@ import java.beans.PropertyChangeListener;
  */
 public interface EditableComponent {
 
-    /** The name of the "selectionEmpty" property. */
+    /**
+     * The name of the "selectionEmpty" property.
+     */
     public static final String SELECTION_EMPTY_PROPERTY = "selectionEmpty";
 
     /**
@@ -66,9 +69,13 @@ public interface EditableComponent {
      */
     public boolean isSelectionEmpty();
 
-    /** Adds a property change listener. */
+    /**
+     * Adds a property change listener.
+     */
     public void addPropertyChangeListener(PropertyChangeListener l);
-    
-    /** Removes a property change listener. */
+
+    /**
+     * Removes a property change listener.
+     */
     public void removePropertyChangeListener(PropertyChangeListener l);
 }

@@ -18,6 +18,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public class HSVColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     private static HSVColorSpace instance;
@@ -38,7 +39,6 @@ public class HSVColorSpace extends AbstractNamedColorSpace {
         float hue = components[0] * 360f;
         float saturation = components[1];
         float value = components[2];
-
 
         // compute hi and f from hue
         int hi = (int) (Math.floor(hue / 60f) % 6);
@@ -92,7 +92,6 @@ public class HSVColorSpace extends AbstractNamedColorSpace {
                 red = green = blue = 0;
                 break;
         }
-
 
         rgb[0] = red;
         rgb[1] = green;

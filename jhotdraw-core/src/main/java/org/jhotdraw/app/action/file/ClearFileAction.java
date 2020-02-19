@@ -5,15 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
 
-
-import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
 import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.util.*;
 
 /**
  * Clears (empties) the contents of the active view.
@@ -35,23 +33,28 @@ import org.jhotdraw.gui.BackgroundTask;
  * @version $Id$
  */
 public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.clear";
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ClearFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, "file.clear");
     }
-    
-    @Override public void doIt(final View view) {
+
+    @Override
+    public void doIt(final View view) {
         view.setEnabled(false);
         view.execute(new BackgroundTask() {
             @Override
             public void construct() {
                 view.clear();
             }
+
             @Override
             public void finished() {
                 view.setEnabled(true);

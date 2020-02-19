@@ -7,21 +7,6 @@
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.geom.DoubleStroke;
-
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.event.ToolEvent;
-import org.jhotdraw.draw.event.ToolListener;
-import org.jhotdraw.draw.decoration.LineDecoration;
-import org.jhotdraw.draw.decoration.ArrowTip;
-import org.jhotdraw.draw.event.SelectionComponentRepainter;
-import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.*;
@@ -31,17 +16,33 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.plaf.ColorChooserUI;
 import javax.swing.text.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.Disposable;
+import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.color.HSBColorSpace;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.decoration.ArrowTip;
+import org.jhotdraw.draw.decoration.LineDecoration;
+import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.event.ToolAdapter;
+import org.jhotdraw.draw.event.ToolEvent;
+import org.jhotdraw.draw.event.ToolListener;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.geom.DoubleStroke;
 import org.jhotdraw.gui.JComponentPopup;
 import org.jhotdraw.gui.JFontChooser;
+import org.jhotdraw.gui.JPopupButton;
+import org.jhotdraw.util.*;
 
 /**
- * ButtonFactory. <p> Design pattern:<br> Name: Abstract Factory.<br> Role:
+ * ButtonFactory.
+ * <p>
+ * Design pattern:<br> Name: Abstract Factory.<br> Role:
  * Abstract Factory.<br> Partners: {@link org.jhotdraw.samples.draw.DrawApplicationModel}
  * as Client,
  * {@link org.jhotdraw.samples.draw.DrawView} as Client,
@@ -154,16 +155,27 @@ public class ButtonFactory {
     public static final int WEBSAVE_COLORS_COLUMN_COUNT = 19;
     /**
      * HSB color palette with a set of colors chosen based on a physical
-     * criteria. <p> This is a 'human friendly' color palette which arranges the
+     * criteria.
+     * <p>
+     * This is a 'human friendly' color palette which arranges the
      * color in a way that makes it easy for humans to select the desired color.
      * The colors are ordered in a way which minimizes the color contrast effect
-     * in the human visual system. <p> This palette has 12 columns and 10 rows.
-     * <p> The topmost row contains a null-color and a gray scale from white to
-     * black in 10 percent steps. <p> The remaining rows contain colors taken
-     * from the outer hull of the HSB color model: <p> The columns are ordered
+     * in the human visual system.
+     * <p>
+     * This palette has 12 columns and 10 rows.
+     * <p>
+     * The topmost row contains a null-color and a gray scale from white to
+     * black in 10 percent steps.
+     * <p>
+     * The remaining rows contain colors taken
+     * from the outer hull of the HSB color model:
+     * <p>
+     * The columns are ordered
      * by hue starting with red - the lowest wavelength - and ending with purple
      * - the highest wavelength. There are 12 different hues, so that all
-     * primary colors with their additive complements can be selected. <p> The
+     * primary colors with their additive complements can be selected.
+     * <p>
+     * The
      * rows are orderd by brightness with the brightest color at the top (sky)
      * and the darkest color at the bottom (earth). The first 5 rows contain
      * colors with maximal brightness and a saturation ranging form 20% up to
@@ -189,20 +201,20 @@ public class ButtonFactory {
 
         for (int b = 10; b >= 0; b--) {
             Color c = new Color(grayCS, new float[]{b / 10f}, 1f);
-            m.add(new ColorIcon(c,//
+            m.add(new ColorIcon(c,
                     labels.getFormatted("attribute.color.grayComponents.toolTipText", b * 10)));
         }
         for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
-                m.add(new ColorIcon(c,//
+                m.add(new ColorIcon(c,
                         labels.getFormatted("attribute.color.hsbComponents.toolTipText", h * 360 / 12, s * 10, 100)));
             }
         }
         for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f);
-                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),//
+                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),
                         labels.getFormatted("attribute.color.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
             }
         }
@@ -214,10 +226,10 @@ public class ButtonFactory {
                 m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
             } else {
                 Color c = ci.getColor();
-                c = c.getColorSpace() == grayCS //
+                c = c.getColorSpace() == grayCS
                         ? new Color(c.getGreen(), c.getGreen(), c.getGreen(), c.getAlpha())//workaround for rounding error
                         : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
-                m.add(new ColorIcon(c,//
+                m.add(new ColorIcon(c,
                         labels.getFormatted("attribute.color.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
         }
@@ -396,14 +408,14 @@ public class ButtonFactory {
             zoomPopupButton.add(
                     new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
 
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            super.actionPerformed(e);
-                            zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
-                        }
-                    });
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    super.actionPerformed(e);
+                    zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
+                }
+            });
         }
         //zoomPopupButton.setPreferredSize(new Dimension(16,16));
         zoomPopupButton.setFocusable(false);
@@ -412,8 +424,8 @@ public class ButtonFactory {
 
     public static AbstractButton createZoomButton(DrawingView view) {
         return createZoomButton(view, new double[]{
-                    5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10
-                });
+            5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10
+        });
     }
 
     public static AbstractButton createZoomButton(final DrawingView view, double[] factors) {
@@ -440,14 +452,14 @@ public class ButtonFactory {
             zoomPopupButton.add(
                     new ZoomAction(view, factors[i], zoomPopupButton) {
 
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            super.actionPerformed(e);
-                            zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
-                        }
-                    });
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    super.actionPerformed(e);
+                    zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
+                }
+            });
         }
         //zoomPopupButton.setPreferredSize(new Dimension(16,16));
         zoomPopupButton.setFocusable(false);
@@ -608,12 +620,12 @@ public class ButtonFactory {
             if (swatchColor == null || swatchColor.getAlpha() == 0) {
                 hasNullColor = true;
             }
-            popupButton.add(a =
-                    new AttributeAction(
-                    editor,
-                    attributes,
-                    labels.getToolTipTextProperty(labelKey),
-                    swatch));
+            popupButton.add(a
+                    = new AttributeAction(
+                            editor,
+                            attributes,
+                            labels.getToolTipTextProperty(labelKey),
+                            swatch));
             a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
             a.setUpdateEnabledState(false);
         }
@@ -623,12 +635,12 @@ public class ButtonFactory {
             AttributeAction a;
             HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             attributes.put(attributeKey, null);
-            popupButton.add(a =
-                    new AttributeAction(
-                    editor,
-                    attributes,
-                    labels.getToolTipTextProperty("attribute.color.noColor"),
-                    new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"), swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
+            popupButton.add(a
+                    = new AttributeAction(
+                            editor,
+                            attributes,
+                            labels.getToolTipTextProperty("attribute.color.noColor"),
+                            new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"), swatches.get(0).getIconWidth(), swatches.get(0).getIconHeight())));
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
             a.setUpdateEnabledState(false);
         }
@@ -636,15 +648,15 @@ public class ButtonFactory {
         // Color chooser
         ImageIcon chooserIcon = new ImageIcon(
                 Images.createImage(
-                ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+                        ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
         Action a;
         popupButton.add(
                 a = new EditorColorChooserAction(
-                editor,
-                attributeKey,
-                "color",
-                chooserIcon,
-                defaultAttributes));
+                        editor,
+                        attributeKey,
+                        "color",
+                        chooserIcon,
+                        defaultAttributes));
         labels.configureToolBarButton(popupButton, labelKey);
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         Icon icon = new EditorColorIcon(editor,
@@ -826,12 +838,12 @@ public class ButtonFactory {
                 if (swatchColor == null || swatchColor.getAlpha() == 0) {
                     hasNullColor = true;
                 }
-                popupButton.add(a =
-                        new AttributeAction(
-                        editor,
-                        attributes,
-                        labels.getToolTipTextProperty(labelKey),
-                        swatch));
+                popupButton.add(a
+                        = new AttributeAction(
+                                editor,
+                                attributes,
+                                labels.getToolTipTextProperty(labelKey),
+                                swatch));
                 a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
                 a.setUpdateEnabledState(false);
                 dsp.add(a);
@@ -846,12 +858,12 @@ public class ButtonFactory {
             AttributeAction a;
             HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             attributes.put(attributeKey, null);
-            popupButton.add(a =
-                    new AttributeAction(
-                    editor,
-                    attributes,
-                    labels.getToolTipTextProperty("attribute.color.noColor"),
-                    new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+            popupButton.add(a
+                    = new AttributeAction(
+                            editor,
+                            attributes,
+                            labels.getToolTipTextProperty("attribute.color.noColor"),
+                            new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
             a.setUpdateEnabledState(false);
             dsp.add(a);
@@ -862,11 +874,11 @@ public class ButtonFactory {
         AttributeAction a;
         popupButton.add(
                 a = new SelectionColorChooserAction(
-                editor,
-                attributeKey,
-                labels.getToolTipTextProperty("attribute.color.colorChooser"),
-                chooserIcon,
-                defaultAttributes));
+                        editor,
+                        attributeKey,
+                        labels.getToolTipTextProperty("attribute.color.colorChooser"),
+                        chooserIcon,
+                        defaultAttributes));
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
         dsp.add(a);
         labels.configureToolBarButton(popupButton, labelKey);
@@ -941,7 +953,6 @@ public class ButtonFactory {
                 add(colorChooser);
             }
         };
-
 
         popupButton.setPopupMenu(popupMenu);
         popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
@@ -1097,12 +1108,12 @@ public class ButtonFactory {
                 if (swatchColor == null || swatchColor.getAlpha() == 0) {
                     hasNullColor = true;
                 }
-                popupButton.add(a =
-                        new DrawingAttributeAction(
-                        editor,
-                        attributes,
-                        labels.getToolTipTextProperty(labelKey),
-                        swatch));
+                popupButton.add(a
+                        = new DrawingAttributeAction(
+                                editor,
+                                attributes,
+                                labels.getToolTipTextProperty(labelKey),
+                                swatch));
                 dsp.add(a);
                 a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
                 a.setUpdateEnabledState(false);
@@ -1116,12 +1127,12 @@ public class ButtonFactory {
             DrawingAttributeAction a;
             HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
             attributes.put(attributeKey, null);
-            popupButton.add(a =
-                    new DrawingAttributeAction(
-                    editor,
-                    attributes,
-                    labels.getToolTipTextProperty("attribute.color.noColor"),
-                    new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+            popupButton.add(a
+                    = new DrawingAttributeAction(
+                            editor,
+                            attributes,
+                            labels.getToolTipTextProperty("attribute.color.noColor"),
+                            new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
             dsp.add(a);
             a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
             a.setUpdateEnabledState(false);
@@ -1133,11 +1144,11 @@ public class ButtonFactory {
         DrawingColorChooserAction a;
         popupButton.add(
                 a = new DrawingColorChooserAction(
-                editor,
-                attributeKey,
-                "color",
-                chooserIcon,
-                defaultAttributes));
+                        editor,
+                        attributeKey,
+                        "color",
+                        chooserIcon,
+                        defaultAttributes));
         dsp.add(a);
         labels.configureToolBarButton(popupButton, labelKey);
         a.putValue(Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
@@ -1213,7 +1224,6 @@ public class ButtonFactory {
                 add(colorChooser);
             }
         };
-
 
         popupButton.setPopupMenu(popupMenu);
         popupButton.setPopupAlpha(1.0f);// must be set after we set the popup menu
@@ -1330,13 +1340,13 @@ public class ButtonFactory {
     public static JPopupButton createStrokeDashesButton(DrawingEditor editor,
             ResourceBundleUtil labels) {
         return createStrokeDashesButton(editor, new double[][]{
-                    null,
-                    {4d, 4d},
-                    {2d, 2d},
-                    {4d, 2d},
-                    {2d, 4d},
-                    {8d, 2d},
-                    {6d, 2d, 2d, 2d},},
+            null,
+            {4d, 4d},
+            {2d, 2d},
+            {4d, 2d},
+            {2d, 4d},
+            {8d, 2d},
+            {6d, 2d, 2d, 2d},},
                 labels);
     }
 
@@ -1389,39 +1399,38 @@ public class ButtonFactory {
 
         strokeTypePopupButton.add(
                 new AttributeAction(
-                editor,
-                STROKE_TYPE,
-                AttributeKeys.StrokeType.BASIC,
-                labels.getString("attribute.strokeType.basic"),
-                new StrokeIcon(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL))));
+                        editor,
+                        STROKE_TYPE,
+                        AttributeKeys.StrokeType.BASIC,
+                        labels.getString("attribute.strokeType.basic"),
+                        new StrokeIcon(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL))));
         HashMap<AttributeKey<?>, Object> attr = new HashMap<>();
         attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
         attr.put(STROKE_INNER_WIDTH_FACTOR, 2d);
         strokeTypePopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeType.double"),
-                new StrokeIcon(new DoubleStroke(2, 1))));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeType.double"),
+                        new StrokeIcon(new DoubleStroke(2, 1))));
         attr = new HashMap<>();
         attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
         attr.put(STROKE_INNER_WIDTH_FACTOR, 3d);
         strokeTypePopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeType.double"),
-                new StrokeIcon(new DoubleStroke(3, 1))));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeType.double"),
+                        new StrokeIcon(new DoubleStroke(3, 1))));
         attr = new HashMap<>();
         attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
         attr.put(STROKE_INNER_WIDTH_FACTOR, 4d);
         strokeTypePopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeType.double"),
-                new StrokeIcon(new DoubleStroke(4, 1))));
-
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeType.double"),
+                        new StrokeIcon(new DoubleStroke(4, 1))));
 
         return strokeTypePopupButton;
     }
@@ -1439,82 +1448,82 @@ public class ButtonFactory {
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.center"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.center"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.inside"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.inside"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.outside"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.outside"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.centerFilled"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.centerFilled"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.insideFilled"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.insideFilled"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.outsideFilled"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.outsideFilled"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.centerUnfilled"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.centerUnfilled"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.insideUnfilled"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.insideUnfilled"),
+                        null));
         attr = new HashMap<>();
         attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
         attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
         strokePlacementPopupButton.add(
                 new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokePlacement.outsideUnfilled"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokePlacement.outsideUnfilled"),
+                        null));
 
         return strokePlacementPopupButton;
     }
@@ -1741,28 +1750,28 @@ public class ButtonFactory {
         AttributeAction a;
         popupButton.add(
                 a = new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeCap.butt"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeCap.butt"),
+                        null));
         dsp.add(a);
         attr = new HashMap<>();
         attr.put(STROKE_CAP, BasicStroke.CAP_ROUND);
         popupButton.add(
                 a = new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeCap.round"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeCap.round"),
+                        null));
         dsp.add(a);
         attr = new HashMap<>();
         attr.put(STROKE_CAP, BasicStroke.CAP_SQUARE);
         popupButton.add(
                 a = new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeCap.square"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeCap.square"),
+                        null));
         dsp.add(a);
         return popupButton;
     }
@@ -1791,28 +1800,28 @@ public class ButtonFactory {
         AttributeAction a;
         popupButton.add(
                 a = new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeJoin.bevel"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeJoin.bevel"),
+                        null));
         dsp.add(a);
         attr = new HashMap<>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_ROUND);
         popupButton.add(
                 a = new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeJoin.round"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeJoin.round"),
+                        null));
         dsp.add(a);
         attr = new HashMap<>();
         attr.put(STROKE_JOIN, BasicStroke.JOIN_MITER);
         popupButton.add(
                 a = new AttributeAction(
-                editor,
-                attr,
-                labels.getString("attribute.strokeJoin.miter"),
-                null));
+                        editor,
+                        attr,
+                        labels.getString("attribute.strokeJoin.miter"),
+                        null));
         dsp.add(a);
         return popupButton;
     }

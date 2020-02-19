@@ -7,24 +7,23 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Insets2D;
-
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.tool.TextEditingTool;
-import org.jhotdraw.draw.handle.FontSizeHandle;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
-import java.util.*;
 import java.io.*;
+import java.util.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.tool.TextEditingTool;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.util.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
@@ -45,7 +44,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;
     // cache of the TextFigure's layout
-    
+
     transient protected TextLayout textLayout;
 
     /**

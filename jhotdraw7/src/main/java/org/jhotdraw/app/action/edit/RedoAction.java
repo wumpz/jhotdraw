@@ -69,8 +69,8 @@ public class RedoAction extends AbstractViewAction {
     @Override
     protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && //
-                newValue.getActionMap().get(ID) != null && //
+        if (newValue != null && 
+                newValue.getActionMap().get(ID) != null && 
                 newValue.getActionMap().get(ID) != this) {
             putValue(AbstractAction.NAME, newValue.getActionMap().get(ID).
                     getValue(AbstractAction.NAME));

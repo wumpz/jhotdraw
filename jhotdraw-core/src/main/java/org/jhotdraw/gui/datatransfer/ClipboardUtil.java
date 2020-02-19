@@ -19,10 +19,13 @@ import java.awt.datatransfer.Clipboard;
  */
 public class ClipboardUtil {
 
-    /** Holds the clipboard service instance. */
+    /**
+     * Holds the clipboard service instance.
+     */
     private static Clipboard instance;
 
-    /** Returns the ClipboardService instance. If none is set, creates
+    /**
+     * Returns the ClipboardService instance. If none is set, creates
      * a new one which tries to access the system clipboard. If this fails,
      * an instance with a JVM local clipboard is created.
      *
@@ -54,7 +57,8 @@ public class ClipboardUtil {
         return instance;
     }
 
-    /** Sets the Clipboard singleton used by the JHotDraw framework.
+    /**
+     * Sets the Clipboard singleton used by the JHotDraw framework.
      * <p>
      * If you set this null, the next call to getClipboard will create a new
      * singleton.

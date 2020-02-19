@@ -6,15 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides classes which are used by {@link org.jhotdraw.app.OSXApplication}.
-*/
-
+ * Provides classes which are used by {@link org.jhotdraw.app.OSXApplication}.
+ */
 package org.jhotdraw.app.osx;
-
-
-
-
-

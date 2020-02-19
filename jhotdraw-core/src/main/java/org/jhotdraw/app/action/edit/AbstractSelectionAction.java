@@ -8,13 +8,12 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
-import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.gui.EditableComponent;
 
 /**
  * {@code AbstractSelectionAction} acts on the selection of a target component.
@@ -28,7 +27,8 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
@@ -43,16 +43,21 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractSelectionAction extends AbstractAction {
+
     private static final long serialVersionUID = 1L;
 
-    /** The target of the action or null if the action acts on the currently
+    /**
+     * The target of the action or null if the action acts on the currently
      * focused component.
      */
     protected JComponent target;
-    /** This variable keeps a strong reference on the property change listener. */
+    /**
+     * This variable keeps a strong reference on the property change listener.
+     */
     private PropertyChangeListener propertyHandler;
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.

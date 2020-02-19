@@ -7,11 +7,11 @@
  */
 package org.jhotdraw.draw;
 
+import java.awt.*;
+import java.awt.geom.*;
 import org.jhotdraw.draw.connector.ChopEllipseConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Geom;
-import java.awt.*;
-import java.awt.geom.*;
 
 /**
  * A {@link Figure} with an elliptic shape.
@@ -20,6 +20,7 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class EllipseFigure extends AbstractAttributedFigure {
+
     private static final long serialVersionUID = 1L;
 
     protected Ellipse2D.Double ellipse;
@@ -72,7 +73,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
         double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
-        Geom.grow(r, grow+1, grow+1);
+        Geom.grow(r, grow + 1, grow + 1);
         return r;
     }
 
@@ -109,7 +110,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     @Override
     public boolean contains(Point2D.Double p) {
         Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
-        double grow = AttributeKeys.getPerpendicularHitGrowth(this,1.0);
+        double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
         r.x -= grow;
         r.y -= grow;
         r.width += grow * 2;

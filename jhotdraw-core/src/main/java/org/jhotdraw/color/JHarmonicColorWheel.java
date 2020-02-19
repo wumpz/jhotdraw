@@ -16,13 +16,14 @@ import javax.swing.event.*;
 
 /**
  * JHarmonicColorWheel.
- * 
+ *
  * FIXME - This is an experimental class. Do not use it.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class JHarmonicColorWheel extends JColorWheel {
+
     private static final long serialVersionUID = 1L;
 
     public static final String SELECTED_INDEX_PROPERTY = "selectedIndex";
@@ -65,8 +66,8 @@ public class JHarmonicColorWheel extends JColorWheel {
                     Color c = harmonicModel.get(i);
                     if (c != null) {
                         Point p = getColorLocation(harmonicModel.get(i));
-                        int error = (p.x - x) * (p.x - x) +
-                                (p.y - y) * (p.y - y);
+                        int error = (p.x - x) * (p.x - x)
+                                + (p.y - y) * (p.y - y);
                         if (error < closestError) {
                             closestIndex = i;
                             closestError = error;
@@ -131,7 +132,9 @@ public class JHarmonicColorWheel extends JColorWheel {
     }
     private ModelHandler modelHandler;
 
-    /** Creates new form. */
+    /**
+     * Creates new form.
+     */
     public JHarmonicColorWheel() {
         super(HSLPhysiologicColorSpace.getInstance());
         initComponents();
@@ -232,7 +235,7 @@ public class JHarmonicColorWheel extends JColorWheel {
                 if (harmonicModel.get(i) != null) {
                     Point p = getColorLocation(harmonicModel.get(i));
                     Color mixerColor = harmonicModel.get(i);
-                    comp = ColorUtil.fromColor(harmonicModel.getColorSpace(),mixerColor);
+                    comp = ColorUtil.fromColor(harmonicModel.getColorSpace(), mixerColor);
                     if (i == selectedIndex) {
                         g.setColor(Color.white);
                         oval.x = p.x - baseRadius;
@@ -256,14 +259,16 @@ public class JHarmonicColorWheel extends JColorWheel {
                         oval.height = baseRadius * 2f;
                         g.draw(oval);
                     }
-                // g.drawString(i+"", p.x, p.y);
+                    // g.drawString(i+"", p.x, p.y);
                 }
             }
         }
     }
 
     protected void paintTicks(Graphics2D g) {
-        if (true) return;
+        if (true) {
+            return;
+        }
         if (harmonicModel != null) {
             Point center = getCenter();
             float radius = getRadius();
@@ -281,10 +286,10 @@ public class JHarmonicColorWheel extends JColorWheel {
                         center.y - radius * Math.sin(angle * Math.PI * 2d),
                         center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d),
                         center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d)));
-               */
+                 */
                 g.fill(new Ellipse2D.Double(
-                        center.x + (radius+2) * Math.cos(angle * Math.PI * 2d)-2,
-                        center.y - (radius+2) * Math.sin(angle * Math.PI * 2d)-2,
+                        center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d) - 2,
+                        center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d) - 2,
                         4,
                         4));
 
@@ -298,18 +303,18 @@ public class JHarmonicColorWheel extends JColorWheel {
 
                         float diff = Math.abs(angle - bc.getColorComponents(null)[0]) * 12;
                         if (Math.abs(diff - Math.round(diff)) < 0.02f) {
-                        g.draw(new Line2D.Double(
-                                center.x + (radius + 6) * Math.cos(angle * Math.PI * 2d),
-                                center.y - (radius + 6) * Math.sin(angle * Math.PI * 2d),
-                                center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
-                                center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
+                            g.draw(new Line2D.Double(
+                                    center.x + (radius + 6) * Math.cos(angle * Math.PI * 2d),
+                                    center.y - (radius + 6) * Math.sin(angle * Math.PI * 2d),
+                                    center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
+                                    center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
                         } else {
-                        
-                        g.draw(new Line2D.Double(
-                                center.x + (radius) * Math.cos(angle * Math.PI * 2d),
-                                center.y - (radius) * Math.sin(angle * Math.PI * 2d),
-                                center.x + (radius - 1) * Math.cos(angle * Math.PI * 2d),
-                                center.y - (radius - 1) * Math.sin(angle * Math.PI * 2d)));
+
+                            g.draw(new Line2D.Double(
+                                    center.x + (radius) * Math.cos(angle * Math.PI * 2d),
+                                    center.y - (radius) * Math.sin(angle * Math.PI * 2d),
+                                    center.x + (radius - 1) * Math.cos(angle * Math.PI * 2d),
+                                    center.y - (radius - 1) * Math.sin(angle * Math.PI * 2d)));
                         }
                     }
                 }
@@ -336,7 +341,8 @@ public class JHarmonicColorWheel extends JColorWheel {
         return p;
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

@@ -45,7 +45,7 @@ public class PaletteCMYKChooser
     protected void buildChooser() {
         PaletteLookAndFeel plaf=labels=PaletteLookAndFeel.getInstance();
         initComponents();
-        //
+        
         setUI(PalettePanelUI.createUI(this));
         cyanFieldPanel.setUI((PanelUI) PalettePanelUI.createUI(cyanFieldPanel));
         magentaFieldPanel.setUI((PanelUI) PalettePanelUI.createUI(magentaFieldPanel));
@@ -64,7 +64,7 @@ public class PaletteCMYKChooser
         yellowField.setUI((TextUI) PaletteTextFieldUI.createUI(yellowField));
         blackField.setUI((TextUI) PaletteTextFieldUI.createUI(blackField));
 
-        //
+        
         Font font = plaf.getFont("ColorChooser.font");
         cyanLabel.setFont(font);
         cyanSlider.setFont(font);
@@ -82,7 +82,7 @@ public class PaletteCMYKChooser
         blackSlider.setFont(font);
         blackField.setFont(font);
         blackFieldLabel.setFont(font);
-        //
+        
         int textSliderGap = plaf.getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             Border fieldBorder = new EmptyBorder(0, textSliderGap, 0, 0);

@@ -2,7 +2,7 @@
  * @(#)SimpleHarmonicRule.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -52,7 +52,7 @@ public class SimpleHarmonicRule extends AbstractHarmonicRule {
                 for (int i = 0; i < derivedIndices.length; i++) {
                     derivedComponents = baseColor.getComponents(derivedComponents);
                     derivedComponents[componentIndex] += difference * (i + 1);
-                    model.set(derivedIndices[i], new Color(model.getColorSpace(), derivedComponents,1f));
+                    model.set(derivedIndices[i], new Color(model.getColorSpace(), derivedComponents, 1f));
                 }
             }
         }
@@ -60,6 +60,6 @@ public class SimpleHarmonicRule extends AbstractHarmonicRule {
 
     @Override
     public void colorChanged(HarmonicColorModel model, int index, Color oldValue, Color newValue) {
-        //
+
     }
 }

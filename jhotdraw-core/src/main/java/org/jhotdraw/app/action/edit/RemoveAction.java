@@ -13,7 +13,6 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import javax.swing.JComponent;
 
 /**
@@ -26,29 +25,37 @@ import javax.swing.JComponent;
  * @version 1.0 2011-07-28 Created.
  */
 public class RemoveAction extends DeleteAction {
+
     private static final long serialVersionUID = 1L;
-     /** The ID for this action. */
+    /**
+     * The ID for this action.
+     */
     public static final String ID = "edit.remove";
-    
-     /** Creates a new instance which acts on the currently focused component. */
+
+    /**
+     * Creates a new instance which acts on the currently focused component.
+     */
     public RemoveAction() {
-        this(null,ID);
+        this(null, ID);
     }
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
     public RemoveAction(JComponent target) {
-        this(target,ID);
+        this(target, ID);
     }
-    /** Creates a new instance which acts on the specified component.
+
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
     public RemoveAction(JComponent target, String id) {
-        super(target,id);
+        super(target, id);
     }
 }

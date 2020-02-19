@@ -2,7 +2,7 @@
  * @(#)PaletteTextComponentBorder.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -64,7 +64,7 @@ public class PaletteTextComponentBorder implements Border, UIResource {
     private String getSegmentPosition(Component c) {
         String segmentPosition = null;
         if (c instanceof JComponent) {
-        segmentPosition = (String) ((JComponent) c).getClientProperty("Palette.Component.segmentPosition");
+            segmentPosition = (String) ((JComponent) c).getClientProperty("Palette.Component.segmentPosition");
         }
         return (segmentPosition == null) ? "only" : segmentPosition;
     }
@@ -73,8 +73,8 @@ public class PaletteTextComponentBorder implements Border, UIResource {
     public Insets getBorderInsets(Component c) {
         Insets insets;
         String segmentPosition = getSegmentPosition(c);
-        if (segmentPosition == "first" ||
-                segmentPosition == "middle") {
+        if (segmentPosition == "first"
+                || segmentPosition == "middle") {
             insets = new Insets(3, 3, 3, 2);
         } else {
             insets = new Insets(3, 3, 3, 3);

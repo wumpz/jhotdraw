@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.gui;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -23,11 +22,12 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
 
 /**
  * Font chooser dialog.
- * 
- * @author  Werner Randelshofer
+ *
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class JFontChooser extends JComponent {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -43,7 +43,9 @@ public class JFontChooser extends JComponent {
      * Identifies the "selectionPath" property.
      */
     public static final String SELECTION_PATH_PROPERTY = "selectionPath";
-    /** Instruction to cancel the current selection. */
+    /**
+     * Instruction to cancel the current selection.
+     */
     public static final String CANCEL_SELECTION = "CancelSelection";
     /**
      * Instruction to approve the current selection
@@ -90,28 +92,30 @@ public class JFontChooser extends JComponent {
     private static FutureTask<Font[]> future;
     private TreeModelListener modelHandler = new TreeModelListener() {
 
-    @Override
+        @Override
         public void treeNodesChanged(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
 
-    @Override
+        @Override
         public void treeNodesInserted(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
 
-    @Override
+        @Override
         public void treeNodesRemoved(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
 
-    @Override
+        @Override
         public void treeStructureChanged(TreeModelEvent e) {
             updateSelectionPath(getSelectedFont());
         }
     };
 
-    /** Creates new form JFontChooser */
+    /**
+     * Creates new form JFontChooser
+     */
     public JFontChooser() {
         loadAllFonts();
         model = new DefaultFontChooserModel.UIResource();
@@ -119,7 +123,7 @@ public class JFontChooser extends JComponent {
         updateUI();
         addPropertyChangeListener(new PropertyChangeListener() {
 
-    @Override
+            @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName() == "ancestor" && evt.getNewValue() != null) {
                     try {
@@ -162,7 +166,7 @@ public class JFontChooser extends JComponent {
     /**
      * Sets the look and feel (L&amp;F) object that renders this component.
      *
-     * @param ui  the PanelUI L&amp;F object
+     * @param ui the PanelUI L&amp;F object
      * @see UIDefaults#getUI
      */
     public void setUI(FontChooserUI ui) {
@@ -220,8 +224,8 @@ public class JFontChooser extends JComponent {
     /**
      * Adds an <code>ActionListener</code> to the font chooser.
      *
-     * @param l  the listener to be added
-     * 
+     * @param l the listener to be added
+     *
      * @see #approveSelection
      * @see #cancelSelection
      */
@@ -232,7 +236,7 @@ public class JFontChooser extends JComponent {
     /**
      * Removes an <code>ActionListener</code> from the font chooser.
      *
-     * @param l  the listener to be removed
+     * @param l the listener to be removed
      *
      * @see #addActionListener
      */
@@ -275,7 +279,7 @@ public class JFontChooser extends JComponent {
     /**
      * Gets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @return The selected font, or null, if no font is selected.
      */
     public TreePath getSelectionPath() {
@@ -289,7 +293,7 @@ public class JFontChooser extends JComponent {
      * Changing the selection path, causes a change of the
      * selected font, if the selected font is not the last
      * path segment of the selection path.
-     * 
+     *
      * @param newValue The new selected font, or null if no font is to be
      * selected..
      */
@@ -303,14 +307,14 @@ public class JFontChooser extends JComponent {
     }
 
     /**
-     * Starts loading all fonts from the local graphics environment 
+     * Starts loading all fonts from the local graphics environment
      * using a worker thread.
      */
     public synchronized static void loadAllFonts() {
         if (future == null) {
             future = new FutureTask<>(new Callable<Font[]>() {
 
-    @Override
+                @Override
                 public Font[] call() throws Exception {
                     Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
 
@@ -326,7 +330,7 @@ public class JFontChooser extends JComponent {
                         }
                     }
                     return goodFonts.toArray(new Font[goodFonts.size()]);
-                // return fonts;
+                    // return fonts;
                 }
             });
             new Thread(future).start();
@@ -335,10 +339,10 @@ public class JFontChooser extends JComponent {
 
     /**
      * Gets all fonts from the graphics environment. This may take a long
-     * time. It is recommended to call loadAllFonts during the startup 
+     * time. It is recommended to call loadAllFonts during the startup
      * of an application. If you do this, you can retrieve the fonts from
      * this method from the AWT Event Dispatcher Thread.
-     * 
+     *
      * @return All fonts.
      */
     public static synchronized Font[] getAllFonts() {
@@ -353,7 +357,7 @@ public class JFontChooser extends JComponent {
     /**
      * Gets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @return The selected font, or null, if no font is selected.
      */
     public Font getSelectedFont() {
@@ -366,9 +370,9 @@ public class JFontChooser extends JComponent {
      * Changing the selected font, causes a change of the
      * selection path, if the selected font is not the last
      * path segment of the selection path.
-     * 
+     *
      * This is a bound property.
-     * 
+     *
      * @param newValue The new selected font, or null if no font is to be
      * selected.
      */
@@ -384,12 +388,12 @@ public class JFontChooser extends JComponent {
      * <p>
      * This method is invoked, when a font is selected, and when then
      * structure of the model has changed.
-     * 
+     *
      * @param newValue
      */
     protected void updateSelectionPath(Font newValue) {
-        if (newValue == null || selectionPath == null || selectionPath.getPathCount() != 4 ||
-                !((FontFaceNode) selectionPath.getLastPathComponent()).getFont().getFontName().equals(newValue.getFontName())) {
+        if (newValue == null || selectionPath == null || selectionPath.getPathCount() != 4
+                || !((FontFaceNode) selectionPath.getLastPathComponent()).getFont().getFontName().equals(newValue.getFontName())) {
             if (newValue == null) {
                 setSelectionPath(null);
             } else {
@@ -444,8 +448,8 @@ public class JFontChooser extends JComponent {
 
                 if (newFace != null) {
                     setSelectionPath(new TreePath(new Object[]{
-                                getModel().getRoot(), newCollection, newFamily, newFace
-                            }));
+                        getModel().getRoot(), newCollection, newFamily, newFace
+                    }));
                 } else {
                     setSelectionPath(null);
                 }
@@ -456,7 +460,7 @@ public class JFontChooser extends JComponent {
     /**
      * Gets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @return The selected font, or null, if no font is selected.
      */
     public FontChooserModel getModel() {
@@ -466,7 +470,7 @@ public class JFontChooser extends JComponent {
     /**
      * Sets the selected Font.
      * This is a bound property.
-     * 
+     *
      * @param newValue The new selected font, or null if no font is to be
      * selected..
      */
@@ -482,12 +486,13 @@ public class JFontChooser extends JComponent {
         firePropertyChange(MODEL_PROPERTY, oldValue, newValue);
         updateSelectionPath(selectedFont);
     }
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      * /
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+       // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
     }// </editor-fold>//GEN-END:initComponents
      */

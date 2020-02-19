@@ -7,13 +7,12 @@
  */
 package org.jhotdraw.draw.tool;
 
-
-import org.jhotdraw.draw.event.TransformEdit;
-import org.jhotdraw.draw.*;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.TransformEdit;
 
 /**
  * <code>DefaultDragTracker</code> implements interactions with the content area of a
@@ -26,14 +25,14 @@ import java.util.*;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as 
- * Handler, {@link HandleTracker} as Handler. 
+ * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as
+ * Handler, {@link HandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: State.<br>
- * Partners: {@link SelectAreaTracker} as State, {@link SelectionTool} as 
- * Context, {@link HandleTracker} as State. 
+ * Partners: {@link SelectAreaTracker} as State, {@link SelectionTool} as
+ * Context, {@link HandleTracker} as State.
  *
  * @see SelectionTool
  *
@@ -41,14 +40,14 @@ import java.util.*;
  * @version $Id$
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
+
     private static final long serialVersionUID = 1L;
 
-    
     protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
      */
-    
+
     protected Rectangle2D.Double dragRect;
     /**
      * The previousOrigin holds the origin of all dragged figures of the
@@ -74,10 +73,12 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
      */
     protected Point2D.Double anchorPoint;
     private boolean isDragging;
-    
+
     private HashSet<Figure> transformedFigures;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultDragTracker(Figure figure) {
         anchorFigure = figure;
     }

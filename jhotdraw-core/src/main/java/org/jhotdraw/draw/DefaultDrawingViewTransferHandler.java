@@ -7,11 +7,6 @@
  */
 package org.jhotdraw.draw;
 
-
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.event.CompositeFigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureListener;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.dnd.DragGestureEvent;
@@ -32,6 +27,10 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.gui.Worker;
 import org.jhotdraw.gui.datatransfer.*;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -52,7 +51,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
      * We keep the exported figures in this list, so that we don't need to rely
      * on figure selection, when method exportDone is called.
      */
-    
+
     private HashSet<Figure> exportedFigures;
 
     /**
@@ -343,7 +342,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     @Override
     public int getSourceActions(JComponent c) {
 
-
         int retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
@@ -373,8 +371,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         Transferable retValue;
         if (c instanceof DrawingView) {
             DrawingView view = (DrawingView) c;
-            retValue =
-                    createTransferable(view, view.getSelectedFigures());
+            retValue
+                    = createTransferable(view, view.getSelectedFigures());
         } else {
             retValue = super.createTransferable(c);
         }
@@ -382,7 +380,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         return retValue;
     }
 
-    
     protected Transferable createTransferable(DrawingView view, java.util.Set<Figure> transferFigures) {
         if (DEBUG) {
             System.out.println("DefaultDrawingViewTransferHandler .createTransferable(" + view + "," + transferFigures + ")");
@@ -411,8 +408,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
                     }
                     exportedFigures = new HashSet<>(transferFigures);
-                    retValue =
-                            transfer;
+                    retValue
+                            = transfer;
                 } catch (IOException e) {
                     if (DEBUG) {
                         e.printStackTrace();
@@ -441,9 +438,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
                 final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<>();
-                final LinkedList<Figure> selectedFigures = (exportedFigures == null) ? //
-                        new LinkedList<>() : //
-                        new LinkedList<>(exportedFigures);
+                final LinkedList<Figure> selectedFigures = (exportedFigures == null)
+                        ? new LinkedList<>()
+                        : new LinkedList<>(exportedFigures);
 
                 // Abort, if not all of the selected figures may be removed from the
                 // drawing
@@ -453,7 +450,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                         return;
 
                     }
-
 
                 }
 
@@ -588,8 +584,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             Drawing drawing = view.getDrawing();
 
             // Search for a suitable input format
-            retValue =
-                    false;
+            retValue
+                    = false;
             SearchLoop:
             for (InputFormat format : drawing.getInputFormats()) {
                 for (DataFlavor flavor : transferFlavors) {

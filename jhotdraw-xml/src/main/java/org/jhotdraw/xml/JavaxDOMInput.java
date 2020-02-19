@@ -7,11 +7,11 @@
  */
 package org.jhotdraw.xml;
 
+import java.io.*;
 import java.util.*;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
-import java.io.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
  * Role: Adapter.<br>
  * Partners: {@link org.w3c.dom.Document} as Adaptee.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class JavaxDOMInput implements DOMInput {
@@ -284,6 +284,7 @@ public class JavaxDOMInput implements DOMInput {
     /**
      * Closes the current element of the DOM Document.
      * The parent of the current element becomes the current element.
+     *
      * @exception IllegalArgumentException if the provided tagName does
      * not match the tag name of the element.
      */

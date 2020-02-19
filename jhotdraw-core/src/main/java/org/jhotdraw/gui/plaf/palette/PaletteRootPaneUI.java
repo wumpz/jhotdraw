@@ -2,7 +2,7 @@
  * @(#)PaletteRootPaneUI.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -34,21 +34,22 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
 
     }
 
-    /** 
-     * A custom layout manager that is responsible for the layout of 
+    /**
+     * A custom layout manager that is responsible for the layout of
      * layeredPane, glassPane, and menuBar.
      * <p>
      * <strong>Warning:</strong>
      * Serialized objects of this class will not be compatible with
      * future Swing releases. The current serialization support is
      * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
+     * the same version of Swing. As of 1.4, support for long term storage
      * of all JavaBeans<sup><font size="-2">TM</font></sup>
      * has been added to the <code>java.beans</code> package.
      * Please see {@link java.beans.XMLEncoder}.
      */
     protected static class PaletteRootLayout implements LayoutManager2, Serializable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         private JRootPane rootPane;
 
@@ -90,7 +91,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * is being used
          * @return a Dimension object containing the layout's minimum size
          */
-    @Override
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension rd, mbd;
             Insets i = rootPane.getInsets();
@@ -101,7 +102,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             } else if (contentPane != null) {
                 rd = new Dimension(0, contentPane.getPreferredSize().height);
             } else {
-                rd = new Dimension(0,0);
+                rd = new Dimension(0, 0);
             }
             if (menuBar != null && menuBar.isVisible()) {
                 mbd = menuBar.getMinimumSize();
@@ -119,7 +120,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * is being used
          * @return a Dimension object containing the layout's maximum size
          */
-    @Override
+        @Override
         public Dimension maximumLayoutSize(Container target) {
             Dimension rd, mbd;
             Insets i = rootPane.getInsets();
@@ -148,7 +149,7 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
          * @param parent the Container for which this layout manager
          * is being used
          */
-    @Override
+        @Override
         public void layoutContainer(Container parent) {
             Rectangle b = parent.getBounds();
             Insets i = rootPane.getInsets();
@@ -179,29 +180,29 @@ public class PaletteRootPaneUI extends BasicRootPaneUI {
             }
         }
 
-    @Override
+        @Override
         public void addLayoutComponent(String name, Component comp) {
         }
 
-    @Override
+        @Override
         public void removeLayoutComponent(Component comp) {
         }
 
-    @Override
+        @Override
         public void addLayoutComponent(Component comp, Object constraints) {
         }
 
-    @Override
+        @Override
         public float getLayoutAlignmentX(Container target) {
             return 0.0f;
         }
 
-    @Override
+        @Override
         public float getLayoutAlignmentY(Container target) {
             return 0.0f;
         }
 
-    @Override
+        @Override
         public void invalidateLayout(Container target) {
         }
     }

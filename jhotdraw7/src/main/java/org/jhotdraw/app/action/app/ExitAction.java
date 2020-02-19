@@ -86,7 +86,7 @@ public class ExitAction extends AbstractApplicationAction {
                     unsavedView.setEnabled(false);
                     JOptionPane pane = new JOptionPane(
                             "<html>" + UIManager.getString("OptionPane.css")
-                            + "<b>" + labels.getFormatted("application.exit.doYouWantToSave.message",//
+                            + "<b>" + labels.getFormatted("application.exit.doYouWantToSave.message",
                             (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
                             + labels.getString("application.exit.doYouWantToSave.details"),
                             JOptionPane.WARNING_MESSAGE);
@@ -188,7 +188,7 @@ public class ExitAction extends AbstractApplicationAction {
             URI unsavedURI = unsavedView.getURI();
             JOptionPane pane = new JOptionPane(
                     "<html>" + UIManager.getString("OptionPane.css")
-                    + labels.getFormatted("application.exit.doYouWantToSave.message", //
+                    + labels.getFormatted("application.exit.doYouWantToSave.message", 
                     (unsavedURI==null)?unsavedView.getTitle():URIUtil.getName(unsavedURI)),
                     JOptionPane.WARNING_MESSAGE);
             Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};

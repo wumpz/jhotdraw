@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
  * @author tw
  */
 public class AbstractFigureNGTest {
-    
+
     public AbstractFigureNGTest() {
     }
 
@@ -59,21 +59,20 @@ public class AbstractFigureNGTest {
     public void testChangedWithoutWillChange() {
         new AbstractFigureImpl().changed();
     }
-    
+
     @Test
     public void testWillChangeChangedEvents() {
         AbstractFigure figure = new AbstractFigureImpl();
-        assertEquals(figure.getChangingDepth(),0);
+        assertEquals(figure.getChangingDepth(), 0);
         figure.willChange();
-        assertEquals(figure.getChangingDepth(),1);
+        assertEquals(figure.getChangingDepth(), 1);
         figure.willChange();
-        assertEquals(figure.getChangingDepth(),2);
+        assertEquals(figure.getChangingDepth(), 2);
         figure.changed();
-        assertEquals(figure.getChangingDepth(),1);
+        assertEquals(figure.getChangingDepth(), 1);
         figure.changed();
-        assertEquals(figure.getChangingDepth(),0);
+        assertEquals(figure.getChangingDepth(), 0);
     }
-    
 
     public class AbstractFigureImpl extends AbstractFigure {
 
@@ -138,5 +137,5 @@ public class AbstractFigureNGTest {
             return null;
         }
     }
-    
+
 }

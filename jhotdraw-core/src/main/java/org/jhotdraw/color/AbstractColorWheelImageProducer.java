@@ -77,17 +77,17 @@ public abstract class AbstractColorWheelImageProducer extends MemoryImageSource 
     public float getRadius() {
         return Math.min(w, h) * 0.5f - 2;
     }
+
     public Point2D.Float getCenter() {
-        return new Point2D.Float(w*0.5f, h*0.5f);
+        return new Point2D.Float(w * 0.5f, h * 0.5f);
     }
 
     protected abstract void generateColorWheel();
 
     public Point getColorLocation(Color c) {
-        float[] components =ColorUtil.fromColor(colorSpace, c);
+        float[] components = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(components);
     }
-
 
     public abstract Point getColorLocation(float[] components);
 

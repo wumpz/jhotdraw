@@ -7,21 +7,22 @@
  */
 package org.jhotdraw.gui;
 
-import javax.swing.event.PopupMenuEvent;
-import org.jhotdraw.gui.plaf.palette.PaletteMenuItemUI;
 import java.awt.*;
+import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
-import java.awt.event.*;
+import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.jhotdraw.gui.plaf.palette.PaletteMenuItemUI;
 
 /**
  * JPopupButton provides a popup menu.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class JPopupButton extends javax.swing.JButton {
+
     private static final long serialVersionUID = 1L;
 
     public static final String CLOSE_AUTOMATICALLY_PROPERTY = "closeAutomatically";
@@ -34,9 +35,12 @@ public class JPopupButton extends javax.swing.JButton {
     private Font itemFont;
     public static final Font ITEM_FONT = new Font("Dialog", Font.PLAIN, 10);
     private int popupAnchor = SwingConstants.SOUTH_WEST;
-    /** The time when the popup became invisible. */
+    /**
+     * The time when the popup became invisible.
+     */
     private long popupBecameInvisible;
-    /** Whether the popup menu closes automatically, when another popup menu
+    /**
+     * Whether the popup menu closes automatically, when another popup menu
      * is opened.
      */
     private boolean isCloseAutomatically;
@@ -56,7 +60,7 @@ public class JPopupButton extends javax.swing.JButton {
         // Popup menu listener
         @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-            //
+
         }
 
         @Override
@@ -98,14 +102,18 @@ public class JPopupButton extends javax.swing.JButton {
     };
     private Handler handler = new Handler();
 
-    /** Creates new form JToolBarMenu */
+    /**
+     * Creates new form JToolBarMenu
+     */
     public JPopupButton() {
         initComponents();
         setFocusable(false);
         itemFont = ITEM_FONT;
     }
 
-    /** Sets the font used for popup menu items. */
+    /**
+     * Sets the font used for popup menu items.
+     */
     public void setItemFont(Font newValue) {
         Font oldValue = itemFont;
         itemFont = newValue;
@@ -115,7 +123,9 @@ public class JPopupButton extends javax.swing.JButton {
         firePropertyChange(ITEM_FONT_PROPERTY, oldValue, newValue);
     }
 
-    /** Updates the font of the popup menu. */
+    /**
+     * Updates the font of the popup menu.
+     */
     private void updateItemFont(MenuElement menu) {
         menu.getComponent().setFont(itemFont);
         for (MenuElement child : menu.getSubElements()) {
@@ -123,7 +133,8 @@ public class JPopupButton extends javax.swing.JButton {
         }
     }
 
-    /** Sets an action which is invoked when the user clicks on the
+    /**
+     * Sets an action which is invoked when the user clicks on the
      * specified click area.
      *
      * @param action An action.
@@ -142,12 +153,16 @@ public class JPopupButton extends javax.swing.JButton {
         }
     }
 
-    /** Returns the number of columns of the popup menu. */
+    /**
+     * Returns the number of columns of the popup menu.
+     */
     public int getColumnCount() {
         return columnCount;
     }
 
-    /** Sets the number of columns of the popup menu. */
+    /**
+     * Sets the number of columns of the popup menu.
+     */
     public void setColumnCount(int newValue, boolean isVertical) {
         int oldValue = columnCount;
         columnCount = newValue;
@@ -155,7 +170,8 @@ public class JPopupButton extends javax.swing.JButton {
         firePropertyChange(COLUMN_COUNT_PROPERTY, oldValue, newValue);
     }
 
-    /** Adds an {@code Action} to the popup menu.
+    /**
+     * Adds an {@code Action} to the popup menu.
      * <p>
      * The {@code Action} is represented by a {@code JMenuItem}.
      */
@@ -168,12 +184,15 @@ public class JPopupButton extends javax.swing.JButton {
         return item;
     }
 
-    /** Adds a sub-menu to the popup menu. */
+    /**
+     * Adds a sub-menu to the popup menu.
+     */
     public void add(JMenu submenu) {
         updateItemFont(submenu);
     }
 
-    /** Adds a {@code JComponent} to the popup menu.
+    /**
+     * Adds a {@code JComponent} to the popup menu.
      * <p>
      * If the component can open popup menus of its own, for example
      * if contains combo boxes, then you should set {@link JComponentPopup}
@@ -191,18 +210,24 @@ public class JPopupButton extends javax.swing.JButton {
         getPopupMenu().add(submenu);
     }
 
-    /** Adds a menu item to the popup menu. */
+    /**
+     * Adds a menu item to the popup menu.
+     */
     public void add(JMenuItem item) {
         getPopupMenu().add(item);
         item.setFont(itemFont);
     }
 
-    /** Adds a separator to the popup menu. */
+    /**
+     * Adds a separator to the popup menu.
+     */
     public void addSeparator() {
         getPopupMenu().addSeparator();
     }
 
-    /** Removes all items from the popup menu. */
+    /**
+     * Removes all items from the popup menu.
+     */
     @Override
     public void removeAll() {
         getPopupMenu().removeAll();
@@ -241,7 +266,7 @@ public class JPopupButton extends javax.swing.JButton {
 
     /**
      * Gets the popup anchor.
-     * 
+     *
      * @return SwingConstants.SOUTH_WEST or SOUTH_EAST.
      */
     public int getPopupAnchor() {
@@ -252,12 +277,12 @@ public class JPopupButton extends javax.swing.JButton {
      * Sets the popup anchor.
      * <p>
      * <ul>
-     * <li>SOUTH_WEST places the popup below the button and aligns it with its 
+     * <li>SOUTH_WEST places the popup below the button and aligns it with its
      * left bound.</li>
-     * <li>SOUTH_EAST places the popup below the button and aligns it with its 
+     * <li>SOUTH_EAST places the popup below the button and aligns it with its
      * right bound.</li>
-     * </ul> 
-     * 
+     * </ul>
+     *
      * @param newValue SwingConstants.SOUTH_WEST or SOUTH_EAST.
      */
     public void setPopupAnchor(int newValue) {
@@ -312,7 +337,8 @@ public class JPopupButton extends javax.swing.JButton {
         }
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -335,10 +361,10 @@ public class JPopupButton extends javax.swing.JButton {
         if (actionArea != null && actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top)) {
             action.actionPerformed(
                     new ActionEvent(this,
-                    ActionEvent.ACTION_PERFORMED,
-                    null,
-                    evt.getWhen(),
-                    evt.getModifiers()));
+                            ActionEvent.ACTION_PERFORMED,
+                            null,
+                            evt.getWhen(),
+                            evt.getModifiers()));
 
         }
     }//GEN-LAST:event_performAction

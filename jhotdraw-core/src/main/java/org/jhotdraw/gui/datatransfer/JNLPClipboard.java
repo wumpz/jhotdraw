@@ -21,17 +21,20 @@ import java.awt.datatransfer.Transferable;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Proxy</em><br>
+ * <p>
+ * <em>Proxy</em><br>
  * {@code JNLPClipboard} acts as a proxy to a JNLP {@code ClipboardService} object.<br>
  * Proxy: {@link JNLPClipboard}; Target: {@code javax.jnlp.ClipboardService}.
- * 
+ *
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class JNLPClipboard extends AbstractClipboard {
 
-    /** The proxy target. */
+    /**
+     * The proxy target.
+     */
     private Object target;
 
     /**
@@ -45,7 +48,9 @@ public class JNLPClipboard extends AbstractClipboard {
         this.target = target;
     }
 
-    /** Returns the proxy target. */
+    /**
+     * Returns the proxy target.
+     */
     public Object getTarget() {
         return target;
     }
@@ -55,7 +60,7 @@ public class JNLPClipboard extends AbstractClipboard {
         try {
             return (Transferable) target.getClass().getMethod("getContents").invoke(target);
         } catch (Exception ex) {
-            InternalError error = new InternalError("Failed to invoke getContents() on "+target);
+            InternalError error = new InternalError("Failed to invoke getContents() on " + target);
             error.initCause(ex);
             throw error;
         }
@@ -66,7 +71,7 @@ public class JNLPClipboard extends AbstractClipboard {
         try {
             target.getClass().getMethod("setContents", Transferable.class).invoke(target, contents);
         } catch (Exception ex) {
-            InternalError error = new InternalError("Failed to invoke setContents(Transferable) on "+target);
+            InternalError error = new InternalError("Failed to invoke setContents(Transferable) on " + target);
             error.initCause(ex);
             throw error;
         }

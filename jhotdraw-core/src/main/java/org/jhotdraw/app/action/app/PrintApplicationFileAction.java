@@ -7,15 +7,15 @@
  */
 package org.jhotdraw.app.action.app;
 
-import org.jhotdraw.util.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.PrintableView;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.util.*;
 
 /**
  * Prints a file for which a print request was sent to the application.
@@ -33,17 +33,20 @@ import org.jhotdraw.gui.BackgroundTask;
  * <p>
  * You should also create a {@link PrintFileAction} when you create this action.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PrintApplicationFileAction extends PrintFileAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "application.printFile";
     private JFileChooser fileChooser;
     private int entries;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public PrintApplicationFileAction(Application app) {
         super(app, null);
         putValue(Action.NAME, "OSX Print File");

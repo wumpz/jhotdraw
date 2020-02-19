@@ -7,15 +7,15 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.xml.*;
 import java.awt.font.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
-import java.util.*;
-import java.io.*;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link Drawing}.
@@ -24,6 +24,7 @@ import java.io.*;
  * @version $Id$
  */
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
+
     private static final long serialVersionUID = 1L;
     private static final Object lock = new JPanel().getTreeLock();
     private transient FontRenderContext fontRenderContext;
@@ -31,7 +32,9 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     private LinkedList<OutputFormat> outputFormats = new LinkedList<>();
     private static boolean debugMode = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractDrawing() {
     }
 
@@ -46,7 +49,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     @Override
@@ -169,7 +172,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     @SuppressWarnings("unchecked")
     public AbstractDrawing clone() {
         AbstractDrawing that = (AbstractDrawing) super.clone();
-        that.inputFormats =  (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
+        that.inputFormats = (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
         that.outputFormats = (this.outputFormats == null) ? null : (LinkedList<OutputFormat>) this.outputFormats.clone();
         return that;
     }

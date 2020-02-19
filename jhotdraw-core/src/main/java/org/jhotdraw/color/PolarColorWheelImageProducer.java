@@ -14,21 +14,29 @@ import java.awt.color.ColorSpace;
  * Produces the image of a {@link JColorWheel} by interpreting two components
  * of a {@code ColorSpace} as polar coordinates (angle and radius).
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PolarColorWheelImageProducer extends AbstractColorWheelImageProducer {
-    /** Lookup table for angular component values. */
+
+    /**
+     * Lookup table for angular component values.
+     */
     protected float[] angulars;
-    /** Lookup table for radial component values. */
+    /**
+     * Lookup table for radial component values.
+     */
     protected float[] radials;
-    /** Lookup table for alphas. 
+    /**
+     * Lookup table for alphas.
      * The alpha value is used for antialiasing the
      * color wheel.
      */
     protected int[] alphas;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public PolarColorWheelImageProducer(ColorSpace sys, int w, int h) {
         super(sys, w, h);
     }
@@ -84,7 +92,7 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
-        float[] rgb=new float[3];
+        float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];
@@ -105,11 +113,10 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
 
     @Override
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
-
 
         float radius = Math.min(w, h) / 2f;
         radial = Math.max(0f, Math.min(1f, radial));
@@ -127,14 +134,14 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
         float theta = (float) Math.atan2(y, -x);
 
         float angular = (float) (0.5 + (theta / Math.PI / 2d));
-        float radial=Math.min(1f, r / getRadius());
+        float radial = Math.min(1f, r / getRadius());
 
         float[] hsb = new float[3];
-        hsb[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        hsb[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        hsb[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;

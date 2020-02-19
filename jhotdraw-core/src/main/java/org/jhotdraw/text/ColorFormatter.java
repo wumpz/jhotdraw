@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.text;
 
-
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.text.DecimalFormat;
@@ -37,7 +36,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * If only 3 digits are entered, they are expanded to 6 digits by
  * replicating each digit.<br>
  * This syntactical form can represent 16777216 colors.
- * Examples: {@code #9400D3} (i.e. a dark violet), {@code #FFD700} 
+ * Examples: {@code #9400D3} (i.e. a dark violet), {@code #FFD700}
  * (i.e. a golden color), {@code #000} (i.e. black) {@code #fff} (i.e. white).
  * </li>
  * <li><b>Format.RGB_INTEGER_SHORT</b> - {@code red green blue},
@@ -50,7 +49,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * </li>
  * <li><b>Format.RGB_INTEGER</b> - {@code "rgb" red green blue},
  * or {@code red green blue} optionally separated by commas.<br>
- * Each value represents one sRGB color component. 
+ * Each value represents one sRGB color component.
  * Each value is in the range 0 to 255.
  * This syntactical form can represent 16777216 colors.
  * Examples: {@code rgb 233 150 122} (i.e. a salmon pink), {@code rgb 255 165 0}
@@ -58,7 +57,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * </li>
  * <li><b>Format.RGB_PERCENTAGE</b> - {@code "rgb%" red green blue},
  * or {@code red"%" green"%" blue"%"} optionally separated by commas.<br>
- * Each value represents one sRGB color component. 
+ * Each value represents one sRGB color component.
  * Each value is in the range 0.0 to 100.0.
  * This syntactical form can represent 10^9 colors.
  * </li>
@@ -84,6 +83,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class ColorFormatter extends DefaultFormatter {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -179,6 +179,7 @@ public class ColorFormatter extends DefaultFormatter {
 
     /**
      * Sets the output format.
+     *
      * @param newValue
      */
     public void setOutputFormat(Format newValue) {
@@ -204,6 +205,7 @@ public class ColorFormatter extends DefaultFormatter {
 
     /**
      * Sets whether a null value is allowed.
+     *
      * @param newValue
      */
     public void setAllowsNullValue(boolean newValue) {
@@ -265,9 +267,9 @@ public class ColorFormatter extends DefaultFormatter {
                 String group1 = matcher.group(1);
                 if (group1.length() == 3) {
                     return new Color(Integer.parseInt(
-                            "" + group1.charAt(0) + group1.charAt(0) + //
-                            group1.charAt(1) + group1.charAt(1) + //
-                            group1.charAt(2) + group1.charAt(2), //
+                            "" + group1.charAt(0) + group1.charAt(0)
+                            + group1.charAt(1) + group1.charAt(1)
+                            + group1.charAt(2) + group1.charAt(2),
                             16));
                 } else if (group1.length() == 6) {
                     return new Color(Integer.parseInt(group1, 16));
@@ -293,9 +295,9 @@ public class ColorFormatter extends DefaultFormatter {
         }
         if (matcher.matches()) {
             try {
-                return new Color(//
-                        Integer.parseInt(matcher.group(1)), //
-                        Integer.parseInt(matcher.group(2)), //
+                return new Color(
+                        Integer.parseInt(matcher.group(1)),
+                        Integer.parseInt(matcher.group(2)),
                         Integer.parseInt(matcher.group(3)));
             } catch (NumberFormatException nfe) {
                 ParseException pe = new ParseException(str, 0);
@@ -313,9 +315,9 @@ public class ColorFormatter extends DefaultFormatter {
         if (matcher.matches()) {
             setLastUsedInputFormat(Format.RGB_PERCENTAGE);
             try {
-                return new Color(//
-                        numberFormat.parse(matcher.group(1)).floatValue() / 100f, //
-                        numberFormat.parse(matcher.group(2)).floatValue() / 100f, //
+                return new Color(
+                        numberFormat.parse(matcher.group(1)).floatValue() / 100f,
+                        numberFormat.parse(matcher.group(2)).floatValue() / 100f,
                         numberFormat.parse(matcher.group(3)).floatValue() / 100f);
             } catch (NumberFormatException nfe) {
                 ParseException pe = new ParseException(str, 0);
@@ -334,10 +336,10 @@ public class ColorFormatter extends DefaultFormatter {
             setLastUsedInputFormat(Format.HSB_PERCENTAGE);
             try {
                 return new Color(HSBColorSpace.getInstance(),
-                        new float[]{//
-                            matcher.group(1) == null ? 0f : numberFormat.parse(matcher.group(1)).floatValue() / 360f, //
-                            matcher.group(2) == null ? 1f : numberFormat.parse(matcher.group(2)).floatValue() / 100f, //
-                            matcher.group(3) == null ? 1f : numberFormat.parse(matcher.group(3)).floatValue() / 100f},//
+                        new float[]{
+                            matcher.group(1) == null ? 0f : numberFormat.parse(matcher.group(1)).floatValue() / 360f,
+                            matcher.group(2) == null ? 1f : numberFormat.parse(matcher.group(2)).floatValue() / 100f,
+                            matcher.group(3) == null ? 1f : numberFormat.parse(matcher.group(3)).floatValue() / 100f},
                         1f);
             } catch (NumberFormatException nfe) {
                 ParseException pe = new ParseException(str, 0);
@@ -356,9 +358,9 @@ public class ColorFormatter extends DefaultFormatter {
             setLastUsedInputFormat(Format.GRAY_PERCENTAGE);
             try {
                 return ColorUtil.toColor(ColorSpace.getInstance(ColorSpace.CS_GRAY),
-                        new float[]{//
-                            matcher.group(1) == null ? 0f : numberFormat.parse(matcher.group(1)).floatValue() / 100f}//
-                        );
+                        new float[]{
+                            matcher.group(1) == null ? 0f : numberFormat.parse(matcher.group(1)).floatValue() / 100f}
+                );
             } catch (NumberFormatException nfe) {
                 ParseException pe = new ParseException(str, 0);
                 pe.initCause(nfe);
@@ -421,19 +423,19 @@ public class ColorFormatter extends DefaultFormatter {
                     break;
                 case HSB_PERCENTAGE: {
                     float[] components;
-                    if (c.getColorSpace().getType()==ColorSpace.TYPE_HSV) {
+                    if (c.getColorSpace().getType() == ColorSpace.TYPE_HSV) {
                         components = c.getComponents(null);
                     } else {
                         components = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), new float[3]);
                     }
-                    str = "hsb " + numberFormat.format(components[0] * 360) + " "//
-                            + numberFormat.format(components[1] * 100) + " " //
+                    str = "hsb " + numberFormat.format(components[0] * 360) + " "
+                            + numberFormat.format(components[1] * 100) + " "
                             + numberFormat.format(components[2] * 100) + "";
                     break;
                 }
                 case GRAY_PERCENTAGE: {
                     float[] components;
-                    if (c.getColorSpace().getType()==ColorSpace.TYPE_GRAY) {
+                    if (c.getColorSpace().getType() == ColorSpace.TYPE_GRAY) {
                         components = c.getComponents(null);
                     } else {
                         components = c.getColorComponents(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);

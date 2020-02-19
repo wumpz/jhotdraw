@@ -26,16 +26,18 @@ public abstract class AbstractClipboard extends Clipboard {
         super("Clipboard Proxy");
     }
 
-    /** Returns a {@code Transferable} object representing the current contents
+    /**
+     * Returns a {@code Transferable} object representing the current contents
      * of the clipboard. If the clipboard currently has no contents, it returns
      * null.
      *
-     *    @return The current {@code Transferable} object on the clipboard.
+     * @return The current {@code Transferable} object on the clipboard.
      */
     @Override
     public abstract Transferable getContents(Object requestor);
 
-    /** Sets the current contents of the clipboard to the specified
+    /**
+     * Sets the current contents of the clipboard to the specified
      * {@code Transferable} object.
      *
      * @param contents The {@code Transferable} object representing clipboard

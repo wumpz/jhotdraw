@@ -7,15 +7,14 @@
  */
 package org.jhotdraw.draw.tool;
 
-
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.util.*;
+import javax.swing.*;
+import org.jhotdraw.app.action.ActionUtil;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.*;
-import org.jhotdraw.app.action.ActionUtil;
 
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers.
@@ -30,6 +29,7 @@ import org.jhotdraw.app.action.ActionUtil;
  * @version $Id$
  */
 public class DelegationSelectionTool extends SelectionTool {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -64,12 +64,16 @@ public class DelegationSelectionTool extends SelectionTool {
      */
     private boolean isMousePressedPopupTrigger;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DelegationSelectionTool() {
         this(new LinkedList<Action>(), new LinkedList<Action>());
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DelegationSelectionTool(Collection<Action> drawingActions, Collection<Action> selectionActions) {
         this.drawingActions = drawingActions;
         this.selectionActions = selectionActions;
@@ -105,7 +109,7 @@ public class DelegationSelectionTool extends SelectionTool {
             super.mousePressed(evt);
             popupTimer = new javax.swing.Timer(1000, new ActionListener() {
 
-    @Override
+                @Override
                 public void actionPerformed(ActionEvent aevt) {
                     handlePopupMenu(evt);
                     popupTimer = null;
@@ -157,16 +161,16 @@ public class DelegationSelectionTool extends SelectionTool {
         }
         super.mouseClicked(evt);
         if (!evt.isConsumed()) {
-            if (evt.getClickCount() >= 2 && //
-                    evt.getButton() == MouseEvent.BUTTON1) {
+            if (evt.getClickCount() >= 2
+                    && evt.getButton() == MouseEvent.BUTTON1) {
                 handleDoubleClick(evt);
-            } else if (evt.getClickCount() == 1 &&
-                    evt.getModifiersEx() == 0 &&
-                    lastClickEvent != null &&
-                    lastClickEvent.getClickCount() == 1 &&
-                    lastClickEvent.getModifiersEx() == 0 &&
-                    lastClickEvent.getX() == evt.getX() &&
-                    lastClickEvent.getY() == evt.getY()) {
+            } else if (evt.getClickCount() == 1
+                    && evt.getModifiersEx() == 0
+                    && lastClickEvent != null
+                    && lastClickEvent.getClickCount() == 1
+                    && lastClickEvent.getModifiersEx() == 0
+                    && lastClickEvent.getX() == evt.getX()
+                    && lastClickEvent.getY() == evt.getY()) {
                 handleMultiClick(evt);
             }
         }
@@ -282,7 +286,6 @@ public class DelegationSelectionTool extends SelectionTool {
             // Note: The search sequence used here, must be
             // consistent with the search sequence used by the
             // HandleTracker, the SelectAreaTracker and SelectionTool.
-
             // If possible, continue to work with the current selection
             Figure figure = null;
             if (isSelectBehindEnabled()) {

@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.draw.io;
 
-import org.jhotdraw.draw.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.datatransfer.AbstractTransferable;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
@@ -63,14 +63,16 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     private DataFlavor dataFlavor;
     private Drawing prototype;
 
-    /** Creates a new instance with format name "Drawing", file extension "xml"
+    /**
+     * Creates a new instance with format name "Drawing", file extension "xml"
      * and mime type "image/x-jhotdraw".
      */
     public SerializationInputOutputFormat() {
         this("Drawing", "ser", new DefaultDrawing());
     }
 
-    /** Creates a new instance using the specified parameters.
+    /**
+     * Creates a new instance using the specified parameters.
      */
     public SerializationInputOutputFormat(
             String description, String fileExtension, Drawing prototype) {
@@ -119,7 +121,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
             Drawing d = (Drawing) oin.readObject();
             if (replace) {
                 for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
-                    drawing.set((AttributeKey<Object>)e.getKey(), e.getValue());
+                    drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -145,7 +147,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
             if (replace) {
                 for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
-                    drawing.set((AttributeKey<Object>)e.getKey(), e.getValue());
+                    drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -168,7 +170,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
-        write(new File(uri),drawing);
+        write(new File(uri), drawing);
     }
 
     public void write(File file, Drawing drawing) throws IOException {
@@ -200,7 +202,6 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         for (Figure f : duplicates) {
             f.remap(originalToDuplicateMap, true);
         }
-
 
         return new AbstractTransferable(dataFlavor) {
 

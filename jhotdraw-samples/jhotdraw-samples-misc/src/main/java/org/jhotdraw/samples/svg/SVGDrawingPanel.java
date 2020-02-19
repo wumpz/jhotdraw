@@ -319,7 +319,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 // We get here if reading was successful.
                 // We can return since we are done.
                 return;
-                //
+                
             } catch (IOException e) {
                 // We get here if reading failed.
                 // We only preserve the exception of the first input format,

@@ -190,7 +190,7 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
 
     @Override
     public void printf(String format, Object... args) {
-        if ((formatter == null)//
+        if ((formatter == null)
                 || (formatter.locale() != Locale.getDefault())) {
             formatter = new Formatter();
         }

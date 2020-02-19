@@ -18,6 +18,8 @@ import java.util.EventListener;
  * @version 1.0 2011-09-08 Created.
  */
 public interface ActivityManagerListener extends EventListener {
+
     public void activityModelAdded(ActivityManagerEvent evt);
+
     public void activityModelRemoved(ActivityManagerEvent evt);
 }

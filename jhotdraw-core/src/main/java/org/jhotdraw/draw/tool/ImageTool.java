@@ -7,13 +7,11 @@
  */
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.ImageHolderFigure;
-import java.io.*;
-import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.*;
-
+import javax.swing.*;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.BackgroundTask;
 
 /**
@@ -22,26 +20,28 @@ import org.jhotdraw.gui.BackgroundTask;
  * prototype.
  * <p>
  * Immediately, after the ImageTool has been activated, it opens a JFileChooser,
- * letting the user specify an image file. The the user then performs 
+ * letting the user specify an image file. The the user then performs
  * the following mouse gesture:
  * <ol>
- * <li>Press the mouse button and drag the mouse over the DrawingView. 
+ * <li>Press the mouse button and drag the mouse over the DrawingView.
  * This defines the bounds of the created figure.</li>
  * </ol>
  *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Prototype</em><br>
+ * <p>
+ * <em>Prototype</em><br>
  * The {@code ImageTool} creates new figures by cloning a prototype
  * {@code ImageHolderFigure} object.<br>
  * Prototype: {@link ImageHolderFigure}; Client: {@link ImageTool}.
  * <hr>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ImageTool extends CreationTool {
+
     private static final long serialVersionUID = 1L;
 
     protected FileDialog fileDialog;
@@ -49,12 +49,16 @@ public class ImageTool extends CreationTool {
     protected boolean useFileDialog;
     protected Thread workerThread;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ImageTool(ImageHolderFigure prototype) {
         super(prototype);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ImageTool(ImageHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
         super(prototype, attributes);
     }
@@ -75,8 +79,10 @@ public class ImageTool extends CreationTool {
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
-        final DrawingView v=getView();
-        if (v==null)return;
+        final DrawingView v = getView();
+        if (v == null) {
+            return;
+        }
 
         if (workerThread != null) {
             try {

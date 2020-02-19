@@ -7,20 +7,20 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.CompositeFigureEdit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.CompositeFigureEdit;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.undo.PropertyChangeEdit;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Handle} to manipulate the corner radius of a
  * {@link RoundRectangleFigure}.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class RoundRectangleRadiusHandle extends AbstractHandle {
@@ -28,7 +28,9 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     private static final int OFFSET = 6;
     private Point originalArc;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public RoundRectangleRadiusHandle(Figure owner) {
         super(owner);
     }
@@ -99,8 +101,8 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
         Point2D.Double oldArc = view.viewToDrawing(originalArc);
         Point2D.Double newArc = view.viewToDrawing(viewArc);
 
-        ResourceBundleUtil labels =
-                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels
+                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         CompositeFigureEdit edit = new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));
         fireUndoableEditHappened(edit);
         fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
@@ -140,8 +142,8 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
             owner.setArcWidth(newArc.x);
             owner.setArcHeight(newArc.y);
             owner.changed();
-            ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            ResourceBundleUtil labels
+                    = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             CompositeFigureEdit edit = new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));
             fireUndoableEditHappened(edit);
             fireUndoableEditHappened(new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
@@ -152,7 +154,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("handle.roundRectangleRadius.toolTipText");
     }
 }

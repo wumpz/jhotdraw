@@ -5,9 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.osx;
-
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,8 +21,9 @@ import org.jhotdraw.app.View;
  * @version $Id$
  */
 public class OSXPaletteHandler {
+
     private HashSet<Window> palettes = new HashSet<>();
-    private HashMap<Window,View> windows = new HashMap<>();
+    private HashMap<Window, View> windows = new HashMap<>();
     private javax.swing.Timer timer;
     private OSXApplication app;
     private WindowFocusListener focusHandler = new WindowFocusListener() {
@@ -41,7 +40,7 @@ public class OSXPaletteHandler {
                 showPalettes();
             }
         }
-        
+
         /**
          * Invoked when the Window is no longer the focused Window, which means
          * that keyboard events will no longer be delivered to the Window or any of
@@ -52,8 +51,10 @@ public class OSXPaletteHandler {
             timer.restart();
         }
     };
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public OSXPaletteHandler(OSXApplication app) {
         this.app = app;
         timer = new javax.swing.Timer(60, new ActionListener() {
@@ -64,41 +65,43 @@ public class OSXPaletteHandler {
         });
         timer.setRepeats(false);
     }
-    
+
     public void add(Window window, View view) {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, view);
     }
-    
+
     public void remove(Window window) {
         windows.remove(window);
         window.removeWindowFocusListener(focusHandler);
     }
-    
+
     public void addPalette(Window palette) {
         palette.addWindowFocusListener(focusHandler);
         palettes.add(palette);
     }
-    
+
     public void removePalette(Window palette) {
         palettes.remove(palette);
         palette.removeWindowFocusListener(focusHandler);
     }
-    
+
     public Set<Window> getPalettes() {
         return Collections.unmodifiableSet(palettes);
     }
-    
+
     private void showPalettes() {
         for (Window palette : palettes) {
-            if (! palette.isVisible()) {
+            if (!palette.isVisible()) {
                 palette.setVisible(true);
             }
         }
     }
-    
+
     private boolean isFocused(Window w) {
-        if (w.isFocused()) return true;
+        if (w.isFocused()) {
+            return true;
+        }
         Window[] ownedWindows = w.getOwnedWindows();
         for (Window ownedWindow : ownedWindows) {
             if (isFocused(ownedWindow)) {
@@ -107,6 +110,7 @@ public class OSXPaletteHandler {
         }
         return false;
     }
+
     private void maybeHidePalettes() {
         boolean hasFocus = false;
         for (Window window : windows.keySet()) {
@@ -115,7 +119,7 @@ public class OSXPaletteHandler {
                 break;
             }
         }
-        if (! hasFocus && windows.size() > 0) {
+        if (!hasFocus && windows.size() > 0) {
             for (Window palette : palettes) {
                 if (isFocused(palette)) {
                     hasFocus = true;
@@ -123,7 +127,7 @@ public class OSXPaletteHandler {
                 }
             }
         }
-        if (! hasFocus) {
+        if (!hasFocus) {
             for (Window palette : palettes) {
                 palette.setVisible(false);
             }
@@ -134,6 +138,7 @@ public class OSXPaletteHandler {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, null);
     }
+
     public void removeWindow(Window window) {
         windows.remove(window);
         window.removeWindowFocusListener(focusHandler);

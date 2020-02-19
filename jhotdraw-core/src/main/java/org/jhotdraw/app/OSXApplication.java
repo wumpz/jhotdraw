@@ -7,39 +7,22 @@
  */
 package org.jhotdraw.app;
 
-
-import org.jhotdraw.app.action.app.AbstractPreferencesAction;
-import org.jhotdraw.app.action.window.TogglePaletteAction;
-import org.jhotdraw.app.action.window.FocusWindowAction;
-import org.jhotdraw.app.action.window.MaximizeWindowAction;
-import org.jhotdraw.app.action.window.MinimizeWindowAction;
-import org.jhotdraw.app.action.file.SaveFileAsAction;
-import org.jhotdraw.app.action.file.SaveFileAction;
-import org.jhotdraw.app.action.file.PrintFileAction;
-import org.jhotdraw.app.action.file.NewFileAction;
-import org.jhotdraw.app.action.file.OpenFileAction;
-import org.jhotdraw.app.action.file.CloseFileAction;
-import org.jhotdraw.app.action.file.OpenDirectoryAction;
-import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.app.action.app.OpenApplicationAction;
-import org.jhotdraw.app.action.app.OpenApplicationFileAction;
-import org.jhotdraw.app.action.app.AboutAction;
-import org.jhotdraw.app.action.app.ExitAction;
-import org.jhotdraw.app.action.app.PrintApplicationFileAction;
-import org.jhotdraw.app.action.app.ReOpenApplicationAction;
-import org.jhotdraw.app.osx.OSXPaletteHandler;
-import org.jhotdraw.gui.Worker;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
-import java.util.*;
-import java.util.prefs.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import java.awt.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import java.util.*;
+import java.util.prefs.*;
+import javax.swing.*;
 import org.jhotdraw.app.action.ActionUtil;
+import org.jhotdraw.app.action.app.AboutAction;
+import org.jhotdraw.app.action.app.AbstractPreferencesAction;
+import org.jhotdraw.app.action.app.ExitAction;
+import org.jhotdraw.app.action.app.OpenApplicationAction;
+import org.jhotdraw.app.action.app.OpenApplicationFileAction;
+import org.jhotdraw.app.action.app.PrintApplicationFileAction;
+import org.jhotdraw.app.action.app.ReOpenApplicationAction;
 import org.jhotdraw.app.action.edit.AbstractFindAction;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.CopyAction;
@@ -52,11 +35,27 @@ import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.app.action.file.ClearFileAction;
 import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.CloseFileAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
 import org.jhotdraw.app.action.file.LoadDirectoryAction;
 import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.NewFileAction;
 import org.jhotdraw.app.action.file.NewWindowAction;
+import org.jhotdraw.app.action.file.OpenDirectoryAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.PrintFileAction;
+import org.jhotdraw.app.action.file.SaveFileAction;
+import org.jhotdraw.app.action.file.SaveFileAsAction;
+import org.jhotdraw.app.action.window.FocusWindowAction;
+import org.jhotdraw.app.action.window.MaximizeWindowAction;
+import org.jhotdraw.app.action.window.MinimizeWindowAction;
+import org.jhotdraw.app.action.window.TogglePaletteAction;
 import org.jhotdraw.app.osx.OSXAdapter;
+import org.jhotdraw.app.osx.OSXPaletteHandler;
+import org.jhotdraw.gui.Worker;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
+import org.jhotdraw.util.prefs.*;
 
 /**
  * {@code OSXApplication} handles the lifecycle of multiple {@link View}s using
@@ -91,7 +90,7 @@ import org.jhotdraw.net.URIUtil;
  * "Application-Name" &nbsp; File &nbsp; Edit &nbsp; Window</pre>
  *
  * The first menu, is the <b>application menu</b>. It has the following standard
- * menu items: 
+ * menu items:
  * <pre>
  *  About "Application-Name" ({@link AboutAction#ID})
  *  -
@@ -160,16 +159,20 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class OSXApplication extends AbstractApplication {
+
     private static final long serialVersionUID = 1L;
 
     private OSXPaletteHandler paletteHandler;
     private Preferences prefs;
     private LinkedList<Action> paletteActions;
-    /** The "invisible" frame is used to hold the frameless menu bar on Mac OS X.
+    /**
+     * The "invisible" frame is used to hold the frameless menu bar on Mac OS X.
      */
     private JFrame invisibleFrame;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public OSXApplication() {
     }
 
@@ -203,7 +206,7 @@ public class OSXApplication extends AbstractApplication {
 
     protected void initLookAndFeel() {
         try {
-            String lafName=(String)Methods.invokeStatic("ch.randelshofer.quaqua.QuaquaManager","getLookAndFeelClassName");
+            String lafName = (String) Methods.invokeStatic("ch.randelshofer.quaqua.QuaquaManager", "getLookAndFeelClassName");
             UIManager.setLookAndFeel(lafName);
         } catch (Exception e) {
             e.printStackTrace();
@@ -251,7 +254,7 @@ public class OSXApplication extends AbstractApplication {
     @Override
     public void removeWindow(Window window) {
         if (window instanceof JFrame) {
-            
+
             // Unlink all menu items from action objects
             JMenuBar mb = ((JFrame) window).getJMenuBar();
             Stack<JMenu> s = new Stack<>();
@@ -294,7 +297,7 @@ public class OSXApplication extends AbstractApplication {
                 for (View aView : views()) {
                     if (aView != view && aView.isShowing()
                             && SwingUtilities.getWindowAncestor(aView.getComponent()).
-                            getLocation().equals(loc)) {
+                                    getLocation().equals(loc)) {
                         loc.x += 22;
                         loc.y += 22;
                         moved = true;
@@ -315,7 +318,7 @@ public class OSXApplication extends AbstractApplication {
 
     /**
      * Updates the title of a view and displays it in the given frame.
-     * 
+     *
      * @param v The view.
      * @param f The frame.
      */
@@ -433,7 +436,7 @@ public class OSXApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createViewMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "view");
@@ -459,12 +462,11 @@ public class OSXApplication extends AbstractApplication {
 
         new WindowMenuHandler(windowMenu, view);
 
-
         return (m.getItemCount() == 0) ? null : m;
     }
 
     @Override
-    
+
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -478,10 +480,10 @@ public class OSXApplication extends AbstractApplication {
         mb.addLoadFileItems(m, this, view);
         mb.addOpenFileItems(m, this, view);
 
-        if (getAction(view, LoadFileAction.ID) != null ||//
-                getAction(view, OpenFileAction.ID) != null ||//
-                getAction(view, LoadDirectoryAction.ID) != null ||//
-                getAction(view, OpenDirectoryAction.ID) != null) {
+        if (getAction(view, LoadFileAction.ID) != null
+                || getAction(view, OpenFileAction.ID) != null
+                || getAction(view, LoadDirectoryAction.ID) != null
+                || getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
@@ -497,7 +499,7 @@ public class OSXApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -631,7 +633,8 @@ public class OSXApplication extends AbstractApplication {
         return true;
     }
 
-    /** Returns the Frame which holds the frameless JMenuBar.
+    /**
+     * Returns the Frame which holds the frameless JMenuBar.
      */
     @Override
     public Component getComponent() {
@@ -686,11 +689,13 @@ public class OSXApplication extends AbstractApplication {
         return vMap;
     }
 
-    /** Updates the menu items in the "Window" menu. */
+    /**
+     * Updates the menu items in the "Window" menu.
+     */
     private class WindowMenuHandler implements PropertyChangeListener, Disposable {
 
         private JMenu windowMenu;
-        
+
         private View view;
 
         public WindowMenuHandler(JMenu windowMenu, View view) {
@@ -749,7 +754,9 @@ public class OSXApplication extends AbstractApplication {
         }
     }
 
-    /** Updates the modifedState of the frame. */
+    /**
+     * Updates the modifedState of the frame.
+     */
     private class FrameHandler extends WindowAdapter implements PropertyChangeListener, Disposable {
 
         private JFrame frame;
@@ -777,7 +784,7 @@ public class OSXApplication extends AbstractApplication {
         public void windowClosing(final WindowEvent evt) {
             getAction(view, CloseFileAction.ID).actionPerformed(
                     new ActionEvent(evt.getSource(), ActionEvent.ACTION_PERFORMED,
-                    "windowClosing"));
+                            "windowClosing"));
         }
 
         @Override
@@ -811,7 +818,8 @@ public class OSXApplication extends AbstractApplication {
 
     private static class QuitHandler {
 
-        /** This method is invoked, when the user has selected the Quit menu item.
+        /**
+         * This method is invoked, when the user has selected the Quit menu item.
          *
          * @return Returns true if the application has no unsaved changes and
          * can be closed.

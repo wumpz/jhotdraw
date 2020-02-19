@@ -5,16 +5,14 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.io;
 
-
-import org.jhotdraw.draw.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.draw.*;
 
 /**
  * An <em>output format</em> implements a strategy for writing a {@link Drawing}
@@ -31,7 +29,8 @@ import javax.swing.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * {@code OutputFormat} encapsulates a strategy for writing drawings to output
  * streams.<br>
  * Strategy: {@link OutputFormat}; Context: {@link Drawing}.
@@ -41,8 +40,9 @@ import javax.swing.*;
  * @version $Id$
  */
 public interface OutputFormat {
+
     /**
-     * Return a FileFilter that can be used to identify files which can be stored 
+     * Return a FileFilter that can be used to identify files which can be stored
      * with this output format. Typically, each output format has its own
      * recognizable file extension.
      *
@@ -56,7 +56,7 @@ public interface OutputFormat {
      * Drawing with the specified file format.
      */
     public String getFileExtension();
-    
+
     /**
      * Return a JFileChooser accessory that can be used to customize the output
      * format.
@@ -65,7 +65,7 @@ public interface OutputFormat {
      * Returns null, if no accessory is provided for this format.
      */
     public JComponent getOutputFormatAccessory();
-    
+
     /**
      * Writes a Drawing into an URI.
      *
@@ -81,7 +81,7 @@ public interface OutputFormat {
      * @param drawing The drawing.
      */
     public void write(OutputStream out, Drawing drawing) throws IOException;
-    
+
     /**
      * Creates a Transferable for the specified list of Figures.
      *

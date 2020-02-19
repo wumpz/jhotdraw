@@ -5,28 +5,27 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
 
-
-import org.jhotdraw.gui.plaf.palette.colorchooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
+import java.security.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.colorchooser.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
-import java.security.*;
-import java.util.*;
+import org.jhotdraw.gui.plaf.palette.colorchooser.*;
 
 /**
  * PaletteColorChooserUI.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PaletteColorChooserUI extends ColorChooserUI {
+
     protected PaletteColorChooserMainPanel mainPanel;
     protected JColorChooser chooser;
     protected ChangeListener previewListener;
@@ -35,28 +34,28 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     protected JComponent previewPanel;
     private static TransferHandler defaultTransferHandler = new ColorTransferHandler();
     private MouseListener previewMouseListener;
-    
+
     public static ComponentUI createUI(JComponent c) {
         return new PaletteColorChooserUI();
     }
-    
+
     @Override
-    public void installUI( JComponent c ) {
-        chooser = (JColorChooser)c;
-                AbstractColorChooserPanel[] oldPanels = chooser.getChooserPanels();
-        
+    public void installUI(JComponent c) {
+        chooser = (JColorChooser) c;
+        AbstractColorChooserPanel[] oldPanels = chooser.getChooserPanels();
+
         installDefaults();
-        
-        chooser.setLayout( new BorderLayout() );
+
+        chooser.setLayout(new BorderLayout());
         mainPanel = new PaletteColorChooserMainPanel();
         chooser.add(mainPanel);
         defaultChoosers = createDefaultChoosers();
         chooser.setChooserPanels(defaultChoosers);
-        
+
         installPreviewPanel();
-                AbstractColorChooserPanel[] newPanels = chooser.getChooserPanels();
-                updateColorChooserPanels(oldPanels, newPanels);
-        
+        AbstractColorChooserPanel[] newPanels = chooser.getChooserPanels();
+        updateColorChooserPanels(oldPanels, newPanels);
+
         // Note: install listeners only after we have fully installed
         //       all chooser panels. If we do it earlier, we send property
         //       events too early.
@@ -64,7 +63,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
 
         chooser.applyComponentOrientation(c.getComponentOrientation());
     }
-    
+
     protected AbstractColorChooserPanel[] createDefaultChoosers() {
         String[] defaultChooserNames = (String[]) PaletteLookAndFeel.getInstance().get("ColorChooser.defaultChoosers");
         ArrayList<AbstractColorChooserPanel> panels = new ArrayList<>(defaultChooserNames.length);
@@ -91,26 +90,26 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         //AbstractColorChooserPanel[] panels = new AbstractColorChooserPanel[defaultChoosers.length];
         return panels.toArray(new AbstractColorChooserPanel[panels.size()]);
     }
-    
-    
+
     @Override
-    public void uninstallUI( JComponent c ) {
+    public void uninstallUI(JComponent c) {
         chooser.remove(mainPanel);
-        
+
         uninstallListeners();
         uninstallDefaultChoosers();
         uninstallDefaults();
-        
+
         mainPanel.setPreviewPanel(null);
         if (previewPanel instanceof UIResource) {
             chooser.setPreviewPanel(null);
         }
-        
+
         mainPanel = null;
         previewPanel = null;
         defaultChoosers = null;
         chooser = null;
     }
+
     protected void installDefaults() {
         PaletteLookAndFeel.installColorsAndFont(chooser, "ColorChooser.background",
                 "ColorChooser.foreground",
@@ -120,18 +119,17 @@ public class PaletteColorChooserUI extends ColorChooserUI {
             chooser.setTransferHandler(defaultTransferHandler);
         }
     }
-    
+
     protected void uninstallDefaults() {
         if (chooser.getTransferHandler() instanceof UIResource) {
             chooser.setTransferHandler(null);
         }
     }
-    
-    
+
     protected void installListeners() {
         propertyChangeListener = createPropertyChangeListener();
-        chooser.addPropertyChangeListener( propertyChangeListener );
-        
+        chooser.addPropertyChangeListener(propertyChangeListener);
+
         previewListener = new PreviewListener();
         chooser.getSelectionModel().addChangeListener(previewListener);
 
@@ -145,18 +143,18 @@ public class PaletteColorChooserUI extends ColorChooserUI {
             }
         };
     }
-    
+
     protected void uninstallListeners() {
-        chooser.removePropertyChangeListener( propertyChangeListener );
+        chooser.removePropertyChangeListener(propertyChangeListener);
         chooser.getSelectionModel().removeChangeListener(previewListener);
 
         previewPanel.removeMouseListener(previewMouseListener);
     }
-    
+
     protected PropertyChangeListener createPropertyChangeListener() {
         return new PropertyHandler();
     }
-    
+
     protected void installPreviewPanel() {
         if (previewPanel != null) {
             previewPanel.removeMouseListener(previewMouseListener);
@@ -164,10 +162,10 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         if (previewPanel != null) {
             mainPanel.setPreviewPanel(null);
         }
-        
+
         previewPanel = chooser.getPreviewPanel();
-        if ((previewPanel != null) && (mainPanel != null) //
-                && (previewPanel.getSize().getHeight()+previewPanel.getSize().getWidth() == 0)) {
+        if ((previewPanel != null) && (mainPanel != null)
+                && (previewPanel.getSize().getHeight() + previewPanel.getSize().getWidth() == 0)) {
             mainPanel.setPreviewPanel(null);
             return;
         }
@@ -180,36 +178,40 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         mainPanel.setPreviewPanel(previewPanel);
         previewPanel.addMouseListener(previewMouseListener);
     }
-    
+
     class PreviewListener implements ChangeListener {
+
         @Override
-        public void stateChanged( ChangeEvent e ) {
-            ColorSelectionModel model = (ColorSelectionModel)e.getSource();
+        public void stateChanged(ChangeEvent e) {
+            ColorSelectionModel model = (ColorSelectionModel) e.getSource();
             if (previewPanel != null) {
                 previewPanel.setForeground(model.getSelectedColor());
                 previewPanel.repaint();
             }
         }
     }
+
     protected void uninstallDefaultChoosers() {
         for (AbstractColorChooserPanel defaultChooser : defaultChoosers) {
             chooser.removeChooserPanel(defaultChooser);
         }
     }
+
     private void updateColorChooserPanels(
-            AbstractColorChooserPanel[] oldPanels,  
+            AbstractColorChooserPanel[] oldPanels,
             AbstractColorChooserPanel[] newPanels) {
         for (AbstractColorChooserPanel oldPanel : oldPanels) {
             // remove old panels
             Container wrapper = oldPanel.getParent();
             if (wrapper != null) {
                 Container parent = wrapper.getParent();
-                if (parent != null)
+                if (parent != null) {
                     parent.remove(wrapper);  // remove from hierarchy
+                }
                 oldPanel.uninstallChooserPanel(chooser); // uninstall
             }
         }
-        
+
         mainPanel.removeAllColorChooserPanels();
         for (AbstractColorChooserPanel newPanel : newPanels) {
             if (newPanel != null) {
@@ -222,13 +224,13 @@ public class PaletteColorChooserUI extends ColorChooserUI {
             }
         }
     }
-    
+
     public class PropertyHandler implements PropertyChangeListener {
 
         @Override
         public void propertyChange(PropertyChangeEvent e) {
             String name = e.getPropertyName();
-            if (name.equals( JColorChooser.CHOOSER_PANELS_PROPERTY ) ) {
+            if (name.equals(JColorChooser.CHOOSER_PANELS_PROPERTY)) {
                 AbstractColorChooserPanel[] oldPanels = (AbstractColorChooserPanel[]) e.getOldValue();
                 AbstractColorChooserPanel[] newPanels = (AbstractColorChooserPanel[]) e.getNewValue();
 
@@ -238,8 +240,9 @@ public class PaletteColorChooserUI extends ColorChooserUI {
                         Container wrapper = oldPanel.getParent();
                         if (wrapper != null) {
                             Container parent = wrapper.getParent();
-                            if (parent != null)
+                            if (parent != null) {
                                 parent.remove(wrapper);  // remove from hierarchy
+                            }
                             oldPanel.uninstallChooserPanel(chooser); // uninstall
                         }
                     }
@@ -259,23 +262,25 @@ public class PaletteColorChooserUI extends ColorChooserUI {
                     }
                 }
             }
-            if (name.equals( JColorChooser.PREVIEW_PANEL_PROPERTY ) ) {
+            if (name.equals(JColorChooser.PREVIEW_PANEL_PROPERTY)) {
                 if (e.getNewValue() != previewPanel) {
                     installPreviewPanel();
                 }
             }
             if ("componentOrientation".equals(name)) {
-                ComponentOrientation o = (ComponentOrientation)e.getNewValue();
-                JColorChooser cc = (JColorChooser)e.getSource();
-                if (o != (ComponentOrientation)e.getOldValue()) {
+                ComponentOrientation o = (ComponentOrientation) e.getNewValue();
+                JColorChooser cc = (JColorChooser) e.getSource();
+                if (o != (ComponentOrientation) e.getOldValue()) {
                     cc.applyComponentOrientation(o);
                     cc.updateUI();
                 }
             }
         }
     }
+
     static class ColorTransferHandler extends TransferHandler implements UIResource {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         ColorTransferHandler() {
             super("color");

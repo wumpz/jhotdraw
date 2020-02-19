@@ -1039,8 +1039,8 @@ public class SVGInputFormat implements InputFormat {
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#OpacityAttribute",
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
                 "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",//
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",//
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
+                "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
             //"http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
@@ -2062,7 +2062,7 @@ public class SVGInputFormat implements InputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified <color> value, except inherit
-        //
+        
         // value = readInheritAttribute(elem, "color", "black");
         // if (DEBUG) System.out.println("color="+value);
 
@@ -2075,7 +2075,7 @@ public class SVGInputFormat implements InputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
-        //
+        
         // value = readInheritAttribute(elem, "color-rendering", "auto");
         // if (DEBUG) System.out.println("color-rendering="+value);
 
@@ -2262,7 +2262,7 @@ public class SVGInputFormat implements InputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified <color> value, except inherit
-        //
+        
         // value = readInheritAttribute(elem, "color", "black");
         // if (DEBUG) System.out.println("color="+value);
 
@@ -2275,7 +2275,7 @@ public class SVGInputFormat implements InputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
-        //
+        
         // value = readInheritAttribute(elem, "color-rendering", "auto");
         // if (DEBUG) System.out.println("color-rendering="+value);
 
@@ -2477,7 +2477,7 @@ public class SVGInputFormat implements InputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified <color> value, except inherit
-        //
+        
         // value = readInheritAttribute(elem, "color", "black");
         // if (DEBUG) System.out.println("color="+value);
 
@@ -2490,7 +2490,7 @@ public class SVGInputFormat implements InputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
-        //
+        
         // value = readInheritAttribute(elem, "color-rendering", "auto");
         // if (DEBUG) System.out.println("color-rendering="+value);
 

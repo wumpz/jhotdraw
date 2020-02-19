@@ -5,14 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.util.*;
 import java.awt.event.ActionEvent;
 import java.beans.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.action.AbstractApplicationAction;
+import org.jhotdraw.util.*;
 
 /**
  * Clears (empties) the Recent Files sub-menu in the File menu.
@@ -28,12 +27,15 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * @version $Id$
  */
 public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.clearRecentFiles";
-    
+
     private PropertyChangeListener applicationListener;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ClearRecentFilesMenuAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -44,13 +46,15 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
     /**
      * Installs listeners on the application object.
      */
-    @Override protected void installApplicationListeners(Application app) {
+    @Override
+    protected void installApplicationListeners(Application app) {
         super.installApplicationListeners(app);
         if (applicationListener == null) {
             applicationListener = createApplicationListener();
         }
         app.addPropertyChangeListener(applicationListener);
     }
+
     private PropertyChangeListener createApplicationListener() {
         return new PropertyChangeListener() {
             @Override
@@ -61,22 +65,24 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
             }
         };
     }
+
     /**
      * Installs listeners on the application object.
      */
-    @Override protected void uninstallApplicationListeners(Application app) {
+    @Override
+    protected void uninstallApplicationListeners(Application app) {
         super.uninstallApplicationListeners(app);
         app.removePropertyChangeListener(applicationListener);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         getApplication().clearRecentURIs();
     }
-    
+
     private void updateEnabled() {
         setEnabled(getApplication().getRecentURIs().size() > 0);
-        
+
     }
-    
+
 }

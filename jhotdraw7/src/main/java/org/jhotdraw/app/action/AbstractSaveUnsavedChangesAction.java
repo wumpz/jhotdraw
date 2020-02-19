@@ -73,15 +73,15 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             if (v.hasUnsavedChanges()) {
                 URI unsavedURI = v.getURI();
                 JOptionPane pane = new JOptionPane(
-                        "<html>" + UIManager.getString("OptionPane.css") +//
-                        "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
-                        (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>" +//
+                        "<html>" + UIManager.getString("OptionPane.css") +
+                        "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",
+                        (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>" +
                         labels.getString("file.saveBefore.doYouWantToSave.details"),
                         JOptionPane.WARNING_MESSAGE);
-                Object[] options = { //
-                    labels.getString("file.saveBefore.saveOption.text"),//
-                    labels.getString("file.saveBefore.cancelOption.text"), //
-                    labels.getString("file.saveBefore.dontSaveOption.text")//
+                Object[] options = { 
+                    labels.getString("file.saveBefore.saveOption.text"),
+                    labels.getString("file.saveBefore.cancelOption.text"), 
+                    labels.getString("file.saveBefore.dontSaveOption.text")
                 };
                 pane.setOptions(options);
                 pane.setInitialValue(options[0]);

@@ -7,15 +7,15 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
-import org.jhotdraw.draw.handle.RoundRectangleRadiusHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
+import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.RoundRectangleRadiusHandle;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
@@ -32,27 +32,35 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class RoundRectangleFigure extends AbstractAttributedFigure {
+
     private static final long serialVersionUID = 1L;
-    /** Identifies the {@code arcWidth} JavaBeans property. */
+    /**
+     * Identifies the {@code arcWidth} JavaBeans property.
+     */
     public static final String ARC_WIDTH_PROPERTY = "arcWidth";
-    /** Identifies the {@code arcHeight} JavaBeans property. */
+    /**
+     * Identifies the {@code arcHeight} JavaBeans property.
+     */
     public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 
     protected RoundRectangle2D.Double roundrect;
     protected static final double DEFAULT_ARC = 20;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public RoundRectangleFigure() {
         this(0, 0, 0, 0);
     }
 
     public RoundRectangleFigure(double x, double y, double width, double height) {
         roundrect = new RoundRectangle2D.Double(x, y, width, height, DEFAULT_ARC, DEFAULT_ARC);
-    /*
+        /*
     FILL_COLOR.set(this, Color.white);
     STROKE_COLOR.set(this, Color.black);
-     */
+         */
     }
+
     // DRAWING
     @Override
     protected void drawFill(Graphics2D g) {
@@ -83,6 +91,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
             g.draw(r);
         }
     }
+
     // SHAPE AND BOUNDS
     @Override
     public Rectangle2D.Double getBounds() {
@@ -98,30 +107,41 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
         return r;
     }
 
-    /** Gets the arc width. */
+    /**
+     * Gets the arc width.
+     */
     public double getArcWidth() {
         return roundrect.arcwidth;
     }
 
-    /** Gets the arc height. */
+    /**
+     * Gets the arc height.
+     */
     public double getArcHeight() {
         return roundrect.archeight;
     }
 
-    /** Sets the arc width. */
+    /**
+     * Sets the arc width.
+     */
     public void setArcWidth(double newValue) {
         double oldValue = roundrect.arcwidth;
         roundrect.arcwidth = newValue;
         firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
     }
-    /** Sets the arc height. */
+
+    /**
+     * Sets the arc height.
+     */
     public void setArcHeight(double newValue) {
         double oldValue = roundrect.archeight;
         roundrect.archeight = newValue;
         firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
     }
 
-    /** Convenience method for setting both the arc width and the arc height. */
+    /**
+     * Convenience method for setting both the arc width and the arc height.
+     */
     public void setArc(double width, double height) {
         setArcWidth(width);
         setArcHeight(height);
@@ -153,6 +173,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
 
     /**
      * Transforms the figure.
+     *
      * @param tx The transformation.
      */
     @Override
@@ -163,6 +184,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
                 (Point2D.Double) tx.transform(anchor, anchor),
                 (Point2D.Double) tx.transform(lead, lead));
     }
+
     // EDITING
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
@@ -185,6 +207,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     public Object getTransformRestoreData() {
         return roundrect.clone();
     }
+
     // CONNECTING
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
@@ -195,6 +218,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return new ChopRoundRectangleConnector(this);
     }
+
     // COMPOSITE FIGURES
     // CLONING
     @Override

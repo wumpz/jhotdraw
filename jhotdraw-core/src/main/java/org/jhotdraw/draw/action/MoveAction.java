@@ -7,26 +7,29 @@
  */
 package org.jhotdraw.draw.action;
 
+import java.awt.geom.*;
+import java.util.HashSet;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.undo.CompositeEdit;
-import java.awt.geom.*;
-import java.util.HashSet;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Moves the selected figures by one unit.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class MoveAction extends AbstractSelectedAction {
+
     private static final long serialVersionUID = 1L;
 
     private int dx, dy;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public MoveAction(DrawingEditor editor, int dx, int dy) {
         super(editor);
         this.dx = dx;
@@ -54,7 +57,8 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class East extends MoveAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveEast";
 
@@ -66,7 +70,8 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class West extends MoveAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveWest";
 
@@ -78,7 +83,8 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class North extends MoveAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveNorth";
 
@@ -90,7 +96,8 @@ public abstract class MoveAction extends AbstractSelectedAction {
     }
 
     public static class South extends MoveAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveSouth";
 

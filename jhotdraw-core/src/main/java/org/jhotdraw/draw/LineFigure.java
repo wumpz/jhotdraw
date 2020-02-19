@@ -5,17 +5,16 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.draw.handle.BezierOutlineHandle;
-import org.jhotdraw.draw.handle.BezierNodeHandle;
-import javax.swing.undo.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.geom.BezierPath;
 
 /**
  * A {@link Figure} which draws a continuous bezier path between two points.
@@ -24,15 +23,18 @@ import org.jhotdraw.draw.handle.Handle;
  * @version $Id$
  */
 public class LineFigure extends BezierFigure {
-        private static final long serialVersionUID = 1L;
 
-    /** Creates a new instance. */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Creates a new instance.
+     */
     public LineFigure() {
-        addNode(new BezierPath.Node(new Point2D.Double(0,0)));
-        addNode(new BezierPath.Node(new Point2D.Double(0,0)));
+        addNode(new BezierPath.Node(new Point2D.Double(0, 0)));
+        addNode(new BezierPath.Node(new Point2D.Double(0, 0)));
         setConnectable(false);
     }
-    
+
     // DRAWING
     // SHAPE AND BOUNDS
     // ATTRIBUTES
@@ -41,12 +43,12 @@ public class LineFigure extends BezierFigure {
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<>();
         switch (detailLevel) {
-            case -1 : // Mouse hover handles
+            case -1: // Mouse hover handles
                 handles.add(new BezierOutlineHandle(this, true));
                 break;
-            case 0 :
+            case 0:
                 handles.add(new BezierOutlineHandle(this));
-                for (int i=0, n = path.size(); i < n; i++) {
+                for (int i = 0, n = path.size(); i < n; i++) {
                     handles.add(new BezierNodeHandle(this, i));
                 }
                 break;
@@ -57,6 +59,7 @@ public class LineFigure extends BezierFigure {
     // COMPOSITE FIGURES
     // CLONING
     // EVENT HANDLING
+
     /**
      * Handles a mouse click.
      */
@@ -68,7 +71,8 @@ public class LineFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -84,7 +88,7 @@ public class LineFigure extends BezierFigure {
                         removeNode(index);
                         changed();
                     }
-                    
+
                 });
                 changed();
                 return true;

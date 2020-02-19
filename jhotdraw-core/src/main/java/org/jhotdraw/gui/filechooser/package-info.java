@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides general purpose graphical user interface event classes.
-*/
-
+ * Provides general purpose graphical user interface event classes.
+ */
 package org.jhotdraw.gui.filechooser;
-
-
-

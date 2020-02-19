@@ -59,14 +59,16 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
      */
     private DataFlavor dataFlavor;
 
-    /** Creates a new instance with format name "Drawing", file extension "xml"
+    /**
+     * Creates a new instance with format name "Drawing", file extension "xml"
      * and mime type "image/x-jhotdraw".
      */
     public DOMStorableInputOutputFormat(DOMFactory factory) {
         this(factory, "Drawing", "xml", "image/x-jhotdraw");
     }
 
-    /** Creates a new instance using the specified parameters.
+    /**
+     * Creates a new instance using the specified parameters.
      *
      * @param factory The factory for creating Figures from XML elements.
      * @param description The format description to be used for the file filter.
@@ -127,6 +129,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     public String getFileExtension() {
         return fileExtension;
     }
+
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavor.equals(dataFlavor);
@@ -134,7 +137,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
-        write(new File(uri),drawing);
+        write(new File(uri), drawing);
     }
 
     public void write(File file, Drawing drawing) throws IOException {

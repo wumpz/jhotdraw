@@ -7,23 +7,6 @@
  */
 package org.jhotdraw.app;
 
-
-import org.jhotdraw.app.action.app.AbstractPreferencesAction;
-import org.jhotdraw.app.action.window.ToggleVisibleAction;
-import org.jhotdraw.app.action.file.SaveFileAsAction;
-import org.jhotdraw.app.action.file.SaveFileAction;
-import org.jhotdraw.app.action.file.LoadDirectoryAction;
-import org.jhotdraw.app.action.file.PrintFileAction;
-import org.jhotdraw.app.action.file.NewFileAction;
-import org.jhotdraw.app.action.file.ClearFileAction;
-import org.jhotdraw.app.action.file.OpenFileAction;
-import org.jhotdraw.app.action.file.CloseFileAction;
-import org.jhotdraw.app.action.file.LoadFileAction;
-import org.jhotdraw.app.action.file.OpenDirectoryAction;
-import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.app.action.app.AboutAction;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -32,6 +15,8 @@ import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.*;
+import org.jhotdraw.app.action.app.AboutAction;
+import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.edit.AbstractFindAction;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
 import org.jhotdraw.app.action.edit.CopyAction;
@@ -42,9 +27,23 @@ import org.jhotdraw.app.action.edit.PasteAction;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.SelectAllAction;
 import org.jhotdraw.app.action.edit.UndoAction;
+import org.jhotdraw.app.action.file.ClearFileAction;
 import org.jhotdraw.app.action.file.ClearRecentFilesMenuAction;
+import org.jhotdraw.app.action.file.CloseFileAction;
+import org.jhotdraw.app.action.file.ExportFileAction;
+import org.jhotdraw.app.action.file.LoadDirectoryAction;
+import org.jhotdraw.app.action.file.LoadFileAction;
+import org.jhotdraw.app.action.file.NewFileAction;
 import org.jhotdraw.app.action.file.NewWindowAction;
+import org.jhotdraw.app.action.file.OpenDirectoryAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.PrintFileAction;
+import org.jhotdraw.app.action.file.SaveFileAction;
+import org.jhotdraw.app.action.file.SaveFileAsAction;
+import org.jhotdraw.app.action.window.ToggleVisibleAction;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
+import org.jhotdraw.util.prefs.*;
 
 /**
  * {@code SDIApplication} handles the lifecycle of multiple {@link View}s
@@ -63,7 +62,7 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * The life cycle of the application is tied to the {@code JFrame}s. Closing the
  * last {@code JFrame} quits the application.
-
+ *
  * SDIApplication handles the life cycle of a single document window
  * being presented in a JFrame. The JFrame provides all the functionality needed
  * to work with the document, such as a menu bar, tool bars and palette windows.
@@ -132,11 +131,14 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class SDIApplication extends AbstractApplication {
+
     private static final long serialVersionUID = 1L;
 
     private Preferences prefs;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SDIApplication() {
     }
 
@@ -211,7 +213,7 @@ public class SDIApplication extends AbstractApplication {
                     if (aView != view
                             && SwingUtilities.getWindowAncestor(aView.getComponent()) != null
                             && SwingUtilities.getWindowAncestor(aView.getComponent()).
-                            getLocation().equals(loc)) {
+                                    getLocation().equals(loc)) {
                         loc.x += 22;
                         loc.y += 22;
                         moved = true;
@@ -227,7 +229,7 @@ public class SDIApplication extends AbstractApplication {
                 public void windowClosing(final WindowEvent evt) {
                     getAction(view, CloseFileAction.ID).actionPerformed(
                             new ActionEvent(f, ActionEvent.ACTION_PERFORMED,
-                            "windowClosing"));
+                                    "windowClosing"));
                 }
 
                 @Override
@@ -287,7 +289,7 @@ public class SDIApplication extends AbstractApplication {
     @Override
     public void hide(View p) {
         if (p.isShowing()) {
-            if (getActiveView()==p) {
+            if (getActiveView() == p) {
                 setActiveView(null);
             }
             p.setShowing(false);
@@ -385,7 +387,7 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -399,10 +401,10 @@ public class SDIApplication extends AbstractApplication {
         mb.addLoadFileItems(m, this, view);
         mb.addOpenFileItems(m, this, view);
 
-        if (getAction(view, LoadFileAction.ID) != null ||//
-                getAction(view, OpenFileAction.ID) != null ||//
-                getAction(view, LoadDirectoryAction.ID) != null ||//
-                getAction(view, OpenDirectoryAction.ID) != null) {
+        if (getAction(view, LoadFileAction.ID) != null
+                || getAction(view, OpenFileAction.ID) != null
+                || getAction(view, LoadDirectoryAction.ID) != null
+                || getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(view));
         }
         maybeAddSeparator(m);
@@ -419,7 +421,7 @@ public class SDIApplication extends AbstractApplication {
         return (m.getItemCount() == 0) ? null : m;
     }
 
-    @Override 
+    @Override
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -446,7 +448,7 @@ public class SDIApplication extends AbstractApplication {
 
     /**
      * Updates the title of a view and displays it in the given frame.
-     * 
+     *
      * @param view The view.
      * @param f The frame.
      */
@@ -477,7 +479,7 @@ public class SDIApplication extends AbstractApplication {
     }
 
     @Override
-    
+
     public JMenu createWindowMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "window");
@@ -488,10 +490,9 @@ public class SDIApplication extends AbstractApplication {
         return (m.getItemCount() > 0) ? m : null;
     }
 
-
     /**
      * Creates the view menu.
-     * 
+     *
      * @param view The View
      * @return A JMenu or null, if the menu doesn't have any items.
      */

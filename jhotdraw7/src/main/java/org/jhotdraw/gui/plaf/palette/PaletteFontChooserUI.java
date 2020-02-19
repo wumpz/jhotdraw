@@ -430,7 +430,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     if (src == selectionPanel.getCollectionList()) {
-                        //
+                        
                     } else if (src == selectionPanel.getFamilyList()) {
                         selectionPanel.getCollectionList().requestFocus();
                     } else if (src == selectionPanel.getFaceList()) {
@@ -444,7 +444,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
                     } else if (src == selectionPanel.getFamilyList()) {
                         selectionPanel.getFaceList().requestFocus();
                     } else if (src == selectionPanel.getFaceList()) {
-                        //
+                        
                     }
                     evt.consume();
                     break;

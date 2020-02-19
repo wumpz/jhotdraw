@@ -7,21 +7,18 @@
  */
 package org.jhotdraw.app.action.file;
 
-
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractViewAction;
-import org.jhotdraw.util.*;
 import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.URIChooser;
-import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.event.*;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Saves the changes in the active view. If the active view has not an URI,
@@ -36,34 +33,41 @@ import org.jhotdraw.net.URIUtil;
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * When the feature is disabled, {@code SaveFileAction} prevents saving to
  * an URI which is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * {@code SaveFileAction} supplies data for this feature by calling
  * {@link Application#addRecentURI} when it successfully saved a file.
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SaveFileAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.save";
     private boolean saveAs;
     private Component oldFocusOwner;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SaveFileAction(Application app, View view) {
         this(app, view, false);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SaveFileAction(Application app, View view, boolean saveAs) {
         super(app, view);
         this.saveAs = saveAs;

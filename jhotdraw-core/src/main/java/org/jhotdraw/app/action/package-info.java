@@ -10,8 +10,4 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-
 package org.jhotdraw.app.action;
-
-
-

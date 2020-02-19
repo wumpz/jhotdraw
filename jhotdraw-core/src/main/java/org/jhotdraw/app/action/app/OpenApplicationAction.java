@@ -6,7 +6,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.app;
 
 import java.awt.event.ActionEvent;
@@ -28,10 +27,14 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * @version $Id$
  */
 public class OpenApplicationAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "application.openApplication";
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public OpenApplicationAction(Application app) {
         super(app);
         putValue(Action.NAME, "OSX Open Application");
@@ -39,7 +42,7 @@ public class OpenApplicationAction extends AbstractApplicationAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
     }
 
 }

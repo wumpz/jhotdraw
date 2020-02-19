@@ -174,37 +174,37 @@ public class PreferencesUtil
 
     @Override
     public void sync() throws BackingStoreException {
-        //
+        
     }
 
     @Override
     public void addPreferenceChangeListener(PreferenceChangeListener pcl) {
-        //
+        
     }
 
     @Override
     public void removePreferenceChangeListener(PreferenceChangeListener pcl) {
-        //
+        
     }
 
     @Override
     public void addNodeChangeListener(NodeChangeListener ncl) {
-        //
+        
     }
 
     @Override
     public void removeNodeChangeListener(NodeChangeListener ncl) {
-        //
+        
     }
 
     @Override
     public void exportNode(OutputStream os) throws IOException, BackingStoreException {
-        //
+        
     }
 
     @Override
     public void exportSubtree(OutputStream os) throws IOException, BackingStoreException {
-        //
+        
     }
 
     /**

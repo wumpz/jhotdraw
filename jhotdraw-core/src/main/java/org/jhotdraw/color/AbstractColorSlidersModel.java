@@ -2,14 +2,14 @@
  * @(#)AbstractColorSlidersModel.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
 
-import org.jhotdraw.beans.AbstractBean;
 import java.util.*;
 import javax.swing.event.*;
+import org.jhotdraw.beans.AbstractBean;
 
 /**
  * AbstractColorSlidersModel.
@@ -18,6 +18,7 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {
+
     private static final long serialVersionUID = 1L;
 
     /**

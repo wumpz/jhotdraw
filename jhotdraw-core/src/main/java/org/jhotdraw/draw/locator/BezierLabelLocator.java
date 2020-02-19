@@ -5,12 +5,11 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.draw.*;
 import java.awt.geom.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.xml.*;
 
 /**
@@ -22,21 +21,24 @@ import org.jhotdraw.xml.*;
  * <p>
  * XXX - The angle should be perpendicular to the path.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class BezierLabelLocator implements Locator, DOMStorable {
+
     private double relativePosition;
     private double angle;
     private double distance;
-    
+
     /**
      * Creates a new instance.
      * This constructor is for use by DOMStorable only.
      */
     public BezierLabelLocator() {
     }
-    /** Creates a new locator.
+
+    /**
+     * Creates a new locator.
      *
      * @param relativePosition The relative position of the label on the polyline.
      * 0.0 specifies the start of the bezier path, 1.0 the
@@ -50,17 +52,18 @@ public class BezierLabelLocator implements Locator, DOMStorable {
         this.angle = angle;
         this.distance = distance;
     }
-    
+
     @Override
     public Point2D.Double locate(Figure owner) {
         return getRelativePoint((BezierFigure) owner);
     }
+
     @Override
     public Point2D.Double locate(Figure owner, Figure label) {
         Point2D.Double relativePoint = getRelativeLabelPoint((BezierFigure) owner, label);
         return relativePoint;
     }
-    
+
     /**
      * Returns the coordinates of the relative point on the path
      * of the specified bezier figure.
@@ -70,24 +73,25 @@ public class BezierLabelLocator implements Locator, DOMStorable {
         Point2D.Double nextPoint = owner.getPointOnPath(
                 (relativePosition < 0.5) ? (float) relativePosition + 0.1f : (float) relativePosition - 0.1f,
                 3);
-        
+
         double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
         if (relativePosition >= 0.5) {
             dir += Math.PI;
         }
         double alpha = dir + angle;
-        
+
         Point2D.Double p = new Point2D.Double(
                 point.x + distance * Math.cos(alpha),
                 point.y + distance * Math.sin(alpha)
-                );
-        
-        if (Double.isNaN(p.x)) p = point;
-        
+        );
+
+        if (Double.isNaN(p.x)) {
+            p = point;
+        }
+
         return p;
     }
-    
-    
+
     /**
      * Returns a Point2D.Double on the polyline that is at the provided relative position.
      * XXX - Implement this and move it to BezierPath
@@ -96,28 +100,30 @@ public class BezierLabelLocator implements Locator, DOMStorable {
         // Get a point on the path an the next point on the path
         Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
         if (point == null) {
-            return new Point2D.Double(0,0);
+            return new Point2D.Double(0, 0);
         }
         Point2D.Double nextPoint = owner.getPointOnPath(
                 (relativePosition < 0.5) ? (float) relativePosition + 0.1f : (float) relativePosition - 0.1f,
                 3);
-        
+
         double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
         if (relativePosition >= 0.5) {
             dir += Math.PI;
         }
         double alpha = dir + angle;
-        
+
         Point2D.Double p = new Point2D.Double(
                 point.x + distance * Math.cos(alpha),
                 point.y + distance * Math.sin(alpha)
-                );
-        if (Double.isNaN(p.x)) p = point;
-        
+        );
+        if (Double.isNaN(p.x)) {
+            p = point;
+        }
+
         Dimension2DDouble labelDim = label.getPreferredSize();
-        if (relativePosition == 0.5 && 
-                p.x >= point.x - distance / 2 && 
-                p.x <= point.x + distance / 2) {
+        if (relativePosition == 0.5
+                && p.x >= point.x - distance / 2
+                && p.x <= point.x + distance / 2) {
             if (p.y >= point.y) {
                 // South East
                 return new Point2D.Double(p.x - labelDim.width / 2, p.y);
@@ -137,14 +143,14 @@ public class BezierLabelLocator implements Locator, DOMStorable {
             } else {
                 if (p.y >= point.y) {
                     // South West
-                    return new Point2D.Double(p.x - labelDim.width,  p.y);
+                    return new Point2D.Double(p.x - labelDim.width, p.y);
                 } else {
                     // North West
                     return new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height);
                 }
             }
         }
-/*
+        /*
         int percentage = (int) (relativePosition * 100);
  
         int segment; // relative segment
@@ -216,21 +222,21 @@ public class BezierLabelLocator implements Locator, DOMStorable {
             }
         }*/
     }
-    
+
     @Override
     public void read(DOMInput in) {
         relativePosition = in.getAttribute("relativePosition", 0d);
         angle = in.getAttribute("angle", 0d);
         distance = in.getAttribute("distance", 0);
-        
+
     }
-    
+
     @Override
     public void write(DOMOutput out) {
         out.addAttribute("relativePosition", relativePosition);
         out.addAttribute("angle", angle);
         out.addAttribute("distance", distance);
-        
+
     }
-    
+
 }

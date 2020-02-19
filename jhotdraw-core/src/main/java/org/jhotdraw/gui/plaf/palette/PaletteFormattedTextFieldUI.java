@@ -2,7 +2,7 @@
  * @(#)PaletteTextFieldUI.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -22,6 +22,7 @@ import javax.swing.text.*;
  * @version $Id$
  */
 public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
+
     private Color errorIndicatorForeground;
 
     /**
@@ -56,22 +57,22 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
                 if (!editor.isEditValid()) {
                     Rectangle r = (Rectangle) a;
                     g.setColor(errorIndicatorForeground);
-                    g.setStroke(new BasicStroke(2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{3f,3f},0.5f));
-                    g.draw(new Line2D.Float(r.x, r.y+r.height-0.5f, r.x+r.width-1,r.y+r.height-0.5f));
-                    }
-                    super.paint(g, a);
+                    g.setStroke(new BasicStroke(2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{3f, 3f}, 0.5f));
+                    g.draw(new Line2D.Float(r.x, r.y + r.height - 0.5f, r.x + r.width - 1, r.y + r.height - 0.5f));
+                }
+                super.paint(g, a);
             }
         };
     }
 
     /**
-     * Initializes component properties, e.g. font, foreground, 
+     * Initializes component properties, e.g. font, foreground,
      * background, caret color, selection color, selected text color,
-     * disabled text color, and border color.  The font, foreground, and
+     * disabled text color, and border color. The font, foreground, and
      * background properties are only set if their current value is either null
      * or a UIResource, other properties are set if the current
      * value is null.
-     * 
+     *
      * @see #uninstallDefaults
      * @see #installUI
      */
@@ -126,7 +127,7 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
             editor.setMargin(plaf.getInsets(prefix + ".margin"));
         }
 
-        errorIndicatorForeground = plaf.getColor(prefix+".errorIndicatorForeground");
+        errorIndicatorForeground = plaf.getColor(prefix + ".errorIndicatorForeground");
 
         editor.setOpaque(plaf.getBoolean(prefix + ".opaque"));
 

@@ -2,11 +2,10 @@
  * @(#)FontFamily.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.fontchooser;
-
 
 import java.text.Collator;
 import java.util.*;
@@ -22,7 +21,6 @@ import javax.swing.tree.TreeNode;
  */
 public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNode>, Cloneable {
 
-    
     private FontCollectionNode parent;
     private String name;
     private ArrayList<FontFaceNode> children = new ArrayList<>();
@@ -124,7 +122,7 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
     }
 
     @Override
-    
+
     public TreeNode getParent() {
         return parent;
     }
@@ -154,15 +152,13 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
         return Collections.unmodifiableList(children);
     }
 
-    //
     //  Child Queries
-    //
     /**
-     * Returns true if <code>aNode</code> is a child of this node.  If
+     * Returns true if <code>aNode</code> is a child of this node. If
      * <code>aNode</code> is null, this method returns false.
      *
-     * @return	true if <code>aNode</code> is a child of this node; false if 
-     *  		<code>aNode</code> is null
+     * @return	true if <code>aNode</code> is a child of this node; false if
+     * <code>aNode</code> is null
      */
     public boolean isNodeChild(TreeNode aNode) {
         boolean retval;

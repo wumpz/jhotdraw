@@ -22,9 +22,9 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
     /** Listeners. */
     protected EventListenerList listenerList = new EventListenerList();
 
-   //
+   
     //  Events
-    //
+    
 
     /**
      * Adds a listener for the TreeModelEvent posted after the tree changes.

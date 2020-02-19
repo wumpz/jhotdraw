@@ -15,7 +15,7 @@ import javax.swing.border.*;
 /**
  * PaletteToolBarBorder.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PaletteToolBarBorder
@@ -30,6 +30,7 @@ public class PaletteToolBarBorder
     private static final Color bright = new Color(0x999999, true);
     private static final Color dark = new Color(0x8c8c8c);
     private static final Color divider = new Color(0x9f9f9f);
+
     /*
     private static final Color dark = new Color(0x999999);
     private static final Color bright = new Color(0xb3b3b3);
@@ -39,11 +40,10 @@ public class PaletteToolBarBorder
     private static final Color bright = new Color(0xcccccc);
      **/
 
-
     @Override
     public void paintBorder(Component component, Graphics gr, int x, int y, int w, int h) {
         Graphics2D g = (Graphics2D) gr;
-        
+
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -58,8 +58,7 @@ public class PaletteToolBarBorder
                         int barH = h;
                         int barX = 0;
                         int barY = 0;
-                        
-                        
+
                         int borderColor = 0xffa5a5a5;
                         float[] stops = enabledStops;
                         Color[] stopColors = enabledStopColors;
@@ -75,25 +74,24 @@ public class PaletteToolBarBorder
                         // paint the icon
                         Icon icon = (Icon) c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY);
                         if (icon != null) {
-                            icon.paintIcon(component, gr, barX + (barW - icon.getIconWidth()) / 2, 
+                            icon.paintIcon(component, gr, barX + (barW - icon.getIconWidth()) / 2,
                                     barY + barH - 4 - icon.getIconHeight());
                         }
-                        
-                        int textIconGap = (c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY) instanceof Integer) ? 
-                            (Integer) c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY) : 2;
-                        
+
+                        int textIconGap = (c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY) instanceof Integer)
+                                ? (Integer) c.getClientProperty(PaletteToolBarUI.TOOLBAR_ICON_PROPERTY) : 2;
+
                         String theTitle = c.getName();
                         if (theTitle != null) {
                             FontMetrics fm = g.getFontMetrics();
                             int titleW;
                             titleW = barH - 8;
-                            
+
                             if (icon != null) {
                                 titleW -= icon.getIconHeight() + textIconGap;
                             }
-                            
-                            theTitle = clippedText(theTitle, fm, titleW);
 
+                            theTitle = clippedText(theTitle, fm, titleW);
 
                             AffineTransform savedTransform = g.getTransform();
                             AffineTransform t = g.getTransform();
@@ -123,27 +121,27 @@ public class PaletteToolBarBorder
             }
         }
     }
-    
+
     @Override
     public Insets getBorderInsets(Component c) {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
-    
+
     /**
      * These insets are used by PaletteToolBarUI, to determine if
      * the toolbar should be dragged.
-     * 
+     *
      * @param c JToolBar.
      * @return Return drag insets.
      */
     public Insets getDragInsets(Component c) {
-        return new Insets(0,18,0,0);
+        return new Insets(0, 18, 0, 0);
     }
 
     @Override
     public Insets getBorderInsets(Component component, Insets newInsets) {
         if (newInsets == null) {
-            newInsets = new Insets(0,0,0,0);
+            newInsets = new Insets(0, 0, 0, 0);
         }
         JComponent c = (JComponent) component;
         if (c.getClientProperty(PaletteToolBarUI.TOOLBAR_INSETS_OVERRIDE_PROPERTY) instanceof Insets) {
@@ -154,7 +152,7 @@ public class PaletteToolBarBorder
             newInsets.right = override.right;
             return newInsets;
         }
-        
+
         newInsets.top = 0;
         newInsets.left = 18;
         newInsets.bottom = 0;
@@ -188,6 +186,7 @@ public class PaletteToolBarBorder
     }
 
     public static class UIResource extends PaletteToolBarBorder implements javax.swing.plaf.UIResource {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
     }
 }

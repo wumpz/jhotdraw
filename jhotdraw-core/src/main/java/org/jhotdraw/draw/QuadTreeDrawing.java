@@ -7,14 +7,14 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.geom.QuadTree;
 import java.awt.*;
 import java.awt.geom.*;
-import org.jhotdraw.util.*;
 import java.util.*;
-import org.jhotdraw.geom.Geom;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.QuadTree;
+import org.jhotdraw.util.*;
 
 /**
  * An implementation of {@link Drawing} which uses a
@@ -25,6 +25,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class QuadTreeDrawing extends AbstractDrawing {
+
     private static final long serialVersionUID = 1L;
 
     private QuadTree<Figure> quadTree = new QuadTree<>();
@@ -88,7 +89,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
                     try {
                         g2.setStroke(new BasicStroke(0));
                         g2.setColor(Color.BLUE);
-                        
+
                         Rectangle2D.Double rect = f.getDrawingArea(factor);
                         g2.draw(rect);
                     } finally {
@@ -313,7 +314,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
      * Handles all figure events fired by Figures contained in the Drawing.
      */
     protected class QuadTreeEventHandler extends AbstractCompositeFigure.EventHandler {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public void figureChanged(FigureEvent e) {

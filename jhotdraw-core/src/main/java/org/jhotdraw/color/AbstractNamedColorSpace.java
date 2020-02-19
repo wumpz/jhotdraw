@@ -18,6 +18,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public abstract class AbstractNamedColorSpace extends ColorSpace implements NamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     public AbstractNamedColorSpace(int type, int numcomponents) {
@@ -44,15 +45,15 @@ public abstract class AbstractNamedColorSpace extends ColorSpace implements Name
     public final float[] toCIEXYZ(float[] colorvalue) {
         return toCIEXYZ(colorvalue, new float[3]);
     }
-    
+
     @Override
     public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
-       return ColorUtil.RGBtoCIEXYZ(toRGB(colorvalue,xyz),xyz);
+        return ColorUtil.RGBtoCIEXYZ(toRGB(colorvalue, xyz), xyz);
     }
 
     @Override
     public float[] fromCIEXYZ(float[] xyz, float[] colorvalue) {
-       return fromRGB(ColorUtil.CIEXYZtoRGB(xyz,colorvalue),colorvalue);
+        return fromRGB(ColorUtil.CIEXYZtoRGB(xyz, colorvalue), colorvalue);
     }
 
 }

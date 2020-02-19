@@ -13,17 +13,22 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * UngroupAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class UngroupAction extends GroupAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.ungroupSelection";
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     private CompositeFigure prototype;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public UngroupAction(DrawingEditor editor) {
         super(editor, new GroupFigure(), false);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

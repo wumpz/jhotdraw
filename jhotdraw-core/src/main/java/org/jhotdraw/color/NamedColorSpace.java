@@ -7,6 +7,7 @@
  * accompanying license terms.
  */
 package org.jhotdraw.color;
+
 /**
  * Interface for {@code ColorSpace} classes which have a name.
  *
@@ -16,14 +17,25 @@ package org.jhotdraw.color;
 public interface NamedColorSpace {
 
     public String getName();
-    
-    /** Faster toRGB method which uses the provided output array. */
+
+    /**
+     * Faster toRGB method which uses the provided output array.
+     */
     public float[] toRGB(float[] colorvalue, float[] rgb);
-    /** Faster fromRGB method which uses the provided output array. */
+
+    /**
+     * Faster fromRGB method which uses the provided output array.
+     */
     public float[] fromRGB(float[] rgb, float[] colorvalue);
-    /** Faster toCIEXYZ method which uses the provided output array. */
+
+    /**
+     * Faster toCIEXYZ method which uses the provided output array.
+     */
     public float[] toCIEXYZ(float[] colorvalue, float[] xyz);
-    /** Faster fromCIEXYZ method which uses the provided output array. */
+
+    /**
+     * Faster fromCIEXYZ method which uses the provided output array.
+     */
     public float[] fromCIEXYZ(float[] xyz, float[] colorvalue);
-    
+
 }

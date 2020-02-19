@@ -26,11 +26,14 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class AbstractPreferencesAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "application.preferences";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractPreferencesAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

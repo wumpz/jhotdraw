@@ -8,10 +8,9 @@
  */
 package org.jhotdraw.app;
 
-import org.jhotdraw.beans.AbstractBean;
-
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.URIChooser;
 
@@ -25,7 +24,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
         implements ApplicationModel {
 
     private static final long serialVersionUID = 1L;
-    
+
     protected String name;
     protected String version;
     protected String copyright;
@@ -39,7 +38,9 @@ public abstract class AbstractApplicationModel extends AbstractBean
     public static final String VIEW_CLASS_NAME_PROPERTY = "viewClassName";
     public static final String VIEW_CLASS_PROPERTY = "viewClass";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractApplicationModel() {
     }
 
@@ -78,6 +79,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
     /**
      * Use this method for best application startup performance.
+     *
      * @param newValue the class name
      */
     public void setViewClassName(String newValue) {
@@ -88,6 +90,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
 
     /**
      * Use this method only, if setViewClassName() does not suit you.
+     *
      * @param newValue the class
      */
     public void setViewClass(Class<?> newValue) {
@@ -128,22 +131,30 @@ public abstract class AbstractApplicationModel extends AbstractBean
     @Override
     public abstract List<JToolBar> createToolBars(Application a, View p);
 
-    /** This method is empty. */
+    /**
+     * This method is empty.
+     */
     @Override
     public void initView(Application a, View p) {
     }
 
-    /** This method is empty. */
+    /**
+     * This method is empty.
+     */
     @Override
     public void destroyView(Application a, View p) {
     }
 
-    /** This method is empty. */
+    /**
+     * This method is empty.
+     */
     @Override
     public void initApplication(Application a) {
     }
 
-    /** This method is empty. */
+    /**
+     * This method is empty.
+     */
     @Override
     public void destroyApplication(Application a) {
     }
@@ -168,19 +179,23 @@ public abstract class AbstractApplicationModel extends AbstractBean
         return c;
     }
 
-    /** Returns createOpenChooser. */
+    /**
+     * Returns createOpenChooser.
+     */
     @Override
     public URIChooser createImportChooser(Application a, View v) {
         return createOpenChooser(a, v);
     }
 
-    /** Returns createSaveChooser. */
+    /**
+     * Returns createSaveChooser.
+     */
     @Override
     public URIChooser createExportChooser(Application a, View v) {
         return createSaveChooser(a, v);
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      * The default value is true.
      */
@@ -198,7 +213,8 @@ public abstract class AbstractApplicationModel extends AbstractBean
         return allowMultipleViewsForURI;
     }
 
-    /** Whether the application may open multiple views for the same URI.
+    /**
+     * Whether the application may open multiple views for the same URI.
      * <p>
      * The default value is true.
      *
@@ -208,7 +224,8 @@ public abstract class AbstractApplicationModel extends AbstractBean
         this.allowMultipleViewsForURI = allowMultipleViewsForURI;
     }
 
-    /** Whether the application should open the last opened URI on launch.
+    /**
+     * Whether the application should open the last opened URI on launch.
      * <p>
      * The default value is false.
      *

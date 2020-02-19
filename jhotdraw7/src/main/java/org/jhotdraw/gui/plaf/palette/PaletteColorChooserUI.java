@@ -168,7 +168,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         }
         
         previewPanel = chooser.getPreviewPanel();
-        if ((previewPanel != null) && (mainPanel != null) //
+        if ((previewPanel != null) && (mainPanel != null) 
                 && (previewPanel.getSize().getHeight()+previewPanel.getSize().getWidth() == 0)) {
             mainPanel.setPreviewPanel(null);
             return;

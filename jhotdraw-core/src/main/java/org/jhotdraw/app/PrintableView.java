@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app;
 
 import java.awt.print.*;
@@ -16,7 +15,8 @@ import java.awt.print.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
@@ -28,5 +28,6 @@ import java.awt.print.*;
  * @version $Id$
  */
 public interface PrintableView extends View {
-public Pageable createPageable();   
+
+    public Pageable createPageable();
 }

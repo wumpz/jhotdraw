@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.xml;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -41,7 +40,7 @@ import java.util.regex.Matcher;
  * You can add support for additional primitive types by overriding the methods
  * {@code read} and {@code write}.
  * <p>
- * In addition to the primitive types, this factory can store and read 
+ * In addition to the primitive types, this factory can store and read
  * {@link DOMStorable} objects. No mapping for {@link DOMStorable} class names is performed.
  * For example, if a {@link DOMStorable} object has the class name {@code com.example.MyClass},
  * then the DOM element has the same name, that is: {@code &lt;com.example.MyClass&gt;}.
@@ -259,7 +258,7 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     }
 
     @Override
-    
+
     public Object read(DOMInput in) throws IOException {
         Object o;
 

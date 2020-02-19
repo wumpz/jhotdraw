@@ -23,12 +23,13 @@ import javax.swing.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below define a framework for progress
  * management.<br>
- * Contract: {@link ActivityManager}, {@link ActivityModel}, 
+ * Contract: {@link ActivityManager}, {@link ActivityModel},
  * {@link JActivityWindow}, {@link JActivityIndicator}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -42,7 +43,8 @@ public interface ActivityModel extends BoundedRangeModel {
     public static final String CANCELED_PROPERTY = "canceled";
     public static final String CLOSED_PROPERTY = "closed";
 
-    /** Gets the owner of the progress model. This is typically a {@link org.jhotdraw.app.View}
+    /**
+     * Gets the owner of the progress model. This is typically a {@link org.jhotdraw.app.View}
      * or a {@link org.jhotdraw.app.Application}.
      */
     public Object getOwner();
@@ -51,11 +53,11 @@ public interface ActivityModel extends BoundedRangeModel {
      * Set cancelable to false if the operation can not be canceled.
      */
     public void setCancelable(boolean b);
+
     /**
      * Returns true if the operation can be canceled.
      */
     public boolean isCancelable();
-
 
     /**
      * The specified Runnable is executed when the user presses
@@ -74,7 +76,7 @@ public interface ActivityModel extends BoundedRangeModel {
     public boolean isIndeterminate();
 
     /**
-     * Indicate that the operation is closed. 
+     * Indicate that the operation is closed.
      * If the progress model added itself to the {@code ActivityManager}
      * it MUST remove itself now.
      */
@@ -98,7 +100,7 @@ public interface ActivityModel extends BoundedRangeModel {
 
     /**
      * Specifies the additional note that is displayed along with the
-     * progress message. Used, for example, to show which file 
+     * progress message. Used, for example, to show which file
      * is currently being copied during a multiple-file copy.
      * <p>
      * Only set a note if you have something important to tell.
@@ -106,12 +108,13 @@ public interface ActivityModel extends BoundedRangeModel {
      * ensure that the note is displayed on the screen before they let the
      * activity model continue.
      *
-     * @param note  a String specifying the note to display
+     * @param note a String specifying the note to display
      * @see #getNote
      */
     public void setNote(String note);
 
-    /** Sets a formatted note. 
+    /**
+     * Sets a formatted note.
      * <p>
      * Only set a note if you have something important to tell.
      * Setting a note is a time consuming operation because the GUI components
@@ -134,7 +137,7 @@ public interface ActivityModel extends BoundedRangeModel {
      * progress message. Used, for example, to show which files couldn't
      * be copied during a multiple-file copy.
      *
-     * @param message  a String specifying the message to display, or null
+     * @param message a String specifying the message to display, or null
      * if there is no warning.
      * @see #getWarning
      */
@@ -154,7 +157,7 @@ public interface ActivityModel extends BoundedRangeModel {
      * progress message. Used, for example, to show which files couldn't
      * be copied during a multiple-file copy..
      *
-     * @param message  a String specifying the message to display, or null
+     * @param message a String specifying the message to display, or null
      * if there is no error.
      * @see #getWarning
      */
@@ -169,12 +172,18 @@ public interface ActivityModel extends BoundedRangeModel {
      */
     public String getError();
 
-    /** Adds a property change listener. */
+    /**
+     * Adds a property change listener.
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener);
 
-    /** Removes a property change listener. */
+    /**
+     * Removes a property change listener.
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener);
 
-    /** Returns the title of the progress model. */
+    /**
+     * Returns the title of the progress model.
+     */
     public String getTitle();
 }

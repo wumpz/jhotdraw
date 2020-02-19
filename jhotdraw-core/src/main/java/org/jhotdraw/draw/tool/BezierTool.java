@@ -7,17 +7,16 @@
  */
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.geom.Bezier;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.BezierPath;
-
-import org.jhotdraw.draw.*;
-import javax.swing.undo.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.geom.Bezier;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Tool} which allows to create a new {@link BezierFigure} by drawing its path.
@@ -36,9 +35,9 @@ public class BezierTool extends AbstractTool {
      * Set this to true to turn on debugging output on System.out.
      */
     private static final boolean DEBUG = false;
-    
+
     private Boolean finishWhenMouseReleased;
-    
+
     protected Map<AttributeKey<?>, Object> attributes;
     private boolean isToolDoneAfterCreation;
     /**
@@ -48,13 +47,13 @@ public class BezierTool extends AbstractTool {
     /**
      * The created figure.
      */
-    
+
     protected BezierFigure createdFigure;
     private int nodeCountBeforeDrag;
     /**
      * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-    
+
     private String presentationName;
     private Point mouseLocation;
     /**
@@ -70,7 +69,7 @@ public class BezierTool extends AbstractTool {
     public BezierTool(BezierFigure prototype) {
         this(prototype, null);
     }
-    
+
     public BezierTool(BezierFigure prototype, boolean calculateFittedCurveAfterCreation) {
         this(prototype, null, null, calculateFittedCurveAfterCreation);
     }
@@ -152,13 +151,13 @@ public class BezierTool extends AbstractTool {
 
             createdFigure = createFigure();
             createdFigure.addNode(new BezierPath.Node(
-                    creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : 
-                                creationView.getConstrainer().constrainPoint(creationView.viewToDrawing(anchor),createdFigure)));
+                    creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor)
+                    : creationView.getConstrainer().constrainPoint(creationView.viewToDrawing(anchor), createdFigure)));
             getDrawing().add(createdFigure);
         } else {
             if (evt.getClickCount() == 1) {
-                addPointToFigure(creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor) : 
-                                creationView.getConstrainer().constrainPoint(creationView.viewToDrawing(anchor),createdFigure));
+                addPointToFigure(creationView.getConstrainer() == null ? creationView.viewToDrawing(anchor)
+                        : creationView.getConstrainer().constrainPoint(creationView.viewToDrawing(anchor), createdFigure));
             }
         }
         nodeCountBeforeDrag = createdFigure.getNodeCount();
@@ -328,10 +327,10 @@ public class BezierTool extends AbstractTool {
 
     @Override
     public void draw(Graphics2D g) {
-        if (createdFigure != null && //
-                anchor != null && //
-                mouseLocation != null &&//
-                getView() == creationView) {
+        if (createdFigure != null
+                && anchor != null
+                && mouseLocation != null
+                && getView() == creationView) {
             g.setColor(Color.BLACK);
             g.setStroke(new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{1f, 5f}, 0f));
             g.drawLine(anchor.x, anchor.y, mouseLocation.x, mouseLocation.y);

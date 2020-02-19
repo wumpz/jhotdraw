@@ -7,13 +7,12 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import org.jhotdraw.util.*;
 import org.jhotdraw.gui.EditableComponent;
+import org.jhotdraw.util.*;
 
 /**
  * Clears (de-selects) the selected region.
@@ -28,11 +27,12 @@ import org.jhotdraw.gui.EditableComponent;
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
@@ -47,16 +47,20 @@ import org.jhotdraw.gui.EditableComponent;
  * @version $Id$
  */
 public class ClearSelectionAction extends AbstractSelectionAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.clearSelection";
 
-    /** Creates a new instance which acts on the currently focused component. */
+    /**
+     * Creates a new instance which acts on the currently focused component.
+     */
     public ClearSelectionAction() {
         this(null);
     }
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.

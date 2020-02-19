@@ -289,10 +289,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     public void actionPerformed(ActionEvent evt) {
                         Object geometry = getTransformRestoreData();
                         willChange();
-                        rectangle = new Rectangle2D.Double(//
-                                rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,//
-                                rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d, //
-                                bufferedImage.getWidth(), //
+                        rectangle = new Rectangle2D.Double(
+                                rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,
+                                rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d, 
+                                bufferedImage.getWidth(), 
                                 bufferedImage.getHeight());
                         fireUndoableEditHappened(
                                 new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));

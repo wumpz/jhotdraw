@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.color;
 
-
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.color.ColorSpace;
@@ -52,7 +51,9 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         CLAMP,
         LEAVE_OUTSIDE
     };
-    /** By default, clamps non-displayable RGB values. */
+    /**
+     * By default, clamps non-displayable RGB values.
+     */
     private OutsideGamutHandling outsideGamutHandling = OutsideGamutHandling.LEAVE_OUTSIDE;
 
     public CIEXYChromaticityDiagramImageProducer(int w, int h) {
@@ -85,8 +86,8 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         // Clear pixels
         Arrays.fill(pixels, 0);
         float[] rgb = new float[3];
-        for (int iY=0;iY<=100;iY++) {
-            float Y = (100-iY)/100f;
+        for (int iY = 0; iY <= 100; iY++) {
+            float Y = (100 - iY) / 100f;
             float[] XYZ = new float[3];
             for (int ix = 0; ix < w; ix++) {
                 float x = ix * wf;
@@ -110,14 +111,14 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                     if (alpha == 255) {
                         //rgb = colorSpace.toRGB(XYZ);
                         //toRGB(XYZ,rgb);
-                        toRGB(XYZ,rgb);
+                        toRGB(XYZ, rgb);
                         alpha = (rgb[0] >= eps && rgb[1] >= eps && rgb[2] >= eps
-                                && rgb[0] <= 1 - eps && rgb[1] <= 1 - eps && rgb[2] <= 1 - eps) //
-                                ? 255 : 0;
+                                && rgb[0] <= 1 - eps && rgb[1] <= 1 - eps && rgb[2] <= 1 - eps)
+                                        ? 255 : 0;
                         if (alpha == 255) {
-                       // rgb = colorSpace.toRGB(XYZ);
+                            // rgb = colorSpace.toRGB(XYZ);
 //                            pixels[ix + iy * w] = (alpha << 24) | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
-                            pixels[ix + iy * w] = (alpha << 24) | ((0xff&(int) (rgb[0] * 255f)) << 16) | ((0xff&(int) (rgb[1] * 255f)) << 8) | (0xff&(int) (rgb[2] * 255f));
+                            pixels[ix + iy * w] = (alpha << 24) | ((0xff & (int) (rgb[0] * 255f)) << 16) | ((0xff & (int) (rgb[1] * 255f)) << 8) | (0xff & (int) (rgb[2] * 255f));
                         }
                     }
 
@@ -175,7 +176,7 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         double Rs = 1 * X + 0 * Y + 0 * Z;
         double Gs = 0 * X + 1 * Y + 0 * Z;
         double Bs = 0 * X + 0 * Y + 1 * Z;
-        */
+         */
         // Convert to Wide Gamut RGB as described in
         // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
         double Rs = 1.4628067 * X + -0.1840623 * Y + -0.2743606 * Z;
@@ -205,7 +206,6 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                 Bs = Math.min(1, Math.max(0, Bs));
                 break;
         }
-
 
         rgb[0] = (float) Rs;
         rgb[1] = (float) Gs;

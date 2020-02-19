@@ -2,7 +2,7 @@
  * @(#)PaletteUtilities.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -17,7 +17,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class PaletteUtilities  extends BasicGraphicsUtils {
+public class PaletteUtilities extends BasicGraphicsUtils {
 
     public static final Object beginGraphics(Graphics2D graphics2d) {
         Object object = graphics2d.getRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING);
@@ -84,14 +84,14 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
      * Convenience function for determining ComponentOrientation.  Helps us
      * avoid having Munge directives throughout the code.
      */
-    static boolean isLeftToRight( Component c ) {
+    static boolean isLeftToRight(Component c) {
         return c.getComponentOrientation().isLeftToRight();
     }
 
     /**
      * Returns the FontMetrics for the current Font of the passed
-     * in Graphics.  This method is used when a Graphics
-     * is available, typically when painting.  If a Graphics is not
+     * in Graphics. This method is used when a Graphics
+     * is available, typically when painting. If a Graphics is not
      * available the JComponent method of the same name should be used.
      * <p>
      * Callers should pass in a non-null JComponent, the exception
@@ -108,11 +108,10 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
         return getFontMetrics(c, g, g.getFont());
     }
 
-
     /**
      * Returns the FontMetrics for the specified Font.
      * This method is used when a Graphics is available, typically when
-     * painting.  If a Graphics is not available the JComponent method of
+     * painting. If a Graphics is not available the JComponent method of
      * the same name should be used.
      * <p>
      * Callers should pass in a non-null JComonent, the exception
@@ -128,7 +127,7 @@ public class PaletteUtilities  extends BasicGraphicsUtils {
      */
     @SuppressWarnings("deprecation")
     public static FontMetrics getFontMetrics(JComponent c, Graphics g,
-                                             Font font) {
+            Font font) {
         if (c != null) {
             // Note: We assume that we're using the FontMetrics
             // from the widget to layout out text, otherwise we can get

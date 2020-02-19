@@ -8,13 +8,13 @@
  */
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.gui.*;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
+import org.jhotdraw.gui.*;
 
 /**
  * FigureAttributeEditorHandler mediates between an AttributeEditor and the
@@ -32,7 +32,8 @@ public class FigureAttributeEditorHandler<T> extends AbstractAttributeEditorHand
     public FigureAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         super(key, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
     }
-    public FigureAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey<?>,Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
+
+    public FigureAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey<?>, Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
         super(key, defaultAttributes, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
     }
 

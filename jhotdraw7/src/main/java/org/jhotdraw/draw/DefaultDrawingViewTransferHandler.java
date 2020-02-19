@@ -441,8 +441,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
             final Drawing drawing = view.getDrawing();
             if (action == MOVE) {
                 final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<CompositeFigureEvent>();
-                final LinkedList<Figure> selectedFigures = (exportedFigures == null) ? //
-                        new LinkedList<Figure>() : //
+                final LinkedList<Figure> selectedFigures = (exportedFigures == null) ? 
+                        new LinkedList<Figure>() : 
                         new LinkedList<Figure>(exportedFigures);
 
                 // Abort, if not all of the selected figures may be removed from the

@@ -5,15 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app;
 
-
-import org.jhotdraw.gui.URIChooser;
-import java.io.*;
 import java.beans.*;
+import java.io.*;
 import java.net.URI;
 import javax.swing.*;
+import org.jhotdraw.gui.URIChooser;
 
 /**
  * A <em>view</em> paints a document on a {@code JComponent} within an
@@ -66,7 +64,8 @@ import javax.swing.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below together with the {@code Action}
  * classes in the org.jhotddraw.app.action package define the contracts of a
  * framework for document oriented applications:<br>
@@ -77,6 +76,7 @@ import javax.swing.*;
  * @version $Id$
  */
 public interface View extends Disposable {
+
     /**
      * The name of the uri property.
      */
@@ -105,11 +105,12 @@ public interface View extends Disposable {
      * The name of the showing property.
      */
     public static final String SHOWING_PROPERTY = "showing";
+
     /**
      * Gets the application to which this view belongs.
      */
     public Application getApplication();
-    
+
     /**
      * Sets the application of the view.
      * By convention, this is only invoked by Application.add() and
@@ -117,17 +118,17 @@ public interface View extends Disposable {
      * This is a bound property.
      */
     public void setApplication(Application newValue);
-    
+
     /**
      * Returns the visual component of the view.
      */
     public JComponent getComponent();
-    
+
     /**
      * Returns the enabled state of the view.
      */
     public boolean isEnabled();
-    
+
     /**
      * Sets the enabled state of the view.
      *
@@ -145,7 +146,7 @@ public interface View extends Disposable {
      * This is a bound property.
      */
     public void setEnabled(boolean newValue);
-    
+
     /**
      * Clears the view, for example by emptying the contents of
      * the view, or by reading a template contents from a file.
@@ -156,7 +157,7 @@ public interface View extends Disposable {
      * See {@link org.jhotdraw.app}.
      */
     public void clear();
-    
+
     /**
      * Whether the view is empty. A view is considered empty if the application
      * has implicit consent from the user to reuse or destroy the view at any
@@ -167,22 +168,23 @@ public interface View extends Disposable {
      * If this method returns true, {@link org.jhotdraw.app.action.file.OpenFileAction}
      * and similar actions will open a file in this view, instead of
      * opening a new view.
-     * 
+     *
      * @return True if the view can be reused by open actions.
      */
     public boolean isEmpty();
-    
+
     /**
      * Returns true, if the view has unsaved changes.
      * This is a bound property.
      */
     public boolean hasUnsavedChanges();
+
     /**
      * Marks all changes as saved.
      * This changes the state of hasUnsavedChanges to false.
      */
     public void markChangesAsSaved();
-    
+
     /**
      * Executes the specified runnable on the worker thread of the view.
      * Execution is performed sequentially in the same sequence as the
@@ -192,7 +194,7 @@ public interface View extends Disposable {
      * of the view as a whole. For example for loading and saving a document.
      */
     public void execute(Runnable worker);
-    
+
     /**
      * Initializes the view.
      * This is invoked right before the application shows the view.
@@ -201,16 +203,17 @@ public interface View extends Disposable {
      * <p>
      * After a view has been initialized using init(),
      * either method clear() must be called
-     * or method read, in order to fully initialize a  View.
+     * or method read, in order to fully initialize a View.
      */
     public void init();
-    
+
     /**
      * Starts the view.
      * Invoked after a view has been made visible to the user.
      * Multiple view can be visible at the same time.
      */
     public void start();
+
     /**
      * Activates the view.
      * This occurs, when the user activated the parent window of the view.
@@ -218,17 +221,20 @@ public interface View extends Disposable {
      * This method is only invoked on a started view.
      */
     public void activate();
+
     /**
      * Deactivates the view.
      * This occurs, when the user closes the view, or activated another view.
      * This method is only invoked on a started view.
      */
-     public void deactivate();    
+    public void deactivate();
+
     /**
      * Stops the view.
      * Invoked after a view window has been minimized or made invisible.
      */
-     public void stop();    
+    public void stop();
+
     /**
      * Gets rid of all the resources of the view.
      * No other methods should be invoked on the view afterwards.
@@ -237,68 +243,69 @@ public interface View extends Disposable {
      */
     @Override
     public void dispose();
-    
+
     /**
      * Gets the action map of the view.
      */
     public ActionMap getActionMap();
-    
+
     /**
      * Sets the action map for the view.
      */
     public void setActionMap(ActionMap m);
-    
+
     /**
      * Adds a property change listener.
      */
     public void addPropertyChangeListener(PropertyChangeListener l);
-    
+
     /**
      * Removes a property change listener.
      */
     public void removePropertyChangeListener(PropertyChangeListener l);
-    
+
     /**
      * Sets the multiple open id.
      * The id is used to help distinguish multiply opened views.
      * The id should be displayed in the title of the view.
      */
     public void setMultipleOpenId(int newValue);
-    
+
     /**
      * Returns the multiple open id.
      * If a view is open only once this should be 1.
      */
     public int getMultipleOpenId();
-    
+
     /**
      * This is used by Application to keep track if a view is showing.
      */
     public boolean isShowing();
+
     /**
      * This is used by Application to keep track if a view is showing.
      */
     public void setShowing(boolean newValue);
-    
+
     /**
-     * Sets the title of the view. 
+     * Sets the title of the view.
      * <p>
      * The title is generated by the application, based on the current
      * URI of the view. The application ensures that the title uniquely
      * identifies each open view.
-     * <p> 
-     * The application displays the title in the title bar of the view 
+     * <p>
+     * The application displays the title in the title bar of the view
      * window and in all windows which are associated to the view.
      * <p>
      * This is a bound property.
      */
     public void setTitle(String newValue);
-    
+
     /**
-     * Gets the title of the view. 
+     * Gets the title of the view.
      */
     public String getTitle();
-    
+
     /**
      * Adds a disposable object, which will be disposed when the view
      * is disposed.
@@ -306,6 +313,7 @@ public interface View extends Disposable {
      * @param disposable
      */
     public void addDisposable(Disposable disposable);
+
     /**
      * Removes a disposable object, which was previously added.
      *
@@ -366,6 +374,5 @@ public interface View extends Disposable {
      * parameter is null if no chooser was used.
      */
     public void read(URI uri, URIChooser chooser) throws IOException;
-
 
 }

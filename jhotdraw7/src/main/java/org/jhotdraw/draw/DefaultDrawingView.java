@@ -397,7 +397,7 @@ public class DefaultDrawingView
             // resize it, and mark everything as dirty.
             bufferedArea.setBounds(vr);
             dirtyArea.setBounds(vr);
-            if (drawingBufferV != null && //
+            if (drawingBufferV != null && 
                     (drawingBufferV.getWidth() != vr.width
                     || drawingBufferV.getHeight() != vr.height)) {
                 // The dimension of the drawing buffer does not fit into the visible rect;
@@ -408,8 +408,8 @@ public class DefaultDrawingView
         }
         // Update the contents of the buffer if necessary
         while (true) {
-            int valid = (drawingBufferV == null) ? //
-                    VolatileImage.IMAGE_INCOMPATIBLE : //
+            int valid = (drawingBufferV == null) ? 
+                    VolatileImage.IMAGE_INCOMPATIBLE : 
                     drawingBufferV.validate(getGraphicsConfiguration());
             switch (valid) {
                 case VolatileImage.IMAGE_INCOMPATIBLE:
@@ -501,7 +501,7 @@ public class DefaultDrawingView
             // resize it, and mark everything as dirty.
             bufferedArea.setBounds(vr);
             dirtyArea.setBounds(vr);
-            if (drawingBufferNV != null && //
+            if (drawingBufferNV != null && 
                     (drawingBufferNV.getWidth() != vr.width
                     || drawingBufferNV.getHeight() != vr.height)) {
                 // The dimension of the drawing buffer does not fit into the visible rect;
@@ -512,7 +512,7 @@ public class DefaultDrawingView
         }
         // Update the contents of the buffer if necessary
 
-        int valid = (drawingBufferNV == null) ? //
+        int valid = (drawingBufferNV == null) ? 
                 VolatileImage.IMAGE_INCOMPATIBLE : VolatileImage.IMAGE_OK;
         switch (valid) {
             case VolatileImage.IMAGE_INCOMPATIBLE:

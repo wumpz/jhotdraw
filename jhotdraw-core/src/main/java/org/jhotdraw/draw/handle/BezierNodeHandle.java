@@ -7,20 +7,19 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.geom.BezierPath;
-
-import org.jhotdraw.draw.event.BezierNodeEdit;
-import org.jhotdraw.draw.*;
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.BezierNodeEdit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Handle} which allows to interactively change a node of a bezier path.
@@ -34,7 +33,7 @@ public class BezierNodeHandle extends AbstractHandle {
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
-    
+
     private Figure transformOwner;
 
     /**
@@ -111,7 +110,6 @@ public class BezierNodeHandle extends AbstractHandle {
         }
     }
 
-    
     protected BezierPath.Node getBezierNode() {
         return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
     }

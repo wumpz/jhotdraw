@@ -6,11 +6,10 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.draw.handle.Handle;
 import java.util.Collection;
+import org.jhotdraw.draw.handle.Handle;
 
 /**
  * A <em>handle tracker</em> provides the behavior for manipulating a
@@ -19,7 +18,8 @@ import java.util.Collection;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * The different behavior states of the selection tool are implemented by
  * trackers.<br>
  * Context: {@link SelectionTool}; State: {@link DragTracker},

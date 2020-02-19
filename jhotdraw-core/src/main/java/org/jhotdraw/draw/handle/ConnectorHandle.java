@@ -7,15 +7,13 @@
  */
 package org.jhotdraw.draw.handle;
 
-
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
-import java.util.*;
-import javax.swing.undo.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Handle} associated to a {@link Connector} which allows to create a new
@@ -29,7 +27,6 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Holds the ConnectionFigure which is currently being created.
      */
-    
     private ConnectionFigure createdConnection;
     /**
      * The prototype for the ConnectionFigure to be created
@@ -42,12 +39,12 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * The current connectable Figure.
      */
-    
+
     private Figure connectableFigure;
     /**
      * The current connectable Connector.
      */
-    
+
     private Connector connectableConnector;
     /**
      * All connectors of the connectable Figure.
@@ -198,12 +195,10 @@ public class ConnectorHandle extends AbstractHandle {
         createdConnection = newConnection;
     }
 
-    
     protected ConnectionFigure getConnection() {
         return createdConnection;
     }
 
-    
     protected Figure getTargetFigure() {
         return connectableFigure;
     }
@@ -212,7 +207,6 @@ public class ConnectorHandle extends AbstractHandle {
         connectableFigure = newTargetFigure;
     }
 
-    
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure figure : drawing.getFiguresFrontToBack()) {
             if (!figure.includes(getConnection())
@@ -228,7 +222,6 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Finds a connection end figure.
      */
-    
     protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
         Connector target = (connectableFigure == null) ? null : connectableFigure.findConnector(p, getConnection());
 

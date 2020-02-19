@@ -7,7 +7,6 @@
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
-
 package org.jhotdraw.app;
 
 import javax.swing.JDialog;
@@ -22,6 +21,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class CrossPlatformApplication extends SDIApplication {
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -34,10 +34,10 @@ public class CrossPlatformApplication extends SDIApplication {
     protected void initLookAndFeel() {
         try {
             String lafName = UIManager.getCrossPlatformLookAndFeelClassName();
-            
+
             JFrame.setDefaultLookAndFeelDecorated(true);
             JDialog.setDefaultLookAndFeelDecorated(true);
-            
+
             UIManager.setLookAndFeel(lafName);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
 
 import java.awt.event.*;
@@ -27,36 +26,40 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class EditCanvasAction extends AbstractDrawingViewAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "view.editCanvas";
     private JFrame frame;
     private EditCanvasPanel settingsPanel;
     private PropertyChangeListener propertyChangeHandler;
     private Application app;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public EditCanvasAction(Application app, DrawingEditor editor) {
         super(editor);
         this.app = app;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         getFrame().setVisible(true);
     }
-    
-   @Override protected void updateViewState() {
+
+    @Override
+    protected void updateViewState() {
         if (getView() != null && settingsPanel != null) {
             settingsPanel.setDrawing(getView().getDrawing());
         }
     }
-    
+
     protected Application getApplication() {
         return app;
     }
-    
+
     protected JFrame getFrame() {
         if (frame == null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -70,7 +73,7 @@ public class EditCanvasAction extends AbstractDrawingViewAction {
             PreferencesUtil.installFramePrefsHandler(prefs, "canvasSettings", frame);
             getApplication().addWindow(frame, null);
         }
-            settingsPanel.setDrawing(getView().getDrawing());
+        settingsPanel.setDrawing(getView().getDrawing());
         return frame;
     }
 }

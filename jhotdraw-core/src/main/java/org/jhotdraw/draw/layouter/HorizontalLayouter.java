@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.draw.layouter;
 
+import java.awt.geom.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.AttributeKeys.Alignment;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.CompositeFigure;
-import java.awt.geom.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A {@link Layouter} which lays out all children of a {@link CompositeFigure}
@@ -24,10 +24,10 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * The HorizontalLayouter honors the LAYOUT_INSETS and the COMPOSITE_ALIGNMENT
  * AttributeKey when laying out a CompositeFigure.
  * <p>
- * If COMPOSITE_ALIGNMENT is not set on the composite figure, 
+ * If COMPOSITE_ALIGNMENT is not set on the composite figure,
  * the layout assigns the same height to all figures.
- * 
- * 
+ *
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -69,39 +69,39 @@ public class HorizontalLayouter extends AbstractLayouter {
                     case LEADING:
                         child.setBounds(
                                 new Point2D.Double(
-                                x + insets.left,
-                                layoutBounds.y + layoutInsets.top + insets.top),
+                                        x + insets.left,
+                                        layoutBounds.y + layoutInsets.top + insets.top),
                                 new Point2D.Double(
-                                x + insets.left + width,
-                                layoutBounds.y + layoutInsets.top + insets.top + height));
+                                        x + insets.left + width,
+                                        layoutBounds.y + layoutInsets.top + insets.top + height));
                         break;
                     case TRAILING:
                         child.setBounds(
                                 new Point2D.Double(
-                                x + insets.left,
-                                layoutBounds.y + layoutBounds.height - layoutInsets.bottom - insets.bottom - height),
+                                        x + insets.left,
+                                        layoutBounds.y + layoutBounds.height - layoutInsets.bottom - insets.bottom - height),
                                 new Point2D.Double(
-                                x + insets.left + width,
-                                layoutBounds.y + layoutBounds.height - layoutInsets.bottom - insets.bottom));
+                                        x + insets.left + width,
+                                        layoutBounds.y + layoutBounds.height - layoutInsets.bottom - insets.bottom));
                         break;
                     case CENTER:
                         child.setBounds(
                                 new Point2D.Double(
-                                x + insets.left,
-                                layoutBounds.y + layoutInsets.top + (layoutBounds.height - height) / 2d),
+                                        x + insets.left,
+                                        layoutBounds.y + layoutInsets.top + (layoutBounds.height - height) / 2d),
                                 new Point2D.Double(
-                                x + insets.left + width,
-                                layoutBounds.y + layoutInsets.top + (layoutBounds.height + height) / 2d));
+                                        x + insets.left + width,
+                                        layoutBounds.y + layoutInsets.top + (layoutBounds.height + height) / 2d));
                         break;
                     case BLOCK:
                     default:
                         child.setBounds(
                                 new Point2D.Double(
-                                x + insets.left,
-                                layoutBounds.y + layoutInsets.top + insets.top),
+                                        x + insets.left,
+                                        layoutBounds.y + layoutInsets.top + insets.top),
                                 new Point2D.Double(
-                                x + insets.left + width,
-                                layoutBounds.y + layoutBounds.height - layoutInsets.bottom - insets.bottom));
+                                        x + insets.left + width,
+                                        layoutBounds.y + layoutBounds.height - layoutInsets.bottom - insets.bottom));
                         break;
                 }
                 //---

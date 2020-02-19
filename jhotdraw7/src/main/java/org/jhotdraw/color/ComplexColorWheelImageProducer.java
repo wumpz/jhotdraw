@@ -158,9 +158,9 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float radius = getRadius();
         Point2D.Float center = getCenter();
 
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 - 1;
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex)) * 2 - 1;
         if (flipX) {
             radial = -radial;
@@ -193,7 +193,7 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
 
         Point p = new Point(
                 (int) (r * sina * radius + center.x),
-                (int) (r * cosa * radius + center.y)//
+                (int) (r * cosa * radius + center.y)
                 );
         return p;
     }
@@ -271,11 +271,11 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         }
 
         float[] rav = new float[3];
-        rav[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        rav[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        rav[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        rav[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         rav[verticalIndex] = verticalValue;
 

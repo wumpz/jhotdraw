@@ -5,15 +5,12 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.tool;
 
-
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.ToolListener;
 import java.awt.*;
 import java.awt.event.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.ToolListener;
 
 /**
  * A <em>tool</em> defines an editing mode of a {@link DrawingEditor}.
@@ -45,23 +42,27 @@ import java.awt.event.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
  * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
  * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and {@link Tool}.
  *
- * <p><em>Mediator</em><br>
+ * <p>
+ * <em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
  * and drawing views:<br>
  * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, {@link Tool}.
  *
- * <p><em>Mediator</em><br>
+ * <p>
+ * <em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating keyboard input from
  * {@code Tool}s and Swing action objects:<br>
  * Mediator: {@link DrawingEditor}; Colleagues: {@link Tool}, javax.swing.Action.
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * State changes of tools can be observed by other objects. Specifically
  * {@code DrawingEditor} observes area invalidations of tools and repaints
  * its active drawing view accordingly.<br>
@@ -73,13 +74,13 @@ import java.awt.event.*;
  * @version $Id$
  */
 public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
-    
+
     /**
      * Activates the tool for the given editor. This method is called
      * whenever the user switches to this tool.
      */
     public void activate(DrawingEditor editor);
-    
+
     /**
      * Deactivates the tool. This method is called whenever the user
      * switches to another tool.
@@ -90,62 +91,66 @@ public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
      * Adds a listener for this tool.
      */
     void addToolListener(ToolListener l);
-    
+
     /**
      * Removes a listener for this tool.
      */
     void removeToolListener(ToolListener l);
-    
+
     /**
      * Draws the tool.
      */
     void draw(Graphics2D g);
-    
+
     /**
      * Deletes the selection.
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
     public void editDelete();
+
     /**
      * Cuts the selection into the clipboard.
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
     public void editCut();
+
     /**
      * Copies the selection into the clipboard.
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
     public void editCopy();
+
     /**
      * Duplicates the selection.
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
     public void editDuplicate();
+
     /**
      * Pastes the contents of the clipboard.
      * Depending on the tool, this could be selected figures, selected points
      * or selected text.
      */
     public void editPaste();
-    
+
     /**
      * Returns the tooltip text for a mouse event on a drawing view.
-     * 
+     *
      * @param view A drawing view.
      * @param evt A mouse event.
      * @return A tooltip text or null.
      */
     public String getToolTipText(DrawingView view, MouseEvent evt);
-    
+
     /**
      * Returns true, if this tool lets the user interact with handles.
      * <p>
      * Handles may draw differently, if interaction is not possible.
-     * 
+     *
      * @return True, if this tool supports interaction with the handles.
      */
     public boolean supportsHandleInteraction();

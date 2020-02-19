@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides Actions which act on a file.
-*/
-
+ * Provides Actions which act on a file.
+ */
 package org.jhotdraw.app.action.file;
-
-
-

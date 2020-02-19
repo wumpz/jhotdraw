@@ -7,19 +7,18 @@
  */
 package org.jhotdraw.draw.tool;
 
-
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import java.util.*;
+import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
-import javax.swing.undo.*;
 import org.jhotdraw.util.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import java.util.*;
 
 /**
  * A tool to create a connection between two figures.
- * The  {@link ConnectionFigure} to be created is specified by a prototype.
+ * The {@link ConnectionFigure} to be created is specified by a prototype.
  * The location of the start and end points are controlled by {@link Connector}s.
  * <p>
  * To create a connection using the ConnectionTool, the user does the following
@@ -36,8 +35,9 @@ import java.util.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
- * Two figures can be connected using a connection figure.  The location of
+ * <p>
+ * <em>Framework</em><br>
+ * Two figures can be connected using a connection figure. The location of
  * the start or end point of the connection is handled by a connector object
  * at each connected figure.<br>
  * Contract: {@link org.jhotdraw.draw.Figure},
@@ -49,31 +49,34 @@ import java.util.*;
  * @version $Id$
  */
 public class ConnectionTool extends AbstractTool {
+
     private static final long serialVersionUID = 1L;
 
-    /** FIXME - The ANCHOR_WIDTH value must be retrieved from the DrawingEditor */
+    /**
+     * FIXME - The ANCHOR_WIDTH value must be retrieved from the DrawingEditor
+     */
     private static final int ANCHOR_WIDTH = 6;
     /**
      * Attributes to be applied to the created ConnectionFigure.
      * These attributes override the default attributes of the
      * DrawingEditor.
      */
-    
+
     private Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * The Connector at the start point of the connection.
      */
-    
+
     protected Connector startConnector;
     /**
      * The Connector at the end point of the connection.
      */
-    
+
     protected Connector endConnector;
     /**
      * The created figure.
      */
-    
+
     protected ConnectionFigure createdFigure;
     /**
      * the prototypical figure that is used to create new
@@ -83,14 +86,14 @@ public class ConnectionTool extends AbstractTool {
     /**
      * The figure for which we enabled drawing of connectors.
      */
-    
+
     protected Figure targetFigure;
     protected Collection<Connector> connectors = Collections.emptyList();
     /**
      * A localized name for this tool. The presentationName is displayed by the
      * UndoableEdit.
      */
-    
+
     private String presentationName;
     /**
      * If this is set to false, the CreationTool does not fire toolDone
@@ -99,7 +102,8 @@ public class ConnectionTool extends AbstractTool {
      */
     private boolean isToolDoneAfterCreation = true;
 
-    /** Creates a new instance.
+    /**
+     * Creates a new instance.
      */
     public ConnectionTool(ConnectionFigure prototype) {
         this(prototype, null, null);
@@ -150,7 +154,7 @@ public class ConnectionTool extends AbstractTool {
     /**
      * This method is called on the Figure, onto which the user wants
      * to start a new connection.
-     * 
+     *
      * @param f The ConnectionFigure.
      * @param startConnector The Connector of the start Figure.
      * @return True, if a connection can be made.
@@ -162,7 +166,7 @@ public class ConnectionTool extends AbstractTool {
     /**
      * This method is called on the Figure, onto which the user wants
      * to end a new connection.
-     * 
+     *
      * @param f The ConnectionFigure.
      * @param startConnector The Connector of the start Figure.
      * @param endConnector The Connector of the end Figure.
@@ -254,7 +258,7 @@ public class ConnectionTool extends AbstractTool {
         if (createdFigure != null) {
             createdFigure.willChange();
             Point2D.Double endPoint = viewToDrawing(new Point(e.getX(), e.getY()));
-            if (getView().getConstrainer()!=null) {
+            if (getView().getConstrainer() != null) {
                 endPoint = getView().getConstrainer().constrainPoint(endPoint, createdFigure);
             }
             Figure endFigure = getDrawing().findFigureExcept(endPoint, createdFigure);
@@ -290,7 +294,7 @@ public class ConnectionTool extends AbstractTool {
             final Figure addedFigure = createdFigure;
             final Drawing addedDrawing = getDrawing();
             getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -355,7 +359,7 @@ public class ConnectionTool extends AbstractTool {
         getEditor().applyDefaultAttributesTo(f);
         if (prototypeAttributes != null) {
             for (Map.Entry<AttributeKey<?>, Object> entry : prototypeAttributes.entrySet()) {
-                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
         }
         return f;

@@ -90,7 +90,7 @@ public class JComponentPopup extends JPopupMenu {
             // grab the current AWT Event ourselves (hoping that this method
             // invocation is associated to it) and try to decide whether
             // we want to close the popup.
-            //
+            
             // This will prevent undesired closing of the popup component when
             // a combo box is opened on the popup component.
             // After this happened though, menuSelectionChanged is not invoked

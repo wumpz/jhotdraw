@@ -19,6 +19,7 @@ import java.awt.color.ColorSpace;
  * $
  */
 public class HSLPhysiologicColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     private static HSLPhysiologicColorSpace instance;
@@ -87,7 +88,6 @@ public class HSLPhysiologicColorSpace extends AbstractNamedColorSpace {
             q = lightness + saturation - (lightness * saturation);
         }
         float p = 2f * lightness - q;
-
 
         // compute red, green and blue
         float red = hk + 1f / 3f;

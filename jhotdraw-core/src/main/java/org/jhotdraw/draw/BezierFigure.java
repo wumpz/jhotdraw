@@ -7,25 +7,24 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.BezierPath;
-
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.connector.ChopBezierConnector;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.BezierNodeHandle;
-import org.jhotdraw.draw.handle.BezierOutlineHandle;
-import org.jhotdraw.draw.handle.BezierScaleHandle;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.undo.*;
-import java.io.*;
-import org.jhotdraw.draw.handle.Handle;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.connector.ChopBezierConnector;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.handle.BezierOutlineHandle;
+import org.jhotdraw.draw.handle.BezierScaleHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.util.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
@@ -65,7 +64,7 @@ public class BezierFigure extends AbstractAttributedFigure {
      * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
      * speed of the figure.
      */
-    
+
     private transient BezierPath cappedPath;
 
     /**
@@ -238,7 +237,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         Rectangle2D.Double bounds = path.getBounds2D();
         return bounds;
     }
-    
+
     @Override
     public Rectangle2D.Double getDrawingArea(double factor) {
         Rectangle2D.Double r = super.getDrawingArea(factor);

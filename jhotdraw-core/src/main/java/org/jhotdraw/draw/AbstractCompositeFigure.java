@@ -7,27 +7,26 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-
-import org.jhotdraw.draw.layouter.Layouter;
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureListener;
-import java.io.IOException;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.layouter.Layouter;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.util.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
-import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}.
@@ -39,6 +38,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 public abstract class AbstractCompositeFigure
         extends AbstractFigure
         implements CompositeFigure, DOMStorable {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -67,7 +67,8 @@ public abstract class AbstractCompositeFigure
     protected EventHandler eventHandler;
 
     protected class EventHandler extends FigureAdapter implements UndoableEditListener, Serializable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public void figureRequestRemove(FigureEvent e) {
@@ -653,7 +654,7 @@ public abstract class AbstractCompositeFigure
     public Rectangle2D.Double getDrawingArea() {
         return getDrawingArea(1.0);
     }
-    
+
     @Override
     public Rectangle2D.Double getDrawingArea(double factor) {
         if (cachedDrawingArea == null) {
@@ -691,7 +692,7 @@ public abstract class AbstractCompositeFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     protected void fireFigureAdded(Figure f, int zIndex) {
@@ -713,7 +714,7 @@ public abstract class AbstractCompositeFigure
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     protected void fireFigureRemoved(Figure f, int zIndex) {

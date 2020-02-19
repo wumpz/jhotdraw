@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
 
 import org.jhotdraw.app.*;
@@ -33,15 +32,19 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class OpenDirectoryAction extends OpenFileAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.openDirectory";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public OpenDirectoryAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
+
     @Override
     protected URIChooser getChooser(View view) {
         return getApplication().getModel().createOpenDirectoryChooser(getApplication(), view);

@@ -7,19 +7,18 @@
  */
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.util.*;
-import org.jhotdraw.gui.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
 import java.util.prefs.Preferences;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.*;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -41,27 +40,32 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * <hr>
  * <b>Features</b>
  *
- *<p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * When the feature is disabled, {@code OpenFileAction} prevents opening an URI
  * which* is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * {@code OpenFileAction} supplies data for this feature by calling
  * {@link Application#addRecentURI} when it successfully opened a file.
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class OpenFileAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.open";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public OpenFileAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -193,7 +197,8 @@ public class OpenFileAction extends AbstractApplicationAction {
         });
     }
 
-    /** We implement JFileChooser.showDialog by ourselves, so that we can center
+    /**
+     * We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
     public int showDialog(URIChooser chooser, Component parent) {
@@ -230,7 +235,8 @@ public class OpenFileAction extends AbstractApplicationAction {
         return returnValue[0];
     }
 
-    /** We implement JFileChooser.showDialog by ourselves, so that we can center
+    /**
+     * We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
     protected JDialog createDialog(URIChooser chooser, Component parent) throws HeadlessException {
@@ -250,8 +256,8 @@ public class OpenFileAction extends AbstractApplicationAction {
         contentPane.add(chooser.getComponent(), BorderLayout.CENTER);
 
         if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-                    UIManager.getLookAndFeel().getSupportsWindowDecorations();
+            boolean supportsWindowDecorations
+                    = UIManager.getLookAndFeel().getSupportsWindowDecorations();
             if (supportsWindowDecorations) {
                 dialog.getRootPane().setWindowDecorationStyle(JRootPane.FILE_CHOOSER_DIALOG);
             }
@@ -263,7 +269,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         /*
         if (window.getBounds().isEmpty()) {
         Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
-        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, //
+        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, 
         screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
         } else {
         dialog.setLocationRelativeTo(parent);

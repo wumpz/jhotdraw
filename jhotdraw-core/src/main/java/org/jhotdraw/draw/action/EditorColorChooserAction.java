@@ -7,12 +7,11 @@
  */
 package org.jhotdraw.draw.action;
 
-
-import org.jhotdraw.draw.event.FigureSelectionEvent;
-import java.util.*;
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -25,23 +24,30 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class EditorColorChooserAction extends AttributeAction {
+
     private static final long serialVersionUID = 1L;
 
     protected AttributeKey<Color> key;
     protected static JColorChooser colorChooser;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
         this(editor, key, null, null);
         updateEnabledState();
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
         this(editor, key, null, icon);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public EditorColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
         this(editor, key, name, null);
     }
@@ -66,8 +72,8 @@ public class EditorColorChooserAction extends AttributeAction {
         }
         Color initialColor = getInitialColor();
         // FIXME - Reuse colorChooser object instead of calling static method here.
-        ResourceBundleUtil labels =
-                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels
+                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         Color chosenColor = JColorChooser.showDialog((Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
         if (chosenColor != null) {
             HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);

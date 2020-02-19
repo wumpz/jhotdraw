@@ -7,26 +7,25 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.connector.ChopRectangleConnector;
-import org.jhotdraw.draw.event.SetBoundsEdit;
-import org.jhotdraw.draw.event.FigureListener;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.beans.AbstractBean;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.undo.*;
+import org.jhotdraw.beans.AbstractBean;
+import org.jhotdraw.draw.connector.ChopRectangleConnector;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.SetBoundsEdit;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
  * This abstract class can be extended to implement a {@link Figure}.
@@ -42,7 +41,7 @@ public abstract class AbstractFigure
     private static final long serialVersionUID = 1L;
 
     protected EventListenerList listenerList = new EventListenerList();
-    
+
     private Drawing drawing;
     private boolean isSelectable = true;
     private boolean isRemovable = true;
@@ -314,12 +313,12 @@ public abstract class AbstractFigure
             getDrawing().fireUndoableEditHappened(edit);
         }
     }
+
     /*
      public Set createHandles() {
      return new HashSet();
      }
      */
-
     @Override
     public AbstractFigure clone() {
         AbstractFigure that = (AbstractFigure) super.clone();
@@ -434,7 +433,7 @@ public abstract class AbstractFigure
     }
 
     @Override
-    
+
     public Figure findFigureInside(Point2D.Double p) {
         return (contains(p)) ? this : null;
     }
@@ -489,12 +488,12 @@ public abstract class AbstractFigure
         Rectangle2D.Double r = getBounds();
         return new Point2D.Double(r.x, r.y);
     }
+
     /*
      public Rectangle2D.Double getHitBounds() {
      return getBounds();
      }
      */
-
     @Override
     public Dimension2DDouble getPreferredSize() {
         Rectangle2D.Double r = getBounds();

@@ -5,29 +5,30 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.window;
 
-
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
+import org.jhotdraw.util.*;
 
 /**
  * Minimizes the Frame of the current view.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class MinimizeWindowAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "window.minimize";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public MinimizeWindowAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -37,9 +38,9 @@ public class MinimizeWindowAction extends AbstractViewAction {
     private JFrame getFrame() {
         return (JFrame) SwingUtilities.getWindowAncestor(
                 getActiveView().getComponent()
-                );
+        );
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         JFrame frame = getFrame();

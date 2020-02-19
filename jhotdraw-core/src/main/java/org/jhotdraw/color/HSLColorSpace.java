@@ -19,6 +19,7 @@ import static java.lang.Math.*;
  * @version $Id$
  */
 public class HSLColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     private static HSLColorSpace instance;
@@ -76,7 +77,6 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
             blue = blue - 1f;
         }
 
-
         // adjust rgb values
         if (red < 1f / 6f) {
             red = p + ((q - p) * 6 * red);
@@ -108,10 +108,9 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
             blue = p;
         }
 
-
-        rgb[0]=clamp(red,0,1);
-        rgb[1]=clamp(green,0,1);
-        rgb[2]=clamp(blue,0,1);
+        rgb[0] = clamp(red, 0, 1);
+        rgb[1] = clamp(green, 0, 1);
+        rgb[2] = clamp(blue, 0, 1);
         return rgb;
     }
 
@@ -195,8 +194,8 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
     public String getName() {
         return "HSL";
     }
-    
+
     private static float clamp(float v, float minv, float maxv) {
-        return max(minv,min(v,maxv));
+        return max(minv, min(v, maxv));
     }
 }

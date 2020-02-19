@@ -7,14 +7,13 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.awt.event.*;
-import javax.swing.*;
 import java.beans.*;
-import org.jhotdraw.util.*;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
+import org.jhotdraw.util.*;
 
 /**
  * Undoes the last user action.
@@ -33,6 +32,7 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * @version $Id$
  */
 public class UndoAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.undo";
@@ -50,7 +50,9 @@ public class UndoAction extends AbstractViewAction {
         }
     };
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public UndoAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
@@ -68,9 +70,9 @@ public class UndoAction extends AbstractViewAction {
     @Override
     protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && //
-                newValue.getActionMap().get(ID) != null && //
-                newValue.getActionMap().get(ID) != this) {
+        if (newValue != null
+                && newValue.getActionMap().get(ID) != null
+                && newValue.getActionMap().get(ID) != this) {
             putValue(AbstractAction.NAME, newValue.getActionMap().get(ID).
                     getValue(AbstractAction.NAME));
             updateEnabledState();
@@ -109,7 +111,6 @@ public class UndoAction extends AbstractViewAction {
         }
     }
 
-    
     private Action getRealUndoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

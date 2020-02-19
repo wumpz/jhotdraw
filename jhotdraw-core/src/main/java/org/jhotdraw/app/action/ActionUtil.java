@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action;
 
 import javax.swing.*;
@@ -17,6 +16,7 @@ import javax.swing.*;
  * @version $Id$
  */
 public class ActionUtil {
+
     /**
      * Key for the selected state of an action.
      * The value must be a Boolean.
@@ -41,11 +41,13 @@ public class ActionUtil {
      * @see javax.swing.undo.UndoableEdit#getPresentationName
      */
     public static final String UNDO_PRESENTATION_NAME_KEY = "undoPresentationName";
-    
-    /** Prevent instance creation. */
+
+    /**
+     * Prevent instance creation.
+     */
     private ActionUtil() {
     }
-    
+
     /**
      * Configures a JCheckBoxMenuItem for an Action.
      */
@@ -60,10 +62,10 @@ public class ActionUtil {
         };
         a.addPropertyChangeListener(propertyHandler);
         mi.putClientProperty("actionPropertyHandler", propertyHandler);
-        */
+         */
         mi.setAction(a);
     }
-    
+
     /**
      * Unconfigures a JCheckBoxMenuItem for an Action.
      */

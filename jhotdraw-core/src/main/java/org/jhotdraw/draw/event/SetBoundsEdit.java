@@ -5,13 +5,12 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.draw.*;
-import javax.swing.undo.*;
 import java.awt.geom.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+
 /**
  * SetBoundsEdit.
  *
@@ -19,12 +18,15 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class SetBoundsEdit extends AbstractUndoableEdit {
+
     private static final long serialVersionUID = 1L;
     private AbstractFigure owner;
     private Point2D.Double oldAnchor, oldLead;
     private Point2D.Double newAnchor, newLead;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SetBoundsEdit(AbstractFigure owner, Point2D.Double oldAnchor, Point2D.Double oldLead, Point2D.Double newAnchor, Point2D.Double newLead) {
         this.owner = owner;
         this.oldAnchor = oldAnchor;
@@ -32,12 +34,13 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         this.newAnchor = newAnchor;
         this.newLead = newLead;
     }
+
     @Override
     public String getPresentationName() {
         // XXX - Localize me
         return "Abmessungen \u00e4ndern";
     }
-    
+
     @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof SetBoundsEdit) {
@@ -51,6 +54,7 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         }
         return false;
     }
+
     @Override
     public boolean replaceEdit(UndoableEdit anEdit) {
         if (anEdit instanceof SetBoundsEdit) {
@@ -64,7 +68,7 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         }
         return false;
     }
-    
+
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
@@ -72,6 +76,7 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         owner.setBounds(newAnchor, newLead);
         owner.changed();
     }
+
     @Override
     public void undo() throws CannotUndoException {
         super.undo();
@@ -80,4 +85,3 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
         owner.changed();
     }
 }
-

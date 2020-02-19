@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.*;
 import java.awt.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A non-interactive {@link Handle} which draws the outline of a 
+ * A non-interactive {@link Handle} which draws the outline of a
  * {@link BezierFigure} to make adjustments easier.
  *
  * @author Werner Randelshofer
@@ -26,7 +26,9 @@ public class BezierOutlineHandle extends AbstractHandle {
      */
     private boolean isHoverHandle = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public BezierOutlineHandle(BezierFigure owner) {
         this(owner, false);
     }

@@ -7,18 +7,18 @@
  */
 package org.jhotdraw.draw;
 
-
-import org.jhotdraw.draw.tool.Tool;
 import java.awt.*;
 import java.beans.*;
 import java.util.*;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
+import org.jhotdraw.draw.tool.Tool;
 
 /**
  * A <em>drawing editor</em> coordinates drawing tools and drawing views.
- * 
- * <p>Usage of drawing editor in conjunction with the JHotDraw application framework:</p>
+ *
+ * <p>
+ * Usage of drawing editor in conjunction with the JHotDraw application framework:</p>
  * <ul>
  * <li>For {@link org.jhotdraw.app.Application}s which provide a single document
  * interface (SDI) there is typically one drawing editor instance per
@@ -36,46 +36,52 @@ import javax.swing.InputMap;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
  * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
  * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and
  * {@link org.jhotdraw.draw.tool.Tool}.
  *
- * <p><em>Mediator</em><br>
+ * <p>
+ * <em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
  * and drawing views:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView}, 
+ * Mediator: {@link DrawingEditor}; Colleagues: {@link DrawingView},
  * {@link org.jhotdraw.draw.tool.Tool}.
  *
- * <p><em>Mediator</em><br>
+ * <p>
+ * <em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating keyboard input from
  * {@code Tool}s and Swing action objects:<br>
- * Mediator: {@link DrawingEditor}; Colleagues: 
+ * Mediator: {@link DrawingEditor}; Colleagues:
  * {@link org.jhotdraw.draw.tool.Tool}, javax.swing.Action.
  *
- * <p><em>Model-View-Controller</em><br>
+ * <p>
+ * <em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
  * pattern:<br>
  * Model: {@link Drawing}; View: {@link DrawingView}; Controller:
  * {@link DrawingEditor}.
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * State changes of tools can be observed by other objects. Specifically
  * {@code DrawingEditor} observes area invalidations of tools and repaints
  * its active drawing view accordingly.<br>
- * Subject: {@link Tool}; 
+ * Subject: {@link Tool};
  * Observer: {@link org.jhotdraw.draw.event.ToolListener}; Event:
  * {@link org.jhotdraw.draw.event.ToolEvent}; Concrete Observer: {@link DrawingEditor}.
  *
- * <p><em>Proxy</em><br>
+ * <p>
+ * <em>Proxy</em><br>
  * To remove the need for null-handling, {@code AbstractTool} makes use of
  * a proxy for {@code DrawingEditor}.<br>
  * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy};
  * Client: {@link org.jhotdraw.draw.tool.AbstractTool}.
  * <hr>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -105,11 +111,11 @@ public interface DrawingEditor {
     /**
      * Gets the editor's current drawing.
      * /
-    Drawing getDrawing();
-    /**
+     * Drawing getDrawing();
+     * /**
      * Sets the editor's current drawing.
      * /
-    void setDrawing(Drawing drawing);
+     * void setDrawing(Drawing drawing);
      */
     /**
      * Adds a drawing view to the editor.
@@ -202,9 +208,9 @@ public interface DrawingEditor {
      * Sets a handle attribute of the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
-     * 
-     * @param key AttributeKey. 
-     * @param value Attribute value. 
+     *
+     * @param key AttributeKey.
+     * @param value Attribute value.
      */
     public <T> void setHandleAttribute(AttributeKey<T> key, T value);
 
@@ -212,9 +218,9 @@ public interface DrawingEditor {
      * Gets a handle attribute from the editor.
      * The default attribute will be used by creation tools, to create a new
      * figure.
-     * 
-     * @param key AttributeKey. 
-     * 
+     *
+     * @param key AttributeKey.
+     *
      * @return If the handle attribute has been set, returns the previously
      * set value. If the handle attribute has not been set, returns key.getDefaultValue().
      */
@@ -227,6 +233,7 @@ public interface DrawingEditor {
      * This is a bound property.
      */
     public void setInputMap(InputMap newValue);
+
     /**
      * Sets the input map used by the tool of this drawing editor as a fall back
      * for handling keyboard events.
@@ -271,12 +278,14 @@ public interface DrawingEditor {
 
     /**
      * Adds a {@code PropertyChangeListener}.
+     *
      * @param listener
      */
     public void addPropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * Removes a {@code PropertyChangeListener}.
+     *
      * @param listener
      */
     public void removePropertyChangeListener(PropertyChangeListener listener);

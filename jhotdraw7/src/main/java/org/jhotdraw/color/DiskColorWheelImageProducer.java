@@ -199,9 +199,9 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         float radius=getRadius();
         Point2D.Float center=getCenter();
         
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 -1;
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex)) * 2 -1;
         if (flipX) radial=-radial;
         if (flipY) angular=-angular;
@@ -216,7 +216,7 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         
         Point p = new Point(
                 (int) (radius * radial + center.x),
-                (int) (radius * angular + center.y)//
+                (int) (radius * angular + center.y)
                 );
         return p;
     }
@@ -239,11 +239,11 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         }
         
         float[] hsb = new float[3];
-        hsb[angularIndex] = (angular + 1f)/2f//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        hsb[angularIndex] = (angular + 1f)/2f
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = (radial + 1f)/2f//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        hsb[radialIndex] = (radial + 1f)/2f
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;

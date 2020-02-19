@@ -7,18 +7,17 @@
  */
 package org.jhotdraw.draw.tool;
 
-
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.Handle;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
-import javax.swing.*;
-import org.jhotdraw.beans.AbstractBean;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.*;
-import javax.swing.event.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.handle.Handle;
 
 /**
  * This abstract class can be extended to implement a {@link Tool}.
@@ -106,7 +105,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         return isActive;
     }
 
-    
     protected DrawingView getView() {
         return editor.getActiveView();
     }
@@ -269,7 +267,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * <p>
      * The implementation of this class returns null.
      */
-    
     protected InputMap createInputMap() {
         return null;
     }
@@ -280,7 +277,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * <p>
      * The implementation of this class returns null.
      */
-    
     protected ActionMap createActionMap() {
         return null;
     }

@@ -478,9 +478,9 @@ public class OSXApplication extends AbstractApplication {
         mb.addLoadFileItems(m, this, view);
         mb.addOpenFileItems(m, this, view);
 
-        if (getAction(view, LoadFileAction.ID) != null ||//
-                getAction(view, OpenFileAction.ID) != null ||//
-                getAction(view, LoadDirectoryAction.ID) != null ||//
+        if (getAction(view, LoadFileAction.ID) != null ||
+                getAction(view, OpenFileAction.ID) != null ||
+                getAction(view, LoadDirectoryAction.ID) != null ||
                 getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(view));
         }

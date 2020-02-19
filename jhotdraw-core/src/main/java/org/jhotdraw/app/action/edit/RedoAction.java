@@ -7,14 +7,13 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.awt.event.*;
-import javax.swing.*;
 import java.beans.*;
-import org.jhotdraw.util.*;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
+import org.jhotdraw.util.*;
 
 /**
  * Redoes the last user action on the active view.
@@ -28,12 +27,13 @@ import org.jhotdraw.app.action.AbstractViewAction;
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
-
+ *
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class RedoAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.redo";
@@ -51,7 +51,9 @@ public class RedoAction extends AbstractViewAction {
         }
     };
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public RedoAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
@@ -60,7 +62,7 @@ public class RedoAction extends AbstractViewAction {
     protected void updateEnabledState() {
         boolean isEnabled = false;
         Action realRedoAction = getRealRedoAction();
-        if (realRedoAction != null && realRedoAction!=this) {
+        if (realRedoAction != null && realRedoAction != this) {
             isEnabled = realRedoAction.isEnabled();
         }
         setEnabled(isEnabled);
@@ -69,9 +71,9 @@ public class RedoAction extends AbstractViewAction {
     @Override
     protected void updateView(View oldValue, View newValue) {
         super.updateView(oldValue, newValue);
-        if (newValue != null && //
-                newValue.getActionMap().get(ID) != null && //
-                newValue.getActionMap().get(ID) != this) {
+        if (newValue != null
+                && newValue.getActionMap().get(ID) != null
+                && newValue.getActionMap().get(ID) != this) {
             putValue(AbstractAction.NAME, newValue.getActionMap().get(ID).
                     getValue(AbstractAction.NAME));
             updateEnabledState();
@@ -105,12 +107,11 @@ public class RedoAction extends AbstractViewAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         Action realAction = getRealRedoAction();
-        if (realAction != null && realAction!=this) {
+        if (realAction != null && realAction != this) {
             realAction.actionPerformed(e);
         }
     }
 
-    
     private Action getRealRedoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

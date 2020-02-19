@@ -16,27 +16,37 @@ import java.awt.color.ColorSpace;
  *
  * @see JColorWheel
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id: ColorWheelImageProducer.java 527 2009-06-07 14:28:19Z rawcoder $
  */
 public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
-    /** Lookup table for angular component values. */
+    /**
+     * Lookup table for angular component values.
+     */
     protected float[] angulars;
-    /** Lookup table for radial component values. */
+    /**
+     * Lookup table for radial component values.
+     */
     protected float[] radials;
-    /** Lookup table for alphas.
+    /**
+     * Lookup table for alphas.
      * The alpha value is used for antialiasing the
      * color wheel.
      */
     protected int[] alphas;
     private boolean flipX, flipY;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ColorSquareImageProducer(ColorSpace sys, int w, int h) {
-        this(sys,w,h,false,false);
+        this(sys, w, h, false, false);
     }
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ColorSquareImageProducer(ColorSpace sys, int w, int h, boolean flipX, boolean flipY) {
         super(sys, w, h);
         this.flipX = flipX;
@@ -95,13 +105,13 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
-        float[] rgb=new float[3];
+        float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = (alphas[index] | 0xffffff) & ColorUtil.CStoRGB24(colorSpace,components,rgb);
+                pixels[index] = (alphas[index] | 0xffffff) & ColorUtil.CStoRGB24(colorSpace, components, rgb);
             }
         }
         newPixels();
@@ -110,13 +120,16 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
     @Override
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
-        if (flipX) radial=1f-radial;
-        if (flipY) angular=1f-angular;
-
+        if (flipX) {
+            radial = 1f - radial;
+        }
+        if (flipY) {
+            angular = 1f - angular;
+        }
 
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
@@ -124,8 +137,8 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
         Point p = new Point(
                 (int) (side * radial) + xOffset,
-                (int) (side * angular) + yOffset//
-                );
+                (int) (side * angular) + yOffset
+        );
         return p;
     }
 
@@ -137,15 +150,19 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
         float radial = (x - xOffset) / (float) side;
         float angular = (y - yOffset) / (float) side;
-        if (flipX) radial=1f-radial;
-        if (flipY) angular=1f-angular;
+        if (flipX) {
+            radial = 1f - radial;
+        }
+        if (flipY) {
+            angular = 1f - angular;
+        }
 
         float[] hsb = new float[3];
-        hsb[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        hsb[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        hsb[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;

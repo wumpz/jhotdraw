@@ -5,13 +5,11 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.event;
 
-
-import org.jhotdraw.draw.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
 
 /**
  * An {@code EventObject} sent to {@link FigureListener}s.
@@ -19,7 +17,8 @@ import java.util.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * State changes of figures can be observed by other objects. Specifically
  * {@code CompositeFigure} observes area invalidations and remove requests
  * of its child figures. {@link DrawingView} also observes area invalidations
@@ -33,21 +32,23 @@ import java.util.*;
  * @version $Id$
  */
 public class FigureEvent extends EventObject {
-    private static final long serialVersionUID=1L;
+
+    private static final long serialVersionUID = 1L;
     private Rectangle2D.Double invalidatedArea;
     private AttributeKey<?> attribute;
     private Object oldValue;
     private Object newValue;
-    
+
     /**
      * Constructs an event for the given source Figure.
+     *
      * @param invalidatedArea The bounds of the invalidated area on the drawing.
      */
     public FigureEvent(Figure source, Rectangle2D.Double invalidatedArea) {
         super(source);
         this.invalidatedArea = invalidatedArea;
     }
-    
+
     /**
      * Constructs an event for the given source Figure.
      */
@@ -57,30 +58,29 @@ public class FigureEvent extends EventObject {
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
-    
+
     /**
-     *  Gets the changed figure
+     * Gets the changed figure
      */
     public Figure getFigure() {
         return (Figure) getSource();
     }
-    
+
     /**
-     *  Gets the bounds of the invalidated area on the drawing.
+     * Gets the bounds of the invalidated area on the drawing.
      */
-    
     public Rectangle2D.Double getInvalidatedArea() {
         return invalidatedArea;
     }
-    
+
     public AttributeKey<?> getAttribute() {
         return attribute;
     }
-    
+
     public Object getOldValue() {
         return oldValue;
     }
-    
+
     public Object getNewValue() {
         return newValue;
     }

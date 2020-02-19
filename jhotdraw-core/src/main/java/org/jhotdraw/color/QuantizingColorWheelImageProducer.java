@@ -15,24 +15,32 @@ import java.awt.color.ColorSpace;
  *
  * @see JColorWheel
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id: ColorWheelImageProducer.java 628 2010-01-20 14:51:38Z rawcoder $
  */
 public class QuantizingColorWheelImageProducer extends AbstractColorWheelImageProducer {
-    /** Lookup table for angular component values. */
+
+    /**
+     * Lookup table for angular component values.
+     */
     protected float[] angulars;
-    /** Lookup table for radial component values. */
+    /**
+     * Lookup table for radial component values.
+     */
     protected float[] radials;
-    /** Lookup table for alphas. 
+    /**
+     * Lookup table for alphas.
      * The alpha value is used for antialiasing the
      * color wheel.
      */
     protected int[] alphas;
 
-    protected int angularQuantization=12;
-    protected int radialQuantization=5;
+    protected int angularQuantization = 12;
+    protected int radialQuantization = 5;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public QuantizingColorWheelImageProducer(ColorSpace sys, int w, int h) {
         super(sys, w, h);
     }
@@ -69,14 +77,14 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
                 if (radiusRatio <= 1f) {
                     alphas[index] = 0xff000000;
                     radials[index] = radiusRatio * extentR + minR;
-                    radials[index] = (float)Math.round( radials[index]*radialQuantization)/(float)radialQuantization;
+                    radials[index] = (float) Math.round(radials[index] * radialQuantization) / (float) radialQuantization;
                 } else {
                     alphas[index] = (int) ((blend - Math.min(blend, radiusRatio - 1f)) * 255 / blend) << 24;
                     radials[index] = maxR;
                 }
                 if (alphas[index] != 0) {
                     angulars[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d) * extentA + minA;
-                    angulars[index] = (float)Math.round( angulars[index]*angularQuantization)/(float)angularQuantization;
+                    angulars[index] = (float) Math.round(angulars[index] * angularQuantization) / (float) angularQuantization;
                 }
             }
         }
@@ -102,13 +110,13 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
-        float[] rgb=new float[3];
+        float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = alphas[index] | 0xffffff & ColorUtil.CStoRGB24(colorSpace,components,rgb);
+                pixels[index] = alphas[index] | 0xffffff & ColorUtil.CStoRGB24(colorSpace, components, rgb);
             }
         }
         newPixels();
@@ -117,11 +125,10 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
 
     @Override
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
-
 
         float radius = Math.min(w, h) / 2f;
         radial = Math.max(0f, Math.min(1f, radial));
@@ -139,14 +146,14 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
         float theta = (float) Math.atan2(y, -x);
 
         float angular = (float) (0.5 + (theta / Math.PI / 2d));
-        float radial=Math.min(1f, r / getRadius());
+        float radial = Math.min(1f, r / getRadius());
 
         float[] hsb = new float[3];
-        hsb[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        hsb[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        hsb[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;

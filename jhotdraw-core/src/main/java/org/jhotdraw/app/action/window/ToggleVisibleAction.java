@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.window;
 
 import java.awt.*;
@@ -21,10 +20,13 @@ import org.jhotdraw.app.action.ActionUtil;
  * @version $Id$
  */
 public class ToggleVisibleAction extends AbstractAction {
+
     private static final long serialVersionUID = 1L;
     private Component component;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ToggleVisibleAction(Component c, String name) {
         this.component = c;
         putValue(Action.NAME, name);
@@ -34,7 +36,7 @@ public class ToggleVisibleAction extends AbstractAction {
             public void componentShown(ComponentEvent e) {
                 putValue(ActionUtil.SELECTED_KEY, component.isVisible());
             }
-            
+
             @Override
             public void componentHidden(ComponentEvent e) {
                 putValue(ActionUtil.SELECTED_KEY, component.isVisible());
@@ -44,6 +46,6 @@ public class ToggleVisibleAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        component.setVisible(! component.isVisible());
+        component.setVisible(!component.isVisible());
     }
 }

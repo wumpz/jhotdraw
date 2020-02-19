@@ -8,11 +8,10 @@
 package org.jhotdraw.app.action.app;
 
 import java.awt.Frame;
-import org.jhotdraw.util.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
@@ -21,6 +20,7 @@ import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Opens a file for which an open-request was sent to the application.
@@ -29,7 +29,7 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * This action is called when the user drops a file on the dock icon of
  * {@code DefaultOSXApplication} or onto the desktop area of
- * {@code DefaultMDIApplication}. 
+ * {@code DefaultMDIApplication}.
  * <p>
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
@@ -37,29 +37,34 @@ import org.jhotdraw.net.URIUtil;
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * When the feature is disabled, {@code OpenApplicationFileAction} prevents
  * opening an URI which is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * {@code OpenApplicationFileAction} supplies data for this feature by calling
  * {@link Application#addRecentURI} when it successfully loaded a file.
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class OpenApplicationFileAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "application.openFile";
     private JFileChooser fileChooser;
     private int entries;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public OpenApplicationFileAction(Application app) {
         super(app);
         putValue(Action.NAME, "OSX Open File");
@@ -89,7 +94,6 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
                 }
             }
 
-
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
@@ -114,7 +118,6 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
     protected void openView(final View view, final URI uri) {
         final Application app = getApplication();
         app.setEnabled(true);
-
 
         // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.

@@ -7,23 +7,20 @@
  */
 package org.jhotdraw.app.action.file;
 
-
-import java.net.URISyntaxException;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.prefs.Preferences;
+import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractViewAction;
-import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.event.*;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Presents a file chooser to the user and then exports the contents of the
@@ -41,11 +38,12 @@ import org.jhotdraw.net.URIUtil;
  * <p>
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
- * {@link ApplicationModel#initApplication}. 
+ * {@link ApplicationModel#initApplication}.
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Allow multiple views for URI</em><br>
+ * <p>
+ * <em>Allow multiple views for URI</em><br>
  * When the feature is disabled, {@code ExportFileAction} prevents exporting to an URI which
  * is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
@@ -55,13 +53,16 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class ExportFileAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.export";
     private Component oldFocusOwner;
     private boolean proposeFileName;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ExportFileAction(Application app, View view) {
         this(app, view, false);
     }
@@ -73,17 +74,20 @@ public class ExportFileAction extends AbstractViewAction {
         this.proposeFileName = proposeFileName;
     }
 
-    /** Whether the export file action shall propose a file name or shall
+    /**
+     * Whether the export file action shall propose a file name or shall
      * leave the filename empty.
+     *
      * @return True if filename is proposed.
      */
     public boolean isProposeFileName() {
         return proposeFileName;
     }
 
-    /** Whether the export file action shall propose a file name or shall
+    /**
+     * Whether the export file action shall propose a file name or shall
      * leave the filename empty.
-     * 
+     *
      * @param newValue True if filename shall be proposed.
      */
     public void setProposeFileName(boolean newValue) {
@@ -111,9 +115,9 @@ public class ExportFileAction extends AbstractViewAction {
                             if (selectedURI == null) {
                                 Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
                                 try {
-                                    selectedURI = new URI(//
-                                            prefs.get("recentExportFile", new File(proposedURI).getParentFile().toURI().toString())//
-                                            );
+                                    selectedURI = new URI(
+                                            prefs.get("recentExportFile", new File(proposedURI).getParentFile().toURI().toString())
+                                    );
                                     selectedFolder = new File(selectedURI).getParentFile();
                                 } catch (URISyntaxException ex) {
                                     // selectedURI is null
@@ -123,8 +127,8 @@ public class ExportFileAction extends AbstractViewAction {
                                 selectedFolder = new File(selectedURI).getParentFile();
                             }
 
-                            File file = new File(selectedFolder,new File(proposedURI).getName());
-                            
+                            File file = new File(selectedFolder, new File(proposedURI).getName());
+
                             String name = file.getName();
                             int p = name.lastIndexOf('.');
                             if (p != -1) {
@@ -150,7 +154,6 @@ public class ExportFileAction extends AbstractViewAction {
                             }
                             Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
                             prefs.put("recentExportFile", uri.toString());
-
 
                             if (evt.getChooser() instanceof JFileURIChooser) {
                                 exportView(view, uri, evt.getChooser());

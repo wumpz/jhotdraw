@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui;
 
 import java.beans.PropertyChangeListener;
@@ -23,27 +22,31 @@ import javax.swing.*;
  * @version $Id$
  */
 public interface AttributeEditor<T> {
+
     public static final String ATTRIBUTE_VALUE_PROPERTY = "attributeValue";
     public static final String MULTIPLE_VALUES_PROPERTY = "multipleValues";
+
     /**
      * Returns the JComponent of the attribute field.
      */
     public JComponent getComponent();
+
     /**
      * Sets the attribute value. This is a bound property.
      *
      * @param newValue
      */
     public void setAttributeValue(T newValue);
+
     /**
      * Gets the attribute value.
      */
     public T getAttributeValue();
 
     /**
-     * This method is called, if the figures of the attribute field have 
+     * This method is called, if the figures of the attribute field have
      * multiple values.
-     * 
+     *
      * @param newValue
      */
     public void setMultipleValues(boolean newValue);
@@ -64,6 +67,7 @@ public interface AttributeEditor<T> {
      * @param l
      */
     public void addPropertyChangeListener(PropertyChangeListener l);
+
     /**
      * Removes a property change listener.
      *

@@ -5,20 +5,19 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.liner;
 
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.draw.handle.Handle;
+import java.awt.geom.*;
+import java.util.*;
+import org.jhotdraw.draw.ConnectionFigure;
 import org.jhotdraw.draw.LineConnectionFigure;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
-import java.util.*;
-import java.awt.geom.*;
 
 /**
  * SlantedLiner.
@@ -29,21 +28,25 @@ import java.awt.geom.*;
  */
 public class SlantedLiner
         implements Liner, DOMStorable {
+
     private double slantSize;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public SlantedLiner() {
         this(20);
     }
+
     public SlantedLiner(double slantSize) {
         this.slantSize = slantSize;
     }
-    
+
     @Override
     public Collection<Handle> createHandles(BezierPath path) {
         return Collections.emptyList();
     }
-    
+
     @Override
     public void lineout(ConnectionFigure figure) {
         BezierPath path = ((LineConnectionFigure) figure).getBezierPath();
@@ -52,13 +55,12 @@ public class SlantedLiner
         if (start == null || end == null || path == null) {
             return;
         }
-        
-        
+
         // Special treatment if the connection connects the same figure
         if (figure.getStartFigure() == figure.getEndFigure()) {
             // Ensure path has exactly four nodes
             while (path.size() < 5) {
-                path.add(1, new BezierPath.Node(0,0));
+                path.add(1, new BezierPath.Node(0, 0));
             }
             while (path.size() > 5) {
                 path.remove(1);
@@ -75,22 +77,30 @@ public class SlantedLiner
             if (eoutcode == 0) {
                 eoutcode = Geom.outcode(sb, eb);
             }
-            
+
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-            
+
             switch (soutcode) {
-                case Geom.OUT_TOP : eoutcode = Geom.OUT_LEFT; break;
-                case Geom.OUT_RIGHT : eoutcode = Geom.OUT_TOP; break;
-                case Geom.OUT_BOTTOM : eoutcode = Geom.OUT_RIGHT; break;
-                case Geom.OUT_LEFT : eoutcode = Geom.OUT_BOTTOM; break;
-                default :
+                case Geom.OUT_TOP:
+                    eoutcode = Geom.OUT_LEFT;
+                    break;
+                case Geom.OUT_RIGHT:
+                    eoutcode = Geom.OUT_TOP;
+                    break;
+                case Geom.OUT_BOTTOM:
+                    eoutcode = Geom.OUT_RIGHT;
+                    break;
+                case Geom.OUT_LEFT:
+                    eoutcode = Geom.OUT_BOTTOM;
+                    break;
+                default:
                     eoutcode = Geom.OUT_TOP;
                     soutcode = Geom.OUT_RIGHT;
                     break;
             }
             path.get(1).moveTo(sp.x + slantSize, sp.y);
-            
+
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + slantSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -109,29 +119,28 @@ public class SlantedLiner
             } else {
                 path.get(3).moveTo(ep.x, ep.y - slantSize);
             }
-            
+
             switch (soutcode) {
-                case Geom.OUT_RIGHT :
+                case Geom.OUT_RIGHT:
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
                     break;
-                case Geom.OUT_TOP :
+                case Geom.OUT_TOP:
                     path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
                     break;
-                case Geom.OUT_LEFT :
+                case Geom.OUT_LEFT:
                     path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
                     break;
-                case Geom.OUT_BOTTOM :
-                default :
+                case Geom.OUT_BOTTOM:
+                default:
                     path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
                     break;
             }
-            
-            
+
             // Regular treatment if the connection connects to two different figures
         } else {
             // Ensure path has exactly four nodes
             while (path.size() < 4) {
-                path.add(1, new BezierPath.Node(0,0));
+                path.add(1, new BezierPath.Node(0, 0));
             }
             while (path.size() > 4) {
                 path.remove(1);
@@ -168,10 +177,10 @@ public class SlantedLiner
                     eoutcode = Geom.outcode(sb, eb);
                 }
             }
-            
+
             path.get(0).moveTo(sp);
             path.get(path.size() - 1).moveTo(ep);
-            
+
             if ((soutcode & Geom.OUT_RIGHT) != 0) {
                 path.get(1).moveTo(sp.x + slantSize, sp.y);
             } else if ((soutcode & Geom.OUT_LEFT) != 0) {
@@ -191,26 +200,26 @@ public class SlantedLiner
                 path.get(2).moveTo(ep.x, ep.y - slantSize);
             }
         }
-        
+
         // Ensure all path nodes are straight
         for (BezierPath.Node node : path) {
             node.setMask(BezierPath.C0_MASK);
         }
-        
-        
+
         path.invalidatePath();
-        
+
     }
-    
+
     @Override
     public void read(DOMInput in) {
         slantSize = in.getAttribute("slant", 20d);
     }
-    
+
     @Override
     public void write(DOMOutput out) {
         out.addAttribute("slant", slantSize);
     }
+
     @Override
     public Liner clone() {
         try {

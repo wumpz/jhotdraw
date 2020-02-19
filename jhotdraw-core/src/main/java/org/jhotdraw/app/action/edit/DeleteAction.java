@@ -7,16 +7,15 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.text.*;
-import org.jhotdraw.util.*;
-import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.gui.EditableComponent;
+import org.jhotdraw.util.*;
 
 /**
  * Deletes the region at (or after) the caret position.
@@ -35,7 +34,8 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
@@ -50,30 +50,41 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public class DeleteAction extends TextAction {
+
     private static final long serialVersionUID = 1L;
-    /** The ID for this action. */
+    /**
+     * The ID for this action.
+     */
     public static final String ID = "edit.delete";
-    /** The target of the action or null if the action acts on the currently
+    /**
+     * The target of the action or null if the action acts on the currently
      * focused component.
      */
     private JComponent target;
-    /** This variable keeps a strong reference on the property change listener. */
+    /**
+     * This variable keeps a strong reference on the property change listener.
+     */
     private PropertyChangeListener propertyHandler;
 
-    /** Creates a new instance which acts on the currently focused component. */
+    /**
+     * Creates a new instance which acts on the currently focused component.
+     */
     public DeleteAction() {
-        this(null,ID);
+        this(null, ID);
     }
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
     public DeleteAction(JComponent target) {
-        this(target,ID);
+        this(target, ID);
     }
-    /** Creates a new instance which acts on the specified component.
+
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.
@@ -115,7 +126,8 @@ public class DeleteAction extends TextAction {
         }
     }
 
-    /** This method was copied from
+    /**
+     * This method was copied from
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */
     public void deleteNextChar(ActionEvent e) {
@@ -142,4 +154,3 @@ public class DeleteAction extends TextAction {
         }
     }
 }
-

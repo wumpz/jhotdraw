@@ -92,8 +92,8 @@ public class SVGRectRadiusHandle extends AbstractHandle {
             }
         }
         Rectangle2D.Double r = owner.getBounds();
-        owner.setArc(//
-                Math.min(owner.getWidth(),Math.max(0, p.x - r.x)),//
+        owner.setArc(
+                Math.min(owner.getWidth(),Math.max(0, p.x - r.x)),
                 Math.min(owner.getHeight(),Math.max(0, p.y - r.y)));
         owner.changed();
     }
@@ -157,7 +157,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("handle.roundRectangleRadius.toolTipText");
     }
 }

@@ -17,14 +17,15 @@ import org.jhotdraw.gui.event.ActivityManagerListener;
 
 /**
  * The activity manager keeps track of all active {@code ActivityModel} objects.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below define a framework for progress
  * management.<br>
- * Contract: {@link ActivityManager}, {@link ActivityModel}, 
+ * Contract: {@link ActivityManager}, {@link ActivityModel},
  * {@link JActivityWindow}, {@link JActivityIndicator}.
  *
  *
@@ -44,21 +45,28 @@ public class ActivityManager {
     private ArrayList<ActivityModel> models = new ArrayList<>();
     private ArrayList<ActivityManagerListener> listeners = new ArrayList<>();
 
-    /** Adds a listener to the progress manager. */
+    /**
+     * Adds a listener to the progress manager.
+     */
     public synchronized void addActivityManagerListener(ActivityManagerListener l) {
         listeners.add(l);
     }
 
-    /** Removes a listener from the progress manager. */
+    /**
+     * Removes a listener from the progress manager.
+     */
     public synchronized void removeActivityManagerListener(ActivityManagerListener l) {
         listeners.remove(l);
     }
 
-    /** Adds a progress model to the manager. This method is thread safe. */
+    /**
+     * Adds a progress model to the manager. This method is thread safe.
+     */
     public void add(final ActivityModel pm) {
         invokeAndWait(new Runnable() {
 
-            @Override @SuppressWarnings("unchecked")
+            @Override
+            @SuppressWarnings("unchecked")
             public void run() {
                 if (models.add(pm)) {
                     ArrayList<ActivityManagerListener> ls;
@@ -74,11 +82,14 @@ public class ActivityManager {
         });
     }
 
-    /** Removes a progress model from the manager. This method is thread safe. */
+    /**
+     * Removes a progress model from the manager. This method is thread safe.
+     */
     public void remove(final ActivityModel pm) {
         invokeAndWait(new Runnable() {
 
-            @Override @SuppressWarnings("unchecked")
+            @Override
+            @SuppressWarnings("unchecked")
             public void run() {
                 if (models.remove(pm)) {
                     ArrayList<ActivityManagerListener> ls;
@@ -98,8 +109,9 @@ public class ActivityManager {
     public ArrayList<ActivityModel> getActivityModels() {
         return (ArrayList<ActivityModel>) models.clone();
     }
-    
-    /** Invokes a runnable on the EDT and wait until it is finished.
+
+    /**
+     * Invokes a runnable on the EDT and wait until it is finished.
      * FIXME - Maybe move this into a utility class?
      */
     protected static void invokeAndWait(Runnable r) {

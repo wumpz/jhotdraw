@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app.action.file;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -38,7 +37,8 @@ import org.jhotdraw.util.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below define together the contracts
  * of a smaller framework inside of the JHotDraw framework for document oriented
  * applications.<br>
@@ -50,11 +50,14 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class PrintFileAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.print";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public PrintFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -63,7 +66,7 @@ public class PrintFileAction extends AbstractViewAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        PrintableView view = (PrintableView)getActiveView();
+        PrintableView view = (PrintableView) getActiveView();
         view.setEnabled(false);
         if ("true".equals(System.getProperty("apple.awt.graphics.UseQuartz", "false"))) {
             printQuartz(view);
@@ -72,10 +75,10 @@ public class PrintFileAction extends AbstractViewAction {
         }
         view.setEnabled(true);
     }
+
     /*
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
-
     public void printJava2D(PrintableView v) {
         Pageable pageable = v.createPageable();
         if (pageable == null) {
@@ -96,9 +99,9 @@ public class PrintFileAction extends AbstractViewAction {
                     View view = getActiveView();
                     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                     JSheet.showMessageSheet(view.getComponent(),
-                            "<html>" + UIManager.getString("OptionPane.css") +
-                            "<b>" + labels.getString("couldntPrint") + "</b><br>" +
-                            ((message == null) ? "" : message));
+                            "<html>" + UIManager.getString("OptionPane.css")
+                            + "<b>" + labels.getString("couldntPrint") + "</b><br>"
+                            + ((message == null) ? "" : message));
                 }
             } else {
                 System.out.println("JOB ABORTED!");
@@ -107,10 +110,10 @@ public class PrintFileAction extends AbstractViewAction {
             t.printStackTrace();
         }
     }
+
     /*
      * This prints at 72 DPI only. We might need this for some JVM versions on
      * Mac OS X.*/
-
     public void printJava2DAlternative(PrintableView v) {
         Pageable pageable = v.createPageable();
         if (pageable == null) {
@@ -174,7 +177,7 @@ public class PrintFileAction extends AbstractViewAction {
 
                 // Print the job
                 try {
-                    for (int i = 0,  n = pageable.getNumberOfPages(); i < n; i++) {
+                    for (int i = 0, n = pageable.getNumberOfPages(); i < n; i++) {
                         PageFormat pf = pageable.getPageFormat(i);
                         pf = pageFormat;
                         Graphics g = pj.getGraphics();
@@ -186,7 +189,6 @@ public class PrintFileAction extends AbstractViewAction {
                                     (int) (pf.getImageableHeight() * resolution / 72d),
                                     BufferedImage.TYPE_INT_RGB);
                             Graphics2D bufG = buf.createGraphics();
-
 
                             bufG.setBackground(Color.WHITE);
                             bufG.fillRect(0, 0, buf.getWidth(), buf.getHeight());
@@ -209,14 +211,16 @@ public class PrintFileAction extends AbstractViewAction {
 
             @Override
             protected void failed(Throwable error) {
-               error.printStackTrace();
+                error.printStackTrace();
             }
+
             @Override
             protected void finished() {
                 getActiveView().setEnabled(true);
             }
         }.start();
     }
+
     /**
      * Returns true if the action is enabled.
      * The enabled state of the action depends on the state that has been set
@@ -225,7 +229,8 @@ public class PrintFileAction extends AbstractViewAction {
      * @return true if the action is enabled, false otherwise
      * @see Action#isEnabled
      */
-    @Override public boolean isEnabled() {
+    @Override
+    public boolean isEnabled() {
         return super.isEnabled() && (getActiveView() instanceof PrintableView);
     }
 }

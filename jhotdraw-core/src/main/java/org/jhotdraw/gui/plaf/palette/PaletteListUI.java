@@ -6,7 +6,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.Color;
@@ -23,8 +22,9 @@ import javax.swing.plaf.basic.BasicListUI;
  * @version $Id$
  */
 public class PaletteListUI extends BasicListUI {
+
     /**
-     * Returns a new instance of PaletteListUI.  PaletteListUI delegates are
+     * Returns a new instance of PaletteListUI. PaletteListUI delegates are
      * allocated one per JList.
      *
      * @return A new ListUI implementation for the Windows look and feel.
@@ -32,9 +32,9 @@ public class PaletteListUI extends BasicListUI {
     public static ComponentUI createUI(JComponent list) {
         return new PaletteListUI();
     }
+
     @Override
-    protected void installDefaults()
-    {
+    protected void installDefaults() {
         super.installDefaults();
 
         PaletteLookAndFeel.installBorder(list, "List.border");
@@ -42,9 +42,9 @@ public class PaletteListUI extends BasicListUI {
         PaletteLookAndFeel.installColorsAndFont(list, "List.background", "List.foreground", "List.font");
 
         PaletteLookAndFeel.installProperty(list, "opaque", Boolean.TRUE);
-PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
+        PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
         if (list.getCellRenderer() == null) {
-            list.setCellRenderer((ListCellRenderer)(plaf.get("List.cellRenderer")));
+            list.setCellRenderer((ListCellRenderer) (plaf.get("List.cellRenderer")));
         }
 
         Color sbg = list.getSelectionBackground();

@@ -7,28 +7,27 @@
  */
 package org.jhotdraw.draw;
 
-
-import org.jhotdraw.draw.event.FigureSelectionEvent;
-import org.jhotdraw.draw.event.FigureSelectionListener;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.event.HandleListener;
-import org.jhotdraw.draw.event.HandleEvent;
-import org.jhotdraw.draw.event.FigureListener;
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.CompositeFigureEvent;
-import javax.swing.undo.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.gui.EditableComponent;
+import javax.swing.undo.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import java.awt.image.VolatileImage;
+import org.jhotdraw.draw.event.CompositeFigureEvent;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.event.HandleEvent;
+import org.jhotdraw.draw.event.HandleListener;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.gui.EditableComponent;
+import org.jhotdraw.util.*;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings with a small number
@@ -50,7 +49,7 @@ public class DefaultDrawingView
      * Set this to true to turn on debugging output on System.out.
      */
     private static final boolean DEBUG = false;
-    
+
     private Drawing drawing;
     /**
      * Holds the selected figures in an ordered put. The ordering reflects the sequence that was
@@ -62,16 +61,16 @@ public class DefaultDrawingView
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
-    
+
     private Handle activeHandle;
     private LinkedList<Handle> secondaryHandles = new LinkedList<>();
     private boolean handlesAreValid = true;
-    
+
     private transient Dimension cachedPreferredSize;
     private double scaleFactor = 1;
     private Point translation = new Point(0, 0);
     private int detailLevel;
-    
+
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
     protected BufferedImage backgroundTile;
@@ -82,7 +81,7 @@ public class DefaultDrawingView
             invalidateHandles();
         }
     };
-    
+
     private transient Rectangle2D.Double cachedDrawingArea;
     public static final String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
     /**
@@ -92,12 +91,12 @@ public class DefaultDrawingView
     /**
      * The drawingBuffer holds a rendered image of the drawing (in view coordinates).
      */
-    
+
     private VolatileImage drawingBufferV;
     /**
      * The drawingBuffer holds a rendered image of the drawing (in view coordinates).
      */
-    
+
     private BufferedImage drawingBufferNV;
     /**
      * Holds the drawing area (in view coordinates) which is in the drawing buffer.
@@ -334,7 +333,7 @@ public class DefaultDrawingView
     }// </editor-fold>//GEN-END:initComponents
 
     @Override
-    
+
     public Drawing getDrawing() {
         return drawing;
     }
@@ -415,8 +414,8 @@ public class DefaultDrawingView
             // resize it, and mark everything as dirty.
             bufferedArea.setBounds(vr);
             dirtyArea.setBounds(vr);
-            if (drawingBufferV != null && //
-                    (drawingBufferV.getWidth() != vr.width
+            if (drawingBufferV != null
+                    && (drawingBufferV.getWidth() != vr.width
                     || drawingBufferV.getHeight() != vr.height)) {
                 // The dimension of the drawing buffer does not fit into the visible rect;
                 // throw the buffer away.
@@ -426,19 +425,19 @@ public class DefaultDrawingView
         }
         // Update the contents of the buffer if necessary
         while (true) {
-            int valid = (drawingBufferV == null) ? //
-                    VolatileImage.IMAGE_INCOMPATIBLE : //
-                    drawingBufferV.validate(getGraphicsConfiguration());
+            int valid = (drawingBufferV == null)
+                    ? VolatileImage.IMAGE_INCOMPATIBLE
+                    : drawingBufferV.validate(getGraphicsConfiguration());
             switch (valid) {
                 case VolatileImage.IMAGE_INCOMPATIBLE:
                     // old buffer doesn't work with new GraphicsConfig; (re-)create it
                     try {
-                        drawingBufferV = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
-                    } catch (OutOfMemoryError e) {
-                        drawingBufferV = null;
-                    }
-                    dirtyArea.setBounds(bufferedArea);
-                    break;
+                    drawingBufferV = getGraphicsConfiguration().createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+                } catch (OutOfMemoryError e) {
+                    drawingBufferV = null;
+                }
+                dirtyArea.setBounds(bufferedArea);
+                break;
                 case VolatileImage.IMAGE_RESTORED:
                     // image was restored, but buffer lost; redraw everything
                     dirtyArea.setBounds(bufferedArea);
@@ -521,8 +520,8 @@ public class DefaultDrawingView
             // resize it, and mark everything as dirty.
             bufferedArea.setBounds(vr);
             dirtyArea.setBounds(vr);
-            if (drawingBufferNV != null && //
-                    (drawingBufferNV.getWidth() != vr.width
+            if (drawingBufferNV != null
+                    && (drawingBufferNV.getWidth() != vr.width
                     || drawingBufferNV.getHeight() != vr.height)) {
                 // The dimension of the drawing buffer does not fit into the visible rect;
                 // throw the buffer away.
@@ -532,18 +531,18 @@ public class DefaultDrawingView
         }
         // Update the contents of the buffer if necessary
 
-        int valid = (drawingBufferNV == null) ? //
-                VolatileImage.IMAGE_INCOMPATIBLE : VolatileImage.IMAGE_OK;
+        int valid = (drawingBufferNV == null)
+                ? VolatileImage.IMAGE_INCOMPATIBLE : VolatileImage.IMAGE_OK;
         switch (valid) {
             case VolatileImage.IMAGE_INCOMPATIBLE:
                 // old buffer doesn't work with new GraphicsConfig; (re-)create it
                 try {
-                    drawingBufferNV = getGraphicsConfiguration().createCompatibleImage(vr.width, vr.height, Transparency.TRANSLUCENT);
-                } catch (OutOfMemoryError e) {
-                    drawingBufferNV = null;
-                }
-                dirtyArea.setBounds(bufferedArea);
-                break;
+                drawingBufferNV = getGraphicsConfiguration().createCompatibleImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+            } catch (OutOfMemoryError e) {
+                drawingBufferNV = null;
+            }
+            dirtyArea.setBounds(bufferedArea);
+            break;
         }
 
         if (drawingBufferNV == null) {

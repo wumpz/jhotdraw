@@ -7,13 +7,12 @@
  */
 package org.jhotdraw.draw.tool;
 
-
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.*;
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.Handle;
 
 /**
  * <code>DefaultSelectAreaTracker</code> implements interactions with the background
@@ -26,14 +25,14 @@ import java.util.*;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectionTool} as Handler, {@link DragTracker} as Handler, 
- * {@link HandleTracker} as Handler. 
+ * Partners: {@link SelectionTool} as Handler, {@link DragTracker} as Handler,
+ * {@link HandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: State.<br>
- * Partners: {@link SelectionTool} as Context, {@link DragTracker} as 
- * State, {@link HandleTracker} as State. 
+ * Partners: {@link SelectionTool} as Context, {@link DragTracker} as
+ * State, {@link HandleTracker} as State.
  *
  * @see SelectionTool
  *
@@ -41,10 +40,11 @@ import java.util.*;
  * @version $Id$
  */
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     * The bounds of the rubberband. 
+     * The bounds of the rubberband.
      */
     private Rectangle rubberband = new Rectangle();
     /**
@@ -67,7 +67,9 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
      */
     private Figure hoverFigure = null;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultSelectAreaTracker() {
     }
 

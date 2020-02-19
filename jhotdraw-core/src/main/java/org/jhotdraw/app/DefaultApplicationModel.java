@@ -7,23 +7,22 @@
  */
 package org.jhotdraw.app;
 
-
-import org.jhotdraw.app.action.file.SaveFileAsAction;
-import org.jhotdraw.app.action.file.SaveFileAction;
-import org.jhotdraw.app.action.file.NewFileAction;
-import org.jhotdraw.app.action.file.OpenFileAction;
-import org.jhotdraw.app.action.file.CloseFileAction;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.DeleteAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.app.action.edit.ClearSelectionAction;
+import org.jhotdraw.app.action.edit.CopyAction;
+import org.jhotdraw.app.action.edit.CutAction;
+import org.jhotdraw.app.action.edit.DeleteAction;
+import org.jhotdraw.app.action.edit.DuplicateAction;
+import org.jhotdraw.app.action.edit.PasteAction;
+import org.jhotdraw.app.action.edit.RedoAction;
+import org.jhotdraw.app.action.edit.SelectAllAction;
+import org.jhotdraw.app.action.edit.UndoAction;
+import org.jhotdraw.app.action.file.CloseFileAction;
+import org.jhotdraw.app.action.file.NewFileAction;
+import org.jhotdraw.app.action.file.OpenFileAction;
+import org.jhotdraw.app.action.file.SaveFileAction;
+import org.jhotdraw.app.action.file.SaveFileAsAction;
 
 /**
  * An {@link ApplicationModel} which creates a default set of {@code Action}s
@@ -49,7 +48,8 @@ import org.jhotdraw.app.action.edit.ClearSelectionAction;
  * <li>{@link ClearSelectionAction}</li>
  * </ul>
  *
- * <p>The {@code createMenu...} methods of this model return null, resulting in
+ * <p>
+ * The {@code createMenu...} methods of this model return null, resulting in
  * a set of default menu bars created by the {@link Application} which holds
  * this model.
  *
@@ -58,6 +58,7 @@ import org.jhotdraw.app.action.edit.ClearSelectionAction;
  */
 public class DefaultApplicationModel
         extends AbstractApplicationModel {
+
     private static final long serialVersionUID = 1L;
     private MenuBuilder menuBuilder;
 
@@ -74,15 +75,15 @@ public class DefaultApplicationModel
      */
     @Override
     public ActionMap createActionMap(Application a, View v) {
-        ActionMap m=new ActionMap();
+        ActionMap m = new ActionMap();
         m.put(NewFileAction.ID, new NewFileAction(a));
         m.put(OpenFileAction.ID, new OpenFileAction(a));
-        m.put(SaveFileAction.ID, new SaveFileAction(a,v));
-        m.put(SaveFileAsAction.ID, new SaveFileAsAction(a,v));
-        m.put(CloseFileAction.ID, new CloseFileAction(a,v));
+        m.put(SaveFileAction.ID, new SaveFileAction(a, v));
+        m.put(SaveFileAsAction.ID, new SaveFileAsAction(a, v));
+        m.put(CloseFileAction.ID, new CloseFileAction(a, v));
 
-        m.put(UndoAction.ID, new UndoAction(a,v));
-        m.put(RedoAction.ID, new RedoAction(a,v));
+        m.put(UndoAction.ID, new UndoAction(a, v));
+        m.put(RedoAction.ID, new RedoAction(a, v));
         m.put(CutAction.ID, new CutAction());
         m.put(CopyAction.ID, new CopyAction());
         m.put(PasteAction.ID, new PasteAction());
@@ -93,21 +94,25 @@ public class DefaultApplicationModel
         return m;
     }
 
-    /** Returns an empty unmodifiable list. */
+    /**
+     * Returns an empty unmodifiable list.
+     */
     @Override
     public List<JToolBar> createToolBars(Application app, View p) {
         return Collections.emptyList();
     }
 
-    /** Creates the DefaultMenuBuilder. */
+    /**
+     * Creates the DefaultMenuBuilder.
+     */
     protected MenuBuilder createMenuBuilder() {
         return new DefaultMenuBuilder();
     }
 
     @Override
     public MenuBuilder getMenuBuilder() {
-        if (menuBuilder==null) {
-            menuBuilder=createMenuBuilder();
+        if (menuBuilder == null) {
+            menuBuilder = createMenuBuilder();
         }
         return menuBuilder;
     }

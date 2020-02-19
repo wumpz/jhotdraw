@@ -7,16 +7,15 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.geom.BezierPath;
-
-import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.*;
-import java.awt.event.InputEvent;
-import org.jhotdraw.util.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.util.*;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} the start or end point of a
@@ -30,7 +29,7 @@ import java.util.*;
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     private Connector savedTarget;
-    
+
     private Connector connectableConnector;
     private Figure connectableFigure;
     private Point start;
@@ -176,7 +175,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         connectors = Collections.emptyList();
     }
 
-    
     private Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
         Figure targetFigure = findConnectableFigure(p, drawing);
 
@@ -184,8 +182,8 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             return findConnector(p, targetFigure, getOwner());
         } else if (targetFigure != null) {
             Connector target = findConnector(p, targetFigure, getOwner());
-            if ((targetFigure != null) && targetFigure.isConnectable()//
-                    && !targetFigure.includes(getOwner()) //
+            if ((targetFigure != null) && targetFigure.isConnectable()
+                    && !targetFigure.includes(getOwner())
                     && (canConnect(getSource(), target))) {
                 return target;
             }
@@ -223,7 +221,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         }
     }
 
-    
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure f : drawing.getFiguresFrontToBack()) {
             if (!f.includes(getOwner()) && f.isConnectable() && f.contains(p)) {
@@ -284,14 +281,13 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         return list;
     }
 
-    
     protected BezierPath.Node getBezierNode() {
         int index = getBezierNodeIndex();
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }
 
     @Override
-    
+
     public String getToolTipText(Point p) {
         ConnectionFigure f = getOwner();
         if (f.getLiner() == null && savedLiner == null) {

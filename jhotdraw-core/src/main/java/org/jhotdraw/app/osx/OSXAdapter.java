@@ -72,7 +72,7 @@ import java.lang.reflect.*;
 /**
  * {@code OSXAdapter} uses a Proxy object to dynamically implement the
  * {@code com.apple.eawt.ApplicationListener} interface and register it with the
- * {@code com.apple.eawt.Application object}.  This allows the complete project
+ * {@code com.apple.eawt.Application object}. This allows the complete project
  * to be both built and run on any platform without any stubs or
  * placeholders. Useful for developers looking to implement Mac OS X
  * features while supporting multiple platforms with minimal impact.
@@ -104,6 +104,7 @@ public class OSXAdapter implements InvocationHandler {
     public static void setOpenApplicationHandler(ActionListener openHandler) {
         setHandler(new OSXAdapter("handleOpenApplication", openHandler));
     }
+
     /**
      * Called when the application receives a Reopen Application event from the
      * Finder or another application. Usually this will come when a user clicks
@@ -115,6 +116,7 @@ public class OSXAdapter implements InvocationHandler {
     public static void setReOpenApplicationHandler(ActionListener reopenHandler) {
         setHandler(new OSXAdapter("handleReOpenApplication", reopenHandler));
     }
+
     /**
      * The action listener will be called when the Quit menu item is selected
      * from the application menu.
@@ -124,7 +126,7 @@ public class OSXAdapter implements InvocationHandler {
 
             // Override OSXAdapter.callTarget to always return false.
             @Override
-            public boolean callTarget(Object appleEvent)  throws InvocationTargetException, IllegalAccessException {
+            public boolean callTarget(Object appleEvent) throws InvocationTargetException, IllegalAccessException {
                 super.callTarget(appleEvent);
                 return false;
             }
@@ -200,6 +202,7 @@ public class OSXAdapter implements InvocationHandler {
             }
         });
     }
+
     /**
      * Pass this method an {@code ActionListener} equipped to
      * handle document events from the Finder.
@@ -228,7 +231,7 @@ public class OSXAdapter implements InvocationHandler {
         });
     }
 
-    /** 
+    /**
      * {@code setHandler} creates a Proxy object from the passed
      * {@code OSXAdapter} and adds it as an {@code ApplicationListener}.
      */
@@ -252,7 +255,7 @@ public class OSXAdapter implements InvocationHandler {
         }
     }
 
-    /** 
+    /**
      * Each OSXAdapter has the name of the EAWT method it intends to listen for
      * (handleAbout, for example), the Object that will ultimately perform the
      * task, and the Method to be called on that Object.
@@ -273,7 +276,8 @@ public class OSXAdapter implements InvocationHandler {
         this.targetAction = handler;
     }
 
-    /** Override this method to perform any operations on the event
+    /**
+     * Override this method to perform any operations on the event
      * that comes with the various callbacks.
      * See setOpenFileHandler above for an example.
      */
@@ -292,7 +296,7 @@ public class OSXAdapter implements InvocationHandler {
 
     /**
      * InvocationHandler implementation.
-     * This is the entry point for our proxy object; it is called every time an 
+     * This is the entry point for our proxy object; it is called every time an
      * ApplicationListener method is invoked.
      */
     @Override
@@ -315,10 +319,10 @@ public class OSXAdapter implements InvocationHandler {
         return (proxySignature.equals(method.getName()) && args.length == 1);
     }
 
-    /** 
+    /**
      * It is important to mark the ApplicationEvent as handled and cancel the
      * default behavior.
-     * This method checks for a boolean result from the proxy method and sets 
+     * This method checks for a boolean result from the proxy method and sets
      * the event accordingly.
      */
     protected void setApplicationEventHandled(Object event, boolean handled) {

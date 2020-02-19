@@ -113,8 +113,8 @@ public class ExportFileAction extends AbstractViewAction {
                             if (selectedURI == null) {
                                 Preferences prefs = Preferences.userNodeForPackage(getApplication().getModel().getClass());
                                 try {
-                                    selectedURI = new URI(//
-                                            prefs.get("recentExportFile", new File(proposedURI).getParentFile().toURI().toString())//
+                                    selectedURI = new URI(
+                                            prefs.get("recentExportFile", new File(proposedURI).getParentFile().toURI().toString())
                                             );
                                     selectedFolder = new File(selectedURI).getParentFile();
                                 } catch (URISyntaxException ex) {

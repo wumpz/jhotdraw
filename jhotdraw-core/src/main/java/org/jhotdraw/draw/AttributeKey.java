@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw;
 
-
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.undo.*;
@@ -28,12 +27,13 @@ import org.jhotdraw.util.*;
  * </pre>
  * <p>
  * See {@link AttributeKeys} for a list of useful attribute keys.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class AttributeKey<T> implements Serializable {
-    private static final long serialVersionUID=1L;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Holds a String representation of the attribute key.
@@ -51,33 +51,41 @@ public class AttributeKey<T> implements Serializable {
      * Holds labels for the localization of the attribute.
      */
     private ResourceBundleUtil labels;
-    /** This variable is used as a "type token" so that we can check for
+    /**
+     * This variable is used as a "type token" so that we can check for
      * assignability of attribute values at runtime.
      */
     private Class<T> clazz;
 
-    /** Creates a new instance with the specified attribute key, type token class,
-     * default value null, and allowing null values. */
+    /**
+     * Creates a new instance with the specified attribute key, type token class,
+     * default value null, and allowing null values.
+     */
     public AttributeKey(String key, Class<T> clazz) {
         this(key, clazz, null, true);
     }
 
-    /** Creates a new instance with the specified attribute key, type token class,
-     * and default value, and allowing null values. */
+    /**
+     * Creates a new instance with the specified attribute key, type token class,
+     * and default value, and allowing null values.
+     */
     public AttributeKey(String key, Class<T> clazz, T defaultValue) {
         this(key, clazz, defaultValue, true);
     }
 
-    /** Creates a new instance with the specified attribute key, type token class,
-     * default value, and allowing or disallowing null values. */
+    /**
+     * Creates a new instance with the specified attribute key, type token class,
+     * default value, and allowing or disallowing null values.
+     */
     public AttributeKey(String key, Class<T> clazz, T defaultValue, boolean isNullValueAllowed) {
         this(key, clazz, defaultValue, isNullValueAllowed, null);
     }
 
-    /** Creates a new instance with the specified attribute key, type token class,
-     * default value, and allowing or disallowing null values. 
-     * 
-     * @param key The key string. 
+    /**
+     * Creates a new instance with the specified attribute key, type token class,
+     * default value, and allowing or disallowing null values.
+     *
+     * @param key The key string.
      * @param clazz This is used as a "type token" for assignability checks
      * at runtime.
      * @param isNullValueAllowed whether null values are allowed.
@@ -95,6 +103,7 @@ public class AttributeKey<T> implements Serializable {
 
     /**
      * Returns the key string.
+     *
      * @return key string.
      */
     public String getKey() {
@@ -103,6 +112,7 @@ public class AttributeKey<T> implements Serializable {
 
     /**
      * Returns a localized human friendly presentation of the key.
+     *
      * @return the presentation name of the key.
      */
     public String getPresentationName() {
@@ -114,7 +124,6 @@ public class AttributeKey<T> implements Serializable {
      *
      * @return the default value.
      */
-    
     public T getDefaultValue() {
         return defaultValue;
     }
@@ -123,7 +132,7 @@ public class AttributeKey<T> implements Serializable {
      * Gets a clone of the value from the Figure.
      */
     @SuppressWarnings("unchecked")
-    
+
     public T getClone(Figure f) {
         T value = f.get(this);
         try {
@@ -138,11 +147,10 @@ public class AttributeKey<T> implements Serializable {
     /**
      * Gets the value of the attribute denoted by this AttributeKey from
      * a Figure.
-     * 
+     *
      * @param f A figure.
      * @return The value of the attribute.
      */
-    
     public T get(Figure f) {
         return f.get(this);
     }
@@ -150,12 +158,12 @@ public class AttributeKey<T> implements Serializable {
     /**
      * Gets the value of the attribute denoted by this AttributeKey from
      * a Map.
-     * 
+     *
      * @param a A Map.
      * @return The value of the attribute.
      */
     @SuppressWarnings("unchecked")
-    
+
     public T get(Map<AttributeKey<?>, Object> a) {
         return a.containsKey(this) ? (T) a.get(this) : defaultValue;
     }
@@ -194,7 +202,8 @@ public class AttributeKey<T> implements Serializable {
         f.set(this, value);
 
         UndoableEdit edit = new AbstractUndoableEdit() {
-        private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public String getPresentationName() {
                 return AttributeKey.this.getPresentationName();
@@ -267,7 +276,7 @@ public class AttributeKey<T> implements Serializable {
      * @return The old value.
      */
     @SuppressWarnings("unchecked")
-    
+
     public T put(Map<AttributeKey<?>, Object> a, T value) {
         if (value == null && !isNullValueAllowed) {
             throw new NullPointerException("Null value not allowed for AttributeKey " + key);
@@ -277,6 +286,7 @@ public class AttributeKey<T> implements Serializable {
 
     /**
      * Returns true if null values are allowed.
+     *
      * @return true if null values are allowed.
      */
     public boolean isNullValueAllowed() {
@@ -297,7 +307,9 @@ public class AttributeKey<T> implements Serializable {
         return clazz.isInstance(value);
     }
 
-    /** Returns the key string. */
+    /**
+     * Returns the key string.
+     */
     @Override
     public String toString() {
         return key;

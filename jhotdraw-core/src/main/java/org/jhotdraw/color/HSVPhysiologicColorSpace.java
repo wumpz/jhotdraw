@@ -18,6 +18,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     private static HSVPhysiologicColorSpace instance;
@@ -39,7 +40,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         float saturation = components[1];
         float value = components[2];
 
-
         // normalize hue
         hue = hue - (float) Math.floor(hue);
         if (hue < 0) {
@@ -57,7 +57,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         } else if (value < 0f) {
             value = 0f;
         }
-
 
         // compute hi and f from hue
         int hi;
@@ -186,7 +185,6 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
         return component;
     }
 
-
     @Override
     public String getName(int idx) {
         switch (idx) {
@@ -221,6 +219,7 @@ public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
 
         return getClass().getSimpleName().hashCode();
     }
+
     @Override
     public String getName() {
         return "physiologic HSV";

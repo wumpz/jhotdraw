@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.color;
 
-import org.jhotdraw.util.Images;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -16,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import org.jhotdraw.gui.plaf.palette.*;
+import org.jhotdraw.util.Images;
 
 /**
  * A UI delegate for color sliders. The track of the slider visualizes how changing the value of the
@@ -47,12 +47,12 @@ public class ColorSliderUI extends BasicSliderUI {
         if (null == UIManager.getIcon("Slider.northThumb.small")) {
             UIManager.put("Slider.northThumb.small",
                     new PaletteSliderThumbIcon(Images.createImage(
-                                    ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.northThumbs.small.png"), 6, true));
+                            ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.northThumbs.small.png"), 6, true));
         }
         if (null == UIManager.getIcon("Slider.westThumb.small")) {
             UIManager.put("Slider.westThumb.small",
                     new PaletteSliderThumbIcon(Images.createImage(
-                                    ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.westThumbs.small.png"), 6, true));
+                            ColorSliderUI.class, "/org/jhotdraw/color/images/Slider.westThumbs.small.png"), 6, true));
         }
         return new ColorSliderUI((JSlider) b);
     }
@@ -125,6 +125,7 @@ public class ColorSliderUI extends BasicSliderUI {
             thumbRect.x -= 3;
         }
     }
+
     /*
      public void paint( Graphics g, JComponent c )   {
      g.setColor(Color.green);
@@ -132,7 +133,6 @@ public class ColorSliderUI extends BasicSliderUI {
      super.paint(g,c);
      }
      */
-
     protected Icon getThumbIcon() {
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             return UIManager.getIcon("Slider.northThumb.small");

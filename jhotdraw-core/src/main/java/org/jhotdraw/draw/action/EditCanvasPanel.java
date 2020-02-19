@@ -11,12 +11,12 @@ import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
+import org.jhotdraw.gui.Dialogs;
 import org.jhotdraw.text.JavaNumberFormatter;
 import org.jhotdraw.util.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.gui.Dialogs;
 
 /**
  * The EditCanvasPanel can be used to edit the attributes of a Drawing.
@@ -26,8 +26,9 @@ import org.jhotdraw.gui.Dialogs;
  * @author Werner Randelshofer
  * @version $Id$
  */
-@SuppressWarnings({"unchecked","rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class EditCanvasPanel extends javax.swing.JPanel {
+
     private static final long serialVersionUID = 1L;
 
     private ResourceBundleUtil labels;
@@ -118,8 +119,6 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         f.setVisible(true);
     }
 
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -166,7 +165,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void colorButtonPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorButtonPerformed
         if (drawing != null) {
-            Color color = Dialogs.showColorChooserDialog(colorChooser,this, labels.getString("attribute.backgroundColor"),
+            Color color = Dialogs.showColorChooserDialog(colorChooser, this, labels.getString("attribute.backgroundColor"),
                     drawing.get(CANVAS_FILL_COLOR));
             colorButton.setBackground(color);
             updateDrawing();

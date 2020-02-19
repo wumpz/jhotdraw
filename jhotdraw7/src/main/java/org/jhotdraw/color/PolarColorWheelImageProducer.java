@@ -105,9 +105,9 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
 
     @Override
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
 
 
@@ -130,11 +130,11 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
         float radial=Math.min(1f, r / getRadius());
 
         float[] hsb = new float[3];
-        hsb[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        hsb[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        hsb[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;

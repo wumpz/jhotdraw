@@ -7,12 +7,11 @@
  */
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
@@ -21,6 +20,7 @@ import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Loads the specified URI into an empty view. If no empty view is available, a
@@ -33,13 +33,15 @@ import org.jhotdraw.net.URIUtil;
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * When the feature is disabled, {@code OpenRecentFileAction} prevents opening
  * an URI which is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * {@code OpenRecentFileAction} supplies data for this feature by calling
  * {@link Application#addRecentURI} when it successfully opened a file.
  * See {@link org.jhotdraw.app} for a description of the feature.
@@ -49,12 +51,15 @@ import org.jhotdraw.net.URIUtil;
  * @version $Id$
  */
 public class OpenRecentFileAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.openRecent";
     private URI uri;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public OpenRecentFileAction(Application app, URI uri) {
         super(app);
         this.uri = uri;
@@ -65,22 +70,21 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
-        // Prevent same URI from being opened more than once
-        if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
-            for (View vw : getApplication().getViews()) {
-                if (vw.getURI() != null && vw.getURI().equals(uri)) {
-                    vw.getComponent().requestFocus();
-                    return;
+            // Prevent same URI from being opened more than once
+            if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+                for (View vw : getApplication().getViews()) {
+                    if (vw.getURI() != null && vw.getURI().equals(uri)) {
+                        vw.getComponent().requestFocus();
+                        return;
+                    }
                 }
             }
-        }
-
 
             app.setEnabled(false);
             // Search for an empty view
             View emptyView = app.getActiveView();
             if (emptyView == null
-                     || !emptyView.isEmpty()
+                    || !emptyView.isEmpty()
                     || !emptyView.isEnabled()) {
                 emptyView = null;
             }
@@ -100,7 +104,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
     protected void openView(final View view) {
         final Application app = getApplication();
         app.setEnabled(true);
-
 
         // If there is another view with the same URI we set the multiple open
         // id of our view to max(multiple open id) + 1.

@@ -2,11 +2,10 @@
  * @(#)FontCollectionNode.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.fontchooser;
-
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import javax.swing.tree.TreeNode;
  */
 public class FontCollectionNode implements MutableTreeNode, Comparable<FontCollectionNode>, Cloneable {
 
-    
     private MutableTreeNode parent;
     private String name;
     private ArrayList<FontFamilyNode> children;
@@ -138,7 +136,7 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
     }
 
     @Override
-    
+
     public MutableTreeNode getParent() {
         return parent;
     }
@@ -166,16 +164,14 @@ public class FontCollectionNode implements MutableTreeNode, Comparable<FontColle
     public java.util.List<FontFamilyNode> families() {
         return Collections.unmodifiableList(children);
     }
-    //
-    //  Child Queries
-    //
 
+    //  Child Queries
     /**
-     * Returns true if <code>aNode</code> is a child of this node.  If
+     * Returns true if <code>aNode</code> is a child of this node. If
      * <code>aNode</code> is null, this method returns false.
      *
-     * @return	true if <code>aNode</code> is a child of this node; false if 
-     *  		<code>aNode</code> is null
+     * @return	true if <code>aNode</code> is a child of this node; false if
+     * <code>aNode</code> is null
      */
     public boolean isNodeChild(TreeNode aNode) {
         boolean retval;

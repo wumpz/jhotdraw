@@ -7,16 +7,14 @@
  */
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.geom.Insets2D;
-
-import org.jhotdraw.draw.text.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.text.FloatingTextArea;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.text.*;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -37,10 +35,11 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The text creation and editing tools and the {@code TextHolderFigure}
  * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for  structured drawing editors.<br>
+ * JHotDraw framework for structured drawing editors.<br>
  * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
  * {@link TextAreaCreationTool}, {@link TextEditingTool},
  * {@link TextAreaEditingTool}, {@link FloatingTextField},
@@ -54,12 +53,15 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @see FloatingTextArea
  */
 public class TextAreaEditingTool extends AbstractTool implements ActionListener {
+
     private static final long serialVersionUID = 1L;
 
     private FloatingTextArea textArea;
     private TextHolderFigure typingTarget;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TextAreaEditingTool(TextHolderFigure typingTarget) {
         this.typingTarget = typingTarget;
     }
@@ -90,7 +92,7 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
         if (textArea == null) {
             textArea = new FloatingTextArea();
 
-        //textArea.addActionListener(this);
+            //textArea.addActionListener(this);
         }
 
         if (textHolder != typingTarget && typingTarget != null) {
@@ -134,7 +136,7 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
             typingTarget.changed();
 
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -165,7 +167,7 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
 
             textArea.endOverlay();
         }
-    //	        view().checkDamage();
+        //	        view().checkDamage();
     }
 
     @Override

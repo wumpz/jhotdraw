@@ -10,7 +10,6 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -371,30 +370,34 @@ public class AttributeKeys {
      * Computing a global scale factor derived from pixel with or different measures.
      */
     public static double getGlobalValueFactor(Figure f, double factor) {
-        if (factor!=1.0 && f.get(IS_STROKE_PIXEL_VALUE)) {
+        if (factor != 1.0 && f.get(IS_STROKE_PIXEL_VALUE)) {
             return factor != 0.0 ? factor : 1.0;
         }
         return 1.0;
     }
-    
+
     /**
      * Returns a scale factor derived from a Graphics2D context.
+     *
      * @param g
-     * @return 
+     * @return
      */
     public static double getScaleFactorFromGraphics(Graphics2D g) {
         return getScaleFactor(g.getTransform());
     }
-    
+
     /**
      * Returns a scale factor derived from a AffineTransform.
+     *
      * @param g
-     * @return 
+     * @return
      */
     public static double getScaleFactor(AffineTransform transform) {
-        if (transform==null) return 1.0;
+        if (transform == null) {
+            return 1.0;
+        }
         double scale = transform.getScaleX();
-        return scale!=0?1.0/scale:1.0;
+        return scale != 0 ? 1.0 / scale : 1.0;
     }
 
     /**
@@ -509,7 +512,6 @@ public class AttributeKeys {
         }
     }
 
-    
     public static Font getFont(Figure f) {
         Font prototype = f.get(FONT_FACE);
         if (prototype == null) {

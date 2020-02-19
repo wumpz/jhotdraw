@@ -2,7 +2,7 @@
  * @(#)PaletteButtonUI.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.plaf.palette;
@@ -19,6 +19,7 @@ import javax.swing.plaf.basic.*;
  * @version $Id$
  */
 public class PaletteButtonUI extends BasicButtonUI {
+
     // Shared UI object
     private static final PaletteButtonUI buttonUI = new PaletteButtonUI();
 
@@ -38,7 +39,6 @@ public class PaletteButtonUI extends BasicButtonUI {
 
         LookAndFeel.installProperty(b, "opaque", Boolean.FALSE);
 
-
         if (b.getMargin() == null || (b.getMargin() instanceof UIResource)) {
             b.setMargin(new InsetsUIResource(0, 0, 0, 0));
         }
@@ -51,7 +51,7 @@ public class PaletteButtonUI extends BasicButtonUI {
         if (rollover != null) {
             LookAndFeel.installProperty(b, "rolloverEnabled", rollover);
         }
-        
+
         b.setFocusable(false);
     }
 

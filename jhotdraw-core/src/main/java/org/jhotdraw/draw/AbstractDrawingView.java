@@ -51,7 +51,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.JLabel;
 import javax.swing.event.EventListenerList;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -90,7 +89,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
 
     private static final Logger LOG = Logger.getLogger(AbstractDrawingView.class.getName());
 
-    
     private Drawing drawing;
     private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     private transient final EventListenerList listenerList = new EventListenerList();
@@ -105,7 +103,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
     private Constrainer invisibleConstrainer = new GridConstrainer();
     private Handle secondaryHandleOwner;
-    
+
     private Handle activeHandle;
     private final List<Handle> secondaryHandles = new LinkedList<>();
     private boolean handlesAreValid = true;
@@ -115,7 +113,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     //private double scaleFactor = 1;
     //private Point translation = new Point(0, 0);
     private int detailLevel;
-    
+
     private DrawingEditor editor;
     private JLabel emptyDrawingLabel;
     private boolean paintBackground = true;
@@ -316,7 +314,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     @Override
-    
+
     public Drawing getDrawing() {
         return drawing;
     }

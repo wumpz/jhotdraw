@@ -2,7 +2,7 @@
  * @(#)ToolBarLayout.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui;
@@ -18,6 +18,7 @@ import java.io.Serializable;
  * @version $Id$
  */
 public class ToolBarLayout implements LayoutManager2, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -35,25 +36,25 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
 
     /**
      * Creates a layout manager that will lay out components along the
-     * X-axis.  
+     * X-axis.
      */
     public ToolBarLayout() {
         this(X_AXIS);
     }
+
     /**
      * Creates a layout manager that will lay out components along the
-     * given axis.  
+     * given axis.
      *
-     * @param axis  the axis to lay out components along. Can be one of:
-     *              <code>BoxLayout.X_AXIS</code>,
-     *              <code>BoxLayout.Y_AXIS</code>,
+     * @param axis the axis to lay out components along. Can be one of:
+     * <code>BoxLayout.X_AXIS</code>,
+     * <code>BoxLayout.Y_AXIS</code>,
      *
-     * @exception AWTError  if the value of <code>axis</code> is invalid 
+     * @exception AWTError if the value of <code>axis</code> is invalid
      */
     public ToolBarLayout(int axis) {
         this.axis = axis;
     }
-
 
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {
@@ -118,9 +119,9 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
                     w += ps.width;
                 }
         }
-        
+
         Insets i = parent.getInsets();
-        
+
         return new Dimension(w + i.left + i.right, h + i.top + i.bottom);
     }
 
@@ -133,7 +134,7 @@ public class ToolBarLayout implements LayoutManager2, Serializable {
     public void layoutContainer(Container parent) {
         Dimension ps = preferredLayoutSize(parent);
         Insets insets = parent.getInsets();
-        
+
         int w = ps.width - insets.left - insets.right;
         int h = ps.height - insets.top - insets.bottom;
         int x = insets.left;

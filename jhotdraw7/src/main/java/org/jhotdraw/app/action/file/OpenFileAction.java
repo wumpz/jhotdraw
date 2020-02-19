@@ -263,7 +263,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         /*
         if (window.getBounds().isEmpty()) {
         Rectangle screenBounds = window.getGraphicsConfiguration().getBounds();
-        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, //
+        dialog.setLocation(screenBounds.x + (screenBounds.width - dialog.getWidth()) / 2, 
         screenBounds.y + (screenBounds.height - dialog.getHeight()) / 3);
         } else {
         dialog.setLocationRelativeTo(parent);

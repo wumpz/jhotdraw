@@ -7,9 +7,6 @@
  */
 package org.jhotdraw.draw.io;
 
-
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
@@ -18,8 +15,10 @@ import java.io.*;
 import java.net.URI;
 import javax.imageio.*;
 import javax.swing.*;
-import org.jhotdraw.gui.datatransfer.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.gui.datatransfer.*;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * An output format for exporting drawings using one of the image formats
@@ -48,18 +47,21 @@ public class ImageOutputFormat implements OutputFormat {
      */
     private int imageType;
 
-    /** Creates a new image output format for Portable Network Graphics PNG. */
+    /**
+     * Creates a new image output format for Portable Network Graphics PNG.
+     */
     public ImageOutputFormat() {
         this("PNG", "Portable Network Graphics (PNG)", "png", BufferedImage.TYPE_INT_ARGB);
     }
 
-    /** Creates a new image output format for the specified image format.
+    /**
+     * Creates a new image output format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
      * @param description The format description to be used for the file filter.
      * @param fileExtension The file extension to be used for file filter.
      * @param bufferedImageType The BufferedImage type used to produce the image.
-     *          The value of this parameter must match with the format name.
+     * The value of this parameter must match with the format name.
      */
     public ImageOutputFormat(String formatName, String description, String fileExtension,
             int bufferedImageType) {
@@ -86,8 +88,9 @@ public class ImageOutputFormat implements OutputFormat {
 
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
-        write(new File(uri),drawing);
+        write(new File(uri), drawing);
     }
+
     /**
      * Writes the drawing to the specified file.
      * This method ensures that all figures of the drawing are visible on
@@ -167,15 +170,15 @@ public class ImageOutputFormat implements OutputFormat {
      * @param figures A list of figures of the drawing.
      * @param scaleFactor The scale factor used when drawing the figures.
      * @param clipToFigures If this is true, the image is clipped to the figures.
-     * If this is false, the image includes the drawing area,  
+     * If this is false, the image includes the drawing area,
      */
     public BufferedImage toImage(Drawing drawing,
             java.util.List<Figure> figures,
             double scaleFactor, boolean clipToFigures) {
 
         // Return a transparent 1-pixel image if the drawing is empty.
-        if (drawing.getChildCount()==0) {
-            return new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+        if (drawing.getChildCount() == 0) {
+            return new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         }
 
         // Determine the draw bounds of the figures
@@ -195,8 +198,8 @@ public class ImageOutputFormat implements OutputFormat {
             transform.scale(scaleFactor, scaleFactor);
             return toImage(drawing, figures, transform,
                     new Dimension(
-                    (int) (drawBounds.width * scaleFactor),
-                    (int) (drawBounds.height * scaleFactor)));
+                            (int) (drawBounds.width * scaleFactor),
+                            (int) (drawBounds.height * scaleFactor)));
         } else {
 
             AffineTransform transform = new AffineTransform();
@@ -210,8 +213,8 @@ public class ImageOutputFormat implements OutputFormat {
 
             return toImage(drawing, figures, transform,
                     new Dimension(
-                    (int) ((Math.max(0, drawBounds.x) + drawBounds.width) * scaleFactor),
-                    (int) ((Math.max(0, drawBounds.y) + drawBounds.height) * scaleFactor)));
+                            (int) ((Math.max(0, drawBounds.x) + drawBounds.width) * scaleFactor),
+                            (int) ((Math.max(0, drawBounds.y) + drawBounds.height) * scaleFactor)));
         }
     }
 

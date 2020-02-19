@@ -2,10 +2,9 @@
  * @(#)AbstractFontChooserModel.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.fontchooser;
 
 import java.util.*;
@@ -19,18 +18,18 @@ import javax.swing.tree.*;
  * @version $Id$
  */
 public abstract class AbstractFontChooserModel implements FontChooserModel {
-    /** Listeners. */
+
+    /**
+     * Listeners.
+     */
     protected EventListenerList listenerList = new EventListenerList();
 
-   //
     //  Events
-    //
-
     /**
      * Adds a listener for the TreeModelEvent posted after the tree changes.
      *
-     * @see     #removeTreeModelListener
-     * @param   l       the listener to add
+     * @see #removeTreeModelListener
+     * @param l the listener to add
      */
     @Override
     public void addTreeModelListener(TreeModelListener l) {
@@ -40,9 +39,9 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
     /**
      * Removes a listener previously added with <B>addTreeModelListener()</B>.
      *
-     * @see     #addTreeModelListener
-     * @param   l       the listener to remove
-     */  
+     * @see #addTreeModelListener
+     * @param l the listener to remove
+     */
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
         listenerList.remove(TreeModelListener.class, l);
@@ -53,8 +52,8 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * registered on this model.
      *
      * @return all of this model's <code>TreeModelListener</code>s
-     *         or an empty
-     *         array if no tree model listeners are currently registered
+     * or an empty
+     * array if no tree model listeners are currently registered
      *
      * @see #addTreeModelListener
      * @see #removeTreeModelListener
@@ -68,8 +67,8 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
 
     /**
      * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
+     * notification on this event type. The event instance
+     * is lazily created using the parameters passed into
      * the fire method.
      *
      * @param source the node being changed
@@ -78,29 +77,30 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @param children the changed elements
      * @see EventListenerList
      */
-    protected void fireTreeNodesChanged(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
+    protected void fireTreeNodesChanged(Object source, Object[] path,
+            int[] childIndices,
+            Object[] children) {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == TreeModelListener.class) {
                 // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesChanged(e);
-            }          
+                if (e == null) {
+                    e = new TreeModelEvent(source, path,
+                            childIndices, children);
+                }
+                ((TreeModelListener) listeners[i + 1]).treeNodesChanged(e);
+            }
         }
     }
 
     /**
      * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
+     * notification on this event type. The event instance
+     * is lazily created using the parameters passed into
      * the fire method.
      *
      * @param source the node where new elements are being inserted
@@ -109,29 +109,30 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @param children the new elements
      * @see EventListenerList
      */
-    protected void fireTreeNodesInserted(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
+    protected void fireTreeNodesInserted(Object source, Object[] path,
+            int[] childIndices,
+            Object[] children) {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == TreeModelListener.class) {
                 // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesInserted(e);
-            }          
+                if (e == null) {
+                    e = new TreeModelEvent(source, path,
+                            childIndices, children);
+                }
+                ((TreeModelListener) listeners[i + 1]).treeNodesInserted(e);
+            }
         }
     }
 
     /**
      * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
+     * notification on this event type. The event instance
+     * is lazily created using the parameters passed into
      * the fire method.
      *
      * @param source the node where elements are being removed
@@ -140,29 +141,30 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @param children the removed elements
      * @see EventListenerList
      */
-    protected void fireTreeNodesRemoved(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
+    protected void fireTreeNodesRemoved(Object source, Object[] path,
+            int[] childIndices,
+            Object[] children) {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == TreeModelListener.class) {
                 // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeNodesRemoved(e);
-            }          
+                if (e == null) {
+                    e = new TreeModelEvent(source, path,
+                            childIndices, children);
+                }
+                ((TreeModelListener) listeners[i + 1]).treeNodesRemoved(e);
+            }
         }
     }
 
     /**
      * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the parameters passed into 
+     * notification on this event type. The event instance
+     * is lazily created using the parameters passed into
      * the fire method.
      *
      * @param source the node where the tree model has changed
@@ -171,22 +173,23 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * @param children the affected elements
      * @see EventListenerList
      */
-    protected void fireTreeStructureChanged(Object source, Object[] path, 
-                                        int[] childIndices, 
-                                        Object[] children) {
+    protected void fireTreeStructureChanged(Object source, Object[] path,
+            int[] childIndices,
+            Object[] children) {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         TreeModelEvent e = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == TreeModelListener.class) {
                 // Lazily create the event:
-                if (e == null)
-                    e = new TreeModelEvent(source, path, 
-                                           childIndices, children);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
-            }          
+                if (e == null) {
+                    e = new TreeModelEvent(source, path,
+                            childIndices, children);
+                }
+                ((TreeModelListener) listeners[i + 1]).treeStructureChanged(e);
+            }
         }
     }
 
@@ -206,12 +209,13 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
         TreeModelEvent e = null;
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TreeModelListener.class) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == TreeModelListener.class) {
                 // Lazily create the event:
-                if (e == null)
+                if (e == null) {
                     e = new TreeModelEvent(source, path);
-                ((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
+                }
+                ((TreeModelListener) listeners[i + 1]).treeStructureChanged(e);
             }
         }
     }
@@ -238,21 +242,21 @@ public abstract class AbstractFontChooserModel implements FontChooserModel {
      * If no such listeners exist, this method returns an empty array.
      *
      * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
+     * should specify an interface that descends from
+     * <code>java.util.EventListener</code>
      * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
+     * <code><em>Foo</em>Listener</code>s on this component,
+     * or an empty array if no such
+     * listeners have been added
      * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * doesn't specify a class or interface that implements
+     * <code>java.util.EventListener</code>
      *
      * @see #getTreeModelListeners
-     * 
+     *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) { 
-	return listenerList.getListeners(listenerType); 
+    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+        return listenerList.getListeners(listenerType);
     }
 }

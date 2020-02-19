@@ -2,13 +2,13 @@
  * @(#)HandleAttributeKeys.java
  *
  * Copyright (c) 2008-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.*;
 import java.awt.*;
+import org.jhotdraw.draw.*;
 
 /**
  * Defines a put of well known {@link Handle} attributes.
@@ -20,10 +20,15 @@ import java.awt.*;
  * @version $Id$
  */
 public class HandleAttributeKeys {
-    /** Fill color of disabled handles. */
-    private static final Color FILL_COLOR_DISABLED_ = new Color(0x80000000,true);
-    /** Stroke color of disabled handles. */
-    private static final Color STROKE_COLOR_DISABLED_ = new Color(0x80ffffff,true);
+
+    /**
+     * Fill color of disabled handles.
+     */
+    private static final Color FILL_COLOR_DISABLED_ = new Color(0x80000000, true);
+    /**
+     * Stroke color of disabled handles.
+     */
+    private static final Color STROKE_COLOR_DISABLED_ = new Color(0x80ffffff, true);
 
     /**
      * General handle size.
@@ -377,7 +382,7 @@ public class HandleAttributeKeys {
      * Group bounds stroke 2.
      */
     public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2 = new AttributeKey<Stroke>("transformBoundsStroke2", Stroke.class,
-            new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f,2f}, 0f));
+            new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[]{2f, 2f}, 0f));
     //---
     /**
      * Group bounds hover color 1.
@@ -396,7 +401,7 @@ public class HandleAttributeKeys {
      * Group bounds hover stroke 2.
      */
     public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2_HOVER = new AttributeKey<Stroke>("transformBoundsStroke2Hover", Stroke.class,
-            new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f,2f}, 0f));
+            new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[]{2f, 2f}, 0f));
     //---
     //---
     /**

@@ -35,7 +35,7 @@ public class CIEXYChromaticityDiagram extends javax.swing.JPanel {
     public void paintComponent(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
         int side=Math.min(this.getWidth(),this.getHeight());
-        if (imageProducer==null//
+        if (imageProducer==null
                 ||imageProducer.getWidth()!=side) {
 
             if (image!=null) {

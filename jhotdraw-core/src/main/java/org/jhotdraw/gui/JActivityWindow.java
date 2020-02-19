@@ -9,13 +9,12 @@
  */
 package org.jhotdraw.gui;
 
-
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.lang.reflect.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.prefs.Preferences;
@@ -37,41 +36,46 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * <p>
  * You typically only want to create a single instance. To do this,
  * call {@code JActivityWindow.getInstance();}.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below define a framework for progress
  * management.<br>
- * Contract: {@link ActivityManager}, {@link ActivityModel}, 
+ * Contract: {@link ActivityManager}, {@link ActivityModel},
  * {@link JActivityWindow}, {@link JActivityIndicator}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class JActivityWindow extends javax.swing.JFrame {
+
     private static final long serialVersionUID = 1L;
 
     private static JActivityWindow instance;
     private JPanel progressPanel;
     private ActivityManager manager;
     private Object activityOwner;
-    /** Delay for automatic removal of successfully completed activities. 
+    /**
+     * Delay for automatic removal of successfully completed activities.
      * Specify 0 for immediate removal. Specify -1 for no removal.
-     * 
+     *
      * FIXME - Changing this value to -1 requires changing code in JActivityView.
      */
     private int normalRemovalDelay = 1500;
-    /** Delay for automatic removal of completed activities with a warning.
+    /**
+     * Delay for automatic removal of completed activities with a warning.
      * Specify 0 for immediate removal. Specify -1 for no removal.
-     * 
+     *
      * FIXME - Changing this value to -1 requires changing code in JActivityView.
      */
     private int warningRemovalDelay = 3000;
-    /** Delay for automatic removal of completed activities with an error.
+    /**
+     * Delay for automatic removal of completed activities with an error.
      * Specify 0 for immediate removal. Specify -1 for no removal.
-     * 
+     *
      * FIXME - Changing this value to -1 requires changing code in JActivityView.
      */
     private int errorRemovalDelay = -1;
@@ -98,7 +102,6 @@ public class JActivityWindow extends javax.swing.JFrame {
                 return;
             }
 
-
             ActionListener tt = new ActionListener() {
 
                 @Override
@@ -107,7 +110,6 @@ public class JActivityWindow extends javax.swing.JFrame {
 
                 }
             };
-
 
             if (delay == 0) {
                 tt.actionPerformed(null);
@@ -128,7 +130,9 @@ public class JActivityWindow extends javax.swing.JFrame {
     private Handler handler = new Handler();
     private ResourceBundleUtil labels;
 
-    /** Creates new form JActivityWindow */
+    /**
+     * Creates new form JActivityWindow
+     */
     public JActivityWindow() {
         this(ActivityManager.getInstance());
     }
@@ -139,7 +143,7 @@ public class JActivityWindow extends javax.swing.JFrame {
         setFocusable(false); // needed for Mac OS X
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         progressPanel = new javax.swing.JPanel() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public Dimension getPreferredSize() {
@@ -190,7 +194,7 @@ public class JActivityWindow extends javax.swing.JFrame {
                 addActivityModel(pm);
             }
             if (!views.isEmpty()) {
-               // setVisible(true);
+                // setVisible(true);
             }
         }
     }
@@ -211,16 +215,17 @@ public class JActivityWindow extends javax.swing.JFrame {
             updateInfoPanel();
             pack();
             if (!isVisible()) {
-               // setVisible(true);
+                // setVisible(true);
             }
             viewer.repaint();
         }
     }
 
-    /** Set to a non-null value to only display progress models
+    /**
+     * Set to a non-null value to only display progress models
      * of a specific owner. Set to null to display all models.
-     * 
-     * @param newValue 
+     *
+     * @param newValue
      */
     public void setActivityOwner(Object newValue) {
         Object oldValue = this.activityOwner;
@@ -230,8 +235,9 @@ public class JActivityWindow extends javax.swing.JFrame {
         }
     }
 
-    /** Owner is used to filter the progress models.
-     * 
+    /**
+     * Owner is used to filter the progress models.
+     *
      * @return The owner of the progress models being shown or
      * null, if all models are shown.
      */
@@ -297,7 +303,8 @@ public class JActivityWindow extends javax.swing.JFrame {
         setActivityManager(null);
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

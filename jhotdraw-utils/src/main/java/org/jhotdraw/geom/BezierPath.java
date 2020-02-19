@@ -1123,9 +1123,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         double cosAngle = Math.cos(angle);
         double sinAngle = Math.sin(angle);
 
-        //
+        
         // Step 1 : Compute (x1, y1)
-        //
+        
         double x1 = (cosAngle * dx2 + sinAngle * dy2);
         double y1 = (-sinAngle * dx2 + cosAngle * dy2);
         // Ensure radii are large enough
@@ -1144,9 +1144,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             Pry = ry * ry;
         }
 
-        //
+        
         // Step 2 : Compute (cx1, cy1)
-        //
+        
         double sign = (largeArcFlag == sweepFlag) ? -1 : 1;
         double sq = ((Prx * Pry) - (Prx * Py1) - (Pry * Px1)) / ((Prx * Py1) + (Pry * Px1));
         sq = (sq < 0) ? 0 : sq;
@@ -1154,17 +1154,17 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         double cx1 = coef * ((rx * y1) / ry);
         double cy1 = coef * -((ry * x1) / rx);
 
-        //
+        
         // Step 3 : Compute (cx, cy) from (cx1, cy1)
-        //
+        
         double sx2 = (x0 + x) / 2.0;
         double sy2 = (y0 + y) / 2.0;
         double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
         double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
 
-        //
+        
         // Step 4 : Compute the angleStart (angle1) and the angleExtent (dangle)
-        //
+        
         double ux = (x1 - cx1) / rx;
         double uy = (y1 - cy1) / ry;
         double vx = (-x1 - cx1) / rx;
@@ -1190,9 +1190,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         angleExtent %= 360f;
         angleStart %= 360f;
 
-        //
+        
         // We can now build the resulting Arc2D in double precision
-        //
+        
         Arc2D.Double arc = new Arc2D.Double(
                 cx - rx, cy - ry,
                 rx * 2d, ry * 2d,

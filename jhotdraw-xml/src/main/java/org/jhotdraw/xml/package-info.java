@@ -10,13 +10,9 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-<p>Provides simple input and output classes from/to document models (DOM).</p>
-*/
-
+ * <p>
+ * Provides simple input and output classes from/to document models (DOM).</p>
+ */
 package org.jhotdraw.xml;
-
-
-

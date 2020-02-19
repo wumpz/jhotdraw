@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
@@ -17,18 +16,20 @@ import org.jhotdraw.util.Images;
  * of the component.
  * MultiIcon can lazily create the icons from a tiled image.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class MultiIcon implements Icon {
+
     /**
      * The icons from which we choose from.
      * This variable is null, if we are using a tiled image as our base.
      */
     protected Icon[] icons;
-    
-    /** Holds the icon pictures in a single image. This variable is used only
-     *until we create the icons array. Then it is set to null.
+
+    /**
+     * Holds the icon pictures in a single image. This variable is used only
+     * until we create the icons array. Then it is set to null.
      */
     private Image tiledImage;
     /**
@@ -40,8 +41,7 @@ public abstract class MultiIcon implements Icon {
      * to get the icons out of it.
      */
     private boolean isTiledHorizontaly;
-    
-    
+
     /**
      * Creates a new instance from an array of icons.
      * All icons must have the same dimensions.
@@ -61,14 +61,14 @@ public abstract class MultiIcon implements Icon {
      */
     public MultiIcon(Image[] images) {
         this.icons = new Icon[images.length];
-        for (int i=0, n = icons.length; i < n; i++) {
+        for (int i = 0, n = icons.length; i < n; i++) {
             if (images[i] != null) {
                 icons[i] = new ImageIcon(images[i]);
             }
         }
         generateMissingIcons();
     }
-    
+
     /**
      * Creates a new instance.
      * The icon representations are created lazily from the tiled image.
@@ -78,20 +78,19 @@ public abstract class MultiIcon implements Icon {
         this.tileCount = tileCount;
         this.isTiledHorizontaly = isTiledHorizontaly;
     }
-    
-    
+
     @Override
     public int getIconHeight() {
         generateIconsFromTiledImage();
         return icons[0].getIconHeight();
     }
-    
+
     @Override
     public int getIconWidth() {
         generateIconsFromTiledImage();
         return icons[0].getIconWidth();
     }
-    
+
     @Override
     public void paintIcon(java.awt.Component c, java.awt.Graphics g, int x, int y) {
         generateIconsFromTiledImage();
@@ -100,12 +99,12 @@ public abstract class MultiIcon implements Icon {
             icon.paintIcon(c, g, x, y);
         }
     }
-    
+
     private void generateIconsFromTiledImage() {
         if (icons == null) {
             icons = new Icon[tileCount];
             Image[] images = Images.split(tiledImage, tileCount, isTiledHorizontaly);
-            for (int i=0, n = Math.min(images.length, icons.length); i < n; i++) {
+            for (int i = 0, n = Math.min(images.length, icons.length); i < n; i++) {
                 if (images[i] != null) {
                     icons[i] = new ImageIcon(images[i]);
                 }
@@ -114,7 +113,8 @@ public abstract class MultiIcon implements Icon {
             tiledImage = null;
         }
     }
-    
+
     protected abstract Icon getIcon(Component c);
+
     protected abstract void generateMissingIcons();
 }

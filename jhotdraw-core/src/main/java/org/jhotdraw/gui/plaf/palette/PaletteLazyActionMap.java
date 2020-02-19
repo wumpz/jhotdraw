@@ -2,12 +2,10 @@
  * @(#)QuaquaLazyActionMap.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
-
 
 import java.lang.reflect.*;
 import javax.swing.*;
@@ -20,6 +18,7 @@ import javax.swing.plaf.*;
  * @version $Id$
  */
 public class PaletteLazyActionMap extends ActionMapUIResource {
+
     private static final long serialVersionUID = 1L;
     /**
      * Object to invoke <code>loadActionMap</code> on. This may be
@@ -36,13 +35,13 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      *
      * @param c JComponent to install the ActionMap on.
      * @param loaderClass Class object that gets loadActionMap invoked
-     *                    on.
+     * on.
      * @param defaultsKey Key to use to defaults table to check for
-     *        existing map and what resulting Map will be registered on.
+     * existing map and what resulting Map will be registered on.
      */
     static void installLazyActionMap(JComponent c, Class<?> loaderClass,
-                                     String defaultsKey) {
-        ActionMap map = (ActionMap)UIManager.get(defaultsKey);
+            String defaultsKey) {
+        ActionMap map = (ActionMap) UIManager.get(defaultsKey);
         if (map == null) {
             map = new PaletteLazyActionMap(loaderClass);
             UIManager.getLookAndFeelDefaults().put(defaultsKey, map);
@@ -58,20 +57,19 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
      * This should be used if the ActionMap can be shared.
      *
      * @param loaderClass Class object that gets loadActionMap invoked
-     *                    on.
+     * on.
      * @param defaultsKey Key to use to defaults table to check for
-     *        existing map and what resulting Map will be registered on.
+     * existing map and what resulting Map will be registered on.
      */
     static ActionMap getActionMap(Class<?> loaderClass,
-                                  String defaultsKey) {
-        ActionMap map = (ActionMap)UIManager.get(defaultsKey);
+            String defaultsKey) {
+        ActionMap map = (ActionMap) UIManager.get(defaultsKey);
         if (map == null) {
             map = new PaletteLazyActionMap(loaderClass);
             UIManager.getLookAndFeelDefaults().put(defaultsKey, map);
         }
         return map;
     }
-
 
     private PaletteLazyActionMap(Class<?> loader) {
         this.loader = loader;
@@ -135,17 +133,17 @@ public class PaletteLazyActionMap extends ActionMapUIResource {
             Object ldr = loader;
 
             loader = null;
-            Class<?> klass = (Class)ldr;
+            Class<?> klass = (Class) ldr;
             try {
                 Method method = klass.getDeclaredMethod("loadActionMap",
-                                      new Class<?>[] { PaletteLazyActionMap.class  });
-                method.invoke(klass, new Object[] { this });
+                        new Class<?>[]{PaletteLazyActionMap.class});
+                method.invoke(klass, new Object[]{this});
             } catch (NoSuchMethodException nsme) {
-                assert false : "LazyActionMap unable to load actions " +
-                        klass;
+                assert false : "LazyActionMap unable to load actions "
+                        + klass;
             } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException iae) {
-                assert false : "LazyActionMap unable to load actions " +
-                        iae;
+                assert false : "LazyActionMap unable to load actions "
+                        + iae;
             }
         }
     }

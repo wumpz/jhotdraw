@@ -5,15 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.edit;
-
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.util.*;
 import org.jhotdraw.gui.EditableComponent;
+import org.jhotdraw.util.*;
 
 /**
  * Duplicates the selected region.
@@ -32,7 +30,8 @@ import org.jhotdraw.gui.EditableComponent;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
@@ -47,15 +46,19 @@ import org.jhotdraw.gui.EditableComponent;
  * @version $Id$
  */
 public class DuplicateAction extends AbstractSelectionAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "edit.duplicate";
-    
-    /** Creates a new instance which acts on the currently focused component. */
+
+    /**
+     * Creates a new instance which acts on the currently focused component.
+     */
     public DuplicateAction() {
         this(null);
     }
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.
@@ -65,7 +68,7 @@ public class DuplicateAction extends AbstractSelectionAction {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
         labels.configureAction(this, ID);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         JComponent c = target;

@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app.action;
 
-
 import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.app.Application;
@@ -36,12 +35,15 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
+
     private static final long serialVersionUID = 1L;
 
     private Application app;
     private PropertyChangeListener applicationListener;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractApplicationAction(Application app) {
         this.app = app;
         installApplicationListeners(app);
@@ -70,7 +72,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
 
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == "enabled") { // Strings get interned
+                if ("enabled".equals(evt.getPropertyName())) {
                     updateApplicationEnabled();
                 }
             }
@@ -108,8 +110,8 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
      * depends on the value that is set here and on the enabled state of
      * the application.
      *
-     * @param newValue  true to enable the action, false to
-     *                  disable it
+     * @param newValue true to enable the action, false to
+     * disable it
      * @see Action#setEnabled
      */
     @Override

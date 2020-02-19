@@ -19,6 +19,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public class HSBColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     private static HSBColorSpace instance;
@@ -46,10 +47,10 @@ public class HSBColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public float[] fromRGB(float[] rgb, float[] component) {
-        Color.RGBtoHSB(//
-                (int) (rgb[0] * 255),//
-                (int) (rgb[1] * 255),//
-                (int) (rgb[2] * 255),//
+        Color.RGBtoHSB(
+                (int) (rgb[0] * 255),
+                (int) (rgb[1] * 255),
+                (int) (rgb[2] * 255),
                 component);
         return component;
     }

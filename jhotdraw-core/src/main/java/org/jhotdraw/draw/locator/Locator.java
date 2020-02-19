@@ -5,12 +5,10 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.draw.*;
 import java.awt.geom.*;
+import org.jhotdraw.draw.*;
 
 /**
  * A <em>locator</em> encapsulates a strategy for locating a point on a
@@ -19,7 +17,8 @@ import java.awt.geom.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * {@code Locator} encapsulates a strategy for locating a point on a
  * {@code Figure}.<br>
  * Strategy: {@link Locator}; Context: {@link Figure}.
@@ -30,15 +29,18 @@ import java.awt.geom.*;
  */
 public interface Locator {
 
-	/**
-	 * Locates a position on the provided figure.
-	 * @return a point on the figure.
-	 */
-	public Point2D.Double locate(Figure owner);
-	/**
-	 * Locates a position on the provided figure relative to the dependent
-         * figure.
-	 * @return a point on the figure.
-	 */
-	public Point2D.Double locate(Figure owner, Figure dependent);
+    /**
+     * Locates a position on the provided figure.
+     *
+     * @return a point on the figure.
+     */
+    public Point2D.Double locate(Figure owner);
+
+    /**
+     * Locates a position on the provided figure relative to the dependent
+     * figure.
+     *
+     * @return a point on the figure.
+     */
+    public Point2D.Double locate(Figure owner, Figure dependent);
 }

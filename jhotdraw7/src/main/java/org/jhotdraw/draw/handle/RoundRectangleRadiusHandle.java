@@ -152,7 +152,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("handle.roundRectangleRadius.toolTipText");
     }
 }

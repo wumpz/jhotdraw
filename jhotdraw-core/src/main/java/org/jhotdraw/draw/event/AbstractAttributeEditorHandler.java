@@ -8,8 +8,6 @@
  */
 package org.jhotdraw.draw.event;
 
-
-import org.jhotdraw.gui.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
@@ -27,6 +25,7 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.Figure;
+import org.jhotdraw.gui.*;
 
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the
@@ -35,7 +34,8 @@ import org.jhotdraw.draw.Figure;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * Selection changes of {@code DrawingView} are observed by user interface
  * components:<br>
  * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer: {@link FigureSelectionListener};
@@ -56,7 +56,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected int updateDepth;
     protected LinkedList<Object> attributeRestoreData = new LinkedList<>();
     protected Map<AttributeKey<?>, Object> defaultAttributes;
-    
+
     /**
      * If this variable is put to true, the attribute editor updates the
      * default values of the drawing editor.
@@ -91,8 +91,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
             String name = evt.getPropertyName();
             if (src == editor && name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
                 updateActiveView();
-            } else if (src == editor && name.equals(DrawingEditor.DEFAULT_ATTRIBUTE_PROPERTY_PREFIX+attributeKey.getKey())) {
-            updateAttributeEditor();
+            } else if (src == editor && name.equals(DrawingEditor.DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + attributeKey.getKey())) {
+                updateAttributeEditor();
             } else if (src == attributeEditor && name == AttributeEditor.ATTRIBUTE_VALUE_PROPERTY) {
                 updateFigures();
             } else if (src == activeView && name == DrawingView.DRAWING_PROPERTY) {
@@ -112,7 +112,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     private EventHandler eventHandler;
 
     private static class UndoableAttributeEdit<T> extends AbstractUndoableEdit {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         private Set<Figure> editedFigures;
         private AttributeKey<T> attributeKey;
@@ -233,7 +234,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     /**
      * Set this to true if you want the attribute editor to update the
      * default values of the drawing editor.
-     * 
+     *
      * @param newValue
      */
     public void setUpdateDrawingEditorDefaults(boolean newValue) {
@@ -271,7 +272,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 
     /**
      * Returns the AttributeEditor to which this FigureAttributeEditorHandler is
-     * attached. 
+     * attached.
      */
     public AttributeEditor<T> getAttributeEditor() {
         return attributeEditor;
@@ -286,10 +287,10 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     }
 
     protected void updateActiveView() {
-        DrawingView newValue = (view != null) ? //
-                view : //
-                ((editor != null && editor.getActiveView() != null) ? //
-                editor.getActiveView() : null);
+        DrawingView newValue = (view != null)
+                ? view
+                : ((editor != null && editor.getActiveView() != null)
+                ? editor.getActiveView() : null);
         DrawingView oldValue = activeView;
         if (activeView != null) {
             activeView.removePropertyChangeListener(eventHandler);
@@ -318,7 +319,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     protected void updateAttributeEditor() {
         if (updateDepth++ == 0) {
             Set<Figure> figures = getEditedFigures();
-            if (editor==null) {
+            if (editor == null) {
                 attributeEditor.getComponent().setEnabled(false);
             } else if (activeView == null || figures.isEmpty()) {
                 attributeEditor.getComponent().setEnabled(true);
@@ -331,8 +332,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 boolean isMultiple = false;
                 for (Figure f : figures) {
                     T v = f.get(attributeKey);
-                    if ((v == null || value == null) && v != value || //
-                            v != null && value != null && !v.equals(value)) {
+                    if ((v == null || value == null) && v != value
+                            || v != null && value != null && !v.equals(value)) {
                         isMultiple = true;
                         break;
                     }
@@ -361,16 +362,16 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                     f.willChange();
                     f.set(attributeKey, value);
                     for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
-                        f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                        f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
                     }
                     f.changed();
                 }
                 if (editor != null && isUpdateDrawingEditorDefaults) {
                     editor.setDefaultAttribute(attributeKey, value);
                 }
-                getActiveView().getDrawing().fireUndoableEditHappened(//
-                        new UndoableAttributeEdit<>(new HashSet<>(figures), attributeKey, value, attributeRestoreData)//
-                        );
+                getActiveView().getDrawing().fireUndoableEditHappened(
+                        new UndoableAttributeEdit<>(new HashSet<>(figures), attributeKey, value, attributeRestoreData)
+                );
                 if (!attributeEditor.getValueIsAdjusting()) {
                     attributeRestoreData = null;
                 }

@@ -7,11 +7,10 @@
  */
 package org.jhotdraw.draw.action;
 
-
+import java.util.*;
+import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.app.action.ActionUtil;
-import javax.swing.*;
-import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
@@ -23,22 +22,31 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class AttributeAction extends AbstractSelectedAction {
+
     private static final long serialVersionUID = 1L;
 
     protected Map<AttributeKey<?>, Object> attributes;
 
-    /** Creates a new instance. */
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
+    /**
+     * Creates a new instance.
+     */
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value) {
         this(editor, key, value, null, null);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, Icon icon) {
         this(editor, key, value, null, icon);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name) {
         this(editor, key, value, name, null);
     }
@@ -82,7 +90,7 @@ public class AttributeAction extends AbstractSelectedAction {
     @SuppressWarnings("unchecked")
     public void applyAttributesTo(final Map<AttributeKey<?>, Object> a, Set<Figure> figures) {
         for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
-            getEditor().setDefaultAttribute((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            getEditor().setDefaultAttribute((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
 
         final ArrayList<Figure> selectedFigures = new ArrayList<>(figures);
@@ -91,12 +99,12 @@ public class AttributeAction extends AbstractSelectedAction {
             restoreData.add(figure.getAttributesRestoreData());
             figure.willChange();
             for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
-                figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                figure.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -129,7 +137,7 @@ public class AttributeAction extends AbstractSelectedAction {
                     //restoreData.add(figure.getAttributesRestoreData());
                     figure.willChange();
                     for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
-                        figure.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                        figure.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
                     }
                     figure.changed();
                 }

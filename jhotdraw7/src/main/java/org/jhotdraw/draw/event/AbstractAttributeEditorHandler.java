@@ -286,9 +286,9 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     }
 
     protected void updateActiveView() {
-        DrawingView newValue = (view != null) ? //
-                view : //
-                ((editor != null && editor.getActiveView() != null) ? //
+        DrawingView newValue = (view != null) ? 
+                view : 
+                ((editor != null && editor.getActiveView() != null) ? 
                 editor.getActiveView() : null);
         DrawingView oldValue = activeView;
         if (activeView != null) {
@@ -331,7 +331,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 boolean isMultiple = false;
                 for (Figure f : figures) {
                     T v = f.get(attributeKey);
-                    if ((v == null || value == null) && v != value || //
+                    if ((v == null || value == null) && v != value || 
                             v != null && value != null && !v.equals(value)) {
                         isMultiple = true;
                         break;
@@ -368,8 +368,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
                 if (editor != null && isUpdateDrawingEditorDefaults) {
                     editor.setDefaultAttribute(attributeKey, value);
                 }
-                getActiveView().getDrawing().fireUndoableEditHappened(//
-                        new UndoableAttributeEdit<T>(new HashSet<Figure>(figures), attributeKey, value, attributeRestoreData)//
+                getActiveView().getDrawing().fireUndoableEditHappened(
+                        new UndoableAttributeEdit<T>(new HashSet<Figure>(figures), attributeKey, value, attributeRestoreData)
                         );
                 if (!attributeEditor.getValueIsAdjusting()) {
                     attributeRestoreData = null;

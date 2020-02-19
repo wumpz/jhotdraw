@@ -7,8 +7,6 @@
  */
 package org.jhotdraw.draw;
 
-
-import org.jhotdraw.draw.tool.Tool;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.beans.*;
@@ -18,11 +16,13 @@ import java.util.Map;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import org.jhotdraw.beans.AbstractBean;
+import org.jhotdraw.draw.tool.Tool;
 
 /**
  * DrawingEditorProxy. <hr> <b>Design Patterns</b>
  *
- * <p><em>Proxy</em><br> To remove the need for null-handling, {@code AbstractTool}
+ * <p>
+ * <em>Proxy</em><br> To remove the need for null-handling, {@code AbstractTool}
  * makes use of a proxy for {@code DrawingEditor}. Subject: {@link DrawingEditor};
  * Proxy: {@link DrawingEditorProxy}; Client: {@link org.jhotdraw.draw.tool.AbstractTool}.
  * <hr>
@@ -34,11 +34,12 @@ import org.jhotdraw.beans.AbstractBean;
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
     private static final long serialVersionUID = 1L;
-    
+
     private DrawingEditor target;
 
     private class Forwarder implements PropertyChangeListener, Serializable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -70,7 +71,6 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Gets the target of the proxy.
      */
-    
     public DrawingEditor getTarget() {
         return target;
     }
@@ -100,7 +100,6 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         target.setActiveView(newValue);
     }
 
-    
     public DrawingView getFocusedView() {
         return (target == null) ? null : target.getActiveView();
     }

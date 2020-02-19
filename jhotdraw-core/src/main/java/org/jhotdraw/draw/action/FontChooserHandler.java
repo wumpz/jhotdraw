@@ -2,16 +2,16 @@
  * @(#)FontChooserHandler.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
-import javax.swing.undo.*;
-import javax.swing.*;
-import java.util.*;
 import java.awt.*;
 import java.beans.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.gui.JFontChooser;
 
@@ -23,6 +23,7 @@ import org.jhotdraw.gui.JFontChooser;
  */
 public class FontChooserHandler extends AbstractSelectedAction
         implements PropertyChangeListener {
+
     private static final long serialVersionUID = 1L;
 
     protected AttributeKey<Font> key;
@@ -31,7 +32,9 @@ public class FontChooserHandler extends AbstractSelectedAction
     protected int isUpdating;
     //protected Map<AttributeKey, Object> attributes;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public FontChooserHandler(DrawingEditor editor, AttributeKey<Font> key, JFontChooser fontChooser, JPopupMenu popupMenu) {
         super(editor);
         this.key = key;
@@ -64,12 +67,12 @@ public class FontChooserHandler extends AbstractSelectedAction
         getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
         final Font undoValue = fontChooser.getSelectedFont();
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
                 return AttributeKeys.FONT_FACE.getPresentationName();
-            /*
+                /*
             String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
             if (name == null) {
             name = (String) getValue(AbstractAction.NAME);

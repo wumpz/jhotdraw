@@ -16,7 +16,7 @@ import javax.swing.plaf.basic.*;
 /**
  * QuaquaLabelUI.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PaletteLabelUI extends BasicLabelUI {
@@ -71,14 +71,12 @@ public class PaletteLabelUI extends BasicLabelUI {
             g.setPaint(PaintableColor.getPaint(c.getBackground(), c));
             g.fillRect(0, 0, c.getWidth(), c.getHeight());
         }*/
-
         // Paint background border
         /*
         Border b = c.getBorder();
         if (b != null && b instanceof BackgroundBorder) {
             ((BackgroundBorder) b).getBackgroundBorder().paintBorder(c, g, 0, 0, c.getWidth(), c.getHeight());
         }*/
-
         super.paint(g, c);
         PaletteUtilities.endGraphics(g, oldHints);
     }
@@ -106,13 +104,13 @@ public class PaletteLabelUI extends BasicLabelUI {
 
         String style = (String) l.getClientProperty("Quaqua.Label.style");
         if (style != null) {
-            if ("emboss".equals(style) &&
-                    UIManager.getColor("Label.embossForeground") != null) {
+            if ("emboss".equals(style)
+                    && UIManager.getColor("Label.embossForeground") != null) {
                 g.setColor(UIManager.getColor("Label.embossForeground"));
                 PaletteUtilities.drawString(g, s, mnemIndex, textX, textY + 1);
 
-            } else if ("shadow".equals(style) &&
-                    UIManager.getColor("Label.shadowForeground") != null) {
+            } else if ("shadow".equals(style)
+                    && UIManager.getColor("Label.shadowForeground") != null) {
                 g.setColor(UIManager.getColor("Label.shadowForeground"));
                 PaletteUtilities.drawString(g, s, mnemIndex, textX, textY + 1);
             }
@@ -120,8 +118,8 @@ public class PaletteLabelUI extends BasicLabelUI {
 
         g.setColor(l.getForeground());
         PaletteUtilities.drawString(g, s, mnemIndex, textX, textY);
-    //SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex,
-    //                                             textX, textY);
+        //SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex,
+        //                                             textX, textY);
     }
 
     /**

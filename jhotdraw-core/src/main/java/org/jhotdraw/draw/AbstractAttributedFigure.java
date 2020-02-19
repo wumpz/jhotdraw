@@ -7,13 +7,13 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
 import java.awt.*;
 import java.awt.geom.*;
-import java.util.*;
 import java.io.*;
+import java.util.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
@@ -27,6 +27,7 @@ import org.jhotdraw.xml.DOMStorable;
  * $
  */
 public abstract class AbstractAttributedFigure extends AbstractFigure implements DOMStorable {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -142,7 +143,7 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     public Rectangle2D.Double getDrawingArea() {
         return getDrawingArea(1.0);
     }
-    
+
     @Override
     public Rectangle2D.Double getDrawingArea(double factor) {
         double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);

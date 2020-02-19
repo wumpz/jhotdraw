@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
 
 import org.jhotdraw.app.Application;
@@ -29,10 +28,13 @@ import org.jhotdraw.app.Application;
  * @version $Id$
  */
 public class NewWindowAction extends NewFileAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.newWindow";
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public NewWindowAction(Application app) {
         super(app, ID);
     }

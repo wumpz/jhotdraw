@@ -110,9 +110,9 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
     @Override
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
         if (flipX) radial=1f-radial;
         if (flipY) angular=1f-angular;
@@ -124,7 +124,7 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
         Point p = new Point(
                 (int) (side * radial) + xOffset,
-                (int) (side * angular) + yOffset//
+                (int) (side * angular) + yOffset
                 );
         return p;
     }
@@ -141,11 +141,11 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         if (flipY) angular=1f-angular;
 
         float[] hsb = new float[3];
-        hsb[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        hsb[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        hsb[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;

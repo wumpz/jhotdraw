@@ -8,13 +8,12 @@
  */
 package org.jhotdraw.draw.tool;
 
-
-import org.jhotdraw.draw.*;
 import java.awt.Container;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import org.jhotdraw.draw.*;
 
 /**
  * This is a tracker which supports drag and drop of figures between drawing
@@ -26,7 +25,7 @@ import java.awt.geom.Rectangle2D;
  * To get a drag image using drag and drop, the drawing needs to provide
  * an image output format.
  * <p>
- * Drag and Drop is about information moving, not images or objects.  Its about
+ * Drag and Drop is about information moving, not images or objects. Its about
  * moving a figure to another application and that application understanding
  * both its shape, color, attributes, and everything about it - not necessarily
  * how it looks.
@@ -35,6 +34,7 @@ import java.awt.geom.Rectangle2D;
  * @version $Id$
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
+
     private static final long serialVersionUID = 1L;
 
     protected Figure anchorFigure;
@@ -68,7 +68,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     private boolean isDragging;
 
     public DnDTracker() {
-       
+
     }
 
     public DnDTracker(Figure figure) {
@@ -79,6 +79,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     public void mouseMoved(MouseEvent evt) {
         updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
     }
+
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
@@ -107,7 +108,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
                 }
             }
 
-
             anchorPoint = previousPoint = view.viewToDrawing(anchor);
             anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
         }
@@ -131,7 +131,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
 
     @Override
     public void mouseReleased(MouseEvent evt) {
-            updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
+        updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
         fireToolDone();
     }
 

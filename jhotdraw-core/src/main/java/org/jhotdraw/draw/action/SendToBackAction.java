@@ -15,19 +15,22 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * SendToBackAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SendToBackAction extends AbstractSelectedAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.sendToBack";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SendToBackAction(DrawingEditor editor) {
         super(editor);
-        ResourceBundleUtil labels =
-                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels
+                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }
@@ -38,12 +41,12 @@ public class SendToBackAction extends AbstractSelectedAction {
         final LinkedList<Figure> figures = new LinkedList<>(view.getSelectedFigures());
         sendToBack(view, figures);
         fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
-                ResourceBundleUtil labels =
-                        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                ResourceBundleUtil labels
+                        = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 return labels.getTextProperty(ID);
             }
 

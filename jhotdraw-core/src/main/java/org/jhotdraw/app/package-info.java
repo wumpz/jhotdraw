@@ -4,7 +4,6 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 /**
  * Defines a framework for document oriented applications and provides default
  * implementations.
@@ -19,7 +18,8 @@
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Launch application</em><br>
+ * <p>
+ * <em>Launch application</em><br>
  * Reads command line parameters, creates initial windows and menu bars and
  * then opens the first view(s).<br>
  * For this feature, you are supposed to implement your own {@code Main} class,
@@ -33,7 +33,8 @@
  * <em>Open URIs from command line on launch</em>.<br>
  * </p>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * When the application is started, the last opened URI is opened in a view.<br>
  * The core behavior of this feature is implemented in {@link org.jhotdraw.app.Application#launch}.<br>
  * This feature is enabled if {@link org.jhotdraw.app.ApplicationModel#isOpenLastURIOnLaunch()} returns true.<br>
@@ -47,24 +48,29 @@
  * This feature triggers the following feature: <em>Open URIs on launch</em>.<br>
  * </p>
  *
- * <p><em>Open URIs from command line on launch</em><br>
+ * <p>
+ * <em>Open URIs from command line on launch</em><br>
  * When the application is started, each URI given on the command line is opened in a new view.<br>
  * The core behavior of this feature is implemented in {@link org.jhotdraw.app.Application#configure}.<br>
  * Data is supplied by the feature <em>Launch application</em>.<br>
  * This feature triggers the following feature: <em>Open URIs on launch</em>.<br>
  * </p>
  *
- * <p><em>Open URIs on launch</em><br>
+ * <p>
+ * <em>Open URIs on launch</em><br>
  * When the application is started, a view is opened for each URI.
  * If no URI is supplied, an empty view is opened.<br>
  * The core behavior of this feature is implemented in {@link org.jhotdraw.app.Application#start}.<br>
  * The {@code start()} method parses the command line parameters.
- * If the command line specifies URI's, a view is created for each URI and then {@link org.jhotdraw.app.View#read} is invoked.<br>
+ * If the command line specifies URI's, a view is created for each URI and then {@link org.jhotdraw.app.View#read} is
+ * invoked.<br>
  * Otherwise a single view is created and then {@link org.jhotdraw.app.View#clear} is invoked.<br>
- * Data is supplied by the features <em>Open last URI on launch</em>, <em>Open URIs from command line on launch</em>.<br>
+ * Data is supplied by the features <em>Open last URI on launch</em>, <em>Open URIs from command line on
+ * launch</em>.<br>
  * </p>
  *
- * <p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * Allows opening the same URI in multiple views.
  * When the feature is disabled, opening multiple views is prevented, and saving
  * to a file for which another view is open is prevented.<br>
@@ -84,8 +90,4 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-
 package org.jhotdraw.app;
-
-
-

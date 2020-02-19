@@ -5,14 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.datatransfer;
 
-import org.jhotdraw.util.Images;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import org.jhotdraw.util.Images;
 
 /**
  * A Transferable with an Image as its transfer class.
@@ -21,9 +20,11 @@ import javax.imageio.ImageIO;
  * @version $Id$
  */
 public class ImageTransferable implements Transferable {
+
     private Image image;
-    
+
     public static final DataFlavor IMAGE_PNG_FLAVOR;
+
     static {
         try {
             IMAGE_PNG_FLAVOR = new DataFlavor("image/png");
@@ -33,16 +34,18 @@ public class ImageTransferable implements Transferable {
             throw error;
         }
     }
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ImageTransferable(Image image) {
         this.image = image;
     }
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavor.equals(DataFlavor.imageFlavor) ||
-                flavor.equals(IMAGE_PNG_FLAVOR);
+        return flavor.equals(DataFlavor.imageFlavor)
+                || flavor.equals(IMAGE_PNG_FLAVOR);
     }
 
     @Override
@@ -51,11 +54,11 @@ public class ImageTransferable implements Transferable {
             throw new UnsupportedFlavorException(flavor);
         }*/
         if (flavor.equals(DataFlavor.imageFlavor)) {
-        return image;
+            return image;
         } else if (flavor.equals(IMAGE_PNG_FLAVOR)) {
             ByteArrayOutputStream buf = new ByteArrayOutputStream();
-                    ImageIO.write(Images.toBufferedImage(image), "PNG", buf);
-                    return new ByteArrayInputStream(buf.toByteArray());
+            ImageIO.write(Images.toBufferedImage(image), "PNG", buf);
+            return new ByteArrayInputStream(buf.toByteArray());
 
         } else {
             throw new UnsupportedFlavorException(flavor);
@@ -64,7 +67,7 @@ public class ImageTransferable implements Transferable {
 
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        return new DataFlavor[] { DataFlavor.imageFlavor, IMAGE_PNG_FLAVOR };
+        return new DataFlavor[]{DataFlavor.imageFlavor, IMAGE_PNG_FLAVOR};
     }
-    
+
 }

@@ -8,7 +8,6 @@
  */
 package org.jhotdraw.text;
 
-
 import java.awt.Font;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import javax.swing.text.DefaultFormatterFactory;
  * @version $Id$
  */
 public class FontFormatter extends DefaultFormatter {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -62,6 +62,7 @@ public class FontFormatter extends DefaultFormatter {
 
     /**
      * Sets whether a null value is allowed.
+     *
      * @param newValue
      */
     public void setAllowsNullValue(boolean newValue) {
@@ -77,6 +78,7 @@ public class FontFormatter extends DefaultFormatter {
 
     /**
      * Sets whether unknown font names are allowed.
+     *
      * @param newValue
      */
     public void setAllowsUnknownFont(boolean newValue) {
@@ -90,12 +92,16 @@ public class FontFormatter extends DefaultFormatter {
         return allowsUnknownFont;
     }
 
-    /** Clears the generic font families map. */
+    /**
+     * Clears the generic font families map.
+     */
     public void clearGenericFontFamilies() {
         genericFontFamilies = null;
     }
 
-    /** Adds a generic font family. */
+    /**
+     * Adds a generic font family.
+     */
     public void putGenericFontFamily(String familyName, Font font) {
         genericFontFamilies.put(familyName.toLowerCase(), font);
     }
@@ -123,9 +129,9 @@ public class FontFormatter extends DefaultFormatter {
             if (!allowsUnknownFont) {
                 String fontName = f.getFontName().toLowerCase();
                 String family = f.getFamily().toLowerCase();
-                if (!fontName.equals(strLC) &&
-                        !family.equals(strLC) &&
-                        !fontName.equals(strLC + "-derived")) {
+                if (!fontName.equals(strLC)
+                        && !family.equals(strLC)
+                        && !fontName.equals(strLC + "-derived")) {
                     throw new ParseException(str, 0);
                 }
             }

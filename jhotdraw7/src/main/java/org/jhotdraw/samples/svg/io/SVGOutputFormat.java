@@ -584,7 +584,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified <color> value, except inherit
-        //
+        
         // Nothing to do: Attribute 'color' is not needed.
 
         //'color-rendering'
@@ -596,7 +596,7 @@ public class SVGOutputFormat implements OutputFormat {
         // Media:  	 visual
         // Animatable:  	 yes
         // Computed value:  	 Specified value, except inherit
-        //
+        
         // Nothing to do: Attribute 'color-rendering' is not needed.
 
         // 'fill'

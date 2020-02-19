@@ -2,21 +2,20 @@
  * @(#)AbstractRotateHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.geom.Geom;
-
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.TransformRestoreEdit;
-import org.jhotdraw.draw.event.TransformEdit;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.draw.event.TransformRestoreEdit;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.util.*;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} which
@@ -34,7 +33,9 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     private double startTheta;
     private double startLength;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractRotateHandle(Figure owner) {
         super(owner);
     }
@@ -126,7 +127,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         Point2D.Double leadPoint = view.viewToDrawing(lead);
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
 
-        double currentTheta = view.getConstrainer()==null?(stepTheta - startTheta):view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
+        double currentTheta = view.getConstrainer() == null ? (stepTheta - startTheta) : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
 
         transform.setToIdentity();
         transform.translate(center.x, center.y);

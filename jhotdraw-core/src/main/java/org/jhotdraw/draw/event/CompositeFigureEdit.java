@@ -8,9 +8,9 @@
  */
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.draw.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.undo.CompositeEdit;
 
 /**
@@ -21,6 +21,7 @@ import org.jhotdraw.undo.CompositeEdit;
  * @version $Id$
  */
 public class CompositeFigureEdit extends CompositeEdit {
+
     private static final long serialVersionUID = 1L;
 
     private Figure figure;
@@ -60,6 +61,7 @@ public class CompositeFigureEdit extends CompositeEdit {
      * Which uses the given presentation name.
      * If the presentation name is null, then CompoundEdit.getPresentatioName
      * is used.
+     *
      * @see javax.swing.undo.CompoundEdit#getPresentationName()
      */
     public CompositeFigureEdit(Figure figure, String presentationName, boolean isSignificant) {
@@ -76,6 +78,7 @@ public class CompositeFigureEdit extends CompositeEdit {
         super.undo();
         figure.changed();
     }
+
     @Override
     public void redo() {
         if (!canRedo()) {

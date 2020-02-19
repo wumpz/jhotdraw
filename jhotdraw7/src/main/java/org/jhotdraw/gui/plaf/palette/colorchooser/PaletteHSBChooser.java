@@ -60,7 +60,7 @@ public class PaletteHSBChooser
         ccModel.getBoundedRangeModel(0).setMaximum(359);
         ccModel.getBoundedRangeModel(1).setMaximum(100);
         ccModel.getBoundedRangeModel(2).setMaximum(100);
-        //
+        
         Font font = plaf.getFont("ColorChooser.font");
         hueLabel.setFont(font);
         hueSlider.setFont(font);
@@ -74,7 +74,7 @@ public class PaletteHSBChooser
         brightnessSlider.setFont(font);
         brightnessField.setFont(font);
         brightnessFieldLabel.setFont(font);
-        //
+        
         int textSliderGap = plaf.getInt("ColorChooser.textSliderGap");
         if (textSliderGap != 0) {
             Border fieldBorder = new EmptyBorder(0, textSliderGap, 0, 0);

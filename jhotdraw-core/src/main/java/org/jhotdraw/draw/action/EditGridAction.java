@@ -26,6 +26,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class EditGridAction extends AbstractDrawingViewAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "view.editGrid";
     private JDialog dialog;
@@ -33,7 +34,9 @@ public class EditGridAction extends AbstractDrawingViewAction {
     private PropertyChangeListener propertyChangeHandler;
     private Application app;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public EditGridAction(Application app, DrawingEditor editor) {
         super(editor);
         this.app = app;
@@ -46,15 +49,16 @@ public class EditGridAction extends AbstractDrawingViewAction {
         getDialog().setVisible(true);
     }
 
-   @Override protected void updateViewState() {
+    @Override
+    protected void updateViewState() {
         if (getView() != null && settingsPanel != null) {
             settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
-    }
+        }
     }
 
     protected Application getApplication() {
         return app;
-        }
+    }
 
     protected JDialog getDialog() {
         if (dialog == null) {
@@ -69,7 +73,7 @@ public class EditGridAction extends AbstractDrawingViewAction {
             PreferencesUtil.installFramePrefsHandler(prefs, "editGrid", dialog);
             getApplication().addWindow(dialog, null);
         }
-            settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
+        settingsPanel.setConstrainer((GridConstrainer) getView().getVisibleConstrainer());
         return dialog;
     }
 }

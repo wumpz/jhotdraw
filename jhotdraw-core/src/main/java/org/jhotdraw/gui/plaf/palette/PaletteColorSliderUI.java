@@ -6,7 +6,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.plaf.palette;
 
 import javax.swing.Icon;
@@ -22,7 +21,10 @@ import org.jhotdraw.color.ColorSliderUI;
  * @version $Id$
  */
 public class PaletteColorSliderUI extends ColorSliderUI {
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public PaletteColorSliderUI(JSlider b) {
         super(b);
     }
@@ -30,19 +32,20 @@ public class PaletteColorSliderUI extends ColorSliderUI {
     public static ComponentUI createUI(JComponent b) {
         return new PaletteColorSliderUI((JSlider) b);
     }
+
     @Override
     protected Icon getThumbIcon() {
         String key;
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            key="Slider.northThumb.small";
+            key = "Slider.northThumb.small";
         } else {
-            key="Slider.westThumb.small";
+            key = "Slider.westThumb.small";
         }
-            Icon icon = PaletteLookAndFeel.getInstance().getIcon(key);
-            if (icon==null) {
-                throw new InternalError(key+" missing in PaletteLookAndFeel");
-            }
-            return icon;
+        Icon icon = PaletteLookAndFeel.getInstance().getIcon(key);
+        if (icon == null) {
+            throw new InternalError(key + " missing in PaletteLookAndFeel");
+        }
+        return icon;
     }
 
 }

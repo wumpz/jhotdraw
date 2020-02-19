@@ -182,8 +182,8 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             return findConnector(p, targetFigure, getOwner());
         } else if (targetFigure != null) {
             Connector target = findConnector(p, targetFigure, getOwner());
-            if ((targetFigure != null) && targetFigure.isConnectable()//
-                    && !targetFigure.includes(getOwner()) //
+            if ((targetFigure != null) && targetFigure.isConnectable()
+                    && !targetFigure.includes(getOwner()) 
                     && (canConnect(getSource(), target))) {
                 return target;
             }

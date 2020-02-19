@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -32,16 +31,20 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class CopyAction extends AbstractSelectionAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.copy";
 
-    /** Creates a new instance which acts on the currently focused component. */
+    /**
+     * Creates a new instance which acts on the currently focused component.
+     */
     public CopyAction() {
         this(null);
     }
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.

@@ -67,7 +67,6 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float blend = (radius + 2f) / radius - 1f;
 
         // Center of the color wheel circle
-
         float maxR = colorSpace.getMaxValue(radialIndex);
         float minR = colorSpace.getMinValue(radialIndex);
         float extentR = maxR - minR;
@@ -114,8 +113,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
                 scale = (1 - r) + scale * r;
 
                 // perform distortion
-                radials[index] = max(minR,min((kx / scale + 1) / 2 * extentR + minR,maxR));
-                angulars[index] = max(minA,min((ky / scale + 1) / 2 * extentA + minA,maxA));
+                radials[index] = max(minR, min((kx / scale + 1) / 2 * extentR + minR, maxR));
+                angulars[index] = max(minA, min((ky / scale + 1) / 2 * extentA + minA, maxA));
             }
         }
         isLookupValid = true;
@@ -140,13 +139,13 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         }
 
         float[] components = new float[colorSpace.getNumComponents()];
-        float[] rgb=new float[3];
+        float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
             if (alphas[index] != 0) {
                 components[angularIndex] = angulars[index];
                 components[radialIndex] = radials[index];
                 components[verticalIndex] = verticalValue;
-                pixels[index] = alphas[index] | 0xffffff & ColorUtil.CStoRGB24(colorSpace, components,rgb);
+                pixels[index] = alphas[index] | 0xffffff & ColorUtil.CStoRGB24(colorSpace, components, rgb);
             }
         }
         newPixels();
@@ -158,9 +157,9 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float radius = getRadius();
         Point2D.Float center = getCenter();
 
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))//
+        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 - 1;
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))//
+        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex)) * 2 - 1;
         if (flipX) {
             radial = -radial;
@@ -171,7 +170,6 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
 
         radial = max(-1, min(radial, 1));
         angular = max(-1, min(angular, 1));
-
 
         double a = atan2(radial, angular);
         double sina = sin(a);
@@ -190,11 +188,10 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
             }
         }
 
-
         Point p = new Point(
                 (int) (r * sina * radius + center.x),
-                (int) (r * cosa * radius + center.y)//
-                );
+                (int) (r * cosa * radius + center.y)
+        );
         return p;
     }
 
@@ -218,13 +215,11 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
 
         float radial, angular;
 
-
         float kx = (x - cx) / radius;
         if (flipX) {
             kx = -kx;
         }
         float squarekx = kx * kx;
-
 
         float ky = (y - cy) / radius;
         if (flipY) {
@@ -245,8 +240,6 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         // perform distortion
         radial = (kx / scale + 1) / 2 * extentR + minR;
         angular = (ky / scale + 1) / 2 * extentA + minA;
-
-
 
         float[] rav = new float[3];
         rav[angularIndex] = angular;
@@ -271,11 +264,11 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         }
 
         float[] rav = new float[3];
-        rav[angularIndex] = angular//
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))//
+        rav[angularIndex] = angular
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        rav[radialIndex] = radial//
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))//
+        rav[radialIndex] = radial
+                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         rav[verticalIndex] = verticalValue;
 

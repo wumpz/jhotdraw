@@ -112,7 +112,7 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
                         //toRGB(XYZ,rgb);
                         toRGB(XYZ,rgb);
                         alpha = (rgb[0] >= eps && rgb[1] >= eps && rgb[2] >= eps
-                                && rgb[0] <= 1 - eps && rgb[1] <= 1 - eps && rgb[2] <= 1 - eps) //
+                                && rgb[0] <= 1 - eps && rgb[1] <= 1 - eps && rgb[2] <= 1 - eps) 
                                 ? 255 : 0;
                         if (alpha == 255) {
                        // rgb = colorSpace.toRGB(XYZ);

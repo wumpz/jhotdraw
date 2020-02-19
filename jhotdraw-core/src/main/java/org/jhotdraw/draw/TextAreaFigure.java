@@ -7,22 +7,21 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Insets2D;
-
-import org.jhotdraw.draw.tool.TextAreaEditingTool;
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.TextOverflowHandle;
-import org.jhotdraw.draw.handle.FontSizeHandle;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
+import java.io.*;
 import java.text.*;
 import java.util.*;
-import java.io.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.handle.FontSizeHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TextOverflowHandle;
+import org.jhotdraw.draw.tool.TextAreaEditingTool;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.util.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
@@ -52,11 +51,12 @@ import org.jhotdraw.xml.DOMOutput;
  * need a way to specify the inner bounds of the decorator. We also need a way
  * to center the text of the TextAreaFigure verticaly and horizontaly.
  *
- * @author    Eduardo Francos - InContext (original version),
- *            Werner Randelshofer (this derived version)
+ * @author Eduardo Francos - InContext (original version),
+ * Werner Randelshofer (this derived version)
  * @version $Id$
  */
 public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
+
     private static final long serialVersionUID = 1L;
 
     protected Rectangle2D.Double bounds = new Rectangle2D.Double();
@@ -67,7 +67,9 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      */
     private Boolean isTextOverflow;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TextAreaFigure() {
         this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("TextFigure.defaultText"));
@@ -134,7 +136,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      * the bounds of the paragraph.
      *
      * @param g Graphics object. This parameter is null, if we want to
-     *  measure the size of the paragraph.
+     * measure the size of the paragraph.
      * @param styledText the text of the paragraph.
      * @param verticalPos the top bound of the paragraph
      * @param maxVerticalPos the bottom bound of the paragraph
@@ -142,7 +144,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      * @param rightMargin the right bound of the paragraph
      * @param tabStops an array with tab stops
      * @param tabCount the number of entries in tabStops which contain actual
-     *        values
+     * values
      * @return Returns the actual bounds of the paragraph.
      */
     private Rectangle2D.Double drawParagraph(Graphics2D g, AttributedCharacterIterator styledText,
@@ -152,7 +154,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
         // assume styledText is an AttributedCharacterIterator, and the number
         // of tabs in styledText is tabCount
-
         Rectangle2D.Double paragraphBounds = new Rectangle2D.Double(leftMargin, verticalPos, 0, 0);
 
         int[] tabLocations = new int[tabCount + 1];
@@ -168,12 +169,11 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
         // Now tabLocations has an entry for every tab's offset in
         // the text.  For convenience, the last entry is tabLocations
         // is the offset of the last character in the text.
-
         LineBreakMeasurer measurer = new LineBreakMeasurer(styledText, getFontRenderContext());
         int currentTab = 0;
 
-        while (measurer.getPosition() < styledText.getEndIndex() &&
-                verticalPos <= maxVerticalPos) {
+        while (measurer.getPosition() < styledText.getEndIndex()
+                && verticalPos <= maxVerticalPos) {
 
             // Lay out and draw each line.  All segments on a line
             // must be computed before any drawing can occur, since
@@ -181,7 +181,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             // TextLayouts are computed and stored in a List;
             // their horizontal positions are stored in a parallel
             // List.
-
             // lineContainsText is true after first segment is drawn
             boolean lineContainsText = false;
             boolean lineComplete = false;
@@ -195,10 +194,10 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             while (!lineComplete && verticalPos <= maxVerticalPos) {
                 float wrappingWidth = rightMargin - horizontalPos;
                 TextLayout layout = null;
-                layout =
-                        measurer.nextLayout(wrappingWidth,
-                        tabLocations[currentTab] + 1,
-                        lineContainsText);
+                layout
+                        = measurer.nextLayout(wrappingWidth,
+                                tabLocations[currentTab] + 1,
+                                lineContainsText);
 
                 // layout can be null if lineContainsText is true
                 if (layout != null) {
@@ -249,8 +248,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
                         break;
                 }
             }
-
-
 
             verticalPos += maxAscent;
 
@@ -408,7 +405,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
     /**
      * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
+     * <p>
+     * Returns null, if no specialized tool is available.
      */
     @Override
     public Tool getTool(Point2D.Double p) {
@@ -491,7 +489,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
      * <p>
      * If you want to use this method to determine the bounds of the TextAreaFigure,
      * you need to add the insets of the TextAreaFigure to the size.
-     * 
+     *
      * @param maxWidth the maximal width to use. Specify Double.MAX_VALUE
      * if you want the width to be unlimited.
      * @return width and height needed to lay out the text.

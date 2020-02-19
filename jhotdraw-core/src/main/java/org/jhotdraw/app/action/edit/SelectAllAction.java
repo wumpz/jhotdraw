@@ -7,13 +7,12 @@
  */
 package org.jhotdraw.app.action.edit;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import org.jhotdraw.util.*;
 import org.jhotdraw.gui.EditableComponent;
+import org.jhotdraw.util.*;
 
 /**
  * Selects all items.
@@ -32,7 +31,8 @@ import org.jhotdraw.gui.EditableComponent;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The interfaces and classes listed below work together:
  * <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
@@ -47,16 +47,20 @@ import org.jhotdraw.gui.EditableComponent;
  * @version $Id$
  */
 public class SelectAllAction extends AbstractSelectionAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.selectAll";
 
-    /** Creates a new instance which acts on the currently focused component. */
+    /**
+     * Creates a new instance which acts on the currently focused component.
+     */
     public SelectAllAction() {
         this(null);
     }
 
-    /** Creates a new instance which acts on the specified component.
+    /**
+     * Creates a new instance which acts on the specified component.
      *
      * @param target The target of the action. Specify null for the currently
      * focused component.
@@ -85,6 +89,7 @@ public class SelectAllAction extends AbstractSelectionAction {
             }
         }
     }
+
     @Override
     protected void updateEnabled() {
         if (target != null) {

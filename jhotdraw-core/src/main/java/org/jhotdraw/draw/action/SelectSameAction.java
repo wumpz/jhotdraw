@@ -7,23 +7,26 @@
  */
 package org.jhotdraw.draw.action;
 
+import java.util.*;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
-import java.util.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * SelectSameAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SelectSameAction extends AbstractSelectedAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "edit.selectSame";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SelectSameAction(DrawingEditor editor) {
         super(editor);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

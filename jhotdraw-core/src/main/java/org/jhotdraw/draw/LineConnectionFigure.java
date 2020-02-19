@@ -7,22 +7,21 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.BezierPath;
-
-import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.handle.BezierOutlineHandle;
-import org.jhotdraw.draw.handle.BezierNodeHandle;
-import org.jhotdraw.draw.connector.Connector;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.undo.*;
-import java.io.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.ConnectionEndHandle;
 import org.jhotdraw.draw.handle.ConnectionStartHandle;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
@@ -32,15 +31,18 @@ import org.jhotdraw.xml.DOMOutput;
  * The bezier path can be laid out manually using bezier handles provided
  * by this figure, or automatically using a {@link Liner} which can be
  * set using the JavaBeans property {@code liner}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class LineConnectionFigure extends LineFigure
         implements ConnectionFigure {
+
     private static final long serialVersionUID = 1L;
 
-    /** The name of the JaveBeans property {@code liner}. */
+    /**
+     * The name of the JaveBeans property {@code liner}.
+     */
     public static final String LINER_PROPERTY = "liner";
     private Connector startConnector;
     private Connector endConnector;
@@ -52,7 +54,8 @@ public class LineConnectionFigure extends LineFigure
     private ConnectionHandler connectionHandler = new ConnectionHandler(this);
 
     private static class ConnectionHandler extends FigureAdapter implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         private LineConnectionFigure owner;
 
@@ -87,7 +90,9 @@ public class LineConnectionFigure extends LineFigure
         }
     };
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public LineConnectionFigure() {
     }
     // DRAWING
@@ -133,7 +138,7 @@ public class LineConnectionFigure extends LineFigure
 
 // CONNECTING
     /**
-     * 
+     *
      * ConnectionFigures cannot be connected and always sets connectable to false.
      */
     @Override
@@ -419,7 +424,7 @@ public class LineConnectionFigure extends LineFigure
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void redo() throws CannotRedoException {
@@ -529,6 +534,7 @@ public class LineConnectionFigure extends LineFigure
         }
         super.setNode(index, p);
     }
+
     /*
     public void basicSetPoint(int index, Point2D.Double p) {
     if (index != 0 && index != getNodeCount() - 1) {
@@ -549,7 +555,6 @@ public class LineConnectionFigure extends LineFigure
     super.basicSetPoint(index, p);
     }
      */
-
     @Override
     public void lineout() {
         if (liner != null) {

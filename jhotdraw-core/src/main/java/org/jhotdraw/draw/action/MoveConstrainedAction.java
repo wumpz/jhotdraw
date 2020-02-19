@@ -7,25 +7,28 @@
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.event.TransformEdit;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.undo.CompositeEdit;
 import java.awt.geom.*;
 import java.util.HashSet;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Moves the selected figures by one constrained unit.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
+
     private static final long serialVersionUID = 1L;
 
     private TranslationDirection dir;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public MoveConstrainedAction(DrawingEditor editor, TranslationDirection dir) {
         super(editor);
         this.dir = dir;
@@ -84,7 +87,8 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class East extends MoveConstrainedAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveConstrainedEast";
 
@@ -96,7 +100,8 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class West extends MoveConstrainedAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveConstrainedWest";
 
@@ -108,7 +113,8 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class North extends MoveConstrainedAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveConstrainedNorth";
 
@@ -120,7 +126,8 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
     }
 
     public static class South extends MoveConstrainedAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public static final String ID = "edit.moveConstrainedSouth";
 

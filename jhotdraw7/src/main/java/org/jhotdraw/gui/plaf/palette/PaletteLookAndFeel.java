@@ -279,7 +279,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
                 "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorWheelChooser",
                 "org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorSlidersChooser",},
             "ColorChooser.textSliderGap", 3,
-            //
+            
             // *** FormattedTextField
             "FormattedTextField.font", fieldPlain12,
             "FormattedTextField.background", control,
@@ -303,9 +303,9 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "Panel.foreground", controlText,
             "Panel.opaque", Boolean.TRUE,
             // *** Ribbons
-            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 0, 0, 0), new Color(0x777777)}), //
+            "Ribbon.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 0, 0, 0), new Color(0x777777)}), 
             // *** ScrollPane
-            "ScrollPane.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 1, 1, 1), new Color(0xa5a5a5)}), //
+            "ScrollPane.border", new UIDefaults.ProxyLazyValue("javax.swing.border.MatteBorder", new Object[]{new Insets(1, 1, 1, 1), new Color(0xa5a5a5)}), 
             // *** Slider
             "Slider.background", control,
             "Slider.foreground", controlText,
@@ -348,7 +348,7 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
             "ToolBar.floatingBackground", control,
             //	    "ToolBar.floatingForeground", darkGray,
             //	    "ToolBar.border", etchedBorder,
-            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), //
+            "ToolBar.border", new UIDefaults.ProxyLazyValue("org.jhotdraw.gui.plaf.palette.PaletteToolBarBorder$UIResource"), 
         //	    "ToolBar.separatorSize", toolBarSeparatorSize,
         };
         table.putDefaults(defaults);

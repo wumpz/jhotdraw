@@ -189,20 +189,20 @@ public class ButtonFactory {
 
         for (int b = 10; b >= 0; b--) {
             Color c = new Color(grayCS, new float[]{b / 10f}, 1f);
-            m.add(new ColorIcon(c,//
+            m.add(new ColorIcon(c,
                     labels.getFormatted("attribute.color.grayComponents.toolTipText", b * 10)));
         }
         for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
-                m.add(new ColorIcon(c,//
+                m.add(new ColorIcon(c,
                         labels.getFormatted("attribute.color.hsbComponents.toolTipText", h * 360 / 12, s * 10, 100)));
             }
         }
         for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f);
-                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),//
+                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),
                         labels.getFormatted("attribute.color.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
             }
         }
@@ -214,10 +214,10 @@ public class ButtonFactory {
                 m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
             } else {
                 Color c = ci.getColor();
-                c = c.getColorSpace() == grayCS //
+                c = c.getColorSpace() == grayCS 
                         ? new Color(c.getGreen(), c.getGreen(), c.getGreen(), c.getAlpha())//workaround for rounding error
                         : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
-                m.add(new ColorIcon(c,//
+                m.add(new ColorIcon(c,
                         labels.getFormatted("attribute.color.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
         }

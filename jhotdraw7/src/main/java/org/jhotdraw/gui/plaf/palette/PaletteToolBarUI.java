@@ -1097,9 +1097,9 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     private class Handler implements ContainerListener,
             FocusListener, MouseInputListener, PropertyChangeListener {
 
-        //
+        
         // ContainerListener
-        //
+        
         @Override
         public void componentAdded(ContainerEvent evt) {
             Component c = evt.getChild();
@@ -1127,9 +1127,9 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
             setBorderToNormal(c);
         }
 
-        //
+        
         // FocusListener
-        //
+        
         @Override
         public void focusGained(FocusEvent evt) {
             Component c = evt.getComponent();
@@ -1139,9 +1139,9 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         @Override
         public void focusLost(FocusEvent evt) {
         }
-        //
+        
         // MouseInputListener (DockingListener)
-        //
+        
         JToolBar tb;
         boolean isDragging = false;
         
@@ -1215,9 +1215,9 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         public void mouseMoved(MouseEvent evt) {
         }
 
-        //
+        
         // PropertyChangeListener
-        //
+        
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String propertyName = evt.getPropertyName();

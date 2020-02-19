@@ -7,13 +7,12 @@
  */
 package org.jhotdraw.draw.tool;
 
-
-import org.jhotdraw.draw.*;
-import javax.swing.undo.*;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 
 /**
@@ -60,12 +59,11 @@ public class CreationTool extends AbstractTool {
      * Attributes to be applied to the created ConnectionFigure. These attributes override the
      * default attributes of the DrawingEditor.
      */
-    
     protected Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-    
+
     protected String presentationName;
     /**
      * Treshold for which we create a larger shape of a minimal size.
@@ -82,7 +80,7 @@ public class CreationTool extends AbstractTool {
     /**
      * The created figure.
      */
-    
+
     protected Figure createdFigure;
     /**
      * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
@@ -234,8 +232,8 @@ public class CreationTool extends AbstractTool {
                     createdFigure.setBounds(
                             constrainPoint(new Point(anchor.x, anchor.y), createdFigure),
                             constrainPoint(new Point(
-                                            anchor.x + (int) Math.max(bounds.width, minimalSize.width),
-                                            anchor.y + (int) Math.max(bounds.height, minimalSize.height)),
+                                    anchor.x + (int) Math.max(bounds.width, minimalSize.width),
+                                    anchor.y + (int) Math.max(bounds.height, minimalSize.height)),
                                     createdFigure));
                     createdFigure.changed();
                 }

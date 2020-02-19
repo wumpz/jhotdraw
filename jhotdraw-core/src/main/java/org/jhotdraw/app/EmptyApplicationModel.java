@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.app;
 
-
 import java.util.*;
 import javax.swing.*;
 
@@ -22,15 +21,20 @@ import javax.swing.*;
  */
 public class EmptyApplicationModel
         extends AbstractApplicationModel {
+
     private static final long serialVersionUID = 1L;
 
-    /** Returns an empty ActionMap. */
+    /**
+     * Returns an empty ActionMap.
+     */
     @Override
     public ActionMap createActionMap(Application a, View v) {
         return new ActionMap();
     }
 
-    /** Returns an empty unmodifiable list. */
+    /**
+     * Returns an empty unmodifiable list.
+     */
     @Override
     public List<JToolBar> createToolBars(Application app, View v) {
         return Collections.emptyList();
@@ -40,7 +44,5 @@ public class EmptyApplicationModel
     public MenuBuilder getMenuBuilder() {
         return new EmptyMenuBuilder();
     }
-
-
 
 }

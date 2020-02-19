@@ -5,7 +5,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.filechooser;
 
 import java.io.*;
@@ -18,12 +17,14 @@ import java.util.*;
  * @version $Id$
  */
 public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
+
     private String description;
     private HashSet<String> extensions;
     private String defaultExtension;
-    
+
     /**
      * Creates a new instance.
+     *
      * @param description A human readable description.
      * @param extension The filename extension. This will be converted to
      * lower-case by this method.
@@ -34,8 +35,10 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
         extensions.add(extension.toLowerCase());
         defaultExtension = extension;
     }
+
     /**
      * Creates a new instance.
+     *
      * @param description A human readable description.
      * @param extensions The filename extensions. These will be converted to
      * lower-case by this method.
@@ -43,16 +46,16 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
     public ExtensionFileFilter(String description, String[] extensions) {
         this.description = description;
         this.extensions = new HashSet<>();
-        
+
         String[] extlc = new String[extensions.length];
-        for (int i=0; i < extlc.length; i++) {
+        for (int i = 0; i < extlc.length; i++) {
             extlc[i] = extensions[i].toLowerCase();
         }
-        
+
         this.extensions.addAll(Arrays.asList(extlc));
         defaultExtension = extensions[0];
     }
-    
+
     /**
      * Returns an unmodifiable set with the filename extensions.
      * All extensions are lower case.
@@ -60,7 +63,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
     public Set<String> getExtensions() {
         return Collections.unmodifiableSet(extensions);
     }
-    
+
     @Override
     public boolean accept(File pathname) {
         if (pathname.isDirectory()) {
@@ -75,7 +78,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
             }
         }
     }
-    
+
     /**
      * Appends the extension to the filename, in case it is missing.
      */
@@ -83,13 +86,13 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
         if (accept(pathname)) {
             return pathname;
         } else {
-            return new File(pathname.getPath()+'.'+defaultExtension);
+            return new File(pathname.getPath() + '.' + defaultExtension);
         }
     }
-    
+
     @Override
     public String getDescription() {
         return description;
     }
-    
+
 }

@@ -154,9 +154,9 @@ public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNod
         return Collections.unmodifiableList(children);
     }
 
-    //
+    
     //  Child Queries
-    //
+    
     /**
      * Returns true if <code>aNode</code> is a child of this node.  If
      * <code>aNode</code> is null, this method returns false.

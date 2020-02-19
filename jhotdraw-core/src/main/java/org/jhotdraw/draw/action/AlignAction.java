@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.draw.action;
 
+import java.awt.geom.*;
+import java.util.*;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.undo.CompositeEdit;
-import java.awt.geom.*;
-import java.util.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -24,10 +24,11 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public abstract class AlignAction extends AbstractSelectedAction {
+
     private static final long serialVersionUID = 1L;
 
-    protected ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    protected ResourceBundleUtil labels
+            = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
 
     /**
      * Creates a new instance.
@@ -73,7 +74,8 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class North extends AlignAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public North(DrawingEditor editor) {
             super(editor);
@@ -103,7 +105,8 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class East extends AlignAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public East(DrawingEditor editor) {
             super(editor);
@@ -133,7 +136,8 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class West extends AlignAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public West(DrawingEditor editor) {
             super(editor);
@@ -163,7 +167,8 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class South extends AlignAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public South(DrawingEditor editor) {
             super(editor);
@@ -178,7 +183,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
         @Override
         protected void alignFigures(Collection<Figure> selectedFigures, Rectangle2D.Double selectionBounds) {
             double y = selectionBounds.y + selectionBounds.height;
-            for (Figure f: getView().getSelectedFigures()) {
+            for (Figure f : getView().getSelectedFigures()) {
                 if (f.isTransformable()) {
                     f.willChange();
                     Rectangle2D.Double b = f.getBounds();
@@ -193,7 +198,8 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class Vertical extends AlignAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public Vertical(DrawingEditor editor) {
             super(editor);
@@ -223,7 +229,8 @@ public abstract class AlignAction extends AbstractSelectedAction {
     }
 
     public static class Horizontal extends AlignAction {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public Horizontal(DrawingEditor editor) {
             super(editor);

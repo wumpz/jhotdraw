@@ -7,21 +7,18 @@
  */
 package org.jhotdraw.app.action;
 
-
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
-import org.jhotdraw.gui.URIChooser;
-import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.event.*;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that asks
@@ -36,34 +33,36 @@ import org.jhotdraw.net.URIUtil;
  * If the user chooses to save the changes, the view is saved, and {@code doIt}
  * is only invoked after the view was successfully saved.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
+
     private static final long serialVersionUID = 1L;
 
-    
     private Component oldFocusOwner;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractSaveUnsavedChangesAction(Application app, View view) {
         super(app, view);
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        Application app=getApplication();
-         View av = getActiveView();
+        Application app = getApplication();
+        View av = getActiveView();
         if (av == null) {
             if (isMayCreateView()) {
-             av=   app.createView();
-             app.add(av);
-             app.show(av);
+                av = app.createView();
+                app.add(av);
+                app.show(av);
             } else {
-            return;
+                return;
             }
         }
-        final View v=av;
+        final View v = av;
         if (v.isEnabled()) {
             final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
             Window wAncestor = SwingUtilities.getWindowAncestor(v.getComponent());
@@ -73,15 +72,15 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             if (v.hasUnsavedChanges()) {
                 URI unsavedURI = v.getURI();
                 JOptionPane pane = new JOptionPane(
-                        "<html>" + UIManager.getString("OptionPane.css") +//
-                        "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
-                        (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>" +//
-                        labels.getString("file.saveBefore.doYouWantToSave.details"),
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        + "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",
+                                (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
+                        + labels.getString("file.saveBefore.doYouWantToSave.details"),
                         JOptionPane.WARNING_MESSAGE);
-                Object[] options = { //
-                    labels.getString("file.saveBefore.saveOption.text"),//
-                    labels.getString("file.saveBefore.cancelOption.text"), //
-                    labels.getString("file.saveBefore.dontSaveOption.text")//
+                Object[] options = {
+                    labels.getString("file.saveBefore.saveOption.text"),
+                    labels.getString("file.saveBefore.cancelOption.text"),
+                    labels.getString("file.saveBefore.dontSaveOption.text")
                 };
                 pane.setOptions(options);
                 pane.setInitialValue(options[0]);
@@ -185,7 +184,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             }
         });
     }
-    
 
     protected abstract void doIt(View p);
 }

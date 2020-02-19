@@ -9,7 +9,6 @@
  */
 package org.jhotdraw.gui;
 
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Formatter;
@@ -24,6 +23,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * @version $Id$
  */
 public class DefaultActivityModel extends DefaultBoundedRangeModel implements ActivityModel {
+
     private static final long serialVersionUID = 1L;
 
     private boolean canceled, closed, cancelable = true;
@@ -37,17 +37,23 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
     private final Object owner;
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
-    /** Creates a new DefaultActivityModel. */
+    /**
+     * Creates a new DefaultActivityModel.
+     */
     public DefaultActivityModel(Object owner, String title, String note, boolean isIndeterminate) {
         this(owner, title, note, 0, 100, isIndeterminate);
     }
 
-    /** Creates a new DefaultActivityModel. */
+    /**
+     * Creates a new DefaultActivityModel.
+     */
     public DefaultActivityModel(Object owner, String title, String note, int min, int max) {
         this(owner, title, note, min, max, false);
     }
 
-    /** Creates a new DefaultActivityModel. */
+    /**
+     * Creates a new DefaultActivityModel.
+     */
     public DefaultActivityModel(Object owner, String title, String note, int min, final int max, final boolean isIndeterminate) {
         super(min, 0, min, max);
         this.owner = owner;
@@ -57,7 +63,9 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
         ActivityManager.getInstance().add(this);
     }
 
-    /** Creates a new indeterminate DefaultActivityModel. */
+    /**
+     * Creates a new indeterminate DefaultActivityModel.
+     */
     public DefaultActivityModel(Object owner, String title) {
         this(owner, title, null, 0, 100, true);
     }
@@ -67,9 +75,9 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
      */
     @Override
     public void setCancelable(boolean newValue) {
-        boolean oldValue=cancelable;
+        boolean oldValue = cancelable;
         cancelable = newValue;
-        firePropertyChange(CANCELABLE_PROPERTY, oldValue,newValue                );
+        firePropertyChange(CANCELABLE_PROPERTY, oldValue, newValue);
     }
 
     /**
@@ -82,14 +90,14 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
     }
 
     /**
-     * Indicate that the operation is closed.  
+     * Indicate that the operation is closed.
      */
     @Override
     public void close() {
         if (!closed) {
             closed = true;
-        firePropertyChange(CLOSED_PROPERTY, false,true);
-        ActivityManager.getInstance().remove(this);
+            firePropertyChange(CLOSED_PROPERTY, false, true);
+            ActivityManager.getInstance().remove(this);
         }
     }
 
@@ -120,8 +128,10 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
     public void cancel() {
         if (cancelable && !canceled) {
             canceled = true;
-        firePropertyChange(CANCELED_PROPERTY, false,true);
-        if (doCancel!=null) doCancel.run();
+            firePropertyChange(CANCELED_PROPERTY, false, true);
+            if (doCancel != null) {
+                doCancel.run();
+            }
         }
     }
 
@@ -130,12 +140,12 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
      * progress message. Used, for example, to show which file the
      * is currently being copied during a multiple-file copy.
      *
-     * @param newValue  a String specifying the note to display
+     * @param newValue a String specifying the note to display
      * @see #getNote
      */
     @Override
     public void setNote(String newValue) {
-        String oldValue=note;
+        String oldValue = note;
         this.note = newValue;
         firePropertyChange(NOTE_PROPERTY, oldValue, newValue);
     }
@@ -154,7 +164,7 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
 
     @Override
     public void setWarning(String newValue) {
-        String oldValue=warning;
+        String oldValue = warning;
         this.warning = newValue;
         firePropertyChange(WARNING_PROPERTY, oldValue, newValue);
     }
@@ -166,7 +176,7 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
 
     @Override
     public void setError(String newValue) {
-        String oldValue=error;
+        String oldValue = error;
         this.error = newValue;
         firePropertyChange(ERROR_PROPERTY, oldValue, newValue);
     }
@@ -178,7 +188,7 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
 
     @Override
     public void setIndeterminate(boolean newValue) {
-        boolean oldValue=isIndeterminate;
+        boolean oldValue = isIndeterminate;
         isIndeterminate = newValue;
         firePropertyChange(INDETERMINATE_PROPERTY, oldValue, newValue);
     }
@@ -190,7 +200,7 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
 
     @Override
     public void printf(String format, Object... args) {
-        if ((formatter == null)//
+        if ((formatter == null)
                 || (formatter.locale() != Locale.getDefault())) {
             formatter = new Formatter();
         }
@@ -209,8 +219,10 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
         return title;
     }
 
-    /** Adds a {@code PropertyChangeListener} which can optionally be wrapped
+    /**
+     * Adds a {@code PropertyChangeListener} which can optionally be wrapped
      * into a {@code WeakPropertyChangeListener}.
+     *
      * @param listener
      */
     @Override
@@ -218,15 +230,18 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
         propertySupport.addPropertyChangeListener(listener);
     }
 
-    /** Adds a {@code PropertyChangeListener} which can optionally be wrapped
+    /**
+     * Adds a {@code PropertyChangeListener} which can optionally be wrapped
      * into a {@code WeakPropertyChangeListener}.
+     *
      * @param listener
      */
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertySupport.addPropertyChangeListener(propertyName, listener);
     }
 
-    /** Removes a {@code PropertyChangeListener}. If the listener was added
+    /**
+     * Removes a {@code PropertyChangeListener}. If the listener was added
      * wrapped into a {@code WeakPropertyChangeListener}, the
      * {@code WeakPropertyChangeListener} is removed.
      *
@@ -267,6 +282,6 @@ public class DefaultActivityModel extends DefaultBoundedRangeModel implements Ac
 
     @Override
     public boolean isCancelable() {
-       return cancelable;
+        return cancelable;
     }
 }

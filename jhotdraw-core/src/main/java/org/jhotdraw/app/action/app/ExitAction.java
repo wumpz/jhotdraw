@@ -7,20 +7,18 @@
  */
 package org.jhotdraw.app.action.app;
 
-
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.event.*;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Exits the application after letting the user review all unsaved views.
@@ -33,17 +31,20 @@ import org.jhotdraw.net.URIUtil;
  * the {@code ApplicationModel} before {@link org.jhotdraw.app.ApplicationModel#initApplication}
  * is called.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class ExitAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "application.exit";
     private Component oldFocusOwner;
     private View unsavedView;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ExitAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -85,8 +86,8 @@ public class ExitAction extends AbstractApplicationAction {
                     unsavedView.setEnabled(false);
                     JOptionPane pane = new JOptionPane(
                             "<html>" + UIManager.getString("OptionPane.css")
-                            + "<b>" + labels.getFormatted("application.exit.doYouWantToSave.message",//
-                            (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
+                            + "<b>" + labels.getFormatted("application.exit.doYouWantToSave.message",
+                                    (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
                             + labels.getString("application.exit.doYouWantToSave.details"),
                             JOptionPane.WARNING_MESSAGE);
                     Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
@@ -95,7 +96,7 @@ public class ExitAction extends AbstractApplicationAction {
                     pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                     JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
 
-                    @Override
+                        @Override
                         public void optionSelected(SheetEvent evt) {
                             Object value = evt.getValue();
                             if (value == null || value.equals(labels.getString("application.exit.cancelOption"))) {
@@ -144,6 +145,7 @@ public class ExitAction extends AbstractApplicationAction {
             }
         }
     }
+
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
         if (chsr == null) {
@@ -187,8 +189,8 @@ public class ExitAction extends AbstractApplicationAction {
             URI unsavedURI = unsavedView.getURI();
             JOptionPane pane = new JOptionPane(
                     "<html>" + UIManager.getString("OptionPane.css")
-                    + labels.getFormatted("application.exit.doYouWantToSave.message", //
-                    (unsavedURI==null)?unsavedView.getTitle():URIUtil.getName(unsavedURI)),
+                    + labels.getFormatted("application.exit.doYouWantToSave.message",
+                            (unsavedURI == null) ? unsavedView.getTitle() : URIUtil.getName(unsavedURI)),
                     JOptionPane.WARNING_MESSAGE);
             Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
             pane.setOptions(options);

@@ -5,34 +5,34 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.event;
-
 
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.gui.URIChooser;
 
 /**
  * SheetEvent.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SheetEvent extends EventObject {
+
     private static final long serialVersionUID = 1L;
     private Object pane;
     private int option;
     private Object value;
     private Object inputValue;
-    
+
     /**
      * Creates a new instance.
      */
     public SheetEvent(JSheet source) {
         super(source);
     }
+
     /**
      * Creates a new instance.
      */
@@ -42,6 +42,7 @@ public class SheetEvent extends EventObject {
         this.option = option;
         this.value = value;
     }
+
     /**
      * Creates a new instance.
      */
@@ -51,6 +52,7 @@ public class SheetEvent extends EventObject {
         this.option = option;
         this.value = value;
     }
+
     /**
      * Creates a new instance.
      */
@@ -61,7 +63,7 @@ public class SheetEvent extends EventObject {
         this.value = value;
         this.inputValue = inputValue;
     }
-    
+
     /**
      * Returns the pane on the sheet. This is either a JFileChooser, a URIChooser or a
      * JOptionPane.
@@ -69,40 +71,46 @@ public class SheetEvent extends EventObject {
     public Object getPane() {
         return pane;
     }
+
     /**
      * Returns the JFileChooser pane on the sheet.
      */
     public JFileChooser getFileChooser() {
         return (JFileChooser) pane;
     }
+
     /**
      * Returns the URIChooser pane on the sheet.
      */
     public URIChooser getChooser() {
         return (URIChooser) pane;
     }
+
     /**
      * Returns the JOptionPane pane on the sheet.
      */
     public JOptionPane getOptionPane() {
         return (JOptionPane) pane;
     }
+
     /**
      * Returns the option that the JFileChooser or JOptionPane returned.
      */
     public int getOption() {
         return option;
     }
+
     /**
      * Returns the value that the JFileChooser or JOptionPane returned.
      */
     public Object getValue() {
         return value;
-    }    
+    }
+
     /**
      * Returns the input value that the JOptionPane returned, if it wants input.
      */
     public Object getInputValue() {
         return inputValue;
-    }    
+    }
 }

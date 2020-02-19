@@ -6,7 +6,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.tool;
 
 /**
@@ -16,7 +15,8 @@ package org.jhotdraw.draw.tool;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * The different behavior states of the selection tool are implemented by
  * trackers.<br>
  * Context: {@link SelectionTool}; State: {@link DragTracker},

@@ -11,16 +11,26 @@ package org.jhotdraw.color;
 import java.awt.color.ColorSpace;
 
 /**
- * The 1976 CIE L*a*b* color space (CIELAB). <p> The L* coordinate of an object
+ * The 1976 CIE L*a*b* color space (CIELAB).
+ * <p>
+ * The L* coordinate of an object
  * is the lightness intensity as measured on a scale from 0 to 100, where 0
- * represents black and 100 represents white. <p> The a* coordinate of an object
+ * represents black and 100 represents white.
+ * <p>
+ * The a* coordinate of an object
  * represents the position of the object’s color on a pure green and pure red
- * scale, where -127 represents pure green and +127 represents pure red. <p> The
+ * scale, where -127 represents pure green and +127 represents pure red.
+ * <p>
+ * The
  * b* coordinate represents the position of the object’s color on a pure blue
  * and pure yellow scale, where -127 represents pure blue and +127 represents
- * pure yellow. <p> The distance that can be calculated between two colors, is
+ * pure yellow.
+ * <p>
+ * The distance that can be calculated between two colors, is
  * directly proportional to the difference between the two colors as perceived
- * by the human eye. <p> The above description has been derived from <a
+ * by the human eye.
+ * <p>
+ * The above description has been derived from <a
  * href="http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf">
  * http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf
  * </a>
@@ -29,6 +39,7 @@ import java.awt.color.ColorSpace;
  * @version $Id$
  */
 public class CIELABColorSpace extends AbstractNamedColorSpace {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -73,8 +84,8 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
 
     @Override
     public float[] toRGB(float[] colorvalue, float[] rgb) {
-        float[] ciexyz=rgb;
-        toCIEXYZ(colorvalue,ciexyz);
+        float[] ciexyz = rgb;
+        toCIEXYZ(colorvalue, ciexyz);
 
         // Convert to sRGB as described in
         // http://www.w3.org/Graphics/Color/sRGB.html
@@ -110,10 +121,9 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
                 break;
         }
 
-
-        rgb[0]=(float) Rs;
-        rgb[1]=(float) Gs;
-        rgb[2]=(float) Bs;
+        rgb[0] = (float) Rs;
+        rgb[1] = (float) Gs;
+        rgb[2] = (float) Bs;
         return rgb;
     }
 
@@ -194,7 +204,9 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double Y = yr * Yw;
         double Z = zr * Zw;
 
-        xyz[0]=(float) X; xyz[1]=(float) Y;xyz[2]=(float) Z;
+        xyz[0] = (float) X;
+        xyz[1] = (float) Y;
+        xyz[2] = (float) Z;
         return xyz;
     }
 

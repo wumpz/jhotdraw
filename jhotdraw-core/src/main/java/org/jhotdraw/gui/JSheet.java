@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.gui;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
@@ -20,10 +19,16 @@ import org.jhotdraw.util.*;
 
 /**
  * JSheet is a document modal dialog which is displayed below the title bar of a
- * JFrame. <p> A JSheet blocks input on its owner window, while it is visible.
- * <p> Unlike application modal dialogs, the show method of a JSheet does return
+ * JFrame.
+ * <p>
+ * A JSheet blocks input on its owner window, while it is visible.
+ * <p>
+ * Unlike application modal dialogs, the show method of a JSheet does return
  * immediately, when the JSheet has become visible. Applications need to use a
- * SheetListener to get the return value of a JSheet. <p> Requires Java 1.4. <p>
+ * SheetListener to get the return value of a JSheet.
+ * <p>
+ * Requires Java 1.4.
+ * <p>
  * Caveats: We are using an unsupported API call to make the JSheet translucent.
  * This API may go away in future versions of the Macintosh Runtime for Java. In
  * such a case, we (hopefully) just end up with a non-opaque sheet.
@@ -32,6 +37,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class JSheet extends JDialog {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -47,7 +53,7 @@ public class JSheet extends JDialog {
      * If this is non-null, we put the owner to the specified location, when the
      * sheet is hidden.
      */
-    
+
     private Point shiftBackLocation;
     /**
      * We need to keep track of the old owner position, in order to avoid
@@ -83,7 +89,7 @@ public class JSheet extends JDialog {
      * window. Before we do this, we store the glass pane of the owner window
      * here, and restore it after we have finished.
      */
-    
+
     private Component ownersGlassPane;
 
     static {
@@ -446,7 +452,7 @@ public class JSheet extends JDialog {
          int id = app.requestUserAttention(
          NSApplication.UserAttentionRequestInformational);
          */
-        /*
+ /*
          try {
          Object app = Methods.invokeStatic("com.apple.cocoa.application.NSApplication", "sharedApplication");
          Methods.invoke(app, "requestUserAttention", app.getClass().getDeclaredField("UserAttentionRequestInformational").getInt(app));
@@ -638,7 +644,7 @@ public class JSheet extends JDialog {
      * Feel: <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param listener The listener for SheetEvents.
      */
     public static void showConfirmSheet(Component parentComponent,
@@ -666,7 +672,7 @@ public class JSheet extends JDialog {
      * Feel: <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param icon the icon to display in the dialog
      * @param listener The listener for SheetEvents.
      */
@@ -718,7 +724,7 @@ public class JSheet extends JDialog {
      * <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param listener The listener for SheetEvents.
      */
     public static void showInputSheet(Component parentComponent,
@@ -748,7 +754,7 @@ public class JSheet extends JDialog {
      * <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param icon the <code>Icon</code> image to display
      * @param selectionValues an array of <code>Object</code>s that gives the
      * possible selections
@@ -829,7 +835,7 @@ public class JSheet extends JDialog {
      * <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      */
     public static void showMessageSheet(Component parentComponent,
             Object message, int messageType) {
@@ -855,7 +861,7 @@ public class JSheet extends JDialog {
      * <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param listener This listener is notified when the sheet is dismissed.
      */
     public static void showMessageSheet(Component parentComponent,
@@ -875,7 +881,7 @@ public class JSheet extends JDialog {
      * <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param icon an icon to display in the sheet that helps the user identify
      * the kind of message that is being displayed
      * @param listener This listener is notified when the sheet is dismissed.
@@ -891,13 +897,16 @@ public class JSheet extends JDialog {
      * determined by the
      * <code>initialValue</code> parameter and the number of choices is
      * determined by the
-     * <code>optionType</code> parameter. <p> If
+     * <code>optionType</code> parameter.
+     * <p>
+     * If
      * <code>optionType</code> is
      * <code>YES_NO_OPTION</code>, or
      * <code>YES_NO_CANCEL_OPTION</code> and the
      * <code>options</code> parameter is
      * <code>null</code>, then the options are supplied by the look and feel.
-     * <p> The
+     * <p>
+     * The
      * <code>messageType</code> parameter is primarily used to supply a default
      * icon from the look and feel.
      *
@@ -913,7 +922,7 @@ public class JSheet extends JDialog {
      * Feel: <code>JOptionPane.ERROR_MESSAGE</code>,
      * <code>JOptionPane.INFORMATION_MESSAGE</code>,
      * <code>JOptionPane.WARNING_MESSAGE</code>,
-     * <code>JOptionPane.QUESTION_MESSAGE</code>,    *			or <code>JOptionPane.PLAIN_MESSAGE</code>
+     * <code>JOptionPane.QUESTION_MESSAGE</code>, *	or <code>JOptionPane.PLAIN_MESSAGE</code>
      * @param icon the icon to display in the dialog
      * @param options an array of objects indicating the possible choices the
      * user can make; if the objects are components, they are rendered properly;
@@ -1204,7 +1213,6 @@ public class JSheet extends JDialog {
         if (popup != null) {
             parent = popup.getInvoker();
         }
-
 
         // Begin Create Dialog
         Frame frame = parent instanceof Frame ? (Frame) parent

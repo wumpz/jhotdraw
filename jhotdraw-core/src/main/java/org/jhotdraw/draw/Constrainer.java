@@ -20,17 +20,18 @@ import javax.swing.event.ChangeListener;
  * <p>
  * Constrainers can draw themselves onto the drawing view to visualize the
  * constraints that they impose. Typically by drawing a grid of some kind.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * Editing can be constrained by a constrainer which is associated to a
  * drawing view.<br>
  * Context: {@link DrawingView}; Strategy: {@link Constrainer}.
  * <hr>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public interface Constrainer {
@@ -44,7 +45,7 @@ public interface Constrainer {
      * @param p A point on the drawing.
      * @return Returns the constrained point.
      */
-    public Point2D.Double constrainPoint(Point2D.Double p, Figure ... figures);
+    public Point2D.Double constrainPoint(Point2D.Double p, Figure... figures);
 
     /**
      * Moves a point to the closest constrained location in the specified
@@ -56,7 +57,7 @@ public interface Constrainer {
      * @param dir A direction.
      * @return Returns the constrained point.
      */
-    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir, Figure ... figures);
+    public Point2D.Double translatePoint(Point2D.Double p, TranslationDirection dir, Figure... figures);
 
     /**
      * Constrains the placement of a rectangle towards the closest constrainment
@@ -68,40 +69,40 @@ public interface Constrainer {
      * @param r A rectangle on the drawing.
      * @return Returns the constrained rectangle.
      */
-    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, Figure ... figures);
+    public Rectangle2D.Double constrainRectangle(Rectangle2D.Double r, Figure... figures);
 
     /**
-     * Moves a rectangle to the closest constrained location in the 
+     * Moves a rectangle to the closest constrained location in the
      * specified direction.
      * <p>
      * This method changes the location of the rectangle which is passed as a
-     * parameter. This method only performs a translation - it does not change 
+     * parameter. This method only performs a translation - it does not change
      * the size of the rectangle.
      *
      * @param r A rectangle on the drawing.
      * @param dir A direction.
      * @return Returns the constrained rectangle.
      */
-    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure ... figures);
+    public Rectangle2D.Double translateRectangle(Rectangle2D.Double r, TranslationDirection dir, Figure... figures);
 
     /**
      * Constrains the given angle (in radians).
      * This method changes the angle which is passed as a parameter.
-     * 
+     *
      * @param angle The angle (in radians).
      * @return The closest constrained angle (in radians).
      */
-    public double constrainAngle(double angle, Figure ... figures);
+    public double constrainAngle(double angle, Figure... figures);
 
     /**
      * Moves the given angle (in radians) to the closest constrained orientation
      * in the specified direction.
-     * 
+     *
      * @param angle The angle (in radians).
      * @return The closest constrained angle (in radians) in the specified
      * direction.
      */
-    public double rotateAngle(double angle, RotationDirection dir, Figure ... figures);
+    public double rotateAngle(double angle, RotationDirection dir, Figure... figures);
 
     /**
      * Draws the constrainer grid for the specified drawing view.
@@ -117,6 +118,5 @@ public interface Constrainer {
      * Removes a change listener.
      */
     public void removeChangeListener(ChangeListener listener);
-    
-    
+
 }

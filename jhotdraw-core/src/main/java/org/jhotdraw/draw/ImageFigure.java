@@ -7,11 +7,6 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-
-import org.jhotdraw.draw.connector.ChopRectangleConnector;
-import org.jhotdraw.draw.connector.Connector;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -19,10 +14,14 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.connector.ChopRectangleConnector;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.io.Base64;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
  * A default implementation of {@link ImageHolderFigure} which can hold a buffered image.
@@ -42,12 +41,12 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * The image data. This can be null, if the image was created from a BufferedImage.
      */
-    
+
     private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the imageData.
      */
-    
+
     private transient BufferedImage bufferedImage;
 
     /**
@@ -275,7 +274,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * data.
      */
     @Override
-    
+
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             try {
@@ -299,7 +298,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * data array instead of cloning it. Do not modify this array.
      */
     @Override
-    
+
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

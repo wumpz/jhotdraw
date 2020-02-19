@@ -5,13 +5,11 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app.action.file;
 
-
-import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
+import org.jhotdraw.util.*;
 
 /**
  * Presents an {@code URIChooser} and then saves the active view to the
@@ -24,14 +22,17 @@ import org.jhotdraw.app.View;
  * and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SaveFileAsAction extends SaveFileAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = "file.saveAs";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SaveFileAsAction(Application app, View view) {
         super(app, view, true);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

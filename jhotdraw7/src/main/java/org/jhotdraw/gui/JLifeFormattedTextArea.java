@@ -47,7 +47,7 @@ public class JLifeFormattedTextArea extends JTextArea {
 
     @Override
                 public void propertyChange(PropertyChangeEvent evt) {
-                    if (evt.getSource() == formattedTextFieldAdapter &&//
+                    if (evt.getSource() == formattedTextFieldAdapter &&
                             evt.getPropertyName() == "value") {
                         firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
                     }

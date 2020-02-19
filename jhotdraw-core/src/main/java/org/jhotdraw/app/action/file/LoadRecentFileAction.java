@@ -7,16 +7,15 @@
  */
 package org.jhotdraw.app.action.file;
 
-
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
 import java.awt.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.event.*;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 
@@ -34,13 +33,15 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * {@code LoadRecentFileAction} supplies data for this feature by calling
  * {@link Application#addRecentURI} when it successfully loaded a file.
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * When the feature is disabled, {@code LoadRecentFileAction} prevents loading an URI which
  * is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
@@ -50,12 +51,15 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.loadRecent";
     private URI uri;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public LoadRecentFileAction(Application app, View view, URI uri) {
         super(app, view);
         this.uri = uri;

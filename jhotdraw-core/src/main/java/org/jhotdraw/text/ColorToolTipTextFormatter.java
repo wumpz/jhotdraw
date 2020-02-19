@@ -26,6 +26,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id: ColorFormatter.java 632 2010-01-21 16:06:59Z rawcoder $
  */
 public class ColorToolTipTextFormatter extends ColorFormatter {
+
     private static final long serialVersionUID = 1L;
 
     private ResourceBundleUtil labels;
@@ -65,19 +66,19 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
             switch (f) {
                 case RGB_HEX:
                     str = "000000" + Integer.toHexString(c.getRGB() & 0xffffff);
-                    str = labels.getFormatted("attribute.color.rgbHexComponents.toolTipText",//
+                    str = labels.getFormatted("attribute.color.rgbHexComponents.toolTipText",
                             str.substring(str.length() - 6));
                     break;
                 case RGB_INTEGER:
-                    str = labels.getFormatted("attribute.color.rgbComponents.toolTipText",//
-                            numberFormat.format(c.getRed()),//
-                            numberFormat.format(c.getGreen()),//
+                    str = labels.getFormatted("attribute.color.rgbComponents.toolTipText",
+                            numberFormat.format(c.getRed()),
+                            numberFormat.format(c.getGreen()),
                             numberFormat.format(c.getBlue()));
                     break;
                 case RGB_PERCENTAGE:
-                    str = labels.getFormatted("attribute.color.rgbPercentageComponents.toolTipText",//
-                            numberFormat.format(c.getRed() / 255f),//
-                            numberFormat.format(c.getGreen() / 255f),//
+                    str = labels.getFormatted("attribute.color.rgbPercentageComponents.toolTipText",
+                            numberFormat.format(c.getRed() / 255f),
+                            numberFormat.format(c.getGreen() / 255f),
                             numberFormat.format(c.getBlue() / 255f));
                     break;
                 case HSB_PERCENTAGE: {
@@ -87,9 +88,9 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
                     } else {
                         components = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), new float[3]);
                     }
-                    str = labels.getFormatted("attribute.color.hsbComponents.toolTipText",//
-                            numberFormat.format(components[0] * 360),//
-                            numberFormat.format(components[1] * 100),//
+                    str = labels.getFormatted("attribute.color.hsbComponents.toolTipText",
+                            numberFormat.format(components[0] * 360),
+                            numberFormat.format(components[1] * 100),
                             numberFormat.format(components[2] * 100));
                     break;
                 }
@@ -100,7 +101,7 @@ public class ColorToolTipTextFormatter extends ColorFormatter {
                     } else {
                         components = c.getColorComponents(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
                     }
-                    str = labels.getFormatted("attribute.color.grayComponents.toolTipText",//
+                    str = labels.getFormatted("attribute.color.grayComponents.toolTipText",
                             numberFormat.format(components[0] * 100));
                     break;
                 }

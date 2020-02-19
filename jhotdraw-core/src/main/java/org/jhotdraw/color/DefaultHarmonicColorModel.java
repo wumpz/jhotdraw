@@ -2,7 +2,7 @@
  * @(#)DefaultHarmonicColorModel.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.color;
@@ -21,6 +21,7 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
  * @version $Id$
  */
 public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel, Cloneable {
+
     private static final long serialVersionUID = 1L;
 
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
@@ -85,7 +86,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         adjusting--;
         fireContentsChanged(this, index, index);
     }
-    
+
     @Override
     public void applyRules() {
         for (HarmonicRule r : rules) {
@@ -126,7 +127,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
 
     @Override
     public int componentToRGB(float h, float s, float b) {
-        return ColorUtil.toRGB24(sliderModel.getColorSpace(), h,s,b);
+        return ColorUtil.toRGB24(sliderModel.getColorSpace(), h, s, b);
     }
 
     @Override
@@ -205,7 +206,7 @@ public class DefaultHarmonicColorModel extends AbstractListModel implements Harm
         firePropertyChange(COLOR_SPACE_PROPERTY, oldValue, newValue);
         for (int i = 0; i < colors.size(); i++) {
             if (get(i) != null) {
-                set(i, new Color(newValue, ColorUtil.fromColor(newValue,get(i)),1f));
+                set(i, new Color(newValue, ColorUtil.fromColor(newValue, get(i)), 1f));
             }
         }
         fireContentsChanged(this, 0, size() - 1);

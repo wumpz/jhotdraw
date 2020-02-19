@@ -7,30 +7,32 @@
  */
 package org.jhotdraw.app.action.window;
 
-
-import org.jhotdraw.util.*;
-import java.beans.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
+import java.beans.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.View;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Requests focus for a Frame.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class FocusWindowAction extends AbstractAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "window.focus";
     private View view;
     private PropertyChangeListener ppc;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public FocusWindowAction(View view) {
         this.view = view;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -90,7 +92,7 @@ public class FocusWindowAction extends AbstractAction {
                 title += "*";
             }
             title = (labels.getFormatted("internalFrame.title", title,
-                    view.getApplication() == null?"":view.getApplication().getName(), view.getMultipleOpenId()));
+                    view.getApplication() == null ? "" : view.getApplication().getName(), view.getMultipleOpenId()));
         }
         return title;
 

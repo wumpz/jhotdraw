@@ -7,16 +7,15 @@
  */
 package org.jhotdraw.draw.text;
 
-
-import org.jhotdraw.draw.event.FigureListener;
+import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.*;
-import java.awt.geom.*;
-import java.awt.*;
-import javax.swing.BorderFactory;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
+import org.jhotdraw.draw.event.FigureListener;
 
 /**
  * A <em>floating text area</em> that is used to edit a {@link TextHolderFigure}.
@@ -24,10 +23,11 @@ import javax.swing.JScrollPane;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The text creation and editing tools and the {@code TextHolderFigure}
  * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for  structured drawing editors.<br>
+ * JHotDraw framework for structured drawing editors.<br>
  * Contract: {@link TextHolderFigure}, {@link org.jhotdraw.draw.tool.TextCreationTool},
  * {@link org.jhotdraw.draw.tool.TextAreaCreationTool},
  * {@link org.jhotdraw.draw.tool.TextEditingTool},
@@ -36,7 +36,7 @@ import javax.swing.JScrollPane;
  * <hr>
  *
  * @author Werner Randelshofer
- * @version $Id: FloatingTextArea.java -1   $
+ * @version $Id: FloatingTextArea.java -1 $
  */
 public class FloatingTextArea {
 
@@ -77,6 +77,7 @@ public class FloatingTextArea {
 
     /**
      * Creates the overlay within the given container.
+     *
      * @param view the DrawingView
      */
     public void createOverlay(DrawingView view) {
@@ -90,6 +91,7 @@ public class FloatingTextArea {
     /**
      * Creates the overlay for the given Container using a
      * specific font.
+     *
      * @param view the DrawingView
      * @param figure the figure holding the text
      */
@@ -115,6 +117,7 @@ public class FloatingTextArea {
 
     /**
      * Positions and sizes the overlay.
+     *
      * @param r the bounding Rectangle2D.Double for the overlay
      * @param text the text to edit
      */
@@ -128,6 +131,7 @@ public class FloatingTextArea {
 
     /**
      * Gets the text contents of the overlay.
+     *
      * @return The text value
      */
     public String getText() {
@@ -136,6 +140,7 @@ public class FloatingTextArea {
 
     /**
      * Gets the preferred size of the overlay.
+     *
      * @param cols Description of the Parameter
      * @return The preferredSize value
      */

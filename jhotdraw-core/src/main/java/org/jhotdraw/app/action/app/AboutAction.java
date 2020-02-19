@@ -8,11 +8,11 @@
 package org.jhotdraw.app.action.app;
 
 import java.awt.Component;
-import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractApplicationAction;
+import org.jhotdraw.util.*;
 
 /**
  * Displays a dialog showing information about the application.
@@ -26,15 +26,18 @@ import org.jhotdraw.app.action.AbstractApplicationAction;
  * {@code ApplicationModel} before {@link ApplicationModel#initApplication} is
  * called.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class AboutAction extends AbstractApplicationAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "application.about";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AboutAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -52,7 +55,6 @@ public class AboutAction extends AbstractApplicationAction {
         if (c == null || c.getBounds().isEmpty()) {
             c = null;
         }
-
 
         JOptionPane.showMessageDialog(c,
                 "<html>" + UIManager.getString("OptionPane.css")

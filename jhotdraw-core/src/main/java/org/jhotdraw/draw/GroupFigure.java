@@ -5,11 +5,10 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Geom;
 import java.awt.geom.*;
+import org.jhotdraw.geom.Geom;
 
 /**
  * A {@link org.jhotdraw.draw.Figure} which groups a collection of figures.
@@ -18,12 +17,16 @@ import java.awt.geom.*;
  * @version $Id$
  */
 public class GroupFigure extends AbstractCompositeFigure {
+
     private static final long serialVersionUID = 1L;
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public GroupFigure() {
         setConnectable(false);
     }
-    
+
     /**
      * This is a default implementation that chops the point at the rectangle
      * returned by getBounds() of the figure.
@@ -37,16 +40,17 @@ public class GroupFigure extends AbstractCompositeFigure {
         return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
     }
 
-    /** Returns true if all children of the group are transformable. */
+    /**
+     * Returns true if all children of the group are transformable.
+     */
     @Override
     public boolean isTransformable() {
         for (Figure f : children) {
-            if (! f.isTransformable()) {
+            if (!f.isTransformable()) {
                 return false;
             }
         }
         return true;
     }
-
 
 }

@@ -2,11 +2,10 @@
  * @(#)FontFaceNode.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.gui.fontchooser;
-
 
 import java.awt.Font;
 import java.util.Collections;
@@ -85,9 +84,9 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         buf.append(prev);
         for (int i = 1; i < name.length(); i++) {
             char ch = name.charAt(i);
-            if (prev != ' ' && prev != '-' &&
-                    Character.isUpperCase(ch) && !Character.isUpperCase(prev) ||
-                    Character.isDigit(ch) && !Character.isDigit(prev)) {
+            if (prev != ' ' && prev != '-'
+                    && Character.isUpperCase(ch) && !Character.isUpperCase(prev)
+                    || Character.isDigit(ch) && !Character.isDigit(prev)) {
                 buf.append(' ');
             }
             buf.append(ch);
@@ -141,7 +140,7 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         }
     }
 
-    @Override 
+    @Override
     public void setParent(MutableTreeNode newParent) {
         this.parent = (FontFamilyNode) newParent;
     }
@@ -156,7 +155,7 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         return 0;
     }
 
-    @Override 
+    @Override
     public TreeNode getParent() {
         return parent;
     }

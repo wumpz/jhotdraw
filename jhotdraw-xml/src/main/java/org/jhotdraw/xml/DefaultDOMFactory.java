@@ -18,14 +18,14 @@ import java.util.*;
  */
 public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
 
-    private static final HashMap<Class<?>, String> classToNameMap = new HashMap<Class<?>, String>();
-    private static final HashMap<String, Object> nameToPrototypeMap = new HashMap<String, Object>();
-    private static final HashMap<Class<?>, String> enumClassToNameMap = new HashMap<Class<?>, String>();
-    private static final HashMap<String, Class<?>> nameToEnumClassMap = new HashMap<String, Class<?>>();
+    private static final HashMap<Class<?>, String> CLASS_TO_NAME = new HashMap<Class<?>, String>();
+    private static final HashMap<String, Object> NAME_TO_PROTOTYPE = new HashMap<String, Object>();
+    private static final HashMap<Class<?>, String> ENUM_TO_NAME = new HashMap<Class<?>, String>();
+    private static final HashMap<String, Class<?>> NAME_TO_ENUM = new HashMap<String, Class<?>>();
     @SuppressWarnings("rawtypes")
-    private static final HashMap<Enum, String> enumToValueMap = new HashMap<Enum, String>();
+    private static final HashMap<Enum, String> ENUM_TO_VALUE = new HashMap<Enum, String>();
     @SuppressWarnings("rawtypes")
-    private static final HashMap<String, Set<Enum>> valueToEnumMap = new HashMap<String, Set<Enum>>();
+    private static final HashMap<String, Set<Enum>> VALUE_TO_ENUM = new HashMap<String, Set<Enum>>();
 
     /**
      * Creates a new instance.
@@ -37,38 +37,38 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
      * Adds a DOMStorable class to the DOMFactory.
      */
     public void addStorableClass(String name, Class<?> c) {
-        nameToPrototypeMap.put(name, c);
-        classToNameMap.put(c, name);
+        NAME_TO_PROTOTYPE.put(name, c);
+        CLASS_TO_NAME.put(c, name);
     }
 
     /**
      * Adds a DOMStorable prototype to the DOMFactory.
      */
     public void addStorable(String name, DOMStorable prototype) {
-        nameToPrototypeMap.put(name, prototype);
-        classToNameMap.put(prototype.getClass(), name);
+        NAME_TO_PROTOTYPE.put(name, prototype);
+        CLASS_TO_NAME.put(prototype.getClass(), name);
     }
 
     /**
      * Adds an Enum class to the DOMFactory.
      */
     public void addEnumClass(String name, Class<?> c) {
-        enumClassToNameMap.put(c, name);
-        nameToEnumClassMap.put(name, c);
+        ENUM_TO_NAME.put(c, name);
+        NAME_TO_ENUM.put(name, c);
     }
 
     /**
      * Adds an Enum value to the DOMFactory.
      */
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     public <T extends Enum<T>> void addEnum(String value, Enum<T> e) {
-        enumToValueMap.put(e, value);
+        ENUM_TO_VALUE.put(e, value);
         Set<Enum> enums;
-        if (valueToEnumMap.containsKey(value)) {
-            enums = valueToEnumMap.get(value);
+        if (VALUE_TO_ENUM.containsKey(value)) {
+            enums = VALUE_TO_ENUM.get(value);
         } else {
             enums = new HashSet<Enum>();
-            valueToEnumMap.put(value, enums);
+            VALUE_TO_ENUM.put(value, enums);
         }
         enums.add(e);
     }
@@ -78,7 +78,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
      */
     @Override
     public Object create(String name) {
-        Object o = nameToPrototypeMap.get(name);
+        Object o = NAME_TO_PROTOTYPE.get(name);
         if (o == null) {
             throw new IllegalArgumentException("Storable name not known to factory: " + name);
         }
@@ -104,7 +104,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
 
     @Override
     public String getName(Object o) {
-        String name = (o == null) ? null : classToNameMap.get(o.getClass());
+        String name = (o == null) ? null : CLASS_TO_NAME.get(o.getClass());
         if (name == null) {
             name = super.getName(o);
         }
@@ -114,30 +114,30 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         return name;
     }
 
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     @Override
     protected String getEnumName(Enum e) {
-        String name = enumClassToNameMap.get(e.getClass());
+        String name = ENUM_TO_NAME.get(e.getClass());
         if (name == null) {
             throw new IllegalArgumentException("Enum class not known to factory:" + e.getClass());
         }
         return name;
     }
 
-        @SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     @Override
     protected String getEnumValue(Enum e) {
-        return (enumToValueMap.containsKey(e)) ? enumToValueMap.get(e) : e.toString();
+        return (ENUM_TO_VALUE.containsKey(e)) ? ENUM_TO_VALUE.get(e) : e.toString();
     }
 
-    @SuppressWarnings({"unchecked","rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected <T extends Enum<T>> Enum<T> createEnum(String name, String value) {
-        Class<T> enumClass = (Class<T>) nameToEnumClassMap.get(name);
+        Class<T> enumClass = (Class<T>) NAME_TO_ENUM.get(name);
         if (enumClass == null) {
             throw new IllegalArgumentException("Enum name not known to factory:" + name);
         }
-        Set<Enum> enums = valueToEnumMap.get(value);
+        Set<Enum> enums = VALUE_TO_ENUM.get(value);
         if (enums == null) {
             return Enum.valueOf(enumClass, value);
         }

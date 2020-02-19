@@ -6,7 +6,6 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.gui.datatransfer;
 
 import java.awt.datatransfer.Clipboard;
@@ -19,7 +18,8 @@ import java.awt.datatransfer.Transferable;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Proxy</em><br>
+ * <p>
+ * <em>Proxy</em><br>
  * {@code AWTClipboard} acts as a proxy to an AWT {@code Clipboard} object.<br>
  * Proxy: {@link AWTClipboard}; Target: {@code java.awt.datatransfer.Clipboard}.
  *
@@ -27,7 +27,10 @@ import java.awt.datatransfer.Transferable;
  * @version $Id$
  */
 public class AWTClipboard extends AbstractClipboard {
-    /** The proxy target. */
+
+    /**
+     * The proxy target.
+     */
     private Clipboard target;
 
     /**
@@ -39,7 +42,9 @@ public class AWTClipboard extends AbstractClipboard {
         this.target = target;
     }
 
-    /** Returns the proxy target. */
+    /**
+     * Returns the proxy target.
+     */
     public Clipboard getTarget() {
         return target;
     }
@@ -49,7 +54,8 @@ public class AWTClipboard extends AbstractClipboard {
         return target.getContents(requestor);
     }
 
-    /** Sets the current contents of the clipboard to the specified
+    /**
+     * Sets the current contents of the clipboard to the specified
      * {@code Transferable} object.
      *
      * @param contents The {@code Transferable} object representing clipboard

@@ -149,10 +149,10 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Palatino",
                 "Times",
                 "Times New Roman",
-                //
+                
                 // Fonts on Mac OS X 10.6:
                 "Didot",
-                //
+                
                 // Fonts on Windows XP:
                 "Palatino Linotype",
                 "Bitstream Vera Serif Bold",
@@ -225,11 +225,11 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tahoma",
                 "Trebuchet MS",
                 "Verdana",
-                //
+                
                 // Fonts on Mac OS X 10.6:
                 "Charcoal",
                 "Euphemia UCAS",
-                //
+                
                 // Fonts on Windows XP:
                 "Franklin Gothic Medium",
                 "Lucida Sans Unicode",
@@ -258,7 +258,7 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tw Cen MT",
                 "Tw Cen MT Condensed",
                 "Tw Cen MT Condensed Extra Bold",
-                //
+                
                 // Fonts on Windows Vista:
                 "Aharoni",
                 "Browallia New",
@@ -324,11 +324,11 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Tekton Pro",
                 "Trajan Pro",
                 "Zapfino",
-                //
+                
                 // Fonts on Mac OS X 10.6:
                 "Casual",
                 "Chalkduster",
-                //
+                
                 // Fonts on Windows XP:
                 "Blackadder ITC",
                 "Bradley Hand ITC",
@@ -371,17 +371,17 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "OCR A Std",
                 "Orator Std",
                 "Prestige Elite Std",
-                //
+                
                 // Fonts on Mac OS X 10.6:
                 "Menlo",
-                //
+                
                 // Fonts on Windows XP:
                 "Lucida Console",
                 "Bitstream Vera S...",
                 "Consolas",
                 "OCR A Extended",
                 "OCR B",
-                //
+                
                 // Fonts on Windows Vista
                 "Consolas",
                 "DotumChe",
@@ -450,10 +450,10 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Stone Sans Sem OS ITC TT",
                 "Synchro LET",
                 "Wide Latin",
-                //
+                
                 // Fonts on Mac OS X 10.5:
                 "HeadLineA",
-                //
+                
                 // Fonts on Windows XP:
                 "Algerian",
                 "Bodoni MT Black",
@@ -496,10 +496,10 @@ public class DefaultFontChooserModel extends AbstractFontChooserModel {
                 "Wingdings 2",
                 "Wingdings 3",
                 "Zapf Dingbats",
-                //
+                
                 // Fonts on Windows XP:
 
-                "Bookshelf Symbol" //
+                "Bookshelf Symbol" 
                 // Fonts on Windows Vista:
                 )));
 

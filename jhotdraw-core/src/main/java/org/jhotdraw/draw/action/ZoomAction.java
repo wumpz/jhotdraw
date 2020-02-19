@@ -5,9 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
-
 
 import java.awt.Rectangle;
 import javax.swing.*;
@@ -16,14 +14,16 @@ import org.jhotdraw.draw.*;
 /**
  * ZoomAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class ZoomAction extends AbstractDrawingViewAction {
+
     private static final long serialVersionUID = 1L;
     private double scaleFactor;
     private AbstractButton button;
     private String label;
+
     /**
      * Creates a new instance.
      */
@@ -31,6 +31,7 @@ public class ZoomAction extends AbstractDrawingViewAction {
         this((DrawingView) null, scaleFactor, button);
         setEditor(editor);
     }
+
     /**
      * Creates a new instance.
      */
@@ -38,11 +39,11 @@ public class ZoomAction extends AbstractDrawingViewAction {
         super(view);
         this.scaleFactor = scaleFactor;
         this.button = button;
-        label = (int) (scaleFactor * 100)+" %";
+        label = (int) (scaleFactor * 100) + " %";
         putValue(Action.DEFAULT, label);
         putValue(Action.NAME, label);
     }
-    
+
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         if (button != null) {
@@ -68,5 +69,5 @@ public class ZoomAction extends AbstractDrawingViewAction {
             }
         });
     }
-    
+
 }

@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.gui.event;
 
-
 import java.lang.reflect.*;
 
 /**
@@ -73,8 +72,8 @@ public abstract class GenericListener {
         Method listenerMethod = getListenerMethod(listenerInterface, listenerMethodName);
 
         // Search a target method with the same parameter types as the listener method.
-        Method targetMethod =
-                getTargetMethod(target, targetMethodName, listenerMethod.getParameterTypes());
+        Method targetMethod
+                = getTargetMethod(target, targetMethodName, listenerMethod.getParameterTypes());
 
         // Nothing found? Search a target method with no parameters
         if (targetMethod == null) {
@@ -91,7 +90,7 @@ public abstract class GenericListener {
 
     /**
      * Return an instance of a class that implements the interface that contains
-     * the declaration for <code>listenerMethod</code>.  In this new class,
+     * the declaration for <code>listenerMethod</code>. In this new class,
      * <code>listenerMethod</code> will apply <code>target.targetMethod</code>
      * to the incoming Event.
      */
@@ -172,7 +171,6 @@ public abstract class GenericListener {
         private static final Character char_0 = (char) 0;
         private static final Byte byte_0 = (byte) 0;
 
-        
         private static final Object nullValueOf(Class<?> rt) {
             if (!rt.isPrimitive()) {
                 return null;
@@ -210,7 +208,7 @@ public abstract class GenericListener {
     }
 
     @SuppressWarnings("unchecked")
-    
+
     private static Method getTargetMethod(Object target,
             String targetMethodName,
             Class<?>[] parameterTypes) {
@@ -251,7 +249,6 @@ public abstract class GenericListener {
         return result;
     }
 
-    
     private static Method raiseToPublicClass(Method m) {
         Class<?> c = m.getDeclaringClass();
         if (Modifier.isPublic(m.getModifiers())
@@ -277,7 +274,7 @@ public abstract class GenericListener {
     }
 
     @SuppressWarnings("unchecked")
-    
+
     private static Method raiseToPublicClass(Method m, Class<?> c) {
         try {
             Method sm = c.getMethod(m.getName(), m.getParameterTypes());

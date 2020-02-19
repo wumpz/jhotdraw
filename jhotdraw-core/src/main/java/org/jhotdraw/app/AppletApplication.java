@@ -5,9 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the 
  * accompanying license terms.
  */
-
 package org.jhotdraw.app;
-
 
 import java.awt.*;
 import javax.swing.*;
@@ -22,15 +20,18 @@ import javax.swing.*;
  * @version $Id$
  */
 public class AppletApplication extends AbstractApplication {
+
     private static final long serialVersionUID = 1L;
     private JApplet applet;
     private View view;
-    
-    /** Creates a new instance of AppletApplication */
+
+    /**
+     * Creates a new instance of AppletApplication
+     */
     public AppletApplication(JApplet applet) {
         this.applet = applet;
     }
-    
+
     @Override
     public void init() {
         super.init();
@@ -38,6 +39,7 @@ public class AppletApplication extends AbstractApplication {
         setActionMap(model.createActionMap(this, null));
         model.initApplication(this);
     }
+
     @Override
     public void show(View v) {
         this.view = v;
@@ -89,10 +91,12 @@ public class AppletApplication extends AbstractApplication {
     public JMenu createViewMenu(View v) {
         return null;
     }
+
     @Override
     public JMenu createWindowMenu(View v) {
         return null;
     }
+
     @Override
     public JMenu createHelpMenu(View v) {
         return null;

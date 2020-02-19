@@ -7,10 +7,10 @@
  */
 package org.jhotdraw.draw.print;
 
-import org.jhotdraw.draw.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.print.*;
+import org.jhotdraw.draw.*;
 
 /**
  * {@code DrawingPageable} can be used to print a {@link Drawing} using the
@@ -29,7 +29,7 @@ import java.awt.print.*;
  *      }
  * }
  * </pre>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  * @see org.jhotdraw.app.action.file.PrintFileAction
@@ -40,7 +40,9 @@ public class DrawingPageable implements Pageable {
     private PageFormat pageFormat;
     private boolean isAutorotate = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DrawingPageable(Drawing drawing) {
         this.drawing = drawing;
         Paper paper = new Paper();
@@ -144,4 +146,3 @@ public class DrawingPageable implements Pageable {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 }
-

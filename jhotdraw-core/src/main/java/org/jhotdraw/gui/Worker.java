@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.gui;
 
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -61,7 +60,6 @@ public abstract class Worker<T> implements Runnable {
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    
     protected abstract T construct() throws Exception;
 
     /**
@@ -87,7 +85,7 @@ public abstract class Worker<T> implements Runnable {
      * @param error The error thrown by construct.
      */
     protected void failed(Throwable error) {
-        JOptionPane.showMessageDialog(null, error.getMessage()==null?error.toString():error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, error.getMessage() == null ? error.toString() : error.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         error.printStackTrace();
     }
 

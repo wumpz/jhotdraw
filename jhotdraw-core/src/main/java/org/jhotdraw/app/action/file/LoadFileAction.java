@@ -7,21 +7,19 @@
  */
 package org.jhotdraw.app.action.file;
 
-
 import java.awt.Component;
 import java.awt.Window;
-import org.jhotdraw.util.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
-import javax.swing.*;
 import java.io.*;
 import java.net.URI;
+import javax.swing.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.event.*;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
+import org.jhotdraw.util.*;
 
 /**
  * Lets the user save unsaved changes of the active view, then presents
@@ -44,28 +42,33 @@ import org.jhotdraw.net.URIUtil;
  * <hr>
  * <b>Features</b>
  *
- * <p><em>Open last URI on launch</em><br>
+ * <p>
+ * <em>Open last URI on launch</em><br>
  * When the application is started, the last opened URI is opened in a view.<br>
  * {@code LoadFileAction} supplies data for this feature by calling
  * {@link Application#addRecentURI} when it successfully loaded a file.
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * <p><em>Allow multiple views per URI</em><br>
+ * <p>
+ * <em>Allow multiple views per URI</em><br>
  * When the feature is disabled, {@code LoadFileAction} prevents exporting to an URI which
  * is opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
  * </p>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.load";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public LoadFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
@@ -142,7 +145,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
             @Override
             protected void failed(Throwable value) {
                 value.printStackTrace();
-                
+
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")

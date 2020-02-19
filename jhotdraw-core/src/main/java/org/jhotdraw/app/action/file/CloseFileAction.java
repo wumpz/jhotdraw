@@ -7,11 +7,10 @@
  */
 package org.jhotdraw.app.action.file;
 
-
-import org.jhotdraw.util.*;
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
+import org.jhotdraw.util.*;
 
 /**
  * Closes the active view after letting the user save unsaved changes.
@@ -31,15 +30,18 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
  * {@link OpenFileAction}, {@link OpenDirectoryAction}.
  * <p>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class CloseFileAction extends AbstractSaveUnsavedChangesAction {
+
     private static final long serialVersionUID = 1L;
 
     public static final String ID = "file.close";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public CloseFileAction(Application app, View view) {
         super(app, view);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

@@ -7,35 +7,35 @@
  */
 package org.jhotdraw.draw.io;
 
-import java.net.URI;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.ImageHolderFigure;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
-import org.jhotdraw.util.Images;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+import org.jhotdraw.util.Images;
 
 /**
- * An input format for importing drawings using one of the image formats 
+ * An input format for importing drawings using one of the image formats
  * supported by javax.imageio.
  * <p>
- * This class uses the prototype design pattern. A ImageHolderFigure figure is 
+ * This class uses the prototype design pattern. A ImageHolderFigure figure is
  * used as a prototype for creating a figure that holds the imported image.
  * <p>
  * If the drawing is replaced using the loaded image, the size of the
  * drawing is set to match the size of the image using the attributes
  * {@code AttributeKeys.CANVAS_WIDTH} and {@code AttributeKeys.CANVAS_HEIGHT}.
- * 
+ *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Prototype</em><br>
+ * <p>
+ * <em>Prototype</em><br>
  * The image input format creates new image holder figures by cloning a prototype figure
  * object and assigning an image to it, which was read from data input.
  * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
@@ -43,7 +43,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * Prototype: {@link org.jhotdraw.draw.ImageHolderFigure}; Client: {@link ImageInputFormat}.
  * <hr>
  *
- * @author Werner Randelshor 
+ * @author Werner Randelshor
  * @version $Id$
  */
 public class ImageInputFormat implements InputFormat {
@@ -69,13 +69,16 @@ public class ImageInputFormat implements InputFormat {
      */
     private String[] mimeTypes;
 
-    /** Creates a new image input format for all formats supported by
-     * {@code javax.imageio.ImageIO}. */
+    /**
+     * Creates a new image input format for all formats supported by
+     * {@code javax.imageio.ImageIO}.
+     */
     public ImageInputFormat(ImageHolderFigure prototype) {
         this(prototype, "Image", "Image", ImageIO.getReaderFileSuffixes(), ImageIO.getReaderMIMETypes());
     }
 
-    /** Creates a new image input format for the specified image format.
+    /**
+     * Creates a new image input format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
      * @param description The format description to be used for the file filter.
@@ -88,7 +91,8 @@ public class ImageInputFormat implements InputFormat {
         this(prototype, formatName, description, new String[]{fileExtension}, new String[]{mimeType});
     }
 
-    /** Creates a new image input format for the specified image format.
+    /**
+     * Creates a new image input format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
      * @param description The format description to be used for the file filter.
@@ -134,8 +138,8 @@ public class ImageInputFormat implements InputFormat {
         figure.setBounds(
                 new Point2D.Double(0, 0),
                 new Point2D.Double(
-                figure.getBufferedImage().getWidth(),
-                figure.getBufferedImage().getHeight()));
+                        figure.getBufferedImage().getWidth(),
+                        figure.getBufferedImage().getHeight()));
         if (replace) {
             drawing.removeAllChildren();
             drawing.set(CANVAS_WIDTH, figure.getBounds().width);
@@ -165,8 +169,8 @@ public class ImageInputFormat implements InputFormat {
         figure.setBounds(
                 new Point2D.Double(0, 0),
                 new Point2D.Double(
-                figure.getBufferedImage().getWidth(),
-                figure.getBufferedImage().getHeight()));
+                        figure.getBufferedImage().getWidth(),
+                        figure.getBufferedImage().getHeight()));
         return figure;
     }
 
@@ -216,8 +220,8 @@ public class ImageInputFormat implements InputFormat {
         figure.setBounds(
                 new Point2D.Double(0, 0),
                 new Point2D.Double(
-                figure.getBufferedImage().getWidth(),
-                figure.getBufferedImage().getHeight()));
+                        figure.getBufferedImage().getWidth(),
+                        figure.getBufferedImage().getHeight()));
         LinkedList<Figure> list = new LinkedList<>();
         list.add(figure);
         if (replace) {

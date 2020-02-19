@@ -30,9 +30,11 @@ import javax.swing.JComponent;
 
 /**
  * Simple implementation of AbstractDrawingView.
+ *
  * @author tw
  */
 public abstract class DelegatorDrawingView extends AbstractDrawingView {
+
     private JComponent drawTo;
 
     public DelegatorDrawingView(JComponent drawTo) {
@@ -105,7 +107,7 @@ public abstract class DelegatorDrawingView extends AbstractDrawingView {
 
     @Override
     public void setScaleFactor(double newValue) {
-        
+
     }
 
     @Override

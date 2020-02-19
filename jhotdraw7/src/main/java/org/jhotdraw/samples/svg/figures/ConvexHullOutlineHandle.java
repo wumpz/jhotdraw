@@ -89,10 +89,10 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
      *
      * @param owner
      */
-    public ConvexHullOutlineHandle(SVGPathFigure owner, //
-            AttributeKey<Stroke> stroke1Enabled, AttributeKey<Color> strokeColor1Enabled,//
-            AttributeKey<Stroke> stroke2Enabled, AttributeKey<Color> strokeColor2Enabled,//
-            AttributeKey<Stroke> stroke1Disabled, AttributeKey<Color> strokeColor1Disabled,//
+    public ConvexHullOutlineHandle(SVGPathFigure owner, 
+            AttributeKey<Stroke> stroke1Enabled, AttributeKey<Color> strokeColor1Enabled,
+            AttributeKey<Stroke> stroke2Enabled, AttributeKey<Color> strokeColor2Enabled,
+            AttributeKey<Stroke> stroke1Disabled, AttributeKey<Color> strokeColor1Disabled,
             AttributeKey<Stroke> stroke2Disabled, AttributeKey<Color> strokeColor2Disabled
             ) {
         super(owner);

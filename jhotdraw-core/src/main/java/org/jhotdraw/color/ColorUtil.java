@@ -195,7 +195,7 @@ public class ColorUtil {
      */
     public static void CStoRGB(ColorSpace cs, float[] colorvalue, float[] rgb) {
         if (cs.isCS_sRGB()) {
-            System.arraycopy(colorvalue,0,rgb,0,3);
+            System.arraycopy(colorvalue, 0, rgb, 0, 3);
         } else if (cs instanceof NamedColorSpace) {
             CStoRGB((NamedColorSpace) cs, colorvalue, rgb);
         } else {

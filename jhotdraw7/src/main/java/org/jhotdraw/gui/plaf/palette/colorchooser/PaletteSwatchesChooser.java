@@ -82,14 +82,14 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         for (int s = 2; s <= 8; s += 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
-                m.add(new ColorIcon(c,//
+                m.add(new ColorIcon(c,
                         labels.getFormatted("ColorChooser.colorSwatch.hsbComponents.toolTipText", h * 360 / 12, s * 10, 100)));
             }
         }
         for (int b = 10; b >= 2; b -= 2) {
             for (int h = 0; h < 12; h++) {
                 Color c = new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f);
-                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),//
+                m.add(new ColorIcon(new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),
                         labels.getFormatted("ColorChooser.colorSwatch.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
             }
         }
@@ -102,7 +102,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
                 m.add(new ColorIcon(new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
             } else {
                 Color c = ci.getColor();
-                m.add(new ColorIcon(c,//
+                m.add(new ColorIcon(c,
                         labels.getFormatted("ColorChooser.colorSwatch.rgbComponents.toolTipText", c.getRed(), c.getGreen(), c.getBlue())));
             }
         }

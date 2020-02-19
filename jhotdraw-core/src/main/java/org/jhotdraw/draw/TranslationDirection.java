@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw;
 
-
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -16,7 +15,7 @@ import java.awt.geom.Point2D;
  * <p>
  * This enumeration is used by drawing tools and handles to perform constrained
  * transforms of figures on a drawing.
- * 
+ *
  * @see Constrainer
  *
  * @author Werner Randelshofer
@@ -37,7 +36,6 @@ public enum TranslationDirection {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    
     public static TranslationDirection getDirection(Point startPoint, Point endPoint) {
         int dx = endPoint.x - startPoint.x;
         int dy = endPoint.y - startPoint.y;
@@ -73,7 +71,6 @@ public enum TranslationDirection {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    
     public static TranslationDirection getDirection(Point2D.Double startPoint, Point2D.Double endPoint) {
         double dx = endPoint.x - startPoint.x;
         double dy = endPoint.y - startPoint.y;
