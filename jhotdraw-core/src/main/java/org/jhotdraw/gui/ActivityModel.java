@@ -44,8 +44,8 @@ public interface ActivityModel extends BoundedRangeModel {
     public static final String CLOSED_PROPERTY = "closed";
 
     /**
-     * Gets the owner of the progress model. This is typically a {@link org.jhotdraw.app.View}
-     * or a {@link org.jhotdraw.app.Application}.
+     * Gets the owner of the progress model. This is typically a {@link org.jhotdraw.api.app.View}
+     * or a {@link org.jhotdraw.api.app.Application}.
      */
     public Object getOwner();
 

@@ -17,10 +17,17 @@ import java.lang.reflect.*;
 import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.AbstractView;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.ImageFigure;
+import org.jhotdraw.draw.QuadTreeDrawing;
+import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import org.jhotdraw.draw.io.ImageInputFormat;
@@ -29,7 +36,7 @@ import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
@@ -37,7 +44,7 @@ import org.jhotdraw.util.*;
 /**
  * Provides a view on a drawing.
  * <p>
- * See {@link org.jhotdraw.app.View} interface on how this view interacts with an application.
+ * See {@link org.jhotdraw.api.app.View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$

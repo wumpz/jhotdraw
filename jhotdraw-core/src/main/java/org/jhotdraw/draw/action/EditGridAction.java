@@ -7,13 +7,14 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.util.prefs.Preferences;
-import javax.swing.*;
-import org.jhotdraw.app.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
+import javax.swing.JDialog;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.GridConstrainer;
+import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**

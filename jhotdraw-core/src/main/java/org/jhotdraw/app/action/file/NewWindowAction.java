@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.app.Application;
+import org.jhotdraw.api.app.Application;
 
 /**
  * Creates a new view.

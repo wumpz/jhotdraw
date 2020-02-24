@@ -9,7 +9,12 @@ package org.jhotdraw.samples.teddy;
 
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.app.*;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.ApplicationModel;
+import org.jhotdraw.api.app.MenuBuilder;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.app.DefaultApplicationModel;
+import org.jhotdraw.app.DefaultMenuBuilder;
 import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.gui.JFileURIChooser;

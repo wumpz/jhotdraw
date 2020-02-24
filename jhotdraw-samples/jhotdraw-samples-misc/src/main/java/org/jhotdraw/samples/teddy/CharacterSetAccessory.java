@@ -11,7 +11,7 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**

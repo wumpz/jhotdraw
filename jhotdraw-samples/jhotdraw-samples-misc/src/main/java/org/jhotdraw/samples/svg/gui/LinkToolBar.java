@@ -14,7 +14,7 @@ import javax.swing.plaf.LabelUI;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import org.jhotdraw.draw.gui.JAttributeTextArea;

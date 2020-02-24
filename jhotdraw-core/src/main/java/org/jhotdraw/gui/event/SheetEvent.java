@@ -10,7 +10,7 @@ package org.jhotdraw.gui.event;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.gui.JSheet;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.api.gui.URIChooser;
 
 /**
  * SheetEvent.

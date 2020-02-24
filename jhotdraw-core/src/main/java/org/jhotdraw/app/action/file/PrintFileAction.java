@@ -7,21 +7,37 @@
  */
 package org.jhotdraw.app.action.file;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.print.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import javax.swing.*;
-import org.jhotdraw.app.*;
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.JobAttributes;
+import java.awt.PageAttributes;
+import java.awt.PrintJob;
+import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Paper;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.PrinterResolution;
+import javax.swing.Action;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.app.PrintableView;
 import org.jhotdraw.app.action.AbstractViewAction;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Presents a printer chooser to the user and then prints the
- * {@link org.jhotdraw.app.View}.
+ * {@link org.jhotdraw.api.app.View}.
  * <p>
  * This action requires that the view implements the {@link PrintableView}
  * interface.

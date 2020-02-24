@@ -7,19 +7,45 @@
  */
 package org.jhotdraw.app;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
-import java.util.*;
-import java.util.prefs.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import org.jhotdraw.app.action.*;
+import java.util.LinkedList;
+import java.util.prefs.Preferences;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import javax.swing.UIManager;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import org.jhotdraw.api.app.ApplicationModel;
+import org.jhotdraw.api.app.MenuBuilder;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.app.action.ActionUtil;
 import org.jhotdraw.app.action.app.AboutAction;
 import org.jhotdraw.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw.app.action.app.ExitAction;
@@ -52,10 +78,12 @@ import org.jhotdraw.app.action.window.FocusWindowAction;
 import org.jhotdraw.app.action.window.MaximizeWindowAction;
 import org.jhotdraw.app.action.window.MinimizeWindowAction;
 import org.jhotdraw.app.action.window.ToggleToolBarAction;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.Arrangeable;
+import org.jhotdraw.gui.JMDIDesktopPane;
 import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
+import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.util.prefs.PreferencesUtil;
+
 
 /**
  * {@code MDIApplication} handles the lifecycle of multiple {@link View}s

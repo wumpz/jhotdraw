@@ -8,6 +8,9 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.api.app.MenuBuilder;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.app.Application;
 import java.util.List;
 import javax.swing.Action;
 import javax.swing.ActionMap;

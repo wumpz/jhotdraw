@@ -7,10 +7,10 @@
  */
 package org.jhotdraw.app.action.app;
 
+import org.jhotdraw.api.app.Application;
 import java.awt.Component;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.app.*;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.util.*;
 

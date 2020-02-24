@@ -12,6 +12,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.prefs.*;
 import javax.swing.*;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**

@@ -7,7 +7,9 @@
  */
 package org.jhotdraw.samples.svg;
 
-import org.jhotdraw.app.*;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.app.OSXApplication;
+import org.jhotdraw.app.SDIApplication;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**

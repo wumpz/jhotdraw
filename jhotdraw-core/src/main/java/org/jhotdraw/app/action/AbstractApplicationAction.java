@@ -9,8 +9,8 @@ package org.jhotdraw.app.action;
 
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.Disposable;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
@@ -24,10 +24,10 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  * {@link WeakPropertyChangeListener} on the {@code Application} and thus may
  * become garbage collected if it is not referenced by any other object.
  * <p>
- * Application actions are typically created by an {@link org.jhotdraw.app.ApplicationModel},
+ * Application actions are typically created by an {@link org.jhotdraw.api.app.ApplicationModel},
  * and can be retrieved using getAction(String) from the application model.
  * Application model typically links the actions to menu items and toolbars that
- * it creates. Applicaton model may also put actions into its {@link org.jhotdraw.app.View}s,
+ * it creates. Applicaton model may also put actions into its {@link org.jhotdraw.api.app.View}s,
  * so that they can be linked to components of a view.
  *
  *

@@ -5,12 +5,12 @@
  */
 package org.jhotdraw.samples.teddy;
 
+import org.jhotdraw.api.app.Application;
 import java.awt.*;
 import java.util.prefs.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.*;
-import org.jhotdraw.app.*;
 import org.jhotdraw.samples.teddy.regex.MatchType;
 import org.jhotdraw.samples.teddy.regex.Matcher;
 import org.jhotdraw.undo.CompositeEdit;

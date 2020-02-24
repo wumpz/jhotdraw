@@ -7,7 +7,10 @@
  */
 package org.jhotdraw.samples.net;
 
-import org.jhotdraw.app.*;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.app.DefaultApplicationModel;
+import org.jhotdraw.app.OSXApplication;
+import org.jhotdraw.app.SDIApplication;
 
 /**
  * Main entry point of the Net sample application. Creates an {@link Application}

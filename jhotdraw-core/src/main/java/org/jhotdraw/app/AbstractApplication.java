@@ -7,6 +7,10 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.api.app.ApplicationModel;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.app.Application;
 import java.awt.Container;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
@@ -27,7 +31,7 @@ import org.jhotdraw.app.action.file.LoadRecentFileAction;
 import org.jhotdraw.app.action.file.OpenRecentFileAction;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.gui.BackgroundTask;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 

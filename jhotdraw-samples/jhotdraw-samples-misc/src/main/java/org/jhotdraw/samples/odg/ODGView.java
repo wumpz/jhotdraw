@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.samples.odg;
 
+import org.jhotdraw.api.gui.URIChooser;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
@@ -21,10 +22,14 @@ import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.filechooser.FileFilter;
-import org.jhotdraw.app.*;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.app.AbstractView;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.ImageInputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
@@ -32,7 +37,8 @@ import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.samples.odg.io.ODGInputFormat;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;

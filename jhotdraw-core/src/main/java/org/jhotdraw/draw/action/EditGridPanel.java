@@ -7,10 +7,11 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.beans.*;
-import org.jhotdraw.draw.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.text.JavaNumberFormatter;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * The EditGridPanel can be used to edit the properties of

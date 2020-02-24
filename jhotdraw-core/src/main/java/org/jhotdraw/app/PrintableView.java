@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.api.app.View;
 import java.awt.print.*;
 
 /**

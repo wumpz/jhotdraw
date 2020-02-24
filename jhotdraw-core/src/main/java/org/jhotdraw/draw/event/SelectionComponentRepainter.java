@@ -7,10 +7,13 @@
  */
 package org.jhotdraw.draw.event;
 
-import java.beans.*;
-import javax.swing.*;
-import org.jhotdraw.app.Disposable;
-import org.jhotdraw.draw.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JComponent;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 
 /**
  * Calls repaint on components, which show attributes of the drawing editor

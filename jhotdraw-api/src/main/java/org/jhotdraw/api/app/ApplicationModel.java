@@ -5,11 +5,12 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.app;
+package org.jhotdraw.api.app;
 
-import java.util.*;
-import javax.swing.*;
-import org.jhotdraw.gui.URIChooser;
+import java.util.List;
+import javax.swing.ActionMap;
+import javax.swing.JToolBar;
+import org.jhotdraw.api.gui.URIChooser;
 
 /**
  * {@code ApplicationModel} provides meta-data for an {@link Application},

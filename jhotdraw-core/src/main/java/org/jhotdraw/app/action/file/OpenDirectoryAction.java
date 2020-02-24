@@ -7,8 +7,9 @@
  */
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.app.*;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**

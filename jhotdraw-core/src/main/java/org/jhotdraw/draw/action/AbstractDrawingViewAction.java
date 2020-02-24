@@ -10,7 +10,7 @@ package org.jhotdraw.draw.action;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.undo.*;
-import org.jhotdraw.app.Disposable;
+import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;

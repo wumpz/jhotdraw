@@ -9,7 +9,7 @@ package org.jhotdraw.app.action.file;
 
 import java.awt.event.ActionEvent;
 import java.beans.*;
-import org.jhotdraw.app.Application;
+import org.jhotdraw.api.app.Application;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.util.*;
 

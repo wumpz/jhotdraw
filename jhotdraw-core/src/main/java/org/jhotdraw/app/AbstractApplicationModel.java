@@ -8,11 +8,14 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.app.ApplicationModel;
+import org.jhotdraw.api.app.Application;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.api.gui.URIChooser;
 
 /**
  * This abstract class can be extended to implement an {@link ApplicationModel}.

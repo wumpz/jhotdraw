@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.gui;
 
+import org.jhotdraw.api.gui.URIChooser;
 import java.io.File;
 import java.net.URI;
 import javax.swing.JComponent;

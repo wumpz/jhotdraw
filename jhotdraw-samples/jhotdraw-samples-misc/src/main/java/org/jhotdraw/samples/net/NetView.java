@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.api.gui.URIChooser;
 import java.awt.*;
 import java.awt.print.Pageable;
 import java.beans.*;
@@ -16,10 +17,14 @@ import java.lang.reflect.*;
 import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
-import org.jhotdraw.app.*;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.app.AbstractView;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.DefaultDrawing;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
@@ -27,7 +32,7 @@ import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.samples.net.figures.NodeFigure;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;

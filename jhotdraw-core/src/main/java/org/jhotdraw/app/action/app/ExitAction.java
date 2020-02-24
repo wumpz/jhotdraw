@@ -7,18 +7,26 @@
  */
 package org.jhotdraw.app.action.app;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.Component;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.gui.event.SheetEvent;
+import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Exits the application after letting the user review all unsaved views.

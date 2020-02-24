@@ -9,7 +9,8 @@ package org.jhotdraw.samples.odg;
 
 import java.awt.*;
 import javax.swing.*;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;

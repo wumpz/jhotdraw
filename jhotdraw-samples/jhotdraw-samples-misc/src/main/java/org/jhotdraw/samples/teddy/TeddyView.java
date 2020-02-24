@@ -18,11 +18,11 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.undo.*;
-import org.jhotdraw.app.*;
+import org.jhotdraw.api.gui.URIChooser;
+import org.jhotdraw.app.AbstractView;
 import org.jhotdraw.app.action.edit.RedoAction;
 import org.jhotdraw.app.action.edit.UndoAction;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.samples.teddy.io.*;
 import org.jhotdraw.samples.teddy.regex.*;
 import org.jhotdraw.samples.teddy.text.*;
@@ -32,7 +32,7 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
 /**
  * Provides a view on a text document.
  * <p>
- * See {@link org.jhotdraw.app.View} interface on how this view interacts with an application.
+ * See {@link org.jhotdraw.api.app.View} interface on how this view interacts with an application.
  *
  * @author Werner Randelshofer
  * @version $Id$

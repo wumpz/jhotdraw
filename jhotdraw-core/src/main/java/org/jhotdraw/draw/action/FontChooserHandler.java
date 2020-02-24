@@ -7,12 +7,19 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.awt.*;
-import java.beans.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
+import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JPopupMenu;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.TextHolderFigure;
 import org.jhotdraw.gui.JFontChooser;
 
 /**

@@ -7,18 +7,27 @@
  */
 package org.jhotdraw.app.action.file;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.app.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.ApplicationModel;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.action.AbstractViewAction;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.gui.event.SheetEvent;
+import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Saves the changes in the active view. If the active view has not an URI,

@@ -7,18 +7,32 @@
  */
 package org.jhotdraw.app.action.file;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.HeadlessException;
+import java.awt.Window;
 import java.awt.event.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.prefs.Preferences;
-import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.action.AbstractApplicationAction;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**

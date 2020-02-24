@@ -8,8 +8,8 @@
 package org.jhotdraw.app.action.file;
 
 import java.awt.event.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 import org.jhotdraw.util.*;
 

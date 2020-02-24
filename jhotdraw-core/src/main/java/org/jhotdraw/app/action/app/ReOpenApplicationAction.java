@@ -13,8 +13,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.action.AbstractApplicationAction;
 
 /**

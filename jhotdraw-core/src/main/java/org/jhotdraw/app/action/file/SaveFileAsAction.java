@@ -7,8 +7,8 @@
  */
 package org.jhotdraw.app.action.file;
 
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.util.*;
 
 /**

@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.gui;
 
+import org.jhotdraw.api.gui.URIChooser;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;

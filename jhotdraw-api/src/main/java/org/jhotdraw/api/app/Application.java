@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.app;
+package org.jhotdraw.api.app;
 
 import java.awt.Component;
 import java.awt.Window;
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.swing.ActionMap;
 import javax.swing.JMenu;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.api.gui.URIChooser;
 
 /**
  * An <em>application</em> handles the lifecycle of {@link View} objects and

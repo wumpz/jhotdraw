@@ -8,9 +8,10 @@
 package org.jhotdraw.app.action.window;
 
 import java.awt.event.ActionEvent;
-import javax.swing.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
+import javax.swing.AbstractAction;
+import org.jhotdraw.gui.Arrangeable;
+import static org.jhotdraw.gui.Arrangeable.Arrangement.CASCADE;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Changes the arrangement of an {@link Arrangeable} object.

@@ -7,22 +7,31 @@
  */
 package org.jhotdraw.app.action;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.Component;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.gui.event.SheetEvent;
+import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
+
 
 /**
  * This abstract class can be extended to implement an {@code Action} that asks
- * to save unsaved changes of a {@link org.jhotdraw.app.View} before a destructive
+ * to save unsaved changes of a {@link org.jhotdraw.api.app.View} before a destructive
  * action is performed.
  * <p>
  * If the view has no unsaved changes, method {@code doIt} is invoked immediately.

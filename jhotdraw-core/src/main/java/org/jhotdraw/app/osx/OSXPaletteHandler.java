@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import org.jhotdraw.app.OSXApplication;
-import org.jhotdraw.app.View;
+import org.jhotdraw.api.app.View;
 
 /**
  * Hides all registered floating palettes, if none of the registered view

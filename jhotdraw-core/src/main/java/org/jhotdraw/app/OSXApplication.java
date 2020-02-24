@@ -7,6 +7,10 @@
  */
 package org.jhotdraw.app;
 
+import org.jhotdraw.api.app.MenuBuilder;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.api.app.ApplicationModel;
+import org.jhotdraw.api.app.View;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;

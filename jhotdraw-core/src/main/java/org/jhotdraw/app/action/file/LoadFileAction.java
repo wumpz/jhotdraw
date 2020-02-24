@@ -9,17 +9,24 @@ package org.jhotdraw.app.action.file;
 
 import java.awt.Component;
 import java.awt.Window;
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.gui.event.SheetEvent;
+import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * Lets the user save unsaved changes of the active view, then presents

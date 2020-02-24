@@ -7,15 +7,21 @@
  */
 package org.jhotdraw.app.action.file;
 
-import java.awt.*;
-import java.io.*;
+import java.awt.Frame;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import javax.swing.Action;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.gui.event.*;
+import org.jhotdraw.gui.BackgroundTask;
+import org.jhotdraw.gui.JSheet;
+import org.jhotdraw.gui.event.SheetEvent;
+import org.jhotdraw.gui.event.SheetListener;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 

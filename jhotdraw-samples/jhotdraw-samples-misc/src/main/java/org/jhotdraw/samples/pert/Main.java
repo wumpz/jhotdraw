@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.pert;
 
-import org.jhotdraw.app.Application;
+import org.jhotdraw.api.app.Application;
 import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.SDIApplication;

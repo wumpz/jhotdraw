@@ -5,13 +5,14 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.app;
+package org.jhotdraw.api.app;
 
-import java.beans.*;
-import java.io.*;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.gui.URIChooser;
+import javax.swing.ActionMap;
+import javax.swing.JComponent;
+import org.jhotdraw.api.gui.URIChooser;
 
 /**
  * A <em>view</em> paints a document on a {@code JComponent} within an

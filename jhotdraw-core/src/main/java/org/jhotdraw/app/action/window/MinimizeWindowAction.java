@@ -10,8 +10,8 @@ package org.jhotdraw.app.action.window;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.View;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.action.AbstractViewAction;
 import org.jhotdraw.util.*;
 

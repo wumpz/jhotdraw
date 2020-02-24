@@ -12,7 +12,7 @@ import java.awt.event.*;
 import java.beans.*;
 import java.net.URI;
 import javax.swing.*;
-import org.jhotdraw.app.View;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.util.*;
 

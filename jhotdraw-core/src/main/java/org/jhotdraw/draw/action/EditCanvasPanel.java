@@ -10,13 +10,14 @@ package org.jhotdraw.draw.action;
 import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.*;
-import org.jhotdraw.draw.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_OPACITY;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.gui.Dialogs;
 import org.jhotdraw.text.JavaNumberFormatter;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * The EditCanvasPanel can be used to edit the attributes of a Drawing.
@@ -155,7 +156,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
         opacityPopupButton.setToolTipText(labels.getString("attribute.opacity.toolTipText")); // NOI18N
         add(opacityPopupButton, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
-    private void colorButtonPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_colorButtonPerformed
+    private void colorButtonPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorButtonPerformed
         if (drawing != null) {
             Color color = Dialogs.showColorChooserDialog(colorChooser, this, labels.getString("attribute.backgroundColor"),
                     drawing.get(CANVAS_FILL_COLOR));

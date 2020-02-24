@@ -23,7 +23,7 @@ import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.event.DrawingComponentRepainter;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.gui.*;
+import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.plaf.palette.*;
 import org.jhotdraw.text.ColorFormatter;
 import org.jhotdraw.text.JavaNumberFormatter;
