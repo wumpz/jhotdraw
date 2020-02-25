@@ -20,13 +20,13 @@ import javax.swing.JMenu;
  * {@code Application}.
  * <p>
  * Implementors of this interface typically use actions retrieved from the
- * application to build the menu items. See {@link DefaultMenuBuilder} for a
+ * application to build the menu items. See DefaultMenuBuilder for a
  * typical implementation.
  * <p>
  * Menus may be associated to a specific view or to all views (global) of the
  * application. In the former case the corresponding view is provided, in the
  * latter case null is passed. Note that some applications, specifically
- * {@link OSXApplication}, need to create both kinds of menus.
+ * OSXApplication, need to create both kinds of menus.
  * <p>
  * During the lifetime of an application many menus may be created and destroyed.
  * Implementors must ensure that menu items can be garbage collected.
@@ -53,7 +53,7 @@ public interface MenuBuilder {
      * Most applications use this method for adding items to the last section
      * of the "Edit" menu.
      * <p>
-     * Note that {@link OSXApplication} does <b>not</b> invoke this method and
+     * Note that OSXApplication does <b>not</b> invoke this method and
      * instead retrieves an action with ID {@code AbstractPreferencesAction.ID}
      * from the action map of the {@code ApplicationModel} and adds it to the
      * "Application" menu.
@@ -71,7 +71,7 @@ public interface MenuBuilder {
      * Most applications use this method for adding items to the last section
      * of the "File" menu.
      * <p>
-     * Note that {@link OSXApplication} does <b>not</b> invoke this method and
+     * Note that OSXApplication does <b>not</b> invoke this method and
      * instead retrieves an action with ID {@code ExitAction.ID}
      * from the action map of the {@code ApplicationModel} and adds it to the
      * "Application" menu.
@@ -310,7 +310,7 @@ public interface MenuBuilder {
      * <p>
      * Most applications use this method for adding items to the second section
      * of the "Window" menu. (The first section usually contains application
-     * specific items). Some applications, such as {@link SDIApplication} add
+     * specific items). Some applications, such as SDIApplication add
      * these items to the "View" menu.
      *
      * @param m A (potentially non-empty) menu.
@@ -339,7 +339,7 @@ public interface MenuBuilder {
      * Most applications use this method for adding items to the last section
      * of the "Help" menu.
      * <p>
-     * Note that {@link OSXApplication} does <b>not</b> invoke this method and
+     * Note that OSXApplication does <b>not</b> invoke this method and
      * instead retrieves an action with ID {@code AboutAction.ID}
      * from the action map of the {@code ApplicationModel} and adds it to the
      * "Application" menu.

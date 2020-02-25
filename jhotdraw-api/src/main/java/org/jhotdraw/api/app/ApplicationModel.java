@@ -25,7 +25,7 @@ import org.jhotdraw.api.gui.URIChooser;
  * When the application is started, the last opened URI is opened in a view.<br>
  * {@link #isOpenLastURIOnLaunch()} is used by {@link Application#start} to
  * determine whether this feature is enabled.
- * See {@link org.jhotdraw.app} for a list of participating classes.
+ * See {@link org.jhotdraw.api.app} for a list of participating classes.
  * </p>
  *
  * <p>
@@ -34,7 +34,7 @@ import org.jhotdraw.api.gui.URIChooser;
  * When the feature is disabled, opening multiple views is prevented, and saving
  * to a file for which another view is open is prevented.<br>
  * {@code ApplicationModel} defines an API for this feature.<br>
- * See {@link org.jhotdraw.app}.
+ * See {@link org.jhotdraw.api.app}.
  *
  * <hr>
  * <b>Design Patterns</b>
@@ -200,7 +200,7 @@ public interface ApplicationModel {
      * instead of opening an empty view.
      * <p>
      * This method defines an API for the <em>Open last URI on Launch</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @return True if last used URI shall be opened on launch.
      */
@@ -211,7 +211,7 @@ public interface ApplicationModel {
      * URI.
      * <p>
      * This method defines an API for the <em>Allow multiple views for URI</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @return True if the application may open multiple views for the same URI.
      */

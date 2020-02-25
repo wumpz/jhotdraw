@@ -63,7 +63,7 @@ import org.jhotdraw.api.gui.URIChooser;
  * When the application is launched, it opens the last opened URI in a view.<br>
  * {@code Application} also provides an API for data suppliers in {@link #addRecentURI},
  * {@link #getRecentURIs}, {@link #clearRecentURIs}.<br>
- * See {@link org.jhotdraw.app} for a description of the feature.
+ * See {@link org.jhotdraw.api.app} for a description of the feature.
  * </p>
  *
  * <hr>
@@ -115,7 +115,7 @@ public interface Application {
      * <p>
      * This method implements behavior for the following features:
      * <em>Launch application</em>, <em>Open last URI on launch</em>.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @param args The arguments of the main method
      */
@@ -128,7 +128,7 @@ public interface Application {
      * <p>
      * This method implements behavior for the following feature:
      * <em>Open URIs from command line on launch</em>.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @param args The arguments of the main method
      */
@@ -157,7 +157,7 @@ public interface Application {
      * <p>
      * This method implements behavior for the following feature:
      * <em>Open URI on launch</em>.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @param uris Upon launch, the application may be requested to open views
      * for a given list of URI's.
@@ -381,7 +381,7 @@ public interface Application {
      * The first item in the list is the most recently opened URI.
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @return the recently opened URIs
      */
@@ -396,7 +396,7 @@ public interface Application {
      * so that they are available on the next launch of the application.
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @param uri the value
      */
@@ -410,7 +410,7 @@ public interface Application {
      * so that they are available on the next launch of the application.
      * <p>
      * The most recent URI is used by the <em>Open last URI on launch</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      */
     public void clearRecentURIs();
 
@@ -498,7 +498,7 @@ public interface Application {
      * Returns an unmodifiable list of all views of the application.
      * <p>
      * The list of views is used by the <em>Allow multiple views per URI</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @return the views
      */

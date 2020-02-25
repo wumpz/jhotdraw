@@ -155,7 +155,7 @@ public interface View extends Disposable {
      * <p>
      * This method implements behavior for the following feature:
      * <em>Open URI on launch</em>.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      */
     public void clear();
 
@@ -166,7 +166,7 @@ public interface View extends Disposable {
      * after startup. If the user chooses to open a document, the document is
      * opened in this view rather than in a new view.
      * <p>
-     * If this method returns true, {@link org.jhotdraw.app.action.file.OpenFileAction}
+     * If this method returns true, org.jhotdraw.app.action.file.OpenFileAction
      * and similar actions will open a file in this view, instead of
      * opening a new view.
      *
@@ -326,7 +326,7 @@ public interface View extends Disposable {
      * Returns the URI which holds the document of the view.
      * <p>
      * The URI is used by the <em>Allow multiple views per URI</em> feature.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      */
     public URI getURI();
 
@@ -368,7 +368,7 @@ public interface View extends Disposable {
      * <p>
      * This method implements behavior for the following feature:
      * <em>Open URI on launch</em>.
-     * See {@link org.jhotdraw.app}.
+     * See {@link org.jhotdraw.api.app}.
      *
      * @param uri The location where to write the view.
      * @param chooser The chooser which was used for selecting the URI. This

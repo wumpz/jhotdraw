@@ -90,4 +90,4 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-package org.jhotdraw.app;
+package org.jhotdraw.api.app;

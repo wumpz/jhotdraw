@@ -20,7 +20,7 @@ import org.jhotdraw.util.*;
  * This action is called when the user selects the "About" menu item.
  * The menu item is automatically created by the application.
  * {@link OSXApplication} places the menu item in the "Application" menu,
- * {@link SDIApplication} and {@link MDIApplication} in the "Help" menu.
+ * SDIApplication and {@link MDIApplication} in the "Help" menu.
  * <p>
  * This action is automatically created by the application and put into the
  * {@code ApplicationModel} before {@link ApplicationModel#initApplication} is
