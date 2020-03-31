@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jhotdraw.datatransfer.AbstractTransferable;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.datatransfer.AbstractTransferable;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * {@code SerializationInputOutputFormat} uses Java Serialization for reading and
@@ -85,7 +85,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
     @Override
     public FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new FileNameExtensionFilter(description, fileExtension);
     }
 
     @Override

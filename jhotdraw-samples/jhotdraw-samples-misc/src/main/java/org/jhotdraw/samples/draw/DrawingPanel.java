@@ -9,11 +9,11 @@ package org.jhotdraw.samples.draw;
 
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
+import org.jhotdraw.action.edit.CopyAction;
+import org.jhotdraw.action.edit.CutAction;
+import org.jhotdraw.action.edit.DuplicateAction;
+import org.jhotdraw.action.edit.PasteAction;
+import org.jhotdraw.action.edit.SelectAllAction;
 import org.jhotdraw.draw.AbstractAttributedFigure;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.BezierFigure;
@@ -42,6 +42,7 @@ import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.gui.JPopupButton;
+import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 

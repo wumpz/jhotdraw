@@ -7,13 +7,20 @@
  */
 package org.jhotdraw.samples.color;
 
+import org.jhotdraw.color.ColorUtil;
+import org.jhotdraw.color.HSLPhysiologicColorSpace;
+import org.jhotdraw.color.HarmonicColorModel;
+import org.jhotdraw.color.SimpleHarmonicRule;
+import org.jhotdraw.color.DefaultColorSliderModel;
+import org.jhotdraw.color.JHarmonicColorWheel;
+import org.jhotdraw.color.HSLColorSpace;
+import org.jhotdraw.color.ColorListCellRenderer;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.MouseEvent;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import org.jhotdraw.color.*;
 
 /**
  * JMixer.

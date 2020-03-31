@@ -11,11 +11,13 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import netscape.javascript.JSObject;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.TextFigure;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.xml.*;
 
 /**
@@ -54,9 +56,9 @@ public class DrawLiveConnectApplet extends JApplet {
         }
         // We load the data using a worker thread
         // --------------------------------------
-        new Worker<Drawing>() {
+        new SwingWorker<Drawing, Drawing>() {
             @Override
-            protected Drawing construct() throws IOException {
+            protected Drawing doInBackground() throws Exception {
                 Drawing result;
                 if (getParameter("data") != null && getParameter("data").length() > 0) {
                     JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
@@ -80,17 +82,23 @@ public class DrawLiveConnectApplet extends JApplet {
             }
 
             @Override
-            protected void done(Drawing result) {
-                Container c = getContentPane();
-                c.setLayout(new BorderLayout());
-                c.removeAll();
-                initComponents();
-                if (result != null) {
-                    setDrawing(result);
+            protected void done() {
+                try {
+                    Drawing result = get();
+                    Container c = getContentPane();
+                    c.setLayout(new BorderLayout());
+                    c.removeAll();
+                    initComponents();
+                    if (result != null) {
+                        setDrawing(result);
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(DrawLiveConnectApplet.class.getName()).log(Level.SEVERE, null, ex);
+                    failed(ex);
                 }
+                finished();
             }
 
-            @Override
             protected void failed(Throwable result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -100,7 +108,6 @@ public class DrawLiveConnectApplet extends JApplet {
                 result.printStackTrace();
             }
 
-            @Override
             protected void finished() {
                 Container c = getContentPane();
                 boolean isLiveConnect;
@@ -125,7 +132,7 @@ public class DrawLiveConnectApplet extends JApplet {
                 }
                 c.validate();
             }
-        }.start();
+        }.execute();
     }
 
     private void setDrawing(Drawing d) {

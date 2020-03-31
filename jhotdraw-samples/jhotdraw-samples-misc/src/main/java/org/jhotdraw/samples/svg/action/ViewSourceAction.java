@@ -7,9 +7,6 @@
  */
 package org.jhotdraw.samples.svg.action;
 
-import org.jhotdraw.api.app.Disposable;
-import org.jhotdraw.api.app.Application;
-import org.jhotdraw.api.app.View;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -18,7 +15,10 @@ import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import org.jhotdraw.app.action.*;
+import org.jhotdraw.action.AbstractViewAction;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.samples.svg.SVGView;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;

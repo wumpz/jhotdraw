@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.xml.parsers.DocumentBuilder;
@@ -28,8 +29,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.formatter.FontFormatter;
 import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.io.Base64;
 import org.jhotdraw.io.StreamPosTokenizer;
 import org.jhotdraw.samples.svg.Gradient;
@@ -37,7 +38,6 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.SVGAttributeKeys.TextAnchor;
 import static org.jhotdraw.samples.svg.SVGConstants.*;
 import org.jhotdraw.samples.svg.figures.SVGFigure;
-import org.jhotdraw.text.FontFormatter;
 import org.jhotdraw.util.LocaleUtil;
 import org.jhotdraw.xml.css.CSSParser;
 import org.jhotdraw.xml.css.StyleManager;
@@ -3196,7 +3196,7 @@ public class SVGInputFormat implements InputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
+        return new FileNameExtensionFilter("Scalable Vector Graphics (SVG)", "svg");
     }
 
     @Override

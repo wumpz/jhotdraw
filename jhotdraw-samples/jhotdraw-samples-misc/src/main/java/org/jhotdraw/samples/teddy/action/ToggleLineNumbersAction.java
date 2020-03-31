@@ -7,11 +7,11 @@
  */
 package org.jhotdraw.samples.teddy.action;
 
-import org.jhotdraw.api.app.Application;
-import org.jhotdraw.api.app.View;
 import java.awt.event.*;
 import javax.swing.Action;
-import org.jhotdraw.app.action.*;
+import org.jhotdraw.action.AbstractViewAction;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.teddy.TeddyView;
 import org.jhotdraw.util.*;
 

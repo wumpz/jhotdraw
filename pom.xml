@@ -133,5 +133,9 @@
 		<module>jhotdraw-xml</module>
 		<module>jhotdraw-api</module>
 		<module>jhotdraw-utils</module>
+	 <module>jhotdraw-gui</module>
+	 <module>jhotdraw-app</module>
+	 <module>jhotdraw-datatransfer</module>
+	 <module>jhotdraw-actions</module>
 	</modules>
 </project>

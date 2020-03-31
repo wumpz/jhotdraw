@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,8 +20,7 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JLifeFormattedTextField;
-import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 

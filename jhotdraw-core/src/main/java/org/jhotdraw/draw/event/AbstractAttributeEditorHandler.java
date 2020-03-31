@@ -20,12 +20,12 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.api.gui.AttributeEditor;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.Figure;
-import org.jhotdraw.gui.AttributeEditor;
 
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the

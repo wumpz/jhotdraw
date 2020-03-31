@@ -10,11 +10,11 @@ package org.jhotdraw.draw.event;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.jhotdraw.api.gui.AttributeEditor;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.Figure;
-import org.jhotdraw.gui.AttributeEditor;
 
 /**
  * FigureAttributeEditorHandler mediates between an AttributeEditor and the

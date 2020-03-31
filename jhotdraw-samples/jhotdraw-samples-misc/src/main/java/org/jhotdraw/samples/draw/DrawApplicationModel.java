@@ -9,6 +9,7 @@ package org.jhotdraw.samples.draw;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.ApplicationModel;
 import org.jhotdraw.api.app.View;
@@ -30,7 +31,6 @@ import org.jhotdraw.draw.RoundRectangleFigure;
 import org.jhotdraw.draw.TextAreaFigure;
 import org.jhotdraw.draw.TextFigure;
 import org.jhotdraw.draw.TriangleFigure;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
@@ -41,7 +41,7 @@ import org.jhotdraw.draw.tool.ImageTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.util.*;
 
 /**
@@ -153,14 +153,14 @@ public class DrawApplicationModel extends DefaultApplicationModel {
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml", "xml"));
+        c.addChoosableFileFilter(new FileNameExtensionFilter("Drawing .xml", "xml"));
         return c;
     }
 
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Drawing .xml", "xml"));
+        c.addChoosableFileFilter(new FileNameExtensionFilter("Drawing .xml", "xml"));
         return c;
     }
 }

@@ -7,11 +7,11 @@
  */
 package org.jhotdraw.samples.odg.action;
 
-import org.jhotdraw.api.app.Application;
-import org.jhotdraw.api.app.View;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.app.action.*;
+import org.jhotdraw.action.AbstractViewAction;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.odg.ODGView;
 import org.jhotdraw.util.*;
 

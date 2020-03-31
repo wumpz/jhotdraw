@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.draw;
 
+import ch.randelshofer.quaqua.util.Worker;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
@@ -22,7 +23,6 @@ import org.jhotdraw.draw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.xml.*;
 
 /**

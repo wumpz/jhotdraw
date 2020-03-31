@@ -15,13 +15,13 @@ import org.jhotdraw.api.app.MenuBuilder;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.DefaultMenuBuilder;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.samples.teddy.action.FindAction;
 import org.jhotdraw.samples.teddy.action.ToggleLineNumbersAction;
 import org.jhotdraw.samples.teddy.action.ToggleLineWrapAction;
 import org.jhotdraw.samples.teddy.action.ToggleStatusBarAction;
+import org.jhotdraw.util.ActionUtil;
 
 /**
  * Provides meta-data and factory methods for an application.

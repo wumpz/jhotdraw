@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteLabelUI;
+import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -19,7 +22,6 @@ import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import org.jhotdraw.draw.gui.JAttributeTextArea;
 import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.gui.plaf.palette.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.util.*;
 

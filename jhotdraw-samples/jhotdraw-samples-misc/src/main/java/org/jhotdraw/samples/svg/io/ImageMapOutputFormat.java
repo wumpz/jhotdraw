@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,11 +24,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.jhotdraw.datatransfer.InputStreamTransferable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.gui.datatransfer.*;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
@@ -79,7 +79,7 @@ public class ImageMapOutputFormat implements OutputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter("HTML Image Map", "html");
+        return new FileNameExtensionFilter("HTML Image Map", "html");
     }
 
     @Override

@@ -15,9 +15,9 @@ import java.net.URI;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.util.Images;
 
 /**
@@ -110,7 +110,7 @@ public class ImageInputFormat implements InputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtensions);
+        return new FileNameExtensionFilter(description, fileExtensions);
     }
 
     public String[] getFileExtensions() {

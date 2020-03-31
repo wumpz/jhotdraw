@@ -12,15 +12,16 @@ import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.gui.BackgroundTask;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * Example showing how to embed the {@link org.jhotdraw.samples.svg.SVGDrawingPanel} into an application
@@ -118,19 +119,26 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             svgPanel.setEnabled(false);
             final File selectedFile = fc.getSelectedFile();
             final InputFormat selectedFormat = fileFilterInputFormatMap.get(fc.getFileFilter());
-            new BackgroundTask() {
+            new SwingWorker() {
                 @Override
-                protected void construct() throws IOException {
+                protected Object doInBackground() throws Exception {
                     svgPanel.read(selectedFile.toURI(), selectedFormat);
+                    return null;
                 }
 
                 @Override
                 protected void done() {
-                    file = selectedFile;
-                    setTitle(file.getName());
+                    try {
+                        get();
+                        file = selectedFile;
+                        setTitle(file.getName());
+                    } catch (InterruptedException | ExecutionException ex) {
+                        Logger.getLogger(SVGDrawingPanelSample.class.getName()).log(Level.SEVERE, null, ex);
+                        failed(ex);
+                    }
+                    finished();
                 }
 
-                @Override
                 protected void failed(Throwable error) {
                     error.printStackTrace();
                     JOptionPane.showMessageDialog(SVGDrawingPanelSample.this,
@@ -138,11 +146,10 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
                             + error.toString(), "Open File", JOptionPane.ERROR_MESSAGE);
                 }
 
-                @Override
                 protected void finished() {
                     svgPanel.setEnabled(true);
                 }
-            }.start();
+            }.execute();
         }
     }//GEN-LAST:event_open
     /**
@@ -155,26 +162,28 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
         }
         if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             svgPanel.setEnabled(false);
-            final File selectedFile;
-            if (fc.getFileFilter() instanceof ExtensionFileFilter) {
-                selectedFile = ((ExtensionFileFilter) fc.getFileFilter()).makeAcceptable(fc.getSelectedFile());
-            } else {
-                selectedFile = fc.getSelectedFile();
-            }
+            final File selectedFile = fc.getSelectedFile();
             final OutputFormat selectedFormat = fileFilterOutputFormatMap.get(fc.getFileFilter());
-            new BackgroundTask() {
+            new SwingWorker() {
                 @Override
-                protected void construct() throws IOException {
+                protected Object doInBackground() throws Exception {
                     svgPanel.write(selectedFile.toURI(), selectedFormat);
+                    return null;
                 }
 
                 @Override
                 protected void done() {
-                    file = selectedFile;
-                    setTitle(file.getName());
+                    try {
+                        get();
+                        file = selectedFile;
+                        setTitle(file.getName());
+                    } catch (InterruptedException | ExecutionException ex) {
+                        Logger.getLogger(SVGDrawingPanelSample.class.getName()).log(Level.SEVERE, null, ex);
+                        failed(ex);
+                    }
+                    finished();
                 }
 
-                @Override
                 protected void failed(Throwable error) {
                     error.printStackTrace();
                     JOptionPane.showMessageDialog(SVGDrawingPanelSample.this,
@@ -182,11 +191,10 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
                             + error.toString(), "Save As File", JOptionPane.ERROR_MESSAGE);
                 }
 
-                @Override
                 protected void finished() {
                     svgPanel.setEnabled(true);
                 }
-            }.start();
+            }.execute();
         }
     }//GEN-LAST:event_saveAs
     /**

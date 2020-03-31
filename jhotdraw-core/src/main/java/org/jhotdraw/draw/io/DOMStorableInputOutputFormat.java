@@ -16,9 +16,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComponent;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jhotdraw.datatransfer.InputStreamTransferable;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.datatransfer.InputStreamTransferable;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.xml.*;
 
 /**
@@ -93,7 +93,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new FileNameExtensionFilter(description, fileExtension);
     }
 
     @Override

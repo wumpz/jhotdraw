@@ -10,12 +10,12 @@ package org.jhotdraw.draw.tool;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import javax.swing.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.ImageHolderFigure;
-import org.jhotdraw.gui.BackgroundTask;
 
 /**
  * A tool to create new figures that implement the ImageHolderFigure
@@ -49,7 +49,6 @@ public class ImageTool extends CreationTool {
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
     protected boolean useFileDialog;
-    protected Thread workerThread;
 
     /**
      * Creates a new instance.
@@ -85,13 +84,6 @@ public class ImageTool extends CreationTool {
         if (v == null) {
             return;
         }
-        if (workerThread != null) {
-            try {
-                workerThread.join();
-            } catch (InterruptedException ex) {
-                // ignore
-            }
-        }
         final File file;
         if (useFileDialog) {
             getFileDialog().setVisible(true);
@@ -109,15 +101,17 @@ public class ImageTool extends CreationTool {
         }
         if (file != null) {
             final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
-            BackgroundTask worker = new BackgroundTask() {
+            new SwingWorker() {
                 @Override
-                protected void construct() throws IOException {
+                protected Object doInBackground() throws Exception {
                     loaderFigure.loadImage(file);
+                    return null;
                 }
 
                 @Override
                 protected void done() {
                     try {
+                        get();  //will throw an ExecutionException if in doInBackground something went wrong.
                         if (createdFigure == null) {
                             ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
                         } else {
@@ -128,22 +122,16 @@ public class ImageTool extends CreationTool {
                                 ex.getMessage(),
                                 null,
                                 JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-
-                @Override
-                protected void failed(Throwable value) {
-                    Throwable t = value;
-                    JOptionPane.showMessageDialog(v.getComponent(),
-                            t.getMessage(),
+                    } catch (InterruptedException | ExecutionException ex) {
+                        JOptionPane.showMessageDialog(v.getComponent(),
+                            ex.getMessage(),
                             null,
                             JOptionPane.ERROR_MESSAGE);
-                    getDrawing().remove(createdFigure);
-                    fireToolDone();
+                        getDrawing().remove(createdFigure);
+                        fireToolDone();
+                    }
                 }
-            };
-            workerThread = new Thread(worker);
-            workerThread.start();
+            }.execute();
         } else {
             //getDrawing().remove(createdFigure);
             if (isToolDoneAfterCreation()) {

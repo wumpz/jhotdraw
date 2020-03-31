@@ -12,9 +12,9 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.app.action.ActionUtil;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.util.ActionUtil;
 
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers.

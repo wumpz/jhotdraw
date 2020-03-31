@@ -13,9 +13,9 @@ import java.io.*;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * An input format for importing text into a drawing.
@@ -95,7 +95,7 @@ public class TextInputFormat implements InputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new FileNameExtensionFilter(description, fileExtension);
     }
 
     public String getFileExtension() {

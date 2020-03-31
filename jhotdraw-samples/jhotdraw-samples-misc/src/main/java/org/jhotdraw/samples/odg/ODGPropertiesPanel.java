@@ -14,7 +14,7 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
-import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 
 /**

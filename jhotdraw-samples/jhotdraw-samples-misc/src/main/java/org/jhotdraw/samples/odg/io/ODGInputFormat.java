@@ -14,13 +14,13 @@ import java.net.URI;
 import java.util.*;
 import java.util.zip.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.io.StreamPosTokenizer;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import static org.jhotdraw.samples.odg.ODGConstants.*;
@@ -70,7 +70,7 @@ public class ODGInputFormat implements InputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter("Open Document Drawing (ODG)", "odg");
+        return new FileNameExtensionFilter("Open Document Drawing (ODG)", "odg");
     }
 
     @Override

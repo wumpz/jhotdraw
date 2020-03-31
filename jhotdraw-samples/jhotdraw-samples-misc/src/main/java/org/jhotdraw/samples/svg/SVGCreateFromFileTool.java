@@ -10,6 +10,9 @@ package org.jhotdraw.samples.svg;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.CompositeFigure;
@@ -21,8 +24,6 @@ import org.jhotdraw.draw.Figure;
 import org.jhotdraw.draw.ImageHolderFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.gui.BackgroundTask;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.samples.svg.io.SVGInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
 
@@ -45,7 +46,6 @@ public class SVGCreateFromFileTool extends CreationTool {
     private static final long serialVersionUID = 1L;
     protected FileDialog fileDialog;
     protected JFileChooser fileChooser;
-    protected Thread workerThread;
     protected CompositeFigure groupPrototype;
     protected ImageHolderFigure imagePrototype;
     protected boolean useFileDialog;
@@ -88,13 +88,6 @@ public class SVGCreateFromFileTool extends CreationTool {
         if (v == null) {
             return;
         }
-        if (workerThread != null) {
-            try {
-                workerThread.join();
-            } catch (InterruptedException ex) {
-                // ignore
-            }
-        }
         final File file;
         if (useFileDialog) {
             getFileDialog().setVisible(true);
@@ -114,10 +107,9 @@ public class SVGCreateFromFileTool extends CreationTool {
             if (file.getName().toLowerCase().endsWith(".svg")
                     || file.getName().toLowerCase().endsWith(".svgz")) {
                 prototype = groupPrototype.clone();
-                Worker<Drawing> worker;
-                worker = new Worker<Drawing>() {
+                new SwingWorker<Drawing, Drawing>() {
                     @Override
-                    public Drawing construct() throws IOException {
+                    protected Drawing doInBackground() throws Exception {
                         Drawing drawing = new DefaultDrawing();
                         InputFormat in = (file.getName().toLowerCase().endsWith(".svg")) ? new SVGInputFormat() : new SVGZInputFormat();
                         in.read(file.toURI(), drawing);
@@ -125,24 +117,29 @@ public class SVGCreateFromFileTool extends CreationTool {
                     }
 
                     @Override
-                    protected void done(Drawing drawing) {
-                        CompositeFigure parent;
-                        if (createdFigure == null) {
-                            parent = (CompositeFigure) prototype;
-                            for (Figure f : drawing.getChildren()) {
-                                parent.basicAdd(f);
+                    protected void done() {
+                        try {
+                            Drawing drawing = get();
+                            CompositeFigure parent;
+                            if (createdFigure == null) {
+                                parent = (CompositeFigure) prototype;
+                                for (Figure f : drawing.getChildren()) {
+                                    parent.basicAdd(f);
+                                }
+                            } else {
+                                parent = (CompositeFigure) createdFigure;
+                                parent.willChange();
+                                for (Figure f : drawing.getChildren()) {
+                                    parent.add(f);
+                                }
+                                parent.changed();
                             }
-                        } else {
-                            parent = (CompositeFigure) createdFigure;
-                            parent.willChange();
-                            for (Figure f : drawing.getChildren()) {
-                                parent.add(f);
-                            }
-                            parent.changed();
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Logger.getLogger(SVGCreateFromFileTool.class.getName()).log(Level.SEVERE, null, ex);
+                            failed(ex);
                         }
                     }
 
-                    @Override
                     protected void failed(Throwable t) {
                         JOptionPane.showMessageDialog(v.getComponent(),
                                 t.getMessage(),
@@ -151,39 +148,40 @@ public class SVGCreateFromFileTool extends CreationTool {
                         getDrawing().remove(createdFigure);
                         fireToolDone();
                     }
-
-                    @Override
-                    protected void finished() {
-                    }
-                };
-                workerThread = new Thread(worker);
+                }.execute();
             } else {
                 prototype = imagePrototype;
                 final ImageHolderFigure loaderFigure = ((ImageHolderFigure) prototype.clone());
-                BackgroundTask worker;
-                worker = new BackgroundTask() {
+                new SwingWorker() {
                     @Override
-                    protected void construct() throws IOException {
+                    protected Object doInBackground() throws Exception {
                         loaderFigure.loadImage(file);
+                        return null;
                     }
 
                     @Override
                     protected void done() {
                         try {
-                            if (createdFigure == null) {
-                                ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
-                            } else {
-                                ((ImageHolderFigure) createdFigure).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
+                            get();
+                            try {
+                                if (createdFigure == null) {
+                                    ((ImageHolderFigure) prototype).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
+                                } else {
+                                    ((ImageHolderFigure) createdFigure).setImage(loaderFigure.getImageData(), loaderFigure.getBufferedImage());
+                                }
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(v.getComponent(),
+                                                          ex.getMessage(),
+                                                          null,
+                                                          JOptionPane.ERROR_MESSAGE);
                             }
-                        } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(v.getComponent(),
-                                    ex.getMessage(),
-                                    null,
-                                    JOptionPane.ERROR_MESSAGE);
+                        } catch (InterruptedException | ExecutionException ex) {
+                            Logger.getLogger(SVGCreateFromFileTool.class.getName()).log(                                    Level.SEVERE, null, ex);
+                            failed(ex);
                         }
+                        
                     }
 
-                    @Override
                     protected void failed(Throwable t) {
                         JOptionPane.showMessageDialog(v.getComponent(),
                                 t.getMessage(),
@@ -192,10 +190,8 @@ public class SVGCreateFromFileTool extends CreationTool {
                         getDrawing().remove(createdFigure);
                         fireToolDone();
                     }
-                };
-                workerThread = new Thread(worker);
+                }.execute();
             }
-            workerThread.start();
         } else {
             //getDrawing().remove(createdFigure);
             if (isToolDoneAfterCreation()) {

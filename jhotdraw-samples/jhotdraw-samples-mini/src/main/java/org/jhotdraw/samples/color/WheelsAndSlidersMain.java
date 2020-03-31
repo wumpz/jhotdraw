@@ -7,6 +7,18 @@
  */
 package org.jhotdraw.samples.color;
 
+import org.jhotdraw.color.ColorUtil;
+import org.jhotdraw.color.CIELCHabColorSpace;
+import org.jhotdraw.color.HSVPhysiologicColorSpace;
+import org.jhotdraw.color.CIELABColorSpace;
+import org.jhotdraw.color.HSLPhysiologicColorSpace;
+import org.jhotdraw.color.HSBColorSpace;
+import org.jhotdraw.color.CMYKNominalColorSpace;
+import org.jhotdraw.color.JColorWheel;
+import org.jhotdraw.color.DefaultColorSliderModel;
+import org.jhotdraw.color.ColorSliderModel;
+import org.jhotdraw.color.HSLColorSpace;
+import org.jhotdraw.color.HSVColorSpace;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
@@ -14,7 +26,6 @@ import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import org.jhotdraw.color.*;
 
 /**
  * A demo of color wheels and color sliders using all kinds of color systems.

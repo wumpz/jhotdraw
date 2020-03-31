@@ -7,6 +7,11 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
+import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
+import org.jhotdraw.gui.plaf.palette.PaletteColorChooserUI;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +28,9 @@ import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.gui.JAttributeTextField;
 import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.gui.plaf.palette.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.text.ColorFormatter;
-import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.util.*;
 
 /**

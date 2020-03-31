@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
@@ -28,12 +29,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.jhotdraw.datatransfer.InputStreamTransferable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.AttributeKeys.WindingRule;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.gui.datatransfer.*;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 import org.jhotdraw.io.Base64;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.LinearGradient;
@@ -116,7 +116,7 @@ public class SVGOutputFormat implements OutputFormat {
     }
 
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter("Scalable Vector Graphics (SVG)", "svg");
+        return new FileNameExtensionFilter("Scalable Vector Graphics (SVG)", "svg");
     }
 
     public JComponent getOutputFormatAccessory() {

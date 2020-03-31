@@ -8,10 +8,10 @@
 package org.jhotdraw.samples.teddy.action;
 
 import java.awt.event.*;
+import org.jhotdraw.action.edit.AbstractFindAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.OSXApplication;
-import org.jhotdraw.app.action.edit.AbstractFindAction;
 import org.jhotdraw.samples.teddy.FindDialog;
 
 /**

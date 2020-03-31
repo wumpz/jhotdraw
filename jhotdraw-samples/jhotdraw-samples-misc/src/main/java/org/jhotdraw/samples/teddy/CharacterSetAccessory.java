@@ -11,7 +11,6 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
-import org.jhotdraw.gui.BackgroundTask;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -52,9 +51,9 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
 
     public void fetchAvailableCharSets() {
         if (availableCharSets == null) {
-            new BackgroundTask() {
+            new SwingWorker() {
                 @Override
-                public void construct() {
+                protected Object doInBackground() throws Exception {
                     SortedMap<String, Charset> sm = Charset.availableCharsets();
                     LinkedList<String> list = new LinkedList<String>();
                     for (String key : sm.keySet()) {
@@ -64,16 +63,17 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                     }
                     availableCharSets = list.toArray();
                     Arrays.sort(availableCharSets);
+                    return null;
                 }
 
                 @Override
-                public void finished() {
+                public void done() {
                     Object selectedItem = charSetCombo.getSelectedItem();
                     charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));
                     charSetCombo.setSelectedItem(selectedItem);
                     charSetCombo.setEnabled(true);
                 }
-            }.start();
+            }.execute();
         } else {
             Object selectedItem = charSetCombo.getSelectedItem();
             charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));

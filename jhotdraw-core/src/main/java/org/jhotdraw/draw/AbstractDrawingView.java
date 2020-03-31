@@ -56,6 +56,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.api.gui.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_COLOR;
 import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_OPACITY;
 import static org.jhotdraw.draw.AttributeKeys.CANVAS_HEIGHT;
@@ -75,7 +76,6 @@ import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.ReversedList;
 

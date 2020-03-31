@@ -12,6 +12,9 @@ import java.awt.geom.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.ImageFigure;
@@ -22,7 +25,6 @@ import org.jhotdraw.draw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.gui.Worker;
 import org.jhotdraw.xml.*;
 
 /**
@@ -87,9 +89,9 @@ public class NetApplet extends JApplet {
         }
         // We load the data using a worker thread
         // --------------------------------------
-        new Worker<Drawing>() {
+        new SwingWorker<Drawing, Drawing>() {
             @Override
-            protected Drawing construct() throws IOException {
+            protected Drawing doInBackground() throws Exception {
                 Drawing result;
                 System.out.println("getParameter.datafile:" + getParameter("datafile"));
                 if (getParameter("data") != null) {
@@ -111,18 +113,24 @@ public class NetApplet extends JApplet {
             }
 
             @Override
-            protected void done(Drawing result) {
-                Container c = getContentPane();
-                c.setLayout(new BorderLayout());
-                c.removeAll();
-                c.add(drawingPanel = new NetPanel());
-                if (result != null) {
-                    Drawing drawing = result;
-                    setDrawing(drawing);
+            protected void done() {
+                try {
+                    Drawing result = get();
+                    Container c = getContentPane();
+                    c.setLayout(new BorderLayout());
+                    c.removeAll();
+                    c.add(drawingPanel = new NetPanel());
+                    if (result != null) {
+                        Drawing drawing = result;
+                        setDrawing(drawing);
+                    }
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(NetApplet.class.getName()).log(Level.SEVERE, null, ex);
+                    failed(ex);
                 }
+                finished();
             }
 
-            @Override
             protected void failed(Throwable value) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -133,13 +141,12 @@ public class NetApplet extends JApplet {
                 value.printStackTrace();
             }
 
-            @Override
             protected void finished() {
                 Container c = getContentPane();
                 initDrawing(getDrawing());
                 c.validate();
             }
-        }.start();
+        }.execute();
     }
 
     private void setDrawing(Drawing d) {
@@ -216,10 +223,10 @@ public class NetApplet extends JApplet {
     @Override
     public String getAppletInfo() {
         return NAME
-                + "\nVersion " + getVersion()
-                + "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors"
-                + "\nThis software is licensed under LGPL or"
-                + "\nCreative Commons 3.0 BY";
+               + "\nVersion " + getVersion()
+               + "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors"
+               + "\nThis software is licensed under LGPL or"
+               + "\nCreative Commons 3.0 BY";
     }
 
     /**

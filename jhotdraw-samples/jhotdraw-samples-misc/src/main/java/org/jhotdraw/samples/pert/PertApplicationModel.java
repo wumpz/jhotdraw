@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jhotdraw.action.view.ToggleViewPropertyAction;
+import org.jhotdraw.action.view.ViewPropertyAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.ApplicationModel;
 import org.jhotdraw.api.app.MenuBuilder;
@@ -18,23 +21,19 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.DefaultMenuBuilder;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.app.action.view.ToggleViewPropertyAction;
-import org.jhotdraw.app.action.view.ViewPropertyAction;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.TextAreaFigure;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.samples.pert.figures.DependencyFigure;
 import org.jhotdraw.samples.pert.figures.TaskFigure;
 import org.jhotdraw.util.*;
@@ -190,14 +189,14 @@ public class PertApplicationModel extends DefaultApplicationModel {
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram", "xml"));
+        c.addChoosableFileFilter(new FileNameExtensionFilter("Pert Diagram", "xml"));
         return c;
     }
 
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
         JFileURIChooser c = new JFileURIChooser();
-        c.addChoosableFileFilter(new ExtensionFileFilter("Pert Diagram", "xml"));
+        c.addChoosableFileFilter(new FileNameExtensionFilter("Pert Diagram", "xml"));
         return c;
     }
 }

@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.gui.action.ButtonFactory;
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;

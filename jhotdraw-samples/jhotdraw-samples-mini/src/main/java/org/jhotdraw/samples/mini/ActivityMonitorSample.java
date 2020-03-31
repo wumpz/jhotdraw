@@ -11,7 +11,7 @@ package org.jhotdraw.samples.mini;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.jhotdraw.gui.ActivityModel;
+import org.jhotdraw.api.gui.ActivityModel;
 import org.jhotdraw.gui.DefaultActivityModel;
 import org.jhotdraw.gui.JActivityWindow;
 

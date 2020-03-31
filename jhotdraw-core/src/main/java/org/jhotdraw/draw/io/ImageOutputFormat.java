@@ -15,10 +15,10 @@ import java.io.*;
 import java.net.URI;
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jhotdraw.datatransfer.ImageTransferable;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.gui.datatransfer.*;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
 
 /**
  * An output format for exporting drawings using one of the image formats
@@ -73,7 +73,7 @@ public class ImageOutputFormat implements OutputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new FileNameExtensionFilter(description, fileExtension);
     }
 
     @Override

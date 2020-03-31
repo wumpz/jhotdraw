@@ -15,6 +15,7 @@ import java.awt.image.VolatileImage;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
+import org.jhotdraw.api.gui.EditableComponent;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
@@ -26,7 +27,6 @@ import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.gui.EditableComponent;
 import org.jhotdraw.util.*;
 
 /**
