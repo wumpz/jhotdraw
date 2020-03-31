@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;

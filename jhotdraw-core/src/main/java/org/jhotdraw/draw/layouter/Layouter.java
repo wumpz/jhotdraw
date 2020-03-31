@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.layouter;
 
+import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 

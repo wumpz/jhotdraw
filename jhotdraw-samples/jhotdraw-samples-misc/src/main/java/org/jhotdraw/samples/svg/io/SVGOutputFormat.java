@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import org.jhotdraw.draw.figure.BezierFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;

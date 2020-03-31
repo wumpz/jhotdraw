@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.locator;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.Dimension2DDouble;

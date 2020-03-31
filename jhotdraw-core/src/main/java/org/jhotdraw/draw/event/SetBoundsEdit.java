@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.event;
 
+import org.jhotdraw.draw.figure.AbstractFigure;
 import java.awt.geom.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;

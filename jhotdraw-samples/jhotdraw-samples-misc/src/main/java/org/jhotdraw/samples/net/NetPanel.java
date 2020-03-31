@@ -22,7 +22,7 @@ import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
-import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.draw.tool.TextCreationTool;

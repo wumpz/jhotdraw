@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.draw.tool;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Container;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseEvent;

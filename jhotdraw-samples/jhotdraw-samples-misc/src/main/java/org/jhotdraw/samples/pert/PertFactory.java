@@ -7,6 +7,10 @@
  */
 package org.jhotdraw.samples.pert;
 
+import org.jhotdraw.draw.figure.GroupFigure;
+import org.jhotdraw.draw.figure.TextAreaFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.figure.ListFigure;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.LocatorConnector;

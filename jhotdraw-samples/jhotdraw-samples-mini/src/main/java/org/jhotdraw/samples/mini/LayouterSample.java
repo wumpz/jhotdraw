@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.figure.LineFigure;
+import org.jhotdraw.draw.figure.TextFigure;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.layouter.VerticalLayouter;

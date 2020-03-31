@@ -5,13 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.figure;
 
 import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
 
 /**
- * A {@link org.jhotdraw.draw.Figure} which groups a collection of figures.
+ * A {@link org.jhotdraw.draw.figure.Figure} which groups a collection of figures.
  *
  * @author Werner Randelshofer
  * @version $Id$

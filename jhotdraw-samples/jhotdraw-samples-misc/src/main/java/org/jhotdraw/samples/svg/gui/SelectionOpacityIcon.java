@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.net.*;
 import org.jhotdraw.draw.*;

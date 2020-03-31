@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.*;
 
 /**

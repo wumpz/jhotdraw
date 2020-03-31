@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

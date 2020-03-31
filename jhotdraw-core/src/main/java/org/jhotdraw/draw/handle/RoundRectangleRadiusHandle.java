@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.draw.figure.RoundRectangleFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;

@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.odg.io;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;

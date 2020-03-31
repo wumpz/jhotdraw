@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.figure;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,6 +14,9 @@ import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.handle.Handle;
@@ -77,7 +80,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * Two figures can be connected using a connection figure. The location of
  * the start or end point of the connection is handled by a connector object
  * at each connected figure.<br>
- * Contract: {@link org.jhotdraw.draw.Figure},
+ * Contract: {@link org.jhotdraw.draw.figure.Figure},
  * {@link ConnectionFigure},
  * {@link org.jhotdraw.draw.connector.Connector},
  * {@link org.jhotdraw.draw.tool.ConnectionTool}.

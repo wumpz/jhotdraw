@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.beans.*;

@@ -7,7 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * ODGFigure.

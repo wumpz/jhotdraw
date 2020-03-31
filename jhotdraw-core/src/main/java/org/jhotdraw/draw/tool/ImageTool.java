@@ -15,7 +15,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
-import org.jhotdraw.draw.ImageHolderFigure;
+import org.jhotdraw.draw.figure.ImageHolderFigure;
 
 /**
  * A tool to create new figures that implement the ImageHolderFigure

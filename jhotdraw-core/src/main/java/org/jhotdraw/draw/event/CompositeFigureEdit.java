@@ -8,6 +8,7 @@
  */
 package org.jhotdraw.draw.event;
 
+import org.jhotdraw.draw.figure.Figure;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.draw.*;

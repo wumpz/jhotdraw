@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.figure.GroupFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;

@@ -35,12 +35,12 @@ public class GeneralPathTip extends AbstractLineDecoration {
     }
 
     @Override
-    protected Path2D.Double getDecoratorPath(org.jhotdraw.draw.Figure f) {
+    protected Path2D.Double getDecoratorPath(org.jhotdraw.draw.figure.Figure f) {
         return (Path2D.Double) path.clone();
     }
 
     @Override
-    protected double getDecoratorPathRadius(org.jhotdraw.draw.Figure f) {
+    protected double getDecoratorPathRadius(org.jhotdraw.draw.figure.Figure f) {
         return decorationRadius;
     }
 }

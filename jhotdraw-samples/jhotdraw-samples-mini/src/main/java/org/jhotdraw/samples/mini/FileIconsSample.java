@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.figure.ImageFigure;
+import org.jhotdraw.draw.figure.TextAreaFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;

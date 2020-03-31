@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.figure.LineFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

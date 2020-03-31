@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.io;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;

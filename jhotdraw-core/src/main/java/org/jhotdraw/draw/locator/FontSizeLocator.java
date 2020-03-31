@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.locator;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;

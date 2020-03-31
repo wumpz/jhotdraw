@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.locator.Locator;

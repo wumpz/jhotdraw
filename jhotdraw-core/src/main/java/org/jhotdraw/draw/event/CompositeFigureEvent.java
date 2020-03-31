@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.event;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.*;

@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.*;
 import org.jhotdraw.draw.AttributeKeys;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.draw.RectangleFigure;
+import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 

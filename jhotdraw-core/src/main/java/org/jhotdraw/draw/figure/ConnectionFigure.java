@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.figure;
 
 import java.awt.geom.*;
 import org.jhotdraw.draw.connector.Connector;
@@ -34,8 +34,8 @@ import org.jhotdraw.geom.BezierPath;
  * Two figures can be connected using a connection figure. The location of
  * the start or end point of the connection is handled by a connector object
  * at each connected figure.<br>
- * Contract: {@link org.jhotdraw.draw.Figure},
- * {@link org.jhotdraw.draw.ConnectionFigure},
+ * Contract: {@link org.jhotdraw.draw.figure.Figure},
+ * {@link org.jhotdraw.draw.figure.ConnectionFigure},
  * {@link org.jhotdraw.draw.connector.Connector},
  * {@link org.jhotdraw.draw.tool.ConnectionTool}.
  *

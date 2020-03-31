@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
 import java.util.HashSet;
 import org.jhotdraw.draw.*;

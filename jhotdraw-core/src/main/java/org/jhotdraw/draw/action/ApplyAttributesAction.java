@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;

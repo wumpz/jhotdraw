@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.draw.figure.LabeledLineConnectionFigure;
+import org.jhotdraw.draw.figure.TextFigure;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;

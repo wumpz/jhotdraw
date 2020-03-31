@@ -10,7 +10,7 @@ package org.jhotdraw.draw.action;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;

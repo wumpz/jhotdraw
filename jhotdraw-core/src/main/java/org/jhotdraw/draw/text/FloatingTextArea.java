@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.text;
 
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.BorderFactory;

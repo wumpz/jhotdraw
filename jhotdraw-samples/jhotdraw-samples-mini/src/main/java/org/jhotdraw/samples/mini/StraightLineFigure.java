@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;

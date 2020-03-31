@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;

@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.io;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;

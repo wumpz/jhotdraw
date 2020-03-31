@@ -9,8 +9,8 @@ package org.jhotdraw.draw.liner;
 
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.ConnectionFigure;
-import org.jhotdraw.draw.LineConnectionFigure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.BezierPath;

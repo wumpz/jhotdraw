@@ -7,6 +7,10 @@
  */
 package org.jhotdraw.samples.net.figures;
 
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;

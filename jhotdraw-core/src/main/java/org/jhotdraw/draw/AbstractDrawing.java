@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.font.*;
 import java.io.*;
 import java.util.*;

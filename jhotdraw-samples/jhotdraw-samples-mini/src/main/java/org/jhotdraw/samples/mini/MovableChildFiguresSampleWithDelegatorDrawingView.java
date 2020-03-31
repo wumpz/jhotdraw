@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.figure.LabelFigure;
+import org.jhotdraw.draw.figure.EllipseFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.geom.*;

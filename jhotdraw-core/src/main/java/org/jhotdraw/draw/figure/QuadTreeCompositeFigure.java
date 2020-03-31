@@ -5,12 +5,13 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.figure;
 
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.event.*;
+import org.jhotdraw.draw.FigureLayerComparator;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;

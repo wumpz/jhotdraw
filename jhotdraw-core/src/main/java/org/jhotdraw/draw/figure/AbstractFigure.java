@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.figure;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -16,6 +16,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.beans.AbstractBean;
+import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.event.FigureEvent;

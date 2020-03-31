@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.draw.figure.ConnectionFigure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;

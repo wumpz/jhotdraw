@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.net;
 
+import org.jhotdraw.draw.figure.GroupFigure;
+import org.jhotdraw.draw.figure.TextAreaFigure;
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.LocatorConnector;

@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.action;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;

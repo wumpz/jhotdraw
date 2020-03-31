@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.dnd.DragGestureEvent;

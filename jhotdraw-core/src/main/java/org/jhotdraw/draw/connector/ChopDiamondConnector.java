@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.connector;
 
+import org.jhotdraw.draw.figure.DiamondFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;

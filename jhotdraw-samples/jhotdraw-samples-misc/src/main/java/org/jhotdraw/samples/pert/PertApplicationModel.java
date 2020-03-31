@@ -27,7 +27,7 @@ import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
-import org.jhotdraw.draw.TextAreaFigure;
+import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;

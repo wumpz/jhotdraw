@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;

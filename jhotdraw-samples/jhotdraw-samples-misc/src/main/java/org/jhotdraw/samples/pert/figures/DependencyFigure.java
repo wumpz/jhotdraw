@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.pert.figures;
 
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import java.awt.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;

@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.pert.figures;
 
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.figure.ListFigure;
 import java.awt.geom.*;
 import java.io.IOException;
 import java.util.*;

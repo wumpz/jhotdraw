@@ -7,6 +7,18 @@
  */
 package org.jhotdraw.samples.draw;
 
+import org.jhotdraw.draw.figure.ImageFigure;
+import org.jhotdraw.draw.figure.EllipseFigure;
+import org.jhotdraw.draw.figure.BezierFigure;
+import org.jhotdraw.draw.figure.TriangleFigure;
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.draw.figure.GroupFigure;
+import org.jhotdraw.draw.figure.DiamondFigure;
+import org.jhotdraw.draw.figure.TextAreaFigure;
+import org.jhotdraw.draw.figure.RoundRectangleFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.figure.LineFigure;
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.ChopBezierConnector;
 import org.jhotdraw.draw.connector.ChopDiamondConnector;

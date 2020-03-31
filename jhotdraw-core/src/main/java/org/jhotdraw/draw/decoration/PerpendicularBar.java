@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.decoration;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.Path2D;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.xml.DOMInput;

@@ -10,7 +10,7 @@ package org.jhotdraw.draw.handle;
 import java.awt.*;
 import org.jhotdraw.draw.AttributeKey;
 import static org.jhotdraw.draw.AttributeKeys.*;
-import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * A non-interactive {@link Handle} which draws the bounds of a {@link Figure} to

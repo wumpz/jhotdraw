@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import netscape.javascript.JSObject;
 import org.jhotdraw.draw.Drawing;
-import org.jhotdraw.draw.TextFigure;
+import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.xml.*;
 
 /**

@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;

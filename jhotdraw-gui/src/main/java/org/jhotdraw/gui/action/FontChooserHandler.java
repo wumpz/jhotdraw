@@ -18,8 +18,8 @@ import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.Figure;
-import org.jhotdraw.draw.TextHolderFigure;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.action.AbstractSelectedAction;
 import org.jhotdraw.gui.JFontChooser;
 

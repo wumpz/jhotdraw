@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.samples.svg.action;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.geom.AffineTransform;
 import java.util.*;
 import javax.swing.undo.*;

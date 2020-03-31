@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.mini;
 
+import org.jhotdraw.draw.figure.RectangleFigure;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
