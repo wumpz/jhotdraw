@@ -66,7 +66,7 @@ public class ClearSelectionAction extends AbstractSelectionAction {
      */
     public ClearSelectionAction(JComponent target) {
         super(target);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
         labels.configureAction(this, ID);
     }
 

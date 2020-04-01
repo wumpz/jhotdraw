@@ -10,9 +10,9 @@ package org.jhotdraw.action.window;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.util.*;
 
 /**
@@ -31,7 +31,7 @@ public class MinimizeWindowAction extends AbstractViewAction {
      */
     public MinimizeWindowAction(Application app, View view) {
         super(app, view);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
         labels.configureAction(this, ID);
     }
 
