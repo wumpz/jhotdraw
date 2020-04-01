@@ -7,8 +7,6 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.Graphics2D;
 import java.awt.font.*;
 import java.awt.geom.*;
@@ -16,6 +14,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
+import org.jhotdraw.draw.figure.CompositeFigure;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
