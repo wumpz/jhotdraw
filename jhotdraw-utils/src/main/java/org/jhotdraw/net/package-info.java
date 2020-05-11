@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides classes for network communication.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides classes for network communication.
+ */
 package org.jhotdraw.net;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

@@ -2,11 +2,12 @@
  * @(#)DrawingView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -20,11 +21,9 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Set;
-import javax.annotation.Nullable;
 import javax.swing.JComponent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.handle.Handle;
-
 
 /**
  * A <em>drawing view</em> paints a {@link Drawing} on a {@code JComponent}.
@@ -65,61 +64,69 @@ import org.jhotdraw.draw.handle.Handle;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
  * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
  * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and
  * {@link org.jhotdraw.draw.tool.Tool}.
  *
- * <p><em>Chain of responsibility</em><br>
+ * <p>
+ * <em>Chain of responsibility</em><br>
  * Mouse and keyboard events of the user occur on the drawing view, and are
  * preprocessed by the {@code DragTracker} of a {@code SelectionTool}. In
  * turn {@code org.jhotdraw.draw.selectiontool.DragTracker} invokes "track" methods on a {@code Handle} which in
  * turn changes an aspect of a figure.<br>
  * Client: {@link org.jhotdraw.draw.tool.SelectionTool};
- * Handler: {@link org.jhotdraw.draw.tool.DragTracker}, 
+ * Handler: {@link org.jhotdraw.draw.tool.DragTracker},
  * {@link org.jhotdraw.draw.handle.Handle}.
- * 
- * <p><em>Mediator</em><br>
+ *
+ * <p>
+ * <em>Mediator</em><br>
  * {@code DrawingEditor} acts as a mediator for coordinating drawing tools
  * and drawing views:<br>
- * Mediator: {@link DrawingEditor}; 
+ * Mediator: {@link DrawingEditor};
  * Colleagues: {@link DrawingView}, {@link org.jhotdraw.draw.tool.Tool}.
  *
- * <p><em>Model-View-Controller</em><br>
+ * <p>
+ * <em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
  * pattern:<br>
  * Model: {@link Drawing}; View: {@link DrawingView}; Controller:
  * {@link DrawingEditor}.
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * Selection changes of {@code DrawingView} are observed by user interface
  * components which act on selected figures.<br>
- * Subject: {@link org.jhotdraw.draw.DrawingView}; 
+ * Subject: {@link org.jhotdraw.draw.DrawingView};
  * Observer: {@link org.jhotdraw.draw.event.FigureSelectionListener};
  * Event: {@link org.jhotdraw.draw.event.FigureSelectionEvent}.
- * 
- * <p><em>Observer</em><br>
+ *
+ * <p>
+ * <em>Observer</em><br>
  * State changes of figures can be observed by other objects. Specifically
  * {@code CompositeFigure} observes area invalidations and remove requests
  * of its child figures. {@code DrawingView} also observes area invalidations
  * of its drawing object.
  * Subject: {@link Figure}; Observer:
  * {@link org.jhotdraw.draw.event.FigureListener};
- * Event: {@link org.jhotdraw.draw.event.FigureEvent}; 
+ * Event: {@link org.jhotdraw.draw.event.FigureEvent};
  * Concrete Observer: {@link CompositeFigure}, {@link DrawingView}.
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * State changes of handles can be observed by other objects. Specifically
  * {@code DrawingView} observes area invalidations and remove requests of
  * handles.<br>
- * Subject: {@link Handle}; 
+ * Subject: {@link Handle};
  * Observer: {@link org.jhotdraw.draw.event.HandleListener};
  * Event: {@link org.jhotdraw.draw.event.HandleEvent};
  * Concrete Observer: {@link DrawingView}.
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * Editing can be constrained by a constrainer which is associated to a
  * drawing view.<br>
  * Context: {@link DrawingView}; Strategy: {@link Constrainer}.
@@ -175,20 +182,19 @@ public interface DrawingView {
      * Gets the drawing.
      * This is a bound property.
      */
-    @Nullable
     public Drawing getDrawing();
 
     /**
      * Sets and installs another drawing in the view.
      * This is a bound property.
      */
-    public void setDrawing(@Nullable Drawing d);
+    public void setDrawing(Drawing d);
 
     /**
      * Sets the cursor of the DrawingView.
      * This is a bound property.
      */
-    public void setCursor(@Nullable Cursor c);
+    public void setCursor(Cursor c);
 
     /**
      * Test whether a given figure is selected.
@@ -227,7 +233,7 @@ public interface DrawingView {
     public void selectAll();
 
     /**
-     * Gets the selected figures. Returns an empty set, if no figures are selected. 
+     * Gets the selected figures. Returns an empty set, if no figures are selected.
      */
     public Set<Figure> getSelectedFigures();
 
@@ -238,13 +244,14 @@ public interface DrawingView {
 
     /**
      * Finds a handle at the given coordinates.
+     *
      * @return A handle, null if no handle is found.
      */
-    @Nullable
     public Handle findHandle(Point p);
 
     /**
      * Gets compatible handles.
+     *
      * @return A collection containing the handle and all compatible handles.
      */
     public Collection<Handle> getCompatibleHandles(Handle handle);
@@ -252,19 +259,18 @@ public interface DrawingView {
     /**
      * Sets the active handle.
      */
-    public void setActiveHandle(@Nullable Handle newValue);
+    public void setActiveHandle(Handle newValue);
 
     /**
      * Gets the active handle.
      */
-    @Nullable
     public Handle getActiveHandle();
 
     /**
      * Finds a figure at the given point.
+     *
      * @return A figure, null if no figure is found.
      */
-    @Nullable
     public Figure findFigure(Point p);
 
     /**
@@ -296,23 +302,26 @@ public interface DrawingView {
      * Gets the drawing editor associated to the DrawingView.
      * This is a bound property.
      */
-    @Nullable
     public DrawingEditor getEditor();
 
     /**
      * Add a listener for selection changes in this DrawingView.
+     *
      * @param fsl jhotdraw.framework.FigureSelectionListener
      */
     public void addFigureSelectionListener(FigureSelectionListener fsl);
 
     /**
      * Remove a listener for selection changes in this DrawingView.
+     *
      * @param fsl jhotdraw.framework.FigureSelectionListener
      */
     public void removeFigureSelectionListener(FigureSelectionListener fsl);
 
-    /** This is a convenience method for invoking
-     * {@code getComponent().requestFocus()}. */
+    /**
+     * This is a convenience method for invoking
+     * {@code getComponent().requestFocus()}.
+     */
     public void requestFocus();
 
     /**
@@ -336,26 +345,26 @@ public interface DrawingView {
     public Rectangle2D.Double viewToDrawing(Rectangle p);
 
     /**
-     * Gets the current constrainer of this view. 
+     * Gets the current constrainer of this view.
      * If isConstrainerVisible is true, this method returns getVisibleConstrainer,
      * otherwise it returns getInvisibleConstrainer.
      * This is a bound property.
      */
-    @Nullable public Constrainer getConstrainer();
+    public Constrainer getConstrainer();
 
     /**
      * Sets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
      */
-    public void setVisibleConstrainer(@Nullable Constrainer constrainer);
+    public void setVisibleConstrainer(Constrainer constrainer);
 
     /**
      * Gets the editor's constrainer for this view, for use, when the
      * visible constrainer is turned on.
      * This is a bound property.
      */
-    @Nullable public Constrainer getVisibleConstrainer();
+    public Constrainer getVisibleConstrainer();
 
     /**
      * Sets the editor's constrainer for this view, for use, when the
@@ -387,12 +396,12 @@ public interface DrawingView {
     /**
      * Returns the JComponent of the drawing view.
      * <p>
-     * The drawing framework supports only two use cases, where this 
+     * The drawing framework supports only two use cases, where this
      * component may be accessed:
      * <ul>
      * <li>The component can be used to add the drawing view to a parent Swing
      * component.</li>
-     * <li>The currently active {@link org.jhotdraw.draw.tool.Tool} may add 
+     * <li>The currently active {@link org.jhotdraw.draw.tool.Tool} may add
      * child components to the drawing view. The tool <b>must</b> remove these
      * components when it becomes inactive.</li>
      * </ul>
@@ -441,65 +450,68 @@ public interface DrawingView {
      */
     public boolean isEnabled();
 
-    /** Repaints the handles of the view. */
+    /**
+     * Repaints the handles of the view.
+     */
     public void repaintHandles();
 
     /**
      * Adds a property change listener to the drawing view.
-     * 
+     *
      * @param listener
      */
     public void addPropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * Removes a property change listener to the drawing view.
-     * 
+     *
      * @param listener
      */
     public void removePropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * Adds a mouse listener to the drawing view.
-     * 
+     *
      * @param l the listener.
      */
     public void addMouseListener(MouseListener l);
 
     /**
      * Removes a mouse listener to the drawing view.
-     * 
+     *
      * @param l the listener.
      */
     public void removeMouseListener(MouseListener l);
 
     /**
      * Adds a key listener to the drawing view.
-     * 
+     *
      * @param l the listener.
      */
     public void addKeyListener(KeyListener l);
 
     /**
      * Removes a key listener to the drawing view.
-     * 
+     *
      * @param l the listener.
      */
     public void removeKeyListener(KeyListener l);
 
     /**
-     * Adds a mouse motion  listener to the drawing view.
-     * 
+     * Adds a mouse motion listener to the drawing view.
+     *
      * @param l the listener.
      */
     public void addMouseMotionListener(MouseMotionListener l);
 
     /**
      * Removes a mouse motion listener to the drawing view.
-     * 
+     *
      * @param l the listener.
      */
     public void removeMouseMotionListener(MouseMotionListener l);
-    
+
     public void addMouseWheelListener(MouseWheelListener l);
+
     public void removeMouseWheelListener(MouseWheelListener l);
 }

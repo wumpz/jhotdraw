@@ -2,34 +2,37 @@
  * @(#)SplitPathsAction.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.action;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
+import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
-import org.jhotdraw.util.*;
-import java.util.*;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
+import org.jhotdraw.util.*;
 
 /**
  * SplitPathsAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SplitAction extends UngroupAction {
+
     private static final long serialVersionUID = 1L;
-
     public static final String ID = "edit.splitPath";
-    private ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
+    private ResourceBundleUtil labels
+            = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SplitAction(DrawingEditor editor) {
         super(editor, new ODGPathFigure());
-
         labels.configureAction(this, ID);
     }
 
@@ -52,7 +55,7 @@ public class SplitAction extends UngroupAction {
             ODGPathFigure path = new ODGPathFigure();
             path.removeAllChildren();
             for (Map.Entry<AttributeKey<?>, Object> entry : group.getAttributes().entrySet()) {
-                path.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                path.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
             path.add(f);
             view.getDrawing().basicAdd(path);
@@ -73,7 +76,7 @@ public class SplitAction extends UngroupAction {
         group.willChange();
         ((ODGPathFigure) group).removeAllChildren();
         for (Map.Entry<AttributeKey<?>, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            group.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
         for (Figure f : sorted) {
             ODGPathFigure path = (ODGPathFigure) f;

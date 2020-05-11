@@ -2,25 +2,29 @@
  * @(#)SVGRect.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.Handle;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_CAP;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_JOIN;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGRect.
@@ -29,16 +33,21 @@ import org.jhotdraw.samples.svg.SVGAttributeKeys;
  * @version $Id$
  */
 public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
+
     private static final long serialVersionUID = 1L;
-    /** Identifies the {@code arcWidth} JavaBeans property. */
+    /**
+     * Identifies the {@code arcWidth} JavaBeans property.
+     */
     public static final String ARC_WIDTH_PROPERTY = "arcWidth";
-    /** Identifies the {@code arcHeight} JavaBeans property. */
+    /**
+     * Identifies the {@code arcHeight} JavaBeans property.
+     */
     public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
-
-    /** The variable acv is used for generating the locations of the control
-     * points for the rounded rectangle using path.curveTo. */
-    private static final double acv;
-
+    /**
+     * The variable acv is used for generating the locations of the control
+     * points for the rounded rectangle using path.curveTo.
+     */
+    private static final double ACV;
 
     static {
         double angle = Math.PI / 4.0;
@@ -46,7 +55,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         double b = Math.tan(angle);
         double c = Math.sqrt(1.0 + b * b) - 1 + a;
         double cv = 4.0 / 3.0 * a * b / c;
-        acv = (1.0 - cv);
+        ACV = (1.0 - cv);
     }
     /**
      */
@@ -54,13 +63,15 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * This is used to perform faster drawing.
      */
-    @Nullable private transient Shape cachedTransformedShape;
+    private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable private transient Shape cachedHitShape;
+    private transient Shape cachedHitShape;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGRectFigure() {
         this(0, 0, 0, 0);
     }
@@ -98,22 +109,22 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             double ah = roundrect.archeight / 2d;
             p.moveTo((roundrect.x + aw), (float) roundrect.y);
             p.lineTo((roundrect.x + roundrect.width - aw), (float) roundrect.y);
-            p.curveTo((roundrect.x + roundrect.width - aw * acv), (float) roundrect.y, //
-                    (roundrect.x + roundrect.width), (float)(roundrect.y + ah * acv), //
+            p.curveTo((roundrect.x + roundrect.width - aw * ACV), (float) roundrect.y,
+                    (roundrect.x + roundrect.width), (float) (roundrect.y + ah * ACV),
                     (roundrect.x + roundrect.width), (roundrect.y + ah));
             p.lineTo((roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah));
             p.curveTo(
-                    (roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah * acv),//
-                    (roundrect.x + roundrect.width - aw * acv), (roundrect.y + roundrect.height),//
+                    (roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah * ACV),
+                    (roundrect.x + roundrect.width - aw * ACV), (roundrect.y + roundrect.height),
                     (roundrect.x + roundrect.width - aw), (roundrect.y + roundrect.height));
             p.lineTo((roundrect.x + aw), (roundrect.y + roundrect.height));
-            p.curveTo((roundrect.x + aw*acv), (roundrect.y + roundrect.height),//
-                    (roundrect.x), (roundrect.y + roundrect.height - ah*acv),//
-                   (float) roundrect.x, (roundrect.y + roundrect.height - ah));
+            p.curveTo((roundrect.x + aw * ACV), (roundrect.y + roundrect.height),
+                    (roundrect.x), (roundrect.y + roundrect.height - ah * ACV),
+                    (float) roundrect.x, (roundrect.y + roundrect.height - ah));
             p.lineTo((float) roundrect.x, (roundrect.y + ah));
-            p.curveTo((roundrect.x), (roundrect.y + ah*acv),//
-                    (roundrect.x + aw*acv), (float)(roundrect.y),//
-                    (float)(roundrect.x + aw), (float)(roundrect.y));
+            p.curveTo((roundrect.x), (roundrect.y + ah * ACV),
+                    (roundrect.x + aw * ACV), (float) (roundrect.y),
+                    (float) (roundrect.x + aw), (float) (roundrect.y));
             p.closePath();
             g.draw(p);
         }
@@ -135,36 +146,46 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     public double getHeight() {
         return roundrect.height;
     }
-    /** Gets the arc width. */
+
+    /**
+     * Gets the arc width.
+     */
     public double getArcWidth() {
         return roundrect.arcwidth;
     }
 
-    /** Gets the arc height. */
+    /**
+     * Gets the arc height.
+     */
     public double getArcHeight() {
         return roundrect.archeight;
     }
 
-
-    /** Sets the arc width. */
+    /**
+     * Sets the arc width.
+     */
     public void setArcWidth(double newValue) {
         double oldValue = roundrect.arcwidth;
         roundrect.arcwidth = newValue;
         firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
     }
-    /** Sets the arc height. */
+
+    /**
+     * Sets the arc height.
+     */
     public void setArcHeight(double newValue) {
         double oldValue = roundrect.archeight;
         roundrect.archeight = newValue;
         firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
     }
 
-    /** Convenience method for setting both the arc width and the arc height. */
+    /**
+     * Convenience method for setting both the arc width and the arc height.
+     */
     public void setArc(double width, double height) {
         setArcWidth(width);
         setArcHeight(height);
     }
-
 
     @Override
     public Rectangle2D.Double getBounds() {
@@ -245,20 +266,21 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
 
     /**
      * Transforms the figure.
+     *
      * @param tx The transformation.
      */
     @Override
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
-        if (get(TRANSFORM) != null ||
-                //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
+        if (get(TRANSFORM) != null
+                || //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
                 (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (get(TRANSFORM) == null) {
-                set(TRANSFORM,  (AffineTransform) tx.clone());
+                set(TRANSFORM, (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                set(TRANSFORM,  t);
+                set(TRANSFORM, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -266,17 +288,17 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead));
-            if (get(FILL_GRADIENT) != null &&
-                    !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+            if (get(FILL_GRADIENT) != null
+                    && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                set(FILL_GRADIENT,  g);
+                set(FILL_GRADIENT, g);
             }
-            if (get(STROKE_GRADIENT) != null &&
-                    !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+            if (get(STROKE_GRADIENT) != null
+                    && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                set(STROKE_GRADIENT,  g);
+                set(STROKE_GRADIENT, g);
             }
         }
     }
@@ -294,10 +316,10 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
-                    roundrect.clone(),
-                    TRANSFORM.getClone(this),
-                    FILL_GRADIENT.getClone(this),
-                    STROKE_GRADIENT.getClone(this),};
+            roundrect.clone(),
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this)};
     }
 
     // EDITING
@@ -321,6 +343,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         }
         return handles;
     }
+
     // CLONING
     @Override
     public SVGRectFigure clone() {

@@ -6,14 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides default actions for structured drawing editors.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides default actions for structured drawing editors.
+ */
 package org.jhotdraw.draw.action;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
-

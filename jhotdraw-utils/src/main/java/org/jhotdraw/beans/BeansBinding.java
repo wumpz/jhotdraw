@@ -1,15 +1,14 @@
 /*
  * @(#)BeansBinding.java
- * 
+ *
  * Copyright (c) 2013 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the  
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
 package org.jhotdraw.beans;
 
-import javax.annotation.Nullable;
 import java.beans.IntrospectionException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,7 +16,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
- * Can bind a property of a JavaBean to a property of another JavaBean. <p> The
+ * Can bind a property of a JavaBean to a property of another JavaBean.
+ * <p>
+ * The
  * binding can be unidirectional or bidirectional.
  *
  *
@@ -26,14 +27,14 @@ import java.lang.reflect.Method;
  */
 public class BeansBinding {
 
-    private @Nullable String sourceProperty;
-    private @Nullable String targetProperty;
-    private @Nullable Object source;
-    private @Nullable Object target;
+    private String sourceProperty;
+    private String targetProperty;
+    private Object source;
+    private Object target;
     private boolean bidirectional;
-    private @Nullable Method targetWriteMethod;
-    private @Nullable Method sourceWriteMethod;
-    private @Nullable Method sourceReadMethod;
+    private Method targetWriteMethod;
+    private Method sourceWriteMethod;
+    private Method sourceReadMethod;
 
     private class Handler implements PropertyChangeListener {
 
@@ -77,14 +78,16 @@ public class BeansBinding {
      * @param target The target bean.
      * @param targetProperty The name of the target property.
      */
-    public void bind(@Nullable Object source, String sourceProperty, @Nullable Object target, String targetProperty) {
+    public void bind(Object source, String sourceProperty, Object target, String targetProperty) {
         setSource(source, sourceProperty);
         setTarget(target, targetProperty);
         bidirectional = true;
         updateTarget();
     }
-    
-    /** Removes the binding. */
+
+    /**
+     * Removes the binding.
+     */
     public void unbind() {
         setSource(null, sourceProperty);
         setTarget(null, targetProperty);
@@ -118,11 +121,10 @@ public class BeansBinding {
      * @param source
      * @param sourceProperty
      */
-    private void setSource(@Nullable Object source, String sourceProperty) {
+    private void setSource(Object source, String sourceProperty) {
         if (this.source != null) {
             removePropertyChangeListener(this.source, handler);
         }
-
         this.source = source;
         this.sourceProperty = sourceProperty;
         sourceWriteMethod = null;
@@ -132,7 +134,7 @@ public class BeansBinding {
         }
     }
 
-    private void setTarget(@Nullable Object target, String targetProperty) {
+    private void setTarget(Object target, String targetProperty) {
         if (this.target != null) {
             removePropertyChangeListener(this.target, handler);
         }

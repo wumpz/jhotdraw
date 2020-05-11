@@ -1,14 +1,13 @@
 /*
  * @(#)JavaPrimitivesDOMFactory.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.xml;
 
-import javax.annotation.Nullable;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -41,7 +40,7 @@ import java.util.regex.Matcher;
  * You can add support for additional primitive types by overriding the methods
  * {@code read} and {@code write}.
  * <p>
- * In addition to the primitive types, this factory can store and read 
+ * In addition to the primitive types, this factory can store and read
  * {@link DOMStorable} objects. No mapping for {@link DOMStorable} class names is performed.
  * For example, if a {@link DOMStorable} object has the class name {@code com.example.MyClass},
  * then the DOM element has the same name, that is: {@code &lt;com.example.MyClass&gt;}.
@@ -63,7 +62,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         // Escape dollar characters by two full-stop characters
         name = name.replaceAll("\\$", "..");
         return name;
-
     }
 
     private String unescape(String name) {
@@ -125,7 +123,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     @Override
     public Object create(String name) {
         name = unescape(name);
-
         try {
             return Class.forName(name).newInstance();
         } catch (InstantiationException ex) {
@@ -154,7 +151,6 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     @SuppressWarnings("unchecked")
     protected <E extends Enum<E>> Enum<E> createEnum(String name, String value) {
         name = unescape(name);
-
         Class<E> enumClass;
         try {
             enumClass = (Class<E>) Class.forName(name);
@@ -259,10 +255,8 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     }
 
     @Override
-    @Nullable
     public Object read(DOMInput in) throws IOException {
         Object o;
-
         String tagName = in.getTagName();
         if ("null".equals(tagName)) {
             o = null;

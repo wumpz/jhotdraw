@@ -2,18 +2,20 @@
  * @(#)RelativeLocator.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.DecoratedFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
+
 /**
  * A locator that specfies a point that is relative to the bounds
  * of a figure.
@@ -22,6 +24,7 @@ import org.jhotdraw.xml.DOMOutput;
  * @version $Id$
  */
 public class RelativeLocator extends AbstractLocator {
+
     private static final long serialVersionUID = 1L;
     /**
      * Relative x-coordinate on the bounds of the figure.
@@ -35,22 +38,26 @@ public class RelativeLocator extends AbstractLocator {
      * the bottom boundary.
      */
     protected double relativeY;
-    
     /**
      * If this is set to true, if the locator is transforming with the
      * figure.
      */
     protected boolean isTransform;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public RelativeLocator() {
         this(0, 0, false);
     }
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public RelativeLocator(double relativeX, double relativeY) {
         this(relativeX, relativeY, false);
     }
+
     /**
      * @param relativeX x-position relative to bounds expressed as a value
      * between 0 and 1.
@@ -64,26 +71,25 @@ public class RelativeLocator extends AbstractLocator {
         this.relativeY = relativeY;
         this.isTransform = isTransform;
     }
-    
+
     @Override
     public java.awt.geom.Point2D.Double locate(Figure owner) {
         Rectangle2D.Double bounds = owner.getBounds();
-        if ((owner instanceof DecoratedFigure) &&
-                ((DecoratedFigure) owner).getDecorator() != null) {
+        if ((owner instanceof DecoratedFigure)
+                && ((DecoratedFigure) owner).getDecorator() != null) {
             Insets2D.Double insets = owner.get(DECORATOR_INSETS);
             if (insets != null) {
                 insets.addTo(bounds);
             }
         }
-        
         Point2D.Double location;
         if (isTransform) {
             location = new Point2D.Double(
                     bounds.x + bounds.width * relativeX,
                     bounds.y + bounds.height * relativeY
-                    );
+            );
             if (owner.get(TRANSFORM) != null) {
-               owner.get(TRANSFORM).transform(location, location);
+                owner.get(TRANSFORM).transform(location, location);
             }
         } else {
             if (owner.get(TRANSFORM) != null) {
@@ -96,123 +102,137 @@ public class RelativeLocator extends AbstractLocator {
             location = new Point2D.Double(
                     bounds.x + bounds.width * relativeX,
                     bounds.y + bounds.height * relativeY
-                    );
+            );
         }
         return location;
     }
-    
-    
+
     /**
      * Non-transforming East.
      */
     static public Locator east() {
         return east(false);
     }
+
     /**
      * East.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator east(boolean isTransform) {
         return new RelativeLocator(1.0, 0.5, isTransform);
     }
-    
+
     /**
      * Non-transforming North.
      */
     static public Locator north() {
         return north(false);
     }
+
     /**
      * North.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator north(boolean isTransform) {
         return new RelativeLocator(0.5, 0.0, isTransform);
     }
-    
+
     /**
      * Non-transforming West.
      */
     static public Locator west() {
         return west(false);
     }
+
     /**
      * West.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator west(boolean isTransform) {
         return new RelativeLocator(0.0, 0.5, isTransform);
     }
-    
+
     /**
      * Non-transforming North east.
      */
     static public Locator northEast() {
         return northEast(false);
     }
+
     /**
      * Norht East.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator northEast(boolean isTransform) {
         return new RelativeLocator(1.0, 0.0, isTransform);
     }
-    
+
     /**
      * Non-transforming North west.
      */
     static public Locator northWest() {
         return northWest(false);
     }
+
     /**
      * North West.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator northWest(boolean isTransform) {
         return new RelativeLocator(0.0, 0.0, isTransform);
     }
-    
+
     /**
      * Non-transforming South.
      */
     static public Locator south() {
         return south(false);
     }
+
     /**
      * South.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator south(boolean isTransform) {
         return new RelativeLocator(0.5, 1.0, isTransform);
     }
-    
+
     /**
      * Non-transforming South east.
      */
     static public Locator southEast() {
         return southEast(false);
     }
+
     /**
      * South East.
+     *
      * @param isTransform Set this to true, if RelativeLocator shall honour
      * the AttributesKey.TRANSFORM attribute of the Figure.
      */
     static public Locator southEast(boolean isTransform) {
         return new RelativeLocator(1.0, 1.0, isTransform);
     }
-    
+
     /**
      * Non-transforming South west.
      */
     static public Locator southWest() {
         return southWest(false);
     }
+
     /**
      * South West.
      *
@@ -222,13 +242,14 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator southWest(boolean isTransform) {
         return new RelativeLocator(0.0, 1.0, isTransform);
     }
-    
+
     /**
      * Non-transforming Center.
      */
     static public Locator center() {
         return center(false);
     }
+
     /**
      * Center.
      *
@@ -238,13 +259,13 @@ public class RelativeLocator extends AbstractLocator {
     static public Locator center(boolean isTransform) {
         return new RelativeLocator(0.5, 0.5, isTransform);
     }
-    
+
     @Override
     public void write(DOMOutput out) {
         out.addAttribute("relativeX", relativeX, 0.5);
         out.addAttribute("relativeY", relativeY, 0.5);
     }
-    
+
     @Override
     public void read(DOMInput in) {
         relativeX = in.getAttribute("relativeX", 0.5);

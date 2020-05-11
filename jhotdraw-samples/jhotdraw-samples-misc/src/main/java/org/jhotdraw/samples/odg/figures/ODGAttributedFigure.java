@@ -2,24 +2,25 @@
  * @(#)ODGAttributedFigure.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg.figures;
 
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
+import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.awt.image.*;
+import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.ODGConstants;
 import org.jhotdraw.util.*;
+
 /**
  * ODGAttributedFigure.
  *
@@ -27,27 +28,27 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public abstract class ODGAttributedFigure extends AbstractAttributedFigure implements ODGFigure {
+
     private static final long serialVersionUID = 1L;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public ODGAttributedFigure() {
     }
-    
+
     @Override
-    public void draw(Graphics2D g)  {
+    public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-                
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-                
-                if (! drawingArea.isEmpty()) {
-                    
+                if (!drawingArea.isEmpty()) {
                     BufferedImage buf = new BufferedImage(
                             (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
                             (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
@@ -69,7 +70,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             }
         }
     }
-    
+
     /**
      * This method is invoked before the rendered image of the figure is
      * composited.
@@ -80,7 +81,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             savedTransform = g.getTransform();
             g.transform(get(TRANSFORM));
         }
-        
         if (get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
             Paint paint = ODGAttributeKeys.getFillPaint(this);
             if (paint != null) {
@@ -88,7 +88,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
                 drawFill(g);
             }
         }
-        
         if (get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
             Paint paint = ODGAttributeKeys.getStrokePaint(this);
             if (paint != null) {
@@ -101,6 +100,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
             g.setTransform(savedTransform);
         }
     }
+
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
         if (key == TRANSFORM) {
@@ -108,17 +108,20 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
         }
         super.set(key, newValue);
     }
-    @Override public Collection<Action> getActions(Point2D.Double p) {
+
+    @Override
+    public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
+
                 public void actionPerformed(ActionEvent evt) {
                     willChange();
                     fireUndoableEditHappened(
                             TRANSFORM.setUndoable(ODGAttributedFigure.this, null)
-                            );
+                    );
                     changed();
                 }
             });

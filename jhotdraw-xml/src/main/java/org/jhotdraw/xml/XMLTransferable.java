@@ -2,26 +2,29 @@
  * XMLTransferable.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.xml;
 
 import java.awt.datatransfer.*;
 import java.io.*;
+
 /**
  * XMLTransferable for transfering XML documents over the clipboard and with
- * drag and drop. 
+ * drag and drop.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class XMLTransferable implements java.awt.datatransfer.Transferable, java.awt.datatransfer.ClipboardOwner {
+
     private byte[] data;
     private DataFlavor flavor;
-    
-    /** Creates new XMLTransferable */
+
+    /**
+     * Creates new XMLTransferable
+     */
     public XMLTransferable(byte[] data, String mimeType, String humanPresentableName) {
         this.data = data;
         this.flavor = new DataFlavor(mimeType, humanPresentableName);
@@ -30,24 +33,24 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
     /**
      * Notifies this object that it is no longer the owner of
      * the contents of the clipboard.
+     *
      * @param clipboard the clipboard that is no longer owned
      * @param contents the contents which this owner had placed on the clipboard
      */
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
-        
     }
-    
+
     /**
-     * Returns an object which represents the data to be transferred.  The class
+     * Returns an object which represents the data to be transferred. The class
      * of the object returned is defined by the representation class of the flavor.
      *
      * @param flavor the requested flavor for the data
      * @see DataFlavor#getRepresentationClass
-     * @exception IOException                if the data is no longer available
-     *             in the requested flavor.
+     * @exception IOException if the data is no longer available
+     * in the requested flavor.
      * @exception UnsupportedFlavorException if the requested data flavor is
-     *             not supported.
+     * not supported.
      */
     @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
@@ -57,21 +60,23 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
             throw new UnsupportedFlavorException(flavor);
         }
     }
-    
+
     /**
      * Returns an array of DataFlavor objects indicating the flavors the data
-     * can be provided in.  The array should be ordered according to preference
+     * can be provided in. The array should be ordered according to preference
      * for providing the data (from most richly descriptive to least descriptive).
+     *
      * @return an array of data flavors in which this data can be transferred
      */
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        return new DataFlavor[] {flavor};
+        return new DataFlavor[]{flavor};
     }
-    
+
     /**
      * Returns whether or not the specified data flavor is supported for
      * this object.
+     *
      * @param flavor the requested flavor for the data
      * @return boolean indicating wjether or not the data flavor is supported
      */
@@ -79,5 +84,4 @@ public class XMLTransferable implements java.awt.datatransfer.Transferable, java
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         return this.flavor.equals(flavor);
     }
-
 }

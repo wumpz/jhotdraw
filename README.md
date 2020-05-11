@@ -4,11 +4,11 @@
 * restructured project layout
   * introduced submodules
 
-##License
+## License
 
 * LGPL V2.1
 * Creative Commons Attribution 2.5 License
 
-##History 
+## History 
 
 This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw.

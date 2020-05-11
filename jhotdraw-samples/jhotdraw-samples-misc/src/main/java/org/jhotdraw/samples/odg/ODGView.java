@@ -2,59 +2,63 @@
  * @(#)ODGView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  */
 package org.jhotdraw.samples.odg;
 
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.print.Pageable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.samples.odg.io.ODGInputFormat;
-import org.jhotdraw.util.*;
-import java.awt.*;
 import java.beans.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.filechooser.FileFilter;
-import org.jhotdraw.app.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
+import org.jhotdraw.action.edit.RedoAction;
+import org.jhotdraw.action.edit.UndoAction;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
+import org.jhotdraw.app.AbstractView;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.GridConstrainer;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.gui.PlacardScrollPaneLayout;
+import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.samples.odg.io.ODGInputFormat;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.jhotdraw.samples.svg.io.ImageMapOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
 
 /**
  * Provides a view on a ODG drawing.
  * <p>
  * See {@link View} interface on how this view interacts with an application.
-*
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ODGView extends AbstractView {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
     /**
@@ -75,25 +79,20 @@ public class ODGView extends AbstractView {
      */
     public ODGView() {
         initComponents();
-
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-
         setEditor(new DefaultDrawingEditor());
         undo = new UndoRedoManager();
         view.setDrawing(createDrawing());
         view.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
-
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
         pButton = ButtonFactory.createZoomButton(view);
@@ -108,7 +107,6 @@ public class ODGView extends AbstractView {
         labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
-
         propertiesPanel.setVisible(preferences.getBoolean("propertiesPanelVisible", false));
         propertiesPanel.setView(view);
     }
@@ -139,7 +137,6 @@ public class ODGView extends AbstractView {
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
-
     }
 
     public DrawingEditor getEditor() {
@@ -189,17 +186,13 @@ public class ODGView extends AbstractView {
         try {
             final Drawing drawing = createDrawing();
             HashMap<FileFilter, InputFormat> fileFilterInputFormatMap = (HashMap<FileFilter, InputFormat>) ((JFileURIChooser) fc).getClientProperty("ffInputFormatMap");
-
             InputFormat sf = fileFilterInputFormatMap.get(((JFileURIChooser) fc).getFileFilter());
             if (sf == null) {
                 sf = drawing.getInputFormats().get(0);
             }
             sf.read(f, drawing, true);
-
             System.out.println("ODCView read(" + f + ") drawing.childCount=" + drawing.getChildCount());
-
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
@@ -269,7 +262,6 @@ public class ODGView extends AbstractView {
         final Drawing newDrawing = createDrawing();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
@@ -290,24 +282,21 @@ public class ODGView extends AbstractView {
         return uri.getPath().endsWith(".odg");
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
         propertiesPanel = new org.jhotdraw.samples.odg.ODGPropertiesPanel();
-
         setLayout(new java.awt.BorderLayout());
-
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setViewportView(view);
-
         add(scrollPane, java.awt.BorderLayout.CENTER);
         add(propertiesPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents

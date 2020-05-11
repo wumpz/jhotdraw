@@ -2,16 +2,18 @@
  * @(#)DrawingComponentRepainter.java
  *
  * Copyright (c) 2008-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nullable;
-import java.beans.*;
-import javax.swing.*;
-import org.jhotdraw.app.Disposable;
-import org.jhotdraw.draw.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JComponent;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 
 /**
  * Calls repaint on components, which show attributes of a drawing object
@@ -23,8 +25,8 @@ import org.jhotdraw.draw.*;
 public class DrawingComponentRepainter extends FigureAdapter
         implements PropertyChangeListener, Disposable {
 
-    @Nullable private DrawingEditor editor;
-    @Nullable private JComponent component;
+    private DrawingEditor editor;
+    private JComponent component;
 
     public DrawingComponentRepainter(DrawingEditor editor, JComponent component) {
         this.editor = editor;
@@ -37,7 +39,6 @@ public class DrawingComponentRepainter extends FigureAdapter
                     view.getDrawing().addFigureListener(this);
                 }
             }
-
             editor.addPropertyChangeListener(this);
         }
     }
@@ -50,7 +51,7 @@ public class DrawingComponentRepainter extends FigureAdapter
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String name = evt.getPropertyName();
-        if (name == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+        if ((name == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (name != null && name.equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
             DrawingView view = (DrawingView) evt.getOldValue();
             if (view != null) {
                 view.removePropertyChangeListener(this);
@@ -66,7 +67,7 @@ public class DrawingComponentRepainter extends FigureAdapter
                 }
             }
             component.repaint();
-        } else if (name == DrawingView.DRAWING_PROPERTY) {
+        } else if ((name == null && DrawingView.DRAWING_PROPERTY == null) || (name != null && name.equals(DrawingView.DRAWING_PROPERTY))) {
             Drawing drawing = (Drawing) evt.getOldValue();
             if (drawing != null) {
                 drawing.removeFigureListener(this);
@@ -97,4 +98,3 @@ public class DrawingComponentRepainter extends FigureAdapter
         component = null;
     }
 }
-

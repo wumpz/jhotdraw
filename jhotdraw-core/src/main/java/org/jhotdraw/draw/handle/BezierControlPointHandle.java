@@ -2,23 +2,24 @@
  * @(#)BezierControlPointHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.event.BezierNodeEdit;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.BezierNodeEdit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Handle} which allows to interactively change a control point
@@ -29,12 +30,14 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public class BezierControlPointHandle extends AbstractHandle {
 
-    protected int index,  controlPointIndex;
+    protected int index, controlPointIndex;
     private CompositeEdit edit;
-    @Nullable private Figure transformOwner;
+    private Figure transformOwner;
     private BezierPath.Node oldNode;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public BezierControlPointHandle(BezierFigure owner, int index, int coord) {
         this(owner, index, coord, owner);
     }
@@ -74,7 +77,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
     }
 
-    @Nullable
     protected BezierPath.Node getBezierNode() {
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }
@@ -94,7 +96,6 @@ public class BezierControlPointHandle extends AbstractHandle {
                 tOwner.get(TRANSFORM).transform(p0, p0);
                 tOwner.get(TRANSFORM).transform(pc, pc);
             }
-
             Color handleFillColor;
             Color handleStrokeColor;
             Stroke stroke1;
@@ -130,13 +131,12 @@ public class BezierControlPointHandle extends AbstractHandle {
                         view.drawingToView(p0),
                         view.drawingToView(pc)));
             }
-            if (v.keepColinear && v.mask == BezierPath.C1C2_MASK &&
-                    (index > 0 && index < f.getNodeCount() - 1 || f.isClosed())) {
+            if (v.keepColinear && v.mask == BezierPath.C1C2_MASK
+                    && (index > 0 && index < f.getNodeCount() - 1 || f.isClosed())) {
                 drawCircle(g, handleStrokeColor, handleFillColor);
             } else {
                 drawCircle(g, handleFillColor, handleStrokeColor);
             }
-
         }
     }
 
@@ -160,7 +160,7 @@ public class BezierControlPointHandle extends AbstractHandle {
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         BezierFigure figure = getBezierFigure();
-        Point2D.Double p = view.getConstrainer()==null?view.viewToDrawing(lead):view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+        Point2D.Double p = view.getConstrainer() == null ? view.viewToDrawing(lead) : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
         BezierPath.Node v = figure.getNode(index);
         fireAreaInvalidated(v);
         figure.willChange();
@@ -172,20 +172,17 @@ public class BezierControlPointHandle extends AbstractHandle {
                 ex.printStackTrace();
             }
         }
-
         if (!v.keepColinear) {
             // move control point independently
             figure.setPoint(index, controlPointIndex, p);
-
         } else {
             // move control point and opposite control point on same line
             double a = Math.PI + Math.atan2(p.y - v.y[0], p.x - v.x[0]);
             int c2 = (controlPointIndex == 1) ? 2 : 1;
-            double r = Math.sqrt((v.x[c2] - v.x[0]) * (v.x[c2] - v.x[0]) +
-                    (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
+            double r = Math.sqrt((v.x[c2] - v.x[0]) * (v.x[c2] - v.x[0])
+                    + (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
             double sina = Math.sin(a);
             double cosa = Math.cos(a);
-
             Point2D.Double p2 = new Point2D.Double(
                     r * cosa + v.x[0],
                     r * sina + v.y[0]);
@@ -194,7 +191,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         }
         figure.changed();
         fireAreaInvalidated(figure.getNode(index));
-
     }
 
     private void fireAreaInvalidated(BezierPath.Node v) {
@@ -220,11 +216,10 @@ public class BezierControlPointHandle extends AbstractHandle {
                 Point2D.Double p = figure.getPoint(index, controlPointIndex);
                 double a = Math.PI + Math.atan2(p.y - newValue.y[0], p.x - newValue.x[0]);
                 int c2 = (controlPointIndex == 1) ? 2 : 1;
-                double r = Math.sqrt((newValue.x[c2] - newValue.x[0]) * (newValue.x[c2] - newValue.x[0]) +
-                        (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
+                double r = Math.sqrt((newValue.x[c2] - newValue.x[0]) * (newValue.x[c2] - newValue.x[0])
+                        + (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
                 double sina = Math.sin(a);
                 double cosa = Math.cos(a);
-
                 Point2D.Double p2 = new Point2D.Double(
                         r * cosa + newValue.x[0],
                         r * sina + newValue.y[0]);
@@ -235,7 +230,7 @@ public class BezierControlPointHandle extends AbstractHandle {
             figure.changed();
         }
         view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(figure, index, oldValue, newValue) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void redo() throws CannotRedoException {
@@ -256,10 +251,10 @@ public class BezierControlPointHandle extends AbstractHandle {
     public boolean isCombinableWith(Handle h) {
         if (super.isCombinableWith(h)) {
             BezierControlPointHandle that = (BezierControlPointHandle) h;
-            return that.index == this.index &&
-                    that.controlPointIndex == this.controlPointIndex &&
-                    that.getBezierFigure().getNodeCount() ==
-                    this.getBezierFigure().getNodeCount();
+            return that.index == this.index
+                    && that.controlPointIndex == this.controlPointIndex
+                    && that.getBezierFigure().getNodeCount()
+                    == this.getBezierFigure().getNodeCount();
         }
         return false;
     }
@@ -274,7 +269,7 @@ public class BezierControlPointHandle extends AbstractHandle {
         if (node.mask == BezierPath.C1C2_MASK) {
             return labels.getFormatted("handle.bezierControlPoint.toolTipText",
                     labels.getFormatted(
-                    node.keepColinear ? "handle.bezierControlPoint.cubicColinear.value" : "handle.bezierControlPoint.cubicUnconstrained.value"));
+                            node.keepColinear ? "handle.bezierControlPoint.cubicColinear.value" : "handle.bezierControlPoint.cubicUnconstrained.value"));
         } else {
             return labels.getString("handle.bezierControlPoint.quadratic.toolTipText");
         }
@@ -289,7 +284,6 @@ public class BezierControlPointHandle extends AbstractHandle {
     public void keyPressed(KeyEvent evt) {
         final BezierFigure f = getOwner();
         BezierPath.Node oldNode = f.getNode(index);
-
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
                 f.willChange();

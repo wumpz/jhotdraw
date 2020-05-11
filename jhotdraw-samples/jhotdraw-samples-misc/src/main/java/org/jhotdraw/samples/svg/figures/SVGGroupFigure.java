@@ -2,18 +2,21 @@
  * @(#)SVGGroupFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.figure.GroupFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
@@ -24,11 +27,13 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGGroupFigure() {
         SVGAttributeKeys.setDefaults(this);
     }
@@ -58,7 +63,7 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey<?>, Object> map) {
         for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-            set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
     }
 
@@ -69,14 +74,11 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-
                 if (!drawingArea.isEmpty()) {
-
                     BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),

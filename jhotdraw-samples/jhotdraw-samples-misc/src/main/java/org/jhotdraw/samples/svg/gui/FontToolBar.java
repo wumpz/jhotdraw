@@ -2,46 +2,54 @@
  * @(#)StrokeToolBar.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.tool.TextCreationTool;
-import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.draw.event.SelectionComponentRepainter;
-import org.jhotdraw.draw.event.SelectionComponentDisplayer;
-import javax.swing.border.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.SliderUI;
-import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.FONT_FACE;
+import static org.jhotdraw.draw.AttributeKeys.FONT_SIZE;
+import org.jhotdraw.draw.figure.CompositeFigure;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
+import org.jhotdraw.draw.event.SelectionComponentDisplayer;
+import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.text.FontFormatter;
-import org.jhotdraw.text.JavaNumberFormatter;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.formatter.FontFormatter;
+import org.jhotdraw.formatter.JavaNumberFormatter;
+import org.jhotdraw.util.*;
 
 /**
  * StrokeToolBar.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class FontToolBar extends AbstractToolBar {
+
     private static final long serialVersionUID = 1L;
+    private SelectionComponentDisplayer displayer;
 
-    @Nullable private SelectionComponentDisplayer displayer;
-
-    /** Creates new instance. */
+    /**
+     * Creates new instance.
+     */
     public FontToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString("font.toolbar"));
@@ -58,27 +66,24 @@ public class FontToolBar extends AbstractToolBar {
         super.setEditor(newValue);
         if (newValue != null) {
             displayer = new SelectionComponentDisplayer(editor, this) {
-
                 @Override
                 public void updateVisibility() {
-                    boolean newValue = editor != null &&
-                            editor.getActiveView() != null &&
-                            (isVisibleIfCreationTool && ((editor.getTool() instanceof TextCreationTool) || editor.getTool() instanceof TextAreaCreationTool) ||
-                            containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
+                    boolean newValue = editor != null
+                            && editor.getActiveView() != null
+                            && (isVisibleIfCreationTool && ((editor.getTool() instanceof TextCreationTool) || editor.getTool() instanceof TextAreaCreationTool)
+                            || containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
                     JComponent component = getComponent();
                     if (component == null) {
                         dispose();
                         return;
                     }
                     component.setVisible(newValue);
-
                     // The following is needed to trick BoxLayout
                     if (newValue) {
                         component.setPreferredSize(null);
                     } else {
                         component.setPreferredSize(new Dimension(0, 0));
                     }
-
                     component.revalidate();
                 }
 
@@ -93,7 +98,6 @@ public class FontToolBar extends AbstractToolBar {
                         }
                     }
                     return false;
-
                 }
             };
         }
@@ -102,35 +106,26 @@ public class FontToolBar extends AbstractToolBar {
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-
                 JPanel p1 = new JPanel(new GridBagLayout());
                 JPanel p2 = new JPanel(new GridBagLayout());
                 JPanel p3 = new JPanel(new GridBagLayout());
                 p1.setOpaque(false);
                 p2.setOpaque(false);
                 p3.setOpaque(false);
-
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Font face field and popup button
                 JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
                 faceField.setColumns(2);
@@ -155,8 +150,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
-
                 // Font size field with slider
                 JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
                 sizeField.setColumns(1);
@@ -176,7 +169,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.weightx = 1f;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 p2.add(sizeField, gbc);
-
                 JPopupButton sizePopupButton = new JPopupButton();
                 JAttributeSlider sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
                 sizePopupButton.add(sizeSlider);
@@ -193,7 +185,6 @@ public class FontToolBar extends AbstractToolBar {
                 sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
                 sizeSlider.setScaleFactor(1d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor));
-
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 1;
@@ -202,7 +193,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(p2, gbc);
-
                 // Font style buttons
                 btn = ButtonFactory.createFontStyleBoldButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -226,37 +216,27 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
-            }
+            
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-                JPanel p1 = new JPanel(new GridBagLayout());
-                JPanel p2 = new JPanel(new GridBagLayout());
-                JPanel p3 = new JPanel(new GridBagLayout());
+                p1 = new JPanel(new GridBagLayout());
+                p2 = new JPanel(new GridBagLayout());
+                p3 = new JPanel(new GridBagLayout());
                 p1.setOpaque(false);
                 p2.setOpaque(false);
                 p3.setOpaque(false);
-
-
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
-                GridBagLayout layout = new GridBagLayout();
+                labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                layout = new GridBagLayout();
                 p.setLayout(layout);
-
-                GridBagConstraints gbc;
-                AbstractButton btn;
-
                 // Font face field and popup button
-                JAttributeTextField<Font> faceField = new JAttributeTextField<Font>();
+                faceField = new JAttributeTextField<Font>();
                 faceField.setColumns(12);
                 faceField.setToolTipText(labels.getString("attribute.font.toolTipText"));
                 faceField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -279,9 +259,8 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
                 // Font size field with slider
-                JAttributeTextField<Double> sizeField = new JAttributeTextField<Double>();
+                sizeField = new JAttributeTextField<Double>();
                 sizeField.setColumns(1);
                 sizeField.setToolTipText(labels.getString("attribute.fontSize.toolTipText"));
                 sizeField.setHorizontalAlignment(JAttributeTextField.RIGHT);
@@ -299,9 +278,8 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.weightx = 1f;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 p2.add(sizeField, gbc);
-
-                JPopupButton sizePopupButton = new JPopupButton();
-                JAttributeSlider sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
+                sizePopupButton = new JPopupButton();
+                sizeSlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 12);
                 sizePopupButton.add(sizeSlider);
                 labels.configureToolBarButton(sizePopupButton, "attribute.fontSize");
                 sizePopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(sizePopupButton));
@@ -316,7 +294,6 @@ public class FontToolBar extends AbstractToolBar {
                 sizeSlider.setUI((SliderUI) PaletteSliderUI.createUI(sizeSlider));
                 sizeSlider.setScaleFactor(1d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(FONT_SIZE, sizeSlider, editor));
-
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 1;
@@ -325,7 +302,6 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(p2, gbc);
-
                 // Font style buttons
                 btn = ButtonFactory.createFontStyleBoldButton(editor, labels, disposables);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -349,8 +325,7 @@ public class FontToolBar extends AbstractToolBar {
                 gbc.insets = new Insets(3, 0, 0, 0);
                 gbc.anchor = GridBagConstraints.WEST;
                 p.add(btn, gbc);
-
-            }
+            
             break;
         }
         return p;
@@ -366,7 +341,8 @@ public class FontToolBar extends AbstractToolBar {
         return 1;
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

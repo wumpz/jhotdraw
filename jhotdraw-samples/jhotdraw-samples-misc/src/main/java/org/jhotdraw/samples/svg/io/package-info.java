@@ -6,14 +6,9 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Classes for reading and writing drawings using the Scalable Vector Graphics SVG
-Mobile 1.2 file format.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Classes for reading and writing drawings using the Scalable Vector Graphics SVG
+ * Mobile 1.2 file format.
+ */
 package org.jhotdraw.samples.svg.io;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

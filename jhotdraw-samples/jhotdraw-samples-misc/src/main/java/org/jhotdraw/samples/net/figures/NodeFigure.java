@@ -2,25 +2,29 @@
  * @(#)NodeFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.net.figures;
 
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.LocatorConnector;
-import org.jhotdraw.draw.handle.ConnectorHandle;
-import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.figure.LineConnectionFigure;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.connector.LocatorConnector;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.ConnectorHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 
@@ -31,15 +35,17 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class NodeFigure extends TextFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private LinkedList<Connector> connectors;
     private static LocatorConnector north;
     private static LocatorConnector south;
     private static LocatorConnector east;
     private static LocatorConnector west;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public NodeFigure() {
         RectangleFigure rf = new RectangleFigure();
         setDecorator(rf);
@@ -151,4 +157,3 @@ public class NodeFigure extends TextFigure {
         }
     }
 }
-

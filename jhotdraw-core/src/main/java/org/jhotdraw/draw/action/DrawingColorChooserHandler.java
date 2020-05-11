@@ -2,16 +2,16 @@
  * @(#)DrawingColorChooserHandler.java
  *
  * Copyright (c) 2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.undo.*;
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 
 /**
@@ -22,21 +22,22 @@ import org.jhotdraw.draw.*;
  */
 public class DrawingColorChooserHandler extends AbstractDrawingViewAction
         implements ChangeListener {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     protected AttributeKey<Color> key;
     protected JColorChooser colorChooser;
     protected JPopupMenu popupMenu;
     protected int isUpdating;
-    //protected Map<AttributeKey, Object> attributes;
 
-    /** Creates a new instance. */
+    //protected Map<AttributeKey, Object> attributes;
+    /**
+     * Creates a new instance.
+     */
     public DrawingColorChooserHandler(DrawingEditor editor, AttributeKey<Color> key, JColorChooser colorChooser, JPopupMenu popupMenu) {
         super(editor);
         this.key = key;
         this.colorChooser = colorChooser;
         this.popupMenu = popupMenu;
-
         //colorChooser.addActionListener(this);
         colorChooser.getSelectionModel().addChangeListener(this);
         updateEnabledState();
@@ -54,21 +55,18 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
 
     protected void applySelectedColorToFigures() {
         final Drawing drawing = getView().getDrawing();
-
         Color selectedColor = colorChooser.getColor();
         if (selectedColor != null && selectedColor.getAlpha() == 0) {
             selectedColor = null;
         }
-
         final Object restoreData = drawing.getAttributesRestoreData();
         drawing.willChange();
         drawing.set(key, selectedColor);
         drawing.changed();
-
         getEditor().setDefaultAttribute(key, selectedColor);
         final Color undoValue = selectedColor;
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -112,10 +110,8 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
             colorChooser.setEnabled(getView().getSelectionCount() > 0);
             popupMenu.setEnabled(getView().getSelectionCount() > 0);
             isUpdating++;
-
             Color drawingColor = getView().getDrawing().get(key);
             colorChooser.setColor(drawingColor == null ? new Color(0, true) : drawingColor);
-
             isUpdating--;
         }
     }

@@ -2,19 +2,20 @@
  * @(#)ArrowTip.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.decoration;
 
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DOMStorable;
 
 /**
- * A {@link LineDecoration} which can draws an arrow tip. 
+ * A {@link LineDecoration} which can draws an arrow tip.
  * <p>
  * The shape of the arrow can be controlled with three parameters:
  * <ul>
@@ -23,14 +24,14 @@ import org.jhotdraw.xml.DOMStorable;
  * <li>inner radius - the distance from the tip of the arrow to the point where
  * its end meets the line.</li>
  * </ul>
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ArrowTip extends AbstractLineDecoration
         implements DOMStorable {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /**
      * Pointiness of arrow.
      */
@@ -43,7 +44,7 @@ public class ArrowTip extends AbstractLineDecoration
     }
 
     /**
-     * Constructs an arrow tip with the specified angle and outer and inner 
+     * Constructs an arrow tip with the specified angle and outer and inner
      * radius.
      */
     public ArrowTip(double angle, double outerRadius, double innerRadius) {
@@ -65,9 +66,6 @@ public class ArrowTip extends AbstractLineDecoration
         // FIXME - This should take the stroke join an the outer radius into
         // account to compute the offset properly.
         double offset = (isStroked()) ? 1 : 0;
-
-
-
         Path2D.Double path = new Path2D.Double();
         path.moveTo((outerRadius * Math.sin(-angle)), (offset + outerRadius * Math.cos(-angle)));
         path.lineTo(0, offset);
@@ -76,14 +74,12 @@ public class ArrowTip extends AbstractLineDecoration
             path.lineTo(0, (innerRadius + offset));
             path.closePath();
         }
-
         return path;
     }
 
     @Override
     protected double getDecoratorPathRadius(Figure f) {
         double offset = (isStroked()) ? 0.5 : -0.1;
-
         return innerRadius + offset;
     }
 

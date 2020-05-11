@@ -2,28 +2,30 @@
  * @(#)SelectSameAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.Figure;
 import java.util.*;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * SelectSameAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SelectSameAction extends AbstractSelectedAction {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String ID = "edit.selectSame";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SelectSameAction(DrawingEditor editor) {
         super(editor);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

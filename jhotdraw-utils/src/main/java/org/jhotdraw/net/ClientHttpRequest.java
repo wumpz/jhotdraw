@@ -15,24 +15,22 @@
  */
 package org.jhotdraw.net;
 
-import javax.annotation.Nullable;
-import java.net.URLConnection;
-import java.net.URL;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
-import java.util.Map;
-import java.io.File;
-import java.io.InputStream;
-import java.util.Random;
-import java.io.OutputStream;
-import java.io.FileInputStream;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
 
 public class ClientHttpRequest {
 
     URLConnection connection;
-    @Nullable
     OutputStream os = null;
     Map<String, String> cookies = new HashMap<>();
     String rawCookies = "";
@@ -114,11 +112,9 @@ public class ClientHttpRequest {
 
     private void postCookies() {
         StringBuffer cookieList = new StringBuffer(rawCookies);
-
         for (Iterator<Map.Entry<String, String>> i = cookies.entrySet().iterator(); i.hasNext();) {
             Map.Entry<String, String> entry = i.next();
             cookieList.append(entry.getKey() + "=" + entry.getValue());
-
             if (i.hasNext()) {
                 cookieList.append("; ");
             }
@@ -211,7 +207,6 @@ public class ClientHttpRequest {
         byte[] buf = new byte[500000];
         int nread;
         int total = 0;
-
         synchronized (in) {
             while ((nread = in.read(buf, 0, buf.length)) >= 0) {
                 out.write(buf, 0, nread);
@@ -322,7 +317,6 @@ public class ClientHttpRequest {
         boundary();
         writeln("--");
         os.close();
-
         return connection.getInputStream();
     }
 

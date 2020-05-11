@@ -6,14 +6,9 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides interfaces and classes for dealing with different types of events fired
-by components of the drawing framework.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides interfaces and classes for dealing with different types of events fired
+ * by components of the drawing framework.
+ */
 package org.jhotdraw.draw.event;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

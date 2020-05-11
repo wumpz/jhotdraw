@@ -2,13 +2,12 @@
  * @(#)DrawingEditorProxy.java
  *
  * Copyright (c) 2007-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.beans.*;
@@ -18,11 +17,13 @@ import java.util.Map;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import org.jhotdraw.beans.AbstractBean;
+import org.jhotdraw.draw.tool.Tool;
 
 /**
  * DrawingEditorProxy. <hr> <b>Design Patterns</b>
  *
- * <p><em>Proxy</em><br> To remove the need for null-handling, {@code AbstractTool}
+ * <p>
+ * <em>Proxy</em><br> To remove the need for null-handling, {@code AbstractTool}
  * makes use of a proxy for {@code DrawingEditor}. Subject: {@link DrawingEditor};
  * Proxy: {@link DrawingEditorProxy}; Client: {@link org.jhotdraw.draw.tool.AbstractTool}.
  * <hr>
@@ -34,11 +35,11 @@ import org.jhotdraw.beans.AbstractBean;
 public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
     private static final long serialVersionUID = 1L;
-    @Nullable
     private DrawingEditor target;
 
     private class Forwarder implements PropertyChangeListener, Serializable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -57,7 +58,7 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Sets the target of the proxy.
      */
-    public void setTarget(@Nullable DrawingEditor newValue) {
+    public void setTarget(DrawingEditor newValue) {
         if (target != null) {
             target.removePropertyChangeListener(forwarder);
         }
@@ -70,7 +71,6 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
     /**
      * Gets the target of the proxy.
      */
-    @Nullable
     public DrawingEditor getTarget() {
         return target;
     }
@@ -100,7 +100,6 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
         target.setActiveView(newValue);
     }
 
-    @Nullable
     public DrawingView getFocusedView() {
         return (target == null) ? null : target.getActiveView();
     }

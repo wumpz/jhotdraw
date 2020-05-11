@@ -2,12 +2,11 @@
  * @(#)TranslationDirection.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -16,14 +15,13 @@ import java.awt.geom.Point2D;
  * <p>
  * This enumeration is used by drawing tools and handles to perform constrained
  * transforms of figures on a drawing.
- * 
+ *
  * @see Constrainer
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public enum TranslationDirection {
-
     NORTH,
     WEST,
     SOUTH,
@@ -37,11 +35,9 @@ public enum TranslationDirection {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    @Nullable
     public static TranslationDirection getDirection(Point startPoint, Point endPoint) {
         int dx = endPoint.x - startPoint.x;
         int dy = endPoint.y - startPoint.y;
-
         if (dx == 0) {
             if (dy == 0) {
                 return null;
@@ -73,11 +69,9 @@ public enum TranslationDirection {
      * Returns the direction from the provided start point to the end point.
      * Returns null, if both points are at the same location.
      */
-    @Nullable
     public static TranslationDirection getDirection(Point2D.Double startPoint, Point2D.Double endPoint) {
         double dx = endPoint.x - startPoint.x;
         double dy = endPoint.y - startPoint.y;
-
         if (dx == 0) {
             if (dy == 0) {
                 return null;

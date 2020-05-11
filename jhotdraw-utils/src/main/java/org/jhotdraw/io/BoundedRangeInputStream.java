@@ -2,90 +2,94 @@
  * @(#)BoundedRangeModel.java
  *
  * Copyright (c) 1999-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 //package ch.randelshofer.io;
 package org.jhotdraw.io;
 
-import javax.swing.event.*;
-import javax.swing.BoundedRangeModel;
 import java.io.*;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.swing.BoundedRangeModel;
+import javax.swing.event.*;
+
 /**
  * This input stream implements the BoundedRangeModel and allows
  * the observation of the input reading process.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
- * <br>history  1.0.1  02.05.1999  #setMaximum overrides the size information
+ * <br>history 1.0.1 02.05.1999 #setMaximum overrides the size information
  * from the file.
- * <br>history  1.0   20.03.1999  Derived from javax.swing.ProgressMonitorInputStream.
+ * <br>history 1.0 20.03.1999 Derived from javax.swing.ProgressMonitorInputStream.
  */
 public class BoundedRangeInputStream
-extends FilterInputStream
-implements BoundedRangeModel {
+        extends FilterInputStream
+        implements BoundedRangeModel {
+
     private int nread = 0;
     private int size = 0;
     private boolean valueIsAdjusting;
-    
     /**
      * Only one ChangeEvent is needed per model instance since the
-     * event's only (read-only) state is the source property.  The source
+     * event's only (read-only) state is the source property. The source
      * of events generated here is always "this".
      */
-    @Nullable protected transient ChangeEvent changeEvent = null;
-    
-    /** The listeners waiting for model changes. */
+    protected transient ChangeEvent changeEvent = null;
+    /**
+     * The listeners waiting for model changes.
+     */
     protected EventListenerList listenerList = new EventListenerList();
-    
+
     /**
      * Create a new instance.
      */
     public BoundedRangeInputStream(InputStream in) {
         super(in);
-        try
-        { size = in.available(); }
-        catch(IOException ioe)
-        { size = 0; }
+        try {
+            size = in.available();
+        } catch (IOException ioe) {
+            size = 0;
+        }
     }
-    
+
     /**
      * Overrides {@code FilterInputStream.read}
      * to update the value after the read.
      */
     @Override
     public int read()
-    throws IOException {
+            throws IOException {
         int c = in.read();
-        if (c >=0)
-        { incrementValue(1); }
+        if (c >= 0) {
+            incrementValue(1);
+        }
         return c;
     }
+
     /**
      * Overrides {@code FilterInputStream.read}
      * to update the value after the read.
      */
     @Override
     public int read(byte b[])
-    throws IOException {
+            throws IOException {
         int nr = in.read(b);
         incrementValue(nr);
         return nr;
     }
-    
+
     /**
      * Overrides {@code FilterInputStream.read}
      * to update the value after the read.
      */
     @Override
-    public int read(byte b[],int off,int len)
-    throws IOException {
+    public int read(byte b[], int off, int len)
+            throws IOException {
         int nr = in.read(b, off, len);
         incrementValue(nr);
         return nr;
     }
+
     /**
      * Overrides {@code FilterInputStream.skip}
      * to update the value after the skip.
@@ -93,34 +97,38 @@ implements BoundedRangeModel {
     @Override
     public long skip(long n) throws IOException {
         long nr = in.skip(n);
-        incrementValue( (int)nr);
+        incrementValue((int) nr);
         return nr;
     }
+
     /**
      * Overrides {@code FilterInputStream.reset}
      * to reset the progress monitor as well as the stream.
      */
     @Override
     public synchronized void reset()
-    throws IOException {
+            throws IOException {
         in.reset();
-        nread = size-in.available();
+        nread = size - in.available();
         fireStateChanged();
     }
+
     /**
      * Increments the extent by the indicated value.
      * Negative Increments are ignored.
      *
-     * @param  inc  The incrementValue value.
+     * @param inc The incrementValue value.
      */
     private void incrementValue(int inc) {
         if (inc > 0) {
-            nread+=inc;
-            if (nread > size)
-            { size = nread; }
+            nread += inc;
+            if (nread > size) {
+                size = nread;
+            }
             fireStateChanged();
         }
     }
+
     /**
      * Returns the minimum acceptable value.
      *
@@ -128,14 +136,14 @@ implements BoundedRangeModel {
      * @see #setMinimum
      */
     @Override
-    public int getMinimum()
-    { return 0; }
-    
-    
+    public int getMinimum() {
+        return 0;
+    }
+
     /**
      * Ignored: The minimum of an input stream is always zero.
      *
-     * Sets the model's minimum to <I>newMinimum</I>.   The
+     * Sets the model's minimum to <I>newMinimum</I>. The
      * other three properties may be changed as well, to ensure
      * that:
      * <pre>
@@ -149,11 +157,11 @@ implements BoundedRangeModel {
      * @see #addChangeListener
      */
     @Override
-    public void setMinimum(int newMinimum) {}
-    
-    
+    public void setMinimum(int newMinimum) {
+    }
+
     /**
-     * Returns the model's maximum.  Note that the upper
+     * Returns the model's maximum. Note that the upper
      * limit on the model's value is (maximum - extent).
      *
      * @return the value of the maximum property.
@@ -161,9 +169,10 @@ implements BoundedRangeModel {
      * @see #setExtent
      */
     @Override
-    public int getMaximum() { return size; }
-    
-    
+    public int getMaximum() {
+        return size;
+    }
+
     /**
      * Ignored: The maximum of an input stream can not be changed.
      * #
@@ -184,22 +193,22 @@ implements BoundedRangeModel {
         size = newMaximum;
         fireStateChanged();
     }
-    
-    
+
     /**
      * Returns the current read position.
      *
-     * Returns the model's current value.  Note that the upper
+     * Returns the model's current value. Note that the upper
      * limit on the model's value is {@code maximum - extent}
      * and the lower limit is {@code minimum}.
      *
-     * @return  the model's value
-     * @see     #setValue
+     * @return the model's value
+     * @see #setValue
      */
     @Override
-    public int getValue() { return nread; }
-    
-    
+    public int getValue() {
+        return nread;
+    }
+
     /**
      * Ignored: The value is always zero.
      *
@@ -216,7 +225,7 @@ implements BoundedRangeModel {
      * <p>
      * When a BoundedRange model is used with a scrollbar the value
      * specifies the origin of the scrollbar knob (aka the "thumb" or
-     * "elevator").  The value usually represents the origin of the
+     * "elevator"). The value usually represents the origin of the
      * visible part of the object being scrolled.
      * <p>
      * Notifies any listeners if the model changes.
@@ -225,14 +234,14 @@ implements BoundedRangeModel {
      * @see #getValue
      */
     @Override
-    public void setValue(int newValue) {}
-    
-    
+    public void setValue(int newValue) {
+    }
+
     /**
      * This attribute indicates that any upcoming changes to the value
      * of the model should be considered a single event. This attribute
      * will be set to true at the start of a series of changes to the value,
-     * and will be set to false when the value has finished changing.  Normally
+     * and will be set to false when the value has finished changing. Normally
      * this allows a listener to only take action when the final value change in
      * committed, instead of having to do updates for all intermediate values.
      * <p>
@@ -241,10 +250,10 @@ implements BoundedRangeModel {
      * @param b true if the upcoming changes to the value property are part of a series
      */
     @Override
-    public void setValueIsAdjusting(boolean b)
-    { valueIsAdjusting = b; }
-    
-    
+    public void setValueIsAdjusting(boolean b) {
+        valueIsAdjusting = b;
+    }
+
     /**
      * Returns true if the current changes to the value property are part
      * of a series of changes.
@@ -253,40 +262,37 @@ implements BoundedRangeModel {
      * @see #setValueIsAdjusting
      */
     @Override
-    public boolean getValueIsAdjusting()
-    { return valueIsAdjusting; }
-    
-    
+    public boolean getValueIsAdjusting() {
+        return valueIsAdjusting;
+    }
+
     /**
      * Returns the model's extent, the length of the inner range that
      * begins at the model's value.
      *
-     * @return  the value of the model's extent property
-     * @see     #setExtent
-     * @see     #setValue
+     * @return the value of the model's extent property
+     * @see #setExtent
+     * @see #setValue
      */
     @Override
-    public int getExtent() { return 0; }
-    
-    
+    public int getExtent() {
+        return 0;
+    }
+
     /**
      * Ignored: The extent is always zero.
      */
     @Override
-    public void setExtent(int newExtent)
-    { }
-    
-    
-    
+    public void setExtent(int newExtent) {
+    }
+
     /**
      * Ignored: All values depend on the input stream.
      */
     @Override
-    public void setRangeProperties(int value, int extent, int min, int max, boolean adjusting)
-    {}
-    
-    
-    
+    public void setRangeProperties(int value, int extent, int min, int max, boolean adjusting) {
+    }
+
     /**
      * Adds a ChangeListener to the model's listener list.
      *
@@ -297,8 +303,7 @@ implements BoundedRangeModel {
     public void addChangeListener(ChangeListener l) {
         listenerList.add(ChangeListener.class, l);
     }
-    
-    
+
     /**
      * Removes a ChangeListener.
      *
@@ -310,8 +315,7 @@ implements BoundedRangeModel {
     public void removeChangeListener(ChangeListener l) {
         listenerList.remove(ChangeListener.class, l);
     }
-    
-    
+
     /**
      * Run each ChangeListeners stateChanged() method.
      *
@@ -320,12 +324,12 @@ implements BoundedRangeModel {
      */
     protected void fireStateChanged() {
         Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -=2 ) {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == ChangeListener.class) {
                 if (changeEvent == null) {
                     changeEvent = new ChangeEvent(this);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((ChangeListener) listeners[i + 1]).stateChanged(changeEvent);
             }
         }
     }

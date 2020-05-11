@@ -7,14 +7,13 @@
  */
 package org.jhotdraw.util;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.net.*;
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
-import java.text.*;
-import java.net.*;
 
 /**
  * This is a convenience wrapper for accessing resources stored in a
@@ -36,7 +35,7 @@ import java.net.*;
  * For example, if the property name modifier {@code "os"} has the value "win",
  * and its fallback chain is {@code "mac","default"}, then the property name
  * <code>${preferences.text.[$os]}</code> is first evaluted to {@code
- * preferences.text.win},  and - if no property with this name exists -
+ * preferences.text.win}, and - if no property with this name exists -
  * it is evaluated to {@code preferences.text.mac}, and then to
  * {@code preferences.text.default}.
  * <p>
@@ -53,21 +52,27 @@ import java.net.*;
  * </li>
  * </ul>
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class ResourceBundleUtil implements Serializable {
-    private static final long serialVersionUID = 1L;
 
-    private static final HashSet<String> acceleratorKeys = new HashSet<String>(
+    private static final long serialVersionUID = 1L;
+    private static final HashSet<String> ACCELERATOR_KEYS = new HashSet<String>(
             Arrays.asList(new String[]{
-                "shift", "control", "ctrl", "meta", "alt", "altGraph"
-            }));
-    /** The wrapped resource bundle. */
+        "shift", "control", "ctrl", "meta", "alt", "altGraph"
+    }));
+    /**
+     * The wrapped resource bundle.
+     */
     private transient ResourceBundle resource;
-    /** The locale. */
+    /**
+     * The locale.
+     */
     private Locale locale;
-    /** The base class */
+    /**
+     * The base class
+     */
     private Class<?> baseClass = getClass();
     /**
      * The base name of the resource bundle.
@@ -109,6 +114,7 @@ public class ResourceBundleUtil implements Serializable {
 
     /**
      * Returns the wrapped resource bundle.
+     *
      * @return The wrapped resource bundle.
      */
     public ResourceBundle getWrappedBundle() {
@@ -121,7 +127,7 @@ public class ResourceBundleUtil implements Serializable {
      *
      * @param key The key of the property.
      * @return The value of the property. Returns the key
-     *          if the property is missing.
+     * if the property is missing.
      */
     public String getString(String key) {
         try {
@@ -146,14 +152,12 @@ public class ResourceBundleUtil implements Serializable {
      */
     private String getStringRecursive(String key) throws MissingResourceException {
         String value = resource.getString(key);
-
         // Substitute placeholders in the value
         for (int p1 = value.indexOf("${"); p1 != -1; p1 = value.indexOf("${")) {
             int p2 = value.indexOf('}', p1 + 2);
             if (p2 == -1) {
                 break;
             }
-
             String placeholderKey = value.substring(p1 + 2, p2);
             String placeholderFormat;
             int p3 = placeholderKey.indexOf(',');
@@ -165,25 +169,24 @@ public class ResourceBundleUtil implements Serializable {
             }
             ArrayList<String> fallbackKeys = new ArrayList<>();
             generateFallbackKeys(placeholderKey, fallbackKeys);
-
             String placeholderValue = null;
             for (String fk : fallbackKeys) {
                 try {
                     placeholderValue = getStringRecursive(fk);
                     break;
                 } catch (MissingResourceException e) {
+                    // empty allowed
                 }
             }
             if (placeholderValue == null) {
-                throw new MissingResourceException("\""+key+"\" not found in "+baseName, baseName, key);
+                throw new MissingResourceException("\"" + key + "\" not found in " + baseName, baseName, key);
             }
-
-            // Do post-processing depending on placeholder format 
+            // Do post-processing depending on placeholder format
             if ("accelerator".equals(placeholderFormat)) {
                 // Localize the keywords shift, control, ctrl, meta, alt, altGraph
                 StringBuilder b = new StringBuilder();
                 for (String s : placeholderValue.split(" ")) {
-                    if (acceleratorKeys.contains(s)) {
+                    if (ACCELERATOR_KEYS.contains(s)) {
                         b.append(getString("accelerator." + s));
                     } else {
                         b.append(s);
@@ -191,11 +194,9 @@ public class ResourceBundleUtil implements Serializable {
                 }
                 placeholderValue = b.toString();
             }
-
             // Insert placeholder value into value
             value = value.substring(0, p1) + placeholderValue + value.substring(p2 + 1);
         }
-
         return value;
     }
 
@@ -225,6 +226,7 @@ public class ResourceBundleUtil implements Serializable {
 
     /**
      * Returns a formatted string using javax.text.MessageFormat.
+     *
      * @param key
      * @param arguments
      * @return formatted String
@@ -235,6 +237,7 @@ public class ResourceBundleUtil implements Serializable {
 
     /**
      * Returns a formatted string using java.util.Formatter().
+     *
      * @param key
      * @param arguments
      * @return formatted String
@@ -250,7 +253,7 @@ public class ResourceBundleUtil implements Serializable {
      *
      * @param key The key of the property.
      * @return The value of the property. Returns -1
-     *          if the property is missing.
+     * if the property is missing.
      */
     public Integer getInteger(String key) {
         try {
@@ -268,46 +271,45 @@ public class ResourceBundleUtil implements Serializable {
      * Get a small image icon from the ResourceBundle for use on a {@code JMenuItem}.
      * <br>Convenience method .
      *
-     * @param key The key of the property. 
-     *        This method appends ".smallIcon" to the key.
+     * @param key The key of the property.
+     * This method appends ".smallIcon" to the key.
      * @return The value of the property. Returns null
-     *          if the property is missing.
+     * if the property is missing.
      */
-    @Nullable
     public ImageIcon getSmallIconProperty(String key, Class<?> baseClass) {
-        ImageIcon icon = getIconProperty(key,".smallIcon",baseClass);
-        if (icon == null) 
-            icon = getIconProperty(key,".icon",baseClass);
+        ImageIcon icon = getIconProperty(key, ".smallIcon", baseClass);
+        if (icon == null) {
+            icon = getIconProperty(key, ".icon", baseClass);
+        }
         return icon;
     }
+
     /**
      * Get a large image icon from the ResourceBundle for use on a {@code JButton}.
      * <br>Convenience method .
      *
-     * @param key The key of the property. 
-     *         This method appends ".largeIcon" to the key.
+     * @param key The key of the property.
+     * This method appends ".largeIcon" to the key.
      * @return The value of the property. Returns null
-     *          if the property is missing.
+     * if the property is missing.
      */
-    @Nullable
     public ImageIcon getLargeIconProperty(String key, Class<?> baseClass) {
-        ImageIcon icon = getIconProperty(key,".largeIcon",baseClass);
-        if (icon == null) 
-            icon = getIconProperty(key,".icon",baseClass);
+        ImageIcon icon = getIconProperty(key, ".largeIcon", baseClass);
+        if (icon == null) {
+            icon = getIconProperty(key, ".icon", baseClass);
+        }
         return icon;
     }
-    
+
     private ImageIcon getIconProperty(String key, String suffix, Class<?> baseClass) {
         try {
             String rsrcName = getStringRecursive(key + suffix);
-
             if ("".equals(rsrcName)) {
                 return null;
             }
-
             URL url = baseClass.getResource(rsrcName);
             if (isVerbose && url == null) {
-                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + suffix +"\" resource:" + rsrcName + " not found.");
+                System.err.println("Warning ResourceBundleUtil[" + baseName + "].getIconProperty \"" + key + suffix + "\" resource:" + rsrcName + " not found.");
             }
             return (url == null) ? null : new ImageIcon(url);
         } catch (MissingResourceException e) {
@@ -325,7 +327,7 @@ public class ResourceBundleUtil implements Serializable {
      *
      * @param key The key of the property.
      * @return The first char of the value of the property.
-     *          Returns '\0' if the property is missing.
+     * Returns '\0' if the property is missing.
      */
     public char getMnemonic(String key) {
         String s = getStringRecursive(key);
@@ -338,7 +340,7 @@ public class ResourceBundleUtil implements Serializable {
      *
      * @param key The key of the property. This method appends ".mnemonic" to the key.
      * @return The first char of the value of the property.
-     *          Returns '\0' if the property is missing.
+     * Returns '\0' if the property is missing.
      */
     public char getMnemonicProperty(String key) {
         String s;
@@ -361,7 +363,6 @@ public class ResourceBundleUtil implements Serializable {
      * @param key The key of the property. This method appends ".toolTipText" to the key.
      * @return The ToolTip. Returns null if no tooltip is defined.
      */
-    @Nullable
     public String getToolTipTextProperty(String key) {
         try {
             String value = getStringRecursive(key + ".toolTipText");
@@ -382,7 +383,6 @@ public class ResourceBundleUtil implements Serializable {
      * @param key The key of the property. This method appends ".text" to the key.
      * @return The ToolTip. Returns null if no tooltip is defined.
      */
-    @Nullable
     public String getTextProperty(String key) {
         try {
             String value = getStringRecursive(key + ".text");
@@ -402,15 +402,15 @@ public class ResourceBundleUtil implements Serializable {
      *
      * @param key The key of the property.
      * @return <code>javax.swing.KeyStroke.getKeyStroke(value)</code>.
-     *          Returns null if the property is missing.
+     * Returns null if the property is missing.
      */
-    @Nullable
     public KeyStroke getKeyStroke(String key) {
         KeyStroke ks = null;
         try {
             String s = getStringRecursive(key);
             ks = (s == null) ? (KeyStroke) null : KeyStroke.getKeyStroke(s);
         } catch (NoSuchElementException e) {
+            // empty allowed
         }
         return ks;
     }
@@ -421,9 +421,8 @@ public class ResourceBundleUtil implements Serializable {
      *
      * @param key The key of the property. This method adds ".accelerator" to the key.
      * @return <code>javax.swing.KeyStroke.getKeyStroke(value)</code>.
-     *          Returns null if the property is missing.
+     * Returns null if the property is missing.
      */
-    @Nullable
     public KeyStroke getAcceleratorProperty(String key) {
         KeyStroke ks = null;
         try {
@@ -436,6 +435,7 @@ public class ResourceBundleUtil implements Serializable {
                 //e.printStackTrace();
             }
         } catch (NoSuchElementException e) {
+            // empty allowed
         }
         return ks;
     }
@@ -502,7 +502,8 @@ public class ResourceBundleUtil implements Serializable {
         button.setToolTipText(getToolTipTextProperty(argument));
     }
 
-    /** Configures a menu item with a text, an accelerator, a mnemonic and
+    /**
+     * Configures a menu item with a text, an accelerator, a mnemonic and
      * a menu icon.
      */
     public void configureMenu(JMenuItem menu, String argument) {
@@ -563,7 +564,9 @@ public class ResourceBundleUtil implements Serializable {
         propertyNameModifiers.remove(name);
     }
 
-    /** Read object from ObjectInputStream and re-establish ResourceBundle. */
+    /**
+     * Read object from ObjectInputStream and re-establish ResourceBundle.
+     */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // our "pseudo-constructor"
         in.defaultReadObject();

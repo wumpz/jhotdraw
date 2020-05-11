@@ -2,12 +2,11 @@
  * @(#)EnhancedPath.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.geom;
 
-import javax.annotation.Nullable;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.*;
@@ -25,11 +24,11 @@ import java.util.Arrays;
  */
 public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         implements Shape {
+
     private static final long serialVersionUID = 1L;
 
     public enum SegType {
         /* moveto x y */
-
         MOVETO(2),
         /* lineto x y */
         LINETO(2),
@@ -65,11 +64,11 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     /**
      * We cache a Path2D.Double instance to speed up Shape operations.
      */
-    @Nullable private transient Path2D.Double generalPath;
+    private transient Path2D.Double generalPath;
     /**
      * We cache a Rectangle2D.Double instance to speed up getBounds operations.
      */
-    @Nullable private transient Rectangle2D.Double bounds;
+    private transient Rectangle2D.Double bounds;
     /**
      * The winding rule for filling the bezier path.
      */
@@ -152,9 +151,13 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
          * The type of the segment.
          */
         public SegType type;
-        /** Control points x and y coordinates. */
+        /**
+         * Control points x and y coordinates.
+         */
         public double[] coords = new double[8];
-        /** Modifiers and formulas. */
+        /**
+         * Modifiers and formulas.
+         */
         public String[] modifiers = new String[8];
 
         public Segment() {
@@ -235,7 +238,9 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         bounds = null;
     }
 
-    /** Converts the EnhancedPath into a Path2D.Double. */
+    /**
+     * Converts the EnhancedPath into a Path2D.Double.
+     */
     public Path2D.Double toGeneralPath() {
         Path2D.Double gp = new Path2D.Double();
         // XXX implement me
@@ -250,7 +255,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     }
 
     /**
-     * Adds a line to the current path segment. 
+     * Adds a line to the current path segment.
      * This is only allowed, when the current path segment is open.
      */
     public void lineTo(Object x1, Object y1) {
@@ -261,7 +266,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     }
 
     /**
-     * Closes the current path segment. 
+     * Closes the current path segment.
      * This is only allowed, when the current path segment is open.
      */
     public void close() {
@@ -272,7 +277,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
     }
 
     /**
-     * Adds a quadratic curve to the current path segment. 
+     * Adds a quadratic curve to the current path segment.
      * This is only allowed, when the current path segment is open.
      */
     public void quadTo(Object x1, Object y1,
@@ -280,12 +285,11 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         if (size() == 0 || get(size() - 1).type == SegType.CLOSE) {
             throw new IllegalPathStateException("quadTo is only allowed when a path segment is open");
         }
-
         add(new Segment(SegType.QUADTO, x1, y1, x2, y2));
     }
 
     /**
-     * Adds a cubic curve to the current path segment. 
+     * Adds a cubic curve to the current path segment.
      * This is only allowed, when the current path segment is open.
      */
     public void curveTo(Object x1, Object y1,
@@ -309,7 +313,6 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
             Object x2, Object y2,
             Object x3, Object y3,
             Object x4, Object y4) {
-
         if (size() == 0) {
             throw new IllegalPathStateException("arcTo only allowed when not empty");
         }
@@ -320,7 +323,6 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
             Object x2, Object y2,
             Object x3, Object y3,
             Object x4, Object y4) {
-
         if (size() == 0) {
             throw new IllegalPathStateException("clockwiseArcTo only allowed when not empty");
         }
@@ -329,14 +331,13 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
 
     /**
      * Draws a segment of an ellipse. The ellipse is specified by the
-     * center(x, y), the size(w, h) and the start-angle t0 and end-angle t1. 
+     * center(x, y), the size(w, h) and the start-angle t0 and end-angle t1.
      */
     public void ellipseTo(Object x, Object y,
             Object w, Object h, Object t0, Object t1) {
         if (size() == 0 || get(size() - 1).type == SegType.CLOSE) {
             throw new IllegalPathStateException("ellipseTo is only allowed when a path segment is open");
         }
-
         add(new Segment(SegType.ELLIPSETO, x, y, w, h, t0, t1));
     }
 
@@ -344,7 +345,6 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         if (size() == 0 || get(size() - 1).type == SegType.CLOSE) {
             throw new IllegalPathStateException("quadrantXTo is only allowed when a path segment is open");
         }
-
         add(new Segment(SegType.QUADRANT_XTO, x, y));
     }
 
@@ -352,12 +352,12 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
         if (size() == 0 || get(size() - 1).type == SegType.CLOSE) {
             throw new IllegalPathStateException("quadrantYTo is only allowed when a path segment is open");
         }
-
         add(new Segment(SegType.QUADRANT_YTO, x, y));
     }
 
     /**
      * Sets winding rule for filling the bezier path.
+     *
      * @param newValue Must be Path2D.Double.WIND_EVEN_ODD or Path2D.Double.WIND_NON_ZERO.
      */
     public void setWindingRule(int newValue) {
@@ -370,6 +370,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment>
 
     /**
      * Gets winding rule for filling the bezier path.
+     *
      * @return Path2D.Double.WIND_EVEN_ODD or Path2D.Double.WIND_NON_ZERO.
      */
     public int getWindingRule() {

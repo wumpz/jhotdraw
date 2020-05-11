@@ -7,24 +7,24 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.draw.gui.JAttributeSlider;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.event.SelectionComponentRepainter;
-import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
-import org.jhotdraw.draw.event.SelectionComponentDisplayer;
-import org.jhotdraw.text.JavaNumberFormatter;
-import javax.swing.border.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
-
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
+import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.SliderUI;
 import javax.swing.text.DefaultFormatterFactory;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.plaf.palette.*;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
+import org.jhotdraw.draw.event.SelectionComponentDisplayer;
+import org.jhotdraw.draw.event.SelectionComponentRepainter;
+import org.jhotdraw.draw.gui.JAttributeSlider;
+import org.jhotdraw.draw.gui.JAttributeTextField;
+import org.jhotdraw.gui.JPopupButton;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.formatter.JavaNumberFormatter;
+import org.jhotdraw.util.*;
 
 /**
  * FigureToolBar.
@@ -33,12 +33,14 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class FigureToolBar extends AbstractToolBar {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable private SelectionComponentDisplayer displayer;
+    private static final long serialVersionUID = 1L;
+    private SelectionComponentDisplayer displayer;
     private ResourceBundleUtil labels;
 
-    /** Creates new instance. */
+    /**
+     * Creates new instance.
+     */
     public FigureToolBar() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
@@ -60,22 +62,18 @@ public class FigureToolBar extends AbstractToolBar {
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Opacity slider
                 JPopupButton opacityPopupButton = new JPopupButton();
                 JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
@@ -84,7 +82,7 @@ public class FigureToolBar extends AbstractToolBar {
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
@@ -97,23 +95,17 @@ public class FigureToolBar extends AbstractToolBar {
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
-            }
-            break;
 
-            case 2: {
+            break;
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-                GridBagConstraints gbc;
-                AbstractButton btn;
-
                 // Opacity field with slider
                 JAttributeTextField<Double> opacityField = new JAttributeTextField<Double>();
                 opacityField.setColumns(4);
@@ -134,14 +126,14 @@ public class FigureToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 gbc.weightx = 1d;
                 p.add(opacityField, gbc);
-                JPopupButton opacityPopupButton = new JPopupButton();
-                JAttributeSlider opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
+                opacityPopupButton = new JPopupButton();
+                opacitySlider = new JAttributeSlider(JSlider.VERTICAL, 0, 100, 100);
                 opacityPopupButton.add(opacitySlider);
                 labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
                 opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
                 opacityPopupButton.setIcon(
                         new SelectionOpacityIcon(editor, OPACITY, FILL_COLOR, STROKE_COLOR, Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
-                        new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
+                                new Rectangle(5, 5, 6, 6), new Rectangle(4, 4, 7, 7)));
                 opacityPopupButton.setPopupAnchor(SOUTH_EAST);
                 disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
                 gbc = new GridBagConstraints();
@@ -154,7 +146,6 @@ public class FigureToolBar extends AbstractToolBar {
                 opacitySlider.setUI((SliderUI) PaletteSliderUI.createUI(opacitySlider));
                 opacitySlider.setScaleFactor(100d);
                 disposables.add(new FigureAttributeEditorHandler<Double>(OPACITY, opacitySlider, editor));
-            }
             break;
         }
         return p;
@@ -165,7 +156,8 @@ public class FigureToolBar extends AbstractToolBar {
         return "figure";
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

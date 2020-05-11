@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides classes for defining and manipulating two-dimensional geometry.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides classes for defining and manipulating two-dimensional geometry.
+ */
 package org.jhotdraw.geom;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

@@ -2,16 +2,17 @@
  * @(#)DragHandle.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.TransformEdit;
 
 /**
  * A handle that changes the location of the owning figure, the handle covers all visible points of
@@ -61,7 +62,6 @@ public class DragHandle extends AbstractHandle {
         f.willChange();
         f.transform(tx);
         f.changed();
-
         oldPoint = newPoint;
     }
 
@@ -69,7 +69,6 @@ public class DragHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         AffineTransform tx = new AffineTransform();
         tx.translate(lead.x - anchor.x, lead.y - anchor.y);
-
         LinkedList<Figure> draggedFigures = new LinkedList<>();
         draggedFigures.add(getOwner());
         Point2D.Double dropPoint = getView().viewToDrawing(lead);

@@ -2,20 +2,20 @@
  * @(#)ConnectorHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.ConnectionFigure;
-import java.util.*;
-import javax.swing.undo.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Handle} associated to a {@link Connector} which allows to create a new
@@ -29,7 +29,6 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Holds the ConnectionFigure which is currently being created.
      */
-    @Nullable
     private ConnectionFigure createdConnection;
     /**
      * The prototype for the ConnectionFigure to be created
@@ -42,12 +41,10 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * The current connectable Figure.
      */
-    @Nullable
     private Figure connectableFigure;
     /**
      * The current connectable Connector.
      */
-    @Nullable
     private Connector connectableConnector;
     /**
      * All connectors of the connectable Figure.
@@ -98,7 +95,6 @@ public class ConnectorHandle extends AbstractHandle {
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
         setConnection(createConnection());
-
         Point2D.Double p = getLocationOnDrawing();
         getConnection().setStartPoint(p);
         getConnection().setEndPoint(p);
@@ -109,7 +105,6 @@ public class ConnectorHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         //updateConnectors(lead);
         Point2D.Double p = view.viewToDrawing(lead);
-
         fireAreaInvalidated(getDrawingArea());
         Figure figure = findConnectableFigure(p, view.getDrawing());
         if (figure != connectableFigure) {
@@ -194,25 +189,22 @@ public class ConnectorHandle extends AbstractHandle {
         return (ConnectionFigure) prototype.clone();
     }
 
-    protected void setConnection(@Nullable ConnectionFigure newConnection) {
+    protected void setConnection(ConnectionFigure newConnection) {
         createdConnection = newConnection;
     }
 
-    @Nullable
     protected ConnectionFigure getConnection() {
         return createdConnection;
     }
 
-    @Nullable
     protected Figure getTargetFigure() {
         return connectableFigure;
     }
 
-    protected void setTargetFigure(@Nullable Figure newTargetFigure) {
+    protected void setTargetFigure(Figure newTargetFigure) {
         connectableFigure = newTargetFigure;
     }
 
-    @Nullable
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure figure : drawing.getFiguresFrontToBack()) {
             if (!figure.includes(getConnection())
@@ -220,7 +212,6 @@ public class ConnectorHandle extends AbstractHandle {
                     && figure.contains(p)) {
                 return figure;
             }
-
         }
         return null;
     }
@@ -228,10 +219,8 @@ public class ConnectorHandle extends AbstractHandle {
     /**
      * Finds a connection end figure.
      */
-    @Nullable
     protected Connector findConnectableConnector(Figure connectableFigure, Point2D.Double p) {
         Connector target = (connectableFigure == null) ? null : connectableFigure.findConnector(p, getConnection());
-
         if ((connectableFigure != null) && connectableFigure.isConnectable() && !connectableFigure.includes(getOwner()) && getConnection().canConnect(connector, target)) {
             return target;
         }

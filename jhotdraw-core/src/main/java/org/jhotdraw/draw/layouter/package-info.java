@@ -6,15 +6,9 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides interfaces and classes for laying out the children of a
-{@link org.jhotdraw.draw.CompositeFigure}.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides interfaces and classes for laying out the children of a
+ * {@link org.jhotdraw.draw.CompositeFigure}.
+ */
 package org.jhotdraw.draw.layouter;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
-

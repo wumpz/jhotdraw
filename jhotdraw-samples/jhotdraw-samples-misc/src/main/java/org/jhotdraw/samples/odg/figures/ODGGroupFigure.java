@@ -2,21 +2,24 @@
  * @(#)ODGGroupFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.figure.GroupFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
+
 /**
  * ODGGroupFigure.
  *
@@ -24,16 +27,19 @@ import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
  * @version $Id$
  */
 public class ODGGroupFigure extends GroupFigure implements ODGFigure {
+
     private static final long serialVersionUID = 1L;
-    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>,Object>();
-    
-    
-    /** Creates a new instance. */
+    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
+
+    /**
+     * Creates a new instance.
+     */
     public ODGGroupFigure() {
         ODGAttributeKeys.setDefaults(this);
     }
-    
-    @Override public <T> void set(AttributeKey<T> key, T value) {
+
+    @Override
+    public <T> void set(AttributeKey<T> key, T value) {
         if (key == OPACITY) {
             attributes.put(key, value);
         } else {
@@ -41,34 +47,36 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
         invalidate();
     }
-    @Override public <T> T get(AttributeKey<T> key) {
+
+    @Override
+    public <T> T get(AttributeKey<T> key) {
         return key.get(attributes);
     }
-    @Override public Map<AttributeKey<?>,Object> getAttributes() {
-        return new HashMap<AttributeKey<?>,Object>(attributes);
+
+    @Override
+    public Map<AttributeKey<?>, Object> getAttributes() {
+        return new HashMap<AttributeKey<?>, Object>(attributes);
     }
+
     @SuppressWarnings("unchecked")
     public void setAttributes(Map<AttributeKey<?>, Object> map) {
         for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-            set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
     }
-    
+
     @Override
-    public void draw(Graphics2D g)  {
+    public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-                
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-                
-                if (! drawingArea.isEmpty()) {
-                    
+                if (!drawingArea.isEmpty()) {
                     BufferedImage buf = new BufferedImage(
                             (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
                             (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
@@ -90,7 +98,7 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
             }
         }
     }
-    
+
     @Override
     public Rectangle2D.Double getBounds() {
         if (cachedBounds == null) {
@@ -112,29 +120,30 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
         return (Rectangle2D.Double) cachedBounds.clone();
     }
-    
-    @Override public LinkedList<Handle> createHandles(int detailLevel) {
+
+    @Override
+    public LinkedList<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         if (detailLevel == 0) {
             TransformHandleKit.addTransformHandles(this, handles);
         }
         return handles;
     }
-    
+
     @Override
     public boolean isEmpty() {
         return getChildCount() == 0;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.')+1));
+        buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
         buf.append('@');
         buf.append(hashCode());
         if (getChildCount() > 0) {
             buf.append('(');
-            for (Iterator<Figure> i = getChildren().iterator(); i.hasNext(); ) {
+            for (Iterator<Figure> i = getChildren().iterator(); i.hasNext();) {
                 Figure child = i.next();
                 buf.append(child);
                 if (i.hasNext()) {
@@ -145,9 +154,10 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
         }
         return buf.toString();
     }
+
     public ODGGroupFigure clone() {
         ODGGroupFigure that = (ODGGroupFigure) super.clone();
-        that.attributes = new HashMap<AttributeKey<?>,Object>(this.attributes);
+        that.attributes = new HashMap<AttributeKey<?>, Object>(this.attributes);
         return that;
     }
 }

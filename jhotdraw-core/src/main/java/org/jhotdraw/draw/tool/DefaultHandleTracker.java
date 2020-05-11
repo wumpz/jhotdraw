@@ -2,21 +2,21 @@
  * @(#)DefaultHandleTracker.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.event.HandleMulticaster;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.*;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
+import org.jhotdraw.draw.event.HandleMulticaster;
+import org.jhotdraw.draw.handle.Handle;
 
 /**
  * DefaultHandleTracker implements interactions with the handles of a Figure.
@@ -28,14 +28,14 @@ import org.jhotdraw.draw.event.HandleListener;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as 
+ * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as
  * Handler, {@link DragTracker} as Handler, {@link DefaultHandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: State.<br>
- * Partners: {@link SelectAreaTracker} as State, {@link DragTracker} as 
- * State, {@link SelectionTool} as Context. 
+ * Partners: {@link SelectAreaTracker} as State, {@link DragTracker} as
+ * State, {@link SelectionTool} as Context.
  *
  * @see SelectionTool
  *
@@ -43,6 +43,7 @@ import org.jhotdraw.draw.event.HandleListener;
  * @version $Id$
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
+
     private static final long serialVersionUID = 1L;
 
     private class EventHandler implements HandleListener {
@@ -61,14 +62,12 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         public void handleRequestSecondaryHandles(HandleEvent e) {
             // empty
         }
-        
     }
-    private EventHandler eventHandler=new EventHandler();
-    
-    /** Last dragged mouse location. This variable is only non-null when
+    private EventHandler eventHandler = new EventHandler();
+    /**
+     * Last dragged mouse location. This variable is only non-null when
      * the mouse is being pressed or dragged.
      */
-    @Nullable
     private Point dragLocation;
     private Handle masterHandle;
     private HandleMulticaster multicaster;
@@ -81,10 +80,11 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
      * The hover Figure is the figure, over which the mouse is currently
      * hovering.
      */
-    @Nullable
     private Figure hoverFigure = null;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultHandleTracker(Handle handle) {
         masterHandle = handle;
         multicaster = new HandleMulticaster(handle);
@@ -144,7 +144,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         multicaster.keyPressed(evt);
         if (!evt.isConsumed()) {
             super.keyPressed(evt);
-
             // Forward key presses to the handler
             if (dragLocation != null) {
                 multicaster.trackStep(anchor, dragLocation,
@@ -223,7 +222,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
                     figure = drawing.findFigureBehind(p, figure);
                 }
             }
-
             updateHoverHandles(view, figure);
         }
     }
@@ -241,10 +239,8 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         dragLocation = new Point(evt.getX(), evt.getY());
         multicaster.trackEnd(anchor, dragLocation,
                 evt.getModifiersEx(), getView());
-
         // Note: we must not fire "Tool Done" in this method, because then we can not
         // listen to keyboard events for the handle.
-
         Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
         r.add(evt.getX(), evt.getY());
         maybeFireBoundsInvalidated(r);
@@ -255,7 +251,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         updateHoverHandles(null, null);
     }
 
-    protected void updateHoverHandles(@Nullable DrawingView view, @Nullable Figure f) {
+    protected void updateHoverHandles(DrawingView view, Figure f) {
         if (f != hoverFigure) {
             Rectangle r = null;
             if (hoverFigure != null && hoverFigure.isSelectable()) {

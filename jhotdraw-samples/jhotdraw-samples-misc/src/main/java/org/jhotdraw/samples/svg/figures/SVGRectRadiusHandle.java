@@ -2,27 +2,28 @@
  * @(#)SVGRectRadiusHandle.java
  *
  * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.draw.event.CompositeFigureEdit;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.event.CompositeFigureEdit;
+import org.jhotdraw.draw.handle.AbstractHandle;
+import org.jhotdraw.draw.handle.HandleAttributeKeys;
+import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.undo.PropertyChangeEdit;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.util.*;
 
 /**
  * A Handle to manipulate the radius of a round lead rectangle.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class SVGRectRadiusHandle extends AbstractHandle {
@@ -31,7 +32,9 @@ public class SVGRectRadiusHandle extends AbstractHandle {
     private static final int OFFSET = 6;
     private Dimension2DDouble originalArc2D;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGRectRadiusHandle(Figure owner) {
         super(owner);
     }
@@ -92,9 +95,9 @@ public class SVGRectRadiusHandle extends AbstractHandle {
             }
         }
         Rectangle2D.Double r = owner.getBounds();
-        owner.setArc(//
-                Math.min(owner.getWidth(),Math.max(0, p.x - r.x)),//
-                Math.min(owner.getHeight(),Math.max(0, p.y - r.y)));
+        owner.setArc(
+                Math.min(owner.getWidth(), Math.max(0, p.x - r.x)),
+                Math.min(owner.getHeight(), Math.max(0, p.y - r.y)));
         owner.changed();
     }
 
@@ -103,9 +106,8 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         final SVGRectFigure svgRect = (SVGRectFigure) getOwner();
         final Dimension2DDouble oldValue = originalArc2D;
         final Dimension2DDouble newValue = new Dimension2DDouble(svgRect.getArcWidth(), svgRect.getArcHeight());
-
-        ResourceBundleUtil labels =
-                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels
+                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         CompositeFigureEdit edit = new CompositeFigureEdit(svgRect, labels.getString("attribute.roundRectRadius"));
         edit.setVerbose(true);
         fireUndoableEditHappened(edit);
@@ -145,8 +147,8 @@ public class SVGRectRadiusHandle extends AbstractHandle {
             owner.willChange();
             owner.setArc(newArc.width, newArc.height);
             owner.changed();
-            ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            ResourceBundleUtil labels
+                    = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
             CompositeFigureEdit edit = new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));
             fireUndoableEditHappened(edit);
             fireUndoableEditHappened(new PropertyChangeEdit(owner, SVGRectFigure.ARC_WIDTH_PROPERTY, oldArc.width, newArc.width));
@@ -157,7 +159,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("handle.roundRectangleRadius.toolTipText");
     }
 }

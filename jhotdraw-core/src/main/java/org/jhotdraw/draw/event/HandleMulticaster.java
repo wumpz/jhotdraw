@@ -2,16 +2,16 @@
  * @(#)HandleMulticaster.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.util.*;
 
 /**
  * Forwards events to one or many handles.
@@ -23,13 +23,17 @@ public class HandleMulticaster {
 
     LinkedList<Handle> handles;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public HandleMulticaster(Handle handle) {
         this.handles = new LinkedList<>();
         this.handles.add(handle);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public HandleMulticaster(Collection<Handle> handles) {
         this.handles = new LinkedList<>(handles);
     }

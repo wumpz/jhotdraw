@@ -2,22 +2,23 @@
  * @(#)TransformHandleKit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.TransformRestoreEdit;
-import java.util.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
-import org.jhotdraw.util.ResourceBundleUtil;
+import java.awt.geom.*;
+import java.util.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.TransformRestoreEdit;
 import static org.jhotdraw.draw.handle.HandleAttributeKeys.*;
+import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A set of utility methods to create Handles which transform a Figure by using its
@@ -165,11 +166,9 @@ public class TransformHandleKit {
         public void draw(Graphics2D g) {
             if (getEditor().getTool().supportsHandleInteraction()) {
                 //drawArc(g);
-
                 drawDiamond(g,
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR),
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_STROKE_COLOR));
-
             } else {
                 drawDiamond(g,
                         getEditor().getHandleAttribute(HandleAttributeKeys.TRANSFORM_HANDLE_FILL_COLOR_DISABLED),
@@ -227,7 +226,6 @@ public class TransformHandleKit {
             }
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geometry, getOwner().getTransformRestoreData()));
-
         }
 
         protected void trackStepNormalized(Point2D.Double p) {
@@ -244,7 +242,6 @@ public class TransformHandleKit {
                     Math.abs(anchor.y - lead.y));
             double sx = newBounds.width / oldBounds.width;
             double sy = newBounds.height / oldBounds.height;
-
             AffineTransform tx = new AffineTransform();
             tx.translate(-oldBounds.x, -oldBounds.y);
             if (!Double.isNaN(sx) && !Double.isNaN(sy)
@@ -284,7 +281,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     transform(
@@ -308,7 +304,6 @@ public class TransformHandleKit {
                     }
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     transform(
                             new Point2D.Double(r.x, r.y),
@@ -316,7 +311,6 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -350,7 +344,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     evt.consume();
@@ -366,7 +359,6 @@ public class TransformHandleKit {
                     }
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     transform(
                             new Point2D.Double(r.x, r.y),
@@ -374,7 +366,6 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -407,7 +398,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     transform(
@@ -426,12 +416,10 @@ public class TransformHandleKit {
                 case KeyEvent.VK_LEFT:
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -464,7 +452,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     transform(
@@ -486,7 +473,6 @@ public class TransformHandleKit {
                             new Point2D.Double(r.x + r.width, r.y + r.height));
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     if (r.width > 1) {
                         transform(
@@ -496,7 +482,6 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -529,7 +514,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -553,7 +537,6 @@ public class TransformHandleKit {
                     }
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     transform(
                             new Point2D.Double(r.x, r.y),
@@ -561,7 +544,6 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -594,7 +576,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -613,12 +594,10 @@ public class TransformHandleKit {
                 case KeyEvent.VK_LEFT:
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -651,7 +630,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -673,7 +651,6 @@ public class TransformHandleKit {
                             new Point2D.Double(r.x + r.width, r.y + r.height));
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     if (r.width > 1) {
                         transform(
@@ -683,7 +660,6 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }
@@ -716,7 +692,6 @@ public class TransformHandleKit {
             }
             Object geom = getOwner().getTransformRestoreData();
             Rectangle2D.Double r = getTransformedBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     evt.consume();
@@ -730,7 +705,6 @@ public class TransformHandleKit {
                             new Point2D.Double(r.x + r.width, r.y + r.height));
                     evt.consume();
                     break;
-
                 case KeyEvent.VK_RIGHT:
                     if (r.width > 1) {
                         transform(
@@ -740,7 +714,6 @@ public class TransformHandleKit {
                     evt.consume();
                     break;
             }
-
             fireUndoableEditHappened(
                     new TransformRestoreEdit(getOwner(), geom, getOwner().getTransformRestoreData()));
         }

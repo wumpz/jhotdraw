@@ -2,7 +2,7 @@
  * @(#)DrawingColorIcon.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
@@ -12,23 +12,25 @@ import java.net.*;
 import org.jhotdraw.draw.*;
 
 /**
- * DrawingColorIcon draws a shape with the specified color for the drawing in 
+ * DrawingColorIcon draws a shape with the specified color for the drawing in
  * the current drawing view.
  * <p>
  * The behavior for choosing the drawn color matches with
  * {@link DrawingColorChooserAction }.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class DrawingColorIcon extends javax.swing.ImageIcon {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<Color> key;
     private Shape colorShape;
 
-    /** Creates a new instance.
+    /**
+     * Creates a new instance.
+     *
      * @param editor The drawing editor.
      * @param key The key of the default attribute
      * @param imageLocation the icon image

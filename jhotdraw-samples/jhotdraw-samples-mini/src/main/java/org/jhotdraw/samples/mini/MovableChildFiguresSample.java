@@ -2,21 +2,24 @@
  * @(#)MovableChildFiguresSample.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.draw.tool.DelegationSelectionTool;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.DragHandle;
-import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.figure.LabelFigure;
+import org.jhotdraw.draw.figure.EllipseFigure;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.BorderLayout;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.handle.DragHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.tool.DelegationSelectionTool;
 
 /**
  * Example showing how to create a graphical composite figure which holds
@@ -28,7 +31,8 @@ import org.jhotdraw.draw.*;
 public class MovableChildFiguresSample {
 
     private static class LabeledEllipseFigure extends GraphicalCompositeFigure {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         public LabeledEllipseFigure() {
             setPresentationFigure(new EllipseFigure());
@@ -63,10 +67,8 @@ public class MovableChildFiguresSample {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
-
                 // Create a simple drawing consisting of three
                 // text areas and an elbow connection.
                 LabeledEllipseFigure ta = new LabeledEllipseFigure();
@@ -79,7 +81,6 @@ public class MovableChildFiguresSample {
                 drawing.add(ta);
                 drawing.add(tb);
                 drawing.add(tc);
-
                 // Create a frame with a drawing view and a drawing editor
                 JFrame f = new JFrame("My Drawing");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

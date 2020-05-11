@@ -2,20 +2,22 @@
  * @(#)AbstractDrawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.xml.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.font.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
-import java.util.*;
-import java.io.*;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link Drawing}.
@@ -24,14 +26,17 @@ import java.io.*;
  * @version $Id$
  */
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
+
     private static final long serialVersionUID = 1L;
-    private static final Object lock = new JPanel().getTreeLock();
+    private static final Object LOCK = new JPanel().getTreeLock();
     private transient FontRenderContext fontRenderContext;
     private LinkedList<InputFormat> inputFormats = new LinkedList<>();
     private LinkedList<OutputFormat> outputFormats = new LinkedList<>();
     private static boolean debugMode = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractDrawing() {
     }
 
@@ -46,7 +51,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     @Override
@@ -103,7 +108,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
      */
     @Override
     public Object getLock() {
-        return lock;
+        return LOCK;
     }
 
     @Override
@@ -150,7 +155,6 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     /*@Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double drawingArea;
-
         Dimension2DDouble canvasSize = getCanvasSize();
         if (canvasSize != null) {
             drawingArea = new Rectangle2D.Double(
@@ -169,7 +173,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     @SuppressWarnings("unchecked")
     public AbstractDrawing clone() {
         AbstractDrawing that = (AbstractDrawing) super.clone();
-        that.inputFormats =  (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
+        that.inputFormats = (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
         that.outputFormats = (this.outputFormats == null) ? null : (LinkedList<OutputFormat>) this.outputFormats.clone();
         return that;
     }

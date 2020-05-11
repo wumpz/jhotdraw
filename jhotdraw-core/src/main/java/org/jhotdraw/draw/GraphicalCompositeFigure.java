@@ -2,25 +2,25 @@
  * @(#)GraphicalCompositeFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.geom.Geom;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureEvent;
-import java.io.IOException;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.AbstractCompositeFigure;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
-
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 
@@ -33,24 +33,24 @@ import org.jhotdraw.xml.DOMOutput;
  * contained figures like a CompositeFigure does, but delegates
  * its graphical presentation to another (graphical) figure which
  * purpose it is to draw the container for all contained figures.
- * 
+ *
  * The GraphicalCompositeFigure adds to the {@link CompositeFigure}
- * by containing a presentation figure by default which can not be removed.  Normally,
+ * by containing a presentation figure by default which can not be removed. Normally,
  * the {@code CompositeFigure} can not be seen without containing a figure
- * because it has no mechanism to draw itself.  It instead relies on its contained
+ * because it has no mechanism to draw itself. It instead relies on its contained
  * figures to draw themselves thereby giving the {@code CompositeFigure} its
- * appearance.  However, the <b>GraphicalCompositeFigure</b>'s presentation figure
+ * appearance. However, the <b>GraphicalCompositeFigure</b>'s presentation figure
  * can draw itself even when the <b>GraphicalCompositeFigure</b> contains no other figures.
- * The <b>GraphicalCompositeFigure</b> also uses a 
+ * The <b>GraphicalCompositeFigure</b> also uses a
  * {@link org.jhotdraw.draw.layouter.Layouter} to lay out its child figures.
- * 
- * 
+ *
+ *
  * @author Wolfram Kaiser (original code), Werner Randelshofer (this derived version)
  * @version $Id$
  */
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
     private HashSet<AttributeKey<?>> forbiddenAttributes;
     /**
@@ -59,15 +59,15 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * an own presentation but present only the sum of all its
      * children.
      */
-    @Nullable private Figure presentationFigure;
+    private Figure presentationFigure;
     /**
      * Handles figure changes in the children.
      */
     private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
     private static class PresentationFigureHandler extends FigureAdapter implements UndoableEditListener, Serializable {
-    private static final long serialVersionUID = 1L;
 
+        private static final long serialVersionUID = 1L;
         private GraphicalCompositeFigure owner;
 
         private PresentationFigureHandler(GraphicalCompositeFigure owner) {
@@ -113,9 +113,9 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Constructor which creates a GraphicalCompositeFigure with
      * a given graphical figure for presenting it.
      *
-     * @param	newPresentationFigure	figure which renders the container
+     * @param newPresentationFigure figure which renders the container
      */
-    public GraphicalCompositeFigure(@Nullable Figure newPresentationFigure) {
+    public GraphicalCompositeFigure(Figure newPresentationFigure) {
         super();
         setPresentationFigure(newPresentationFigure);
     }
@@ -184,8 +184,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             Rectangle2D.Double r = getLayouter().layout(this, anchor, lead);
             basicSetPresentationFigureBounds(new Point2D.Double(r.getX(), r.getY()),
                     new Point2D.Double(
-                    Math.max(lead.x, (int) r.getMaxX()),
-                    Math.max(lead.y, (int) r.getMaxY())));
+                            Math.max(lead.x, (int) r.getMaxX()),
+                            Math.max(lead.y, (int) r.getMaxY())));
             invalidate();
         }
     }
@@ -244,14 +244,14 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Set a figure which renders this BasicCompositeFigure. The presentation
      * tasks for the BasicCompositeFigure are delegated to this presentation
      * figure.
-     * 
-     * 
-     * 
-     * 
-     * 
-     * @param newPresentationFigure	figure takes over the presentation tasks
+     *
+     *
+     *
+     *
+     *
+     * @param newPresentationFigure figure takes over the presentation tasks
      */
-    public void setPresentationFigure(@Nullable Figure newPresentationFigure) {
+    public void setPresentationFigure(Figure newPresentationFigure) {
         if (this.presentationFigure != null) {
             this.presentationFigure.removeFigureListener(presentationFigureHandler);
             if (getDrawing() != null) {
@@ -272,18 +272,19 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Get a figure which renders this BasicCompositeFigure. The presentation
      * tasks for the BasicCompositeFigure are delegated to this presentation
      * figure.
-     * 
-     * 
-     * 
-     * 
-     * 
+     *
+     *
+     *
+     *
+     *
      * @return figure takes over the presentation tasks
      */
     public Figure getPresentationFigure() {
         return presentationFigure;
     }
 
-    @Override @SuppressWarnings("unchecked")
+    @Override
+    @SuppressWarnings("unchecked")
     public GraphicalCompositeFigure clone() {
         GraphicalCompositeFigure that = (GraphicalCompositeFigure) super.clone();
         that.presentationFigure = (this.presentationFigure == null)
@@ -292,8 +293,8 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
         if (that.presentationFigure != null) {
             that.presentationFigure.addFigureListener(that.presentationFigureHandler);
         }
-        that.attributes=(HashMap<AttributeKey<?>, Object>) this.attributes.clone();
-        that.forbiddenAttributes= this.forbiddenAttributes==null?null:(HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
+        that.attributes = (HashMap<AttributeKey<?>, Object>) this.attributes.clone();
+        that.forbiddenAttributes = this.forbiddenAttributes == null ? null : (HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
         return that;
     }
 
@@ -352,13 +353,12 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     @SuppressWarnings("unchecked")
     protected void applyAttributesTo(Figure that) {
         for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-            that.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
     }
 
     protected void writeAttributes(DOMOutput out) throws IOException {
         Figure prototype = (Figure) out.getPrototype();
-
         boolean isElementOpen = false;
         for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
             AttributeKey<?> key = entry.getKey();
@@ -390,7 +390,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     protected void readAttributes(DOMInput in) throws IOException {
         if (in.getElementCount("a") > 0) {
             in.openElement("a");
-            for (int i = 0,n= in.getElementCount(); i < n; i++) {
+            for (int i = 0, n = in.getElementCount(); i < n; i++) {
                 in.openElement(i);
                 String name = in.getTagName();
                 Object value = in.readObject();
@@ -398,7 +398,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
                 if (key != null && key.isAssignable(value)) {
                     if (forbiddenAttributes == null
                             || !forbiddenAttributes.contains(key)) {
-                        set((AttributeKey<Object>)key, value);
+                        set((AttributeKey<Object>) key, value);
                     }
                 }
                 in.closeElement();
@@ -420,7 +420,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     }
 
     protected AttributeKey<?> getAttributeKey(String name) {
-        return AttributeKeys.supportedAttributeMap.get(name);
+        return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
     }
 
     @Override
@@ -435,7 +435,7 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
      * Figures which have a non-rectangular shape need to override this method.
      * <p>
      * This method takes the following attributes into account:
-     * AttributeKeys.STROKE_COLOR, AttributeKeys.STROKE_PLACEMENT, and 
+     * AttributeKeys.STROKE_COLOR, AttributeKeys.STROKE_PLACEMENT, and
      * AttributeKeys.StrokeTotalWidth.
      */
     public Point2D.Double chop(Point2D.Double from) {
@@ -445,10 +445,10 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
             switch (get(STROKE_PLACEMENT)) {
                 case CENTER:
                 default:
-                    grow = AttributeKeys.getStrokeTotalWidth(this,1.0);
+                    grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);
                     break;
                 case OUTSIDE:
-                    grow = AttributeKeys.getStrokeTotalWidth(this,1.0);
+                    grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);
                     break;
                 case INSIDE:
                     grow = 0d;

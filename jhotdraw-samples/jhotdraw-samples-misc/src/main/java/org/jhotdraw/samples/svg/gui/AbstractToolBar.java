@@ -7,15 +7,15 @@
  */
 package org.jhotdraw.samples.svg.gui;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.beans.*;
 import java.util.LinkedList;
 import java.util.prefs.*;
 import javax.swing.*;
-import org.jhotdraw.app.Disposable;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.gui.JDisclosureToolBar;
+import static org.jhotdraw.gui.JDisclosureToolBar.DISCLOSURE_STATE_PROPERTY;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -25,15 +25,17 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable protected DrawingEditor editor;
-    @Nullable private JComponent[] panels;
+    private static final long serialVersionUID = 1L;
+    protected DrawingEditor editor;
+    private JComponent[] panels;
     protected Preferences prefs;
     protected PropertyChangeListener eventHandler;
     protected LinkedList<Disposable> disposables = new LinkedList<Disposable>();
 
-    /** Creates new form. */
+    /**
+     * Creates new form.
+     */
     public AbstractToolBar() {
         initComponents();
         try {
@@ -43,15 +45,18 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
     }
 
-    /** This should be an abstract method, but the NetBeans GUI builder
+    /**
+     * This should be an abstract method, but the NetBeans GUI builder
      * doesn't support abstract beans.
+     *
      * @return The ID used to retrieve labels and store user preferences.
      */
     protected String getID() {
         return "";
     }
 
-    /** This should be an abstract method, but the NetBeans GUI builder
+    /**
+     * This should be an abstract method, but the NetBeans GUI builder
      * doesn't support abstract beans.
      */
     protected void init() {
@@ -60,8 +65,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
     protected PropertyChangeListener getEventHandler() {
         if (eventHandler == null) {
             eventHandler = new PropertyChangeListener() {
-
-    @Override
+                @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String name = evt.getPropertyName();
                     if (name == DISCLOSURE_STATE_PROPERTY) {
@@ -80,7 +84,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         return eventHandler;
     }
 
-    public void setEditor(@Nullable DrawingEditor editor) {
+    public void setEditor(DrawingEditor editor) {
         if (this.editor != null) {
             this.removePropertyChangeListener(getEventHandler());
             for (Disposable d : disposables) {
@@ -97,7 +101,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
     }
 
-    @Nullable public DrawingEditor getEditor() {
+    public DrawingEditor getEditor() {
         return editor;
     }
 
@@ -116,7 +120,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         return panels[state];
     }
 
-    @Nullable
     /*abstract*/ protected JComponent createDisclosedComponent(int state) {
         return null;
     }
@@ -134,8 +137,8 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
     }
 
     private class ProxyPanel extends JPanel {
-    private static final long serialVersionUID = 1L;
 
+        private static final long serialVersionUID = 1L;
         private Runnable runner;
 
         public ProxyPanel() {
@@ -152,7 +155,7 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
             final int state = getDisclosureState();
             if (runner == null) {
                 runner = new Runnable() {
-    @Override
+                    @Override
                     public void run() {
                         try {
                             panels[state] = createDisclosedComponent(state);
@@ -166,7 +169,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
                         if (parent != null) {
                             GridBagLayout layout = (GridBagLayout) parent.getLayout();
                             GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
-
                             parent.remove(ProxyPanel.this);
                             if (getDisclosureState() == state) {
                                 if (panels[state] != null) {
@@ -179,7 +181,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
                             }
                             parent.revalidate();
                             ((JComponent) parent.getRootPane().getContentPane()).revalidate();
-
                         }
                     }
                 };
@@ -188,7 +189,8 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
         }
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

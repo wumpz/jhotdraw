@@ -2,19 +2,18 @@
  * @(#)TextEditingTool.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.text.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.text.FloatingTextField;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.text.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -24,16 +23,18 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The text creation and editing tools and the {@code TextHolderFigure}
  * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for  structured drawing editors.<br>
+ * JHotDraw framework for structured drawing editors.<br>
  * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
  * {@link TextAreaCreationTool}, {@link TextEditingTool},
  * {@link TextAreaEditingTool}, {@link FloatingTextField},
  * {@link FloatingTextArea}.
  *
- * <p><em>Prototype</em><br>
+ * <p>
+ * <em>Prototype</em><br>
  * The text creation tools create new figures by cloning a prototype
  * {@code TextHolderFigure} object.<br>
  * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool},
@@ -44,12 +45,14 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class TextEditingTool extends AbstractTool implements ActionListener {
+
     private static final long serialVersionUID = 1L;
+    private FloatingTextField textField;
+    private TextHolderFigure typingTarget;
 
-    @Nullable private FloatingTextField textField;
-    @Nullable private TextHolderFigure typingTarget;
-
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TextEditingTool(TextHolderFigure typingTarget) {
         this.typingTarget = typingTarget;
     }
@@ -76,11 +79,9 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
             textField = new FloatingTextField();
             textField.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
-
         textField.createOverlay(getView(), textHolder);
         textField.requestFocus();
         typingTarget = textHolder;
@@ -93,18 +94,16 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textField.getText();
-
             if (newText.length() > 0) {
                 typingTarget.willChange();
                 typingTarget.setText(newText);
                 typingTarget.changed();
             }
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -129,13 +128,11 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textField.endOverlay();
         }
-    //	        view().checkDamage();
+        //         view().checkDamage();
     }
 
     @Override

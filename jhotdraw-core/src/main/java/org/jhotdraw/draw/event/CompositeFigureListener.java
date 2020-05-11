@@ -2,11 +2,9 @@
  * @(#)CompositeFigureListener.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
 
 import java.util.*;
@@ -17,7 +15,8 @@ import java.util.*;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Observer</em><br>
+ * <p>
+ * <em>Observer</em><br>
  * Changes in the composition of a composite figure can be observed.<br>
  * Subject: {@link org.jhotdraw.draw.CompositeFigure}; Observer:
  * {@link CompositeFigureListener}; Event: {@link CompositeFigureEvent}.
@@ -27,11 +26,12 @@ import java.util.*;
  * @version $Id$
  */
 public interface CompositeFigureListener extends EventListener {
+
     /**
      * Sent when a figure was added.
      */
     public void figureAdded(CompositeFigureEvent e);
-    
+
     /**
      * Sent when a figure was removed.
      */

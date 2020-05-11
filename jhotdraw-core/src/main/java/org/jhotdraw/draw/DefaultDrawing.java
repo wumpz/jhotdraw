@@ -2,12 +2,12 @@
  * @(#)DefaultDrawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -20,15 +20,18 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import org.jhotdraw.geom.Geom;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.ReversedList;
 
 /**
  * A default implementation of {@link Drawing} useful for drawings which contain
- * only a few figures. <p> For larger drawings, {@link QuadTreeDrawing} is
- * recommended. <p> FIXME - Maybe we should rename this class to SimpleDrawing
+ * only a few figures.
+ * <p>
+ * For larger drawings, {@link QuadTreeDrawing} is
+ * recommended.
+ * <p>
+ * FIXME - Maybe we should rename this class to SimpleDrawing
  * or we should get rid of this class altogether.
  *
  *
@@ -39,7 +42,6 @@ public class DefaultDrawing
         extends AbstractDrawing {
 
     private static final long serialVersionUID = 1L;
-    
     private boolean needsSorting = false;
 
     /**
@@ -246,7 +248,7 @@ public class DefaultDrawing
     }
 
     @Override
-    protected void drawStroke(Graphics2D g) {      
+    protected void drawStroke(Graphics2D g) {
     }
 
     @Override
@@ -259,11 +261,9 @@ public class DefaultDrawing
                 canvasColor = new Color(
                         (canvasColor.getRGB() & 0xffffff)
                         | ((int) (fillOpacity * 255) << 24), true);
-
                 // Fill the canvas
                 Rectangle2D.Double r = new Rectangle2D.Double(
                         0, 0, get(CANVAS_WIDTH), get(CANVAS_HEIGHT));
-
                 g.setColor(canvasColor);
                 g.fill(r);
             }

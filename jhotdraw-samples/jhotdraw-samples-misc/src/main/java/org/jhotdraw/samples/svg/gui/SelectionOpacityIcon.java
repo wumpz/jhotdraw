@@ -2,12 +2,12 @@
  * @(#)SelectionOpacityIcon.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
-import javax.annotation.Nullable;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.net.*;
 import org.jhotdraw.draw.*;
@@ -15,23 +15,23 @@ import org.jhotdraw.draw.*;
 /**
  * {@code SelectionOpacityIcon} visualizes an opacity attribute of the selected
  * {@code Figure}(s) in the active {@code DrawingView} of a {@code DrawingEditor}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable
+    private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
     private AttributeKey<Color> fillColorKey;
-    @Nullable
     private AttributeKey<Color> strokeColorKey;
     private Shape fillShape;
     private Shape strokeShape;
 
-    /** Creates a new instance.
+    /**
+     * Creates a new instance.
+     *
      * @param editor The drawing editor.
      * @param opacityKey The opacityKey of the default attribute
      * @param imageLocation the icon image
@@ -42,7 +42,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
             AttributeKey<Color> fillColorKey,
-            @Nullable AttributeKey<Color> strokeColorKey,
+            AttributeKey<Color> strokeColorKey,
             URL imageLocation,
             Shape fillShape,
             Shape strokeShape) {
@@ -59,7 +59,7 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
             DrawingEditor editor,
             AttributeKey<Double> opacityKey,
             AttributeKey<Color> fillColorKey,
-            @Nullable AttributeKey<Color> strokeColorKey,
+            AttributeKey<Color> strokeColorKey,
             Image image,
             Shape fillShape,
             Shape strokeShape) {
@@ -76,7 +76,6 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);
-
         Double opacity;
         Color fillColor;
         Color strokeColor;
@@ -95,7 +94,6 @@ public class SelectionOpacityIcon extends javax.swing.ImageIcon {
             fillColor = (fillColorKey == null) ? null : fillColorKey.getDefaultValue();
             strokeColor = (strokeColorKey == null) ? null : strokeColorKey.getDefaultValue();
         }
-
         if (fillColorKey != null && fillShape != null) {
             if (opacity != null) {
                 if (fillColor == null) {

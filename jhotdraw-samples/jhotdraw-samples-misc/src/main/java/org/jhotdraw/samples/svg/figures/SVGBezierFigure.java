@@ -2,25 +2,29 @@
  * @(#)SVGBezierFigure.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.geom.Geom;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.BasicStroke;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_CAP;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_JOIN;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.draw.AttributeKeys.UNCLOSED_PATH_FILLED;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.ResourceBundleUtil;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGBezierFigure is not an actual SVG element, it is used by SVGPathFigure to
@@ -30,11 +34,13 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class SVGBezierFigure extends BezierFigure {
+
     private static final long serialVersionUID = 1L;
+    private transient Rectangle2D.Double cachedDrawingArea;
 
-    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
-
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGBezierFigure() {
         this(false);
     }
@@ -65,7 +71,6 @@ public class SVGBezierFigure extends BezierFigure {
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
             willChange();
-
             // Apply inverse of transform to point
             if (get(TRANSFORM) != null) {
                 try {
@@ -74,12 +79,12 @@ public class SVGBezierFigure extends BezierFigure {
                     System.err.println("Warning: SVGBezierFigure.handleMouseClick. Figure has noninvertible Transform.");
                 }
             }
-
             final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
+
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -112,8 +117,8 @@ public class SVGBezierFigure extends BezierFigure {
 
     @Override
     public void transform(AffineTransform tx) {
-        if (get(TRANSFORM) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
+        if (get(TRANSFORM) != null
+                || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (get(TRANSFORM) == null) {
                 TRANSFORM.setClone(this, tx);
             } else {
@@ -136,7 +141,7 @@ public class SVGBezierFigure extends BezierFigure {
                 p2.transform(get(TRANSFORM));
                 cachedDrawingArea = p2.getBounds2D();
             }
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this,1.0);
+            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
             double width = strokeTotalWidth / 2d;
             if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
                 width *= get(STROKE_MITER_LIMIT);
@@ -151,6 +156,7 @@ public class SVGBezierFigure extends BezierFigure {
     /**
      * Gets the segment of the polyline that is hit by
      * the given Point2D.Double.
+     *
      * @return the index of the segment or -1 if no segment was hit.
      */
     @Override
@@ -163,18 +169,18 @@ public class SVGBezierFigure extends BezierFigure {
                 System.err.println("Warning: SVGBezierFigure.findSegment. Figure has noninvertible Transform.");
             }
         }
-
         return getBezierPath().findSegment(find, tolerance);
     }
 
     /**
      * Joins two segments into one if the given Point2D.Double hits a node
      * of the polyline.
+     *
      * @return true if the two segments were joined.
      *
      * @param join a Point at a node on the bezier path
      * @param tolerance a tolerance, tolerance should take into account
-     * the line width, plus 2 divided by the zoom factor. 
+     * the line width, plus 2 divided by the zoom factor.
      */
     @Override
     public boolean joinSegments(Point2D.Double join, double tolerance) {
@@ -186,9 +192,7 @@ public class SVGBezierFigure extends BezierFigure {
                 System.err.println("Warning: SVGBezierFigure.findSegment. Figure has noninvertible Transform.");
             }
         }
-
         int i = getBezierPath().findSegment(join, tolerance);
-
         if (i != -1 && i > 1) {
             removeNode(i);
             return true;
@@ -198,11 +202,12 @@ public class SVGBezierFigure extends BezierFigure {
 
     /**
      * Splits the segment at the given Point2D.Double if a segment was hit.
+     *
      * @return the index of the segment or -1 if no segment was hit.
      *
      * @param split a Point on (or near) a segment of the bezier path
      * @param tolerance a tolerance, tolerance should take into account
-     * the line width, plus 2 divided by the zoom factor. 
+     * the line width, plus 2 divided by the zoom factor.
      */
     @Override
     public int splitSegment(Point2D.Double split, double tolerance) {
@@ -214,9 +219,7 @@ public class SVGBezierFigure extends BezierFigure {
                 System.err.println("Warning: SVGBezierFigure.findSegment. Figure has noninvertible Transform.");
             }
         }
-
         int i = getBezierPath().findSegment(split, tolerance);
-
         if (i != -1) {
             addNode(i + 1, new BezierPath.Node(split));
         }

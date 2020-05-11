@@ -7,16 +7,25 @@
  */
 package org.jhotdraw.samples.color;
 
-import org.jhotdraw.color.*;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.jhotdraw.color.CIELABColorSpace;
+import org.jhotdraw.color.CIELCHabColorSpace;
+import org.jhotdraw.color.CMYKNominalColorSpace;
+import org.jhotdraw.color.ColorSliderModel;
+import org.jhotdraw.color.ColorUtil;
+import org.jhotdraw.color.DefaultColorSliderModel;
+import org.jhotdraw.color.HSBColorSpace;
+import org.jhotdraw.color.HSLColorSpace;
+import org.jhotdraw.color.HSLPhysiologicColorSpace;
+import org.jhotdraw.color.HSVColorSpace;
+import org.jhotdraw.color.HSVPhysiologicColorSpace;
+import org.jhotdraw.color.JColorWheel;
 
 /**
  * A demo of color wheels and color sliders using all kinds of color systems.
@@ -25,8 +34,8 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class WheelsAndSlidersMain extends javax.swing.JPanel {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private Color color;
     private JLabel colorLabel;
     private LinkedList<ColorSliderModel> models;
@@ -65,25 +74,18 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
      */
     public WheelsAndSlidersMain() {
         initComponents();
-
         models = new LinkedList<ColorSliderModel>();
         handler = new Handler();
-
         previewLabel.setOpaque(true);
-
         // RGB panels
         chooserPanel.add(createSliderChooser(ColorSpace.getInstance(ColorSpace.CS_sRGB)));
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB), 0, 1, 2, JColorWheel.Type.SQUARE));
         //chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB), 0, 1, 2, JColorWheel.Type.SQUARE));
-
         // CMYK
         //chooserPanel.add(createSliderChooser(CMYKGenericColorSpace.getInstance()));
         chooserPanel.add(createSliderChooser(CMYKNominalColorSpace.getInstance()));
-
         // Empty panel
         chooserPanel.add(new JPanel());
-
-        
         // HSB, HSV, HSL, ... variants
         chooserPanel.add(createColorWheelChooser(HSBColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSVColorSpace.getInstance()));
@@ -93,19 +95,15 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance()));
         chooserPanel.add(createColorWheelChooser(HSLPhysiologicColorSpace.getInstance(), 0, 2, 1));
         chooserPanel.add(new JPanel());
-
         // CIELAB
         ColorSpace cs;
         cs = new CIELABColorSpace();
         chooserPanel.add(createColorWheelChooser(cs, 1, 2, 0, JColorWheel.Type.SQUARE));
         cs = new CIELCHabColorSpace();
         chooserPanel.add(createColorWheelChooser(cs, 2, 1, 0, JColorWheel.Type.POLAR));
-
-
         // CIEXYZ
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ), 1, 0, 2, JColorWheel.Type.SQUARE));
         chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC), 1, 2, 0, JColorWheel.Type.SQUARE));
-
     }
 
     private JPanel createColorWheelChooser(ColorSpace sys) {
@@ -134,11 +132,13 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
         w.setFlipY(flipY);
         w.setModel(m);
         JSlider s = new JSlider(JSlider.VERTICAL);
+        s.setMajorTickSpacing(10);
+        s.setPaintLabels(true);
+        s.setPaintTicks(true);
         m.configureSlider(verticalIndex, s);
         p.add(new JLabel("<html>" + ColorUtil.getName(sys) + "<br>α:" + angularIndex + " r:" + radialIndex + " v:" + verticalIndex), BorderLayout.NORTH);
         p.add(w, BorderLayout.CENTER);
         p.add(s, BorderLayout.EAST);
-
         JPanel pp = new JPanel();
         p.add(pp, BorderLayout.SOUTH);
         for (int i = 0; i < m.getComponentCount(); i++) {
@@ -146,7 +146,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
             final JTextField tf = new JTextField();
             tf.setEditable(false);
             tf.setColumns(4);
-            ChangeListener cl=new ChangeListener() {
+            ChangeListener cl = new ChangeListener() {
                 NumberFormat df = NumberFormat.getNumberInstance();
 
                 @Override
@@ -169,7 +169,6 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     private JPanel createSliderChooser(ColorSpace sys, boolean vertical) {
         JPanel p = new JPanel(new GridBagLayout());
         final DefaultColorSliderModel m = new DefaultColorSliderModel(sys);
-
         models.add(m);
         GridBagConstraints gbc = new GridBagConstraints();
         if (!vertical) {
@@ -179,8 +178,6 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
                     "<html>" + ColorUtil.getName(sys)), gbc);
         }
         m.addChangeListener(handler);
-
-
         for (int i = 0; i < m.getComponentCount(); i++) {
             final int comp = i;
             JSlider s = new JSlider(JSlider.HORIZONTAL);
@@ -199,7 +196,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
             final JTextField tf = new JTextField();
             tf.setEditable(false);
             tf.setColumns(4);
-            ChangeListener cl=new ChangeListener() {
+            ChangeListener cl = new ChangeListener() {
                 NumberFormat df = NumberFormat.getNumberInstance();
 
                 @Override
@@ -231,12 +228,8 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.pack();
                 f.setVisible(true);
-
-
             }
         });
-
-
     }
 
     /**
@@ -246,16 +239,12 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         chooserPanel = new javax.swing.JPanel();
         previewLabel = new javax.swing.JLabel();
-
         setLayout(new java.awt.BorderLayout());
-
         chooserPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         chooserPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
         add(chooserPanel, java.awt.BorderLayout.CENTER);
-
         previewLabel.setText("Selected Color");
         add(previewLabel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents

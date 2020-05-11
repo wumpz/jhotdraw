@@ -2,25 +2,28 @@
  * @(#)GroupAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
+import org.jhotdraw.draw.figure.GroupFigure;
 import java.util.*;
 import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * GroupAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class GroupAction extends AbstractSelectedAction {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String ID = "edit.groupSelection";
     private CompositeFigure prototype;
     /**
@@ -29,7 +32,9 @@ public class GroupAction extends AbstractSelectedAction {
      */
     private boolean isGroupingAction;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public GroupAction(DrawingEditor editor) {
         this(editor, new GroupFigure(), true);
     }
@@ -42,8 +47,8 @@ public class GroupAction extends AbstractSelectedAction {
         super(editor);
         this.prototype = prototype;
         this.isGroupingAction = isGroupingAction;
-        ResourceBundleUtil labels =
-                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil labels
+                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
     }
@@ -66,7 +71,7 @@ public class GroupAction extends AbstractSelectedAction {
                 && getView().getSelectionCount() == 1
                 && prototype != null
                 && getView().getSelectedFigures().iterator().next().getClass().equals(
-                prototype.getClass());
+                        prototype.getClass());
     }
 
     @Override
@@ -77,12 +82,12 @@ public class GroupAction extends AbstractSelectedAction {
                 final LinkedList<Figure> ungroupedFigures = new LinkedList<>(view.getSelectedFigures());
                 final CompositeFigure group = (CompositeFigure) prototype.clone();
                 UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {
-                        ResourceBundleUtil labels =
-                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        ResourceBundleUtil labels
+                                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.groupSelection.text");
                     }
 
@@ -112,12 +117,12 @@ public class GroupAction extends AbstractSelectedAction {
                 final CompositeFigure group = (CompositeFigure) getView().getSelectedFigures().iterator().next();
                 final LinkedList<Figure> ungroupedFigures = new LinkedList<>();
                 UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public String getPresentationName() {
-                        ResourceBundleUtil labels =
-                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        ResourceBundleUtil labels
+                                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.ungroupSelection.text");
                     }
 

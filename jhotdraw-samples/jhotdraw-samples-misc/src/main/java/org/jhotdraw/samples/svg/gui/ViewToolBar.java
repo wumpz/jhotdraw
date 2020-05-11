@@ -2,24 +2,26 @@
  * @(#)CanvasToolBar.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
-import java.beans.PropertyChangeEvent;
-import javax.swing.border.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.gui.JLifeFormattedTextField;
-import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.text.JavaNumberFormatter;
+import org.jhotdraw.formatter.JavaNumberFormatter;
+import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -32,11 +34,13 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * @version $Id$
  */
 public class ViewToolBar extends AbstractToolBar {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private DrawingView view;
 
-    /** Creates new instance. */
+    /**
+     * Creates new instance.
+     */
     public ViewToolBar() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
@@ -54,25 +58,20 @@ public class ViewToolBar extends AbstractToolBar {
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Toggle Grid Button
                 AbstractButton toggleGridButton;
                 toggleGridButton = btn = ButtonFactory.createToggleGridButton(view);
@@ -85,7 +84,6 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.NONE;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(btn, gbc);
-
                 // Zoom button
                 btn = ButtonFactory.createZoomButton(view);
                 btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
@@ -102,24 +100,19 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.weightx = 1;
                 btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
                 p.add(btn, gbc);
-            }
+            
             break;
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-                ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                GridBagLayout layout = new GridBagLayout();
+                labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+                layout = new GridBagLayout();
                 p.setLayout(layout);
-                GridBagConstraints gbc;
-                AbstractButton btn;
-
                 // Grid size field and toggle grid button
                 JLifeFormattedTextField gridSizeField = new JLifeFormattedTextField();
                 gridSizeField.setColumns(4);
@@ -131,7 +124,6 @@ public class ViewToolBar extends AbstractToolBar {
                 gridSizeField.setHorizontalAlignment(JTextField.LEADING);
                 final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
                 gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
-
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("value".equals(evt.getPropertyName())) {
@@ -141,7 +133,7 @@ public class ViewToolBar extends AbstractToolBar {
                                 prefs = PreferencesUtil.userNodeForPackage(getClass());
                                 try {
                                     prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
-                                } catch (IllegalStateException e) {//ignore
+                                } catch (IllegalStateException e) { //ignore
                                 }
                                 view.getComponent().repaint();
                             }
@@ -149,7 +141,6 @@ public class ViewToolBar extends AbstractToolBar {
                     }
                 });
                 gridSizeField.setValue(constrainer.getHeight());
-
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
                 gbc.gridy = 0;
@@ -166,7 +157,6 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.NONE;
                 gbc.insets = new Insets(0, 0, 0, 0);
                 p.add(btn, gbc);
-
                 // Zoom factor field and zoom button
                 final JLifeFormattedTextField scaleFactorField = new JLifeFormattedTextField();
                 scaleFactorField.setColumns(4);
@@ -181,7 +171,6 @@ public class ViewToolBar extends AbstractToolBar {
                 scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
                 scaleFactorField.setValue(view.getScaleFactor());
                 scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {
-
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("value".equals(evt.getPropertyName())) {
@@ -192,7 +181,6 @@ public class ViewToolBar extends AbstractToolBar {
                     }
                 });
                 view.addPropertyChangeListener(new PropertyChangeListener() {
-
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
                         if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
@@ -222,7 +210,7 @@ public class ViewToolBar extends AbstractToolBar {
                 gbc.weighty = 1;
                 btn.setPreferredSize(new Dimension(btn.getPreferredSize().width, scaleFactorField.getPreferredSize().height));
                 p.add(btn, gbc);
-            }
+            
             break;
         }
         return p;
@@ -233,14 +221,14 @@ public class ViewToolBar extends AbstractToolBar {
         return "view";
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         setOpaque(false);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -7,17 +7,24 @@
  */
 package org.jhotdraw.samples.color;
 
-import org.jhotdraw.color.*;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.MouseEvent;
 import java.beans.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import org.jhotdraw.color.ColorListCellRenderer;
+import org.jhotdraw.color.ColorUtil;
+import org.jhotdraw.color.DefaultColorSliderModel;
+import org.jhotdraw.color.HSLColorSpace;
+import org.jhotdraw.color.HSLPhysiologicColorSpace;
+import org.jhotdraw.color.HarmonicColorModel;
+import org.jhotdraw.color.JHarmonicColorWheel;
+import org.jhotdraw.color.SimpleHarmonicRule;
 
 /**
  * JMixer.
- * 
+ *
  * FIXME - This is an experimental class. Do not use it.
  *
  *
@@ -25,8 +32,8 @@ import javax.swing.event.*;
  * @version $Id$
  */
 public class JMixer extends javax.swing.JPanel {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private JList swatchesList;
     private DefaultColorSliderModel sliderModel;
     private int adjusting;
@@ -43,7 +50,7 @@ public class JMixer extends javax.swing.JPanel {
 
         public Color getColor() {
             return new Color(sliderModel.getColorSpace(), new float[]{
-                        (index / 8) / 12f, 1f, (index % 8 + 2) / 12f}, 1f);
+                (index / 8) / 12f, 1f, (index % 8 + 2) / 12f}, 1f);
         }
 
         @Override
@@ -52,10 +59,11 @@ public class JMixer extends javax.swing.JPanel {
         }
     }
 
-    /** Creates new form. */
+    /**
+     * Creates new form.
+     */
     public JMixer() {
         initComponents();
-
         DefaultComboBoxModel presets = new DefaultComboBoxModel();
         presets.addElement(new Preset("Powerful", 4));
         presets.addElement(new Preset("Rich", 1));
@@ -78,29 +86,23 @@ public class JMixer extends javax.swing.JPanel {
         presets.addElement(new Preset("Magical", 84));
         presets.addElement(new Preset("Energetic", 92));
         presets.addElement(new Preset("Subdued", 94));
-
         presetCombo.setModel(presets);
-
         Font smallFont = new Font("Lucida Grande", Font.PLAIN, 11);
         for (Component c : mixerPanel.getComponents()) {
             c.setFont(smallFont);
         }
-
         // Create a list, overriding the getToolTipText() method
         swatchesList = new JList() {
-    private static final long serialVersionUID = 1L;
-            // This method is called as the cursor moves within the list.
+            private static final long serialVersionUID = 1L;
 
+            // This method is called as the cursor moves within the list.
             @Override
             public String getToolTipText(MouseEvent evt) {
                 // Get item index
                 int index = locationToIndex(evt.getPoint());
-
                 // Get item
                 Object item = getModel().getElementAt(index);
-
                 JComponent c = (JComponent) getCellRenderer().getListCellRendererComponent(this, item, index, false, false);
-
                 // Return the tool tip text
                 return c.getToolTipText();
             }
@@ -108,18 +110,13 @@ public class JMixer extends javax.swing.JPanel {
         swatchesList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
         swatchesList.setVisibleRowCount(5);
         scrollPane.setViewportView(swatchesList);
-
         harmonicWheel.setColorSpace(HSLColorSpace.getInstance());
-
         scrollPane.setPreferredSize(new Dimension(100, 100));
         swatchesList.setModel((ListModel) harmonicWheel.getHarmonicColorModel());
         swatchesList.setCellRenderer(new ColorListCellRenderer());
-
         sliderModel = new DefaultColorSliderModel(harmonicWheel.getHarmonicColorModel().getColorSpace());
         sliderModel.configureSlider(1, saturationSlider);
-
         harmonicWheel.getHarmonicColorModel().addListDataListener(new ListDataListener() {
-
             @Override
             public void intervalAdded(ListDataEvent e) {
             }
@@ -140,7 +137,6 @@ public class JMixer extends javax.swing.JPanel {
             }
         });
         harmonicWheel.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
@@ -155,9 +151,7 @@ public class JMixer extends javax.swing.JPanel {
                 }
             }
         });
-
         sliderModel.addChangeListener(new ChangeListener() {
-
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (adjusting++ == 0) {
@@ -175,11 +169,9 @@ public class JMixer extends javax.swing.JPanel {
                 adjusting--;
             }
         });
-
         harmonicWheel.setSelectedIndex(0);
         harmonicWheel.getHarmonicColorModel().setSize(25);
         // updateRules();
-
         HarmonicColorModel h = harmonicWheel.getHarmonicColorModel();
         ColorSpace sys = h.getColorSpace();
         h.set(0, new Color(sys, ColorUtil.fromRGB(sys, 0, 19, 148), 1f));
@@ -194,7 +186,6 @@ public class JMixer extends javax.swing.JPanel {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame f = new JFrame("Mixer");
@@ -209,11 +200,9 @@ public class JMixer extends javax.swing.JPanel {
     private void updateRules() {
         HarmonicColorModel m = harmonicWheel.getHarmonicColorModel();
         m.removeAllRules();
-
         for (int i = 1, n = m.getSize(); i < n; i++) {
             m.set(i, null);
         }
-
         if (customHueRadio.isSelected()) {
         } else if (analogousRadio.isSelected()) {
             m.addRule(new SimpleHarmonicRule(0, 30f / 360f, 0, 5));
@@ -233,7 +222,6 @@ public class JMixer extends javax.swing.JPanel {
         } else if (complementaryRadio.isSelected()) {
             m.addRule(new SimpleHarmonicRule(0, 180f / 360f, 0, 5));
         }
-
         /*if (achromaticCheck.isSelected()) {
         m.addRule(new SimpleHarmonicRule(1, -1f / 12f, 0, 3, 4));
         m.addRule(new SimpleHarmonicRule(1, -1f / 12f, 5, 8, 9));
@@ -251,11 +239,11 @@ public class JMixer extends javax.swing.JPanel {
             m.addRule(new SimpleHarmonicRule(2, -1f / 12f, 5, 8, 9));
             m.addRule(new SimpleHarmonicRule(2, -1f / 12f, 10, 13, 14));
         }
-
         m.applyRules();
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -685,6 +673,7 @@ public class JMixer extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         mixerPanel.add(monochromaticLabel2, gridBagConstraints);
 
+        saturationSlider.setMajorTickSpacing(10);
         saturationSlider.setOrientation(javax.swing.JSlider.VERTICAL);
         saturationSlider.setPaintLabels(true);
         saturationSlider.setPaintTicks(true);
@@ -708,13 +697,10 @@ public class JMixer extends javax.swing.JPanel {
     private void ruleChangePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruleChangePerformed
         updateRules();
 }//GEN-LAST:event_ruleChangePerformed
-
 private void mixerDisclosurePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mixerDisclosurePerformed
     mixerPanel.setVisible(disclosureButton.isSelected());
     mixerPanel.getParent().validate();
-
 }//GEN-LAST:event_mixerDisclosurePerformed
-
 private void systemChangePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemChangePerformed
     HarmonicColorModel m = harmonicWheel.getHarmonicColorModel();
     ColorSpace sys;
@@ -730,7 +716,6 @@ private void systemChangePerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
         sliderModel.setColor(m.get(harmonicWheel.getSelectedIndex()));
     }
 }//GEN-LAST:event_systemChangePerformed
-
 private void presetPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_presetPerformed
     Object obj = presetCombo.getSelectedItem();
     if (obj instanceof Preset) {

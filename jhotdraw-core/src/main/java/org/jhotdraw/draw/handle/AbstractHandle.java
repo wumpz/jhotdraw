@@ -2,23 +2,23 @@
  * @(#)AbstractHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.HandleListener;
-import org.jhotdraw.draw.event.HandleEvent;
-import org.jhotdraw.draw.event.FigureListener;
-import org.jhotdraw.draw.event.FigureEvent;
-import javax.swing.event.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import javax.swing.undo.*;
 import java.util.*;
+import javax.swing.event.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.HandleEvent;
+import org.jhotdraw.draw.event.HandleListener;
 
 /**
  * This abstract class can be extended to implement a {@link Handle}.
@@ -29,16 +29,20 @@ import java.util.*;
 public abstract class AbstractHandle implements Handle, FigureListener {
 
     final private Figure owner;
-    @Nullable protected DrawingView view;
-    /** Holds the tool tip text. By default a handle has no tool tip text. */
+    protected DrawingView view;
+    /**
+     * Holds the tool tip text. By default a handle has no tool tip text.
+     */
     private String toolTipText;
     protected EventListenerList listenerList = new EventListenerList();
     /**
      * The bounds of the abstract handle.
      */
-    @Nullable private Rectangle bounds;
+    private Rectangle bounds;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractHandle(Figure owner) {
         if (owner == null) {
             throw new IllegalArgumentException("owner must not be null");
@@ -73,11 +77,11 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
 
     @Override
-    public void setView(@Nullable DrawingView view) {
+    public void setView(DrawingView view) {
         this.view = view;
     }
 
-    @Nullable public DrawingView getView() {
+    public DrawingView getView() {
         return view;
     }
 
@@ -86,7 +90,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     protected void fireAreaInvalidated(Rectangle invalidatedArea) {
@@ -108,7 +112,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     protected void fireUndoableEditHappened(UndoableEdit edit) {
@@ -116,7 +120,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     protected void fireHandleRequestRemove(Rectangle invalidatedArea) {
@@ -138,7 +142,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     }
 
     /**
-     *  Notify all listenerList that have registered interest for
+     * Notify all listenerList that have registered interest for
      * notification on this event type.
      */
     protected void fireHandleRequestSecondaryHandles() {
@@ -179,7 +183,6 @@ public abstract class AbstractHandle implements Handle, FigureListener {
             g.setStroke(new BasicStroke());
             g.setColor(stroke);
             g.drawOval(r.x, r.y, r.width - 1, r.height - 1);
-
             if (getView().getActiveHandle() == this) {
                 g.fillOval(r.x + 2, r.y + 2, r.width - 4, r.height - 4);
             }
@@ -196,7 +199,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
             r.height -= 2;
             g.fill(r);
         }
-            g.setStroke(new BasicStroke());
+        g.setStroke(new BasicStroke());
         if (stroke != null) {
             Rectangle r = getBounds();
             r.width -= 1;
@@ -264,7 +267,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     @Override
     public void dispose() {
         owner.removeFigureListener(this);
-    //owner = null;
+        //owner = null;
     }
 
     /**
@@ -352,7 +355,6 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     public Rectangle getDrawingArea() {
         Rectangle r = getBounds();
         r.grow(2, 2); // grow by two pixels to take antialiasing into account
-
         return r;
     }
 
@@ -403,7 +405,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
      * Changes the default tool tip text returned by AbstractHandle.
      */
     public void setToolTipText(String newValue) {
-         toolTipText = newValue;
+        toolTipText = newValue;
     }
 
     @Override

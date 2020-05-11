@@ -2,22 +2,22 @@
  * @(#)TextAreaCreationTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.geom.Insets2D;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.text.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.text.FloatingTextArea;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.text.*;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -54,16 +54,18 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The text creation and editing tools and the {@code TextHolderFigure}
  * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for  structured drawing editors.<br>
+ * JHotDraw framework for structured drawing editors.<br>
  * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
  * {@link TextAreaCreationTool}, {@link TextEditingTool},
  * {@link TextAreaEditingTool}, {@link FloatingTextField},
  * {@link FloatingTextArea}.
  *
- * <p><em>Prototype</em><br>
+ * <p>
+ * <em>Prototype</em><br>
  * The text creation tools create new figures by cloning a prototype
  * {@code TextHolderFigure} object.<br>
  * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool},
@@ -74,22 +76,24 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class TextAreaCreationTool extends CreationTool implements ActionListener {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private FloatingTextArea textArea;
-    @Nullable private TextHolderFigure typingTarget;
+    private TextHolderFigure typingTarget;
     /**
      * Rubberband color of the tool. When this is null, the tool does not
      * draw a rubberband.
      */
-    @Nullable private Color rubberbandColor = null;
+    private Color rubberbandColor = null;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TextAreaCreationTool(TextHolderFigure prototype) {
         super(prototype);
     }
 
-    public TextAreaCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>,Object> attributes) {
+    public TextAreaCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
         super(prototype, attributes);
     }
 
@@ -118,7 +122,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         // Note: The search sequence used here, must be
         // consistent with the search sequence used by the
         // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
-
         if (typingTarget != null) {
             endEdit();
             if (isToolDoneAfterCreation()) {
@@ -140,11 +143,11 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         getView().addToSelection(createdFigure);
         beginEdit((TextHolderFigure) createdFigure);
     }
+
     /*
     public void mouseDragged(java.awt.event.MouseEvent e) {
     }
      */
-
     @Override
     public void draw(Graphics2D g) {
         if (createdFigure != null && rubberbandColor != null) {
@@ -156,10 +159,8 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
-
-        //textArea.addActionListener(this);
+            //textArea.addActionListener(this);
         }
-
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
         }
@@ -173,7 +174,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
         Rectangle2D.Double r = figure.getDrawingArea();
         Insets2D.Double insets = figure.getInsets();
         insets.subtractTo(r);
-
         // FIXME - Find a way to determine the parameters for grow.
         //r.grow(1,2);
         //r.width += 16;
@@ -187,24 +187,21 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
     protected void endEdit() {
         if (typingTarget != null) {
             typingTarget.willChange();
-
             final TextHolderFigure editedFigure = typingTarget;
             final String oldText = typingTarget.getText();
             final String newText = textArea.getText();
-
             if (newText.length() > 0) {
                 typingTarget.setText(newText);
             } else {
                 if (createdFigure != null) {
                     getDrawing().remove(getAddedFigure());
-                // XXX - Fire undoable edit here!!
+                    // XXX - Fire undoable edit here!!
                 } else {
                     typingTarget.setText("");
                 }
             }
-
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -229,13 +226,11 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
                 }
             };
             getDrawing().fireUndoableEditHappened(edit);
-
             typingTarget.changed();
             typingTarget = null;
-
             textArea.endOverlay();
         }
-    //	        view().checkDamage();
+        //         view().checkDamage();
     }
 
     @Override

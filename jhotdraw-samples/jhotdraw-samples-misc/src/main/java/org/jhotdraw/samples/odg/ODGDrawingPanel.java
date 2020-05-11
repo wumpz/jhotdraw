@@ -2,26 +2,31 @@
  * @(#)ODGDrawingPanel.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg;
 
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.tool.TextAreaCreationTool;
-import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.util.*;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.action.edit.CopyAction;
+import org.jhotdraw.action.edit.CutAction;
+import org.jhotdraw.action.edit.DuplicateAction;
+import org.jhotdraw.action.edit.PasteAction;
+import org.jhotdraw.action.edit.SelectAllAction;
+import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.DefaultDrawing;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.TextAreaCreationTool;
+import org.jhotdraw.gui.JPopupButton;
+import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.samples.svg.action.CombineAction;
 import org.jhotdraw.samples.svg.action.SplitAction;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
@@ -31,6 +36,8 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
 
 /**
  * ODGDrawingPanel.
@@ -55,10 +62,8 @@ public class ODGDrawingPanel extends JPanel {
         undoManager = new UndoRedoManager();
         editor = new DefaultDrawingEditor();
         editor.add(view);
-
         addCreationButtonsTo(creationToolbar, editor);
         ButtonFactory.addAttributesButtonsTo(attributesToolbar, editor);
-
         JPopupButton pb = new JPopupButton();
         pb.setItemFont(UIManager.getFont("MenuItem.font"));
         labels.configureToolBarButton(pb, "actions");
@@ -81,7 +86,6 @@ public class ODGDrawingPanel extends JPanel {
         // FIXME - We need a toggle grid action
         // pb.addSeparator();
         // pb.add(new ToggleGridAction(editor));
-
         JMenu m = new JMenu(labels.getString("view.zoomFactor.text"));
         JRadioButtonMenuItem rbmi;
         ButtonGroup group = new ButtonGroup();
@@ -110,12 +114,9 @@ public class ODGDrawingPanel extends JPanel {
         pb.setFocusable(false);
         creationToolbar.addSeparator();
         creationToolbar.add(pb);
-
-
         DefaultDrawing drawing = new DefaultDrawing();
         view.setDrawing(drawing);
         drawing.addUndoableEditListener(undoManager);
-
     }
 
     public void setDrawing(Drawing d) {
@@ -140,31 +141,25 @@ public class ODGDrawingPanel extends JPanel {
     public static Collection<Action> createSelectionActions(DrawingEditor editor) {
         LinkedList<Action> a = new LinkedList<Action>();
         a.add(new DuplicateAction());
-
         a.add(null); // separator
         a.add(new GroupAction(editor, new SVGGroupFigure()));
         a.add(new UngroupAction(editor, new SVGGroupFigure()));
         a.add(new CombineAction(editor));
         a.add(new SplitAction(editor));
-
         a.add(null); // separator
         a.add(new BringToFrontAction(editor));
         a.add(new SendToBackAction(editor));
-
         return a;
     }
 
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey<?>, Object> attributes;
-
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         ButtonFactory.addSelectionToolTo(tb, editor,
                 ButtonFactory.createDrawingActions(editor),
                 createSelectionActions(editor));
         tb.addSeparator();
-
         attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.white);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
@@ -193,22 +188,16 @@ public class ODGDrawingPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         toolButtonGroup = new javax.swing.ButtonGroup();
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
         jPanel1 = new javax.swing.JPanel();
         creationToolbar = new javax.swing.JToolBar();
         attributesToolbar = new javax.swing.JToolBar();
-
         setLayout(new java.awt.BorderLayout());
-
         scrollPane.setViewportView(view);
-
         add(scrollPane, java.awt.BorderLayout.CENTER);
-
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
         creationToolbar.setFloatable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -216,16 +205,13 @@ public class ODGDrawingPanel extends JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(creationToolbar, gridBagConstraints);
-
         attributesToolbar.setFloatable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(attributesToolbar, gridBagConstraints);
-
         add(jPanel1, java.awt.BorderLayout.SOUTH);
-
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar attributesToolbar;

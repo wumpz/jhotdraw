@@ -2,36 +2,39 @@
  * @(#)ODGBezierFigure.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.draw.AttributeKeys.UNCLOSED_PATH_FILLED;
+import org.jhotdraw.draw.handle.BezierNodeHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.BezierPath;
 
 /**
  * ODGBezierFigure is not an actual ODG element, it is used by ODGPathFigure to
  * represent a single BezierPath segment within an ODG path.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
+
     private static final long serialVersionUID = 1L;
+    private transient Rectangle2D.Double cachedDrawingArea;
 
-    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
-
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ODGBezierFigure() {
         this(false);
     }
@@ -66,7 +69,7 @@ public class ODGBezierFigure extends BezierFigure {
             if (index != -1) {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void redo() throws CannotRedoException {
@@ -111,7 +114,6 @@ public class ODGBezierFigure extends BezierFigure {
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
-
             if (get(TRANSFORM) == null) {
                 cachedDrawingArea = path.getBounds2D();
             } else {

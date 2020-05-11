@@ -2,21 +2,21 @@
  * @(#)AbstractRotateHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.geom.Geom;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.TransformRestoreEdit;
-import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.draw.event.TransformRestoreEdit;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.util.*;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} which
@@ -27,14 +27,16 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
 
-    @Nullable private Point location;
+    private Point location;
     private Object restoreData;
     private AffineTransform transform;
     private Point2D.Double center;
     private double startTheta;
     private double startLength;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public AbstractRotateHandle(Figure owner) {
         super(owner);
     }
@@ -125,14 +127,11 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         location = new Point(lead.x, lead.y);
         Point2D.Double leadPoint = view.viewToDrawing(lead);
         double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
-
-        double currentTheta = view.getConstrainer()==null?(stepTheta - startTheta):view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
-
+        double currentTheta = view.getConstrainer() == null ? (stepTheta - startTheta) : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
         transform.setToIdentity();
         transform.translate(center.x, center.y);
         transform.rotate(currentTheta);
         transform.translate(-center.x, -center.y);
-
         getOwner().willChange();
         getOwner().restoreTransformTo(restoreData);
         getOwner().transform(transform);
@@ -155,7 +154,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
         center = getCenter();
         if (f.isTransformable()) {
             AffineTransform tx = new AffineTransform();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_LEFT:

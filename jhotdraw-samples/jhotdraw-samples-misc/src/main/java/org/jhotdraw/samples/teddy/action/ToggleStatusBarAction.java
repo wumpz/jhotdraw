@@ -7,30 +7,30 @@
  */
 package org.jhotdraw.samples.teddy.action;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.app.*;
-import org.jhotdraw.app.action.*;
-import org.jhotdraw.util.*;
 import java.awt.event.*;
 import javax.swing.Action;
+import org.jhotdraw.action.AbstractViewAction;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.teddy.TeddyView;
+import org.jhotdraw.util.*;
 
 /**
  * ToggleStatusBarAction.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class ToggleStatusBarAction extends AbstractViewAction {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String ID = "view.toggleStatusBar";
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
 
     /**
      * Creates a new instance.
      */
-    public ToggleStatusBarAction(Application app, @Nullable View view) {
+    public ToggleStatusBarAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
         setPropertyName("statusBarVisible");
@@ -53,4 +53,3 @@ public class ToggleStatusBarAction extends AbstractViewAction {
         getActiveView().setStatusBarVisible(!getActiveView().isStatusBarVisible());
     }
 }
-

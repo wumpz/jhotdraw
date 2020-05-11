@@ -2,13 +2,11 @@
  * @(#)BezierDemo.java
  *
  * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.geom.Bezier;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -16,24 +14,26 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.annotation.Nullable;
 import javax.swing.*;
+import org.jhotdraw.geom.Bezier;
+import org.jhotdraw.geom.BezierPath;
 
 /**
- * Demonstration of the curve fitting algorithm of class {@link Bezier}. 
+ * Demonstration of the curve fitting algorithm of class {@link Bezier}.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class BezierDemo extends javax.swing.JPanel {
+
     private static final long serialVersionUID = 1L;
 
     private static class Example {
 
         double error;
         BezierPath digitized = new BezierPath();
-        @Nullable BezierPath bezier;
-        @Nullable ArrayList<ArrayList<Point2D.Double>> segments;
+        BezierPath bezier;
+        ArrayList<ArrayList<Point2D.Double>> segments;
 
         public void invalidate() {
             bezier = null;
@@ -89,14 +89,14 @@ public class BezierDemo extends javax.swing.JPanel {
     private MouseHandler handler = new MouseHandler();
 
     private class Canvas extends JPanel {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public void paintComponent(Graphics gr) {
             long start = System.currentTimeMillis();
             super.paintComponent(gr);
             Graphics2D g = (Graphics2D) gr;
-
             // Update examples
             for (Example ex : examples) {
                 if (ex.bezier == null) {
@@ -110,50 +110,34 @@ public class BezierDemo extends javax.swing.JPanel {
                     // Split into segments at corners
                     ex.segments = new ArrayList<ArrayList<Point2D.Double>>();
                     ex.segments = Bezier.splitAtCorners(digitizedPoints, 77 / 180d * Math.PI, getError() * 2);
-
                     // Clean up the data in the segments
                     for (int i = 0, n = ex.segments.size(); i < n; i++) {
                         ArrayList<Point2D.Double> seg = ex.segments.get(i);
-
                         seg = Bezier.removeClosePoints(seg, getError());
                         seg = Bezier.reduceNoise(seg, 0.8);
-
                         ex.segments.set(i, seg);
                     }
                 }
             }
-
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             AffineTransform identityTransform = g.getTransform();
             AffineTransform tx = g.getTransform();
             double zoomFactor = getZoomFactor();
             tx.scale(zoomFactor, zoomFactor);
             g.setTransform(tx);
-
-
             if (showPolylineCheck.isSelected()) {
                 g.setColor(Color.black);
-
                 for (Example ex : examples) {
                     g.draw(ex.digitized);
                 }
             }
-
-
             if (showBezierCheck.isSelected()) {
                 g.setColor(Color.blue);
                 for (Example ex : examples) {
                     g.draw(ex.bezier);
                 }
             }
-
             g.setTransform(identityTransform);
-
-
-
-
-
-
             if (showDigitizedCheck.isSelected()) {
                 for (Example ex : examples) {
                     g.setColor(Color.white);
@@ -186,7 +170,6 @@ public class BezierDemo extends javax.swing.JPanel {
                     }
                 }
             }
-
             if (showControlsCheck.isSelected()) {
                 for (Example ex : examples) {
                     for (BezierPath.Node node : ex.bezier) {
@@ -234,7 +217,9 @@ public class BezierDemo extends javax.swing.JPanel {
     }
     private Canvas canvas;
 
-    /** Creates new form BezierDemo */
+    /**
+     * Creates new form BezierDemo
+     */
     public BezierDemo() {
         initComponents();
         canvas = new Canvas();
@@ -243,8 +228,7 @@ public class BezierDemo extends javax.swing.JPanel {
         canvas.addMouseListener(handler);
         canvas.addMouseMotionListener(handler);
         add(canvas, BorderLayout.CENTER);
-
-        Point2D.Double[] d = { //  Digitized points 
+        Point2D.Double[] d = { //  Digitized points
         };
         BezierPath digi = new BezierPath();
         digi.addPolyline(Arrays.asList(d));
@@ -256,7 +240,6 @@ public class BezierDemo extends javax.swing.JPanel {
 
     public static void main(String[] arg) {
         SwingUtilities.invokeLater(new Runnable() {
-
             public void run() {
                 JFrame f = new JFrame("Bezier Demo");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -270,7 +253,6 @@ public class BezierDemo extends javax.swing.JPanel {
 
     private double getSquaredError() {
         double error = getError();
-
         return error * error;
     }
 
@@ -283,7 +265,8 @@ public class BezierDemo extends javax.swing.JPanel {
         return zoomSlider.getValue() / 100d;
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -292,7 +275,6 @@ public class BezierDemo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
-
         jPanel1 = new javax.swing.JPanel();
         toleranceLabel = new javax.swing.JLabel();
         zoomSlider = new javax.swing.JSlider();
@@ -303,18 +285,14 @@ public class BezierDemo extends javax.swing.JPanel {
         showControlsCheck = new javax.swing.JCheckBox();
         eraseButton = new javax.swing.JButton();
         dumpButton = new javax.swing.JButton();
-
         setLayout(new java.awt.BorderLayout());
-
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 20, 20, 20));
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
         toleranceLabel.setText("Zoom:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(toleranceLabel, gridBagConstraints);
-
         zoomSlider.setMaximum(800);
         zoomSlider.setMinimum(100);
         zoomSlider.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -328,7 +306,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         jPanel1.add(zoomSlider, gridBagConstraints);
-
         showDigitizedCheck.setText("Show Source Points");
         showDigitizedCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,7 +317,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(showDigitizedCheck, gridBagConstraints);
-
         showPreprocessedCheck.setText("Show Preprocessed Points");
         showPreprocessedCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,7 +328,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(showPreprocessedCheck, gridBagConstraints);
-
         showPolylineCheck.setSelected(true);
         showPolylineCheck.setText("Show Polyline");
         showPolylineCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -366,7 +341,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         jPanel1.add(showPolylineCheck, gridBagConstraints);
-
         showBezierCheck.setSelected(true);
         showBezierCheck.setText("Show Bezier Path");
         showBezierCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -380,7 +354,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         jPanel1.add(showBezierCheck, gridBagConstraints);
-
         showControlsCheck.setText("Show Bezier Controls");
         showControlsCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -391,7 +364,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(showControlsCheck, gridBagConstraints);
-
         eraseButton.setText("Erase");
         eraseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -405,7 +377,6 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         jPanel1.add(eraseButton, gridBagConstraints);
-
         dumpButton.setText("Dump");
         dumpButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -418,20 +389,15 @@ public class BezierDemo extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
         jPanel1.add(dumpButton, gridBagConstraints);
-
         add(jPanel1, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
-
 private void eraseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eraseButtonActionPerformed
     examples.clear();
     canvas.repaint();
 }//GEN-LAST:event_eraseButtonActionPerformed
-
 private void zoomChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomChanged
     canvas.repaint();
-
 }//GEN-LAST:event_zoomChanged
-
 private void dumpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dumpButtonActionPerformed
     if (dumpDialog == null) {
         dumpDialog = new JDialog();
@@ -455,7 +421,6 @@ private void dumpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     dumpArea.setText(buf.toString());
     dumpDialog.setVisible(true);
 }//GEN-LAST:event_dumpButtonActionPerformed
-
 private void checkboxPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxPerformed
     canvas.repaint();
 }//GEN-LAST:event_checkboxPerformed

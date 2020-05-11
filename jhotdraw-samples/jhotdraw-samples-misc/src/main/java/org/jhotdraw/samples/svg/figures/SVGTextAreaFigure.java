@@ -2,32 +2,39 @@
  * @(#)SVGTextArea.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Dimension2DDouble;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.tool.TextAreaEditingTool;
-import org.jhotdraw.draw.handle.TextOverflowHandle;
-import org.jhotdraw.draw.handle.FontSizeHandle;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.text.*;
 import java.util.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.FONT_SIZE;
+import static org.jhotdraw.draw.AttributeKeys.FONT_UNDERLINE;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_WIDTH;
+import static org.jhotdraw.draw.AttributeKeys.TEXT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.FontSizeHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.TextOverflowHandle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.tool.TextAreaEditingTool;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * SVGTextArea.
@@ -37,22 +44,24 @@ import org.jhotdraw.samples.svg.SVGAttributeKeys;
  */
 public class SVGTextAreaFigure extends SVGAttributedFigure
         implements SVGFigure, TextHolderFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private Rectangle2D.Double bounds = new Rectangle2D.Double();
     private boolean editable = true;
-    private static final BasicStroke dashes = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
+    private static final BasicStroke DASHES = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[]{4f, 4f}, 0f);
     /**
      * This is a cached value to improve the performance of method isTextOverflow();
      */
-    @Nullable private Boolean isTextOverflow;
+    private Boolean isTextOverflow;
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    @Nullable private transient Rectangle2D.Double cachedDrawingArea;
-    @Nullable private transient Shape cachedTextShape;
+    private transient Rectangle2D.Double cachedDrawingArea;
+    private transient Shape cachedTextShape;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGTextAreaFigure() {
         this("Text");
     }
@@ -62,8 +71,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         SVGAttributeKeys.setDefaults(this);
         setConnectable(false);
     }
-    // DRAWING
 
+    // DRAWING
     @Override
     protected void drawText(java.awt.Graphics2D g) {
     }
@@ -77,8 +86,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     protected void drawStroke(Graphics2D g) {
         g.draw(getTextShape());
     }
-    // SHAPE AND BOUNDS
 
+    // SHAPE AND BOUNDS
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) bounds.clone();
@@ -112,7 +121,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 ex.printStackTrace();
             }
         }
-
         Rectangle2D r = getTextShape().getBounds2D();
         return r.isEmpty() ? getBounds().contains(p) : r.contains(p);
     }
@@ -122,7 +130,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             Path2D.Double shape;
             cachedTextShape = shape = new Path2D.Double();
             if (getText() != null || isEditable()) {
-
                 Font font = getFont();
                 boolean isUnderlined = get(FONT_UNDERLINE);
                 Insets2D.Double insets = getInsets();
@@ -141,9 +148,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     for (int i = 0; i < tabStops.length; i++) {
                         tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                     }
-
                     if (getText() != null) {
-                        String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
+                        String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
                         for (int i = 0; i < paragraphs.length; i++) {
                             if (paragraphs[i].length() == 0) {
                                 paragraphs[i] = " ";
@@ -172,9 +178,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     /**
      * Appends a paragraph of text at the specified y location and returns
      * the bounds of the paragraph.
-     * 
      *
-     * @param shape Shape to which to add the glyphs of the paragraph. This 
+     *
+     * @param shape Shape to which to add the glyphs of the paragraph. This
      * parameter is null, if we only want to measure the size of the paragraph.
      * @param styledText the text of the paragraph.
      * @param verticalPos the top bound of the paragraph
@@ -183,22 +189,18 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * @param rightMargin the right bound of the paragraph
      * @param tabStops an array with tab stops
      * @param tabCount the number of entries in tabStops which contain actual
-     *        values
+     * values
      * @return Returns the actual bounds of the paragraph.
      */
-    private Rectangle2D.Double appendParagraph(@Nullable Path2D.Double shape,
+    private Rectangle2D.Double appendParagraph(Path2D.Double shape,
             AttributedCharacterIterator styledText,
             float verticalPos, float maxVerticalPos,
             float leftMargin, float rightMargin,
             float[] tabStops, int tabCount) {
-
         // assume styledText is an AttributedCharacterIterator, and the number
         // of tabs in styledText is tabCount
-
         Rectangle2D.Double paragraphBounds = new Rectangle2D.Double(leftMargin, verticalPos, 0, 0);
-
         int[] tabLocations = new int[tabCount + 1];
-
         int i = 0;
         for (char c = styledText.first(); c != CharacterIterator.DONE; c = styledText.next()) {
             if (c == '\t') {
@@ -206,23 +208,18 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             }
         }
         tabLocations[tabCount] = styledText.getEndIndex() - 1;
-
         // Now tabLocations has an entry for every tab's offset in
         // the text.  For convenience, the last entry is tabLocations
         // is the offset of the last character in the text.
-
         LineBreakMeasurer measurer = new LineBreakMeasurer(styledText, getFontRenderContext());
         int currentTab = 0;
-
         while (measurer.getPosition() < styledText.getEndIndex()) {
-
             // Lay out and draw each line.  All segments on a line
             // must be computed before any drawing can occur, since
             // we must know the largest ascent on the line.
             // TextLayouts are computed and stored in a List;
             // their horizontal positions are stored in a parallel
             // List.
-
             // lineContainsText is true after first segment is drawn
             boolean lineContainsText = false;
             boolean lineComplete = false;
@@ -230,15 +227,13 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             float horizontalPos = leftMargin;
             LinkedList<TextLayout> layouts = new LinkedList<TextLayout>();
             LinkedList<Float> penPositions = new LinkedList<Float>();
-
             while (!lineComplete) {
                 float wrappingWidth = rightMargin - horizontalPos;
                 TextLayout layout = null;
-                layout =
-                        measurer.nextLayout(wrappingWidth,
-                        tabLocations[currentTab] + 1,
-                        lineContainsText);
-
+                layout
+                        = measurer.nextLayout(wrappingWidth,
+                                tabLocations[currentTab] + 1,
+                                lineContainsText);
                 // layout can be null if lineContainsText is true
                 if (layout != null) {
                     layouts.add(layout);
@@ -250,13 +245,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 } else {
                     lineComplete = true;
                 }
-
                 lineContainsText = true;
-
                 if (measurer.getPosition() == tabLocations[currentTab] + 1) {
                     currentTab++;
                 }
-
                 if (measurer.getPosition() == styledText.getEndIndex()) {
                     lineComplete = true;
                 } else if (tabStops.length == 0 || horizontalPos >= tabStops[tabStops.length - 1]) {
@@ -270,15 +262,12 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     horizontalPos = tabStops[j];
                 }
             }
-
             verticalPos += maxAscent;
             if (verticalPos > maxVerticalPos) {
                 break;
             }
-
             Iterator<TextLayout> layoutEnum = layouts.iterator();
             Iterator<Float> positionEnum = penPositions.iterator();
-
             // now iterate through layouts and draw them
             while (layoutEnum.hasNext()) {
                 TextLayout nextLayout = layoutEnum.next();
@@ -295,7 +284,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                         layoutBounds.getWidth(),
                         layoutBounds.getHeight()));
             }
-
             verticalPos += maxDescent;
         }
         return paragraphBounds;
@@ -317,16 +305,16 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      */
     @Override
     public void transform(AffineTransform tx) {
-        if (get(TRANSFORM) != null ||
-                (tx.getType() &
-                (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/)) !=
-                tx.getType()) {
+        if (get(TRANSFORM) != null
+                || (tx.getType()
+                & (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/))
+                != tx.getType()) {
             if (get(TRANSFORM) == null) {
-                set(TRANSFORM,  (AffineTransform) tx.clone());
+                set(TRANSFORM, (AffineTransform) tx.clone());
             } else {
                 AffineTransform t = TRANSFORM.getClone(this);
                 t.preConcatenate(tx);
-                set(TRANSFORM,  t);
+                set(TRANSFORM, t);
             }
         } else {
             Point2D.Double anchor = getStartPoint();
@@ -334,17 +322,17 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead));
-            if (get(FILL_GRADIENT) != null &&
-                    !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+            if (get(FILL_GRADIENT) != null
+                    && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
-                set(FILL_GRADIENT,  g);
+                set(FILL_GRADIENT, g);
             }
-            if (get(STROKE_GRADIENT) != null &&
-                    !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+            if (get(STROKE_GRADIENT) != null
+                    && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
-                set(STROKE_GRADIENT,  g);
+                set(STROKE_GRADIENT, g);
             }
         }
         invalidate();
@@ -363,10 +351,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
-                    bounds.clone(),
-                    TRANSFORM.getClone(this),
-                    FILL_GRADIENT.getClone(this),
-                    STROKE_GRADIENT.getClone(this),};
+            bounds.clone(),
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this)};
     }
 // ATTRIBUTES
 
@@ -382,14 +370,14 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 
     @Override
     public <T> void set(AttributeKey<T> key, T newValue) {
-        if (key.equals(SVGAttributeKeys.TRANSFORM) ||
-                key.equals(SVGAttributeKeys.FONT_FACE) ||
-                key.equals(SVGAttributeKeys.FONT_BOLD) ||
-                key.equals(SVGAttributeKeys.FONT_ITALIC) ||
-                key.equals(SVGAttributeKeys.FONT_SIZE) ||
-                key.equals(SVGAttributeKeys.STROKE_WIDTH) ||
-                key.equals(SVGAttributeKeys.STROKE_COLOR) ||
-                key.equals(SVGAttributeKeys.STROKE_GRADIENT)) {
+        if (key.equals(SVGAttributeKeys.TRANSFORM)
+                || key.equals(SVGAttributeKeys.FONT_FACE)
+                || key.equals(SVGAttributeKeys.FONT_BOLD)
+                || key.equals(SVGAttributeKeys.FONT_ITALIC)
+                || key.equals(SVGAttributeKeys.FONT_SIZE)
+                || key.equals(SVGAttributeKeys.STROKE_WIDTH)
+                || key.equals(SVGAttributeKeys.STROKE_COLOR)
+                || key.equals(SVGAttributeKeys.STROKE_GRADIENT)) {
             invalidate();
         }
         super.set(key, newValue);
@@ -436,7 +424,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     @Override
     public Color getTextColor() {
         return get(FILL_COLOR);
-    //   return TEXT_COLOR.get(this);
+        //   return TEXT_COLOR.get(this);
     }
 
     @Override
@@ -470,7 +458,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             Point2D.Double p0 = new Point2D.Double(0, 0);
             tx.transform(p0, p0);
             p.y -= p0.y;
-        /*
+            /*
         try {
         tx.inverseTransform(p, p);
         } catch (NoninvertibleTransformException ex) {
@@ -493,7 +481,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-
         switch (detailLevel % 2) {
             case -1: // Mouse hover handles
                 handles.add(new BoundsOutlineHandle(this, false, true));
@@ -515,7 +502,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
 
     /**
      * Returns a specialized tool for the given coordinate.
-     * <p>Returns null, if no specialized tool is available.
+     * <p>
+     * Returns null, if no specialized tool is available.
      */
     @Override
     public Tool getTool(Point2D.Double p) {
@@ -560,7 +548,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
      * <p>
      * If you want to use this method to determine the bounds of the TextAreaFigure,
      * you need to add the insets of the TextAreaFigure to the size.
-     * 
+     *
      * @param maxWidth the maximal width to use. Specify Double.MAX_VALUE
      * if you want the width to be unlimited.
      * @return width and height needed to lay out the text.
@@ -580,10 +568,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                 for (int i = 0; i < tabStops.length; i++) {
                     tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                 }
-
                 if (getText() != null) {
-                    String[] paragraphs = getText().split("\n");//Strings.split(getText(), '\n');
-
+                    String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
                     for (int i = 0; i < paragraphs.length; i++) {
                         if (paragraphs[i].length() == 0) {
                             paragraphs[i] = " ";
@@ -611,4 +597,3 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
         return that;
     }
 }
-

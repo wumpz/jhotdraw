@@ -2,15 +2,16 @@
  * @(#)StraightLineFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.geom.Geom;
 
 /**
  * Example showing the minimal amount of code needed to implement a
@@ -20,11 +21,13 @@ import org.jhotdraw.draw.*;
  * @version $Id$
  */
 public class StraightLineFigure extends AbstractAttributedFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private Line2D.Double line;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public StraightLineFigure() {
         line = new Line2D.Double();
     }
@@ -73,7 +76,7 @@ public class StraightLineFigure extends AbstractAttributedFigure {
                 line.x1, line.y1,
                 line.x2, line.y2,
                 p.x, p.y,
-                AttributeKeys.getStrokeTotalWidth(this,1.0));
+                AttributeKeys.getStrokeTotalWidth(this, 1.0));
     }
 
     @Override

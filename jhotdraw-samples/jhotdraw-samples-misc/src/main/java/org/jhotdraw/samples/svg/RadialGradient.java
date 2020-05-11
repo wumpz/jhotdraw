@@ -2,17 +2,16 @@
  * @(#)RadialGradient.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.svg;
 
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
 import org.jhotdraw.draw.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
  * Represents an SVG RadialGradient.
@@ -21,6 +20,7 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
  * @version $Id$
  */
 public class RadialGradient implements Gradient {
+
     private double cx;
     private double cy;
     private double fx;
@@ -31,10 +31,13 @@ public class RadialGradient implements Gradient {
     private Color[] stopColors;
     private AffineTransform transform;
     private double[] stopOpacities;
-            
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public RadialGradient() {
     }
+
     public RadialGradient(
             double cx, double cy, double fx, double fy, double r,
             double[] stopOffsets, Color[] stopColors, double[] stopOpacities,
@@ -51,22 +54,26 @@ public class RadialGradient implements Gradient {
         this.isRelativeToFigureBounds = isRelativeToFigureBounds;
         this.transform = tx;
     }
+
     public void setGradientCircle(double cx, double cy, double r) {
         this.cx = cx;
         this.cy = cy;
         this.r = r;
     }
+
     public void setStops(double[] offsets, Color[] colors, double[] stopOpacities) {
         this.stopOffsets = offsets.clone();
         this.stopColors = colors.clone();
         this.stopOpacities = stopOpacities.clone();
     }
+
     public void setRelativeToFigureBounds(boolean b) {
         isRelativeToFigureBounds = b;
     }
+
     @Override
     public void makeRelativeToFigureBounds(Figure f) {
-        if (! isRelativeToFigureBounds) {
+        if (!isRelativeToFigureBounds) {
             isRelativeToFigureBounds = true;
             Rectangle2D.Double bounds = f.getBounds();
             cx = (cx - bounds.x) / bounds.width;
@@ -74,26 +81,23 @@ public class RadialGradient implements Gradient {
             r = r / Math.sqrt(bounds.width * bounds.width / 2d + bounds.height * bounds.height / 2d);
         }
     }
-    
-    
+
     @Override
     public Paint getPaint(Figure f, double opacity) {
         if (stopColors.length == 0 || r <= 0) {
-            return new Color(0xa0a0a000,true);
+            return new Color(0xa0a0a000, true);
         }
-        
         // Compute colors and fractions for the paint
         Color[] colors = new Color[stopColors.length];
         float[] fractions = new float[stopColors.length];
-        for (int i=0; i < stopColors.length; i++) {
+        for (int i = 0; i < stopColors.length; i++) {
             fractions[i] = (float) stopOffsets[i];
             colors[i] = new Color(
-                    (stopColors[i].getRGB() & 0xffffff) |
-                    ((int) (opacity * stopOpacities[i] * 255) << 24),
+                    (stopColors[i].getRGB() & 0xffffff)
+                    | ((int) (opacity * stopOpacities[i] * 255) << 24),
                     true
-                    );
+            );
         }
-        
         // Compute the dimensions and transforms for the paint
         Point2D.Double cp, fp;
         double rr;
@@ -102,13 +106,14 @@ public class RadialGradient implements Gradient {
         rr = r;
         AffineTransform t = transform;
         if (isRelativeToFigureBounds) {
-            if (! t.isIdentity()) System.out.println("RadialGradient "+hashCode()+" t="+t);
+            if (!t.isIdentity()) {
+                System.out.println("RadialGradient " + hashCode() + " t=" + t);
+            }
             t = new AffineTransform();
             Rectangle2D.Double bounds = f.getBounds();
             t.translate(bounds.x, bounds.y);
             t.scale(bounds.width, bounds.height);
         }
-        
         // Construct a solid color, if only one stop color is given, or if
         // transform is not invertible
         if (stopColors.length == 1 || t.getDeterminant() == 0) {
@@ -125,46 +130,55 @@ public class RadialGradient implements Gradient {
                 RadialGradientPaint.CycleMethod.NO_CYCLE,
                 RadialGradientPaint.ColorSpaceType.SRGB,
                 t
-                );
+        );
         return gp;
     }
-    
+
     public double getCX() {
         return cx;
     }
+
     public double getCY() {
         return cy;
     }
+
     public double getFX() {
         return fx;
     }
+
     public double getFY() {
         return fy;
     }
+
     public double getR() {
         return r;
     }
+
     public double[] getStopOffsets() {
         return stopOffsets.clone();
     }
+
     public Color[] getStopColors() {
         return stopColors.clone();
     }
+
     public double[] getStopOpacities() {
         return stopOpacities.clone();
     }
+
     @Override
     public boolean isRelativeToFigureBounds() {
         return isRelativeToFigureBounds;
     }
-    
+
     public void setTransform(AffineTransform tx) {
         transform = tx;
     }
+
     public AffineTransform getTransform() {
         return transform;
     }
-    
+
     @Override
     public void transform(AffineTransform tx) {
         if (transform == null) {
@@ -173,7 +187,7 @@ public class RadialGradient implements Gradient {
             transform.preConcatenate(tx);
         }
     }
-    
+
     @Override
     public Object clone() {
         try {
@@ -189,15 +203,16 @@ public class RadialGradient implements Gradient {
             throw e;
         }
     }
+
     @Override
     public int hashCode() {
-	long bits = Double.doubleToLongBits(cx);
-	bits += Double.doubleToLongBits(cy) * 37;
-	bits += stopColors[0].hashCode() * 43;
-	bits += stopColors[stopColors.length - 1].hashCode() * 47;
-	return (((int) bits) ^ ((int) (bits >> 32)));
+        long bits = Double.doubleToLongBits(cx);
+        bits += Double.doubleToLongBits(cy) * 37;
+        bits += stopColors[0].hashCode() * 43;
+        bits += stopColors[stopColors.length - 1].hashCode() * 47;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof RadialGradient) {
@@ -206,17 +221,17 @@ public class RadialGradient implements Gradient {
             return false;
         }
     }
+
     public boolean equals(RadialGradient that) {
-        return cx == that.cx &&
-                cy == that.cy &&
-                fx == that.fx &&
-                fy == that.fy &&
-                r == that.r &&
-                isRelativeToFigureBounds == that.isRelativeToFigureBounds &&
-                Arrays.equals(stopOffsets, that.stopOffsets) &&
-                Arrays.equals(stopOpacities, that.stopOpacities) &&
-                Arrays.equals(stopColors, that.stopColors) &&
-                transform.equals(that.transform);
+        return cx == that.cx
+                && cy == that.cy
+                && fx == that.fx
+                && fy == that.fy
+                && r == that.r
+                && isRelativeToFigureBounds == that.isRelativeToFigureBounds
+                && Arrays.equals(stopOffsets, that.stopOffsets)
+                && Arrays.equals(stopOpacities, that.stopOpacities)
+                && Arrays.equals(stopColors, that.stopColors)
+                && transform.equals(that.transform);
     }
 }
-

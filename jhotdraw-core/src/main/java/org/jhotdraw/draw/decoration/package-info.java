@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides interfaces and classes for decorating a {@link org.jhotdraw.draw.BezierFigure}.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides interfaces and classes for decorating a {@link org.jhotdraw.draw.BezierFigure}.
+ */
 package org.jhotdraw.draw.decoration;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

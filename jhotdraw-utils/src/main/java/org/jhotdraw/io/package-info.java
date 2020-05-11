@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides input/output functionality leveraging the java.io package.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides input/output functionality leveraging the java.io package.
+ */
 package org.jhotdraw.io;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

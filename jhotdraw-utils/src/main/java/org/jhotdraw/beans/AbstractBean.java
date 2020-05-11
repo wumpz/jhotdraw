@@ -2,16 +2,17 @@
  * @(#)AbstractBean.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.beans;
 
-import javax.annotation.Nullable;
 import java.beans.*;
 
 /**
- * This abstract class can be extended to implement a JavaBean. <p> Implements
+ * This abstract class can be extended to implement a JavaBean.
+ * <p>
+ * Implements
  * the methods required for adding and removing property change listeners.
  *
  * @author Werner Randelshofer
@@ -20,7 +21,6 @@ import java.beans.*;
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
-    
     protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
     /**
@@ -107,7 +107,7 @@ public class AbstractBean extends Object implements java.io.Serializable, Clonea
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    protected void firePropertyChange(String propertyName, @Nullable Object oldValue, @Nullable Object newValue) {
+    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         propertySupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 

@@ -2,16 +2,17 @@
  * @(#)PickAttributesAction.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.draw.figure.Figure;
 import java.util.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.util.ResourceBundleUtil;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.FigureSelectionEvent;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * PickAttributesAction.
@@ -20,12 +21,14 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class PickAttributesAction extends AbstractSelectedAction {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private Set<AttributeKey<?>> excludedAttributes = new HashSet<>(
             Arrays.asList(new AttributeKey<?>[]{TRANSFORM, TEXT}));
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public PickAttributesAction(DrawingEditor editor) {
         super(editor);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -54,7 +57,7 @@ public class PickAttributesAction extends AbstractSelectedAction {
             Figure figure = selection.iterator().next();
             for (Map.Entry<AttributeKey<?>, Object> entry : figure.getAttributes().entrySet()) {
                 if (!excludedAttributes.contains(entry.getKey())) {
-                    editor.setDefaultAttribute((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                    editor.setDefaultAttribute((AttributeKey<Object>) entry.getKey(), entry.getValue());
                 }
             }
         }

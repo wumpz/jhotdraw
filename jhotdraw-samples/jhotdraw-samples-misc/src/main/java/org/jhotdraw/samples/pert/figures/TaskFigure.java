@@ -2,26 +2,29 @@
  * @(#)TaskFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.pert.figures;
 
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.event.FigureAdapter;
-import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.layouter.VerticalLayouter;
-import org.jhotdraw.draw.connector.LocatorConnector;
-import org.jhotdraw.draw.handle.ConnectorHandle;
-import java.io.IOException;
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.figure.ListFigure;
 import java.awt.geom.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import java.io.IOException;
 import java.util.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.connector.LocatorConnector;
+import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.ConnectorHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.layouter.VerticalLayouter;
+import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 
@@ -32,8 +35,8 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public class TaskFigure extends GraphicalCompositeFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private HashSet<DependencyFigure> dependencies;
 
     /**
@@ -75,12 +78,12 @@ public class TaskFigure extends GraphicalCompositeFigure {
         }
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public TaskFigure() {
         super(new RectangleFigure());
-
         setLayouter(new VerticalLayouter());
-
         RectangleFigure nameCompartmentPF = new RectangleFigure();
         nameCompartmentPF.set(STROKE_COLOR, null);
         nameCompartmentPF.setAttributeEnabled(STROKE_COLOR, false);
@@ -89,40 +92,31 @@ public class TaskFigure extends GraphicalCompositeFigure {
         ListFigure nameCompartment = new ListFigure(nameCompartmentPF);
         ListFigure attributeCompartment = new ListFigure();
         SeparatorLineFigure separator1 = new SeparatorLineFigure();
-
         add(nameCompartment);
         add(separator1);
         add(attributeCompartment);
-
         Insets2D.Double insets = new Insets2D.Double(4, 8, 4, 8);
         nameCompartment.set(LAYOUT_INSETS, insets);
         attributeCompartment.set(LAYOUT_INSETS, insets);
-
         TextFigure nameFigure;
         nameCompartment.add(nameFigure = new TextFigure());
         nameFigure.set(FONT_BOLD, true);
         nameFigure.setAttributeEnabled(FONT_BOLD, false);
-
         TextFigure durationFigure;
         attributeCompartment.add(durationFigure = new TextFigure());
         durationFigure.set(FONT_BOLD, true);
         durationFigure.setText("0");
         durationFigure.setAttributeEnabled(FONT_BOLD, false);
-
         TextFigure startTimeFigure;
         attributeCompartment.add(startTimeFigure = new TextFigure());
         startTimeFigure.setEditable(false);
         startTimeFigure.setText("0");
         startTimeFigure.setAttributeEnabled(FONT_BOLD, false);
-
         setAttributeEnabled(STROKE_DASHES, false);
-
-        ResourceBundleUtil labels =
-                ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
-
+        ResourceBundleUtil labels
+                = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
         setName(labels.getString("pert.task.defaultName"));
         setDuration(0);
-
         dependencies = new HashSet<DependencyFigure>();
         nameFigure.addFigureListener(new NameAdapter(this));
         durationFigure.addFigureListener(new DurationAdapter(this));
@@ -163,7 +157,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
             for (TaskFigure succ : getSuccessors()) {
                 succ.updateStartTime();
             }
-
         }
     }
 
@@ -173,7 +166,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
         } catch (NumberFormatException e) {
             return 0;
         }
-
     }
 
     public void updateStartTime() {
@@ -184,16 +176,14 @@ public class TaskFigure extends GraphicalCompositeFigure {
             newValue = Math.max(newValue,
                     pre.getStartTime() + pre.getDuration());
         }
-
         getStartTimeFigure().setText(Integer.toString(newValue));
         if (newValue != oldValue) {
             for (TaskFigure succ : getSuccessors()) {
                 // The if-statement here guards against
-                // cyclic task dependencies. 
+                // cyclic task dependencies.
                 if (!this.isDependentOf(succ)) {
                     succ.updateStartTime();
                 }
-
             }
         }
         changed();
@@ -205,7 +195,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
         } catch (NumberFormatException e) {
             return 0;
         }
-
     }
 
     private TextFigure getNameFigure() {
@@ -276,13 +265,11 @@ public class TaskFigure extends GraphicalCompositeFigure {
     public void addDependency(DependencyFigure f) {
         dependencies.add(f);
         updateStartTime();
-
     }
 
     public void removeDependency(DependencyFigure f) {
         dependencies.remove(f);
         updateStartTime();
-
     }
 
     /**
@@ -295,7 +282,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
             if (c.getStartFigure() == this) {
                 list.add((TaskFigure) c.getEndFigure());
             }
-
         }
         return list;
     }
@@ -310,7 +296,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
             if (c.getEndFigure() == this) {
                 list.add((TaskFigure) c.getStartFigure());
             }
-
         }
         return list;
     }
@@ -326,12 +311,10 @@ public class TaskFigure extends GraphicalCompositeFigure {
         if (this == t) {
             return true;
         }
-
         for (TaskFigure pre : getPredecessors()) {
             if (pre.isDependentOf(t)) {
                 return true;
             }
-
         }
         return false;
     }
@@ -341,4 +324,3 @@ public class TaskFigure extends GraphicalCompositeFigure {
         return "TaskFigure#" + hashCode() + " " + getName() + " " + getDuration() + " " + getStartTime();
     }
 }
-

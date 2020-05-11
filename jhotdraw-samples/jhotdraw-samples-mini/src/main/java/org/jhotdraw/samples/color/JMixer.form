@@ -554,6 +554,7 @@
         </Component>
         <Component class="javax.swing.JSlider" name="saturationSlider">
           <Properties>
+            <Property name="majorTickSpacing" type="int" value="10"/>
             <Property name="orientation" type="int" value="1"/>
             <Property name="paintLabels" type="boolean" value="true"/>
             <Property name="paintTicks" type="boolean" value="true"/>

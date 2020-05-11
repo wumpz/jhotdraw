@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides classes for printing a drawing.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides classes for printing a drawing.
+ */
 package org.jhotdraw.draw.print;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

@@ -15,13 +15,13 @@ import org.jhotdraw.draw.*;
  * {@code DrawingOpacityIcon} visualizes an opacity attribute of the
  * {@code Drawing} object which is in the active {@code DrawingView} of a
  * {@code DrawingEditor}.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class DrawingOpacityIcon extends javax.swing.ImageIcon {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<Double> opacityKey;
     private AttributeKey<Color> fillColorKey;
@@ -29,7 +29,9 @@ public class DrawingOpacityIcon extends javax.swing.ImageIcon {
     private Shape fillShape;
     private Shape strokeShape;
 
-    /** Creates a new instance.
+    /**
+     * Creates a new instance.
+     *
      * @param editor The drawing editor.
      * @param opacityKey The opacityKey of the default attribute
      * @param imageLocation the icon image
@@ -74,9 +76,9 @@ public class DrawingOpacityIcon extends javax.swing.ImageIcon {
     public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
         Graphics2D g = (Graphics2D) gr;
         super.paintIcon(c, g, x, y);
-        Double opacity=0d;
-        Color fillColor=null;
-        Color strokeColor=null;
+        Double opacity = 0d;
+        Color fillColor = null;
+        Color strokeColor = null;
         if (editor != null) {
             DrawingView view = editor.getActiveView();
             if (view != null && view.getDrawing() != null) {
@@ -90,7 +92,6 @@ public class DrawingOpacityIcon extends javax.swing.ImageIcon {
                 strokeColor = (strokeColorKey == null) ? null : strokeColorKey.get(editor.getDefaultAttributes());
             }
         }
-
         if (fillColorKey != null && fillShape != null) {
             if (opacity != null) {
                 if (fillColor == null) {

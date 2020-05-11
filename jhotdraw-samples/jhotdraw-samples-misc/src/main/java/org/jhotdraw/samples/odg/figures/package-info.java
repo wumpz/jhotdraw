@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides figures for ODG drawings.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Provides figures for ODG drawings.
+ */
 package org.jhotdraw.samples.odg.figures;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

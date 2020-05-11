@@ -1,14 +1,14 @@
 /*
  * @(#)SerializationInputOutputFormat.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
 
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -29,8 +29,9 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
-import org.jhotdraw.gui.datatransfer.AbstractTransferable;
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jhotdraw.datatransfer.AbstractTransferable;
+import org.jhotdraw.draw.*;
 
 /**
  * {@code SerializationInputOutputFormat} uses Java Serialization for reading and
@@ -63,14 +64,16 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     private DataFlavor dataFlavor;
     private Drawing prototype;
 
-    /** Creates a new instance with format name "Drawing", file extension "xml"
+    /**
+     * Creates a new instance with format name "Drawing", file extension "xml"
      * and mime type "image/x-jhotdraw".
      */
     public SerializationInputOutputFormat() {
         this("Drawing", "ser", new DefaultDrawing());
     }
 
-    /** Creates a new instance using the specified parameters.
+    /**
+     * Creates a new instance using the specified parameters.
      */
     public SerializationInputOutputFormat(
             String description, String fileExtension, Drawing prototype) {
@@ -83,7 +86,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
     @Override
     public FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new FileNameExtensionFilter(description, fileExtension);
     }
 
     @Override
@@ -119,7 +122,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
             Drawing d = (Drawing) oin.readObject();
             if (replace) {
                 for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
-                    drawing.set((AttributeKey<Object>)e.getKey(), e.getValue());
+                    drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -142,10 +145,9 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         try {
             Drawing d = (Drawing) t.getTransferData(dataFlavor);
-
             if (replace) {
                 for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
-                    drawing.set((AttributeKey<Object>)e.getKey(), e.getValue());
+                    drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
                 }
             }
             for (Figure f : d.getChildren()) {
@@ -168,7 +170,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
 
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
-        write(new File(uri),drawing);
+        write(new File(uri), drawing);
     }
 
     public void write(File file, Drawing drawing) throws IOException {
@@ -188,7 +190,6 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
     @Override
     public Transferable createTransferable(Drawing drawing, List<Figure> figures, double scaleFactor) throws IOException {
         final Drawing d = (Drawing) prototype.clone();
-
         HashMap<Figure, Figure> originalToDuplicateMap = new HashMap<>(figures.size());
         final ArrayList<Figure> duplicates = new ArrayList<>(figures.size());
         for (Figure f : figures) {
@@ -200,10 +201,7 @@ public class SerializationInputOutputFormat implements InputFormat, OutputFormat
         for (Figure f : duplicates) {
             f.remap(originalToDuplicateMap, true);
         }
-
-
         return new AbstractTransferable(dataFlavor) {
-
             @Override
             public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
                 if (isDataFlavorSupported(flavor)) {

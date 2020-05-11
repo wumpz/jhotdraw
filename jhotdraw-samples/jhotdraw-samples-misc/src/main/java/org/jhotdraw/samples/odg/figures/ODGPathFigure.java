@@ -2,19 +2,14 @@
  * @(#)ODGPathFigure.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.geom.Shapes;
-import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -23,11 +18,25 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.PATH_CLOSED;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_CAP;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_JOIN;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.draw.AttributeKeys.WINDING_RULE;
+import org.jhotdraw.draw.AttributeKeys.WindingRule;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.Shapes;
+import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
+import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 import org.jhotdraw.samples.odg.ODGConstants;
 import org.jhotdraw.util.*;
-import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
-import org.jhotdraw.samples.odg.Gradient;
 
 /**
  * ODGPath is a composite Figure which contains one or more
@@ -37,16 +46,18 @@ import org.jhotdraw.samples.odg.Gradient;
  * @version $Id$
  */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /**
      * This cachedPath is used for drawing.
      */
-    @Nullable private transient Path2D.Double cachedPath;
+    private transient Path2D.Double cachedPath;
     //private transient Rectangle2D.Double cachedDrawingArea;
     private static final boolean DEBUG = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ODGPathFigure() {
         add(new ODGBezierFigure());
         ODGAttributeKeys.setDefaults(this);
@@ -59,14 +70,11 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-
                 if (!drawingArea.isEmpty()) {
-
                     BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
@@ -103,7 +111,6 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 drawFill(g);
             }
         }
-
         if (get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
             Paint paint = ODGAttributeKeys.getStrokePaint(this);
             if (paint != null) {
@@ -281,10 +288,10 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             paths.add(getChild(i).getBezierPath());
         }
         return new Object[]{
-                    paths,
-                    TRANSFORM.getClone(this),
-                    FILL_GRADIENT.getClone(this),
-                    STROKE_GRADIENT.getClone(this),};
+            paths,
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this)};
     }
 
     @Override
@@ -334,7 +341,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -345,7 +352,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                 }
             });
             actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -353,7 +360,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                     //TransformEdit edit = new TransformEdit(ODGPathFigure.this, )
                     final Object restoreData = getTransformRestoreData();
                     UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                        private static final long serialVersionUID = 1L;
 
                         @Override
                         public String getPresentationName() {
@@ -385,7 +392,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             });
         }
         actions.add(new AbstractAction(labels.getString("closePath")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -398,7 +405,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("openPath")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -411,7 +418,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -422,7 +429,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
         });
         actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -434,8 +441,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         });
         return actions;
     }
-    // CONNECTING
 
+    // CONNECTING
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         return null; // ODG does not support connectors

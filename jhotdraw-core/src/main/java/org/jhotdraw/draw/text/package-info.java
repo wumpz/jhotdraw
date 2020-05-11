@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides utility classes for {@link org.jhotdraw.draw.TextHolderFigure}s.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides utility classes for {@link org.jhotdraw.draw.TextHolderFigure}s.
+ */
 package org.jhotdraw.draw.text;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

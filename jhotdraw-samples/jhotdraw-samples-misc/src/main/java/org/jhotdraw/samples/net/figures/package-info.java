@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides the NodeFigure for network diagrams.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Provides the NodeFigure for network diagrams.
+ */
 package org.jhotdraw.samples.net.figures;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

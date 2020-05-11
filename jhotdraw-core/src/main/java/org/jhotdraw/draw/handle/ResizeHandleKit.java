@@ -2,21 +2,22 @@
  * @(#)BoxHandleKit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.TransformRestoreEdit;
-import java.util.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
-import org.jhotdraw.util.ResourceBundleUtil;
+import java.awt.geom.*;
+import java.util.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.TransformRestoreEdit;
+import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A set of utility methods to create handles which resize a Figure by using its
@@ -168,7 +169,6 @@ public class ResizeHandleKit {
             if (!isTransformableCache) {
                 return;
             }
-
             geometry = getOwner().getTransformRestoreData();
             Point location = getLocation();
             sx = -anchor.x + location.x;
@@ -186,7 +186,6 @@ public class ResizeHandleKit {
             if (view.getConstrainer() != null) {
                 p = view.getConstrainer().constrainPoint(p);
             }
-
             if (getOwner().get(TRANSFORM) != null) {
                 try {
                     getOwner().get(TRANSFORM).inverseTransform(p, p);
@@ -249,7 +248,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     setBounds(
@@ -308,9 +306,7 @@ public class ResizeHandleKit {
                 evt.consume();
                 return;
             }
-
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_DOWN:
@@ -360,7 +356,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     setBounds(
@@ -420,7 +415,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     setBounds(
@@ -490,7 +484,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -550,7 +543,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -612,7 +604,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (r.height > 1) {
@@ -672,7 +663,6 @@ public class ResizeHandleKit {
                 return;
             }
             Rectangle2D.Double r = getOwner().getBounds();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_DOWN:

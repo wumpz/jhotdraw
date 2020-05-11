@@ -2,18 +2,18 @@
  * @(#)DefaultDragTracker.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.event.TransformEdit;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.TransformEdit;
 
 /**
  * <code>DefaultDragTracker</code> implements interactions with the content area of a
@@ -26,14 +26,14 @@ import java.util.*;
  * Design pattern:<br>
  * Name: Chain of Responsibility.<br>
  * Role: Handler.<br>
- * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as 
- * Handler, {@link HandleTracker} as Handler. 
+ * Partners: {@link SelectionTool} as Handler, {@link SelectAreaTracker} as
+ * Handler, {@link HandleTracker} as Handler.
  * <p>
  * Design pattern:<br>
  * Name: State.<br>
  * Role: State.<br>
- * Partners: {@link SelectAreaTracker} as State, {@link SelectionTool} as 
- * Context, {@link HandleTracker} as State. 
+ * Partners: {@link SelectAreaTracker} as State, {@link SelectionTool} as
+ * Context, {@link HandleTracker} as State.
  *
  * @see SelectionTool
  *
@@ -41,14 +41,12 @@ import java.util.*;
  * @version $Id$
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable
+    private static final long serialVersionUID = 1L;
     protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
      */
-    @Nullable
     protected Rectangle2D.Double dragRect;
     /**
      * The previousOrigin holds the origin of all dragged figures of the
@@ -74,10 +72,11 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
      */
     protected Point2D.Double anchorPoint;
     private boolean isDragging;
-    @Nullable
     private HashSet<Figure> transformedFigures;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultDragTracker(Figure figure) {
         anchorFigure = figure;
     }
@@ -94,7 +93,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         DrawingView view = getView();
-
         if (evt.isShiftDown()) {
             view.setHandleDetailLevel(0);
             view.toggleSelection(anchorFigure);
@@ -106,9 +104,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
             view.clearSelection();
             view.addToSelection(anchorFigure);
         }
-
         if (!view.getSelectedFigures().isEmpty()) {
-
             dragRect = null;
             transformedFigures = new HashSet<>();
             for (Figure f : view.getSelectedFigures()) {
@@ -121,7 +117,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                     }
                 }
             }
-
             if (dragRect != null) {
                 anchorPoint = previousPoint = view.viewToDrawing(anchor);
                 anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
@@ -137,16 +132,13 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                 isDragging = true;
                 updateCursor(editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
             }
-
             Point2D.Double currentPoint = view.viewToDrawing(new Point(evt.getX(), evt.getY()));
-
             dragRect.x += currentPoint.x - previousPoint.x;
             dragRect.y += currentPoint.y - previousPoint.y;
             Rectangle2D.Double constrainedRect = (Rectangle2D.Double) dragRect.clone();
             if (view.getConstrainer() != null) {
                 view.getConstrainer().constrainRectangle(constrainedRect);
             }
-
             AffineTransform tx = new AffineTransform();
             tx.translate(
                     constrainedRect.x - previousOrigin.x,
@@ -156,7 +148,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                 f.transform(tx);
                 f.changed();
             }
-
             previousPoint = currentPoint;
             previousOrigin = new Point2D.Double(constrainedRect.x, constrainedRect.y);
         }
@@ -172,7 +163,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
             int y = evt.getY();
             updateCursor(editor.findView((Container) evt.getSource()), new Point(x, y));
             Point2D.Double newPoint = view.viewToDrawing(new Point(x, y));
-
             Figure dropTarget = getDrawing().findFigureExcept(newPoint, transformedFigures);
             if (dropTarget != null) {
                 boolean snapBack = dropTarget.handleDrop(newPoint, transformedFigures, view);
@@ -193,7 +183,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
                     return;
                 }
             }
-
             AffineTransform tx = new AffineTransform();
             tx.translate(
                     -anchorOrigin.x + previousOrigin.x,

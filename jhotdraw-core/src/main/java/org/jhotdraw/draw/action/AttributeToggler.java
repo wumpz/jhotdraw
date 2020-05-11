@@ -2,21 +2,20 @@
  * @(#)AttributeToggler.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.draw.action;
 
-import javax.annotation.Nullable;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import java.util.*;
 import javax.swing.undo.*;
-import org.jhotdraw.app.action.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.util.ActionUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -26,36 +25,41 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * checks if the current permant focus owner is a JTextComponent, and if it is,
  * it will apply the text action to the JTextComponent.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class AttributeToggler<T> extends AbstractAction {
+
     private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
     private AttributeKey<T> key;
     private T value1;
     private T value2;
-    @Nullable private Action compatibleTextAction;
-    
-    /** Creates a new instance. */
+    private Action compatibleTextAction;
+
+    /**
+     * Creates a new instance.
+     */
     public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2) {
         this(editor, key, value1, value2, null);
     }
-    public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2, @Nullable  Action compatibleTextAction) {
+
+    public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2, Action compatibleTextAction) {
         this.editor = editor;
         this.key = key;
         this.value1 = value1;
         this.value2 = value2;
         this.compatibleTextAction = compatibleTextAction;
     }
-    
+
     public DrawingView getView() {
         return editor.getActiveView();
     }
+
     public DrawingEditor getEditor() {
         return editor;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (compatibleTextAction != null) {
@@ -67,20 +71,18 @@ public class AttributeToggler<T> extends AbstractAction {
                 return;
             }
         }
-        
         // Determine the new value
         Iterator<Figure> i = getView().getSelectedFigures().iterator();
         T toggleValue = value1;
         if (i.hasNext()) {
             Figure f = i.next();
             Object attr = f.get(key);
-            if (value1 == null && attr == null ||
-                    (value1 != null && attr != null && attr.equals(value1))) {
+            if (value1 == null && attr == null
+                    || (value1 != null && attr != null && attr.equals(value1))) {
                 toggleValue = value2;
             }
         }
         final T newValue = toggleValue;
-        
         //--
         final ArrayList<Figure> selectedFigures = new ArrayList<>(getView().getSelectedFigures());
         final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
@@ -91,7 +93,8 @@ public class AttributeToggler<T> extends AbstractAction {
             figure.changed();
         }
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
+
             @Override
             public String getPresentationName() {
                 String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
@@ -104,6 +107,7 @@ public class AttributeToggler<T> extends AbstractAction {
                 }
                 return name;
             }
+
             @Override
             public void undo() {
                 super.undo();
@@ -114,6 +118,7 @@ public class AttributeToggler<T> extends AbstractAction {
                     figure.changed();
                 }
             }
+
             @Override
             public void redo() {
                 super.redo();

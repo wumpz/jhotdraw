@@ -2,16 +2,16 @@
  * @(#)SVGPathOutlineHandle.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.draw.*;
 import java.awt.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.handle.AbstractHandle;
+import org.jhotdraw.draw.handle.HandleAttributeKeys;
 
 /**
  * A non-interactive {@link org.jhotdraw.draw.handle.Handle} which draws the
@@ -28,12 +28,16 @@ public class SVGPathOutlineHandle extends AbstractHandle {
      */
     private boolean isHoverHandle = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGPathOutlineHandle(SVGPathFigure owner) {
         this(owner, false);
     }
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGPathOutlineHandle(SVGPathFigure owner, boolean isHoverHandle) {
         super(owner);
         this.isHoverHandle = isHoverHandle;

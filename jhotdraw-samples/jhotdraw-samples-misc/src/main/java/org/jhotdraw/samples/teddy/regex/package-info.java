@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Classes for matching regular expressions in the text editor.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Classes for matching regular expressions in the text editor.
+ */
 package org.jhotdraw.samples.teddy.regex;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides actions for editing SVG drawings.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Provides actions for editing SVG drawings.
+ */
 package org.jhotdraw.samples.svg.action;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

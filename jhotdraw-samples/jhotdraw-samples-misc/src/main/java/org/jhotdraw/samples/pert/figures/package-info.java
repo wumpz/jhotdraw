@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides the figures for PERT diagrams.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Provides the figures for PERT diagrams.
+ */
 package org.jhotdraw.samples.pert.figures;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

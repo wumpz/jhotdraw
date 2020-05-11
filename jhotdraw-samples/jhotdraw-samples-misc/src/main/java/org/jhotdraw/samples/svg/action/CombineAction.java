@@ -2,32 +2,34 @@
  * @(#)CombinePathsAction.java
  *
  * Copyright (c) 2006-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.action;
 
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.geom.AffineTransform;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
-import org.jhotdraw.util.*;
 import java.util.*;
 import javax.swing.undo.*;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.action.*;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
+import org.jhotdraw.util.*;
 
 /**
  * CombinePathsAction.
  * <p>
  * FIXME - Transforms are lost during Undo/Redo.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class CombineAction extends AbstractSelectedAction {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String ID = "edit.combinePaths";
     private CompositeFigure prototype;
     /**
@@ -35,11 +37,12 @@ public class CombineAction extends AbstractSelectedAction {
      * If this variable is false, this action ungroups figures.
      */
     private boolean isCombineAction;
+    private ResourceBundleUtil labels
+            = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-    private ResourceBundleUtil labels =
-            ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public CombineAction(DrawingEditor editor) {
         this(editor, new SVGPathFigure(true), true);
     }
@@ -52,7 +55,6 @@ public class CombineAction extends AbstractSelectedAction {
         super(editor);
         this.prototype = prototype;
         this.isCombineAction = isGroupingAction;
-
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         labels.configureAction(this, ID);
         updateEnabledState();
@@ -81,11 +83,11 @@ public class CombineAction extends AbstractSelectedAction {
     }
 
     protected boolean canUngroup() {
-        return getView() != null && getView().getSelectionCount() == 1 &&
-                prototype != null &&
-                getView().getSelectedFigures().iterator().next().getClass().equals(
-                prototype.getClass()) &&
-                ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;
+        return getView() != null && getView().getSelectionCount() == 1
+                && prototype != null
+                && getView().getSelectedFigures().iterator().next().getClass().equals(
+                        prototype.getClass())
+                && ((CompositeFigure) getView().getSelectedFigures().iterator().next()).getChildCount() > 1;
     }
 
     @Override
@@ -104,7 +106,6 @@ public class CombineAction extends AbstractSelectedAction {
             final List<Figure> ungroupedPaths = drawing.sort(view.getSelectedFigures());
             final int[] ungroupedPathsIndices = new int[ungroupedPaths.size()];
             final int[] ungroupedPathsChildCounts = new int[ungroupedPaths.size()];
-
             int i = 0;
             for (Figure f : ungroupedPaths) {
                 ungroupedPathsIndices[i] = drawing.indexOf(f);
@@ -116,7 +117,7 @@ public class CombineAction extends AbstractSelectedAction {
             final CompositeFigure group = (CompositeFigure) prototype.clone();
             combinePaths(view, group, ungroupedPaths, ungroupedPathsIndices[0]);
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -158,7 +159,7 @@ public class CombineAction extends AbstractSelectedAction {
             for (Figure f : group.getChildren()) {
                 SVGPathFigure path = new SVGPathFigure(true);
                 for (Map.Entry<AttributeKey<?>, Object> entry : group.getAttributes().entrySet()) {
-                    path.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                    path.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
                 }
                 ungroupedPaths.add(path);
                 ungroupedPathsIndices[i] = index + i;
@@ -167,7 +168,7 @@ public class CombineAction extends AbstractSelectedAction {
             }
             splitPath(view, group, ungroupedPaths, ungroupedPathsIndices, ungroupedPathsChildCounts);
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
@@ -218,7 +219,6 @@ public class CombineAction extends AbstractSelectedAction {
         view.getDrawing().add(groupIndex, group);
         group.willChange();
         group.basicRemoveAllChildren();
-
         // Verify if all figures have the same transform
         AffineTransform tx = figures.iterator().next().get(TRANSFORM);
         for (Figure f : figures) {
@@ -230,16 +230,13 @@ public class CombineAction extends AbstractSelectedAction {
             }
         }
         for (Map.Entry<AttributeKey<?>, Object> entry : figures.iterator().next().getAttributes().entrySet()) {
-            group.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            group.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
-
         // In case all figures have the same transforms, we set it here.
         // In case the transforms are different, we set null here.
         group.set(TRANSFORM, tx);
-
         for (Figure f : figures) {
             SVGPathFigure path = (SVGPathFigure) f;
-
             // In case the transforms are different, we flatten it in the figures.
             if (tx == null) {
                 path.flattenTransform();
@@ -251,7 +248,6 @@ public class CombineAction extends AbstractSelectedAction {
                 child.willChange();
                 group.basicAdd(child);
             }
-
         }
         group.changed();
         view.addToSelection(group);

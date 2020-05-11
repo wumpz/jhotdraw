@@ -2,21 +2,23 @@
  * @(#)AbstractConnectionHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.*;
-import java.awt.event.InputEvent;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.ConnectionFigure;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.util.*;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} the start or end point of a
@@ -30,7 +32,6 @@ import java.util.*;
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 
     private Connector savedTarget;
-    @Nullable
     private Connector connectableConnector;
     private Figure connectableFigure;
     private Point start;
@@ -155,7 +156,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
             f.changed();
             fireHandleRequestSecondaryHandles();
         }
-
         Point2D.Double p = view.viewToDrawing(lead);
         if (view.getConstrainer() != null) {
             p = view.getConstrainer().constrainPoint(p);
@@ -164,7 +164,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         if (target == null) {
             target = savedTarget;
         }
-
         setLocation(p);
         if (target != savedTarget) {
             disconnect();
@@ -176,16 +175,14 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         connectors = Collections.emptyList();
     }
 
-    @Nullable
     private Connector findConnectionTarget(Point2D.Double p, Drawing drawing) {
         Figure targetFigure = findConnectableFigure(p, drawing);
-
         if (getSource() == null && targetFigure != null) {
             return findConnector(p, targetFigure, getOwner());
         } else if (targetFigure != null) {
             Connector target = findConnector(p, targetFigure, getOwner());
-            if ((targetFigure != null) && targetFigure.isConnectable()//
-                    && !targetFigure.includes(getOwner()) //
+            if ((targetFigure != null) && targetFigure.isConnectable()
+                    && !targetFigure.includes(getOwner())
                     && (canConnect(getSource(), target))) {
                 return target;
             }
@@ -209,9 +206,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         for (Connector c : connectors) {
             c.draw(gg);
         }
-
         gg.dispose();
-
         if (getTarget() == null) {
             drawCircle(g,
                     getEditor().getHandleAttribute(HandleAttributeKeys.DISCONNECTED_CONNECTION_HANDLE_FILL_COLOR),
@@ -223,7 +218,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         }
     }
 
-    @Nullable
     private Figure findConnectableFigure(Point2D.Double p, Drawing drawing) {
         for (Figure f : drawing.getFiguresFrontToBack()) {
             if (!f.includes(getOwner()) && f.isConnectable() && f.contains(p)) {
@@ -284,14 +278,12 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         return list;
     }
 
-    @Nullable
     protected BezierPath.Node getBezierNode() {
         int index = getBezierNodeIndex();
         return getBezierFigure().getNodeCount() > index ? getBezierFigure().getNode(index) : null;
     }
 
     @Override
-    @Nullable
     public String getToolTipText(Point p) {
         ConnectionFigure f = getOwner();
         if (f.getLiner() == null && savedLiner == null) {

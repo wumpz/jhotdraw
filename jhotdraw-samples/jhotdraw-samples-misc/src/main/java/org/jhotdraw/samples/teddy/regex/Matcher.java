@@ -2,7 +2,7 @@
  * @(#)Matcher.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.teddy.regex;
@@ -31,17 +31,14 @@ public class Matcher {
      * The start index for the next findNext operation.
      */
     private int startIndex;
-
     /**
      * The array of lower case matching chars.
      */
     private char[] matchLowerCase;
-
     /**
      * The array of upper case matching chars.
      */
     private char[] matchUpperCase;
-
     /**
      * The match type.
      */
@@ -69,7 +66,6 @@ public class Matcher {
         this.document = document;
         this.findString = findString;
         startIndex = 0;
-
         // Convert to chars for efficiency
         if (matchCase) {
             matchLowerCase = matchUpperCase = findString.toCharArray();
@@ -77,7 +73,6 @@ public class Matcher {
             matchUpperCase = findString.toUpperCase().toCharArray();
             matchLowerCase = findString.toLowerCase().toCharArray();
         }
-
         this.matchType = matchType;
     }
 
@@ -131,10 +126,8 @@ public class Matcher {
                 || document.getLength() - findString.length() < startIndex) {
             return -1;
         }
-
         try {
             int nextMatch = 0; // index of next matching character
-
             // Iterate through all segments of the document starting from offset
             Segment text = new Segment();
             text.setPartialReturn(true);
@@ -142,18 +135,15 @@ public class Matcher {
             int nleft = document.getLength() - startIndex;
             while (nleft > 0) {
                 document.getText(offset, nleft, text);
-
                 // Iterate through the characters in the current segment
                 char next = text.first();
                 for (text.first(); next != Segment.DONE; next = text.next()) {
-
                     // Check if the current character matches with the next
                     // search character.
                     char current = text.current();
                     if (current == matchUpperCase[nextMatch]
                             || current == matchLowerCase[nextMatch]) {
                         nextMatch++;
-
                         // Did we match all search characters?
                         if (nextMatch == matchLowerCase.length) {
                             int foundIndex = text.getIndex() - text.getBeginIndex() + offset
@@ -161,14 +151,12 @@ public class Matcher {
                             switch (matchType) {
                                 case CONTAINS:
                                     return foundIndex;
-                                    // break; <- never reached
-
+                                // break; <- never reached
                                 case STARTS_WITH:
                                     if (!isWordChar(foundIndex - 1)) {
                                         return foundIndex;
                                     }
                                     break;
-
                                 case FULL_WORD:
                                     if (!isWordChar(foundIndex - 1)
                                             && !isWordChar(foundIndex + matchLowerCase.length)) {
@@ -182,7 +170,6 @@ public class Matcher {
                         nextMatch = 0;
                     }
                 }
-
                 // Move forward to the next segment
                 nleft -= text.count;
                 offset += text.count;
@@ -226,21 +213,17 @@ public class Matcher {
             //System.out.println("too close to start");
             return -1;
         }
-
         try {
             int nextMatch = matchLowerCase.length - 1; // index of next matching character
-
             // For simplicity, we request all text of the document in a single
             // segment.
             Segment text = new Segment();
             text.setPartialReturn(false);
             document.getText(0, startIndex + 1, text);
-
             // Iterate through the characters in the current segment
             char previous = text.last();
             //System.out.println("previus isch "+previous);
             for (text.last(); previous != Segment.DONE; previous = text.previous()) {
-
                 // Check if the current character matches with the next
                 // search character.
                 char current = text.current();
@@ -270,7 +253,6 @@ public class Matcher {
                     nextMatch = matchLowerCase.length - 1;
                 }
             }
-
             return -1;
         } catch (BadLocationException e) {
             throw new IndexOutOfBoundsException();

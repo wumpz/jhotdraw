@@ -2,18 +2,17 @@
  * @(#)TransformEdit.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
-
 package org.jhotdraw.draw.event;
 
-import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
-import javax.swing.undo.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.util.*;
 
 /**
  * An {@code UndoableEdit} event which can undo a lossless transform of
@@ -30,26 +29,31 @@ import java.util.*;
  * @version $Id$
  */
 public class TransformEdit extends AbstractUndoableEdit {
+
     private static final long serialVersionUID = 1L;
     private Collection<Figure> figures;
     private AffineTransform tx;
-    
-    /** Creates a new instance. */
+
+    /**
+     * Creates a new instance.
+     */
     public TransformEdit(Figure figure, AffineTransform tx) {
         figures = new LinkedList<>();
         ((LinkedList<Figure>) figures).add(figure);
         this.tx = (AffineTransform) tx.clone();
     }
+
     public TransformEdit(Collection<Figure> figures, AffineTransform tx) {
         this.figures = figures;
         this.tx = (AffineTransform) tx.clone();
     }
+
     @Override
     public String getPresentationName() {
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
         return labels.getString("edit.transform.text");
     }
-    
+
     @Override
     public boolean addEdit(UndoableEdit anEdit) {
         if (anEdit instanceof TransformEdit) {
@@ -62,6 +66,7 @@ public class TransformEdit extends AbstractUndoableEdit {
         }
         return false;
     }
+
     @Override
     public boolean replaceEdit(UndoableEdit anEdit) {
         if (anEdit instanceof TransformEdit) {
@@ -74,17 +79,17 @@ public class TransformEdit extends AbstractUndoableEdit {
         }
         return false;
     }
-    
+
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
         for (Figure f : figures) {
             f.willChange();
             f.transform(tx);
-                f.changed();
-            
+            f.changed();
         }
     }
+
     @Override
     public void undo() throws CannotUndoException {
         super.undo();
@@ -99,8 +104,9 @@ public class TransformEdit extends AbstractUndoableEdit {
             e.printStackTrace();
         }
     }
+
     @Override
     public String toString() {
-        return getClass().getName()+'@'+hashCode()+" tx:"+tx;
+        return getClass().getName() + '@' + hashCode() + " tx:" + tx;
     }
 }

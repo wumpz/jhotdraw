@@ -7,29 +7,32 @@
  */
 package org.jhotdraw.samples.svg;
 
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.io.BoundedRangeInputStream;
 import java.applet.AppletContext;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import org.jhotdraw.draw.DefaultDrawing;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.io.BoundedRangeInputStream;
 import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.gui.MessagePanel;
 import org.jhotdraw.samples.svg.gui.ProgressIndicator;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.samples.svg.io.SVGZInputFormat;
 import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
+import org.jhotdraw.util.*;
 
 /**
  * This is the base class for concrete implementations of SVG drawing
@@ -44,13 +47,13 @@ import org.jhotdraw.samples.svg.io.SVGZOutputFormat;
  * <p>
  * FIXME - Applet must save changes locally and reload them, if the user
  * navigated out of the page and back again, without saving the changes.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class SVGApplet extends JApplet {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private SVGDrawingPanel drawingComponent;
     /**
      * Lazily initialized in method getVersion();
@@ -105,10 +108,7 @@ public class SVGApplet extends JApplet {
         if (getParameter("Locale") != null) {
             Locale.setDefault(new Locale(getParameter("Locale")));
         }
-
-
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-
         // Set look and feel
         // -----------------
         try {
@@ -118,7 +118,6 @@ public class SVGApplet extends JApplet {
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
         }
-
         // Set our own popup factory, because the one that comes with Mac OS X
         // creates translucent popups which is not useful for color selection
         // using pop menus.
@@ -127,7 +126,6 @@ public class SVGApplet extends JApplet {
         } catch (Throwable e) {
             // If we can't set the popup factory, we have to use what is there.
         }
-
         // Display a progress indicator while we are loading the drawing
         // ----------------------------------------------------------
         Container c = getContentPane();
@@ -135,15 +133,12 @@ public class SVGApplet extends JApplet {
                 getName(), labels.getString("progressInitializing"));
         c.add(progress);
         progress.revalidate();
-
         // Load the drawing using a worker thread
         // --------------------------------------
-        new Worker<Drawing>() {
-
+        new SwingWorker<Drawing, Drawing>() {
             @Override
-            protected Drawing construct() throws Exception {
+            protected Drawing doInBackground() throws Exception {
                 Thread t = new Thread() {
-
                     @Override
                     public void run() {
                         drawingComponent = createDrawingComponent();
@@ -159,19 +154,25 @@ public class SVGApplet extends JApplet {
             }
 
             @Override
-            protected void done(Drawing result) {
-                Container c = getContentPane();
-                c.setLayout(new BorderLayout());
-                c.removeAll();
-                c.add(drawingComponent.getComponent());
-                initComponents();
-                if (result != null) {
+            protected void done() {
+                try {
+                    Drawing result = get();
+                    Container c = getContentPane();
+                    c.setLayout(new BorderLayout());
+                    c.removeAll();
+                    c.add(drawingComponent.getComponent());
+                    initComponents();
+                    if (result != null) {
                         setDrawing(result);
+                    }
+                    drawingComponent.revalidate();
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(SVGApplet.class.getName()).log(Level.SEVERE, null, ex);
+                    failed(ex);
                 }
-                drawingComponent.revalidate();
+                finished();
             }
 
-            @Override
             protected void failed(Throwable result) {
                 Container c = getContentPane();
                 c.setLayout(new BorderLayout());
@@ -181,10 +182,10 @@ public class SVGApplet extends JApplet {
                 String message = (error.getMessage() == null) ? error.toString() : error.getMessage();
                 MessagePanel mp = new MessagePanel(
                         UIManager.getIcon("OptionPane.errorIcon"),
-                        labels.getFormatted("messageLoadFailed", htmlencode(getParameter("DrawingURL")), htmlencode(message)));
+                        labels.getFormatted("messageLoadFailed", htmlencode(getParameter("DrawingURL")), htmlencode(
+                                            message)));
                 c.add(mp);
                 mp.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         if ("close".equals(evt.getActionCommand())) {
@@ -195,12 +196,11 @@ public class SVGApplet extends JApplet {
                 mp.revalidate();
             }
 
-            @Override
             protected void finished() {
                 long end = System.currentTimeMillis();
                 System.out.println("AbstractDrawingApplet startup latency:" + (end - start));
             }
-        }.start();
+        }.execute();
     }
 
     /**
@@ -250,10 +250,10 @@ public class SVGApplet extends JApplet {
     @Override
     public String getAppletInfo() {
         return getName()
-                + "\nVersion " + getVersion()
-                + "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors"
-                + "\nThis software is licensed under LGPL or"
-                + "\nCreative Commons 2.5 BY";
+               + "\nVersion " + getVersion()
+               + "\n\nCopyright 1996-2010 (c) by the original authors of JHotDraw and all its contributors"
+               + "\nThis software is licensed under LGPL or"
+               + "\nCreative Commons 2.5 BY";
     }
 
     /**
@@ -269,8 +269,10 @@ public class SVGApplet extends JApplet {
         drawing.addOutputFormat(new SVGOutputFormat());
         drawing.addOutputFormat(new SVGZOutputFormat());
         drawing.addOutputFormat(new ImageOutputFormat());
-        drawing.addOutputFormat(new ImageOutputFormat("JPG", "Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
-        drawing.addOutputFormat(new ImageOutputFormat("BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
+        drawing.addOutputFormat(new ImageOutputFormat("JPG", "Joint Photographics Experts Group (JPEG)", "jpg",
+                                                      BufferedImage.TYPE_INT_RGB));
+        drawing.addOutputFormat(new ImageOutputFormat("BMP", "Windows Bitmap (BMP)", "bmp",
+                                                      BufferedImage.TYPE_BYTE_INDEXED));
         return drawing;
     }
 
@@ -280,7 +282,6 @@ public class SVGApplet extends JApplet {
     protected SVGDrawingPanel createDrawingComponent() {
         SVGDrawingPanel p = new SVGDrawingPanel();
         p.setEditor(new DefaultDrawingEditor());
-
         return p;
     }
 
@@ -291,8 +292,8 @@ public class SVGApplet extends JApplet {
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
-                    {"data", "String", "the data to be displayed by this applet."},
-                    {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."}};
+            {"data", "String", "the data to be displayed by this applet."},
+            {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."}};
     }
 
     /**
@@ -300,7 +301,7 @@ public class SVGApplet extends JApplet {
      * By convention this method is invoked on a worker thread.
      *
      * @param progress A ProgressIndicator to inform the user about the progress
-     * of the operation.
+     *                 of the operation.
      * @return The Drawing that was loaded.
      */
     protected Drawing loadDrawing(ProgressIndicator progress) throws IOException {
@@ -308,7 +309,6 @@ public class SVGApplet extends JApplet {
         if (getParameter("datafile") != null) {
             URL url = new URL(getDocumentBase(), getParameter("datafile"));
             URLConnection uc = url.openConnection();
-
             // Disable caching. This ensures that we always request the
             // newest version of the drawing from the server.
             // (Note: The server still needs to set the proper HTTP caching
@@ -316,7 +316,6 @@ public class SVGApplet extends JApplet {
             if (uc instanceof HttpURLConnection) {
                 ((HttpURLConnection) uc).setUseCaches(false);
             }
-
             // Read the data into a buffer
             int contentLength = uc.getContentLength();
             InputStream in = uc.getInputStream();
@@ -329,7 +328,6 @@ public class SVGApplet extends JApplet {
                 }
                 BufferedInputStream bin = new BufferedInputStream(in);
                 bin.mark(512);
-
                 // Read the data using all supported input formats
                 // until we succeed
                 IOException formatException = null;
@@ -375,7 +373,6 @@ public class SVGApplet extends JApplet {
         } catch (Throwable e) {
             appletContext = null;
         }
-
         if (appletContext == null) {
             System.exit(0);
         } else {
@@ -384,12 +381,12 @@ public class SVGApplet extends JApplet {
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
-
         }
     }
 
     /**
      * Escapes all '<', '>' and '&' characters in a string.
+     *
      * @param str A String.
      * @return HTMlEncoded String.
      */
@@ -403,29 +400,23 @@ public class SVGApplet extends JApplet {
                     case '<':
                         buf.append("&lt;");
                         break;
-
                     case '>':
                         buf.append("&gt;");
                         break;
-
                     case '&':
                         buf.append("&amp;");
                         break;
-
                     default:
-
                         buf.append(ch);
                         break;
                 }
             }
             return buf.toString();
         }
-
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw SVG Sample Applet");
@@ -440,7 +431,8 @@ public class SVGApplet extends JApplet {
         });
     }
 
-    /** This method is called from within the init() method to
+    /**
+     * This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

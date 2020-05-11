@@ -1,9 +1,9 @@
 /*
  * @(#)PropertyChangeEdit.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.undo;
@@ -21,8 +21,8 @@ import javax.swing.undo.UndoableEdit;
  * @version $Id$
  */
 public class PropertyChangeEdit extends AbstractUndoableEdit {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /**
      * The object to be provided as the "source" of the JavaBeans property.
      */
@@ -39,16 +39,22 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
      * The new value of the JavaBeans property.
      */
     private Object newValue;
-    /** The type of the property. */
+    /**
+     * The type of the property.
+     */
     private Class<?> type;
     private String presentationName;
 
-    /** Creates a new PropertyChangeEdit. */
+    /**
+     * Creates a new PropertyChangeEdit.
+     */
     public PropertyChangeEdit(Object source, String propertyName, Object oldValue, Object newValue) {
-        this(source,propertyName,propertyNameToPresentationName(propertyName),oldValue,newValue);
+        this(source, propertyName, propertyNameToPresentationName(propertyName), oldValue, newValue);
     }
-    
-    /** Creates a new PropertyChangeEdit. */
+
+    /**
+     * Creates a new PropertyChangeEdit.
+     */
     public PropertyChangeEdit(Object source, String propertyName, String presentationName, Object oldValue, Object newValue) {
         this.source = source;
         this.propertyName = propertyName;
@@ -64,7 +70,7 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
      */
     protected Method getSetter() {
         try {
-            PropertyDescriptor desc=new PropertyDescriptor(propertyName,source.getClass());
+            PropertyDescriptor desc = new PropertyDescriptor(propertyName, source.getClass());
             return desc.getWriteMethod();
         } catch (Exception e) {
             InternalError ie = new InternalError("Couldn't find setter for property \"" + propertyName + "\" in " + source);
@@ -73,7 +79,9 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
         }
     }
 
-    /** Undoes the change. */
+    /**
+     * Undoes the change.
+     */
     @Override
     public void undo() throws CannotRedoException {
         super.undo();
@@ -86,7 +94,9 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
         }
     }
 
-    /** Redoes the change. */
+    /**
+     * Redoes the change.
+     */
     @Override
     public void redo() throws CannotRedoException {
         super.redo();
@@ -99,7 +109,8 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
         }
     }
 
-    /** Returns the presentation name of the undoable edit.
+    /**
+     * Returns the presentation name of the undoable edit.
      * This is the same as the property name, unless you have set a different
      * presentation name.
      */
@@ -108,13 +119,15 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
         return presentationName;
     }
 
-    /** Sets the presentation name of the undoable edit.
+    /**
+     * Sets the presentation name of the undoable edit.
      */
     public void setPresentationName(String presentationName) {
         this.presentationName = presentationName;
     }
 
-    /** Adds the specified edit to this one, if it is a {@code PropertyChangeEdit}
+    /**
+     * Adds the specified edit to this one, if it is a {@code PropertyChangeEdit}
      * from the same owner and the same property.
      *
      * @param anEdit Edit to be added.
@@ -129,17 +142,20 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
                 return true;
             }
         }
-
         return false;
     }
 
-    /** Returns a string representation of this object useful for debugging. */
+    /**
+     * Returns a string representation of this object useful for debugging.
+     */
     @Override
     public String toString() {
         return super.toString() + " [" + propertyName + "," + oldValue + "," + newValue + "]";
     }
 
-    /** Converts a property name into a presentation name. */
+    /**
+     * Converts a property name into a presentation name.
+     */
     public static String propertyNameToPresentationName(String s) {
         StringBuilder b = new StringBuilder();
         boolean wasUpperCase = true;
@@ -152,8 +168,7 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
             } else {
                 wasUpperCase = false;
             }
-            b.append(i==0?Character.toUpperCase(s.charAt(i)):s.charAt(i));
-
+            b.append(i == 0 ? Character.toUpperCase(s.charAt(i)) : s.charAt(i));
         }
         return b.toString();
     }

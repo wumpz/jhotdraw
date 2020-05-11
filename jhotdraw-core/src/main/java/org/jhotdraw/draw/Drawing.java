@@ -2,23 +2,23 @@
  * @(#)Drawing.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import javax.annotation.Nullable;
 import java.awt.Graphics2D;
+import java.awt.font.*;
+import java.awt.geom.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.event.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.figure.CompositeFigure;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
-
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.util.*;
-import javax.swing.undo.*;
-import javax.swing.event.*;
-import java.io.*;
 
 /**
  * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold
@@ -33,12 +33,12 @@ import java.io.*;
  * basic add and remove methods are supplied for use cases where this is not
  * desired - for example when figures need to be temporarily removed in order to
  * group or ungroup them.</li>
- * 
+ *
  * <li>A drawing can find contained figures given a point or a rectangular
  * region.
  * Specialized implementations of the {@code Drawing} interface can use
  * optimized strategies and data structures to find figures faster.</li>
- * 
+ *
  * <li>The drawing object is used by {@code Figure}, {@code Tool} and
  * {@code Handle} as a mediator for undoable edit events. This way, undoable
  * edit listeners only need to register on the drawing object in order to
@@ -53,33 +53,37 @@ import java.io.*;
  * <ul>
  * <li>A drawing may not access {@code DrawingView}, {@code DrawingEditor} or
  * {@code Tool}. The drawing framework is built on the assumption that a
- * drawing can be rendered at any time without the need for the creation of 
+ * drawing can be rendered at any time without the need for the creation of
  * views and editing tools.</li>
  * </ul>
  *
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Framework</em><br>
+ * <p>
+ * <em>Framework</em><br>
  * The following interfaces define the contracts of a framework for structured
  * drawing editors:<br>
  * Contract: {@link Drawing}, {@link Figure}, {@link DrawingView},
  * {@link DrawingEditor}, {@link org.jhotdraw.draw.handle.Handle} and
  * {@link org.jhotdraw.draw.tool.Tool}.
  *
- * <p><em>Model-View-Controller</em><br>
+ * <p>
+ * <em>Model-View-Controller</em><br>
  * The following classes implement together the Model-View-Controller design
  * pattern:<br>
  * Model: {@link Drawing}; View: {@link DrawingView}; Controller:
  * {@link DrawingEditor}.
  *
- * <p><em>Strategy</em><br>
+ * <p>
+ * <em>Strategy</em><br>
  * {@code org.jhotdraw.draw.io.OutputFormat} encapsulates a strategy for writing drawings to
  * output streams.<br>
  * Strategy: {@link org.jhotdraw.draw.io.OutputFormat}; Context: {@link Drawing}.
  *
- * <p><em>Strategy</em><br>
- * {@code org.jhotdraw.draw.io.InputFormat} encapsulates a strategy for 
+ * <p>
+ * <em>Strategy</em><br>
+ * {@code org.jhotdraw.draw.io.InputFormat} encapsulates a strategy for
  * reading drawings from input streams.<br>
  * Strategy: {@link org.jhotdraw.draw.io.InputFormat}; Context: {@link Drawing}.
  * <hr>
@@ -89,7 +93,8 @@ import java.io.*;
  */
 public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
 
-    /** Draws on the <em>canvas area</em>. The canvas is the background area
+    /**
+     * Draws on the <em>canvas area</em>. The canvas is the background area
      * onto which the drawing is drawn.
      * <p>
      * By convention this method is only invoked by {@link DrawingView}.
@@ -98,6 +103,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * used to determine what to draw on the canvas.
      */
     public void drawCanvas(Graphics2D g);
+
     /**
      * Adds a figure to the drawing.
      * The drawing sends an {@code addNotify} message to the figure
@@ -125,7 +131,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
 
     /**
      * Adds a collection of figures to the drawing.
-     * The drawing sends an {@code addNotify}  message to each figure
+     * The drawing sends an {@code addNotify} message to each figure
      * after it has been added.
      *
      * @see Figure#addNotify
@@ -136,7 +142,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
 
     /**
      * Adds a collection of figures to the drawing.
-     * The drawing sends an {@code addNotify}  message to each figure
+     * The drawing sends an {@code addNotify} message to each figure
      * after it has been added.
      *
      * @see Figure#addNotify
@@ -160,7 +166,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
 
     /**
      * Removes the specified figures from the drawing.
-     * The drawing sends a {@code removeNotify}  message to each figure
+     * The drawing sends a {@code removeNotify} message to each figure
      * before it is removed.
      *
      * @see Figure#removeNotify
@@ -174,7 +180,7 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Removes a figure temporarily from the drawing.
      *
      * @see #basicAdd(Figure)
-     * 
+     *
      * @param figure that is part of the drawing and should be removed
      */
     @Override
@@ -192,9 +198,9 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     /**
      * Reinserts a figure which was temporarily removed using basicRemove.
      * <p>
-     * This is a convenience method for calling 
+     * This is a convenience method for calling
      * {@code basicAdd(size(), figure)}.
-     * 
+     *
      * @param figure that is part of the drawing and should be removed
      * @see #basicRemove(Figure)
      */
@@ -213,8 +219,8 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
     /**
      * Reinserts the specified figures which were temporarily removed from
      * the drawing.
-     * 
-     * 
+     *
+     *
      * @param index The insertion index.
      * @param figures A collection of figures which are part of the drawing
      * and should be reinserted.
@@ -241,29 +247,29 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * Use {@link #findFigureInside} If you need to descend into children of
      * composite figures.
      */
-    @Nullable Figure findFigure(Point2D.Double p);
+    Figure findFigure(Point2D.Double p);
 
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    @Nullable Figure findFigureExcept(Point2D.Double p, Figure ignore);
+    Figure findFigureExcept(Point2D.Double p, Figure ignore);
 
     /**
      * Finds a top level Figure. Use this call for hit detection that
      * should not descend into the figure's children.
      */
-    @Nullable Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
+    Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
 
     /**
      * Finds a top level Figure which is behind the specified Figure.
      */
-    @Nullable Figure findFigureBehind(Point2D.Double p, Figure figure);
+    Figure findFigureBehind(Point2D.Double p, Figure figure);
 
     /**
      * Finds a top level Figure which is behind the specified Figures.
      */
-    @Nullable Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
+    Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
 
     /**
      * Returns a list of the figures in Z-Order from front to back.
@@ -288,7 +294,6 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      * location is not contained in a figure.
      */
     @Override
-    @Nullable
     Figure findFigureInside(Point2D.Double p);
 
     /**
@@ -379,4 +384,3 @@ public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
      */
     List<OutputFormat> getOutputFormats();
 }
-

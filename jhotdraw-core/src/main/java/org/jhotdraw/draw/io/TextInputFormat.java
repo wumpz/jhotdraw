@@ -2,19 +2,21 @@
  * @(#)TextInputFormat.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.io;
 
-import org.jhotdraw.gui.filechooser.ExtensionFileFilter;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.net.URI;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
@@ -29,7 +31,8 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * <hr>
  * <b>Design Patterns</b>
  *
- * <p><em>Prototype</em><br>
+ * <p>
+ * <em>Prototype</em><br>
  * The text input format creates new text holder figures by cloning a prototype figure
  * object and assigning an image to it, which was read from data input.
  * That's the reason why {@code Figure} extends the {@code Cloneable} interface.
@@ -37,7 +40,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * Prototype: {@link TextHolderFigure}; Client: {@link org.jhotdraw.draw.io.TextInputFormat}.
  * <hr>
  *
- * @author Werner Randelshofer 
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class TextInputFormat implements InputFormat {
@@ -64,14 +67,16 @@ public class TextInputFormat implements InputFormat {
      */
     private boolean isMultiline;
 
-    /** Creates a new image output format for text, for a figure that can not.
+    /**
+     * Creates a new image output format for text, for a figure that can not.
      * hold multiple lines of text.
      */
     public TextInputFormat(TextHolderFigure prototype) {
         this(prototype, "Text", "Text", "txt", false);
     }
 
-    /** Creates a new image output format for the specified image format.
+    /**
+     * Creates a new image output format for the specified image format.
      *
      * @param formatName The format name for the javax.imageio.ImageIO object.
      * @param description The format description to be used for the file filter.
@@ -92,7 +97,7 @@ public class TextInputFormat implements InputFormat {
 
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new ExtensionFileFilter(description, fileExtension);
+        return new FileNameExtensionFilter(description, fileExtension);
     }
 
     public String getFileExtension() {
@@ -134,9 +139,7 @@ public class TextInputFormat implements InputFormat {
 
     public LinkedList<Figure> createTextHolderFigures(InputStream in) throws IOException {
         LinkedList<Figure> list = new LinkedList<>();
-
         BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF8"));
-
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
             StringBuilder buf = new StringBuilder();
@@ -151,7 +154,7 @@ public class TextInputFormat implements InputFormat {
             figure.setBounds(
                     new Point2D.Double(0, 0),
                     new Point2D.Double(
-                    s.width, s.height));
+                            s.width, s.height));
         } else {
             double y = 0;
             for (String line = null; line != null; line = r.readLine()) {
@@ -161,7 +164,7 @@ public class TextInputFormat implements InputFormat {
                 figure.setBounds(
                         new Point2D.Double(0, y),
                         new Point2D.Double(
-                        s.width, s.height));
+                                s.width, s.height));
                 list.add(figure);
                 y += s.height;
             }
@@ -180,7 +183,6 @@ public class TextInputFormat implements InputFormat {
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         String text = (String) t.getTransferData(DataFlavor.stringFlavor);
-
         LinkedList<Figure> list = new LinkedList<>();
         if (isMultiline) {
             TextHolderFigure figure = (TextHolderFigure) prototype.clone();
@@ -190,7 +192,7 @@ public class TextInputFormat implements InputFormat {
             figure.setBounds(
                     new Point2D.Double(0, 0),
                     new Point2D.Double(
-                    s.width, s.height));
+                            s.width, s.height));
             figure.changed();
             list.add(figure);
         } else {
@@ -204,7 +206,7 @@ public class TextInputFormat implements InputFormat {
                 figure.setBounds(
                         new Point2D.Double(0, 0 + y),
                         new Point2D.Double(
-                        s.width, s.height + y));
+                                s.width, s.height + y));
                 figure.changed();
                 list.add(figure);
             }

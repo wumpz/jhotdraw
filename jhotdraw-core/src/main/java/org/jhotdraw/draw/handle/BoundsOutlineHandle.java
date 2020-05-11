@@ -2,15 +2,15 @@
  * @(#)BoundsOutlineHandle.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
 import java.awt.*;
 import org.jhotdraw.draw.AttributeKey;
-import org.jhotdraw.draw.Figure;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * A non-interactive {@link Handle} which draws the bounds of a {@link Figure} to
@@ -32,7 +32,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
 
     /**
      * Creates a bounds outline handle for resizing a component.
-     * 
+     *
      * @param owner
      */
     public BoundsOutlineHandle(Figure owner) {
@@ -41,7 +41,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
 
     /**
      * Creates a bounds outline handle for resizing or transforming a component.
-     * 
+     *
      * @param owner
      */
     public BoundsOutlineHandle(Figure owner, boolean isTransformHandle, boolean isHoverHandle) {
@@ -86,12 +86,12 @@ public class BoundsOutlineHandle extends AbstractHandle {
      *
      * @param owner
      */
-    public BoundsOutlineHandle(Figure owner, //
-            AttributeKey<Stroke> stroke1Enabled, AttributeKey<Color> strokeColor1Enabled,//
-            AttributeKey<Stroke> stroke2Enabled, AttributeKey<Color> strokeColor2Enabled,//
-            AttributeKey<Stroke> stroke1Disabled, AttributeKey<Color> strokeColor1Disabled,//
+    public BoundsOutlineHandle(Figure owner,
+            AttributeKey<Stroke> stroke1Enabled, AttributeKey<Color> strokeColor1Enabled,
+            AttributeKey<Stroke> stroke2Enabled, AttributeKey<Color> strokeColor2Enabled,
+            AttributeKey<Stroke> stroke1Disabled, AttributeKey<Color> strokeColor1Disabled,
             AttributeKey<Stroke> stroke2Disabled, AttributeKey<Color> strokeColor2Disabled
-            ) {
+    ) {
         super(owner);
         this.stroke1Enabled = stroke1Enabled;
         this.strokeColor1Enabled = strokeColor1Enabled;
@@ -101,7 +101,8 @@ public class BoundsOutlineHandle extends AbstractHandle {
         this.strokeColor1Disabled = strokeColor1Disabled;
         this.stroke2Disabled = stroke2Disabled;
         this.strokeColor2Disabled = strokeColor2Disabled;
-        }
+    }
+
     @Override
     protected Rectangle basicGetBounds() {
         Shape bounds = getOwner().getBounds();
@@ -109,7 +110,6 @@ public class BoundsOutlineHandle extends AbstractHandle {
             bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
         }
         bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
-
         Rectangle r = bounds.getBounds();
         r.grow(2, 2);
         return r;
@@ -143,7 +143,6 @@ public class BoundsOutlineHandle extends AbstractHandle {
         Color strokeColor1;
         Stroke stroke2;
         Color strokeColor2;
-
         if (getEditor().getTool().supportsHandleInteraction()) {
             stroke1 = getEditor().getHandleAttribute(stroke1Enabled);
             strokeColor1 = getEditor().getHandleAttribute(strokeColor1Enabled);

@@ -2,43 +2,44 @@
  * @(#)LinkToolBar.java
  *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.gui;
 
-import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.draw.gui.JAttributeTextArea;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
-import org.jhotdraw.draw.event.SelectionComponentDisplayer;
-import javax.swing.border.*;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
-
+import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
+import org.jhotdraw.gui.plaf.palette.PaletteLabelUI;
+import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.plaf.LabelUI;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.plaf.palette.*;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
+import org.jhotdraw.draw.event.SelectionComponentDisplayer;
+import org.jhotdraw.draw.gui.JAttributeTextArea;
+import org.jhotdraw.draw.gui.JAttributeTextField;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.util.*;
 
 /**
  * LinkToolBar.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class LinkToolBar extends AbstractToolBar {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable private SelectionComponentDisplayer displayer;
+    private static final long serialVersionUID = 1L;
+    private SelectionComponentDisplayer displayer;
     private ResourceBundleUtil labels;
 
-    /** Creates new instance. */
+    /**
+     * Creates new instance.
+     */
     public LinkToolBar() {
         labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         setName(labels.getString(getID() + ".toolbar"));
@@ -60,36 +61,29 @@ public class LinkToolBar extends AbstractToolBar {
     @Override
     protected JComponent createDisclosedComponent(int state) {
         JPanel p = null;
-
         switch (state) {
-            case 1: {
+            case 1: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
                 GridBagConstraints gbc;
                 AbstractButton btn;
-
                 // Link field
                 JLabel linkLabel;
                 JScrollPane scrollPane;
                 JAttributeTextArea<String> linkField;
-
                 linkLabel = new javax.swing.JLabel();
                 linkLabel.setUI((LabelUI) PaletteLabelUI.createUI(linkLabel));
                 linkLabel.setToolTipText(labels.getString("attribute.figureLink.toolTipText"));
                 linkLabel.setText(labels.getString("attribute.figureLink.text")); // NOI18N
                 linkLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-
                 scrollPane = new javax.swing.JScrollPane();
                 linkField = new JAttributeTextArea<String>();
-
                 linkLabel.setLabelFor(linkField);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
@@ -97,7 +91,6 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.anchor = GridBagConstraints.SOUTHWEST;
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 p.add(linkLabel, gbc);
-
                 scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
                 scrollPane.putClientProperty("JComponent.sizeVariant", "small");
@@ -110,7 +103,6 @@ public class LinkToolBar extends AbstractToolBar {
                 linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                 linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
                 disposables.add(new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false));
-
                 scrollPane.setViewportView(linkField);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
@@ -121,19 +113,15 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.weightx = 1d;
                 gbc.weighty = 1d;
                 p.add(scrollPane, gbc);
-
                 // Target field
                 JLabel targetLabel;
                 JAttributeTextField<String> targetField;
-
                 targetLabel = new javax.swing.JLabel();
                 targetLabel.setUI((LabelUI) PaletteLabelUI.createUI(targetLabel));
                 targetLabel.setToolTipText(labels.getString("attribute.figureLinkTarget.toolTipText"));
                 targetLabel.setText(labels.getString("attribute.figureLinkTarget.text")); // NOI18N
                 //targetLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-
                 targetField = new JAttributeTextField<String>();
-
                 targetLabel.setLabelFor(targetField);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
@@ -142,7 +130,6 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(targetLabel, gbc);
-
                 targetField.setToolTipText(labels.getString("attribute.figureLinkTarget.toolTipText"));
                 targetField.setColumns(4);
                 //targetField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
@@ -157,31 +144,20 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(targetField, gbc);
-
-            }
+            
             break;
-
-            case 2: {
+            case 2: 
                 p = new JPanel();
                 p.setOpaque(false);
                 p.setLayout(new GridBagLayout());
                 p.setBorder(new EmptyBorder(5, 5, 5, 8));
-
                 // Abort if no editor is set
                 if (editor == null) {
                     break;
                 }
-
-                GridBagConstraints gbc;
-                AbstractButton btn;
-
                 // Link field
-                JScrollPane scrollPane;
-                JAttributeTextArea<String> linkField;
-
                 scrollPane = new javax.swing.JScrollPane();
                 linkField = new JAttributeTextArea<String>();
-
                 scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
                 scrollPane.putClientProperty("JComponent.sizeVariant", "small");
@@ -194,7 +170,6 @@ public class LinkToolBar extends AbstractToolBar {
                 linkField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
                 linkField.setFormatterFactory(new DefaultFormatterFactory(new DefaultFormatter()));
                 disposables.add(new FigureAttributeEditorHandler<String>(LINK, linkField, editor, false));
-
                 scrollPane.setViewportView(linkField);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
@@ -205,19 +180,13 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.weightx = 1d;
                 gbc.weighty = 1d;
                 p.add(scrollPane, gbc);
-
                 // Target field
-                JLabel targetLabel;
-                JAttributeTextField<String> targetField;
-
                 targetLabel = new javax.swing.JLabel();
                 targetLabel.setUI((LabelUI) PaletteLabelUI.createUI(targetLabel));
                 targetLabel.setToolTipText(labels.getString("attribute.figureLinkTarget.toolTipText"));
                 targetLabel.setText(labels.getString("attribute.figureLinkTarget.text")); // NOI18N
                 //targetLabel.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
-
                 targetField = new JAttributeTextField<String>();
-
                 targetLabel.setLabelFor(targetField);
                 gbc = new GridBagConstraints();
                 gbc.gridx = 0;
@@ -226,7 +195,6 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(targetLabel, gbc);
-
                 targetField.setToolTipText(labels.getString("attribute.figureLinkTarget.toolTipText"));
                 targetField.setColumns(7);
                 //targetField.setFont(PaletteLookAndFeel.getInstance().getFont("SmallSystemFont"));
@@ -241,8 +209,7 @@ public class LinkToolBar extends AbstractToolBar {
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.anchor = GridBagConstraints.FIRST_LINE_START;
                 p.add(targetField, gbc);
-
-            }
+            
             break;
         }
         return p;
@@ -253,7 +220,8 @@ public class LinkToolBar extends AbstractToolBar {
         return "link";
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.

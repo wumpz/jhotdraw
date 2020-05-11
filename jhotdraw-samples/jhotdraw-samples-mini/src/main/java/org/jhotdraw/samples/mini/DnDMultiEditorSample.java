@@ -2,20 +2,22 @@
  * @(#)MultiEditorSample.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.draw.tool.SelectionTool;
-import org.jhotdraw.draw.tool.CreationTool;
-import org.jhotdraw.draw.tool.DnDTracker;
-import org.jhotdraw.draw.io.SerializationInputOutputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.figure.RectangleFigure;
+import org.jhotdraw.gui.action.ButtonFactory;
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.SerializationInputOutputFormat;
+import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.draw.tool.DnDTracker;
+import org.jhotdraw.draw.tool.SelectionTool;
 import org.jhotdraw.util.*;
 
 /**
@@ -29,11 +31,9 @@ public class DnDMultiEditorSample {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
                 // Create four drawing views, each one with its own drawing
                 DrawingView view1 = new DefaultDrawingView();
                 DrawingView view2 = new DefaultDrawingView();
@@ -43,35 +43,28 @@ public class DnDMultiEditorSample {
                 view2.setDrawing(createDrawing());
                 view3.setDrawing(createDrawing());
                 view4.setDrawing(createDrawing());
-
                 // Create a common drawing editor for the views
                 DrawingEditor editor = new DefaultDrawingEditor();
                 editor.add(view1);
                 editor.add(view2);
                 editor.add(view3);
                 editor.add(view4);
-
                 // Create a tool bar with selection tool and a
                 // creation tool for rectangle figures.
                 JToolBar tb = new JToolBar();
-
                 SelectionTool selectionTool = new SelectionTool();
                 selectionTool.setDragTracker(new DnDTracker());
-
                 ButtonFactory.addSelectionToolTo(tb, editor, selectionTool);
-
                 ButtonFactory.addToolTo(
                         tb, editor,
                         new CreationTool(new RectangleFigure()),
                         "edit.createRectangle",
                         labels);
                 tb.setOrientation(JToolBar.VERTICAL);
-
                 // Put all together into a JFrame
                 JFrame f = new JFrame("Multi-Editor");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.setSize(400, 300);
-
                 // Set up the content pane
                 // Place the toolbar on the left
                 // Place each drawing view into a scroll pane of its own
@@ -88,9 +81,7 @@ public class DnDMultiEditorSample {
                 innerPane.add(sp = new JScrollPane(view4.getComponent()));
                 sp.setPreferredSize(new Dimension(200, 200));
                 f.getContentPane().add(new JScrollPane(innerPane));
-
                 f.getContentPane().add(tb, BorderLayout.WEST);
-
                 f.setVisible(true);
             }
         });
@@ -99,7 +90,7 @@ public class DnDMultiEditorSample {
     /**
      * Creates a drawing with input and output formats, so that drawing figures
      * can be copied and pasted between drawing views.
-     * 
+     *
      * @return a drawing
      */
     private static Drawing createDrawing() {

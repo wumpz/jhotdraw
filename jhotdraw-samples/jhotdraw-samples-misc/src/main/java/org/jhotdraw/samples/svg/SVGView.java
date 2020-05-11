@@ -2,32 +2,33 @@
  * @(#)SVGView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  */
 package org.jhotdraw.samples.svg;
 
-import org.jhotdraw.undo.UndoRedoManager;
-import javax.annotation.Nullable;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
 import java.awt.print.Pageable;
-import java.util.HashMap;
-import org.jhotdraw.util.*;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URI;
+import java.util.HashMap;
 import javax.swing.*;
-import org.jhotdraw.app.*;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.action.edit.RedoAction;
+import org.jhotdraw.action.edit.UndoAction;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
+import org.jhotdraw.app.AbstractView;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.gui.URIChooser;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
 
 /**
  * Provides a view on a SVG drawing.
@@ -38,8 +39,8 @@ import org.jhotdraw.samples.svg.io.SVGOutputFormat;
  * @version $Id$
  */
 public class SVGView extends AbstractView {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String DRAWING_PROPERTY = "drawing";
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     protected JFileURIChooser exportChooser;
@@ -48,14 +49,13 @@ public class SVGView extends AbstractView {
      * This allows for undoing and redoing actions per view.
      */
     private UndoRedoManager undo;
-    @Nullable private PropertyChangeListener propertyHandler;
+    private PropertyChangeListener propertyHandler;
 
     /**
      * Creates a new View.
      */
     public SVGView() {
         initComponents();
-
         undo = svgPanel.getUndoRedoManager();
         Drawing oldDrawing = svgPanel.getDrawing();
         svgPanel.setDrawing(createDrawing());
@@ -63,7 +63,6 @@ public class SVGView extends AbstractView {
         svgPanel.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(propertyHandler = new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
@@ -74,7 +73,6 @@ public class SVGView extends AbstractView {
     @Override
     public void dispose() {
         clear();
-
         undo.removePropertyChangeListener(propertyHandler);
         propertyHandler = null;
         svgPanel.dispose();
@@ -93,7 +91,6 @@ public class SVGView extends AbstractView {
      */
     public Pageable createPageable() {
         return new DrawingPageable(svgPanel.getDrawing());
-
     }
 
     public DrawingEditor getEditor() {
@@ -138,20 +135,16 @@ public class SVGView extends AbstractView {
     public void read(final URI uri, URIChooser chooser) throws IOException {
         try {
             JFileURIChooser fc = (JFileURIChooser) chooser;
-
             final Drawing drawing = createDrawing();
-
             // We start with the selected uri format in the uri chooser,
             // and then try out all formats we can import.
             // We need to try out all formats, because the user may have
             // chosen to load a uri without having used the uri chooser.
-
             HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap = null;
             if (fc != null) {
                 fileFilterInputFormatMap = (HashMap<javax.swing.filechooser.FileFilter, InputFormat>) fc.getClientProperty(SVGApplicationModel.INPUT_FORMAT_MAP_CLIENT_PROPERTY);
             }
             //private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
-
             InputFormat selectedFormat = (fc == null) ? null : fileFilterInputFormatMap.get(fc.getFileFilter());
             boolean success = false;
             if (selectedFormat != null) {
@@ -181,7 +174,6 @@ public class SVGView extends AbstractView {
                 throw new IOException(labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(uri)));
             }
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
@@ -219,7 +211,6 @@ public class SVGView extends AbstractView {
         final Drawing newDrawing = createDrawing();
         try {
             Runnable r = new Runnable() {
-
                 @Override
                 public void run() {
                     Drawing oldDrawing = svgPanel.getDrawing();
@@ -251,16 +242,15 @@ public class SVGView extends AbstractView {
                 || file.getPath().endsWith(".svgz");
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         svgPanel = new org.jhotdraw.samples.svg.SVGDrawingPanel();
-
         setLayout(new java.awt.BorderLayout());
         add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

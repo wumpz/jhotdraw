@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jhotdraw</groupId>
 	<artifactId>jhotdraw</artifactId>
-	<version>8.0.1</version>
+	<version>9.0</version>
 	<packaging>pom</packaging>
 	<organization>
 		<name>JHotDraw</name>
@@ -38,6 +38,19 @@
 				<version>3.1.1</version>
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
+					<failOnWarnings>false</failOnWarnings>
+					<failOnError>false</failOnError>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<!-- <compilerArgument>-Xlint:unchecked</compilerArgument> -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -52,14 +65,77 @@
 					<skipFeatureVersion>true</skipFeatureVersion>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>verify-style</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<logViolationsToConsole>true</logViolationsToConsole>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
+					<checkstyleRules>
+						<module name="Checker">
+							<module name="SuppressWarningsFilter" />
+							<module name="FileTabCharacter" />
+							<!-- git checkout may change linefeeds on the fly
+							<module name="RegexpMultiline">
+								<property name="format" value="(?s:(\r\n|\r).*)" />
+								<property name="message" value="CRLF and CR line endings are prohibited, but this file uses them." />
+							</module>
+							-->
+							<module name="TreeWalker">
+								<module name="SuppressionCommentFilter"/>
+								<module name="AvoidNestedBlocks" />
+								<module name="ConstantName" />
+								<module name="EmptyCatchBlock" />
+								<module name="EmptyStatement" />
+								<module name="MissingOverride" />
+								<!-- <module name="MultipleVariableDeclarations" />
+								<module name="ParameterAssignment" /> -->
+								<module name="StringLiteralEquality" />
+								<module name="RedundantImport" />
+								<module name="UnusedImports" />
+                                        
+								<module name="WhitespaceAfter" />
+										
+								<module name="NeedBraces" />
+								<!-- <module name="UnnecessaryParentheses" /> -->
+								<module name="LeftCurly" />
+								<module name="RightCurly" />
+                                        
+								<module name="SuppressWarningsHolder" />
+							</module>
+						</module>
+					</checkstyleRules>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>8.29</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 	<modules>
-		<module>nanoxml-patched</module>
 		<module>jhotdraw-core</module>
 		<module>jhotdraw-samples</module>
 		<module>jhotdraw-xml</module>
 		<module>jhotdraw-api</module>
 		<module>jhotdraw-utils</module>
+	 <module>jhotdraw-gui</module>
+	 <module>jhotdraw-app</module>
+	 <module>jhotdraw-datatransfer</module>
+	 <module>jhotdraw-actions</module>
 	</modules>
 </project>

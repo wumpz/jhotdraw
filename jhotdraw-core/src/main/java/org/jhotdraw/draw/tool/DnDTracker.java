@@ -1,20 +1,20 @@
 /*
  * @(#)DnDTracker.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.Container;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import org.jhotdraw.draw.*;
 
 /**
  * This is a tracker which supports drag and drop of figures between drawing
@@ -26,7 +26,7 @@ import java.awt.geom.Rectangle2D;
  * To get a drag image using drag and drop, the drawing needs to provide
  * an image output format.
  * <p>
- * Drag and Drop is about information moving, not images or objects.  Its about
+ * Drag and Drop is about information moving, not images or objects. Its about
  * moving a figure to another application and that application understanding
  * both its shape, color, attributes, and everything about it - not necessarily
  * how it looks.
@@ -35,13 +35,13 @@ import java.awt.geom.Rectangle2D;
  * @version $Id$
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable protected Figure anchorFigure;
+    private static final long serialVersionUID = 1L;
+    protected Figure anchorFigure;
     /**
      * The drag rectangle encompasses the bounds of all dragged figures.
      */
-    @Nullable protected Rectangle2D.Double dragRect;
+    protected Rectangle2D.Double dragRect;
     /**
      * The previousOrigin holds the origin of all dragged figures of the
      * previous mouseDragged event. This coordinate is constrained using
@@ -68,7 +68,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     private boolean isDragging;
 
     public DnDTracker() {
-       
     }
 
     public DnDTracker(Figure figure) {
@@ -79,11 +78,11 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     public void mouseMoved(MouseEvent evt) {
         updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
     }
+
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
         DrawingView view = getView();
-
         if (evt.isShiftDown()) {
             view.setHandleDetailLevel(0);
             view.toggleSelection(anchorFigure);
@@ -95,9 +94,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
             view.clearSelection();
             view.addToSelection(anchorFigure);
         }
-
         if (!view.getSelectedFigures().isEmpty()) {
-
             dragRect = null;
             for (Figure f : view.getSelectedFigures()) {
                 if (dragRect == null) {
@@ -106,8 +103,6 @@ public class DnDTracker extends AbstractTool implements DragTracker {
                     dragRect.add(f.getBounds());
                 }
             }
-
-
             anchorPoint = previousPoint = view.viewToDrawing(anchor);
             anchorOrigin = previousOrigin = new Point2D.Double(dragRect.x, dragRect.y);
         }
@@ -116,14 +111,12 @@ public class DnDTracker extends AbstractTool implements DragTracker {
     @Override
     public void mouseDragged(MouseEvent e) {
         DrawingView v = getView();
-
         Figure f = v.findFigure(e.getPoint());
         if (f != null) {
             if (!v.getSelectedFigures().contains(f)) {
                 v.clearSelection();
                 v.addToSelection(f);
             }
-
             v.getComponent().getTransferHandler().exportAsDrag(v.getComponent(), e, DnDConstants.ACTION_MOVE);
         }
         fireToolDone();
@@ -131,7 +124,7 @@ public class DnDTracker extends AbstractTool implements DragTracker {
 
     @Override
     public void mouseReleased(MouseEvent evt) {
-            updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
+        updateCursor(editor.findView((Container) evt.getSource()), evt.getPoint());
         fireToolDone();
     }
 

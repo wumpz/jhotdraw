@@ -2,17 +2,18 @@
  * @(#)BezierOutlineHandle.java
  *
  * Copyright (c) 2007-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 /**
- * A non-interactive {@link Handle} which draws the outline of a 
+ * A non-interactive {@link Handle} which draws the outline of a
  * {@link BezierFigure} to make adjustments easier.
  *
  * @author Werner Randelshofer
@@ -26,7 +27,9 @@ public class BezierOutlineHandle extends AbstractHandle {
      */
     private boolean isHoverHandle = false;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public BezierOutlineHandle(BezierFigure owner) {
         this(owner, false);
     }

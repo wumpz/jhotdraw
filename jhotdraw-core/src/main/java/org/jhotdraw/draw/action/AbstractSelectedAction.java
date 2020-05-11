@@ -2,23 +2,22 @@
  * @(#)AbstractSelectedAction.java
  *
  * Copyright (c) 2003-2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.action;
 
-import javax.annotation.Nullable;
+import java.beans.*;
+import java.io.Serializable;
+import javax.swing.*;
+import javax.swing.undo.*;
+import org.jhotdraw.api.app.Disposable;
+import org.jhotdraw.beans.WeakPropertyChangeListener;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
-import javax.swing.*;
-import java.beans.*;
-import java.io.Serializable;
-import javax.swing.undo.*;
-import org.jhotdraw.app.Disposable;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
@@ -40,18 +39,18 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractSelectedAction
         extends AbstractAction implements Disposable {
-    private static final long serialVersionUID = 1L;
 
-    @Nullable
+    private static final long serialVersionUID = 1L;
     private DrawingEditor editor;
-    @Nullable transient private DrawingView activeView;
+    transient private DrawingView activeView;
 
     private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
-    private static final long serialVersionUID = 1L;
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == DrawingEditor.ACTIVE_VIEW_PROPERTY) {
+            if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
                 if (activeView != null) {
                     activeView.removeFigureSelectionListener(this);
                     activeView.removePropertyChangeListener(this);
@@ -75,12 +74,12 @@ public abstract class AbstractSelectedAction
         @Override
         public void selectionChanged(FigureSelectionEvent evt) {
             updateEnabledState();
-
         }
     };
-    @Nullable private EventHandler eventHandler = new EventHandler();
+    private EventHandler eventHandler = new EventHandler();
 
-    /** Creates an action which acts on the selected figures on the current view
+    /**
+     * Creates an action which acts on the selected figures on the current view
      * of the specified editor.
      */
     public AbstractSelectedAction(DrawingEditor editor) {
@@ -88,7 +87,8 @@ public abstract class AbstractSelectedAction
         //updateEnabledState();
     }
 
-    /** Updates the enabled state of this action to reflect the enabled state
+    /**
+     * Updates the enabled state of this action to reflect the enabled state
      * of the active {@code DrawingView}. If no drawing view is active, this
      * action is disabled.
      */
@@ -106,7 +106,7 @@ public abstract class AbstractSelectedAction
         setEditor(null);
     }
 
-    public void setEditor(@Nullable DrawingEditor editor) {
+    public void setEditor(DrawingEditor editor) {
         if (eventHandler != null) {
             unregisterEventHandler();
         }
@@ -117,17 +117,14 @@ public abstract class AbstractSelectedAction
         }
     }
 
-    @Nullable
     public DrawingEditor getEditor() {
         return editor;
     }
 
-    @Nullable
     protected DrawingView getView() {
         return (editor == null) ? null : editor.getActiveView();
     }
 
-    @Nullable
     protected Drawing getDrawing() {
         return (getView() == null) ? null : getView().getDrawing();
     }
@@ -136,7 +133,8 @@ public abstract class AbstractSelectedAction
         getDrawing().fireUndoableEditHappened(edit);
     }
 
-    /** By default, the enabled state of this action is updated to reflect
+    /**
+     * By default, the enabled state of this action is updated to reflect
      * the enabled state of the active {@code DrawingView}.
      * Since this is not always necessary, and since many listening actions
      * may considerably slow down the drawing editor, you can switch this
@@ -162,14 +160,16 @@ public abstract class AbstractSelectedAction
         }
     }
 
-    /** Returns true, if this action automatically updates its enabled
+    /**
+     * Returns true, if this action automatically updates its enabled
      * state to reflect the enabled state of the active {@code DrawingView}.
      */
     public boolean isUpdatEnabledState() {
         return eventHandler != null;
     }
 
-    /** Unregisters the event handler from the drawing editor and the
+    /**
+     * Unregisters the event handler from the drawing editor and the
      * active drawing view.
      */
     private void unregisterEventHandler() {
@@ -183,7 +183,8 @@ public abstract class AbstractSelectedAction
         }
     }
 
-    /** Registers the event handler from the drawing editor and the 
+    /**
+     * Registers the event handler from the drawing editor and the
      * active drawing view.
      */
     private void registerEventHandler() {

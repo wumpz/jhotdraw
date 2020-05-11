@@ -2,36 +2,40 @@
  * @(#)NetView.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  *
  */
 package org.jhotdraw.samples.net;
 
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.print.DrawingPageable;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
-import java.awt.print.Pageable;
-import org.jhotdraw.gui.*;
-import org.jhotdraw.util.*;
 import java.awt.*;
+import java.awt.print.Pageable;
 import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URI;
 import javax.swing.*;
 import javax.swing.border.*;
-import org.jhotdraw.app.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw.action.edit.RedoAction;
+import org.jhotdraw.action.edit.UndoAction;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.api.gui.URIChooser;
+import org.jhotdraw.app.AbstractView;
+import org.jhotdraw.draw.DefaultDrawing;
+import org.jhotdraw.draw.DefaultDrawingEditor;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.gui.PlacardScrollPaneLayout;
+import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.samples.net.figures.NodeFigure;
+import org.jhotdraw.undo.UndoRedoManager;
+import org.jhotdraw.util.*;
 
 /**
  * Provides a view on a Pert drawing.
@@ -42,8 +46,8 @@ import org.jhotdraw.samples.net.figures.NodeFigure;
  * @version $Id$
  */
 public class NetView extends AbstractView {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
     /**
      * Each NetView uses its own undo redo manager.
@@ -62,25 +66,20 @@ public class NetView extends AbstractView {
      */
     public NetView() {
         initComponents();
-
         scrollPane.setLayout(new PlacardScrollPaneLayout());
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-
         setEditor(new DefaultDrawingEditor());
         undo = new UndoRedoManager();
         view.setDrawing(createDrawing());
         view.getDrawing().addUndoableEditListener(undo);
         initActions();
         undo.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 setHasUnsavedChanges(undo.hasSignificantEdits());
             }
         });
-
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-
         JPanel placardPanel = new JPanel(new BorderLayout());
         javax.swing.AbstractButton pButton;
         pButton = ButtonFactory.createZoomButton(view);
@@ -95,12 +94,9 @@ public class NetView extends AbstractView {
         labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
-
         toggleGridButton.setSelected(preferences.getBoolean("view.gridVisible", false));
         view.setScaleFactor(preferences.getDouble("view.scaleFactor", 1d));
-
         view.addPropertyChangeListener(new PropertyChangeListener() {
-
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 String name = evt.getPropertyName();
@@ -127,8 +123,8 @@ public class NetView extends AbstractView {
      */
     protected Drawing createDrawing() {
         DefaultDrawing drawing = new DefaultDrawing();
-        DOMStorableInputOutputFormat ioFormat =
-                new DOMStorableInputOutputFormat(new NetFactory());
+        DOMStorableInputOutputFormat ioFormat
+                = new DOMStorableInputOutputFormat(new NetFactory());
         drawing.addInputFormat(ioFormat);
         drawing.addInputFormat(new TextInputFormat(new NodeFigure()));
         drawing.addOutputFormat(ioFormat);
@@ -141,7 +137,6 @@ public class NetView extends AbstractView {
      */
     public Pageable createPageable() {
         return new DrawingPageable(view.getDrawing());
-
     }
 
     public DrawingEditor getEditor() {
@@ -201,7 +196,6 @@ public class NetView extends AbstractView {
             InputFormat inputFormat = drawing.getInputFormats().get(0);
             inputFormat.read(f, drawing, true);
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
@@ -229,7 +223,6 @@ public class NetView extends AbstractView {
         final Drawing newDrawing = createDrawing();
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-
                 @Override
                 public void run() {
                     view.getDrawing().removeUndoableEditListener(undo);
@@ -250,23 +243,20 @@ public class NetView extends AbstractView {
         return new File(file).getName().endsWith(".xml");
     }
 
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
-
         setLayout(new java.awt.BorderLayout());
-
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setViewportView(view);
-
         add(scrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

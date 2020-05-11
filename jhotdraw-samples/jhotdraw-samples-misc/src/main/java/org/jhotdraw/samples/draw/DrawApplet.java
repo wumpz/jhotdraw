@@ -2,37 +2,38 @@
  * @(#)DrawApplet.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.draw;
 
-import org.jhotdraw.draw.io.TextInputFormat;
-import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.gui.*;
-
+import ch.randelshofer.quaqua.util.Worker;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import javax.swing.*;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.figure.ImageFigure;
+import org.jhotdraw.draw.figure.TextFigure;
+import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.draw.io.ImageInputFormat;
+import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.draw.io.InputFormat;
+import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.draw.io.TextInputFormat;
 import org.jhotdraw.xml.*;
 
 /**
  * DrawApplet.
  *
- * @author  wrandels
+ * @author wrandels
  * @version $Id$
  */
 public class DrawApplet extends JApplet {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private static final String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
 
@@ -53,7 +54,9 @@ public class DrawApplet extends JApplet {
         return DrawApplet.class.getPackage().getImplementationVersion();
     }
 
-    /** Initializes the applet DrawApplet */
+    /**
+     * Initializes the applet DrawApplet
+     */
     @Override
     public void init() {
         // Set look and feel
@@ -73,32 +76,28 @@ public class DrawApplet extends JApplet {
         } catch (Throwable e) {
             // If we can't set the popup factory, we have to use what is there.
         }
-
-
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n");//Strings.split(getAppletInfo(), '\n');
+        String[] labels = getAppletInfo().split("\n"); //Strings.split(getAppletInfo(), '\n');
         for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
-
         // We load the data using a worker thread
         // --------------------------------------
         new Worker<Drawing>() {
-
             @Override
             protected Drawing construct() throws IOException {
                 Drawing result;
                 if (getParameter("data") != null) {
-                    NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
+                    JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), new StringReader(getParameter("data")));
                     result = (Drawing) domi.readObject(0);
                 } else if (getParameter("datafile") != null) {
                     URL url = new URL(getDocumentBase(), getParameter("datafile"));
                     InputStream in = url.openConnection().getInputStream();
                     try {
-                        NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
+                        JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), in);
                         result = (Drawing) domi.readObject(0);
                     } finally {
                         in.close();
@@ -115,7 +114,6 @@ public class DrawApplet extends JApplet {
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new DrawingPanel());
-
                 initComponents();
                 if (result != null) {
                     setDrawing(result);
@@ -128,7 +126,6 @@ public class DrawApplet extends JApplet {
                 c.setLayout(new BorderLayout());
                 c.removeAll();
                 c.add(drawingPanel = new DrawingPanel());
-
                 result.printStackTrace();
                 getDrawing().add(new TextFigure(result.toString()));
                 result.printStackTrace();
@@ -171,7 +168,7 @@ public class DrawApplet extends JApplet {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
             try {
-                NanoXMLDOMInput domi = new NanoXMLDOMInput(new DrawFigureFactory(), in);
+                JavaxDOMInput domi = new JavaxDOMInput(new DrawFigureFactory(), in);
                 setDrawing((Drawing) domi.readObject(0));
             } catch (Throwable e) {
                 getDrawing().removeAllChildren();
@@ -189,7 +186,7 @@ public class DrawApplet extends JApplet {
     public String getData() {
         CharArrayWriter out = new CharArrayWriter();
         try {
-            NanoXMLDOMOutput domo = new NanoXMLDOMOutput(new DrawFigureFactory());
+            JavaxDOMOutput domo = new JavaxDOMOutput(new DrawFigureFactory());
             domo.writeObject(getDrawing());
             domo.save(out);
         } catch (IOException e) {
@@ -207,8 +204,8 @@ public class DrawApplet extends JApplet {
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
-                    {"data", "String", "the data to be displayed by this applet."},
-                    {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."},};
+            {"data", "String", "the data to be displayed by this applet."},
+            {"datafile", "URL", "an URL to a file containing the data to be displayed by this applet."}};
     }
 
     @Override
@@ -220,7 +217,8 @@ public class DrawApplet extends JApplet {
                 + "\nCreative Commons 3.0 BY";
     }
 
-    /** This method is called from within the init() method to
+    /**
+     * This method is called from within the init() method to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -228,12 +226,9 @@ public class DrawApplet extends JApplet {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         toolButtonGroup = new javax.swing.ButtonGroup();
-
     }// </editor-fold>//GEN-END:initComponents
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame f = new JFrame("JHotDraw Draw Applet");

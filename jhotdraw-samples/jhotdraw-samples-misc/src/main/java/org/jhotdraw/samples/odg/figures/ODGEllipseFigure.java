@@ -2,24 +2,25 @@
  * @(#)ODGEllipse.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.geom.Geom;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.figure.ConnectionFigure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
-import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
-import org.jhotdraw.samples.odg.ODGAttributeKeys;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.samples.odg.Gradient;
+import org.jhotdraw.samples.odg.ODGAttributeKeys;
+import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
 
 /**
  * ODGEllipse represents a ODG ellipse and a ODG circle element.
@@ -28,15 +29,17 @@ import org.jhotdraw.samples.odg.Gradient;
  * @version $Id$
  */
 public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private Ellipse2D.Double ellipse;
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    @Nullable private transient Shape cachedTransformedShape;
+    private transient Shape cachedTransformedShape;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ODGEllipseFigure() {
         this(0, 0, 0, 0);
     }
@@ -66,8 +69,8 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         g.setTransform(savedTransform);
         }*/
     }
-    // SHAPE AND BOUNDS
 
+    // SHAPE AND BOUNDS
     public double getX() {
         return ellipse.x;
     }
@@ -140,8 +143,8 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
      */
     @Override
     public void transform(AffineTransform tx) {
-        if (get(TRANSFORM) != null ||
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
+        if (get(TRANSFORM) != null
+                || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
             if (get(TRANSFORM) == null) {
                 TRANSFORM.setClone(this, tx);
             } else {
@@ -155,14 +158,14 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
             setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead));
-            if (get(FILL_GRADIENT) != null &&
-                    !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+            if (get(FILL_GRADIENT) != null
+                    && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = FILL_GRADIENT.getClone(this);
                 g.transform(tx);
                 set(FILL_GRADIENT, g);
             }
-            if (get(STROKE_GRADIENT) != null &&
-                    !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+            if (get(STROKE_GRADIENT) != null
+                    && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
                 Gradient g = STROKE_GRADIENT.getClone(this);
                 g.transform(tx);
                 set(STROKE_GRADIENT, g);
@@ -184,10 +187,10 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
-                    ellipse.clone(),
-                    TRANSFORM.getClone(this),
-                    FILL_GRADIENT.getClone(this),
-                    STROKE_GRADIENT.getClone(this),};
+            ellipse.clone(),
+            TRANSFORM.getClone(this),
+            FILL_GRADIENT.getClone(this),
+            STROKE_GRADIENT.getClone(this)};
     }
 
     // ATTRIBUTES
@@ -207,6 +210,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
         }
         return handles;
     }
+
     // CONNECTING
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
@@ -217,9 +221,9 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         return null; // ODG does not support connectors
     }
+
     // COMPOSITE FIGURES
     // CLONING
-
     @Override
     public ODGEllipseFigure clone() {
         ODGEllipseFigure that = (ODGEllipseFigure) super.clone();

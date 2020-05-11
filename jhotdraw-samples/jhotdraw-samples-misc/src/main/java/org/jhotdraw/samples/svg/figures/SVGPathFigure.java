@@ -2,17 +2,13 @@
  * @(#)SVGPathFigure.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.Shapes;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -21,10 +17,23 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.PATH_CLOSED;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_CAP;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_JOIN;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.draw.AttributeKeys.WINDING_RULE;
+import org.jhotdraw.draw.AttributeKeys.WindingRule;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.Shapes;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
-import org.jhotdraw.util.*;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+import org.jhotdraw.util.*;
 
 /**
  * SVGPath is a composite Figure which contains one or more SVGBezierFigures as its children.
@@ -35,17 +44,14 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * This cached path is used for drawing.
      */
-    @Nullable
     private transient Path2D.Double cachedPath;
     // private transient Rectangle2D.Double cachedDrawingArea;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable
     private transient Shape cachedHitShape;
     private static final boolean DEBUG = false;
 
@@ -72,14 +78,11 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
-
                 Rectangle2D clipBounds = g.getClipBounds();
                 if (clipBounds != null) {
                     Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
                 }
-
                 if (!drawingArea.isEmpty()) {
-
                     BufferedImage buf = new BufferedImage(
                             Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
                             Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
@@ -166,7 +169,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             if (get(FILL_COLOR) == null && get(FILL_GRADIENT) == null) {
                 cachedHitShape = SVGAttributeKeys.getHitStroke(this, 1.0).createStrokedShape(cachedHitShape);
             }
-
         }
         return cachedHitShape;
     }
@@ -467,9 +469,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return actions;
     }
+
     // CONNECTING
     // EDITING
-
     /**
      * Handles a mouse click.
      */

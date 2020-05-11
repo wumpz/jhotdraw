@@ -2,18 +2,19 @@
  * @(#)CreationTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.tool;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.*;
-import javax.swing.undo.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.event.*;
+import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
 import org.jhotdraw.util.*;
 
 /**
@@ -55,17 +56,14 @@ import org.jhotdraw.util.*;
 public class CreationTool extends AbstractTool {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * Attributes to be applied to the created ConnectionFigure. These attributes override the
      * default attributes of the DrawingEditor.
      */
-    @Nullable
     protected Map<AttributeKey<?>, Object> prototypeAttributes;
     /**
      * A localized name for this tool. The presentationName is displayed by the UndoableEdit.
      */
-    @Nullable
     protected String presentationName;
     /**
      * Treshold for which we create a larger shape of a minimal size.
@@ -82,7 +80,6 @@ public class CreationTool extends AbstractTool {
     /**
      * The created figure.
      */
-    @Nullable
     protected Figure createdFigure;
     /**
      * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
@@ -97,11 +94,11 @@ public class CreationTool extends AbstractTool {
         this(prototypeClassName, null, null);
     }
 
-    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes) {
+    public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
 
-    public CreationTool(String prototypeClassName, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
+    public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes, String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
         } catch (Exception e) {
@@ -139,7 +136,7 @@ public class CreationTool extends AbstractTool {
      * @param attributes The CreationTool applies these attributes to the prototype after having
      * applied the default attributes from the DrawingEditor.
      */
-    public CreationTool(Figure prototype, @Nullable Map<AttributeKey<?>, Object> attributes) {
+    public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
 
@@ -153,7 +150,7 @@ public class CreationTool extends AbstractTool {
      * @deprecated This constructor might go away, because the name parameter is not used.
      */
     @Deprecated
-    public CreationTool(Figure prototype, @Nullable Map<AttributeKey<?>, Object> attributes, @Nullable String name) {
+    public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes, String name) {
         this.prototype = prototype;
         this.prototypeAttributes = attributes;
         if (name == null) {
@@ -192,11 +189,9 @@ public class CreationTool extends AbstractTool {
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
-
         if (getView() == null) {
             return;
         }
-
         getView().clearSelection();
         createdFigure = createFigure();
         Point2D.Double p = constrainPoint(viewToDrawing(anchor), createdFigure);
@@ -234,8 +229,8 @@ public class CreationTool extends AbstractTool {
                     createdFigure.setBounds(
                             constrainPoint(new Point(anchor.x, anchor.y), createdFigure),
                             constrainPoint(new Point(
-                                            anchor.x + (int) Math.max(bounds.width, minimalSize.width),
-                                            anchor.y + (int) Math.max(bounds.height, minimalSize.height)),
+                                    anchor.x + (int) Math.max(bounds.width, minimalSize.width),
+                                    anchor.y + (int) Math.max(bounds.height, minimalSize.height)),
                                     createdFigure));
                     createdFigure.changed();
                 }

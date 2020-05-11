@@ -2,25 +2,26 @@
  * @(#)BezierNodeHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.geom.BezierPath;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.event.BezierNodeEdit;
-import org.jhotdraw.draw.*;
-import javax.swing.undo.AbstractUndoableEdit;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.BezierNodeEdit;
+import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.util.*;
 
 /**
  * A {@link Handle} which allows to interactively change a node of a bezier path.
@@ -34,7 +35,6 @@ public class BezierNodeHandle extends AbstractHandle {
     protected int index;
     private CompositeEdit edit;
     private BezierPath.Node oldNode;
-    @Nullable
     private Figure transformOwner;
 
     /**
@@ -111,7 +111,6 @@ public class BezierNodeHandle extends AbstractHandle {
         }
     }
 
-    @Nullable
     protected BezierPath.Node getBezierNode() {
         return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
     }
@@ -143,7 +142,6 @@ public class BezierNodeHandle extends AbstractHandle {
         BezierFigure figure = getOwner();
         figure.willChange();
         Point2D.Double p = view.getConstrainer() == null ? view.viewToDrawing(lead) : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
-
         if (getTransformOwner().get(TRANSFORM) != null) {
             try {
                 getTransformOwner().get(TRANSFORM).inverseTransform(p, p);
@@ -151,7 +149,6 @@ public class BezierNodeHandle extends AbstractHandle {
                 ex.printStackTrace();
             }
         }
-
         BezierPath.Node n = figure.getNode(index);
         //fireAreaInvalidated(n);
         n.moveTo(p);
@@ -173,9 +170,8 @@ public class BezierNodeHandle extends AbstractHandle {
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         final BezierFigure f = getOwner();
-        BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();;
+        BezierPath.Node oldValue = (BezierPath.Node) oldNode.clone();
         BezierPath.Node newValue = f.getNode(index);
-
         // Change node type
         if ((modifiersEx & (InputEvent.META_DOWN_MASK | InputEvent.CTRL_DOWN_MASK | InputEvent.ALT_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK)) != 0
                 && (modifiersEx & InputEvent.BUTTON2_MASK) == 0) {
@@ -308,7 +304,6 @@ public class BezierNodeHandle extends AbstractHandle {
     public void keyPressed(KeyEvent evt) {
         final BezierFigure f = getOwner();
         oldNode = f.getNode(index);
-
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
                 f.willChange();
@@ -375,11 +370,9 @@ public class BezierNodeHandle extends AbstractHandle {
                     }
                 });
                 evt.consume();
-
                 // At this point, the handle is no longer valid, and
                 // handles at higher node indices have become invalid too.
                 fireHandleRequestRemove(invalidatedArea);
-
                 break;
         }
     }

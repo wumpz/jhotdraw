@@ -2,28 +2,33 @@
  * @(#)SVGText.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Dimension2DDouble;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.tool.TextEditingTool;
-import org.jhotdraw.draw.handle.FontSizeHandle;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.FONT_SIZE;
+import static org.jhotdraw.draw.AttributeKeys.FONT_UNDERLINE;
+import static org.jhotdraw.draw.AttributeKeys.TEXT;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.FontSizeHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.draw.tool.TextEditingTool;
+import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
@@ -48,15 +53,11 @@ public class SVGTextFigure
     protected Point2D.Double[] coordinates = new Point2D.Double[]{new Point2D.Double()};
     protected double[] rotates = new double[]{0};
     private boolean editable = true;
-
     /**
      * This is used to perform faster drawing and hit testing.
      */
-    @Nullable
     private transient Shape cachedTextShape;
-    @Nullable
     private transient Rectangle2D.Double cachedBounds;
-    @Nullable
     private transient Rectangle2D.Double cachedDrawingArea;
 
     /**
@@ -115,12 +116,10 @@ public class SVGTextFigure
         if (cachedBounds == null) {
             cachedBounds = new Rectangle2D.Double();
             cachedBounds.setRect(getTextShape().getBounds2D());
-
             String text = getText();
             if (text == null || text.length() == 0) {
                 text = " ";
             }
-
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute, Object> textAttributes = new HashMap<TextAttribute, Object>();
             textAttributes.put(TextAttribute.FONT, getFont());
@@ -128,9 +127,7 @@ public class SVGTextFigure
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
             }
             TextLayout textLayout = new TextLayout(text, textAttributes, frc);
-
             cachedBounds.setRect(coordinates[0].x, coordinates[0].y - textLayout.getAscent(), textLayout.getAdvance(), textLayout.getAscent());
-
             AffineTransform tx = new AffineTransform();
             tx.translate(coordinates[0].x, coordinates[0].y);
             switch (get(TEXT_ANCHOR)) {
@@ -144,7 +141,6 @@ public class SVGTextFigure
                     break;
             }
             tx.rotate(rotates[0]);
-
         }
         return (Rectangle2D.Double) cachedBounds.clone();
     }
@@ -189,7 +185,6 @@ public class SVGTextFigure
             if (text == null || text.length() == 0) {
                 text = " ";
             }
-
             FontRenderContext frc = getFontRenderContext();
             HashMap<TextAttribute, Object> textAttributes = new HashMap<TextAttribute, Object>();
             textAttributes.put(TextAttribute.FONT, getFont());
@@ -197,7 +192,6 @@ public class SVGTextFigure
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
             }
             TextLayout textLayout = new TextLayout(text, textAttributes, frc);
-
             AffineTransform tx = new AffineTransform();
             tx.translate(coordinates[0].x, coordinates[0].y);
             switch (get(TEXT_ANCHOR)) {
@@ -211,7 +205,6 @@ public class SVGTextFigure
                     break;
             }
             tx.rotate(rotates[0]);
-
             /*
              if (get(TRANSFORM) != null) {
              tx.preConcatenate(get(TRANSFORM));
@@ -289,7 +282,7 @@ public class SVGTextFigure
             TRANSFORM.getClone(this),
             restoredCoordinates,
             FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this),};
+            STROKE_GRADIENT.getClone(this)};
     }
 
     // ATTRIBUTES
@@ -431,7 +424,6 @@ public class SVGTextFigure
     }
 
     // EDITING
-
     /**
      * Returns a specialized tool for the given coordinate.
      * <p>

@@ -6,14 +6,9 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides interfaces and classes for laying out the path of a
-{@link org.jhotdraw.draw.BezierFigure}.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides interfaces and classes for laying out the path of a
+ * {@link org.jhotdraw.draw.BezierFigure}.
+ */
 package org.jhotdraw.draw.liner;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

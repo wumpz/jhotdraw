@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides the figures for the SVG basic shapes.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Provides the figures for the SVG basic shapes.
+ */
 package org.jhotdraw.samples.svg.figures;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

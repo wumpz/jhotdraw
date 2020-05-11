@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Contains preferences classes leveraging the java.util.prefs package.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Contains preferences classes leveraging the java.util.prefs package.
+ */
 package org.jhotdraw.util.prefs;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;

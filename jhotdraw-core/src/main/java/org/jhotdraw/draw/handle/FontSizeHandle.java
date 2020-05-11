@@ -2,20 +2,21 @@
  * @(#)FontSizeHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.locator.FontSizeLocator;
-import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.draw.*;
-import javax.swing.undo.*;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
-import org.jhotdraw.util.ResourceBundleUtil;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.locator.FontSizeLocator;
+import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A {@link Handle} which can be used to change the font size of a
@@ -30,7 +31,9 @@ public class FontSizeHandle extends LocatorHandle {
     private float newSize;
     private Object restoreData;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public FontSizeHandle(TextHolderFigure owner) {
         super(owner, new FontSizeLocator());
     }
@@ -74,7 +77,6 @@ public class FontSizeHandle extends LocatorHandle {
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         TextHolderFigure textOwner = (TextHolderFigure) getOwner();
-
         Point2D.Double anchor2D = view.viewToDrawing(anchor);
         Point2D.Double lead2D = view.viewToDrawing(lead);
         if (textOwner.get(TRANSFORM) != null) {
@@ -97,12 +99,12 @@ public class FontSizeHandle extends LocatorHandle {
         final Object editRestoreData = restoreData;
         final float editNewSize = newSize;
         UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
-                ResourceBundleUtil labels =
-                        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                ResourceBundleUtil labels
+                        = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                 return labels.getString("attribute.fontSize.text");
             }
 
@@ -129,7 +131,6 @@ public class FontSizeHandle extends LocatorHandle {
     public void keyPressed(KeyEvent evt) {
         final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
         oldSize = newSize = textOwner.getFontSize();
-
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (newSize > 1) {
@@ -149,19 +150,19 @@ public class FontSizeHandle extends LocatorHandle {
                 break;
         }
         if (newSize != oldSize) {
-        restoreData = textOwner.getAttributesRestoreData();
-        textOwner.willChange();
-        textOwner.setFontSize(newSize);
-        textOwner.changed();
+            restoreData = textOwner.getAttributesRestoreData();
+            textOwner.willChange();
+            textOwner.setFontSize(newSize);
+            textOwner.changed();
             final Object editRestoreData = restoreData;
             final float editNewSize = newSize;
             UndoableEdit edit = new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public String getPresentationName() {
-                    ResourceBundleUtil labels =
-                            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                    ResourceBundleUtil labels
+                            = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                     return labels.getString("attribute.fontSize");
                 }
 

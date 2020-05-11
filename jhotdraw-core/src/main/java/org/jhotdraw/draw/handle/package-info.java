@@ -6,15 +6,9 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Provides {@link org.jhotdraw.draw.handle.Handle}s for direct manipulation of
-figures on a drawing view.
-*/
-@DefaultAnnotation(Nonnull.class)
+ * Provides {@link org.jhotdraw.draw.handle.Handle}s for direct manipulation of
+ * figures on a drawing view.
+ */
 package org.jhotdraw.draw.handle;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import javax.annotation.Nonnull;
-

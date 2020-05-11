@@ -1,21 +1,20 @@
 /*
  * @(#)FigureAttributeEditorHandler.java
- * 
+ *
  * Copyright (c) 2009-2010 The authors and contributors of JHotDraw.
- * 
- * You may not use, copy or modify this file, except in compliance with the 
+ *
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.event;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.gui.*;
 import java.util.HashSet;
 import java.util.Set;
+import org.jhotdraw.api.gui.AttributeEditor;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.Figure;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * FigureAttributeEditorHandler mediates between an AttributeEditor and the
@@ -28,7 +27,7 @@ public class DrawingAttributeEditorHandler<T> extends AbstractAttributeEditorHan
 
     private Drawing drawing;
 
-    public DrawingAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, @Nullable DrawingEditor drawingEditor) {
+    public DrawingAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
         super(key, attributeEditor, drawingEditor, false);
     }
 

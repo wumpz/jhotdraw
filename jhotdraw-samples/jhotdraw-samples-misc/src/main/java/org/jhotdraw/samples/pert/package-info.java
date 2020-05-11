@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-An editor for PERT (Program Evaluation and Review Technique) diagrams.
-*/
-@DefaultAnnotation(NonNull.class)
+ * An editor for PERT (Program Evaluation and Review Technique) diagrams.
+ */
 package org.jhotdraw.samples.pert;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

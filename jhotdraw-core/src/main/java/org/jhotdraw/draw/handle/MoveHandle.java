@@ -2,23 +2,24 @@
  * @(#)MoveHandle.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.TransformEdit;
+import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.draw.locator.RelativeLocator;
 
 /**
  * A handle that changes the location of the owning figure, if the figure is
- * transformable. 
+ * transformable.
  *
  * @author Werner Randelshofer
  * @version $Id$
@@ -30,7 +31,9 @@ public class MoveHandle extends LocatorHandle {
      */
     private Point2D.Double oldPoint;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public MoveHandle(Figure owner, Locator locator) {
         super(owner, locator);
     }
@@ -67,10 +70,10 @@ public class MoveHandle extends LocatorHandle {
     }
 
     /**
-     * Returns a cursor for the handle. 
-     * 
+     * Returns a cursor for the handle.
+     *
      * @return Returns a move cursor, if the figure
-     * is transformable. Returns a default cursor otherwise. 
+     * is transformable. Returns a default cursor otherwise.
      */
     @Override
     public Cursor getCursor() {
@@ -80,20 +83,19 @@ public class MoveHandle extends LocatorHandle {
 
     @Override
     public void trackStart(Point anchor, int modifiersEx) {
-        oldPoint = view.getConstrainer()==null?view.viewToDrawing(anchor):view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
+        oldPoint = view.getConstrainer() == null ? view.viewToDrawing(anchor) : view.getConstrainer().constrainPoint(view.viewToDrawing(anchor));
     }
 
     @Override
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Figure f = getOwner();
         if (f.isTransformable()) {
-            Point2D.Double newPoint = view.getConstrainer()==null?view.viewToDrawing(lead):view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+            Point2D.Double newPoint = view.getConstrainer() == null ? view.viewToDrawing(lead) : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
             AffineTransform tx = new AffineTransform();
             tx.translate(newPoint.x - oldPoint.x, newPoint.y - oldPoint.y);
             f.willChange();
             f.transform(tx);
             f.changed();
-
             oldPoint = newPoint;
         }
     }
@@ -113,7 +115,6 @@ public class MoveHandle extends LocatorHandle {
         Figure f = getOwner();
         if (f.isTransformable()) {
             AffineTransform tx = new AffineTransform();
-
             switch (evt.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     tx.translate(0, -1);
@@ -138,7 +139,6 @@ public class MoveHandle extends LocatorHandle {
             fireUndoableEditHappened(
                     new TransformEdit(f, tx));
         }
-
     }
 
     static public Handle south(

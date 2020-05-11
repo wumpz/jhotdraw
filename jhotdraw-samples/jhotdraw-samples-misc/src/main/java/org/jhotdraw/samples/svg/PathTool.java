@@ -2,27 +2,27 @@
  * @(#)PathTool.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.tool.BezierTool;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.BezierFigure;
 import java.util.*;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 
 /**
  * Tool to scribble a SVGPath
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class PathTool extends BezierTool {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /**
      * Set this to true to turn on debugging output on System.out.
      */
@@ -32,13 +32,17 @@ public class PathTool extends BezierTool {
      */
     private SVGPathFigure pathPrototype;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype) {
         this(pathPrototype, bezierPrototype, null);
     }
 
-    /** Creates a new instance. */
-    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, @Nullable Map<AttributeKey<?>,Object> attributes) {
+    /**
+     * Creates a new instance.
+     */
+    public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype, Map<AttributeKey<?>, Object> attributes) {
         super(bezierPrototype, attributes);
         this.pathPrototype = pathPrototype;
     }
@@ -49,7 +53,7 @@ public class PathTool extends BezierTool {
         getEditor().applyDefaultAttributesTo(f);
         if (attributes != null) {
             for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-                f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+                f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
         }
         return f;

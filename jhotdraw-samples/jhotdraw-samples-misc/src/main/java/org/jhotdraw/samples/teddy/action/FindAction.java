@@ -5,14 +5,15 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-
 package org.jhotdraw.samples.teddy.action;
 
-import javax.annotation.Nullable;
-import org.jhotdraw.app.*;
 import java.awt.event.*;
-import org.jhotdraw.app.action.edit.AbstractFindAction;
+import org.jhotdraw.action.edit.AbstractFindAction;
+import org.jhotdraw.api.app.Application;
+import org.jhotdraw.api.app.View;
+import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.samples.teddy.FindDialog;
+
 /**
  * AbstractFindAction shows the find dialog.
  *
@@ -20,24 +21,26 @@ import org.jhotdraw.samples.teddy.FindDialog;
  * @version $Id$
  */
 public class FindAction extends AbstractFindAction {
+
     private static final long serialVersionUID = 1L;
     public static final String ID = AbstractFindAction.ID;
     private FindDialog findDialog;
-    
+
     /**
      * Creates a new instance.
      */
-    public FindAction(Application app, @Nullable View v) {
-        super(app,v);
+    public FindAction(Application app, View v) {
+        super(app, v);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (findDialog == null) {
             findDialog = new FindDialog(getApplication());
             if (getApplication() instanceof OSXApplication) {
                 findDialog.addWindowListener(new WindowAdapter() {
-                    @Override public void windowClosing(WindowEvent evt) {
+                    @Override
+                    public void windowClosing(WindowEvent evt) {
                         if (findDialog != null) {
                             ((OSXApplication) getApplication()).removePalette(findDialog);
                             findDialog.setVisible(false);

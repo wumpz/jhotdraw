@@ -1,18 +1,13 @@
- /*
+/*
  * @(#)SVGImage.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.geom.GrowStroke;
-import javax.annotation.Nullable;
-import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.event.TransformRestoreEdit;
+import org.jhotdraw.draw.figure.ImageHolderFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -22,10 +17,16 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.util.*;
-import org.jhotdraw.samples.svg.SVGAttributeKeys;
 
 /**
  * SVGImage.
@@ -34,8 +35,8 @@ import org.jhotdraw.samples.svg.SVGAttributeKeys;
  * @version $Id$
  */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /**
      * This rectangle describes the bounds into which we draw the image.
      */
@@ -43,27 +44,25 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * This is used to perform faster drawing.
      */
-    @Nullable
     private transient Shape cachedTransformedShape;
     /**
      * This is used to perform faster hit testing.
      */
-    @Nullable
     private transient Shape cachedHitShape;
     /**
      * The image data. This can be null, if the image was created from a
      * BufferedImage.
      */
-    @Nullable
     private byte[] imageData;
     /**
      * The buffered image. This can be null, if we haven't yet parsed the
      * imageData.
      */
-    @Nullable
     private BufferedImage bufferedImage;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public SVGImageFigure() {
         this(0, 0, 0, 0);
     }
@@ -78,7 +77,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     @Override
     public void draw(Graphics2D g) {
         //super.draw(g);
-
         double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
@@ -86,17 +84,14 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             if (opacity != 1d) {
                 g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) opacity));
             }
-
             BufferedImage image = getBufferedImage();
             if (image != null) {
                 if (get(TRANSFORM) != null) {
                     // FIXME - We should cache the transformed image.
                     //         Drawing a transformed image appears to be very slow.
                     Graphics2D gx = (Graphics2D) g.create();
-
                     // Use same rendering hints like parent graphics
                     gx.setRenderingHints(g.getRenderingHints());
-
                     gx.transform(get(TRANSFORM));
                     gx.drawImage(image, (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
                     gx.dispose();
@@ -109,7 +104,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                 g.setStroke(new BasicStroke());
                 g.draw(shape);
             }
-
             if (opacity != 1d) {
                 g.setComposite(savedComposite);
             }
@@ -196,6 +190,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
     /**
      * Transforms the figure.
+     *
      * @param tx The transformation.
      */
     @Override
@@ -218,8 +213,8 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     (Point2D.Double) tx.transform(lead, lead));
         }
     }
-    // ATTRIBUTES
 
+    // ATTRIBUTES
     @Override
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
@@ -235,16 +230,15 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
-                    rectangle.clone(),
-                    get(TRANSFORM)
-                };
+            rectangle.clone(),
+            get(TRANSFORM)
+        };
     }
 
     // EDITING
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
-
         switch (detailLevel % 2) {
             case -1: // Mouse hover handles
                 handles.add(new BoundsOutlineHandle(this, false, true));
@@ -268,7 +262,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         LinkedList<Action> actions = new LinkedList<Action>();
         if (get(TRANSFORM) != null) {
             actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
-    private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -283,16 +277,16 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             if (rectangle.width != bufferedImage.getWidth()
                     || rectangle.height != bufferedImage.getHeight()) {
                 actions.add(new AbstractAction(labels.getString("edit.setToImageSize.text")) {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         Object geometry = getTransformRestoreData();
                         willChange();
-                        rectangle = new Rectangle2D.Double(//
-                                rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,//
-                                rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d, //
-                                bufferedImage.getWidth(), //
+                        rectangle = new Rectangle2D.Double(
+                                rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,
+                                rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d,
+                                bufferedImage.getWidth(),
                                 bufferedImage.getHeight());
                         fireUndoableEditHappened(
                                 new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
@@ -304,7 +298,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
             double figureRatio = rectangle.height / rectangle.width;
             if (Math.abs(imageRatio - figureRatio) > 0.001) {
                 actions.add(new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
@@ -318,7 +312,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
                     }
                 });
                 actions.add(new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
-    private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
@@ -335,10 +329,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
         return actions;
     }
+
     // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
-
     @Override
     public SVGImageFigure clone() {
         SVGImageFigure that = (SVGImageFigure) super.clone();
@@ -413,7 +407,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * image from the image data.
      */
     @Override
-    @Nullable
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
             //System.out.println("recreateing bufferedImage");
@@ -439,7 +432,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * modify this array.
      */
     @Override
-    @Nullable
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
             try {

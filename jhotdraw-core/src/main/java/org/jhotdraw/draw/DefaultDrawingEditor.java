@@ -2,22 +2,12 @@
  * @(#)DefaultDrawingEditor.java
  *
  * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.beans.AbstractBean;
-import javax.annotation.Nullable;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.DeleteAction;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.SelectAllAction;
-import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.draw.event.ToolEvent;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -25,11 +15,21 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.*;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import org.jhotdraw.action.edit.CopyAction;
+import org.jhotdraw.action.edit.CutAction;
+import org.jhotdraw.action.edit.DeleteAction;
+import org.jhotdraw.action.edit.PasteAction;
+import org.jhotdraw.action.edit.SelectAllAction;
+import org.jhotdraw.beans.AbstractBean;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.event.ToolAdapter;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.event.ToolEvent;
+import org.jhotdraw.draw.tool.Tool;
 
 /**
  * A default implementation of {@link DrawingEditor}.
@@ -40,8 +40,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
  * @version $Id$
  */
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor {
+
     private static final long serialVersionUID = 1L;
-    
     private HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<>();
     private HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<>();
     private Tool tool;
@@ -86,13 +86,12 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
      * The focus handler.
      */
     private FocusListener focusHandler = new FocusListener() {
-
-    @Override
+        @Override
         public void focusGained(FocusEvent e) {
             setActiveView(findView((Container) e.getSource()));
         }
 
-    @Override
+        @Override
         public void focusLost(FocusEvent e) {
             /*
             if (! e.isTemporary()) {
@@ -101,13 +100,14 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
     };
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public DefaultDrawingEditor() {
         toolHandler = new ToolHandler();
         setDefaultAttribute(FILL_COLOR, Color.white);
         setDefaultAttribute(STROKE_COLOR, Color.black);
         setDefaultAttribute(TEXT_COLOR, Color.black);
-
         views = new HashSet<>();
         inputMap = createInputMap();
         actionMap = createActionMap();
@@ -116,7 +116,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     @Override
     public void setTool(Tool newValue) {
         Tool oldValue = tool;
-
         if (newValue == tool) {
             return;
         }
@@ -126,7 +125,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
                 v.removeMouseMotionListener(tool);
                 v.removeKeyListener(tool);
                 if (tool instanceof MouseWheelListener) {
-                    v.removeMouseWheelListener((MouseWheelListener)tool);
+                    v.removeMouseWheelListener((MouseWheelListener) tool);
                 }
             }
             tool.deactivate(this);
@@ -140,12 +139,11 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
                 v.addMouseMotionListener(tool);
                 v.addKeyListener(tool);
                 if (tool instanceof MouseWheelListener) {
-                    v.addMouseWheelListener((MouseWheelListener)tool);
+                    v.addMouseWheelListener((MouseWheelListener) tool);
                 }
             }
             tool.addToolListener(toolHandler);
         }
-
         firePropertyChange(TOOL_PROPERTY, oldValue, newValue);
     }
 
@@ -153,7 +151,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     public void setActiveView(DrawingView newValue) {
         DrawingView oldValue = activeView;
         activeView = newValue;
-
         firePropertyChange(ACTIVE_VIEW_PROPERTY, oldValue, newValue);
     }
 
@@ -183,7 +180,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     @Override
     public void applyDefaultAttributesTo(Figure f) {
         for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
-            f.set((AttributeKey<Object>)entry.getKey(), entry.getValue());
+            f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
     }
 
@@ -197,9 +194,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     }
 
     @Override
-    public <T> void setDefaultAttribute(AttributeKey<T> key, @Nullable T newValue) {
+    public <T> void setDefaultAttribute(AttributeKey<T> key, T newValue) {
         Object oldValue = defaultAttributes.put(key, newValue);
-        firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX+key.getKey(), oldValue, newValue);
+        firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), oldValue, newValue);
     }
 
     @Override
@@ -211,7 +208,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
             view.removeMouseMotionListener(tool);
             view.removeKeyListener(tool);
         }
-
         view.removeNotify(this);
         if (activeView == view) {
             view = (views.size() > 0) ? views.iterator().next() : null;
@@ -310,7 +306,8 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         return actionMap;
     }
 
-    /** Override this method to create a tool-specific input map, which
+    /**
+     * Override this method to create a tool-specific input map, which
      * overrides the input map of the drawing editor.
      * <p>
      * The implementation of this class creates an input map for the following
@@ -328,46 +325,39 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
      */
     protected InputMap createInputMap() {
         InputMap m = new InputMap();
-
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), DeleteAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), DeleteAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), SelectAllAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK), SelectAllAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.META_DOWN_MASK), SelectAllAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), IncreaseHandleDetailLevelAction.ID);
-
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), MoveConstrainedAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), MoveConstrainedAction.East.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), MoveConstrainedAction.North.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), MoveConstrainedAction.South.ID);
-
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK), MoveAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK), MoveAction.East.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.ALT_DOWN_MASK), MoveAction.North.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.ALT_DOWN_MASK), MoveAction.South.ID);
-
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK), MoveAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK), MoveAction.East.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK), MoveAction.North.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK), MoveAction.South.ID);
-
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK), MoveAction.West.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK), MoveAction.East.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK), MoveAction.North.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK), MoveAction.South.ID);
-
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), CopyAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.META_DOWN_MASK), CopyAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK), PasteAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.META_DOWN_MASK), PasteAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK), CutAction.ID);
         m.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.META_DOWN_MASK), CutAction.ID);
-
-
         return m;
     }
 
-    /** Override this method to create a tool-specific action map, which
+    /**
+     * Override this method to create a tool-specific action map, which
      * overrides the action map of the drawing editor.
      * <p>
      * The implementation of this class creates an action map which maps
@@ -385,11 +375,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
      */
     protected ActionMap createActionMap() {
         ActionMap m = new ActionMap();
-
         m.put(DeleteAction.ID, new DeleteAction());
         m.put(SelectAllAction.ID, new SelectAllAction());
         m.put(IncreaseHandleDetailLevelAction.ID, new IncreaseHandleDetailLevelAction(this));
-
         m.put(MoveAction.East.ID, new MoveAction.East(this));
         m.put(MoveAction.West.ID, new MoveAction.West(this));
         m.put(MoveAction.North.ID, new MoveAction.North(this));
@@ -398,11 +386,9 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         m.put(MoveConstrainedAction.West.ID, new MoveConstrainedAction.West(this));
         m.put(MoveConstrainedAction.North.ID, new MoveConstrainedAction.North(this));
         m.put(MoveConstrainedAction.South.ID, new MoveConstrainedAction.South(this));
-
         m.put(CutAction.ID, new CutAction());
         m.put(CopyAction.ID, new CopyAction());
         m.put(PasteAction.ID, new PasteAction());
-
         return m;
     }
 }

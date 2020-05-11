@@ -2,25 +2,26 @@
  * @(#)ODGRectRadiusHandle.java
  *
  * Copyright (c) 2007 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
 package org.jhotdraw.samples.odg.figures;
 
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.draw.handle.AbstractHandle;
-import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
-import static org.jhotdraw.samples.odg.ODGAttributeKeys.*;
+import javax.swing.undo.*;
+import org.jhotdraw.draw.*;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import org.jhotdraw.draw.handle.AbstractHandle;
+import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.util.*;
 
 /**
  * A Handle to manipulate the radius of a round lead rectangle.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id$
  */
 public class ODGRectRadiusHandle extends AbstractHandle {
@@ -30,7 +31,9 @@ public class ODGRectRadiusHandle extends AbstractHandle {
     private Dimension2DDouble originalArc2D;
     CompositeEdit edit;
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public ODGRectRadiusHandle(Figure owner) {
         super(owner);
     }
@@ -93,7 +96,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         final Dimension2DDouble oldValue = originalArc2D;
         final Dimension2DDouble newValue = odgRect.getArc();
         view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
-    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
             @Override
             public String getPresentationName() {
@@ -121,7 +124,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
 
     @Override
     public String getToolTipText(Point p) {
-        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").//
+        return ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels").
                 getString("handle.roundRectangleRadius.toolTipText");
     }
 }

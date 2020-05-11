@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-Classes for reading and writing text files.
-*/
-@DefaultAnnotation(NonNull.class)
+ * Classes for reading and writing text files.
+ */
 package org.jhotdraw.samples.teddy.io;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;

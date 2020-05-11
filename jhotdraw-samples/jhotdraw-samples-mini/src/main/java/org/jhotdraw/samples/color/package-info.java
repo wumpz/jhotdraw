@@ -6,13 +6,8 @@
  *
  * @author Werner Randelshofer
  * @version $Id$
-*/
-
+ */
 /**
-A sample programs showing the use of the JHotDraw color classes.
-*/
-@DefaultAnnotation(NonNull.class)
+ * A sample programs showing the use of the JHotDraw color classes.
+ */
 package org.jhotdraw.samples.color;
-
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-import edu.umd.cs.findbugs.annotations.NonNull;
