@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jhotdraw</groupId>
 	<artifactId>jhotdraw</artifactId>
-	<version>9.0</version>
+	<version>9.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<organization>
 		<name>JHotDraw</name>
