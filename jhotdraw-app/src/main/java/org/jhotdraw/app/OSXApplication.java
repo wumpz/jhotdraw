@@ -244,7 +244,6 @@ public class OSXApplication extends AbstractApplication {
         if (window instanceof JFrame) {
             ((JFrame) window).setJMenuBar(createMenuBar(view));
         } else if (window instanceof JDialog) {
-            // ((JDialog) window).setJMenuBar(createMenuBar(null));
         }
         paletteHandler.add(window, view);
     }
@@ -436,7 +435,6 @@ public class OSXApplication extends AbstractApplication {
     @Override
     public JMenu createWindowMenu(View view) {
         JMenu m;
-        JMenuItem mi;
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
@@ -476,8 +474,6 @@ public class OSXApplication extends AbstractApplication {
     @Override
     public JMenu createEditMenu(View view) {
         JMenu m;
-        JMenuItem mi;
-        Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
         MenuBuilder mb = model.getMenuBuilder();
@@ -756,16 +752,4 @@ public class OSXApplication extends AbstractApplication {
         }
     }
 
-    private static class QuitHandler {
-
-        /**
-         * This method is invoked, when the user has selected the Quit menu item.
-         *
-         * @return Returns true if the application has no unsaved changes and
-         * can be closed.
-         */
-        public boolean handleQuit() {
-            return false;
-        }
-    }
 }

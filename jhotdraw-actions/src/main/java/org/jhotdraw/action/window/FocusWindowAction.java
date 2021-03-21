@@ -36,7 +36,6 @@ public class FocusWindowAction extends AbstractAction {
         this.view = view;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
         labels.configureAction(this, ID);
-        //setEnabled(false);
         setEnabled(view != null);
         ppc = new PropertyChangeListener() {
             @Override
@@ -94,10 +93,6 @@ public class FocusWindowAction extends AbstractAction {
         return title;
     }
 
-    private JFrame getFrame() {
-        return (JFrame) SwingUtilities.getWindowAncestor(
-                view.getComponent());
-    }
 
     private Component getRootPaneContainer() {
         return SwingUtilities.getRootPane(

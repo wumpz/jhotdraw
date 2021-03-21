@@ -405,8 +405,6 @@ public class SDIApplication extends AbstractApplication {
     @Override
     public JMenu createEditMenu(View view) {
         JMenu m;
-        JMenuItem mi;
-        Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
         MenuBuilder mb = model.getMenuBuilder();
@@ -501,7 +499,6 @@ public class SDIApplication extends AbstractApplication {
     @Override
     public JMenu createHelpMenu(View p) {
         JMenu m;
-        JMenuItem mi;
         m = new JMenu();
         labels.configureMenu(m, "help");
         m.add(getAction(p, AboutAction.ID));
