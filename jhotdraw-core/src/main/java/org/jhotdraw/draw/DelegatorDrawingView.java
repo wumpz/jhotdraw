@@ -48,6 +48,9 @@ public abstract class DelegatorDrawingView extends AbstractDrawingView {
         this.drawTo = drawTo;
     }
 
+    public JComponent getDrawTo() {
+        return drawTo;
+    }
 
     @Override
     public abstract AffineTransform getDrawingToViewTransform();

@@ -22,7 +22,7 @@ import java.awt.datatransfer.Transferable;
  */
 public abstract class AbstractClipboard extends Clipboard {
 
-    protected AbstractClipboard() {
+    public AbstractClipboard() {
         super("Clipboard Proxy");
     }
 

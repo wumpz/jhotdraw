@@ -225,7 +225,13 @@ public class ActivityMonitorSample extends javax.swing.JFrame {
             }
         }
         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            if (evt.getSource() == indicatorAll || evt.getSource() == indicatorA || evt.getSource() == indicatorB || evt.getSource() == indicatorC) {
+            if (evt.getSource() == indicatorAll) {
+                ActivityMonitorSample.this.indicatorClicked(evt);
+            } else if (evt.getSource() == indicatorA) {
+                ActivityMonitorSample.this.indicatorClicked(evt);
+            } else if (evt.getSource() == indicatorB) {
+                ActivityMonitorSample.this.indicatorClicked(evt);
+            } else if (evt.getSource() == indicatorC) {
                 ActivityMonitorSample.this.indicatorClicked(evt);
             }
         }

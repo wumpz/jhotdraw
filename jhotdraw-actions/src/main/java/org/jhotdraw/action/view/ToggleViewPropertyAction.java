@@ -27,7 +27,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     private Class<?>[] parameterClass;
     private Object selectedPropertyValue;
     private Object deselectedPropertyValue;
-    public static final String METHOD_ON = " method on ";
     final private String setterName;
     final private String getterName;
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
@@ -75,8 +74,8 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
                 : selectedPropertyValue;
         try {
             p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[]{newValue});
-        } catch (Exception e) {
-            InternalError error = new InternalError("No " + setterName + METHOD_ON + p);
+        } catch (Throwable e) {
+            InternalError error = new InternalError("No " + setterName + " method on " + p);
             error.initCause(e);
             throw error;
         }
@@ -87,8 +86,8 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         if (p != null) {
             try {
                 return p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
-            } catch (Exception e) {
-                InternalError error = new InternalError("No " + getterName + METHOD_ON + p);
+            } catch (Throwable e) {
+                InternalError error = new InternalError("No " + getterName + " method on " + p);
                 error.initCause(e);
                 throw error;
             }
@@ -127,8 +126,8 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
                 isSelected = value == selectedPropertyValue
                         || value != null && selectedPropertyValue != null
                         && value.equals(selectedPropertyValue);
-            } catch (Exception e) {
-                InternalError error = new InternalError("No " + getterName + METHOD_ON + p + " for property " + propertyName);
+            } catch (Throwable e) {
+                InternalError error = new InternalError("No " + getterName + " method on " + p + " for property " + propertyName);
                 error.initCause(e);
                 throw error;
             }

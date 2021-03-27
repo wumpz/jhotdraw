@@ -150,7 +150,7 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
                 JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
                         + "<b>" + labels.getFormatted("file.load.couldntLoad.message", URIUtil.getName(uri)) + "</b><p>"
-                        + (value),
+                        + ((value == null) ? "" : value),
                         JOptionPane.ERROR_MESSAGE, new SheetListener() {
                     @Override
                     public void optionSelected(SheetEvent evt) {

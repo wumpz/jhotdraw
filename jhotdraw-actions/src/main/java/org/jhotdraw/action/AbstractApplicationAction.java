@@ -39,11 +39,11 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     private static final long serialVersionUID = 1L;
     private Application app;
     private PropertyChangeListener applicationListener;
-    public static final String ENABLED_PROPERTY = "enabled";
+
     /**
      * Creates a new instance.
      */
-    protected AbstractApplicationAction(Application app) {
+    public AbstractApplicationAction(Application app) {
         this.app = app;
         installApplicationListeners(app);
         updateApplicationEnabled();
@@ -70,7 +70,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
         return new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (ENABLED_PROPERTY.equals(evt.getPropertyName())) {
+                if ("enabled".equals(evt.getPropertyName())) {
                     updateApplicationEnabled();
                 }
             }
@@ -86,7 +86,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
      * state of the application.
      */
     protected void updateApplicationEnabled() {
-        firePropertyChange(ENABLED_PROPERTY, !isEnabled(),
+        firePropertyChange("enabled", !isEnabled(),
                 isEnabled());
     }
 
@@ -116,7 +116,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     public void setEnabled(boolean newValue) {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
-        firePropertyChange(ENABLED_PROPERTY, oldValue && app.isEnabled(), newValue && app.isEnabled());
+        firePropertyChange("enabled", oldValue && app.isEnabled(), newValue && app.isEnabled());
     }
 
     @Override

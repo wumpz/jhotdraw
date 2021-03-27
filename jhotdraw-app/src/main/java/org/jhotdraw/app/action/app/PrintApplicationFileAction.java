@@ -42,6 +42,8 @@ public class PrintApplicationFileAction extends PrintFileAction {
 
     private static final long serialVersionUID = 1L;
     public static final String ID = "application.printFile";
+    private JFileChooser fileChooser;
+    private int entries;
 
     /**
      * Creates a new instance.
@@ -62,6 +64,7 @@ public class PrintApplicationFileAction extends PrintFileAction {
         final PrintableView p = (PrintableView) v;
         p.setEnabled(false);
         app.add(p);
+//            app.show(p);
         new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {

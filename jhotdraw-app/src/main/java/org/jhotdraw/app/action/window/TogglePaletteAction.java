@@ -45,6 +45,19 @@ public class TogglePaletteAction extends AbstractAction {
     @Override
     public void putValue(String key, Object newValue) {
         super.putValue(key, newValue);
+        /*
+        if (key == ActionUtil.SELECTED_KEY) {
+            if (palette != null) {
+                boolean b = (Boolean) newValue;
+                if (b) {
+                    app.addPalette(palette);
+                    palette.setVisible(true);
+                } else {
+                    app.removePalette(palette);
+                    palette.setVisible(false);
+                }
+            }
+        }*/
     }
 
     public void setPalette(Window newValue) {

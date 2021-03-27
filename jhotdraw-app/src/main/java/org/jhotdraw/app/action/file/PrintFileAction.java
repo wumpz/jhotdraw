@@ -187,7 +187,8 @@ public class PrintFileAction extends AbstractViewAction {
                 // Print the job
                 try {
                     for (int i = 0, n = pageable.getNumberOfPages(); i < n; i++) {
-                        PageFormat pf = pageFormat;
+                        PageFormat pf = pageable.getPageFormat(i);
+                        pf = pageFormat;
                         Graphics g = pj.getGraphics();
                         if (g instanceof Graphics2D) {
                             pageable.getPrintable(i).print(g, pf, i);

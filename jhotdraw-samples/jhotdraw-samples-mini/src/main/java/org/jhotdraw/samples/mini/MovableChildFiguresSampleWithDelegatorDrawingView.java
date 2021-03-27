@@ -122,7 +122,7 @@ public class MovableChildFiguresSampleWithDelegatorDrawingView {
                 @Override
                 public AffineTransform getDrawingToViewTransform() {
                     AffineTransform transform = new AffineTransform();
-                    transform.setToRotation(0.9, getComponent().getWidth() / 2, getComponent().getHeight() / 2);
+                    transform.setToRotation(0.9, getDrawTo().getWidth() / 2, getDrawTo().getHeight() / 2);
                     return transform;
                 }
             }

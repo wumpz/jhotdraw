@@ -23,10 +23,7 @@ public class ClipboardUtil {
      * Holds the clipboard service instance.
      */
     private static Clipboard instance;
-    
-    private ClipboardUtil() {
-    throw new IllegalStateException("Utility class");
-  }
+
     /**
      * Returns the ClipboardService instance. If none is set, creates
      * a new one which tries to access the system clipboard. If this fails,

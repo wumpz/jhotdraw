@@ -64,6 +64,9 @@ public class TeddyView extends AbstractView {
             editor.repaint();
         }
 
+        public boolean getLineWrap() {
+            return isLineWrap;
+        }
 
         @Override
         public Dimension getPreferredScrollableViewportSize() {
@@ -180,14 +183,14 @@ public class TeddyView extends AbstractView {
     }
 
     public void setLineWrap(boolean newValue) {
-        boolean oldValue = editorViewport.getScrollableTracksViewportWidth();
+        boolean oldValue = editorViewport.getLineWrap();
         editorViewport.setLineWrap(newValue);
         prefs.putBoolean("lineWrap", newValue);
         firePropertyChange("lineWrap", oldValue, newValue);
     }
 
     public boolean isLineWrap() {
-        return editorViewport.getScrollableTracksViewportWidth();
+        return editorViewport.getLineWrap();
     }
 
     private void initActions() {
