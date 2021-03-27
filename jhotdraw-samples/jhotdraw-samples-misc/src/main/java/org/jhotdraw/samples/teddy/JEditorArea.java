@@ -53,17 +53,6 @@ public class JEditorArea extends JEditorPane {
         }
     }
 
-    /**
-     * Gets the line-wrapping policy of the text area. If set
-     * to true the lines will be wrapped if they are too long
-     * to fit within the allocated width. If set to false,
-     * the lines will always be unwrapped.
-     *
-     * @return if lines will be wrapped
-     */
-    public boolean getLineWrap() {
-        return wrap;
-    }
 
     /**
      * Returns true if a viewport should always force the width of this

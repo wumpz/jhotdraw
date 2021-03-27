@@ -78,6 +78,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     private Preferences prefs;
     private View activeView;
     public static final String VIEW_COUNT_PROPERTY = "viewCount";
+    public static final String RECENTFILE_COUNT_PROPERTY = "recentFileCount";
+    public static final String NEEDS_SEPARATOR_PROPERTY = "needsSeparator";
+    public static final String APPLICATION_CONST = "application";
     private LinkedList<URI> recentURIs = new LinkedList<>();
     private static final int MAX_RECENT_FILES_COUNT = 10;
     private ActionMap actionMap;
@@ -89,7 +92,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     /**
      * Creates a new instance.
      */
-    public AbstractApplication() {
+    protected AbstractApplication() {
     }
 
     /**
@@ -98,7 +101,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     @Override
     public void init() {
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
-        int count = prefs.getInt("recentFileCount", 0);
+        int count = prefs.getInt(RECENTFILE_COUNT_PROPERTY, 0);
         for (int i = 0; i < count; i++) {
             String path = prefs.get("recentFile." + i, null);
             if (path != null) {
@@ -425,9 +428,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      */
     protected void addAction(JMenu m, Action a) {
         if (a != null) {
-            if (m.getClientProperty("needsSeparator") == Boolean.TRUE) {
+            if (m.getClientProperty(NEEDS_SEPARATOR_PROPERTY) == Boolean.TRUE) {
                 m.addSeparator();
-                m.putClientProperty("needsSeparator", null);
+                m.putClientProperty(NEEDS_SEPARATOR_PROPERTY, null);
             }
             JMenuItem mi;
             mi = m.add(a);
@@ -444,9 +447,9 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
      */
     protected void addMenuItem(JMenu m, JMenuItem mi) {
         if (mi != null) {
-            if (m.getClientProperty("needsSeparator") == Boolean.TRUE) {
+            if (m.getClientProperty(NEEDS_SEPARATOR_PROPERTY) == Boolean.TRUE) {
                 m.addSeparator();
-                m.putClientProperty("needsSeparator", null);
+                m.putClientProperty(NEEDS_SEPARATOR_PROPERTY, null);
             }
             m.add(mi);
         }
@@ -483,7 +486,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         @SuppressWarnings("unchecked")
         java.util.List<URI> oldValue = (java.util.List<URI>) recentURIs.clone();
         recentURIs.clear();
-        prefs.putInt("recentFileCount", recentURIs.size());
+        prefs.putInt(RECENTFILE_COUNT_PROPERTY, recentURIs.size());
         firePropertyChange(RECENT_URIS_PROPERTY,
                 Collections.unmodifiableList(oldValue),
                 Collections.unmodifiableList(recentURIs));
@@ -500,7 +503,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (recentURIs.size() > MAX_RECENT_FILES_COUNT) {
             recentURIs.removeLast();
         }
-        prefs.putInt("recentFileCount", recentURIs.size());
+        prefs.putInt(RECENTFILE_COUNT_PROPERTY, recentURIs.size());
         int i = 0;
         for (URI f : recentURIs) {
             prefs.put("recentFile." + i, f.toString());
@@ -623,7 +626,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (v == null) {
             if (openChooser == null) {
                 openChooser = model.createOpenChooser(this, null);
-                openChooser.getComponent().putClientProperty("application", this);
+                openChooser.getComponent().putClientProperty(APPLICATION_CONST, this);
                 List<URI> ruris = getRecentURIs();
                 if (ruris.size() > 0) {
                     try {
@@ -640,7 +643,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 chooser = model.createOpenChooser(this, v);
                 v.getComponent().putClientProperty("openChooser", chooser);
                 chooser.getComponent().putClientProperty("view", v);
-                chooser.getComponent().putClientProperty("application", this);
+                chooser.getComponent().putClientProperty(APPLICATION_CONST, this);
                 List<URI> ruris = getRecentURIs();
                 if (ruris.size() > 0) {
                     try {
@@ -670,7 +673,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (v == null) {
             if (saveChooser == null) {
                 saveChooser = model.createSaveChooser(this, null);
-                saveChooser.getComponent().putClientProperty("application", this);
+                saveChooser.getComponent().putClientProperty(APPLICATION_CONST, this);
             }
             return saveChooser;
         } else {
@@ -679,7 +682,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 chooser = model.createSaveChooser(this, v);
                 v.getComponent().putClientProperty("saveChooser", chooser);
                 chooser.getComponent().putClientProperty("view", v);
-                chooser.getComponent().putClientProperty("application", this);
+                chooser.getComponent().putClientProperty(APPLICATION_CONST, this);
                 try {
                     chooser.setSelectedURI(v.getURI());
                 } catch (IllegalArgumentException e) {
@@ -706,7 +709,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (v == null) {
             if (importChooser == null) {
                 importChooser = model.createImportChooser(this, null);
-                importChooser.getComponent().putClientProperty("application", this);
+                importChooser.getComponent().putClientProperty(APPLICATION_CONST, this);
             }
             return importChooser;
         } else {
@@ -715,7 +718,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 chooser = model.createImportChooser(this, v);
                 v.getComponent().putClientProperty("importChooser", chooser);
                 chooser.getComponent().putClientProperty("view", v);
-                chooser.getComponent().putClientProperty("application", this);
+                chooser.getComponent().putClientProperty(APPLICATION_CONST, this);
             }
             return chooser;
         }
@@ -737,7 +740,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (v == null) {
             if (exportChooser == null) {
                 exportChooser = model.createExportChooser(this, null);
-                exportChooser.getComponent().putClientProperty("application", this);
+                exportChooser.getComponent().putClientProperty(APPLICATION_CONST, this);
             }
             return exportChooser;
         } else {
@@ -746,7 +749,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
                 chooser = model.createExportChooser(this, v);
                 v.getComponent().putClientProperty("exportChooser", chooser);
                 chooser.getComponent().putClientProperty("view", v);
-                chooser.getComponent().putClientProperty("application", this);
+                chooser.getComponent().putClientProperty(APPLICATION_CONST, this);
             }
             return chooser;
         }
