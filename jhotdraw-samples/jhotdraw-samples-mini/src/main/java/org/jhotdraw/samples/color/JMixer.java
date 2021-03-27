@@ -207,15 +207,12 @@ public class JMixer extends javax.swing.JPanel {
         } else if (analogousRadio.isSelected()) {
             m.addRule(new SimpleHarmonicRule(0, 30f / 360f, 0, 5));
             m.addRule(new SimpleHarmonicRule(0, -30f / 360f, 0, 10));
-        } else if (primaryRadio.isSelected()) {
+        } else if (primaryRadio.isSelected() || triadRadio.isSelected()) {
             m.addRule(new SimpleHarmonicRule(0, 120f / 360f, 0, 5));
             m.addRule(new SimpleHarmonicRule(0, -120f / 360f, 0, 10));
         } else if (clashRadio.isSelected()) {
             m.addRule(new SimpleHarmonicRule(0, 90f / 360f, 0, 5));
             m.addRule(new SimpleHarmonicRule(0, -90f / 360f, 0, 10));
-        } else if (triadRadio.isSelected()) {
-            m.addRule(new SimpleHarmonicRule(0, 120f / 360f, 0, 5));
-            m.addRule(new SimpleHarmonicRule(0, -120f / 360f, 0, 10));
         } else if (splitComplementaryRadio.isSelected()) {
             m.addRule(new SimpleHarmonicRule(0, 150f / 360f, 0, 5));
             m.addRule(new SimpleHarmonicRule(0, -150f / 360f, 0, 10));

@@ -174,7 +174,6 @@ public class ExitAction extends AbstractApplicationAction {
         View v = unsavedView;
         if (v.getURI() == null) {
             URIChooser chooser = getChooser(v);
-            //int option = fileChooser.showSaveDialog(this);
             JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
                              @Override
                              public void optionSelected(final SheetEvent evt) {
@@ -273,7 +272,6 @@ public class ExitAction extends AbstractApplicationAction {
             reviewChanges();
         } else {
             getApplication().setEnabled(true);
-            //System.out.println("exit silently aborted");
         }
     }
 

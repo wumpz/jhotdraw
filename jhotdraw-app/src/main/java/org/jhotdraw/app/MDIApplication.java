@@ -33,7 +33,6 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
@@ -545,7 +544,6 @@ public class MDIApplication extends AbstractApplication {
     @Override
     public JMenu createWindowMenu(View view) {
         JMenu m;
-        JMenuItem mi;
         m = new JMenu();
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
@@ -573,8 +571,6 @@ public class MDIApplication extends AbstractApplication {
     @Override
     public JMenu createEditMenu(View view) {
         JMenu m;
-        JMenuItem mi;
-        Action a;
         m = new JMenu();
         labels.configureMenu(m, "edit");
         MenuBuilder mb = model.getMenuBuilder();
