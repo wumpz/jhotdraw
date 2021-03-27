@@ -45,15 +45,21 @@ public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
         setOpaque(true);
         setBackground(new Color(0xededed));
     }
-
+    /**
+     * @return  collection 
+     */
     public JList getCollectionList() {
         return collectionList;
     }
-
+    /**
+     * @return family list
+     */
     public JList getFamilyList() {
         return familyList;
     }
-
+    /**
+     * @return face list
+     */
     public JList getFaceList() {
         return faceList;
     }

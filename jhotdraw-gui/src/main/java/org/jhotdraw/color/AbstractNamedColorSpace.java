@@ -21,37 +21,65 @@ public abstract class AbstractNamedColorSpace extends ColorSpace implements Name
 
     private static final long serialVersionUID = 1L;
 
-    public AbstractNamedColorSpace(int type, int numcomponents) {
+    /**
+     * @param type color type
+     * @param numcomponents number of components
+     */
+    protected AbstractNamedColorSpace(int type, int numcomponents) {
         super(type, numcomponents);
     }
-
+    /**
+     * @param color values array
+     * @return array of converted CIEXYZ color value 
+     */
     @Override
     public float[] fromCIEXYZ(float[] colorvalue) {
         return fromCIEXYZ(colorvalue, new float[getNumComponents()]);
     }
 
     @Override
+    /**
+     * @param color values array
+     * @return an array of rgb color value
+     */
     public final float[] toRGB(float[] colorvalue) {
         return toRGB(colorvalue, new float[3]);
     }
 
     @Override
+    /**
+     * @param array of rgb colors values 
+     */
     public float[] fromRGB(float[] rgb) {
-        float[] tmp = new float[getNumComponents()];
         return fromRGB(rgb, new float[getNumComponents()]);
     }
 
     @Override
+    /**
+     * @param color values array
+     */
     public final float[] toCIEXYZ(float[] colorvalue) {
         return toCIEXYZ(colorvalue, new float[3]);
     }
 
     @Override
+    /**
+     * converts rgb color array to CIEXYZ color array 
+     * @param xyz a float array of CIEXYZ
+     * @param colorvalue color values array
+     * @return CIEXYZ array
+     */
     public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
         return ColorUtil.RGBtoCIEXYZ(toRGB(colorvalue, xyz), xyz);
     }
 
     @Override
+    /**
+     * converts CIEXYZ color array to rgb color array 
+     * @param xyz xyz array 
+     * @param colorvalue color values array
+     * @return rgb array 
+     */
     public float[] fromCIEXYZ(float[] xyz, float[] colorvalue) {
         return fromRGB(ColorUtil.CIEXYZtoRGB(xyz, colorvalue), colorvalue);
     }

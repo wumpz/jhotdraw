@@ -22,12 +22,19 @@ public class ActivityManagerEvent extends EventObject {
 
     private static final long serialVersionUID = 1L;
     private ActivityModel activity;
-
+    
+    /**
+     * manage app activities 
+     * @param source activity source 
+     * @param activity activity model
+     */
     public ActivityManagerEvent(Object source, ActivityModel activity) {
         super(source);
         this.activity = activity;
     }
-
+    /**
+     * @return activity model 
+     */
     public ActivityModel getActivityModel() {
         return activity;
     }

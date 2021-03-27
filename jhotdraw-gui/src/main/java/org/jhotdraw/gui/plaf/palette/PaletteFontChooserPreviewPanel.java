@@ -32,7 +32,10 @@ public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
         setPreferredSize(new Dimension(100, 50));
         setMinimumSize(new Dimension(100, 50));
     }
-
+    /**
+     * 
+     * @param newValue new font value to be assigned
+     */
     public void setSelectedFont(Font newValue) {
         if (newValue == null) {
             previewLabel.setText((String) PaletteLookAndFeel.getInstance().get("FontChooser.nothingSelected"));
@@ -42,7 +45,11 @@ public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
             previewLabel.setFont(newValue.deriveFont(24f));
         }
     }
-
+    /**
+     * 'Beautify' the name, make it more readable
+     * @param name name to be beautified
+     * @return String beautified name 
+     */
     private String beautifyName(String name) {
         // 'Beautify' the name
         StringBuilder buf = new StringBuilder();

@@ -38,33 +38,44 @@ public class PaletteButtonBorder implements Border, UIResource {
             paintBorder((AbstractButton) c, g, x, y, width, height);
         }
     }
-
+    /**
+     * paint the editor's foreground border 
+     */
     public void paintBorder(AbstractButton c, Graphics gr, int x, int y, int width, int height) {
-        Graphics2D g = (Graphics2D) gr;
+    	Graphics2D g = (Graphics2D) gr;
         ButtonModel m = c.getModel();
         int borderColor;
-        float[] stops;
-        Color[] stopColors;
-        if (!m.isEnabled()) {
-            borderColor = 0x80a5a5a5;
-            stops = ENABLED_STOPS;
-            stopColors = ENABLED_STOP_COLOR;
-        } else {
-            if (m.isSelected() || m.isPressed() && m.isArmed()) {
-                borderColor = 0xff333333;
-                stops = SELECTED_STOPS;
-                stopColors = SELECTED_STOP_COLORS;
-            } else {
-                borderColor = 0xffa5a5a5;
-                stops = ENABLED_STOPS;
-                stopColors = ENABLED_STOP_COLOR;
-            }
+        float[] stops = ENABLED_STOPS;
+        Color[] stopColors = ENABLED_STOP_COLOR;
+        if (!m.isEnabled()) borderColor = 0x80a5a5a5;
+        else {
+	        if (m.isSelected() || m.isPressed() && m.isArmed()) {
+	            borderColor = 0xff333333;
+	            stops = SELECTED_STOPS;
+	            stopColors = SELECTED_STOP_COLORS;
+	        }
+	         else borderColor = 0xffa5a5a5;
         }
         String segmentPosition = getSegmentPosition(c);
         if ("first".equals(segmentPosition) || "middle".equals(segmentPosition)) {
             width += 1;
         }
         g.setColor(new Color(borderColor, true));
+        adjustBorder(g,x,y,width,height,stops,stopColors);
+        
+        
+    }
+    /**
+     * 
+     * @param g graphics2d object to handle
+     * @param x x factor 
+     * @param y y factor
+     * @param width desired width
+     * @param height desired height
+     * @param stops a float array stops positions 
+     * @param stopColors a Color array design stops colors 
+     */
+    private void adjustBorder(Graphics2D g,int x ,int y, int width, int height,float[] stops,Color[] stopColors) {
         g.drawRect(x, y, width - 1, height - 1);
         LinearGradientPaint lgp = new LinearGradientPaint(
                 new Point2D.Float(x, y), new Point2D.Float(x, y + height - 1),
@@ -74,6 +85,10 @@ public class PaletteButtonBorder implements Border, UIResource {
         g.fillRect(x + 1, y + 1, width - 2, height - 2);
     }
 
+    /**
+     * @param c component to get its coordinate 
+     * @return the coordinate of the component 
+     */
     private String getSegmentPosition(Component c) {
         String segmentPosition = null;
         if (c instanceof JComponent) {
@@ -83,16 +98,16 @@ public class PaletteButtonBorder implements Border, UIResource {
     }
 
     @Override
+    /**
+     * @param c component to get its insets 
+     * @return the insets of the component 
+     */
     public Insets getBorderInsets(Component c) {
-        Insets insets;
+    	int x=2;
         String segmentPosition = getSegmentPosition(c);
-        if ("first".equals(segmentPosition)
-                || "middle".equals(segmentPosition)) {
-            insets = new Insets(3, 3, 3, 2);
-        } else {
-            insets = new Insets(3, 3, 3, 3);
-        }
-        return insets;
+        if ("first".equals(segmentPosition) || "middle".equals(segmentPosition)) 
+        	x=3;
+        return new Insets(3, 3, 3, x);
     }
 
     @Override

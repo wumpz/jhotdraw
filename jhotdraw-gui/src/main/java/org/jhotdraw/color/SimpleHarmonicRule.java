@@ -19,26 +19,42 @@ public class SimpleHarmonicRule extends AbstractHarmonicRule {
 
     private float difference;
     private int componentIndex;
-
+    
+    /**
+     * @param componentIndex the component index 
+     * @param difference difference value 
+     * @param baseIndex current base index 
+     * @param derivedIndices derived indices list 
+     */
     public SimpleHarmonicRule(int componentIndex, float difference, int baseIndex, int... derivedIndices) {
         this.componentIndex = componentIndex;
         this.difference = difference;
         this.baseIndex = baseIndex;
         this.derivedIndices = derivedIndices;
     }
-
+    /**
+     * set the constraint value to a new value 
+     * @param constraint new constraint  value 
+     */
     public void setConstraint(float constraint) {
         this.difference = constraint;
     }
-
-    public float getConstraint(float constraint) {
-        return constraint;
+    /**
+     * @return difference constraint 
+     */
+    public float getConstraint() {
+        return this.difference;
     }
-
+    /**
+     * set the component value to a new value 
+     * @param newValue new component index
+     */
     public void setComponentIndex(int newValue) {
         this.componentIndex = newValue;
     }
-
+    /**
+     * @return current component index 
+     */
     public int getComponentIndex() {
         return componentIndex;
     }
@@ -61,4 +77,8 @@ public class SimpleHarmonicRule extends AbstractHarmonicRule {
     @Override
     public void colorChanged(HarmonicColorModel model, int index, Color oldValue, Color newValue) {
     }
+
+	
+
+
 }

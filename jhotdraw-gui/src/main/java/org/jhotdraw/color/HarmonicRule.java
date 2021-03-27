@@ -17,7 +17,7 @@ import java.awt.Color;
  */
 public interface HarmonicRule {
 
-    public void setBaseIndex();
+    public void setBaseIndex(int baseIndex);
 
     public int getBaseIndex();
 

@@ -112,6 +112,8 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
                 Gs = Math.min(1, Math.max(0, Gs));
                 Bs = Math.min(1, Math.max(0, Bs));
                 break;
+                default: 
+                	break;
         }
         rgb[0] = (float) Rs;
         rgb[1] = (float) Gs;
@@ -264,6 +266,10 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
     }
 
     @Override
+    /**
+     * @param component to handle 
+     * @return the component minimum value
+     */
     public float getMinValue(int component) {
         switch (component) {
             case 0:
@@ -271,11 +277,16 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
             case 1:
             case 2:
                 return -128f;
-        }
-        throw new IllegalArgumentException("Illegal component:" + component);
+            default :
+            	throw new IllegalArgumentException("Illegal component:" + component);
+    }
     }
 
     @Override
+    /**
+     * @param component to handle 
+     * @return the component maximum value
+     */
     public float getMaxValue(int component) {
         switch (component) {
             case 0:
@@ -283,11 +294,16 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
             case 1:
             case 2:
                 return 127f;
-        }
-        throw new IllegalArgumentException("Illegal component:" + component);
+            default: 
+            	throw new IllegalArgumentException("Illegal component:" + component);
+    }
     }
 
     @Override
+    /**
+     * @param component the component to handle
+     * @return component name 
+     */
     public String getName(int component) {
         switch (component) {
             case 0:
@@ -296,29 +312,39 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
                 return "a*";
             case 2:
                 return "b*";
-        }
-        throw new IllegalArgumentException("Illegal component:" + component);
+            default:
+            	throw new IllegalArgumentException("Illegal component:" + component);
     }
-
+    }
+    /**
+     * sets the outside gamut handling 
+     * @param b new value to be assigned 
+     */
     public void setOutsideGamutHandling(OutsideGamutHandling b) {
         outsideGamutHandling = b;
     }
-
+    /**
+     * @return the current outside gamut handling 
+     */
     public OutsideGamutHandling getOutsideGamutHandling() {
         return outsideGamutHandling;
     }
 
+    public static String DisplayMsg(float[] values) {
+    	String s = values[0] + "," + values[1] + "," + values[2];
+    	return s;
+    }
     public static void main(String[] arg) {
         CIELABColorSpace cs = new CIELABColorSpace();
         float[] lab = cs.fromRGB(new float[]{1, 1, 1});
-        System.out.println("rgb->lab:" + lab[0] + "," + lab[1] + "," + lab[2]);
+        System.out.println("rgb->lab:"+ DisplayMsg(lab));
         float[] xyz = cs.toCIEXYZ(new float[]{0.75f, 0.25f, 0.1f});
-        System.out.println("    lab->xyz:" + xyz[0] + "," + xyz[1] + "," + xyz[2]);
+        System.out.println("    lab->xyz:" + DisplayMsg(xyz));
         lab = cs.fromCIEXYZ(xyz);
-        System.out.println("R xyz->LCHab:" + lab[0] + "," + lab[1] + "," + lab[2]);
+        System.out.println("R xyz->LCHab:" + DisplayMsg(lab));
         lab = cs.fromCIEXYZ(new float[]{1, 1, 1});
-        System.out.println("xyz->lab:" + lab[0] + "," + lab[1] + "," + lab[2]);
+        System.out.println("xyz->lab:" + DisplayMsg(lab));
         lab = cs.fromCIEXYZ(new float[]{0.5f, 1, 1});
-        System.out.println("xyz->lab:" + lab[0] + "," + lab[1] + "," + lab[2]);
+        System.out.println("xyz->lab:" + DisplayMsg(lab));
     }
 }

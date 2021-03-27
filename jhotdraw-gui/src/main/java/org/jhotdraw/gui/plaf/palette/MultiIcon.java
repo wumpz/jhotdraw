@@ -79,18 +79,27 @@ public abstract class MultiIcon implements Icon {
     }
 
     @Override
+    /**
+     * @return an Icon Height value 
+     */
     public int getIconHeight() {
         generateIconsFromTiledImage();
         return icons[0].getIconHeight();
     }
 
     @Override
+    /**
+     * @return an Icon width value 
+     */
     public int getIconWidth() {
         generateIconsFromTiledImage();
         return icons[0].getIconWidth();
     }
 
     @Override
+    /**
+     * paints an icon on the editor 
+     */
     public void paintIcon(java.awt.Component c, java.awt.Graphics g, int x, int y) {
         generateIconsFromTiledImage();
         Icon icon = getIcon(c);
@@ -98,7 +107,9 @@ public abstract class MultiIcon implements Icon {
             icon.paintIcon(c, g, x, y);
         }
     }
-
+    /**
+     * generates icons on the active editor 
+     */
     private void generateIconsFromTiledImage() {
         if (icons == null) {
             icons = new Icon[tileCount];
