@@ -247,19 +247,28 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
     }
 
     @Override
+    /**
+     * get component minimum value 
+     * @return float component min value 
+     * @throws IllegalArgumentException if component not in [0..2]
+     */
     public float getMinValue(int component) {
         switch (component) {
             case 0:
-                return 0f;
             case 1:
-                return 0f;
             case 2:
                 return 0f;
+            default :
+            	throw new IllegalArgumentException("Illegal component:" + component);
         }
-        throw new IllegalArgumentException("Illegal component:" + component);
     }
 
     @Override
+    /**
+     * get component maximum value 
+     * @return float component max value 
+     * @throws IllegalArgumentException if component not in [0..2]
+     */
     public float getMaxValue(int component) {
         switch (component) {
             case 0:
@@ -268,11 +277,15 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
                 return 127f;
             case 2:
                 return 360f;
+            default :
+            	throw new IllegalArgumentException("Illegal component:" + component);
         }
-        throw new IllegalArgumentException("Illegal component:" + component);
     }
 
     @Override
+    /**
+     * @return String component's name 
+     */
     public String getName(int component) {
         switch (component) {
             case 0:
@@ -281,29 +294,40 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
                 return "a*";
             case 2:
                 return "b*";
+            default :
+            	throw new IllegalArgumentException("Illegal component:" + component);
         }
-        throw new IllegalArgumentException("Illegal component:" + component);
     }
-
+    /**
+     * allows to set or not ClampRGB 
+     * @param b boolean, new ClampRGB value
+     */
     public void setClampRGBValues(boolean b) {
         isClampRGB = b;
     }
-
+    /**
+     * 
+     * @return true if ClampRGB is set false otherwise
+     */
     public boolean isClampRGBValues() {
         return isClampRGB;
     }
-
+    
+    private static String concatVals(float[] xyz) {
+    	return xyz[0] + "," + xyz[1] + "," + xyz[2];
+    }
+    
     public static void main(String[] arg) {
         CIELCHabColorSpace cs = new CIELCHabColorSpace();
         float[] lchab = cs.fromRGB(new float[]{1, 1, 1});
-        System.out.println("rgb->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
+        System.out.println("rgb->LCHab:" + concatVals(lchab));
         float[] xyz = cs.toCIEXYZ(new float[]{0.75f, 0.25f, 0.1f});
-        System.out.println("    lab->xyz:" + xyz[0] + "," + xyz[1] + "," + xyz[2]);
+        System.out.println("    lab->xyz:" + concatVals(xyz));
         lchab = cs.fromCIEXYZ(xyz);
-        System.out.println("R xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
+        System.out.println("R xyz->LCHab:" + concatVals(lchab));
         lchab = cs.fromCIEXYZ(new float[]{1, 1, 1});
-        System.out.println("xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
+        System.out.println("xyz->LCHab:" + concatVals(lchab));
         lchab = cs.fromCIEXYZ(new float[]{0.5f, 1, 1});
-        System.out.println("xyz->LCHab:" + lchab[0] + "," + lchab[1] + "," + lchab[2]);
+        System.out.println("xyz->LCHab:" + concatVals(lchab));
     }
 }

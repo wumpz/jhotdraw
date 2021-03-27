@@ -65,22 +65,51 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
     }
 
+    /**
+     * checks if Diagram image needs generation
+     * @return true if needs false otherwise
+     */
     public boolean needsGeneration() {
         return !isPixelsValid;
     }
-
+    
+    /**
+     * allows to regenerate the diagram
+     */
     public void regenerateDiagram() {
-        if (!isPixelsValid) {
+        if (needsGeneration()) {
             generateImage();
         }
     }
-
+    /**
+     * Auxiliary function to generateImage 
+     */
+    private void auxGenImg(int ix, int iy, float x, float[] XYZ, float[] rgb, float hf, float Y) {
+        float y = 0.9f - iy * hf;
+        float z = 1f - x - y;
+        if (y == 0) {
+            XYZ[0] = XYZ[1] = XYZ[2] = 0;
+        } else {
+            XYZ[1] = Y; // Y=Y
+            XYZ[0] = x * XYZ[1] / y; // X=x*Y/y
+            XYZ[2] = z * XYZ[1] / y; // Z = (1-x-y)*Y/y
+        }
+        int alpha = XYZ[0] >= CEPS && XYZ[1] >= CEPS && XYZ[2] >= CEPS
+                && XYZ[0] <= 1 - CEPS && XYZ[1] <= 1 - CEPS && XYZ[2] <= 1 - CEPS ? 255 : 0;
+        if (alpha == 255) {
+            toRGB(XYZ, rgb);
+            alpha = (rgb[0] >= EPS && rgb[1] >= EPS && rgb[2] >= EPS
+                    && rgb[0] <= 1 - EPS && rgb[1] <= 1 - EPS && rgb[2] <= 1 - EPS)
+                            ? 255 : 0;
+            if (alpha == 255) {
+                pixels[ix + iy * w] = (alpha << 24) | ((0xff & (int) (rgb[0] * 255f)) << 16) | ((0xff & (int) (rgb[1] * 255f)) << 8) | (0xff & (int) (rgb[2] * 255f));
+            }
+        }
+    }
+    
     public void generateImage() {
         float wf = 0.8f / (float) w;
         float hf = 0.9f / (float) h;
-//        float wf = 1f / (float) w;
-//      float hf = 1f / (float) h;
-        // Clear pixels
         Arrays.fill(pixels, 0);
         float[] rgb = new float[3];
         for (int iY = 0; iY <= 100; iY++) {
@@ -89,33 +118,10 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
             for (int ix = 0; ix < w; ix++) {
                 float x = ix * wf;
                 for (int iy = 0; iy < h; iy++) {
-                    if (pixels[ix + iy * w] != 0) {
+                	if (pixels[ix + iy * w] != 0)
                         continue;
-                    }
-                    float y = 0.9f - iy * hf;
-                    float z = 1f - x - y;
-                    if (y == 0) {
-                        XYZ[0] = XYZ[1] = XYZ[2] = 0;
-                    } else {
-                        XYZ[1] = Y; // Y=Y
-                        XYZ[0] = x * XYZ[1] / y; // X=x*Y/y
-                        XYZ[2] = z * XYZ[1] / y; // Z = (1-x-y)*Y/y
-                    }
-                    int alpha = XYZ[0] >= CEPS && XYZ[1] >= CEPS && XYZ[2] >= CEPS
-                            && XYZ[0] <= 1 - CEPS && XYZ[1] <= 1 - CEPS && XYZ[2] <= 1 - CEPS ? 255 : 0;
-                    if (alpha == 255) {
-                        //rgb = colorSpace.toRGB(XYZ);
-                        //toRGB(XYZ,rgb);
-                        toRGB(XYZ, rgb);
-                        alpha = (rgb[0] >= EPS && rgb[1] >= EPS && rgb[2] >= EPS
-                                && rgb[0] <= 1 - EPS && rgb[1] <= 1 - EPS && rgb[2] <= 1 - EPS)
-                                        ? 255 : 0;
-                        if (alpha == 255) {
-                            // rgb = colorSpace.toRGB(XYZ);
-//                            pixels[ix + iy * w] = (alpha << 24) | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
-                            pixels[ix + iy * w] = (alpha << 24) | ((0xff & (int) (rgb[0] * 255f)) << 16) | ((0xff & (int) (rgb[1] * 255f)) << 8) | (0xff & (int) (rgb[2] * 255f));
-                        }
-                    }
+                	auxGenImg(ix,iy,x,XYZ,rgb,hf,Y);
+
                 }
             }
         }
@@ -125,82 +131,63 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
         float[] components = ColorUtil.fromColor(colorSpace, c);
         return getColorLocation(components);
     }
-
+    // maybe futur use
     public Point getColorLocation(float[] components) {
         return null;
     }
 
-    public float[] getColorAt(int x, int y) {
-        return null;
-    }
 
+    /**
+     * @return the width
+     */
     public int getWidth() {
         return w;
     }
-
+    /**
+     * @return the height 
+     */
     public int getHeight() {
         return h;
     }
-
+    /**
+     * @param val RGBs values
+     * @return modified values
+     */
+    private double checkValRGBS(double val) {
+    	if (val<=0.00304)
+    		val = 12.92 * val;
+    	else val = 1.055 * Math.pow(val, 1 / 2.4) - 0.055;
+    	return val;
+    }
+    
+    /**
+     * converts ciexyz format to rgb 
+     * @param ciexyz ciexyz array values 
+     * @param rgb converted values stored here 
+     */
     public void toRGB(float[] ciexyz, float[] rgb) {
         double X = ciexyz[0];
         double Y = ciexyz[1];
         double Z = ciexyz[2];
-        // sRGB conversion
-        // Convert to sRGB as described in
-        // http://www.w3.org/Graphics/Color/sRGB.html
-        /*
-        double Rs = 3.2410 * X + -1.5374 * Y + -0.4986 * Z;
-        double Gs = -0.9692 * X + 1.8760 * Y + 0.0416 * Z;
-        double Bs = 0.0556 * X + -0.2040 * Y + 1.0570 * Z;
-         /* /
-        // Convert to sRGB as described in
-        // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-        double Rs = 3.2404542 * X + -1.5371385 * Y + -0.4985314 * Z;
-        double Gs = -0.9692660 * X + 1.8760108 * Y + 0.0415560 * Z;
-        double Bs = 0.0556434 * X + -0.2040259 * Y + 1.0572252 * Z;
-         /* /
-        // proPhoto RGB conversion http://www.colour.org/tc8-05/Docs/colorspace/PICS2000_RIMM-ROMM.pdf
-        double Rs = 1.3460 * X + -0.2556 * Y + -0.0511 * Z;
-        double Gs = -0.5446 * X + 1.5082 * Y + 0.0205 * Z;
-        double Bs = 0.0 * X + 0.0 * Y + 1.2123 * Z;
-        * /
-        // One to one 'conversion'
-        double Rs = 1 * X + 0 * Y + 0 * Z;
-        double Gs = 0 * X + 1 * Y + 0 * Z;
-        double Bs = 0 * X + 0 * Y + 1 * Z;
-         */
         // Convert to Wide Gamut RGB as described in
         // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
         double Rs = 1.4628067 * X + -0.1840623 * Y + -0.2743606 * Z;
         double Gs = -0.5217933 * X + 1.4472381 * Y + 0.0677227 * Z;
         double Bs = 0.0349342 * X + -0.0968930 * Y + 1.2884099 * Z;
-        if (Rs <= 0.00304) {
-            Rs = 12.92 * Rs;
-        } else {
-            Rs = 1.055 * Math.pow(Rs, 1 / 2.4) - 0.055;
-        }
-        if (Gs <= 0.00304) {
-            Gs = 12.92 * Gs;
-        } else {
-            Gs = 1.055 * Math.pow(Gs, 1 / 2.4) - 0.055;
-        }
-        if (Bs <= 0.00304) {
-            Bs = 12.92 * Bs;
-        } else {
-            Bs = 1.055 * Math.pow(Bs, 1 / 2.4) - 0.055;
-        }
+        Rs=checkValRGBS(Rs);
+        Gs=checkValRGBS(Gs);
+        Bs=checkValRGBS(Bs);
         switch (outsideGamutHandling) {
             case CLAMP:
                 Rs = Math.min(1, Math.max(0, Rs));
                 Gs = Math.min(1, Math.max(0, Gs));
                 Bs = Math.min(1, Math.max(0, Bs));
                 break;
+            default:
+            	break;
         }
         rgb[0] = (float) Rs;
         rgb[1] = (float) Gs;
         rgb[2] = (float) Bs;
-        //return new float[]{(float) Rs, (float) Gs, (float) Bs};
-        //       return sRGB.fromCIEXYZ(ciexyz);
     }
 }
