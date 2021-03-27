@@ -62,7 +62,7 @@ public class ViewPropertyAction extends AbstractViewAction {
         View p = getActiveView();
         try {
             p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[]{propertyValue});
-        } catch (Throwable e) {
+        } catch (Exception e) {
             InternalError error = new InternalError("Method invocation failed. setter:" + setterName + " object:" + p);
             error.initCause(e);
             throw error;
@@ -94,7 +94,7 @@ public class ViewPropertyAction extends AbstractViewAction {
                 isSelected = value == propertyValue
                         || value != null && propertyValue != null
                         && value.equals(propertyValue);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 InternalError error = new InternalError("Method invocation failed. getter:" + getterName + " object:" + p);
                 error.initCause(e);
                 throw error;

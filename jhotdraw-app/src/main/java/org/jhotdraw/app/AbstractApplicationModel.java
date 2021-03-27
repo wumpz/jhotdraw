@@ -43,7 +43,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
     /**
      * Creates a new instance.
      */
-    public AbstractApplicationModel() {
+    protected AbstractApplicationModel() {
     }
 
     public void setName(String newValue) {
