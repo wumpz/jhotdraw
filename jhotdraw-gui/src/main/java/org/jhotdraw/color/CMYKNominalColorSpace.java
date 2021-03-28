@@ -37,6 +37,12 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
     }
 
     @Override
+    /**
+     * converts component's colors to rgb 
+     * @param component component to handle
+     * @param rgb array where rgb values will be stored
+     * @return float array of rgb values 
+     */
     public float[] toRGB(float[] component, float[] rgb) {
         float cyan, magenta, yellow, black;
         cyan = component[0];
@@ -58,6 +64,12 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
     }
 
     @Override
+    /**
+     * converts rgb color values  
+     * @param rgbvalue array of rgb values 
+     * @param colorvalue array where color values will be stored
+     * @return float array of color values
+     */
     public float[] fromRGB(float[] rgbvalue, float[] colorvalue) {
         float r = rgbvalue[0];
         float g = rgbvalue[1];
@@ -106,16 +118,23 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
     }
 
     @Override
+    /**
+     * @return max value of component 
+     */
     public float getMaxValue(int component) {
         return 1f;
     }
 
     @Override
+    /**
+     * @return min value of component 
+     */
     public float getMinValue(int component) {
         return 0f;
     }
 
     @Override
+    
     public boolean equals(Object o) {
         return (o instanceof CMYKNominalColorSpace);
     }

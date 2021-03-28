@@ -19,16 +19,25 @@ import javax.swing.*;
 public class ColorListCellRenderer extends DefaultListCellRenderer {
 
     private static final long serialVersionUID = 1L;
-
+    
+    private static final int ICONWIDTH=24;
+    private static final int ICONHEIGHT=18;
+    private ColorIcon icon;
     private static class ColorIcon implements Icon {
 
         private Color color;
-
+        /**
+         * set list's cell color  
+         * @param newValue new color value 
+         */
         public void setColor(Color newValue) {
             color = newValue;
         }
 
         @Override
+        /**
+         * allows to paint an icon with stored color previously selected 
+         */
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (color != null) {
                 g.setColor(new Color(0x333333));
@@ -41,16 +50,22 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
         }
 
         @Override
+        /**
+         * @return Icon's width
+         */
         public int getIconWidth() {
-            return 24;
+            return ICONWIDTH;
         }
 
         @Override
+        /**
+         * @return Icon's height 
+         */
         public int getIconHeight() {
-            return 18;
+            return ICONHEIGHT;
         }
     }
-    private ColorIcon icon;
+    
 
     public ColorListCellRenderer() {
         icon = new ColorIcon();
@@ -69,11 +84,8 @@ public class ColorListCellRenderer extends DefaultListCellRenderer {
             Color c = (Color) value;
             icon.setColor(c);
             setToolTipText(ColorUtil.toToolTipText(c));
-            setText("");
-        } else {
-            icon.setColor(null);
-            setText("");
-        }
+        } else icon.setColor(null);
+        setText("");
         setIcon(icon);
         return this;
     }
