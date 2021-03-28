@@ -80,6 +80,9 @@ public abstract class AbstractViewAction extends AbstractAction {
     /**
      * Updates the listeners of this action depending on the current view
      * of the application.
+     *
+     * @param oldvalue the old value to unistall on the view listeners
+     * @param newValue the new value to install on the view listeners
      */
     protected void updateView(View oldValue, View newValue) {
         // We only need to do this, if the view has not been explicitly set
@@ -98,6 +101,8 @@ public abstract class AbstractViewAction extends AbstractAction {
 
     /**
      * Sets the property name.
+     *
+     * @param name the name of the new property
      */
     protected void setPropertyName(String name) {
         this.propertyName = name;
@@ -108,6 +113,8 @@ public abstract class AbstractViewAction extends AbstractAction {
 
     /**
      * Gets the property name.
+     *
+     * @return the property name
      */
     protected String getPropertyName() {
         return propertyName;
@@ -122,6 +129,8 @@ public abstract class AbstractViewAction extends AbstractAction {
 
     /**
      * Installs listeners on the view object.
+     *
+     * @param p the view on which install the listerner
      */
     protected void installViewListeners(View p) {
         p.addPropertyChangeListener(viewListener);
@@ -129,6 +138,8 @@ public abstract class AbstractViewAction extends AbstractAction {
 
     /**
      * Uninstalls listeners on the view object.
+     *
+     * @param p the view on which uninstall the listerner
      */
     protected void uninstallViewListeners(View p) {
         p.removePropertyChangeListener(viewListener);
@@ -141,11 +152,26 @@ public abstract class AbstractViewAction extends AbstractAction {
     protected void updateEnabled() {
         setEnabled(this.enabled);
     }
-
+    
+    /**
+    *
+    * Gets The current application
+    *
+    * @return the current application
+    */
+    
     public Application getApplication() {
         return app;
     }
 
+
+        /**
+    *
+    * Gets The current View
+    *
+    * @return the current View
+    */
+    
     public View getActiveView() {
         return (view == null) ? app.getActiveView() : view;
     }
@@ -187,13 +213,16 @@ public abstract class AbstractViewAction extends AbstractAction {
     /**
      * Set this to true if the action may create a new view if none exists.
      * If this is false, the action will be disabled, if no view is available.
+     *
+     * @param b a boolean to know if a new View has to be created
      */
     protected void setMayCreateView(boolean b) {
         mayCreateView = b;
     }
 
     /**
-     * Returns to true if the action may create a new view if none exists.
+     * @returns a boolean to true if the action may create a new view if none exists.
+     *
      */
     protected boolean isMayCreateView() {
         return mayCreateView;

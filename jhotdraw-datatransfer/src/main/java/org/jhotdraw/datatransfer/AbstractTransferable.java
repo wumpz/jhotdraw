@@ -21,6 +21,8 @@ public abstract class AbstractTransferable implements Transferable {
 
     /**
      * Creates a new instance.
+     *
+     * @param flavor used to access data on the clipboard
      */
     protected AbstractTransferable(DataFlavor flavor) {
         this.flavors = new DataFlavor[]{flavor};
@@ -28,6 +30,8 @@ public abstract class AbstractTransferable implements Transferable {
 
     /**
      * Creates a new instance.
+     *
+     * @param flavor used to access data on the clipboard
      */
     protected AbstractTransferable(DataFlavor[] flavors) {
         this.flavors = flavors.clone();

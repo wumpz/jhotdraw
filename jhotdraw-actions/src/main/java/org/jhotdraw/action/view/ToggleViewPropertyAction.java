@@ -81,6 +81,7 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
             throw error;
         }
     }
+    
 
     private Object getCurrentValue() {
         View p = getActiveView();

@@ -56,6 +56,10 @@ public class RedoAction extends AbstractViewAction {
         super(app, view);
         labels.configureAction(this, ID);
     }
+    
+    /**
+    * Set the state of redo action
+    */
 
     protected void updateEnabledState() {
         boolean isEnabled = false;
@@ -110,6 +114,12 @@ public class RedoAction extends AbstractViewAction {
         }
     }
 
+
+    /**
+    * Gets the current redo action enabled
+    *
+    * @return the redo action
+    */
     private Action getRealRedoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

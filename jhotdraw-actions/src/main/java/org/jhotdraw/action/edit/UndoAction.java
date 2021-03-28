@@ -55,7 +55,12 @@ public class UndoAction extends AbstractViewAction {
         super(app, view);
         labels.configureAction(this, ID);
     }
-
+    
+    
+    /**
+    * Set the state of undo action
+    */
+    
     protected void updateEnabledState() {
         boolean isEnabled = false;
         Action realAction = getRealUndoAction();
@@ -108,7 +113,13 @@ public class UndoAction extends AbstractViewAction {
             realUndoAction.actionPerformed(e);
         }
     }
-
+    
+    
+    /**
+    * Gets the current undo action enabled
+    *
+    * @return the undo action
+    */
     private Action getRealUndoAction() {
         return (getActiveView() == null) ? null : getActiveView().getActionMap().get(ID);
     }

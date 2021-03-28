@@ -36,6 +36,8 @@ public class ImageTransferable implements Transferable {
 
     /**
      * Creates a new instance.
+     *
+     * @ param the value for image to be set
      */
     public ImageTransferable(Image image) {
         this.image = image;

@@ -51,6 +51,8 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
 
     /*
      * Installs listeners on the application object.
+     *
+     * @param app the application on which we install listeners
      */
     protected void installApplicationListeners(Application app) {
         if (applicationListener == null) {
@@ -61,6 +63,8 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
 
     /**
      * Installs listeners on the application object.
+     *
+     * @param app the application on which we uninstall listeners
      */
     protected void uninstallApplicationListeners(Application app) {
         app.removePropertyChangeListener(applicationListener);

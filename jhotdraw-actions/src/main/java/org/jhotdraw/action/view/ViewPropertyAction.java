@@ -84,6 +84,12 @@ public class ViewPropertyAction extends AbstractViewAction {
         super.uninstallViewListeners(p);
         p.removePropertyChangeListener(viewListener);
     }
+    
+    /**
+    *
+    * Set the state of Selected value
+    *
+    */
 
     private void updateSelectedState() {
         boolean isSelected = false;
