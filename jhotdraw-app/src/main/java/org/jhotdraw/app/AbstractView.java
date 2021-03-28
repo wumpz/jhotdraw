@@ -191,6 +191,12 @@ public abstract class AbstractView extends JPanel implements View {
     public boolean hasUnsavedChanges() {
         return hasUnsavedChanges;
     }
+    
+    /**
+     * Set a state for the unsaved changes
+     *
+     * @param the new value for unsaved changes
+     */
 
     protected void setHasUnsavedChanges(boolean newValue) {
         boolean oldValue = hasUnsavedChanges;

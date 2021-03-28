@@ -259,6 +259,10 @@ public class SDIApplication extends AbstractApplication {
     /**
      * Returns the view component. Eventually wraps it into
      * another component in order to provide additional functionality.
+     *
+     * @param p the view contening the component to wrap
+     *
+     * @return the view component
      */
     protected Component wrapViewComponent(View p) {
         JComponent c = p.getComponent();
@@ -303,6 +307,10 @@ public class SDIApplication extends AbstractApplication {
 
     /**
      * Creates a menu bar.
+     *
+     * @param v the view for the menu bar
+     *
+     * @return mb the created menu bar
      */
     protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
@@ -504,6 +512,7 @@ public class SDIApplication extends AbstractApplication {
         m.add(getAction(p, AboutAction.ID));
         return m;
     }
+    
 
     protected ActionMap createModelActionMap(ApplicationModel mo) {
         ActionMap rootMap = new ActionMap();

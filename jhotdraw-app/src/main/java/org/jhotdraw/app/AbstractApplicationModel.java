@@ -57,6 +57,10 @@ public abstract class AbstractApplicationModel extends AbstractBean
         return name;
     }
 
+
+    /* Set the version
+    * @param newValue for the version
+    */
     public void setVersion(String newValue) {
         String oldValue = version;
         version = newValue;
@@ -68,6 +72,12 @@ public abstract class AbstractApplicationModel extends AbstractBean
         return version;
     }
 
+
+    /** 
+    * Set the Copyright
+    * @param newValue for the Copyright
+    */
+    
     public void setCopyright(String newValue) {
         String oldValue = copyright;
         copyright = newValue;
@@ -100,7 +110,13 @@ public abstract class AbstractApplicationModel extends AbstractBean
         viewClass = newValue;
         firePropertyChange(VIEW_CLASS_PROPERTY, oldValue, newValue);
     }
-
+    
+     /**
+     * Get the viewClass
+     *
+     * @param the viewClass
+     */
+     
     public Class<?> getViewClass() {
         if (viewClass == null) {
             if (viewClassName != null) {
@@ -161,6 +177,13 @@ public abstract class AbstractApplicationModel extends AbstractBean
     public void destroyApplication(Application a) {
     }
 
+
+    /**
+     * Create a URIChooser
+     *
+     * @return the new URIChooser
+     */
+     
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
         URIChooser c = new JFileURIChooser();

@@ -118,6 +118,14 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         }
     }
 
+    /**
+    *
+    * Get the Uri Chooser wanted from the view
+    *
+    * @param view the view contening the Chooser
+    *
+    * @return the URIChooser
+    */
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
         if (chsr == null) {
@@ -126,6 +134,14 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         }
         return chsr;
     }
+    
+    
+    /**
+    *
+    * Save changes on a view
+    *
+    * @param the view
+    */
 
     protected void saveView(final View v) {
         if (v.getURI() == null) {

@@ -350,6 +350,10 @@ public class OSXApplication extends AbstractApplication {
 
     /**
      * Creates a menu bar.
+     *
+     * @param v the view for the menu bar
+     *
+     * @return the menu bar created
      */
     protected JMenuBar createMenuBar(View v) {
         JMenuBar mb = new JMenuBar();
@@ -498,7 +502,8 @@ public class OSXApplication extends AbstractApplication {
         mb.addHelpItems(m, this, view);
         return (m.getItemCount() == 0) ? null : m;
     }
-
+    
+     
     protected void initScreenMenuBar() {
         setScreenMenuBar(createMenuBar(null));
         paletteHandler.add((JFrame) getComponent(), null);
@@ -525,6 +530,12 @@ public class OSXApplication extends AbstractApplication {
             OSXAdapter.setQuitHandler(a);
         }
     }
+    
+    /**
+     * Init ythe palette actions.
+     *
+     * @param paletteActions the palette of actions of the tool bar
+     */
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
         SwingUtilities.invokeLater(() -> {
@@ -594,6 +605,12 @@ public class OSXApplication extends AbstractApplication {
         }
         return invisibleFrame;
     }
+    
+    /**
+    * Set component of Screen menu bar
+    *
+    * @param mb the menu bar
+    */
 
     protected void setScreenMenuBar(JMenuBar mb) {
         ((JFrame) getComponent()).setJMenuBar(mb);

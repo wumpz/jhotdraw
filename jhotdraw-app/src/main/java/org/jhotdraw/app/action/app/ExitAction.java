@@ -161,6 +161,14 @@ public class ExitAction extends AbstractApplicationAction {
         }
     }
 
+        /**
+    *
+    * Get the Uri Chooser wanted from the view
+    *
+    * @param view the view contening the Chooser
+    *
+    * @return the URIChooser
+    */
     protected URIChooser getChooser(View view) {
         URIChooser chsr = (URIChooser) (view.getComponent()).getClientProperty("saveChooser");
         if (chsr == null) {
@@ -170,6 +178,10 @@ public class ExitAction extends AbstractApplicationAction {
         return chsr;
     }
 
+    /**
+    *
+    * Save changes on a view
+    */
     protected void saveChanges() {
         View v = unsavedView;
         if (v.getURI() == null) {
@@ -274,6 +286,7 @@ public class ExitAction extends AbstractApplicationAction {
             getApplication().setEnabled(true);
         }
     }
+    
 
     protected void saveToFile(final URI uri, final URIChooser chooser) {
         final View v = unsavedView;
