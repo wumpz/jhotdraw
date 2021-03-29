@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
 import java.util.LinkedList;
+import java.util.logging.Logger;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -97,8 +99,6 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     @Override
     public void unconfigureSlider(JSlider slider) {
         if (slider.getClientProperty("colorSliderModel") == this) {
-            // XXX - This creates a NullPointerException ??
-            //slider.setUI((SliderUI) UIManager.getUI(slider));
             slider.setModel(new DefaultBoundedRangeModel());
             slider.putClientProperty("colorSliderModel", null);
             slider.putClientProperty("colorComponentIndex", null);
@@ -170,7 +170,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
             return ColorUtil.toColor(colorSpace, c);
         } catch (IllegalArgumentException e) {
             for (i = 0; i < c.length; i++) {
-                System.err.println(i + "=" + c[i] + " " + colorSpace.getMinValue(i) + ".." + colorSpace.getMaxValue(i));
+            	Logger.getLogger(i + "=" + c[i] + " " + colorSpace.getMinValue(i) + ".." + colorSpace.getMaxValue(i));
             }
             throw e;
         }
