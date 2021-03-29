@@ -39,7 +39,6 @@ public class ColorTrackImageProducer extends MemoryImageSource {
         this.h = h;
         // trackBuffer must be even
         this.trackBuffer = ((trackBuffer & 1) == 0) ? trackBuffer : trackBuffer - 1;
-        //this.componentIndex = componentIndex;
         this.isHorizontal = isHorizontal;
         newPixels(pixels, new DirectColorModel(24,
                 0x00ff0000, // Red
@@ -49,39 +48,53 @@ public class ColorTrackImageProducer extends MemoryImageSource {
                 0, w);
         setAnimated(true);
     }
-
+    
+    /**
+     * @return width
+     */
     public int getWidth() {
         return w;
     }
-
+    /**
+     * @return height
+     */
     public int getHeight() {
         return h;
     }
-
+    /**
+     * mark the color track as dirty
+     */
     public void markAsDirty() {
         isDirty = true;
     }
-
+    /**
+     * check if color track is dirty 
+     * @return true if the color track is dirty 
+     */
     public boolean needsGeneration() {
         return isDirty;
     }
-
+    /**
+     * regenerate the color track if it marked as dirty
+     */
     public void regenerateColorTrack() {
-        if (isDirty) {
+        if (needsGeneration())
             generateColorTrack();
-        }
     }
-
+    /**
+     * generate the color track , not dirty after generation 
+     */
     public void generateColorTrack() {
-        if (isHorizontal) {
+        if (isHorizontal)
             generateHorizontalColorTrack();
-        } else {
+        else
             generateVerticalColorTrack();
-        }
         newPixels();
         isDirty = false;
     }
-
+    /**
+     * allows to generate the horizontal color track 
+     */
     private void generateHorizontalColorTrack() {
         float[] components = colorizer.getComponents();
         float[] rgb = new float[3];
@@ -101,7 +114,9 @@ public class ColorTrackImageProducer extends MemoryImageSource {
             System.arraycopy(pixels, 0, pixels, y, w);
         }
     }
-
+    /**
+     * allows to generate the vertical color track 
+     */
     private void generateVerticalColorTrack() {
         float[] components = colorizer.getComponents();
         float[] rgb = new float[3];
@@ -124,12 +139,18 @@ public class ColorTrackImageProducer extends MemoryImageSource {
             }
         }
     }
-
+    /**
+     * sets the color slide model to a specific value and mark it as dirty 
+     * @param colorizer new value 
+     */
     public void setColorSliderModel(ColorSliderModel colorizer) {
         this.colorizer = colorizer;
         isDirty = true;
     }
-
+    /**
+     * sets the color component index to a new value and mark it as dirty
+     * @param index new value 
+     */
     public void setColorComponentIndex(int index) {
         this.componentIndex = index;
         isDirty = true;

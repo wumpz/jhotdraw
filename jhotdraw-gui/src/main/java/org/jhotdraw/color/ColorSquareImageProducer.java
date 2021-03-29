@@ -82,22 +82,29 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
     }
 
     @Override
+    /**
+     * checks if pixels is valid 
+     */
     public boolean needsGeneration() {
         return !isPixelsValid;
     }
 
     @Override
+    /**
+     * allows to regenerate color wheel if it pixels is not valid 
+     */
     public void regenerateColorWheel() {
-        if (!isPixelsValid) {
+        if (needsGeneration())
             generateColorWheel();
-        }
     }
 
     @Override
+    /**
+     * allows to generate the color wheel 
+     */
     public void generateColorWheel() {
-        if (!isLookupValid) {
+        if (!isLookupValid)
             generateLookupTables();
-        }
         float[] components = new float[colorSpace.getNumComponents()];
         float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
@@ -112,46 +119,47 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         isPixelsValid = true;
     }
 
+    private float[] checkFlipXY(float[] flips) {
+    	if (flipX) flips[0] = 1f - flips[0];
+        if (flipY) flips[1] = 1f - flips[1];
+        return flips;
+    }
     @Override
+    /**
+     * gets a color location in the color wheel 
+     */
     public Point getColorLocation(float[] components) {
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
+    	float[] flips = new float[2];
+        flips[0] = (components[radialIndex] - colorSpace.getMinValue(radialIndex)) // radial 
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
+        flips[1] = (components[angularIndex] - colorSpace.getMinValue(angularIndex)) // angular 
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
-        if (flipX) {
-            radial = 1f - radial;
-        }
-        if (flipY) {
-            angular = 1f - angular;
-        }
+        flips=checkFlipXY(flips);
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
         int yOffset = (h - side) / 2;
-        Point p = new Point(
-                (int) (side * radial) + xOffset,
-                (int) (side * angular) + yOffset
-        );
-        return p;
+        return new Point(
+                (int) (side * flips[0]) + xOffset,
+                (int) (side * flips[1]) + yOffset);
     }
 
     @Override
+    /**
+     * gets the color by its location in the color wheel
+     */
     public float[] getColorAt(int x, int y) {
+    	float[] flips = new float[2];
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
         int yOffset = (h - side) / 2;
-        float radial = (x - xOffset) / (float) side;
-        float angular = (y - yOffset) / (float) side;
-        if (flipX) {
-            radial = 1f - radial;
-        }
-        if (flipY) {
-            angular = 1f - angular;
-        }
+        flips[0] = (x - xOffset) / (float) side; //radial
+        flips[1] = (y - yOffset) / (float) side; // angular
+        flips=checkFlipXY(flips);
         float[] hsb = new float[3];
-        hsb[angularIndex] = angular
+        hsb[angularIndex] = flips[1]
                 * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
                 + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = radial
+        hsb[radialIndex] = flips[0]
                 * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
                 + colorSpace.getMinValue(radialIndex);
         hsb[verticalIndex] = verticalValue;
