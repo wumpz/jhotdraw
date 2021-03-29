@@ -195,7 +195,7 @@ public class JMDIDesktopPane extends JDesktopPane implements Arrangeable {
     public void arrangeFramesHorizontally() {
         Component[] allFrames = getAllFrames();
         // do nothing if no frames to work with
-        if (allFrames.length == 0) {
+        if (allFrames.length==0) {
             return;
         }
         manager.setNormalSize();

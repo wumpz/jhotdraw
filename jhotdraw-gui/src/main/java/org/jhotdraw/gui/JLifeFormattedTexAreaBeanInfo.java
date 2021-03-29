@@ -9,6 +9,8 @@ package org.jhotdraw.gui;
 
 import java.beans.*;
 
+import org.jhotdraw.draw.gui.JAttributeSliderBeanInfo;
+
 /**
  * BeanInfo for JLifeFormattedTextArea.
  *
@@ -160,45 +162,7 @@ public class JLifeFormattedTexAreaBeanInfo extends SimpleBeanInfo {
      */
     @Override
     public java.awt.Image getIcon(int iconKind) {
-        switch (iconKind) {
-            case ICON_COLOR_16x16:
-                if (iconNameC16 == null) {
-                    return null;
-                } else {
-                    if (iconColor16 == null) {
-                        iconColor16 = loadImage(iconNameC16);
-                    }
-                    return iconColor16;
-                }
-            case ICON_COLOR_32x32:
-                if (iconNameC32 == null) {
-                    return null;
-                } else {
-                    if (iconColor32 == null) {
-                        iconColor32 = loadImage(iconNameC32);
-                    }
-                    return iconColor32;
-                }
-            case ICON_MONO_16x16:
-                if (iconNameM16 == null) {
-                    return null;
-                } else {
-                    if (iconMono16 == null) {
-                        iconMono16 = loadImage(iconNameM16);
-                    }
-                    return iconMono16;
-                }
-            case ICON_MONO_32x32:
-                if (iconNameM32 == null) {
-                    return null;
-                } else {
-                    if (iconMono32 == null) {
-                        iconMono32 = loadImage(iconNameM32);
-                    }
-                    return iconMono32;
-                }
-            default:
-                return null;
-        }
+    	JAttributeSliderBeanInfo J = new JAttributeSliderBeanInfo();
+        return J.getIcon(iconKind);
     }
 }

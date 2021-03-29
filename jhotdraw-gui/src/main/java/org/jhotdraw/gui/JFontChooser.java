@@ -399,7 +399,6 @@ public class JFontChooser extends JComponent {
                 TreePath path = selectionPath;
                 FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1) ? (FontCollectionNode) path.getPathComponent(1) : null;
                 FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2) ? (FontFamilyNode) path.getPathComponent(2) : null;
-                FontFaceNode oldFace = (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
                 FontCollectionNode newCollection = oldCollection;
                 FontFamilyNode newFamily = oldFamily;
                 FontFaceNode newFace = null;

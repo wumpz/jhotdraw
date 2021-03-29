@@ -169,18 +169,13 @@ public class JSheet extends JDialog {
                 Point ownerLoc = owner.getLocation();
                 Point sheetLoc;
                 if (isShowAsSheet()) {
-                    if (owner instanceof JFrame) {
-                        sheetLoc = new Point(
-                                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                                ownerLoc.y + owner.getInsets().top + ((JFrame) owner).getRootPane().getContentPane().getY());
-                    } else if (owner instanceof JDialog) {
-                        sheetLoc = new Point(
-                                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                                ownerLoc.y + owner.getInsets().top + ((JDialog) owner).getRootPane().getContentPane().getY());
-                    } else {
-                        sheetLoc = new Point(
-                                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                                ownerLoc.y + owner.getInsets().top);
+                	int X = ownerLoc.x + (owner.getWidth() - getWidth()) / 2;
+                	int Y = ownerLoc.y + owner.getInsets().top;
+                    if (owner instanceof JFrame)
+                        sheetLoc = new Point(X, Y+ ((JFrame) owner).getRootPane().getContentPane().getY());
+                    else {
+                    int sup =((JDialog) owner).getRootPane().getContentPane().getY();
+                    sheetLoc = new Point(X,(owner instanceof JDialog)?Y+sup:Y);
                     }
                     if (sheetLoc.x < 0) {
                         owner.setLocation(ownerLoc.x - sheetLoc.x, ownerLoc.y);
@@ -200,9 +195,7 @@ public class JSheet extends JDialog {
                 oldFocusOwner = owner.getFocusOwner();
                 // Note: We mustn't change the windows focusable state because
                 // this also affects the focusable state of the JSheet.
-                //owner.setFocusableWindowState(false);
                 owner.setEnabled(false);
-                // ((JFrame) owner).setResizable(false);
                 if (isShowAsSheet()) {
                     owner.addComponentListener(ownerMovementHandler);
                 } else {
@@ -225,9 +218,7 @@ public class JSheet extends JDialog {
             if (owner != null) {
                 // Note: We mustn't change the windows focusable state because
                 // this also affects the focusable state of the JSheet.
-                //owner.setFocusableWindowState(true);
                 owner.setEnabled(true);
-                //((JFrame) owner).setResizable(true);
                 owner.removeComponentListener(ownerMovementHandler);
                 if (shiftBackLocation != null) {
                     owner.setLocation(shiftBackLocation);
@@ -373,7 +364,6 @@ public class JSheet extends JDialog {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void show() {
         if (isAnimated() && isShowAsSheet() && !isNativeSheetSupported()) {
@@ -437,18 +427,6 @@ public class JSheet extends JDialog {
      * Requests attention from user. This is invoked when the sheet is opened.
      */
     public static void requestUserAttention(boolean requestCritical) {
-        /*
-         NSApplication app = NSApplication.sharedApplication();
-         int id = app.requestUserAttention(
-         NSApplication.UserAttentionRequestInformational);
-         */
- /*
-         try {
-         Object app = Methods.invokeStatic("com.apple.cocoa.application.NSApplication", "sharedApplication");
-         Methods.invoke(app, "requestUserAttention", app.getClass().getDeclaredField("UserAttentionRequestInformational").getInt(app));
-         } catch (Throwable ex) {
-         System.err.println("Quaqua Warning: Couldn't invoke NSApplication.requestUserAttention");
-         }*/
     }
 
     /**
@@ -473,16 +451,12 @@ public class JSheet extends JDialog {
     protected void fireOptionSelected(JOptionPane pane) {
         Object value = pane.getValue();
         int option;
-        if (value == null) {
-            option = JOptionPane.CLOSED_OPTION;
-        } else {
-            if (pane.getOptions() == null) {
-                if (value instanceof Integer) {
-                    option = ((Integer) value);
-                } else {
-                    option = JOptionPane.CLOSED_OPTION;
-                }
-            } else {
+        if (value == null) option = JOptionPane.CLOSED_OPTION;
+        else {
+            if (pane.getOptions() == null)
+            	option = (value instanceof Integer)?
+            			((Integer) value): JOptionPane.CLOSED_OPTION;
+            else {
                 option = JOptionPane.CLOSED_OPTION;
                 Object[] options = pane.getOptions();
                 for (int i = 0, n = options.length; i < n; i++) {
@@ -491,9 +465,7 @@ public class JSheet extends JDialog {
                         break;
                     }
                 }
-                if (option == JOptionPane.CLOSED_OPTION) {
-                    value = null;
-                }
+                if (option == JOptionPane.CLOSED_OPTION) value = null;
             }
         }
         fireOptionSelected(pane, option, value, pane.getInputValue());
@@ -1138,12 +1110,8 @@ public class JSheet extends JDialog {
         final ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                int option;
-                if ("ApproveSelection".equals(evt.getActionCommand())) {
-                    option = JFileChooser.APPROVE_OPTION;
-                } else {
-                    option = JFileChooser.CANCEL_OPTION;
-                }
+                int option=("ApproveSelection".equals(evt.getActionCommand()))?
+                		JFileChooser.APPROVE_OPTION:JFileChooser.CANCEL_OPTION;
                 sheet.hide();
                 sheet.fireOptionSelected(chooser, option);
                 chooser.removeActionListener(this);
@@ -1199,12 +1167,8 @@ public class JSheet extends JDialog {
         final ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                int option;
-                if ("ApproveSelection".equals(evt.getActionCommand())) {
-                    option = JFileChooser.APPROVE_OPTION;
-                } else {
-                    option = JFileChooser.CANCEL_OPTION;
-                }
+            	int option=("ApproveSelection".equals(evt.getActionCommand()))?
+                		JFileChooser.APPROVE_OPTION:JFileChooser.CANCEL_OPTION;
                 sheet.hide();
                 sheet.fireOptionSelected(chooser, option);
                 chooser.removeActionListener(this);

@@ -42,7 +42,6 @@ public class JPopupButton extends javax.swing.JButton {
      * Whether the popup menu closes automatically, when another popup menu
      * is opened.
      */
-    private boolean isCloseAutomatically;
 
     private class Handler implements PropertyChangeListener, PopupMenuListener, AWTEventListener {
 

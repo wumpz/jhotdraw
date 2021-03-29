@@ -170,7 +170,6 @@ public class JActivityIndicator extends javax.swing.JPanel {
             setToolTipText(labels.getString("ActivityIndicator.noActivities.toolTipText"));
         } else if (models.size() == 1) {
             setToolTipText(models.get(0).getTitle());
-            //setToolTipText(labels.getString("ActivityIndicator.oneActivity.toolTipText"));
         } else {
             setToolTipText(labels.getFormatted("ActivityIndicator.nActivities.toolTipText", models.size()));
         }
