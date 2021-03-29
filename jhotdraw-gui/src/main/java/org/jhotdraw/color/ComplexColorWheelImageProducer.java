@@ -71,11 +71,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float maxA = colorSpace.getMaxValue(angularIndex);
         float minA = colorSpace.getMinValue(angularIndex);
         float extentA = maxA - minA;
-        int side = Math.min(w, h); // side length
         float cx = center.x;
         float cy = center.y;
-        float extentX = side - 1;
-        float extentY = extentX;
         for (int x = 0; x < w; x++) {
             float kx = (x - cx) / radius;
             if (flipX) {
@@ -91,13 +88,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
                 float r = (float) Math.sqrt(squarekx + ky * ky);
                 if (r <= 1f) {
                     alphas[index] = 0xff000000;
-                    //radials[index] = radiusRatio;
                 } else {
                     alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
-                    //radials[index] = maxR;
-                }
-                if (alphas[index] != 0) {
-                    //angulars[index] = (float) (Math.atan2(ky, kx));
                 }
                 double angle = atan2(ky, kx);
                 // distort from disk to box
@@ -174,11 +166,11 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
                 r = (d * dx + sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
             }
         }
-        Point p = new Point(
+        return new Point(
                 (int) (r * sina * radius + center.x),
                 (int) (r * cosa * radius + center.y)
         );
-        return p;
+         
     }
 
     @Override
@@ -222,19 +214,20 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         rav[verticalIndex] = verticalValue;
         return rav;
     }
-
+    /**
+     * 
+     * @param x x pos
+     * @param y y pos 
+     * @return 
+     */
     public float[] getColorAtOld(int x, int y) {
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
         int yOffset = (h - side) / 2;
         float radial = (x - xOffset) / (float) side;
         float angular = (y - yOffset) / (float) side;
-        if (flipX) {
-            radial = 1f - radial;
-        }
-        if (!flipY) {
-            angular = 1f - angular;
-        }
+        if (flipX) radial = 1f - radial;
+        if (!flipY) angular = 1f - angular;
         float[] rav = new float[3];
         rav[angularIndex] = angular
                 * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))

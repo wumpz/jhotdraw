@@ -55,7 +55,9 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         this.flipX = flipX;
         this.flipY = flipY;
     }
-
+    /**
+     * allows to generate the lookup table 
+     */
     protected void generateLookupTables() {
         radials = new float[w * h];
         angulars = new float[w * h];
@@ -73,39 +75,20 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         float extentA = maxA - minA;
         float cx = center.x;
         float cy = center.y;
-        /*
-        int xOffset = (w - side) / 2;
-        int yOffset = (h - side) / 2 * w;
-        float extentX = side - 1;
-        float extentY = extentX;
-         */
         for (int x = 0; x < w; x++) {
             float kx = (x - cx) / radius;
-            if (flipX) {
-                kx = -kx;
-            }
+            if (flipX) kx = -kx;
             float squarekx = kx * kx;
             for (int y = 0; y < h; y++) {
                 float ky = (y - cy) / radius;
-                if (flipY) {
-                    ky = -ky;
-                }
+                if (flipY) ky = -ky;
                 int index = x + y * w;
                 float radiusRatio = (float) Math.sqrt(squarekx + ky * ky);
-                if (radiusRatio <= 1f) {
-                    alphas[index] = 0xff000000;
-                    //radials[index] = radiusRatio;
-                } else {
+                if (radiusRatio <= 1f) alphas[index] = 0xff000000;
+                else
                     alphas[index] = (int) ((blend - Math.min(blend, radiusRatio - 1f)) * 255 / blend) << 24;
-                    //radials[index] = maxR;
-                }
-                if (alphas[index] != 0) {
-                    //angulars[index] = (float) (Math.atan2(ky, kx));
-                }
-                double angle = Math.atan2(ky, kx);
                 // scale from disk to box
-                double scale = 1.0 / Math.max(Math.abs(Math.sin(angle)), Math.abs(Math.cos(angle)));
-                scale = 1.0;
+                double scale = 1.0;
                 radials[index] = (float) ((kx * scale + 1) / 2 * extentR + minR);
                 angulars[index] = (float) ((ky * scale + 1) / 2 * extentA + minA);
             }
@@ -113,76 +96,30 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         isLookupValid = true;
     }
 
-    protected void generateLookupTablesOLD() {
-        radials = new float[w * h];
-        angulars = new float[w * h];
-        alphas = new int[w * h];
-        float radius = getRadius();
-        // blend is used to create a linear alpha gradient of two extra pixels
-        float blend = (radius + 2f) / radius - 1f;
-        // Center of the color wheel circle
-        float maxR = colorSpace.getMaxValue(radialIndex);
-        float minR = colorSpace.getMinValue(radialIndex);
-        float extentR = maxR - minR;
-        float maxA = colorSpace.getMaxValue(angularIndex);
-        float minA = colorSpace.getMinValue(angularIndex);
-        float extentA = maxA - minA;
-        int side = Math.min(w, h); // side length
-        int cx = side / 2;
-        int cy = side / 2;
-        int xOffset = (w - side) / 2;
-        int yOffset = (h - side) / 2 * w;
-        float extentX = side - 1;
-        float extentY = extentX;
-        for (int x = 0; x < side; x++) {
-            float kx = (x - cx) / radius;
-            if (flipX) {
-                kx = -kx;
-            }
-            float squarekx = kx * kx;
-            for (int y = 0; y < side; y++) {
-                float ky = (cy - y) / radius;
-                if (flipY) {
-                    ky = -ky;
-                }
-                int index = x + y * w + xOffset + yOffset;
-                float radiusRatio = (float) Math.sqrt(squarekx + ky * ky);
-                if (radiusRatio <= 1f) {
-                    alphas[index] = 0xff000000;
-                    //radials[index] = radiusRatio;
-                } else {
-                    alphas[index] = (int) ((blend - Math.min(blend, radiusRatio - 1f)) * 255 / blend) << 24;
-                    //radials[index] = maxR;
-                }
-                if (alphas[index] != 0) {
-                    //angulars[index] = (float) (Math.atan2(ky, kx));
-                }
-                float angle = (float) Math.atan2(ky, kx);
-                float scale = (float) Math.max(Math.abs(Math.sin(angle)), Math.abs(Math.cos(angle))) + 0.1f;
-                radials[index] = (kx / scale + 1f) / 2f * extentR + minR;
-                angulars[index] = (ky / scale + 1f) / 2f * extentA + minA;
-            }
-        }
-        isLookupValid = true;
-    }
-
     @Override
+    /**
+     * checks if the disk color needs generation 
+     */
     public boolean needsGeneration() {
         return !isPixelsValid;
     }
 
     @Override
+    /**
+     * Regenerate the color wheel if pixels is not valid
+     */
     public void regenerateColorWheel() {
-        if (!isPixelsValid) {
+        if (needsGeneration())
             generateColorWheel();
-        }
     }
 
     @Override
+    /**
+     * allows to generate the color wheel 
+     */
     public void generateColorWheel() {
-        if (!isLookupValid) {
+        if (!isLookupValid)
             generateLookupTables();
-        }
         float[] components = new float[colorSpace.getNumComponents()];
         float[] rgb = new float[3];
         for (int index = 0; index < pixels.length; index++) {
@@ -196,59 +133,86 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
         newPixels();
         isPixelsValid = true;
     }
-
+    
+    /**
+     * compute radial or angular index of a component 
+     * @param index radial or angular 
+     * @param components components
+     * @return float calculated index value 
+     */
+    private float computeRadialAngular(int index, float[] components) {
+    	return (components[index] - colorSpace.getMinValue(index))
+                / (colorSpace.getMaxValue(index) - colorSpace.getMinValue(index)) * 2 - 1;
+    }
+    
+    /**
+     * checks the value of FlipsX-Y 
+     * @param flip FlipX-Y
+     * @param index radial or angular index 
+     * @return float calculated index value 
+     */
+    private float checkFlips(boolean flip,float index) {
+    	return (flip)? -index :index;
+    }
+    
     @Override
+    /**
+     * Searches a color location in the color wheel 
+     */
     public Point getColorLocation(float[] components) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
-                / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 - 1;
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
-                / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex)) * 2 - 1;
-        if (flipX) {
-            radial = -radial;
-        }
-        if (flipY) {
-            angular = -angular;
-        }
+        float radial = computeRadialAngular(radialIndex,components);
+        float angular = computeRadialAngular(angularIndex,components);
+        radial =checkFlips(flipX,radial);
+        angular =checkFlips(flipY,angular);
         // clamp to disk
-        float r = (float) sqrt(angular * angular + radial * radial);
+        float r = calculateR(angular,radial);
         if (r > 1f) {
             angular /= r;
             radial /= r;
         }
-        Point p = new Point(
+        return new Point(
                 (int) (radius * radial + center.x),
                 (int) (radius * angular + center.y)
         );
-        return p;
+    }
+    /**
+     * calculates r value 
+     * @param angular angular index
+     * @param radial radial index 
+     * @return r value 
+     */
+    private float calculateR(float angular,float radial) {
+    	return (float) sqrt(angular * angular + radial * radial);
     }
 
+    
+    private float computeRadialAngularHsb(float index) {
+    	return (index + 1f) / 2f
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
+                + colorSpace.getMinValue(angularIndex);
+    }
     @Override
+    /**
+     * gets the color by its position 
+     */
     public float[] getColorAt(int x, int y) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
         float radial = (x - center.x) / radius;
         float angular = (y - center.y) / radius;
-        if (flipX) {
-            angular = -angular;
-        }
-        if (flipY) {
-            radial = -radial;
-        }
+        radial =checkFlips(flipY,radial);
+        angular =checkFlips(flipX,angular);
         // clamp to disk
-        float r = (float) sqrt(angular * angular + radial * radial);
+        float r = calculateR(angular,radial);
         if (r > 1f) {
             angular /= r;
             radial /= r;
         }
         float[] hsb = new float[3];
-        hsb[angularIndex] = (angular + 1f) / 2f
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
-                + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = (radial + 1f) / 2f
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
-                + colorSpace.getMinValue(radialIndex);
+        hsb[angularIndex] = computeRadialAngularHsb(angular);
+        hsb[radialIndex] = computeRadialAngularHsb(radial);
         hsb[verticalIndex] = verticalValue;
         return hsb;
     }
