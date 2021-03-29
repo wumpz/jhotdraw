@@ -115,11 +115,14 @@ public class ColorUtil {
             ICC_Profile ap = aicc.getProfile();
             ICC_Profile bp = bicc.getProfile();
             return ap.equals(bp);
-        } else {
-            return a.equals(b);
+        } else return a.equals(b);
+    }
+    
+    private static void checkMagicAndReserved(int val,int toBe ) throws IOException {
+    	if (val != toBe) {
+            throw new IOException("Illegal :" + Integer.toHexString(val));
         }
     }
-
     /**
      * Returns the name of the color space. If the color space is an
      * {@code ICC_ColorSpace} the name is retrieved from the "desc" data element
@@ -142,12 +145,8 @@ public class ColorUtil {
                 try {
                     int magic = in.readInt();
                     int reserved = in.readInt();
-                    if (magic != 0x64657363) {
-                        throw new IOException("Illegal magic:" + Integer.toHexString(magic));
-                    }
-                    if (reserved != 0x0) {
-                        throw new IOException("Illegal reserved:" + Integer.toHexString(reserved));
-                    }
+                    checkMagicAndReserved(magic,0x64657363);
+                    checkMagicAndReserved(reserved,0x0);
                     long nameLength = in.readInt() & 0xffffffffL;
                     StringBuilder buf = new StringBuilder();
                     for (int i = 0; i < nameLength - 1; i++) {

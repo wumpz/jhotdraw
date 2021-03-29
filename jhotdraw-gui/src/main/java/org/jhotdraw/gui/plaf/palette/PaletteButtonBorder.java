@@ -103,10 +103,10 @@ public class PaletteButtonBorder implements Border, UIResource {
      * @return the insets of the component 
      */
     public Insets getBorderInsets(Component c) {
-    	int x=2;
+    	int x=3;
         String segmentPosition = getSegmentPosition(c);
         if ("first".equals(segmentPosition) || "middle".equals(segmentPosition)) 
-        	x=3;
+        	x=2;
         return new Insets(3, 3, 3, x);
     }
 

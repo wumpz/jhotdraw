@@ -26,24 +26,30 @@ public abstract class AbstractColorSlidersModel extends AbstractBean implements 
     protected LinkedList<ChangeListener> listeners;
 
     @Override
+    /**
+     * add new change listener 
+     */
     public void addChangeListener(ChangeListener l) {
-        if (listeners == null) {
+        if (listeners == null)
             listeners = new LinkedList<>();
-        }
         listeners.add(l);
     }
 
     @Override
+    /**
+     * remove a specific change listener from listeners 
+     */
     public void removeChangeListener(ChangeListener l) {
         listeners.remove(l);
     }
-
+    /**
+     * alerts all listeners to a fire state change event 
+     */
     public void fireStateChanged() {
         if (listeners != null) {
             ChangeEvent event = new ChangeEvent(this);
-            for (ChangeListener l : listeners) {
+            for (ChangeListener l : listeners)
                 l.stateChanged(event);
-            }
         }
     }
 }

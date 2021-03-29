@@ -45,7 +45,6 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
     private double Zr;
     private static final double EPS = 216d / 24389d;
     private static final double K = 24389d / 27d;
-    private static final ColorSpace SRGB = ColorSpace.getInstance(ColorSpace.CS_sRGB);
     /**
      * By default, clamps non-displayable RGB values.
      */
@@ -70,21 +69,9 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double Rs = 3.2410 * X + -1.5374 * Y + -0.4986 * Z;
         double Gs = -0.9692 * X + 1.8760 * Y + -0.0416 * Z;
         double Bs = 0.0556 * X + -0.2040 * Y + 1.0570 * Z;
-        if (Rs <= 0.00304) {
-            Rs = 12.92 * Rs;
-        } else {
-            Rs = 1.055 * Math.pow(Rs, 1d / 2.4) - 0.055;
-        }
-        if (Gs <= 0.00304) {
-            Gs = 12.92 * Gs;
-        } else {
-            Gs = 1.055 * Math.pow(Gs, 1d / 2.4) - 0.055;
-        }
-        if (Bs <= 0.00304) {
-            Bs = 12.92 * Bs;
-        } else {
-            Bs = 1.055 * Math.pow(Bs, 1d / 2.4) - 0.055;
-        }
+        Rs=checkValSRGBS(Rs);
+        Gs=checkValSRGBS(Gs);
+        Bs=checkValSRGBS(Bs);
         if (isClampRGB) {
             Rs = Math.min(1, Math.max(0, Rs));
             Gs = Math.min(1, Math.max(0, Gs));
@@ -94,9 +81,12 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         rgb[1] = (float) Gs;
         rgb[2] = (float) Bs;
         return rgb;
-        //       return sRGB.fromCIEXYZ(ciexyz);
     }
-
+    private double checkValSRGBS(double val) {
+    	return (val<=0.00304)?
+    			12.92 * val:
+    			1.055 * Math.pow(val, 1 / 2.4) - 0.055;
+    }
     @Override
     public float[] fromRGB(float[] rgb, float[] colorvalue) {
         return fromCIEXYZ(ColorUtil.RGBtoCIEXYZ(rgb, colorvalue), colorvalue);
@@ -147,24 +137,12 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double fx = a / 500d + fy;
         double fz = fy - b / 200d;
         double xr, yr, zr;
-        double fxp3 = fx * fx * fx;
-        if (fxp3 > EPS) {
-            xr = fxp3;
-        } else {
-            xr = (116d * fx - 16d) / K;
-        }
+        xr=checkTomodifiValR(fx);
         if (L > K * EPS) {
             yr = ((L + 16d) / 116d);
             yr = yr * yr * yr;
-        } else {
-            yr = L / K;
-        }
-        double fzp3 = fz * fz * fz;
-        if (fzp3 > EPS) {
-            zr = fzp3;
-        } else {
-            zr = (116d * fz - 16f) / K;
-        }
+        } else yr = L / K;
+        zr = checkTomodifiValR(fz);
         double X = xr * Xr;
         double Y = yr * Yr;
         double Z = zr * Zr;
@@ -173,6 +151,14 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         xyz[2] = (float) Z;
         return xyz;
     }
+    /**
+     * checks power 3 of x-y-zR values to modify them 
+     * @return modified values 
+     */
+    private double checkTomodifiValR(double f) {
+		double fxf3 = f * f * f;
+		return (fxf3 > EPS)? fxf3 : (116d * f - 16f) / K;
+		    }
 
     /**
      * XYZ to Lab.
@@ -215,21 +201,9 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         double yr = Y / Yr;
         double zr = Z / Zr;
         double fx, fy, fz;
-        if (xr > EPS) {
-            fx = Math.pow(xr, 1d / 3d);
-        } else {
-            fx = (K * xr + 16d) / 116d;
-        }
-        if (yr > EPS) {
-            fy = Math.pow(yr, 1d / 3d);
-        } else {
-            fy = (K * yr + 16d) / 116d;
-        }
-        if (zr > EPS) {
-            fz = Math.pow(zr, 1d / 3d);
-        } else {
-            fz = (K * zr + 16) / 116;
-        }
+        fx=checkValRCIEXYZ(xr);
+        fy=checkValRCIEXYZ(yr);
+        fz=checkValRCIEXYZ(zr);
         double L = 116d * fy - 16;
         double a = 500d * (fx - fy);
         double b = 200d * (fy - fz);
@@ -240,7 +214,13 @@ public class CIELCHabColorSpace extends AbstractNamedColorSpace {
         colorvalue[2] = (float) (H * 180 / PI);
         return colorvalue;
     }
-
+    
+    private double checkValRCIEXYZ(double valR) {
+    	return (valR> EPS)?
+    			Math.pow(valR, 1d / 3d):
+    				(K * valR + 16d) / 116d;
+    }
+    
     @Override
     public String getName() {
         return "CIE 1976 L*CHa*b*";

@@ -63,6 +63,11 @@ public class ColorSliderUI extends BasicSliderUI {
         return new ColorSliderUI((JSlider) b);
     }
 
+    private void checkOrientation() {
+    	int x=1;
+    	if (slider.getOrientation() == JSlider.HORIZONTAL) x=0;
+    	slider.setBorder(new EmptyBorder(0, x, -x, 1));	
+    }
     @Override
     /**
      * allows to set slider's defaults
@@ -72,11 +77,7 @@ public class ColorSliderUI extends BasicSliderUI {
         super.installDefaults(slider);
         focusInsets = new Insets(0, 0, 0, 0);
         slider.setOpaque(false);
-        if (slider.getOrientation() == JSlider.HORIZONTAL) {
-            slider.setBorder(new EmptyBorder(0, 1, -1, 1));
-        } else {
-            slider.setBorder(new EmptyBorder(0, 0, 0, 1));
-        }
+        checkOrientation();
         slider.setRequestFocusEnabled(true);
     }
 

@@ -49,7 +49,6 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
     @Override
     public void setColorSpace(ColorSpace newValue) {
-        ColorSpace oldValue = colorSpace;
         colorSpace = newValue;
         componentModels = new DefaultBoundedRangeModel[colorSpace.getNumComponents()];
         for (int i = 0; i < componentModels.length; i++) {

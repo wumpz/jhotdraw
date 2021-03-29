@@ -91,21 +91,9 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double Rs = 3.2410 * X + -1.5374 * Y + -0.4986 * Z;
         double Gs = -0.9692 * X + 1.8760 * Y + -0.0416 * Z;
         double Bs = 0.0556 * X + -0.2040 * Y + 1.0570 * Z;
-        if (Rs <= 0.00304) {
-            Rs = 12.92 * Rs;
-        } else {
-            Rs = 1.055 * Math.pow(Rs, 1d / 2.4) - 0.055;
-        }
-        if (Gs <= 0.00304) {
-            Gs = 12.92 * Gs;
-        } else {
-            Gs = 1.055 * Math.pow(Gs, 1d / 2.4) - 0.055;
-        }
-        if (Bs <= 0.00304) {
-            Bs = 12.92 * Bs;
-        } else {
-            Bs = 1.055 * Math.pow(Bs, 1d / 2.4) - 0.055;
-        }
+        Rs=checkValRGBS(Rs);
+        Gs=checkValRGBS(Gs);
+        Bs=checkValRGBS(Bs);
         switch (outsideGamutHandling) {
             case CLAMP:
                 Rs = Math.min(1, Math.max(0, Rs));
@@ -119,6 +107,16 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         rgb[1] = (float) Gs;
         rgb[2] = (float) Bs;
         return rgb;
+    }
+    /**
+     * 
+     * @param val
+     * @return
+     */
+    private double checkValRGBS(double val) {
+    	return (val<=0.00304)?
+    			12.92 * val:
+    			1.055 * Math.pow(val, 1 / 2.4) - 0.055;
     }
 
     @Override
@@ -170,23 +168,12 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double fz = fy - b / 200d;
         double xr, yr, zr;
         double fxp3 = fx * fx * fx;
-        if (fxp3 > EPS) {
-            xr = fxp3;
-        } else {
-            xr = (116d * fx - 16d) / K;
-        }
+        xr=checkTomodifiValR(fx);
         if (L > K * EPS) {
             yr = ((L + 16d) / 116d);
             yr = yr * yr * yr;
-        } else {
-            yr = L / K;
-        }
-        double fzp3 = fz * fz * fz;
-        if (fzp3 > EPS) {
-            zr = fzp3;
-        } else {
-            zr = (116d * fz - 16f) / K;
-        }
+        } else yr = L / K;
+        zr = checkTomodifiValR(fz);
         double X = xr * Xw;
         double Y = yr * Yw;
         double Z = zr * Zw;
@@ -195,7 +182,14 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         xyz[2] = (float) Z;
         return xyz;
     }
-
+    /**
+     * checks power 3 of x-y-zR values to modify them 
+     * @return modified values 
+     */
+    private double checkTomodifiValR(double f) {
+		double fxf3 = f * f * f;
+		return (fxf3 > EPS)? fxf3 : (116d * f - 16f) / K;
+		    }
     /**
      * XYZ to Lab.
      * <pre>
@@ -236,21 +230,9 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double yr = Y / Yw;
         double zr = Z / Zw;
         double fx, fy, fz;
-        if (xr > EPS) {
-            fx = Math.pow(xr, 1d / 3d);
-        } else {
-            fx = (K * xr + 16d) / 116d;
-        }
-        if (yr > EPS) {
-            fy = Math.pow(yr, 1d / 3d);
-        } else {
-            fy = (K * yr + 16d) / 116d;
-        }
-        if (zr > EPS) {
-            fz = Math.pow(zr, 1d / 3d);
-        } else {
-            fz = (K * zr + 16) / 116;
-        }
+        fx=checkXYr(xr);
+        fy=checkXYr(yr);
+        fz=checkXYr(zr);
         double L = 116d * fy - 16;
         double a = 500d * (fx - fy);
         double b = 200d * (fy - fz);
@@ -259,8 +241,18 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         xyz[2] = (float) b;
         return xyz;
     }
+    /**
+     * @param Ar x-y-zr value 
+     * @return float new values 
+     */
+    private double checkXYr( double Ar) {
+    	return (Ar>EPS)? Math.pow(Ar, 1d / 3d) : (K * Ar + 16d) / 116d;
+    }
 
     @Override
+    /**
+     * @return name 
+     */
     public String getName() {
         return "CIE 1976 L*a*b*";
     }
@@ -329,22 +321,25 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
     public OutsideGamutHandling getOutsideGamutHandling() {
         return outsideGamutHandling;
     }
-
-    public static String DisplayMsg(float[] values) {
-    	String s = values[0] + "," + values[1] + "," + values[2];
-    	return s;
+    /**
+     * converts float values to string 
+     * @param values values to converts 
+     * @return
+     */
+    public static String displayMsg(float[] values) {
+    	return values[0] + "," + values[1] + "," + values[2];
     }
     public static void main(String[] arg) {
         CIELABColorSpace cs = new CIELABColorSpace();
         float[] lab = cs.fromRGB(new float[]{1, 1, 1});
-        System.out.println("rgb->lab:"+ DisplayMsg(lab));
+        System.out.println("rgb->lab:"+ displayMsg(lab));
         float[] xyz = cs.toCIEXYZ(new float[]{0.75f, 0.25f, 0.1f});
-        System.out.println("    lab->xyz:" + DisplayMsg(xyz));
+        System.out.println("    lab->xyz:" + displayMsg(xyz));
         lab = cs.fromCIEXYZ(xyz);
-        System.out.println("R xyz->LCHab:" + DisplayMsg(lab));
+        System.out.println("R xyz->LCHab:" + displayMsg(lab));
         lab = cs.fromCIEXYZ(new float[]{1, 1, 1});
-        System.out.println("xyz->lab:" + DisplayMsg(lab));
+        System.out.println("xyz->lab:" + displayMsg(lab));
         lab = cs.fromCIEXYZ(new float[]{0.5f, 1, 1});
-        System.out.println("xyz->lab:" + DisplayMsg(lab));
+        System.out.println("xyz->lab:" + displayMsg(lab));
     }
 }

@@ -87,9 +87,8 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
     private void auxGenImg(int ix, int iy, float x, float[] XYZ, float[] rgb, float hf, float Y) {
         float y = 0.9f - iy * hf;
         float z = 1f - x - y;
-        if (y == 0) {
-            XYZ[0] = XYZ[1] = XYZ[2] = 0;
-        } else {
+        if (y == 0) XYZ[0] = XYZ[1] = XYZ[2] = 0;
+        else {
             XYZ[1] = Y; // Y=Y
             XYZ[0] = x * XYZ[1] / y; // X=x*Y/y
             XYZ[2] = z * XYZ[1] / y; // Z = (1-x-y)*Y/y
@@ -126,10 +125,13 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
             }
         }
     }
-
+    /**
+     * gets the color c location 
+     * @param c color to search its location 
+     * @return Point color location coordinate
+     */
     public Point getColorLocation(Color c) {
-        float[] components = ColorUtil.fromColor(colorSpace, c);
-        return getColorLocation(components);
+        return getColorLocation(ColorUtil.fromColor(colorSpace, c));
     }
     // maybe futur use
     public Point getColorLocation(float[] components) {
@@ -154,10 +156,9 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
      * @return modified values
      */
     private double checkValRGBS(double val) {
-    	if (val<=0.00304)
-    		val = 12.92 * val;
-    	else val = 1.055 * Math.pow(val, 1 / 2.4) - 0.055;
-    	return val;
+    	return (val<=0.00304)?
+    			12.92 * val:
+    			1.055 * Math.pow(val, 1 / 2.4) - 0.055;
     }
     
     /**

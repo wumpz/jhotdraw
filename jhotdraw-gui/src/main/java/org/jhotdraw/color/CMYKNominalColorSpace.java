@@ -36,6 +36,14 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
         super(ColorSpace.TYPE_CMYK, 4);
     }
 
+    /**
+     * computes red green blue values 
+     * @param color RGG components
+     * @return computed value 
+     */
+    private float reComputecColorsClampValue(float color) {
+    	return Math.min(1f, Math.max(0f, color));
+    }
     @Override
     /**
      * converts component's colors to rgb 
@@ -53,13 +61,10 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
         red = 1f - cyan * (1f - black) - black;
         green = 1f - magenta * (1f - black) - black;
         blue = 1f - yellow * (1f - black) - black;
-        // clamp values
-        red = Math.min(1f, Math.max(0f, red));
-        green = Math.min(1f, Math.max(0f, green));
-        blue = Math.min(1f, Math.max(0f, blue));
-        rgb[0] = red;
-        rgb[1] = green;
-        rgb[2] = blue;
+        // clamp value
+        rgb[0] = reComputecColorsClampValue(red);
+        rgb[1] =reComputecColorsClampValue(green);
+        rgb[2] = reComputecColorsClampValue(blue);
         return rgb;
     }
 
@@ -89,34 +94,12 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
                 yellow = (yellow - black) / (1 - black);
             }
         }
-        // clamp values
-        cyan = Math.min(1f, Math.max(0f, cyan));
-        yellow = Math.min(1f, Math.max(0f, yellow));
-        magenta = Math.min(1f, Math.max(0f, magenta));
-        black = Math.min(1f, Math.max(0f, black));
-        colorvalue[0] = cyan;
-        colorvalue[1] = magenta;
-        colorvalue[2] = yellow;
-        colorvalue[3] = black;
+        colorvalue[0] = reComputecColorsClampValue(cyan);
+        colorvalue[1] = reComputecColorsClampValue(yellow);
+        colorvalue[2] = reComputecColorsClampValue(magenta);
+        colorvalue[3] =reComputecColorsClampValue(black);
         return colorvalue;
     }
-
-    @Override
-    public String getName(int idx) {
-        switch (idx) {
-            case 0:
-                return "Cyan";
-            case 1:
-                return "Magenta";
-            case 2:
-                return "Yellow";
-            case 3:
-                return "Black";
-            default:
-                throw new IllegalArgumentException("index must be between 0 and 3:" + idx);
-        }
-    }
-
     @Override
     /**
      * @return max value of component 
@@ -145,6 +128,9 @@ public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
     }
 
     @Override
+    /**
+     * @return name
+     */
     public String getName() {
         return "nominal CMYK";
     }

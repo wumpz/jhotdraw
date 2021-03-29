@@ -12,6 +12,8 @@ import java.awt.event.*;
 import java.beans.*;
 import java.security.*;
 import java.util.*;
+import java.util.logging.Logger;
+
 import javax.swing.*;
 import javax.swing.colorchooser.*;
 import javax.swing.event.*;
@@ -61,7 +63,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     }
 
     private void display (String defaultChooserName) {
-    	System.err.println("PaletteColorChooserUI warning: unable to instantiate " + defaultChooserName);
+    	Logger.getLogger("PaletteColorChooserUI warning: unable to instantiate " + defaultChooserName);
     }
     
     /**

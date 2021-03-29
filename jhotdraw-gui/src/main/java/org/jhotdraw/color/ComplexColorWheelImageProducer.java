@@ -55,7 +55,9 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         this.flipX = flipX;
         this.flipY = flipY;
     }
-
+    /**
+     * allows to generate the look up tables 
+     */
     protected void generateLookupTables() {
         radials = new float[w * h];
         angulars = new float[w * h];
@@ -75,22 +77,16 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float cy = center.y;
         for (int x = 0; x < w; x++) {
             float kx = (x - cx) / radius;
-            if (flipX) {
-                kx = -kx;
-            }
+            if (flipX) kx = -kx;
             float squarekx = kx * kx;
             for (int y = 0; y < h; y++) {
                 float ky = (y - cy) / radius;
-                if (flipY) {
-                    ky = -ky;
-                }
+                if (flipY) ky = -ky;
                 int index = x + y * w;
                 float r = (float) Math.sqrt(squarekx + ky * ky);
-                if (r <= 1f) {
-                    alphas[index] = 0xff000000;
-                } else {
+                if (r <= 1f) alphas[index] = 0xff000000;
+                 else
                     alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
-                }
                 double angle = atan2(ky, kx);
                 // distort from disk to box
                 float scale = (float) max(abs(sin(angle)), abs(cos(angle)));
@@ -105,18 +101,26 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
     }
 
     @Override
+    /**
+     * checks if the disk color needs generation 
+     */
     public boolean needsGeneration() {
         return !isPixelsValid;
     }
 
     @Override
+    /**
+     * Regenerate the color wheel if pixels is not valid
+     */
     public void regenerateColorWheel() {
-        if (!isPixelsValid) {
+        if (needsGeneration())
             generateColorWheel();
-        }
     }
 
     @Override
+    /**
+     * allows to generate the color wheel 
+     */
     public void generateColorWheel() {
         if (!isLookupValid) {
             generateLookupTables();
@@ -134,8 +138,20 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         newPixels();
         isPixelsValid = true;
     }
-
+    /**
+     * checks FlipX-Y values to change radial or angular 
+     * @param flip FlipX-Y
+     * @param index radial or angular 
+     * @return float modified radial or angular 
+     */
+    private float checkFlips(boolean flip,float index) {
+    	return (flip)? -index :index;
+    }
+    
     @Override
+    /**
+     * Searches a color location in the color wheel 
+     */
     public Point getColorLocation(float[] components) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
@@ -143,12 +159,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
                 / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 - 1;
         float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex)) * 2 - 1;
-        if (flipX) {
-            radial = -radial;
-        }
-        if (flipY) {
-            angular = -angular;
-        }
+        radial =checkFlips(flipX,radial);
+        angular = checkFlips(flipY,angular);
         radial = max(-1, min(radial, 1));
         angular = max(-1, min(angular, 1));
         double a = atan2(radial, angular);
@@ -158,13 +170,11 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         double dx = (abs(sina) > abs(cosa)) ? sina : cosa;
         double bx = (abs(sina) > abs(cosa)) ? radial : angular;
         double r;
-        if (d == 1 && dx != 0) {
-            r = bx / dx;
-        } else {
+        if (d == 1 && dx != 0)  r = bx / dx;
+         else {
             r = (d * dx - sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
-            if (r < 0) {
-                r = (d * dx + sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
-            }
+            if (r < 0)
+            	r = (d * dx + sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
         }
         return new Point(
                 (int) (r * sina * radius + center.x),
@@ -174,6 +184,9 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
     }
 
     @Override
+    /**
+     * gets the color at position x y
+     */
     public float[] getColorAt(int x, int y) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
@@ -183,22 +196,14 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         float maxA = colorSpace.getMaxValue(angularIndex);
         float minA = colorSpace.getMinValue(angularIndex);
         float extentA = maxA - minA;
-        int side = Math.min(w, h); // side length
         float cx = center.x;
         float cy = center.y;
-        float extentX = side - 1;
-        float extentY = extentX;
         float radial, angular;
         float kx = (x - cx) / radius;
-        if (flipX) {
-            kx = -kx;
-        }
+        kx=checkFlips(flipX,kx);
         float squarekx = kx * kx;
         float ky = (y - cy) / radius;
-        if (flipY) {
-            ky = -ky;
-        }
-        int index = x + y * w;
+        ky=checkFlips(flipY,ky);
         float r = (float) Math.sqrt(squarekx + ky * ky);
         double angle = atan2(ky, kx);
         // distort from disk to box
@@ -214,11 +219,15 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         rav[verticalIndex] = verticalValue;
         return rav;
     }
+    private float computeRadialAngularRav(float index) {
+    	return index
+                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
+                + colorSpace.getMinValue(angularIndex);
+    }
     /**
-     * 
      * @param x x pos
      * @param y y pos 
-     * @return 
+     * @return array of float values 
      */
     public float[] getColorAtOld(int x, int y) {
         int side = Math.min(w - 1, h - 1); // side length
@@ -229,12 +238,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         if (flipX) radial = 1f - radial;
         if (!flipY) angular = 1f - angular;
         float[] rav = new float[3];
-        rav[angularIndex] = angular
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
-                + colorSpace.getMinValue(angularIndex);
-        rav[radialIndex] = radial
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
-                + colorSpace.getMinValue(radialIndex);
+        rav[angularIndex] = computeRadialAngularRav(angular);
+        rav[radialIndex] = computeRadialAngularRav(radial);
         rav[verticalIndex] = verticalValue;
         int xy = x + y * w;
         System.out.println("ComplexColorWheelImageProducer.getColorAt " + rav[angularIndex] + "," + rav[radialIndex] + " ~ " + angulars[xy] + "," + radials[xy]);
