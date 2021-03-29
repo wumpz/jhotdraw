@@ -34,6 +34,21 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         super(ColorSpace.TYPE_HSV, 3);
     }
 
+    private float normalizeRgbVals(float com) {
+    	return (com<0)? com+1f:com-1f;
+    }
+    
+    private float adjustRgbVals(float col, float p, float q) {
+    	if (col < 1f / 6f) {
+            return p + ((q - p) * 6 * col);
+        } else if (col < 0.5f) {
+            return q;
+        } else if (col < 2f / 3f) {
+            return  p + ((q - p) * 6 * (2f / 3f - col));
+        } else {
+            return  p;
+        }
+    }
     @Override
     public float[] toRGB(float[] components, float[] rgb) {
         float hue = components[0];
@@ -54,49 +69,13 @@ public class HSLColorSpace extends AbstractNamedColorSpace {
         float green = hk;
         float blue = hk - 1f / 3f;
         // normalize rgb values
-        if (red < 0) {
-            red = red + 1f;
-        } else if (red > 1) {
-            red = red - 1f;
-        }
-        if (green < 0) {
-            green = green + 1f;
-        } else if (green > 1) {
-            green = green - 1f;
-        }
-        if (blue < 0) {
-            blue = blue + 1f;
-        } else if (blue > 1) {
-            blue = blue - 1f;
-        }
+        red = normalizeRgbVals(red);
+        green=normalizeRgbVals(green);
+        blue=normalizeRgbVals(blue);
         // adjust rgb values
-        if (red < 1f / 6f) {
-            red = p + ((q - p) * 6 * red);
-        } else if (red < 0.5f) {
-            red = q;
-        } else if (red < 2f / 3f) {
-            red = p + ((q - p) * 6 * (2f / 3f - red));
-        } else {
-            red = p;
-        }
-        if (green < 1f / 6f) {
-            green = p + ((q - p) * 6 * green);
-        } else if (green < 0.5f) {
-            green = q;
-        } else if (green < 2f / 3f) {
-            green = p + ((q - p) * 6 * (2f / 3f - green));
-        } else {
-            green = p;
-        }
-        if (blue < 1f / 6f) {
-            blue = p + ((q - p) * 6 * blue);
-        } else if (blue < 0.5f) {
-            blue = q;
-        } else if (blue < 2f / 3f) {
-            blue = p + ((q - p) * 6 * (2f / 3f - blue));
-        } else {
-            blue = p;
-        }
+        red =adjustRgbVals(red,p,q);
+        green =adjustRgbVals(green,p,q);
+        blue =adjustRgbVals(blue,p,q);
         rgb[0] = clamp(red, 0, 1);
         rgb[1] = clamp(green, 0, 1);
         rgb[2] = clamp(blue, 0, 1);

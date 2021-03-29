@@ -116,11 +116,8 @@ public class HSVColorSpace extends AbstractNamedColorSpace {
             hue = 60f * (r - g) / (max - min) + 240f;
         }
         value = max;
-        if (max == 0) {
-            saturation = 0;
-        } else {
-            saturation = (max - min) / max;
-        }
+        if (max == 0) saturation = 0;
+        else saturation = (max - min) / max;
         component[0] = hue / 360f;
         component[1] = saturation;
         component[2] = value;

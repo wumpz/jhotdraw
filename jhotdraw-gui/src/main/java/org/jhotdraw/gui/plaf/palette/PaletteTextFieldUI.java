@@ -31,7 +31,6 @@ public class PaletteTextFieldUI extends BasicTextFieldUI {
     public static ComponentUI createUI(JComponent c) {
         return new PaletteTextFieldUI();
     }
-
     /**
      * Initializes component properties, e.g. font, foreground,
      * background, caret color, selection color, selected text color,

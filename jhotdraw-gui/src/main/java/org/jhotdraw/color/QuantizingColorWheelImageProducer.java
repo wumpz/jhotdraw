@@ -91,9 +91,8 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
 
     @Override
     public void regenerateColorWheel() {
-        if (!isPixelsValid) {
+        if (needsGeneration())
             generateColorWheel();
-        }
     }
 
     @Override
@@ -123,10 +122,9 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
                 / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
         float radius = Math.min(w, h) / 2f;
         radial = Math.max(0f, Math.min(1f, radial));
-        Point p = new Point(
+        return new Point(
                 w / 2 + (int) (radius * radial * Math.cos(angular * Math.PI * 2d)),
                 h / 2 - (int) (radius * radial * Math.sin(angular * Math.PI * 2d)));
-        return p;
     }
 
     @Override

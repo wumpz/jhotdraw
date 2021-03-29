@@ -53,10 +53,10 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         int cx = w / 2;
         int cy = h / 2;
         for (int x = 0; x < w; x++) {
-            int kx = x - cx; // Kartesian coordinates of x
-            int squarekx = kx * kx; // Square of kartesian x
+            int kx = x - cx; // Cartesian coordinates of x
+            int squarekx = kx * kx; // Square of Cartesian x
             for (int y = 0; y < h; y++) {
-                int ky = cy - y; // Kartesian coordinates of y
+                int ky = cy - y; // Cartesian coordinates of y
                 int index = x + y * w;
                 float r = (float) Math.sqrt(squarekx + ky * ky) / radius;
                 float sat = r;
@@ -64,11 +64,7 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
                     alphas[index] = 0xff000000;
                     radials[index] = 1f;
                     brights[index] = 1f - sat;
-                } else {
-                    alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
-                    radials[index] = 1f;
-                    brights[index] = 0;
-                }
+                } else generateLookupTablesAux(alphas,index,blend,r);
                 if (alphas[index] != 0) {
                     angulars[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d);
                 }
@@ -76,6 +72,11 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         }
     }
 
+    private void generateLookupTablesAux(int[] alphas,int index, float blend, float r) {
+    	alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
+        radials[index] = 1f;
+        brights[index] = 0f;
+    }
     protected void generateDiscreteLookupTables() {
         radials = new float[w * h];
         angulars = new float[w * h];
@@ -88,10 +89,10 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         int cx = w / 2;
         int cy = h / 2;
         for (int x = 0; x < w; x++) {
-            int kx = x - cx; // Kartesian coordinates of x
-            int squarekx = kx * kx; // Square of kartesian x
+            int kx = x - cx; // Cartesian coordinates of x
+            int squarekx = kx * kx; // Square of Cartesian x
             for (int y = 0; y < h; y++) {
-                int ky = cy - y; // Kartesian coordinates of y
+                int ky = cy - y; // Cartesian coordinates of y
                 int index = x + y * w;
                 float r = (float) Math.sqrt(squarekx + ky * ky) / radius;
                 float sat = r;
@@ -99,11 +100,7 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
                     alphas[index] = 0xff000000;
                     radials[index] = 1f;
                     brights[index] = (float) Math.round((1f - sat) * 12f) / 12f;
-                } else {
-                    alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
-                    radials[index] = 1f;
-                    brights[index] = 0f;
-                }
+                } else generateLookupTablesAux(alphas,index,blend,r);
                 if (alphas[index] != 0) {
                     angulars[index] = Math.round((float) (Math.atan2(ky, kx) / Math.PI / 2d) * 12f) / 12f;
                 }
@@ -139,11 +136,9 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         float brightness = hsb[2];
         float radius = Math.min(w, h) / 2f;
         brightness = Math.max(0f, Math.min(1f, brightness));
-        Point p;
-        p = new Point(
+        return new Point(
                 w / 2 + (int) ((radius - radius * brightness) * Math.cos(hue * Math.PI * 2d)),
                 h / 2 - (int) ((radius - radius * brightness) * Math.sin(hue * Math.PI * 2d)));
-        return p;
     }
 
     @Override
@@ -156,14 +151,8 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         float[] hsb;
         float sat = r / radius;
         float hue = (float) (theta / Math.PI / 2d);
-        if (hue < 0) {
-            hue += 1f;
-        }
-        hsb = new float[]{
-            hue,
-            1f,
-            1f - sat
-        };
+        if (hue < 0) hue += 1f;
+        hsb = new float[]{hue,1f,1f - sat};
         return hsb;
     }
 }

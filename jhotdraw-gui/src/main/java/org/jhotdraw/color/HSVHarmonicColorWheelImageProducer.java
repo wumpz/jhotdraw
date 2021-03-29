@@ -59,14 +59,11 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
                 float sat = r * wheelScaleFactor;
                 if (r <= 1f) {
                     alphas[index] = 0xff000000;
-                    //radials[index] = Math.min(1f, sat * 2f);
-                    //brights[index] = Math.min(1f, 2f - sat * 2f);
                     radials[index] = Math.min(1f, sat * 2f);
                     brights[index] = Math.min(1f, 1.5f - sat);
                 } else {
                     alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
                     radials[index] = 1f;
-                    //brights[index] = 0f;
                     brights[index] = Math.max(0, Math.min(1f, 1.5f - sat));
                 }
                 if (alphas[index] != 0) {
@@ -103,7 +100,6 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
                     alphas[index] = (int) ((blend - Math.min(blend, r - 1f)) * 255 / blend) << 24;
                     radials[index] = 1f;
                     brights[index] = Math.max(0, Math.round(Math.min(1f, 1.5f - sat * 1f) * 10f) / 10f);
-                    //brights[index] = 0f;
                 }
                 if (alphas[index] != 0) {
                     angulars[index] = Math.round((float) (Math.atan2(ky, kx) / Math.PI / 2d) * 12f) / 12f;
@@ -172,7 +168,6 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
         hsb = new float[]{
             hue,
             Math.min(1f, sat * 2f),
-            //Math.min(1f, 2f - sat * 2f)
             Math.min(1f, 1.5f - sat)
         };
         return hsb;

@@ -248,61 +248,13 @@ public class JHarmonicColorWheel extends JColorWheel {
                         oval.height = baseRadius * 2f;
                         g.draw(oval);
                     }
-                    // g.drawString(i+"", p.x, p.y);
                 }
             }
         }
     }
 
     protected void paintTicks(Graphics2D g) {
-        if (true) {
-            return;
-        }
-        if (harmonicModel != null) {
-            Point center = getCenter();
-            float radius = getRadius();
-            Ellipse2D.Float oval = new Ellipse2D.Float(0, 0, 0, 0);
-            int baseIndex = harmonicModel.getBase();
-            Color bc = harmonicModel.get(baseIndex);
-            g.setColor(Color.DARK_GRAY);
-            for (int i = 0; i < 12; i++) {
-                float angle = bc.getColorComponents(null)[0] + i / 12f;
-                float radial1 = radius;
-                /*g.draw(new Line2D.Double(
-                        center.x + radius * Math.cos(angle * Math.PI * 2d),
-                        center.y - radius * Math.sin(angle * Math.PI * 2d),
-                        center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d),
-                        center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d)));
-                 */
-                g.fill(new Ellipse2D.Double(
-                        center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d) - 2,
-                        center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d) - 2,
-                        4,
-                        4));
-            }
-            for (int i = 0, n = harmonicModel.size(); i < n; i++) {
-                if (i != baseIndex) {
-                    Color dc = harmonicModel.get(i);
-                    if (dc != null) {
-                        float angle = dc.getColorComponents(null)[0];
-                        float diff = Math.abs(angle - bc.getColorComponents(null)[0]) * 12;
-                        if (Math.abs(diff - Math.round(diff)) < 0.02f) {
-                            g.draw(new Line2D.Double(
-                                    center.x + (radius + 6) * Math.cos(angle * Math.PI * 2d),
-                                    center.y - (radius + 6) * Math.sin(angle * Math.PI * 2d),
-                                    center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
-                                    center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
-                        } else {
-                            g.draw(new Line2D.Double(
-                                    center.x + (radius) * Math.cos(angle * Math.PI * 2d),
-                                    center.y - (radius) * Math.sin(angle * Math.PI * 2d),
-                                    center.x + (radius - 1) * Math.cos(angle * Math.PI * 2d),
-                                    center.y - (radius - 1) * Math.sin(angle * Math.PI * 2d)));
-                        }
-                    }
-                }
-            }
-        }
+    	return;
     }
 
     public void setSelectedIndex(int newValue) {

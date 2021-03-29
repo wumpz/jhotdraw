@@ -198,9 +198,6 @@ public class JColorWheel extends JPanel {
         AbstractColorWheelImageProducer p;
         switch (type) {
             case POLAR:
-            default:
-                p = new PolarColorWheelImageProducer(model.getColorSpace(), w, h);
-                break;
             case SQUARE:
                 p = new ColorSquareImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
                 break;
@@ -209,6 +206,9 @@ public class JColorWheel extends JPanel {
                 break;
             case COMPLEX:
                 p = new ComplexColorWheelImageProducer(model.getColorSpace(), w, h, isFlipX, isFlipY);
+                break;
+            default:
+                p = new PolarColorWheelImageProducer(model.getColorSpace(), w, h);
                 break;
         }
         p.setAngularComponentIndex(angularIndex);
