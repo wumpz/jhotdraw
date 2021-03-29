@@ -124,16 +124,20 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         if (flipY) flips[1] = 1f - flips[1];
         return flips;
     }
+    
+    private float computeRadAng(int val, float[] components) {
+    	return (components[val] - colorSpace.getMinValue(val))
+        / (colorSpace.getMaxValue(val) - colorSpace.getMinValue(val));
+    }
+    
     @Override
     /**
      * gets a color location in the color wheel 
      */
     public Point getColorLocation(float[] components) {
     	float[] flips = new float[2];
-        flips[0] = (components[radialIndex] - colorSpace.getMinValue(radialIndex)) // radial 
-                / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-        flips[1] = (components[angularIndex] - colorSpace.getMinValue(angularIndex)) // angular 
-                / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
+        flips[0] = computeRadAng(radialIndex,components);
+        flips[1] = computeRadAng(angularIndex,components);
         flips=checkFlipXY(flips);
         int side = Math.min(w - 1, h - 1); // side length
         int xOffset = (w - side) / 2;
@@ -143,6 +147,10 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
                 (int) (side * flips[1]) + yOffset);
     }
 
+    private float computeNew(float index,int val) {
+    	return index * (colorSpace.getMaxValue(val) - colorSpace.getMinValue(val))
+                + colorSpace.getMinValue(val);
+    }
     @Override
     /**
      * gets the color by its location in the color wheel
@@ -156,12 +164,8 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
         flips[1] = (y - yOffset) / (float) side; // angular
         flips=checkFlipXY(flips);
         float[] hsb = new float[3];
-        hsb[angularIndex] = flips[1]
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
-                + colorSpace.getMinValue(angularIndex);
-        hsb[radialIndex] = flips[0]
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
-                + colorSpace.getMinValue(radialIndex);
+        hsb[angularIndex] = computeNew(flips[1],angularIndex);
+        hsb[radialIndex] = computeNew(flips[0],radialIndex);
         hsb[verticalIndex] = verticalValue;
         return hsb;
     }

@@ -86,16 +86,12 @@ public class CompositeColor extends Color {
                 badComponentString.append("Component ");
                 badComponentString.append(i);
                 badComponentString.append(' ');
-            } else {
-                fvalue[i] = components[i];
-            }
+            } else fvalue[i] = components[i];
         }
         if (alpha < 0.0 || alpha > 1.0) {
             rangeError = true;
             badComponentString.append("Alpha");
-        } else {
-            falpha = alpha;
-        }
+        } else falpha = alpha;
         if (rangeError) {
             throw new IllegalArgumentException(
                     "Color parameter outside of expected range: "
@@ -128,18 +124,19 @@ public class CompositeColor extends Color {
         }
         float[] f;
         int n = fvalue.length;
-        if (compArray == null) {
-            f = new float[n + 1];
-        } else {
-            f = compArray;
-        }
-        for (int i = 0; i < n; i++) {
-            f[i] = fvalue[i];
-        }
+        if (compArray == null) f = new float[n + 1];
+        else f = compArray;
+        f=getComponentsAux(f,n);
         f[n] = falpha;
         return f;
     }
 
+    private float[] getComponentsAux(float[] f, int n) {
+    	for (int i = 0; i < n; i++)
+            f[i] = fvalue[i];
+    	return f;
+    }
+    
     /**
      * Returns a <code>float</code> array containing only the color
      * components of the <code>Color</code>, in the
@@ -161,17 +158,8 @@ public class CompositeColor extends Color {
         if (fvalue == null) {
             return getRGBColorComponents(compArray);
         }
-        float[] f;
         int n = fvalue.length;
-        if (compArray == null) {
-            f = new float[n];
-        } else {
-            f = compArray;
-        }
-        for (int i = 0; i < n; i++) {
-            f[i] = fvalue[i];
-        }
-        return f;
+        return getComponentsAux((compArray==null)? new float[n] :compArray,n);
     }
 
     /**

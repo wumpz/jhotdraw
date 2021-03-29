@@ -167,7 +167,6 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
         double fx = a / 500d + fy;
         double fz = fy - b / 200d;
         double xr, yr, zr;
-        double fxp3 = fx * fx * fx;
         xr=checkTomodifiValR(fx);
         if (L > K * EPS) {
             yr = ((L + 16d) / 116d);

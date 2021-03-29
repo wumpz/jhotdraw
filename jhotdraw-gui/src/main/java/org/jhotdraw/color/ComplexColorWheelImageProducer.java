@@ -148,6 +148,16 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
     	return (flip)? -index :index;
     }
     
+    private double computeR(double dx, double bx, double d) {
+    	double cR = (d * dx - sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
+    	if (cR<0) return computeR(dx,bx,d);
+    	else return cR;
+    }
+    
+    private float calculateRadAng(float[] components,int index) { 
+    	return (components[index] - colorSpace.getMinValue(index))
+        / (colorSpace.getMaxValue(index) - colorSpace.getMinValue(index)) * 2 - 1;
+    }
     @Override
     /**
      * Searches a color location in the color wheel 
@@ -155,10 +165,8 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
     public Point getColorLocation(float[] components) {
         float radius = getRadius();
         Point2D.Float center = getCenter();
-        float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
-                / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex)) * 2 - 1;
-        float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
-                / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex)) * 2 - 1;
+        float radial = calculateRadAng(components,radialIndex);
+        float angular = calculateRadAng(components,angularIndex);
         radial =checkFlips(flipX,radial);
         angular = checkFlips(flipY,angular);
         radial = max(-1, min(radial, 1));
@@ -171,11 +179,7 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
         double bx = (abs(sina) > abs(cosa)) ? radial : angular;
         double r;
         if (d == 1 && dx != 0)  r = bx / dx;
-         else {
-            r = (d * dx - sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
-            if (r < 0)
-            	r = (d * dx + sqrt(d * dx * (-4 * bx * d + 4 * bx + d * dx))) / (2 * (d - 1) * dx);
-        }
+        else r=computeR(dx,bx,d);
         return new Point(
                 (int) (r * sina * radius + center.x),
                 (int) (r * cosa * radius + center.y)

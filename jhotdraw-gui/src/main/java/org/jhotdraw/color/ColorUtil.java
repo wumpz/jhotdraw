@@ -41,8 +41,7 @@ public class ColorUtil {
      */
     public static float[] fromColor(ColorSpace colorSpace, Color c) {
         if (isEqual(c.getColorSpace(), colorSpace)) {
-            float[] components = c.getComponents(null);
-            return components;
+            return c.getComponents(null);
         } else {
             return c.getComponents(colorSpace, null);
         }
@@ -82,9 +81,7 @@ public class ColorUtil {
     public static int CStoRGB24(ColorSpace colorSpace, float[] components, float[] rgb) {
         CStoRGB(colorSpace, components, rgb);
         // If the color is not displayable in RGB, we return transparent black.
-        if (rgb[0] < 0f || rgb[1] < 0f || rgb[2] < 0f || rgb[0] > 1f || rgb[1] > 1f || rgb[2] > 1f) {
-            return 0;
-        }
+        for (int i =0;i<3;i++) if (rgb[i]<0f || rgb[i]>1f) return 0;
         return 0xff000000 | ((int) (rgb[0] * 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
     }
 
