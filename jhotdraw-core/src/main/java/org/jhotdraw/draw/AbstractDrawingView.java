@@ -130,24 +130,21 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
     private boolean paintEnabled = true;
 
+    private Rectangle handleRect(Rectangle r, Handle h) { 
+    	 if (r == null)
+             r= h.getDrawingArea();
+         else
+             r.add(h.getDrawingArea());
+    	 return r;
+    }
     @Override
     public void repaintHandles() {
         validateHandles();
         Rectangle r = null;
-        for (Handle h : getSelectionHandles()) {
-            if (r == null) {
-                r = h.getDrawingArea();
-            } else {
-                r.add(h.getDrawingArea());
-            }
-        }
-        for (Handle h : getSecondaryHandles()) {
-            if (r == null) {
-                r = h.getDrawingArea();
-            } else {
-                r.add(h.getDrawingArea());
-            }
-        }
+        for (Handle h : getSelectionHandles())
+            r=handleRect(r,h);
+        for (Handle h : getSecondaryHandles())
+        	r=handleRect(r,h);
         if (r != null) {
             repaint(r);
         }

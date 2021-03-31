@@ -139,6 +139,11 @@ public class JLifeFormattedTexAreaBeanInfo extends SimpleBeanInfo {
         return defaultEventIndex;
     }
 
+    private java.awt.Image genIconAux(String iconName,java.awt.Image iconColor){
+    	if (iconName == null) return null;
+    	iconColor = (iconColor == null)?loadImage(iconName) :iconColor;
+    	return iconColor;
+        }
     /**
      * This method returns an image object that can be used to
      * represent the bean in toolboxes, toolbars, etc. Icon images
@@ -162,7 +167,17 @@ public class JLifeFormattedTexAreaBeanInfo extends SimpleBeanInfo {
      */
     @Override
     public java.awt.Image getIcon(int iconKind) {
-    	JAttributeSliderBeanInfo J = new JAttributeSliderBeanInfo();
-        return J.getIcon(iconKind);
-    }
+      	 switch (iconKind) {
+           case ICON_COLOR_16x16:
+          	 return genIconAux(iconNameC16,iconColor16);
+           case ICON_COLOR_32x32:
+               return genIconAux(iconNameC32,iconColor32);
+           case ICON_MONO_16x16:
+               return genIconAux(iconNameM16,iconMono16);
+           case ICON_MONO_32x32:
+               return genIconAux(iconNameM32,iconMono32);
+           default:
+               return null;
+       }
+   }
 }

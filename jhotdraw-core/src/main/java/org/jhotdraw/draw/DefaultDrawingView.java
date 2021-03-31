@@ -14,6 +14,8 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.util.*;
+import java.util.logging.Logger;
+
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.api.gui.EditableComponent;
@@ -43,7 +45,7 @@ import org.jhotdraw.util.*;
 public class DefaultDrawingView
         extends JComponent
         implements DrawingView, EditableComponent {
-
+	 private static final Logger LOGGER = Logger.getLogger(DefaultDrawingView.class.getName());
     private static final long serialVersionUID = 1L;
     /**
      * Set this to true to turn on debugging output on System.out.
@@ -114,27 +116,23 @@ public class DefaultDrawingView
         IS_WINDOWS = b;
     }
 
+    private Rectangle getDrawingAreas(Rectangle r, Handle h) {
+        if (r == null) {
+            r = h.getDrawingArea();
+        } else {
+            r.add(h.getDrawingArea());
+        }
+        return r;
+    }
     @Override
     public void repaintHandles() {
         validateHandles();
         Rectangle r = null;
-        for (Handle h : getSelectionHandles()) {
-            if (r == null) {
-                r = h.getDrawingArea();
-            } else {
-                r.add(h.getDrawingArea());
-            }
-        }
-        for (Handle h : getSecondaryHandles()) {
-            if (r == null) {
-                r = h.getDrawingArea();
-            } else {
-                r.add(h.getDrawingArea());
-            }
-        }
-        if (r != null) {
-            repaint(r);
-        }
+        for (Handle h : getSelectionHandles())
+            r=getDrawingAreas(r,h);
+        for (Handle h : getSecondaryHandles()) 
+        	r=getDrawingAreas(r,h);
+        if (r != null) repaint(r);
     }
 
     /**
@@ -210,6 +208,7 @@ public class DefaultDrawingView
             repaintDrawingArea(evt.getInvalidatedArea());
             invalidateDimension();
         }
+        
 
         @Override
         public void areaInvalidated(HandleEvent evt) {
@@ -231,7 +230,6 @@ public class DefaultDrawingView
 
         @Override
         public void focusGained(FocusEvent e) {
-            //   repaintHandles();
             if (editor != null) {
                 editor.setActiveView(DefaultDrawingView.this);
             }
@@ -239,7 +237,6 @@ public class DefaultDrawingView
 
         @Override
         public void focusLost(FocusEvent e) {
-            //   repaintHandles();
         }
 
         @Override
@@ -375,13 +372,9 @@ public class DefaultDrawingView
         drawTool(g);
     }
 
-    /**
-     * Draws the drawing double buffered using a volatile image.
-     */
-    protected void drawDrawingVolatileBuffered(Graphics2D g) {
-        Rectangle vr = getVisibleRect();
-        Point shift = new Point(0, 0);
-        if (bufferedArea.contains(vr)
+    private void checkbufferArea(Point shift, Rectangle vr) {  
+    	
+    	if (bufferedArea.contains(vr)
                 || bufferedArea.width >= vr.width && bufferedArea.height >= vr.height) {
             // The visible rect fits into the buffered area, but may be shifted; shift the buffered area.
             shift.x = bufferedArea.x - vr.x;
@@ -412,8 +405,22 @@ public class DefaultDrawingView
                 drawingBufferV = null;
             }
         }
+    }
+    /**
+     * Draws the drawing double buffered using a volatile image.
+     */
+    protected void drawDrawingVolatileBuffered(Graphics2D g) {
+    	Rectangle vr = getVisibleRect();
+        Point shift = new Point(0, 0);
+    	checkbufferArea(shift,vr);
         // Update the contents of the buffer if necessary
-        while (true) {
+        updateBufferContent( g,  shift,  vr);
+    }
+
+    
+    private void updateBufferContent(Graphics2D g, Point shift, Rectangle vr) {
+    	int x=1;
+    	while (x==1) {
             int valid = (drawingBufferV == null)
                     ? VolatileImage.IMAGE_INCOMPATIBLE
                     : drawingBufferV.validate(getGraphicsConfiguration());
@@ -438,77 +445,56 @@ public class DefaultDrawingView
                 drawDrawing(g);
                 break;
             }
-            if (!dirtyArea.isEmpty()) {
-                // An area of the drawing buffer is dirty; repaint it
-                Graphics2D gBuf = drawingBufferV.createGraphics();
-                setViewRenderingHints(gBuf);
-                // For shifting and cleaning, we need to erase everything underneath
-                gBuf.setComposite(AlphaComposite.Src);
-                // Perform shifting if needed
-                if (shift.x != 0 || shift.y != 0) {
-                    gBuf.copyArea(Math.max(0, -shift.x), Math.max(0, -shift.y), drawingBufferV.getWidth() - Math.abs(shift.x), drawingBufferV.getHeight() - Math.abs(shift.y), shift.x, shift.y);
-                    shift.x = shift.y = 0;
-                }
-                // Clip the dirty area
-                gBuf.translate(-bufferedArea.x, -bufferedArea.y);
-                gBuf.clip(dirtyArea);
-                // Clear the dirty area
-                gBuf.setBackground(new Color(0x0, true));
-                gBuf.clearRect(dirtyArea.x, dirtyArea.y, dirtyArea.width, dirtyArea.height);
-                gBuf.setComposite(AlphaComposite.SrcOver);
-                // Repaint the dirty area
-                drawDrawing(gBuf);
-                gBuf.dispose();
-            }
-            if (!drawingBufferV.contentsLost()) {
-                g.drawImage(drawingBufferV, bufferedArea.x, bufferedArea.y, null);
-            }
-            if (drawingBufferV.contentsLost()) {
-                dirtyArea.setBounds(bufferedArea);
-            } else {
-                dirtyArea.setSize(-1, -1);
-                break;
-            }
+            x=(checkDirtyArea(shift,g,0));
         }
-    }
 
+    }
+    /**
+     * auxiliary function for drawDrawingVolatileBuffered that checks dirty area 
+     */
+    private int checkDirtyArea(Point shift, Graphics2D g,int cont) {
+        if (!dirtyArea.isEmpty()) { 
+            // An area of the drawing buffer is dirty; repaint it
+            Graphics2D gBuf = drawingBufferV.createGraphics();
+            setViewRenderingHints(gBuf);
+            // For shifting and cleaning, we need to erase everything underneath
+            gBuf.setComposite(AlphaComposite.Src);
+            // Perform shifting if needed
+            if (shift.x != 0 || shift.y != 0) {
+                gBuf.copyArea(Math.max(0, -shift.x), Math.max(0, -shift.y), drawingBufferV.getWidth() - Math.abs(shift.x), drawingBufferV.getHeight() - Math.abs(shift.y), shift.x, shift.y);
+                shift.x = shift.y = 0;
+            }
+            // Clip the dirty area
+            gBuf.translate(-bufferedArea.x, -bufferedArea.y);
+            gBuf.clip(dirtyArea);
+            // Clear the dirty area
+            gBuf.setBackground(new Color(0x0, true));
+            gBuf.clearRect(dirtyArea.x, dirtyArea.y, dirtyArea.width, dirtyArea.height);
+            gBuf.setComposite(AlphaComposite.SrcOver);
+            // Repaint the dirty area
+            drawDrawing(gBuf);
+            gBuf.dispose();
+            if(cont==1)return 1;
+        }
+        if (!drawingBufferV.contentsLost()) {
+            g.drawImage(drawingBufferV, bufferedArea.x, bufferedArea.y, null);
+        }
+        if (drawingBufferV.contentsLost()) {
+            dirtyArea.setBounds(bufferedArea);
+        } else {
+            dirtyArea.setSize(-1, -1);
+            return 0;
+        }
+        return 1;
+    }
+    
     /**
      * Draws the drawing double buffered using a buffered image.
      */
     protected void drawDrawingNonvolatileBuffered(Graphics2D g) {
-        Rectangle vr = getVisibleRect();
+    	Rectangle vr = getVisibleRect();
         Point shift = new Point(0, 0);
-        if (bufferedArea.contains(vr)
-                || bufferedArea.width >= vr.width && bufferedArea.height >= vr.height) {
-            // The visible rect fits into the buffered area, but may be shifted; shift the buffered area.
-            shift.x = bufferedArea.x - vr.x;
-            shift.y = bufferedArea.y - vr.y;
-            if (shift.x > 0) {
-                dirtyArea.add(new Rectangle(bufferedArea.x - shift.x, vr.y, shift.x + bufferedArea.width - vr.width, bufferedArea.height));
-            } else if (shift.x < 0) {
-                dirtyArea.add(new Rectangle(bufferedArea.x + vr.width, vr.y, -shift.x + bufferedArea.width - vr.width, bufferedArea.height));
-            }
-            if (shift.y > 0) {
-                dirtyArea.add(new Rectangle(vr.x, bufferedArea.y - shift.y, bufferedArea.width, shift.y + bufferedArea.height - vr.height));
-            } else if (shift.y < 0) {
-                dirtyArea.add(new Rectangle(vr.x, bufferedArea.y + vr.height, bufferedArea.width, -shift.y + bufferedArea.height - vr.height));
-            }
-            bufferedArea.x = vr.x;
-            bufferedArea.y = vr.y;
-        } else {
-            // The buffered drawing area does not match the visible rect;
-            // resize it, and mark everything as dirty.
-            bufferedArea.setBounds(vr);
-            dirtyArea.setBounds(vr);
-            if (drawingBufferNV != null
-                    && (drawingBufferNV.getWidth() != vr.width
-                    || drawingBufferNV.getHeight() != vr.height)) {
-                // The dimension of the drawing buffer does not fit into the visible rect;
-                // throw the buffer away.
-                drawingBufferNV.flush();
-                drawingBufferNV = null;
-            }
-        }
+    	checkbufferArea(shift,vr);
         // Update the contents of the buffer if necessary
         int valid = (drawingBufferNV == null)
                 ? VolatileImage.IMAGE_INCOMPATIBLE : VolatileImage.IMAGE_OK;
@@ -529,28 +515,7 @@ public class DefaultDrawingView
             drawDrawing(g);
             return;
         }
-        if (!dirtyArea.isEmpty()) {
-            // An area of the drawing buffer is dirty; repaint it
-            Graphics2D gBuf = drawingBufferNV.createGraphics();
-            setViewRenderingHints(gBuf);
-            // For shifting and cleaning, we need to erase everything underneath
-            gBuf.setComposite(AlphaComposite.Src);
-            // Perform shifting if needed
-            if (shift.x != 0 || shift.y != 0) {
-                gBuf.copyArea(Math.max(0, -shift.x), Math.max(0, -shift.y), drawingBufferNV.getWidth() - Math.abs(shift.x), drawingBufferNV.getHeight() - Math.abs(shift.y), shift.x, shift.y);
-                shift.x = shift.y = 0;
-            }
-            // Clip the dirty area
-            gBuf.translate(-bufferedArea.x, -bufferedArea.y);
-            gBuf.clip(dirtyArea);
-            // Clear the dirty area
-            gBuf.setBackground(new Color(0x0, true));
-            gBuf.clearRect(dirtyArea.x, dirtyArea.y, dirtyArea.width, dirtyArea.height);
-            gBuf.setComposite(AlphaComposite.SrcOver);
-            // Repaint the dirty area
-            drawDrawing(gBuf);
-            gBuf.dispose();
-        }
+        checkDirtyArea(shift,g,1);
         g.drawImage(drawingBufferNV, bufferedArea.x, bufferedArea.y, null);
         dirtyArea.setSize(-1, -1);
     }
@@ -741,7 +706,7 @@ public class DefaultDrawingView
     @Override
     public void addToSelection(Figure figure) {
         if (DEBUG) {
-            System.out.println("DefaultDrawingView" + ".addToSelection(" + figure + ")");
+        	LOGGER.info("DefaultDrawingView" + ".addToSelection(" + figure + ")");
         }
         Set<Figure> oldSelection = new HashSet<>(selectedFigures);
         if (selectedFigures.add(figure)) {

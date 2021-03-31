@@ -12,6 +12,8 @@ import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.font.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
@@ -26,7 +28,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
-
+	private static final Logger LOGGER = Logger.getLogger(AbstractDrawing.class.getName());
     private static final long serialVersionUID = 1L;
     private static final Object LOCK = new JPanel().getTreeLock();
     private transient FontRenderContext fontRenderContext;
@@ -88,8 +90,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     public void read(DOMInput in) throws IOException {
         in.openElement("figures");
         for (int i = 0; i < in.getElementCount(); i++) {
-            Figure f;
-            add(f = (Figure) in.readObject(i));
+            add((Figure) in.readObject(i));
         }
         in.closeElement();
     }
@@ -120,7 +121,7 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     public void addOutputFormat(OutputFormat format) {
         outputFormats.add(format);
         if (debugMode) {
-            System.out.println(this + ".addOutputFormat(" + format + ")");
+            LOGGER.info(this + ".addOutputFormat(" + format + ")");
         }
     }
 
@@ -142,33 +143,19 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     @Override
     public java.util.List<OutputFormat> getOutputFormats() {
         if (debugMode) {
-            System.out.println(this + ".getOutputFormats size:" + outputFormats.size());
+             LOGGER.info(this + ".getOutputFormats size:" + outputFormats.size());
         }
         return outputFormats;
     }
 
     @Override
+    /**
+     * @return active drawing editor
+     */
     public Drawing getDrawing() {
         return this;
     }
-
-    /*@Override
-    public Rectangle2D.Double getDrawingArea() {
-        Rectangle2D.Double drawingArea;
-        Dimension2DDouble canvasSize = getCanvasSize();
-        if (canvasSize != null) {
-            drawingArea = new Rectangle2D.Double(
-                    0d, 0d,
-                    canvasSize.width, canvasSize.height);
-        } else {
-            drawingArea = super.getDrawingArea();
-            drawingArea.add(0d, 0d);
-            /*drawingArea = new Rectangle2D.Double(
-                    0d, 0d,
-                    canvasSize.width, canvasSize.height);* /
-        }
-        return drawingArea;
-    }*/
+    
     @Override
     @SuppressWarnings("unchecked")
     public AbstractDrawing clone() {

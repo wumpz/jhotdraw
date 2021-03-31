@@ -92,12 +92,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
 
         @Override
-        public void focusLost(FocusEvent e) {
-            /*
-            if (! e.isTemporary()) {
-            setFocusedView(null);
-            }*/
-        }
+        public void focusLost(FocusEvent e) {}
     };
 
     /**
@@ -210,7 +205,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
         view.removeNotify(this);
         if (activeView == view) {
-            view = (views.size() > 0) ? views.iterator().next() : null;
+            view = (!views.isEmpty()) ? views.iterator().next() : null;
         }
         updateActiveView();
     }

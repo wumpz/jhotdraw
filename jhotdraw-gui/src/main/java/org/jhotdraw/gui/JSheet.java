@@ -39,7 +39,7 @@ import org.jhotdraw.util.*;
  * @version $Id$
  */
 public class JSheet extends JDialog {
-
+	// private static final Logger LOGGER = Logger.getLogger(MyClass.class.getName());
     private static final long serialVersionUID = 1L;
     /**
      * Event listener list.
@@ -236,7 +236,6 @@ public class JSheet extends JDialog {
     public void addNotify() {
         super.addNotify();
         if (UIManager.getBoolean("Sheet.showAsSheet")) {
-            // QuaquaUtilities.setWindowAlpha(this, 240);
         }
     }
 
@@ -734,12 +733,6 @@ public class JSheet extends JDialog {
         int style = styleFromMessageType(messageType);
         JSheet sheet = createSheet(pane, parentComponent, style);
         pane.selectInitialValue();
-        /*
-         sheet.addWindowListener(new WindowAdapter() {
-         public void windowClosed(WindowEvent evt) {
-         sheet.dispose();
-         }
-         });*/
         sheet.addSheetListener(listener);
         sheet.show();
         sheet.toFront();

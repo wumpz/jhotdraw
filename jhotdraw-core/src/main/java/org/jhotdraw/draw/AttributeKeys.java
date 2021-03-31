@@ -452,25 +452,11 @@ public class AttributeKeys {
             // don't draw dashes, if all values are 0.
             dashes = null;
         }
-        switch (f.get(STROKE_TYPE)) {
-            case BASIC:
-            default:
-                return new BasicStroke((float) strokeWidth,
-                        f.get(STROKE_CAP),
-                        f.get(STROKE_JOIN),
-                        Math.max(1, miterLimit),
-                        dashes, Math.max(0, (float) (dashPhase * dashFactor)));
-            //not reached
-            case DOUBLE:
-                return new DoubleStroke(
-                        (float) (f.get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
-                        (float) strokeWidth,
-                        f.get(STROKE_CAP),
-                        f.get(STROKE_JOIN),
-                        Math.max(1, miterLimit),
-                        dashes, Math.max(0, (float) (dashPhase * dashFactor)));
-            //not reached
-        }
+        return new BasicStroke((float) strokeWidth,
+                f.get(STROKE_CAP),
+                f.get(STROKE_JOIN),
+                Math.max(1, miterLimit),
+                dashes, Math.max(0, (float) (dashPhase * dashFactor)));
     }
 
     /**
@@ -484,25 +470,11 @@ public class AttributeKeys {
         double strokeWidth = Math.max(1, f.get(STROKE_WIDTH) * getGlobalValueFactor(f, factor));
         float miterLimit = (float) getStrokeTotalMiterLimit(f, factor);
         double dashFactor = f.get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
-        switch (f.get(STROKE_TYPE)) {
-            case BASIC:
-            default:
-                return new BasicStroke((float) strokeWidth,
-                        f.get(STROKE_CAP),
-                        f.get(STROKE_JOIN),
-                        miterLimit,
-                        null, Math.max(0, (float) (f.get(STROKE_DASH_PHASE) * dashFactor)));
-            //not reached
-            case DOUBLE:
-                return new DoubleStroke(
-                        (float) (f.get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
-                        (float) strokeWidth,
-                        f.get(STROKE_CAP),
-                        f.get(STROKE_JOIN),
-                        miterLimit,
-                        null, Math.max(0, (float) (f.get(STROKE_DASH_PHASE).floatValue() * dashFactor)));
-            //not reached
-        }
+        return new BasicStroke((float) strokeWidth,
+                f.get(STROKE_CAP),
+                f.get(STROKE_JOIN),
+                miterLimit,
+                null, Math.max(0, (float) (f.get(STROKE_DASH_PHASE) * dashFactor)));
     }
 
     public static Font getFont(Figure f) {
@@ -567,25 +539,22 @@ public class AttributeKeys {
                         break;
                 }
                 break;
-            case CENTER:
-            default:
-                switch (placement) {
-                    case INSIDE:
-                        grow = strokeWidth / -2d;
-                        break;
-                    case OUTSIDE:
-                        grow = strokeWidth / 2d;
-                        break;
-                    case CENTER:
-                    default:
-                        grow = 0d;
-                        break;
-                }
-                break;
+            default: grow=switchVal(f,strokeWidth);
+                	break;
         }
         return grow;
     }
 
+    private static double switchVal(Figure f, double strokeWidth) {
+        switch (f.get(STROKE_PLACEMENT)) {
+        case INSIDE:
+            return strokeWidth / -2d;
+        case OUTSIDE:
+            return strokeWidth / 2d;
+        default :
+        	return 0f;
+        }
+    }
     /**
      * Returns the distance, that a Rectangle needs to grow (or shrink) to draw (aka stroke) its
      * shape as specified by the FILL_UNDER_STROKE and STROKE_POSITION attributes of a figure. The
@@ -593,21 +562,8 @@ public class AttributeKeys {
      * stroke on an outline of the shape.
      */
     public static double getPerpendicularDrawGrowth(Figure f, double factor) {
-        double grow;
         double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
-        switch (f.get(STROKE_PLACEMENT)) {
-            case INSIDE:
-                grow = strokeWidth / -2d;
-                break;
-            case OUTSIDE:
-                grow = strokeWidth / 2d;
-                break;
-            case CENTER:
-            default:
-                grow = 0f;
-                break;
-        }
-        return grow;
+        return switchVal(f,strokeWidth);
     }
 
     /**
