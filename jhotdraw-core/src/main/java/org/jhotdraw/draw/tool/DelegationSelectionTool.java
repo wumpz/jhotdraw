@@ -187,6 +187,10 @@ public class DelegationSelectionTool extends SelectionTool {
         }
     }
 
+    private void checkCollEmpty(LinkedList<Action> col,Collection<Action> selectionActions2) {
+    	if(col.isEmpty() && selectionActions2.isEmpty())col.add(null);
+    }
+    
     protected void showPopupMenu(Figure figure, Point p, Component c) {
         if (DEBUG) {
             System.out.println("DelegationSelectionTool.showPopupMenu " + figure);
@@ -199,19 +203,13 @@ public class DelegationSelectionTool extends SelectionTool {
         if (figure != null) {
             LinkedList<Action> figureActions = new LinkedList<>(
                     figure.getActions(viewToDrawing(p)));
-            if (popupActions.size() != 0 && figureActions.size() != 0) {
-                popupActions.add(null);
-            }
+            checkCollEmpty(popupActions,figureActions);
             popupActions.addAll(figureActions);
-            if (popupActions.size() != 0 && selectionActions.size() != 0) {
-                popupActions.add(null);
-            }
+            checkCollEmpty(popupActions,selectionActions);
             popupActions.addAll(selectionActions);
         }
-        if (popupActions.size() != 0 && drawingActions.size() != 0) {
-            popupActions.add(null);
-        }
-        popupActions.addAll(drawingActions);
+	    checkCollEmpty(popupActions,drawingActions);
+	    popupActions.addAll(drawingActions);
         HashMap<Object, ButtonGroup> buttonGroups = new HashMap<>();
         for (Action a : popupActions) {
             if (a != null && a.getValue(ActionUtil.SUBMENU_KEY) != null) {

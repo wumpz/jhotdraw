@@ -68,7 +68,7 @@ public class BezierScaleHandle extends AbstractHandle {
 
     public Point getLocation() {
         if (location == null) {
-            return /*location =*/ view.drawingToView(getOrigin());
+            return view.drawingToView(getOrigin());
         }
         return location;
     }
@@ -126,35 +126,6 @@ public class BezierScaleHandle extends AbstractHandle {
         getOwner().transform(transform);
         getOwner().changed();
     }
-
-    /*
-     * public  void scaleRotate(Point anchor, Polygon originalPolygon, Point p) {
-                willChange();
-                // use center to determine relative angles and lengths
-                Point ctr = center(originalPolygon);
-                double anchorLen = Geom.length(ctr.x, ctr.y, anchor.x, anchor.y);
-                if (anchorLen > 0.0) {
-                        double newLen = Geom.length(ctr.x, ctr.y, p.x, p.y);
-                        double ratio = newLen / anchorLen;
-                        double anchorAngle = Math.atan2(anchor.y - ctr.y, anchor.x - ctr.x);
-                        double newAngle = Math.atan2(p.y - ctr.y, p.x - ctr.x);
-                        double rotation = newAngle - anchorAngle;
-                        int n = originalPolygon.npoints;
-                        int[] xs = new int[n];
-                        int[] ys = new int[n];
-                        for (int i = 0; i < n; ++i) {
-                                int x = originalPolygon.xpoints[i];
-                                int y = originalPolygon.ypoints[i];
-                                double l = Geom.length(ctr.x, ctr.y, x, y) * ratio;
-                                double a = Math.atan2(y - ctr.y, x - ctr.x) + rotation;
-                                xs[i] = (int)(ctr.x + l * Math.cos(a) + 0.5);
-                                ys[i] = (int)(ctr.y + l * Math.sin(a) + 0.5);
-                        }
-                        setInternalPolygon(new Polygon(xs, ys, n));
-                }
-                changed();
-        }
-     */
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
         view.getDrawing().fireUndoableEditHappened(

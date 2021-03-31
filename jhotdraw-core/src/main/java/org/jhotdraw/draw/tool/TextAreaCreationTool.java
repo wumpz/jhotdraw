@@ -230,7 +230,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
             typingTarget = null;
             textArea.endOverlay();
         }
-        //         view().checkDamage();
     }
 
     @Override

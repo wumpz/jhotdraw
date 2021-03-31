@@ -133,9 +133,7 @@ public class FontSizeHandle extends LocatorHandle {
         oldSize = newSize = textOwner.getFontSize();
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_UP:
-                if (newSize > 1) {
-                    newSize -= 1f;
-                }
+                if (newSize > 1) newSize -= 1f;
                 evt.consume();
                 break;
             case KeyEvent.VK_DOWN:
@@ -143,8 +141,6 @@ public class FontSizeHandle extends LocatorHandle {
                 evt.consume();
                 break;
             case KeyEvent.VK_LEFT:
-                evt.consume();
-                break;
             case KeyEvent.VK_RIGHT:
                 evt.consume();
                 break;
@@ -155,7 +151,6 @@ public class FontSizeHandle extends LocatorHandle {
             textOwner.setFontSize(newSize);
             textOwner.changed();
             final Object editRestoreData = restoreData;
-            final float editNewSize = newSize;
             UndoableEdit edit = new AbstractUndoableEdit() {
                 private static final long serialVersionUID = 1L;
 

@@ -91,7 +91,6 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
     protected void beginEdit(TextHolderFigure textHolder) {
         if (textArea == null) {
             textArea = new FloatingTextArea();
-            //textArea.addActionListener(this);
         }
         if (textHolder != typingTarget && typingTarget != null) {
             endEdit();
@@ -159,7 +158,6 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
             typingTarget = null;
             textArea.endOverlay();
         }
-        //         view().checkDamage();
     }
 
     @Override

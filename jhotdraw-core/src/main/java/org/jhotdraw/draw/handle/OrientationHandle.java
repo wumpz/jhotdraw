@@ -99,10 +99,6 @@ public class OrientationHandle extends AbstractHandle {
     public void trackStep(Point anchor, Point lead, int modifiersEx) {
         Rectangle leadRect = new Rectangle(lead);
         switch (Geom.outcode(centerBox, leadRect)) {
-            case Geom.OUT_TOP:
-            default:
-                newValue = AttributeKeys.Orientation.NORTH;
-                break;
             case Geom.OUT_TOP | Geom.OUT_RIGHT:
                 newValue = AttributeKeys.Orientation.NORTH_EAST;
                 break;
@@ -123,6 +119,10 @@ public class OrientationHandle extends AbstractHandle {
                 break;
             case Geom.OUT_TOP | Geom.OUT_LEFT:
                 newValue = AttributeKeys.Orientation.NORTH_WEST;
+                break;
+            case Geom.OUT_TOP:
+            default:
+                newValue = AttributeKeys.Orientation.NORTH;
                 break;
         }
         getOwner().willChange();

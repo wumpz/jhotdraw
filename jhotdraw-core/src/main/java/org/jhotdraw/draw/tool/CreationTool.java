@@ -310,7 +310,6 @@ public class CreationTool extends AbstractTool {
      * created. This allows to create multiple figures consecutively.
      */
     public void setToolDoneAfterCreation(boolean newValue) {
-        boolean oldValue = isToolDoneAfterCreation;
         isToolDoneAfterCreation = newValue;
     }
 

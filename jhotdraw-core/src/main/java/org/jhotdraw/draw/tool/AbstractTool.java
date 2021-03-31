@@ -220,7 +220,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
      * the action to be performed. If the corresponding value of the InputMap is a ActionListener,
      * the actionPerformed method of the ActionListener is performed.
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void keyPressed(KeyEvent evt) {
         if (!evt.isConsumed()) {
             if (evt.getSource() instanceof Container) {
@@ -285,9 +286,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
 
     @Override
     public void mouseEntered(MouseEvent evt) {
-        /*if (! isWorking) {
-         editor.setActiveView(editor.findView((Container) evt.getSource()));
-         }*/
     }
 
     @Override

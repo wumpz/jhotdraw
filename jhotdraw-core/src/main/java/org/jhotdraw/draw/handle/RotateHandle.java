@@ -38,8 +38,7 @@ public class RotateHandle extends AbstractRotateHandle {
         // We move it up by a handlesizes, so that it won't overlap with
         // the handles from TransformHandleKit.
         Rectangle2D.Double bounds = getTransformedBounds();
-        Point2D.Double origin = new Point2D.Double(bounds.getCenterX(),
+        return  new Point2D.Double(bounds.getCenterX(),
                 bounds.y - getHandlesize() / view.getScaleFactor());
-        return origin;
     }
 }

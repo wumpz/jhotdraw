@@ -403,7 +403,6 @@ public class ConnectionTool extends AbstractTool {
      * figures consecutively.
      */
     public void setToolDoneAfterCreation(boolean newValue) {
-        boolean oldValue = isToolDoneAfterCreation;
         isToolDoneAfterCreation = newValue;
     }
 
