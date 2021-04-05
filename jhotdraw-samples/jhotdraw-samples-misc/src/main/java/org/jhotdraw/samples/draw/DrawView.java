@@ -62,6 +62,9 @@ public class DrawView extends AbstractView {
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
+    private javax.swing.JScrollPane scrollPane;
+    private org.jhotdraw.draw.DefaultDrawingView view;
+ 
 
     /**
      * Creates a new view.
@@ -253,8 +256,5 @@ public class DrawView extends AbstractView {
         scrollPane.setViewportView(view);
         add(scrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane scrollPane;
-    private org.jhotdraw.draw.DefaultDrawingView view;
-    // End of variables declaration//GEN-END:variables
+
 }
