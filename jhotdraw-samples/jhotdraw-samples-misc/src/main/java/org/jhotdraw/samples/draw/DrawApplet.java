@@ -80,7 +80,7 @@ public class DrawApplet extends JApplet {
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n"); //Strings.split(getAppletInfo(), '\n');
+        String[] labels = getAppletInfo().split("\n"); 
         for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
