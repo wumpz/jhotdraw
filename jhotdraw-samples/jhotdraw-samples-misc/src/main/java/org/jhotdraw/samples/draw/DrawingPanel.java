@@ -57,8 +57,12 @@ public class DrawingPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private UndoRedoManager undoManager;
-    private Drawing drawing;
     private DrawingEditor editor;
+    private javax.swing.JToolBar attributesToolbar;
+    private javax.swing.JToolBar creationToolbar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane scrollPane;
+    private org.jhotdraw.draw.DefaultDrawingView view;
 
     /**
      * Creates new instance.
@@ -90,9 +94,6 @@ public class DrawingPanel extends JPanel {
         pb.addSeparator();
         pb.add(undoManager.getUndoAction());
         pb.add(undoManager.getRedoAction());
-        // FIXME - We need a toggle grid action!
-        // pb.addSeparator();
-        // pb.add(new ToggleGridAction(editor));
         JMenu m = new JMenu(labels.getString("view.zoomFactor.text"));
         JRadioButtonMenuItem rbmi;
         ButtonGroup group = new ButtonGroup();
@@ -153,8 +154,9 @@ public class DrawingPanel extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	
         java.awt.GridBagConstraints gridBagConstraints;
-        toolButtonGroup = new javax.swing.ButtonGroup();
+        new javax.swing.ButtonGroup();
         scrollPane = new javax.swing.JScrollPane();
         view = new org.jhotdraw.draw.DefaultDrawingView();
         jPanel1 = new javax.swing.JPanel();
@@ -217,11 +219,6 @@ public class DrawingPanel extends JPanel {
         ButtonFactory.addToolTo(tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToolBar attributesToolbar;
-    private javax.swing.JToolBar creationToolbar;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane scrollPane;
-    private javax.swing.ButtonGroup toolButtonGroup;
-    private org.jhotdraw.draw.DefaultDrawingView view;
+
     // End of variables declaration//GEN-END:variables
 }
