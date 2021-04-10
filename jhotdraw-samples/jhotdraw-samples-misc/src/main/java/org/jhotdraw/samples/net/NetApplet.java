@@ -39,6 +39,9 @@ public class NetApplet extends JApplet {
     private static final long serialVersionUID = 1L;
     private static final String NAME = "JHotDraw Net";
     private NetPanel drawingPanel;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup toolButtonGroup;
+    // End of variables declaration//GEN-END:variables
 
     /**
      * We override getParameter() to make it work even if we have no Applet
@@ -66,7 +69,7 @@ public class NetApplet extends JApplet {
         // -----------------
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             // Do nothing.
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
@@ -76,14 +79,14 @@ public class NetApplet extends JApplet {
         // using pop menus.
         try {
             PopupFactory.setSharedInstance(new PopupFactory());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             // If we can't set the popup factory, we have to use what is there.
         }
         // Display copyright info while we are loading the data
         // ----------------------------------------------------
         Container c = getContentPane();
         c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
-        String[] labels = getAppletInfo().split("\n"); //Strings.split(getAppletInfo(), '\n');
+        String[] labels = getAppletInfo().split("\n"); 
         for (int i = 0; i < labels.length; i++) {
             c.add(new JLabel((labels[i].length() == 0) ? " " : labels[i]));
         }
@@ -149,30 +152,6 @@ public class NetApplet extends JApplet {
         }.execute();
     }
 
-    private void setDrawing(Drawing d) {
-        drawingPanel.setDrawing(d);
-    }
-
-    private Drawing getDrawing() {
-        return drawingPanel.getDrawing();
-    }
-
-    /**
-     * Configure Drawing object to support copy and paste.
-     */
-    @SuppressWarnings("unchecked")
-    private void initDrawing(Drawing d) {
-        d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
-        d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);
-        DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
-                new NetFactory());
-        d.addInputFormat(ioFormat);
-        d.addInputFormat(new ImageInputFormat(new ImageFigure()));
-        d.addInputFormat(new TextInputFormat(new TextFigure()));
-        d.addOutputFormat(ioFormat);
-        d.addOutputFormat(new ImageOutputFormat());
-    }
-
     public void setData(String text) {
         if (text != null && text.length() > 0) {
             StringReader in = new StringReader(text);
@@ -228,6 +207,31 @@ public class NetApplet extends JApplet {
                + "\nThis software is licensed under LGPL or"
                + "\nCreative Commons 3.0 BY";
     }
+    
+
+    private void setDrawing(Drawing d) {
+        drawingPanel.setDrawing(d);
+    }
+
+    private Drawing getDrawing() {
+        return drawingPanel.getDrawing();
+    }
+
+    /**
+     * Configure Drawing object to support copy and paste.
+     */
+    @SuppressWarnings("unchecked")
+    private void initDrawing(Drawing d) {
+        d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
+        d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);
+        DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(
+                new NetFactory());
+        d.addInputFormat(ioFormat);
+        d.addInputFormat(new ImageInputFormat(new ImageFigure()));
+        d.addInputFormat(new TextInputFormat(new TextFigure()));
+        d.addOutputFormat(ioFormat);
+        d.addOutputFormat(new ImageOutputFormat());
+    }
 
     /**
      * This method is called from within the init() method to
@@ -254,7 +258,5 @@ public class NetApplet extends JApplet {
             }
         });
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup toolButtonGroup;
-    // End of variables declaration//GEN-END:variables
+
 }
