@@ -42,8 +42,15 @@ public class NetPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private UndoRedoManager undoManager;
-    private Drawing drawing;
     private DrawingEditor editor;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToolBar attributesToolbar;
+    private javax.swing.JToolBar creationToolbar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.ButtonGroup toolButtonGroup;
+    private org.jhotdraw.draw.DefaultDrawingView view;
+    // End of variables declaration//GEN-END:variables
 
     /**
      * Creates new instance.
@@ -76,32 +83,39 @@ public class NetPanel extends JPanel {
         pb.add(undoManager.getUndoAction());
         pb.add(undoManager.getRedoAction());
         // FIXME - We need a toggle grid action
-        // pb.addSeparator();
-        // pb.add(new ToggleGridAction(editor));
         JMenu m = new JMenu(labels.getString("view.zoomFactor.text"));
-        JRadioButtonMenuItem rbmi;
+        JRadioButtonMenuItem rbmi1 = new JRadioButtonMenuItem(new ZoomAction(editor, 0.1, null));
         ButtonGroup group = new ButtonGroup();
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.1, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.25, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.5, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 0.75, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 1.0, null)));
-        rbmi.setSelected(true);
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 1.25, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 1.5, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 2, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 3, null)));
-        group.add(rbmi);
-        m.add(rbmi = new JRadioButtonMenuItem(new ZoomAction(editor, 4, null)));
-        group.add(rbmi);
+        m.add(rbmi1);
+        group.add(rbmi1);
+        JRadioButtonMenuItem rbmi2 = new JRadioButtonMenuItem(new ZoomAction(editor, 0.25, null));
+        m.add(rbmi2);
+        group.add(rbmi2);
+        JRadioButtonMenuItem rbmi3 = new JRadioButtonMenuItem(new ZoomAction(editor, 0.5, null));
+        m.add(rbmi3);
+        group.add(rbmi3);
+        JRadioButtonMenuItem rbmi4 = new JRadioButtonMenuItem(new ZoomAction(editor, 0.75, null));
+        m.add(rbmi4);
+        group.add(rbmi4);
+        JRadioButtonMenuItem rbmi5 = new JRadioButtonMenuItem(new ZoomAction(editor, 1.0, null));
+        m.add(rbmi5);
+        rbmi5.setSelected(true);
+        group.add(rbmi5);
+        JRadioButtonMenuItem rbmi6 = new JRadioButtonMenuItem(new ZoomAction(editor, 1.25, null));
+        m.add(rbmi6);
+        group.add(rbmi6);
+        JRadioButtonMenuItem rbmi7 = new JRadioButtonMenuItem(new ZoomAction(editor, 1.5, null));
+        m.add(rbmi7);
+        group.add(rbmi7);
+        JRadioButtonMenuItem rbmi8 = new JRadioButtonMenuItem(new ZoomAction(editor, 2, null));        
+        m.add(rbmi8);
+        group.add(rbmi8);
+        JRadioButtonMenuItem rbmi9 = new JRadioButtonMenuItem(new ZoomAction(editor, 3, null));
+        m.add(rbmi9);
+        group.add(rbmi9);
+        JRadioButtonMenuItem rbmi10 = new JRadioButtonMenuItem(new ZoomAction(editor, 4, null));
+        m.add(rbmi10 );
+        group.add(rbmi10);
         pb.add(m);
         pb.setFocusable(false);
         creationToolbar.addSeparator();
@@ -180,12 +194,5 @@ public class NetPanel extends JPanel {
         attributes.put(AttributeKeys.STROKE_COLOR, new Color(0x000099));
         ButtonFactory.addToolTo(tb, editor, new ConnectionTool(new LineConnectionFigure(), attributes), "edit.createLink", labels);
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToolBar attributesToolbar;
-    private javax.swing.JToolBar creationToolbar;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane scrollPane;
-    private javax.swing.ButtonGroup toolButtonGroup;
-    private org.jhotdraw.draw.DefaultDrawingView view;
-    // End of variables declaration//GEN-END:variables
+
 }
