@@ -32,7 +32,6 @@ public class Main {
         if (os.startsWith("mac")) {
             app = new OSXApplication();
         } else if (os.startsWith("win")) {
-            //  app = new DefaultMDIApplication();
             app = new SDIApplication();
         } else {
             app = new SDIApplication();
