@@ -48,29 +48,11 @@ public class NetApplicationModel extends DefaultApplicationModel {
 
     private static final long serialVersionUID = 1L;
     private static final double[] SCALE_FACTORS = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
-
-    private static class ToolButtonListener implements ItemListener {
-
-        private Tool tool;
-        private DrawingEditor editor;
-
-        public ToolButtonListener(Tool t, DrawingEditor editor) {
-            this.tool = t;
-            this.editor = editor;
-        }
-
-        @Override
-        public void itemStateChanged(ItemEvent evt) {
-            if (evt.getStateChange() == ItemEvent.SELECTED) {
-                editor.setTool(tool);
-            }
-        }
-    }
+    public static final String viewToggleGrid = "view.toggleGrid";
     /**
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-    private HashMap<String, Action> actions;
 
     /**
      * Creates a new instance.
@@ -82,14 +64,15 @@ public class NetApplicationModel extends DefaultApplicationModel {
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
         ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        AbstractAction aa;
+        AbstractAction aa = new ToggleViewPropertyAction(a, v, NetView.GRID_VISIBLE_PROPERTY);
+        AbstractAction Aa;
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
-        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v, NetView.GRID_VISIBLE_PROPERTY));
-        drawLabels.configureAction(aa, "view.toggleGrid");
+        m.put(viewToggleGrid, aa);
+        drawLabels.configureAction(aa, viewToggleGrid);
         for (double sf : SCALE_FACTORS) {
             m.put((int) (sf * 100) + "%",
-                    aa = new ViewPropertyAction(a, v, DrawingView.SCALE_FACTOR_PROPERTY, Double.TYPE, new Double(sf)));
-            aa.putValue(Action.NAME, (int) (sf * 100) + " %");
+                    Aa = new ViewPropertyAction(a, v, DrawingView.SCALE_FACTOR_PROPERTY, Double.TYPE, sf));
+            Aa.putValue(Action.NAME, (int) (sf * 100) + " %");
         }
         return m;
     }
@@ -164,8 +147,8 @@ public class NetApplicationModel extends DefaultApplicationModel {
             public void addOtherViewItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
                 JCheckBoxMenuItem cbmi;
-                cbmi = new JCheckBoxMenuItem(am.get("view.toggleGrid"));
-                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get("view.toggleGrid"));
+                cbmi = new JCheckBoxMenuItem(am.get(viewToggleGrid));
+                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(viewToggleGrid));
                 m.add(cbmi);
                 JMenu m2 = new JMenu("Zoom");
                 for (double sf : SCALE_FACTORS) {
