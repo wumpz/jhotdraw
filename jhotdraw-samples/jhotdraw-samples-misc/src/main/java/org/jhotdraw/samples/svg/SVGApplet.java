@@ -51,6 +51,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public class SVGApplet extends JApplet {
 
     private static final long serialVersionUID = 1L;
@@ -66,7 +67,6 @@ public class SVGApplet extends JApplet {
         start = System.currentTimeMillis();
         setName("JHotDraw SVG Applet " + getClass().getPackage().getImplementationVersion());
         ((JComponent) getContentPane()).setBorder(new MatteBorder(new Insets(1, 1, 1, 1), new Color(0xa5a5a5)));
-        //ResourceBundleUtil.setVerbose(true);
     }
 
     /**
@@ -113,7 +113,7 @@ public class SVGApplet extends JApplet {
         // -----------------
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             // Do nothing.
             // If we can't set the desired look and feel, UIManager does
             // automaticaly the right thing for us.
@@ -123,7 +123,7 @@ public class SVGApplet extends JApplet {
         // using pop menus.
         try {
             PopupFactory.setSharedInstance(new PopupFactory());
-        } catch (Throwable e) {
+        } catch (Exception e) {
             // If we can't set the popup factory, we have to use what is there.
         }
         // Display a progress indicator while we are loading the drawing
@@ -210,12 +210,6 @@ public class SVGApplet extends JApplet {
         drawingComponent.setDrawing(d);
     }
 
-    /**
-     * Gets the drawing from the drawing panel.
-     */
-    private Drawing getDrawing() {
-        return drawingComponent.getDrawing();
-    }
 
     /**
      * Gets the version of the applet.
@@ -370,7 +364,7 @@ public class SVGApplet extends JApplet {
         AppletContext appletContext;
         try {
             appletContext = getAppletContext();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             appletContext = null;
         }
         if (appletContext == null) {
