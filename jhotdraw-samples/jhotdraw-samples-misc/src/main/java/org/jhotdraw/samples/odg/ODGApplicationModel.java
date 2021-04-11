@@ -59,7 +59,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
      * This editor is shared by all views.
      */
     private DefaultDrawingEditor sharedEditor;
-
+    public static final String LABEL = "org.jhotdraw.draw.LABELs";
     /**
      * Creates a new instance.
      */
@@ -101,15 +101,15 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     private void addCreationButtonsTo(JToolBar tb, final DrawingEditor editor) {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey<?>, Object> attributes;
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil drawLABELs = ResourceBundleUtil.getBundle(LABEL);
         ButtonFactory.addSelectionToolTo(tb, editor, createDrawingActions(editor), createSelectionActions(editor));
         tb.addSeparator();
         attributes = new HashMap<AttributeKey<?>, Object>();
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGRectFigure(), attributes), "edit.createRectangle", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGRectFigure(), attributes), "edit.createRectangle", drawLABELs);
         attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, null);
         attributes.put(AttributeKeys.STROKE_COLOR, Color.black);
-        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGPathFigure(), attributes), "edit.createLine", drawLabels);
+        ButtonFactory.addToolTo(tb, editor, new CreationTool(new ODGPathFigure(), attributes), "edit.createLine", drawLABELs);
         attributes = new HashMap<AttributeKey<?>, Object>();
         attributes.put(AttributeKeys.FILL_COLOR, Color.black);
         attributes.put(AttributeKeys.STROKE_COLOR, null);
@@ -136,20 +136,20 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     }
 
     private void addColorButtonsTo(JToolBar bar, DrawingEditor editor) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil LABELs = ResourceBundleUtil.getBundle(LABEL);
         HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
         STROKE_GRADIENT.put(defaultAttributes, (Gradient) null);
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                         STROKE_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                        "attribute.strokeColor", labels,
+                        "attribute.strokeColor", LABELs,
                         defaultAttributes));
         defaultAttributes = new HashMap<AttributeKey<?>, Object>();
         FILL_GRADIENT.put(defaultAttributes, (Gradient) null);
         bar.add(
                 ButtonFactory.createEditorColorButton(editor,
                         FILL_COLOR, ButtonFactory.WEBSAVE_COLORS, ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-                        "attribute.fillColor", labels,
+                        "attribute.fillColor", LABELs,
                         defaultAttributes));
     }
 
@@ -165,7 +165,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
      */
     @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil LABELs = ResourceBundleUtil.getBundle(LABEL);
         ODGView p = (ODGView) pr;
         DrawingEditor editor;
         if (p == null) {
@@ -177,15 +177,15 @@ public class ODGApplicationModel extends DefaultApplicationModel {
         JToolBar tb;
         tb = new JToolBar();
         addCreationButtonsTo(tb, editor);
-        tb.setName(labels.getString("window.drawToolBar.title"));
+        tb.setName(LABELs.getString("window.drawToolBar.title"));
         list.add(tb);
         tb = new JToolBar();
         addAttributesButtonsTo(tb, editor);
-        tb.setName(labels.getString("window.attributesToolBar.title"));
+        tb.setName(LABELs.getString("window.attributesToolBar.title"));
         list.add(tb);
         tb = new JToolBar();
         ButtonFactory.addAlignmentButtonsTo(tb, editor);
-        tb.setName(labels.getString("window.alignmentToolBar.title"));
+        tb.setName(LABELs.getString("window.alignmentToolBar.title"));
         list.add(tb);
         return list;
     }
@@ -200,11 +200,11 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil drawLABELs = ResourceBundleUtil.getBundle(LABEL);
         AbstractAction aa;
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
         m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v, ODGView.GRID_VISIBLE_PROPERTY));
-        drawLabels.configureAction(aa, "view.toggleGrid");
+        drawLABELs.configureAction(aa, "view.toggleGrid");
         for (double sf : SCALE_FACTORS) {
             m.put((int) (sf * 100) + "%",
                     aa = new ViewPropertyAction(a, v, "scaleFactor", Double.TYPE, new Double(sf)));
@@ -255,7 +255,6 @@ public class ODGApplicationModel extends DefaultApplicationModel {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            break; // only add the first uri filter
         }
         return c;
     }
@@ -272,7 +271,6 @@ public class ODGApplicationModel extends DefaultApplicationModel {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            break; // only add the first uri filter
         }
         return c;
     }
