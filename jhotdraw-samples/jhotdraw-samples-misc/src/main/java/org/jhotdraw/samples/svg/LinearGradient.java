@@ -11,7 +11,6 @@ import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
-import org.jhotdraw.draw.*;
 
 /**
  * Represents an SVG LinearGradient.
@@ -30,7 +29,6 @@ public class LinearGradient implements Gradient {
     private Color[] stopColors;
     private double[] stopOpacities;
     private AffineTransform transform;
-    private int spreadMethod;
 
     /**
      * Creates a new instance.

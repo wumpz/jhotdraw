@@ -10,7 +10,6 @@ package org.jhotdraw.samples.svg;
 import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import org.jhotdraw.draw.*;
 
 /**
  * Represents an SVG Gradient.
