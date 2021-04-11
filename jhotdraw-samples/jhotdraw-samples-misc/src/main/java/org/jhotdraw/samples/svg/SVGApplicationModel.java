@@ -55,7 +55,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
      * Client property on the URIFileChooser.
      */
     public static final String OUTPUT_FORMAT_MAP_CLIENT_PROPERTY = "OutputFormatMap";
-    private static final double[] SCALE_FACTORS = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     private GridConstrainer gridConstrainer;
     /**
      * This editor is shared by all views.
@@ -94,14 +93,12 @@ public class SVGApplicationModel extends DefaultApplicationModel {
         m.put(SplitAction.ID, new SplitAction(editor));
         m.put(BringToFrontAction.ID, new BringToFrontAction(editor));
         m.put(SendToBackAction.ID, new SendToBackAction(editor));
-        //view.addDisposable(action);
     }
 
     @Override
     public ActionMap createActionMap(Application a, View view) {
         SVGView v = (SVGView) view;
         ActionMap m = super.createActionMap(a, v);
-        AbstractAction aa;
         m.put(ClearSelectionAction.ID, new ClearSelectionAction());
         m.put(ViewSourceAction.ID, new ViewSourceAction(a, v));
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
@@ -221,7 +218,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             javax.swing.filechooser.FileFilter ff = format.getFileFilter();
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
-            break; // only add the first uri filter
         }
         return c;
     }
@@ -242,9 +238,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
             fileFilterOutputFormatMap.put(ff, format);
             c.addChoosableFileFilter(ff);
             // FIXME use preferences
-            /*if (ff.getDescription().equals(preferences.get("viewExportFormat", ""))) {
-            currentFilter = ff;
-            }*/
         }
         if (currentFilter != null) {
             c.setFileFilter(currentFilter);
