@@ -73,7 +73,8 @@ public class PertApplicationModel extends DefaultApplicationModel {
      */
     private DefaultDrawingEditor sharedEditor;
     private HashMap<String, Action> actions;
-
+    public static final String TOGGLEGRID = "view.toggleGrid";
+    public static final String DRAWLABELS = "org.jhotdraw.draw.Labels";
     /**
      * Creates a new instance.
      */
@@ -83,11 +84,11 @@ public class PertApplicationModel extends DefaultApplicationModel {
     @Override
     public ActionMap createActionMap(Application a, View v) {
         ActionMap m = super.createActionMap(a, v);
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle(DRAWLABELS);
         AbstractAction aa;
         m.put(ExportFileAction.ID, new ExportFileAction(a, v));
-        m.put("view.toggleGrid", aa = new ToggleViewPropertyAction(a, v, PertView.GRID_VISIBLE_PROPERTY));
-        drawLabels.configureAction(aa, "view.toggleGrid");
+        m.put(TOGGLEGRID , aa = new ToggleViewPropertyAction(a, v, PertView.GRID_VISIBLE_PROPERTY));
+        drawLabels.configureAction(aa, TOGGLEGRID );
         for (double sf : SCALE_FACTORS) {
             m.put((int) (sf * 100) + "%",
                     aa = new ViewPropertyAction(a, v, DrawingView.SCALE_FACTOR_PROPERTY, Double.TYPE, new Double(sf)));
@@ -114,7 +115,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
         // AttributeKeys for the entitie sets
         HashMap<AttributeKey<?>, Object> attributes;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle(DRAWLABELS);
         ButtonFactory.addSelectionToolTo(tb, editor);
         tb.addSeparator();
         attributes = new HashMap<AttributeKey<?>, Object>();
@@ -136,7 +137,7 @@ public class PertApplicationModel extends DefaultApplicationModel {
      */
     @Override
     public java.util.List<JToolBar> createToolBars(Application a, View pr) {
-        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        ResourceBundleUtil drawLabels = ResourceBundleUtil.getBundle(DRAWLABELS);
         PertView p = (PertView) pr;
         DrawingEditor editor;
         if (p == null) {
@@ -171,8 +172,8 @@ public class PertApplicationModel extends DefaultApplicationModel {
             public void addOtherViewItems(JMenu m, Application app, View v) {
                 ActionMap am = app.getActionMap(v);
                 JCheckBoxMenuItem cbmi;
-                cbmi = new JCheckBoxMenuItem(am.get("view.toggleGrid"));
-                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get("view.toggleGrid"));
+                cbmi = new JCheckBoxMenuItem(am.get(TOGGLEGRID ));
+                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(TOGGLEGRID ));
                 m.add(cbmi);
                 JMenu m2 = new JMenu("Zoom");
                 for (double sf : SCALE_FACTORS) {
