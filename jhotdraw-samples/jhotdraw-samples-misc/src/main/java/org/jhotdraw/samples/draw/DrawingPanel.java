@@ -58,11 +58,14 @@ public class DrawingPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private UndoRedoManager undoManager;
     private DrawingEditor editor;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar attributesToolbar;
     private javax.swing.JToolBar creationToolbar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane scrollPane;
     private org.jhotdraw.draw.DefaultDrawingView view;
+    // End of variables declaration//GEN-END:variables
+
 
     /**
      * Creates new instance.

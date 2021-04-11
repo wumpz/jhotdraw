@@ -36,6 +36,9 @@ public class DrawApplet extends JApplet {
     private static final long serialVersionUID = 1L;
     private static final String NAME = "JHotDraw Draw";
     private DrawingPanel drawingPanel;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup toolButtonGroup;
+    // End of variables declaration//GEN-END:variables
 
     /**
      * We override getParameter() to make it work even if we have no Applet
@@ -242,7 +245,5 @@ public class DrawApplet extends JApplet {
             }
         });
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup toolButtonGroup;
-    // End of variables declaration//GEN-END:variables
+
 }
