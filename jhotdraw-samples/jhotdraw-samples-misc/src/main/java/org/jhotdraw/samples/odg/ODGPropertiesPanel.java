@@ -34,6 +34,13 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
     private FigureAttributeEditorHandler<Double> opacityFieldHandler;
     private FigureAttributeEditorHandler<Double> opacitySliderHandler;
     private FigureAttributeEditorHandler<String> linkFieldHandler;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jhotdraw.draw.gui.JAttributeTextField linkField;
+    private javax.swing.JLabel linkLabel;
+    private org.jhotdraw.draw.gui.JAttributeTextField opacityField;
+    private javax.swing.JLabel opacityLabel;
+    private org.jhotdraw.gui.JPopupButton opacityPopupButton;
+    // End of variables declaration//GEN-END:variables
 
     /**
      * Creates new instance.
@@ -104,11 +111,5 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
         opacityPopupButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
         add(opacityPopupButton, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.draw.gui.JAttributeTextField linkField;
-    private javax.swing.JLabel linkLabel;
-    private org.jhotdraw.draw.gui.JAttributeTextField opacityField;
-    private javax.swing.JLabel opacityLabel;
-    private org.jhotdraw.gui.JPopupButton opacityPopupButton;
-    // End of variables declaration//GEN-END:variables
+
 }
