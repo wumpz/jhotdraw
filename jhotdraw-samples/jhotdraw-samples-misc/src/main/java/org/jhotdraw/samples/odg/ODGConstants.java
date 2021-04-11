@@ -23,7 +23,7 @@ public class ODGConstants {
     public static final String STYLE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
     public static final String TEXT_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
 
-    public static enum StrokeStyle {
+    public enum StrokeStyle {
         NONE, DASH, SOLID
     }
     public static final Map<String, StrokeStyle> STROKE_STYLES;
@@ -36,7 +36,7 @@ public class ODGConstants {
         STROKE_STYLES = Collections.unmodifiableMap(m);
     }
 
-    public static enum FillStyle {
+    public enum FillStyle {
         NONE, SOLID, BITMAP, GRADIENT, HATCH
     }
     public static final Map<String, FillStyle> FILL_STYLES;
