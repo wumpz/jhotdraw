@@ -50,6 +50,9 @@ public class SVGView extends AbstractView {
      */
     private UndoRedoManager undo;
     private PropertyChangeListener propertyHandler;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jhotdraw.samples.svg.SVGDrawingPanel svgPanel;
+    // End of variables declaration//GEN-END:variables
 
     /**
      * Creates a new View.
@@ -144,7 +147,6 @@ public class SVGView extends AbstractView {
             if (fc != null) {
                 fileFilterInputFormatMap = (HashMap<javax.swing.filechooser.FileFilter, InputFormat>) fc.getClientProperty(SVGApplicationModel.INPUT_FORMAT_MAP_CLIENT_PROPERTY);
             }
-            //private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
             InputFormat selectedFormat = (fc == null) ? null : fileFilterInputFormatMap.get(fc.getFileFilter());
             boolean success = false;
             if (selectedFormat != null) {
@@ -254,7 +256,5 @@ public class SVGView extends AbstractView {
         setLayout(new java.awt.BorderLayout());
         add(svgPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.samples.svg.SVGDrawingPanel svgPanel;
-    // End of variables declaration//GEN-END:variables
+
 }
