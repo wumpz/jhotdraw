@@ -65,9 +65,28 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     private static final long serialVersionUID = 1L;
     private UndoRedoManager undoManager;
     private DrawingEditor editor;
-    private ResourceBundleUtil labels;
     private Preferences prefs;
     private ContainerListener containerHandler;
+    public static final String BARINDEX = "toolBarIndex.";
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jhotdraw.samples.svg.gui.ActionsToolBar actionToolBar;
+    private org.jhotdraw.samples.svg.gui.AlignToolBar alignToolBar;
+    private org.jhotdraw.samples.svg.gui.ArrangeToolBar arrangeToolBar;
+    private org.jhotdraw.samples.svg.gui.CanvasToolBar canvasToolBar;
+    private org.jhotdraw.samples.svg.gui.ToolsToolBar creationToolBar;
+    private org.jhotdraw.samples.svg.gui.FigureToolBar figureToolBar;
+    private org.jhotdraw.samples.svg.gui.FillToolBar fillToolBar;
+    private org.jhotdraw.samples.svg.gui.FontToolBar fontToolBar;
+    private org.jhotdraw.samples.svg.gui.LinkToolBar linkToolBar;
+    private javax.swing.JScrollPane scrollPane;
+    private org.jhotdraw.samples.svg.gui.StrokeToolBar strokeToolBar;
+    private javax.swing.ButtonGroup toolButtonGroup;
+    private javax.swing.JPanel toolsPane;
+    private javax.swing.JPanel toolsPanel;
+    private javax.swing.JScrollPane toolsScrollPane;
+    private org.jhotdraw.draw.DefaultDrawingView view;
+    private org.jhotdraw.samples.svg.gui.ViewToolBar viewToolBar;
+    // End of variables declaration//GEN-END:variables
 
     public UndoRedoManager getUndoRedoManager() {
         return undoManager;
@@ -106,7 +125,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
      * Creates new instance.
      */
     public SVGDrawingPanel() {
-        labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+    	ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
         try {
             prefs = PreferencesUtil.userNodeForPackage(getClass());
         } catch (SecurityException e) {
@@ -138,8 +157,8 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         Collections.sort(sortme, new Comparator<JToolBar>() {
             @Override
             public int compare(JToolBar tb1, JToolBar tb2) {
-                int i1 = prefs.getInt("toolBarIndex." + tb1.getName(), 0);
-                int i2 = prefs.getInt("toolBarIndex." + tb2.getName(), 0);
+                int i1 = prefs.getInt(BARINDEX + tb1.getName(), 0);
+                int i2 = prefs.getInt(BARINDEX + tb2.getName(), 0);
                 return i1 - i2;
             }
         });
@@ -154,7 +173,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
                 for (Component c : toolsPane.getComponents()) {
                     if (c instanceof JToolBar) {
                         JToolBar tb = (JToolBar) c;
-                        prefs.putInt("toolBarIndex." + tb.getName(), i);
+                        prefs.putInt(BARINDEX + tb.getName(), i);
                         i++;
                     }
                 }
@@ -536,23 +555,5 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         toolsPanel.add(toolsScrollPane, gridBagConstraints);
         add(toolsPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.samples.svg.gui.ActionsToolBar actionToolBar;
-    private org.jhotdraw.samples.svg.gui.AlignToolBar alignToolBar;
-    private org.jhotdraw.samples.svg.gui.ArrangeToolBar arrangeToolBar;
-    private org.jhotdraw.samples.svg.gui.CanvasToolBar canvasToolBar;
-    private org.jhotdraw.samples.svg.gui.ToolsToolBar creationToolBar;
-    private org.jhotdraw.samples.svg.gui.FigureToolBar figureToolBar;
-    private org.jhotdraw.samples.svg.gui.FillToolBar fillToolBar;
-    private org.jhotdraw.samples.svg.gui.FontToolBar fontToolBar;
-    private org.jhotdraw.samples.svg.gui.LinkToolBar linkToolBar;
-    private javax.swing.JScrollPane scrollPane;
-    private org.jhotdraw.samples.svg.gui.StrokeToolBar strokeToolBar;
-    private javax.swing.ButtonGroup toolButtonGroup;
-    private javax.swing.JPanel toolsPane;
-    private javax.swing.JPanel toolsPanel;
-    private javax.swing.JScrollPane toolsScrollPane;
-    private org.jhotdraw.draw.DefaultDrawingView view;
-    private org.jhotdraw.samples.svg.gui.ViewToolBar viewToolBar;
-    // End of variables declaration//GEN-END:variables
+
 }
