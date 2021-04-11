@@ -71,8 +71,7 @@ public class ODGView extends AbstractView {
      * view, or a single shared editor for all views.
      */
     private DrawingEditor editor;
-    private GridConstrainer visibleConstrainer = new GridConstrainer(10, 10);
-    private GridConstrainer invisibleConstrainer = new GridConstrainer(1, 1);
+    public static final String PANELVISIBLE = "propertiesPanelVisible";
 
     /**
      * Creates a new view.
@@ -107,7 +106,7 @@ public class ODGView extends AbstractView {
         labels.configureToolBarButton(pButton, "view.toggleGrid.placard");
         placardPanel.add(pButton, BorderLayout.EAST);
         scrollPane.add(placardPanel, JScrollPane.LOWER_LEFT_CORNER);
-        propertiesPanel.setVisible(preferences.getBoolean("propertiesPanelVisible", false));
+        propertiesPanel.setVisible(preferences.getBoolean(PANELVISIBLE, false));
         propertiesPanel.setView(view);
     }
 
@@ -225,8 +224,8 @@ public class ODGView extends AbstractView {
     public void setPropertiesPanelVisible(boolean newValue) {
         boolean oldValue = propertiesPanel.isVisible();
         propertiesPanel.setVisible(newValue);
-        firePropertyChange("propertiesPanelVisible", oldValue, newValue);
-        preferences.putBoolean("propertiesPanelVisible", newValue);
+        firePropertyChange(PANELVISIBLE , oldValue, newValue);
+        preferences.putBoolean(PANELVISIBLE , newValue);
         validate();
     }
 
