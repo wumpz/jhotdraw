@@ -11,7 +11,6 @@ import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
-import org.jhotdraw.draw.*;
 
 /**
  * Represents an SVG RadialGradient.
@@ -99,7 +98,8 @@ public class RadialGradient implements Gradient {
             );
         }
         // Compute the dimensions and transforms for the paint
-        Point2D.Double cp, fp;
+        Point2D.Double cp;
+        Point2D.Double fp;
         double rr;
         cp = new Point2D.Double(cx, cy);
         fp = new Point2D.Double(fx, fy);
