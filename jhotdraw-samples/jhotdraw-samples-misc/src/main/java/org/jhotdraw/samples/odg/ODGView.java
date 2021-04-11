@@ -72,6 +72,11 @@ public class ODGView extends AbstractView {
      */
     private DrawingEditor editor;
     public static final String PANELVISIBLE = "propertiesPanelVisible";
+ // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jhotdraw.samples.odg.ODGPropertiesPanel propertiesPanel;
+    private javax.swing.JScrollPane scrollPane;
+    private org.jhotdraw.draw.DefaultDrawingView view;
+    // End of variables declaration//GEN-END:variables
 
     /**
      * Creates a new view.
@@ -299,9 +304,5 @@ public class ODGView extends AbstractView {
         add(scrollPane, java.awt.BorderLayout.CENTER);
         add(propertiesPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jhotdraw.samples.odg.ODGPropertiesPanel propertiesPanel;
-    private javax.swing.JScrollPane scrollPane;
-    private org.jhotdraw.draw.DefaultDrawingView view;
-    // End of variables declaration//GEN-END:variables
+    
 }
