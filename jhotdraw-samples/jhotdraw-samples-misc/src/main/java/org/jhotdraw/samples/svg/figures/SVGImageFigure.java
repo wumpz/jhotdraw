@@ -76,7 +76,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     // DRAWING
     @Override
     public void draw(Graphics2D g) {
-        //super.draw(g);
         double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
         if (opacity != 0d) {
@@ -409,7 +408,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     @Override
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
-            //System.out.println("recreateing bufferedImage");
             try {
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
             } catch (Throwable e) {

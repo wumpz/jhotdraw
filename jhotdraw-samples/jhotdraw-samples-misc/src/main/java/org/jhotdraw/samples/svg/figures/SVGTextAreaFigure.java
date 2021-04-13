@@ -149,7 +149,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                         tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                     }
                     if (getText() != null) {
-                        String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
+                        String[] paragraphs = getText().split("\n");
                         for (int i = 0; i < paragraphs.length; i++) {
                             if (paragraphs[i].length() == 0) {
                                 paragraphs[i] = " ";
@@ -424,7 +424,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
     @Override
     public Color getTextColor() {
         return get(FILL_COLOR);
-        //   return TEXT_COLOR.get(this);
     }
 
     @Override
@@ -458,12 +457,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
             Point2D.Double p0 = new Point2D.Double(0, 0);
             tx.transform(p0, p0);
             p.y -= p0.y;
-            /*
-        try {
-        tx.inverseTransform(p, p);
-        } catch (NoninvertibleTransformException ex) {
-        ex.printStackTrace();
-        }*/
         }
         return (float) Math.abs(p.y);
     }
@@ -569,7 +562,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure
                     tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
                 }
                 if (getText() != null) {
-                    String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
+                    String[] paragraphs = getText().split("\n");
                     for (int i = 0; i < paragraphs.length; i++) {
                         if (paragraphs[i].length() == 0) {
                             paragraphs[i] = " ";

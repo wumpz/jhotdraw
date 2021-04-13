@@ -15,7 +15,6 @@ import javax.swing.*;
 import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.gui.JDisclosureToolBar;
-import static org.jhotdraw.gui.JDisclosureToolBar.DISCLOSURE_STATE_PROPERTY;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
 /**
@@ -163,8 +162,6 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
                             t.printStackTrace();
                             panels[state] = null;
                         }
-                        // long end = System.currentTimeMillis();
-                        // System.out.println(AbstractToolBar.this.getClass()+" state:"+state+" elapsed:"+(end-start));
                         JComponent parent = (JComponent) getParent();
                         if (parent != null) {
                             GridBagLayout layout = (GridBagLayout) parent.getLayout();

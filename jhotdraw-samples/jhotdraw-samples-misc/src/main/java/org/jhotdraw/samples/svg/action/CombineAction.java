@@ -110,8 +110,6 @@ public class CombineAction extends AbstractSelectedAction {
             for (Figure f : ungroupedPaths) {
                 ungroupedPathsIndices[i] = drawing.indexOf(f);
                 ungroupedPathsChildCounts[i] = ((CompositeFigure) f).getChildCount();
-                //System.out.print("CombineAction indices[" + i + "] = " + ungroupedPathsIndices[i]);
-                //System.out.println(" childCount[" + i + "] = " + ungroupedPathsChildCounts[i]);
                 i++;
             }
             final CompositeFigure group = (CompositeFigure) prototype.clone();
