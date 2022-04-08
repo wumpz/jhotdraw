@@ -67,7 +67,7 @@ public abstract class AbstractViewAction extends AbstractAction {
     /**
      * Creates a new instance which acts on the specified view of the application.
      */
-    public AbstractViewAction(Application app, View view) {
+    protected AbstractViewAction(Application app, View view) {
         this.app = app;
         this.view = view;
         this.enabled = true;

@@ -61,7 +61,7 @@ public abstract class AbstractSelectionAction extends AbstractAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public AbstractSelectionAction(JComponent target) {
+    protected AbstractSelectionAction(JComponent target) {
         this.target = target;
         if (target != null) {
             // Register with a weak reference on the JComponent.

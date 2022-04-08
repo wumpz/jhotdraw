@@ -43,7 +43,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     /**
      * Creates a new instance.
      */
-    public AbstractApplicationAction(Application app) {
+    protected AbstractApplicationAction(Application app) {
         this.app = app;
         installApplicationListeners(app);
         updateApplicationEnabled();
