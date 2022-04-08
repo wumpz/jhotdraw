@@ -6,7 +6,7 @@ import javax.swing.*;
 import org.jhotdraw.datatransfer.ClipboardUtil;
 import org.jhotdraw.util.*;
 
-public class AbstractCopyCutAction extends AbstractSelectionAction {
+public abstract class AbstractCopyCutAction extends AbstractSelectionAction {
 
     private static final long serialVersionUID = 1L;
 
