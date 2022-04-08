@@ -37,6 +37,7 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractApplicationAction extends AbstractAction implements Disposable {
 
     private static final long serialVersionUID = 1L;
+    private static final String ENABLED_PROPERTY = "enabled";
     private Application app;
     private PropertyChangeListener applicationListener;
 
@@ -70,7 +71,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
         return new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if ("enabled".equals(evt.getPropertyName())) {
+                if (ENABLED_PROPERTY.equals(evt.getPropertyName())) {
                     updateApplicationEnabled();
                 }
             }
@@ -86,7 +87,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
      * state of the application.
      */
     protected void updateApplicationEnabled() {
-        firePropertyChange("enabled", !isEnabled(),
+        firePropertyChange(ENABLED_PROPERTY, !isEnabled(),
                 isEnabled());
     }
 
@@ -116,7 +117,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
     public void setEnabled(boolean newValue) {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
-        firePropertyChange("enabled", oldValue && app.isEnabled(), newValue && app.isEnabled());
+        firePropertyChange(ENABLED_PROPERTY, oldValue && app.isEnabled(), newValue && app.isEnabled());
     }
 
     @Override
