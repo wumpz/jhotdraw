@@ -48,20 +48,14 @@ public class CopyAction extends AbstractSelectionAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public CopyAction(JComponent target) {
-        super(target);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
-        labels.configureAction(this, ID);
+    public CopyAction(JComponent target, String ID) {
+        super(target, ID);
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
+        super.actionPerformed(evt);
         JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
-        }
         // Note: copying is allowed for disabled components
         if (c != null) {
             c.getTransferHandler().exportToClipboard(

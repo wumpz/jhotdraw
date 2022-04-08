@@ -64,19 +64,13 @@ public class DuplicateAction extends AbstractSelectionAction {
      * focused component.
      */
     public DuplicateAction(JComponent target) {
-        super(target);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
-        labels.configureAction(this, ID);
+        super(target, ID);
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
+        super.actionPerformed(evt);
         JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
-        }
         if (c != null && c.isEnabled()) {
             if (c instanceof EditableComponent) {
                 ((EditableComponent) c).duplicate();

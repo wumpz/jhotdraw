@@ -61,7 +61,7 @@ public abstract class AbstractSelectionAction extends AbstractAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    protected AbstractSelectionAction(JComponent target) {
+    protected AbstractSelectionAction(JComponent target, String ID) {
         this.target = target;
         if (target != null) {
             // Register with a weak reference on the JComponent.
@@ -69,15 +69,24 @@ public abstract class AbstractSelectionAction extends AbstractAction {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     String n = evt.getPropertyName();
-                    if ("enabled".equals(n)) {
-                        updateEnabled();
-                    } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
+                    if ("enabled".equals(n) || n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
                         updateEnabled();
                     }
                 }
             };
             target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
         }
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
+        labels.configureAction(this, ID);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        JComponent c = target;
+        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner() instanceof JComponent)) {
+            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    getPermanentFocusOwner();
     }
 
     protected void updateEnabled() {

@@ -50,19 +50,13 @@ public class PasteAction extends AbstractSelectionAction {
      * focused component.
      */
     public PasteAction(JComponent target) {
-        super(target);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
-        labels.configureAction(this, ID);
+        super(target, ID);
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
+        super.actionPerformed(evt);
         JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
-        }
         if (c != null && c.isEnabled()) {
             Transferable t = ClipboardUtil.getClipboard().getContents(c);
             if (t != null && c.getTransferHandler() != null) {
