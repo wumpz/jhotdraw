@@ -30,16 +30,15 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CutAction extends AbstractSelectionAction {
+public class CutAction extends AbstractCopyCutAction {
 
-    private static final long serialVersionUID = 1L;
     public static final String ID = "edit.cut";
 
     /**
      * Creates a new instance which acts on the currently focused component.
      */
     public CutAction() {
-        this(null);
+        super(null);
     }
 
     /**
@@ -48,19 +47,12 @@ public class CutAction extends AbstractSelectionAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    public CutAction(JComponent target, String ID) {
+    public CutAction(JComponent target) {
         super(target, ID);
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        super.actionPerformed(evt);
-        JComponent c = target;
-        if (c != null) {
-            c.getTransferHandler().exportToClipboard(
-                    c,
-                    ClipboardUtil.getClipboard(),
-                    TransferHandler.MOVE);
-        }
+        super.actionPerformed(evt,TransferHandler.MOVE);
     }
 }
