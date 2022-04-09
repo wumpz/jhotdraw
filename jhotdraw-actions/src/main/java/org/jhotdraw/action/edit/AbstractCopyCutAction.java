@@ -1,10 +1,8 @@
 package org.jhotdraw.action.edit;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.datatransfer.ClipboardUtil;
-import org.jhotdraw.util.*;
 
 public abstract class AbstractCopyCutAction extends AbstractSelectionAction {
 
@@ -13,8 +11,8 @@ public abstract class AbstractCopyCutAction extends AbstractSelectionAction {
     /**
      * Creates a new instance which acts on the currently focused component.
      */
-    protected AbstractCopyCopyAction() {
-        this(null);
+    protected AbstractCopyCutAction(String ID) {
+        this(null, ID);
     }
 
     /**
@@ -23,11 +21,10 @@ public abstract class AbstractCopyCutAction extends AbstractSelectionAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
-    protected AbstractAction(JComponent target, String ID) {
+    protected AbstractCopyCutAction(JComponent target, String ID) {
         super(target, ID);
     }
 
-    @Override
     public void actionPerformed(ActionEvent evt, int status) {
         super.actionPerformed(evt);
         JComponent c = target;

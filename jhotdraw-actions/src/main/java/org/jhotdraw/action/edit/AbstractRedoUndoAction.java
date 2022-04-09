@@ -10,6 +10,7 @@ import org.jhotdraw.util.*;
 
 public abstract class AbstractRedoUndoAction extends AbstractViewAction {
 
+	public static String ID = "edit.undefined";
     private static final long serialVersionUID = 1L;
     private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
     private PropertyChangeListener redoActionPropertyListener = new PropertyChangeListener() {
@@ -27,7 +28,7 @@ public abstract class AbstractRedoUndoAction extends AbstractViewAction {
     /**
      * Creates a new instance.
      */
-    protected AbstractRedoUndoAction(Application app, View view, String ID) {
+    protected AbstractRedoUndoAction(Application app, View view) {
         super(app, view);
         labels.configureAction(this, ID);
     }

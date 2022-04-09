@@ -7,11 +7,8 @@
  */
 package org.jhotdraw.action.edit;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.datatransfer.ClipboardUtil;
-import org.jhotdraw.util.*;
 
 /**
  * Cuts the selected region and places its contents into the system clipboard.
@@ -38,7 +35,7 @@ public class CutAction extends AbstractCopyCutAction {
      * Creates a new instance which acts on the currently focused component.
      */
     public CutAction() {
-        super(null);
+        super(null,ID);
     }
 
     /**

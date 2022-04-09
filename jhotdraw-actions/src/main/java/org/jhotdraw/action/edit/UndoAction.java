@@ -7,13 +7,8 @@
  */
 package org.jhotdraw.action.edit;
 
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.*;
 
 /**
  * Undoes the last user action.
@@ -38,6 +33,6 @@ public class UndoAction extends AbstractRedoUndoAction {
      * Creates a new instance.
      */
     public UndoAction(Application app, View view) {
-        super(app, view, ID);
+        super(app, view);
     }
 }

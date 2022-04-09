@@ -8,12 +8,15 @@
  */
 package org.jhotdraw.action.edit;
 
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import org.jhotdraw.api.gui.EditableComponent;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.util.*;
 
 /**
  * {@code AbstractSelectionAction} acts on the selection of a target component.
@@ -87,6 +90,7 @@ public abstract class AbstractSelectionAction extends AbstractAction {
                 getPermanentFocusOwner() instanceof JComponent)) {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
+        }
     }
 
     protected void updateEnabled() {

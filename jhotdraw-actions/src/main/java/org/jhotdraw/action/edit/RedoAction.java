@@ -7,13 +7,8 @@
  */
 package org.jhotdraw.action.edit;
 
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.*;
 
 /**
  * Redoes the last user action on the active view.
@@ -28,7 +23,6 @@ import org.jhotdraw.util.*;
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  *
- *
  * @author Werner Randelshofer
  * @version $Id$
  */
@@ -39,6 +33,6 @@ public class RedoAction extends AbstractRedoUndoAction {
      * Creates a new instance.
      */
     public RedoAction(Application app, View view) {
-        super(app, view, ID);
+        super(app, view);
     }
 }
