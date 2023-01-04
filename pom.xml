@@ -1,141 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jhotdraw</groupId>
-	<artifactId>jhotdraw</artifactId>
-	<version>10.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<organization>
-		<name>JHotDraw</name>
-	</organization>
-	<licenses>
-		<license>
-			<name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
-			<url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
-		</license>
-		<license>
-			<name>Creative Commons Attribution 2.5 License</name>
-			<url>http://creativecommons.org/licenses/by/2.5/</url>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<name>Tobias Warneke</name>
-			<email>t.warneke@gmx.net</email>
-		</developer>
-	</developers>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
-	<description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
-				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
-					<failOnWarnings>false</failOnWarnings>
-					<failOnError>false</failOnError>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<!-- <compilerArgument>-Xlint:unchecked</compilerArgument> -->
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.amashchenko.maven.plugin</groupId>
-				<artifactId>gitflow-maven-plugin</artifactId>
-				<version>1.14.0</version>
-				<configuration>
-					<pushRemote>false</pushRemote>
-					<mvnExecutable>${M2_HOME}/bin/mvn</mvnExecutable>
-					<skipTestProject>true</skipTestProject>
-					<fetchRemote>false</fetchRemote>
-					<skipFeatureVersion>true</skipFeatureVersion>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>verify-style</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<logViolationsToConsole>true</logViolationsToConsole>
-					<includeTestSourceDirectory>true</includeTestSourceDirectory>
-					<sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
-					<checkstyleRules>
-						<module name="Checker">
-							<module name="SuppressWarningsFilter" />
-							<module name="FileTabCharacter" />
-							<!-- git checkout may change linefeeds on the fly
-							<module name="RegexpMultiline">
-								<property name="format" value="(?s:(\r\n|\r).*)" />
-								<property name="message" value="CRLF and CR line endings are prohibited, but this file uses them." />
-							</module>
-							-->
-							<module name="TreeWalker">
-								<module name="SuppressionCommentFilter"/>
-								<module name="AvoidNestedBlocks" />
-								<module name="ConstantName" />
-								<module name="EmptyCatchBlock" />
-								<module name="EmptyStatement" />
-								<module name="MissingOverride" />
-								<!-- <module name="MultipleVariableDeclarations" />
-								<module name="ParameterAssignment" /> -->
-								<module name="StringLiteralEquality" />
-								<module name="RedundantImport" />
-								<module name="UnusedImports" />
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jhotdraw</groupId>
+    <artifactId>jhotdraw</artifactId>
+    <version>10.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <organization>
+        <name>JHotDraw</name>
+    </organization>
+    <licenses>
+        <license>
+            <name>GNU Library or Lesser General Public License (LGPL) V2.1</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+        </license>
+        <license>
+            <name>Creative Commons Attribution 2.5 License</name>
+            <url>http://creativecommons.org/licenses/by/2.5/</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Tobias Warneke</name>
+            <email>t.warneke@gmx.net</email>
+        </developer>
+    </developers>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <failOnWarnings>false</failOnWarnings>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.amashchenko.maven.plugin</groupId>
+                <artifactId>gitflow-maven-plugin</artifactId>
+                <version>1.19.0</version>
+                <configuration>
+                    <pushRemote>false</pushRemote>
+                    <mvnExecutable>${M2_HOME}/bin/mvn</mvnExecutable>
+                    <skipTestProject>true</skipTestProject>
+                    <fetchRemote>false</fetchRemote>
+                    <skipFeatureVersion>true</skipFeatureVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>verify-style</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <sourceDirectories>${project.build.sourceDirectory}</sourceDirectories>
+                    <checkstyleRules>
+                        <module name="Checker">
+                            <module name="SuppressWarningsFilter" />
+                            <module name="FileTabCharacter" />
+                            <!-- git checkout may change linefeeds on the fly
+                            <module name="RegexpMultiline">
+                                <property name="format" value="(?s:(\r\n|\r).*)" />
+                                <property name="message" value="CRLF and CR line endings are prohibited, but this file uses them." />
+                            </module>
+                            -->
+                            <module name="TreeWalker">
+                                <module name="SuppressionCommentFilter"/>
+                                <module name="AvoidNestedBlocks" />
+                                <module name="ConstantName" />
+                                <module name="EmptyCatchBlock" />
+                                <module name="EmptyStatement" />
+                                <module name="MissingOverride" />
+                                <!-- <module name="MultipleVariableDeclarations" />
+                                <module name="ParameterAssignment" /> -->
+                                <module name="StringLiteralEquality" />
+                                <module name="RedundantImport" />
+                                <module name="UnusedImports" />
                                         
-								<module name="WhitespaceAfter" />
+                                <module name="WhitespaceAfter" />
 										
-								<module name="NeedBraces" />
-								<!-- <module name="UnnecessaryParentheses" /> -->
-								<module name="LeftCurly" />
-								<module name="RightCurly" />
+                                <module name="NeedBraces" />
+                                <!-- <module name="UnnecessaryParentheses" /> -->
+                                <module name="LeftCurly" />
+                                <module name="RightCurly" />
                                         
-								<module name="SuppressWarningsHolder" />
-							</module>
-						</module>
-					</checkstyleRules>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>8.29</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
-	</build>
-	<modules>
-		<module>jhotdraw-core</module>
-		<module>jhotdraw-samples</module>
-		<module>jhotdraw-xml</module>
-		<module>jhotdraw-api</module>
-		<module>jhotdraw-utils</module>
-	 <module>jhotdraw-gui</module>
-	 <module>jhotdraw-app</module>
-	 <module>jhotdraw-datatransfer</module>
-	 <module>jhotdraw-actions</module>
-	</modules>
+                                <module name="SuppressWarningsHolder" />
+                            </module>
+                        </module>
+                    </checkstyleRules>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>8.32</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+    <modules>
+        <module>jhotdraw-core</module>
+        <module>jhotdraw-samples</module>
+        <module>jhotdraw-xml</module>
+        <module>jhotdraw-api</module>
+        <module>jhotdraw-utils</module>
+        <module>jhotdraw-gui</module>
+        <module>jhotdraw-app</module>
+        <module>jhotdraw-datatransfer</module>
+        <module>jhotdraw-actions</module>
+    </modules>
 </project>
