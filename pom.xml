@@ -30,6 +30,16 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.9.0</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

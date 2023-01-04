@@ -24,41 +24,19 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Map;
 import org.jhotdraw.draw.AttributeKey;
-import static org.testng.Assert.*;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author tw
  */
-public class AbstractFigureNGTest {
+public class AbstractFigureTest {
 
-    public AbstractFigureNGTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @BeforeMethod
-    public void setUpMethod() throws Exception {
-    }
-
-    @AfterMethod
-    public void tearDownMethod() throws Exception {
-    }
-
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void testChangedWithoutWillChange() {
-        new AbstractFigureImpl().changed();
+      assertThrows(IllegalStateException.class, () -> new AbstractFigureImpl().changed());
     }
 
     @Test
