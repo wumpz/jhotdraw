@@ -17,25 +17,22 @@ import org.jhotdraw.geom.Insets2D;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class ListFigure
-        extends GraphicalCompositeFigure {
+public class ListFigure extends GraphicalCompositeFigure {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public ListFigure() {
-        this(null);
-    }
+  /** Creates a new instance. */
+  public ListFigure() {
+    this(null);
+  }
 
-    /**
-     * Creates a new instance with the specified presentation figure
-     * and layout insets of [top=4,left=8,right=4,bottom=8].
-     */
-    public ListFigure(Figure presentationFigure) {
-        super(presentationFigure);
-        setLayouter(new VerticalLayouter());
-        set(LAYOUT_INSETS, new Insets2D.Double(4, 8, 4, 8));
-    }
+  /**
+   * Creates a new instance with the specified presentation figure and layout insets of
+   * [top=4,left=8,right=4,bottom=8].
+   */
+  public ListFigure(Figure presentationFigure) {
+    super(presentationFigure);
+    setLayouter(new VerticalLayouter());
+    set(LAYOUT_INSETS, new Insets2D.Double(4, 8, 4, 8));
+  }
 }

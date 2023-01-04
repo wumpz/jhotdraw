@@ -7,13 +7,14 @@
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.figure.LineFigure;
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.decoration.LineDecoration;
+import org.jhotdraw.draw.figure.LineFigure;
 
 /**
  * LineDecorationIcon.
@@ -23,36 +24,34 @@ import org.jhotdraw.draw.decoration.LineDecoration;
  */
 public class LineDecorationIcon implements Icon {
 
-    private LineFigure lineFigure;
+  private LineFigure lineFigure;
 
-    /**
-     * Creates a new instance.
-     */
-    public LineDecorationIcon(LineDecoration decoration, boolean isStartDecoration) {
-        lineFigure = new LineFigure();
-        lineFigure.setBounds(new Point2D.Double(2, 8), new Point2D.Double(23, 8));
-        if (isStartDecoration) {
-            lineFigure.set(START_DECORATION, decoration);
-        } else {
-            lineFigure.set(END_DECORATION, decoration);
-        }
-        lineFigure.set(STROKE_COLOR, Color.black);
+  /** Creates a new instance. */
+  public LineDecorationIcon(LineDecoration decoration, boolean isStartDecoration) {
+    lineFigure = new LineFigure();
+    lineFigure.setBounds(new Point2D.Double(2, 8), new Point2D.Double(23, 8));
+    if (isStartDecoration) {
+      lineFigure.set(START_DECORATION, decoration);
+    } else {
+      lineFigure.set(END_DECORATION, decoration);
     }
+    lineFigure.set(STROKE_COLOR, Color.black);
+  }
 
-    @Override
-    public int getIconHeight() {
-        return 16;
-    }
+  @Override
+  public int getIconHeight() {
+    return 16;
+  }
 
-    @Override
-    public int getIconWidth() {
-        return 25;
-    }
+  @Override
+  public int getIconWidth() {
+    return 25;
+  }
 
-    @Override
-    public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
-        Graphics2D g = (Graphics2D) gr;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        lineFigure.draw(g);
-    }
+  @Override
+  public void paintIcon(java.awt.Component c, java.awt.Graphics gr, int x, int y) {
+    Graphics2D g = (Graphics2D) gr;
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    lineFigure.draw(g);
+  }
 }

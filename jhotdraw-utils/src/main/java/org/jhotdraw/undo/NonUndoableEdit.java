@@ -17,21 +17,18 @@ import javax.swing.undo.*;
  */
 public class NonUndoableEdit extends AbstractUndoableEdit {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public NonUndoableEdit() {
-    }
+  /** Creates a new instance. */
+  public NonUndoableEdit() {}
 
-    @Override
-    public boolean canUndo() {
-        return false;
-    }
+  @Override
+  public boolean canUndo() {
+    return false;
+  }
 
-    @Override
-    public boolean canRedo() {
-        return false;
-    }
+  @Override
+  public boolean canRedo() {
+    return false;
+  }
 }

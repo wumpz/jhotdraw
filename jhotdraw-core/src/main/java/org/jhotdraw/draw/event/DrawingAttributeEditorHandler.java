@@ -17,37 +17,38 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.figure.Figure;
 
 /**
- * FigureAttributeEditorHandler mediates between an AttributeEditor and the
- * currently selected Figure's in a DrawingEditor.
+ * FigureAttributeEditorHandler mediates between an AttributeEditor and the currently selected
+ * Figure's in a DrawingEditor.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class DrawingAttributeEditorHandler<T> extends AbstractAttributeEditorHandler<T> {
 
-    private Drawing drawing;
+  private Drawing drawing;
 
-    public DrawingAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
-        super(key, attributeEditor, drawingEditor, false);
-    }
+  public DrawingAttributeEditorHandler(
+      AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
+    super(key, attributeEditor, drawingEditor, false);
+  }
 
-    public void setDrawing(Drawing newValue) {
-        drawing = newValue;
-        updateAttributeEditor();
-    }
+  public void setDrawing(Drawing newValue) {
+    drawing = newValue;
+    updateAttributeEditor();
+  }
 
-    public Drawing getDrawing() {
-        return drawing;
-    }
+  public Drawing getDrawing() {
+    return drawing;
+  }
 
-    @Override
-    protected Set<Figure> getEditedFigures() {
-        HashSet<Figure> s = new HashSet<>();
-        if (drawing != null) {
-            s.add(drawing);
-        } else if (activeView != null) {
-            s.add(activeView.getDrawing());
-        }
-        return s;
+  @Override
+  protected Set<Figure> getEditedFigures() {
+    HashSet<Figure> s = new HashSet<>();
+    if (drawing != null) {
+      s.add(drawing);
+    } else if (activeView != null) {
+      s.add(activeView.getDrawing());
     }
+    return s;
+  }
 }

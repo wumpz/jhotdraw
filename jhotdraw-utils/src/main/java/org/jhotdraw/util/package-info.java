@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Contains general purpose utility classes.
- */
+/** Contains general purpose utility classes. */
 package org.jhotdraw.util;

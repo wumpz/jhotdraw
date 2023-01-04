@@ -24,38 +24,36 @@ import javax.swing.JDialog;
  */
 public class Dialogs {
 
-    /**
-     * Prevent instance creation.
-     */
-    private Dialogs() {
+  /** Prevent instance creation. */
+  private Dialogs() {}
+
+  public static Color showColorChooserDialog(
+      JColorChooser chooser, Component component, String title, Color initialColor)
+      throws HeadlessException {
+    final JColorChooser pane = chooser;
+    Dialogs.ColorTracker ok = new Dialogs.ColorTracker(pane);
+    JDialog dialog = JColorChooser.createDialog(component, title, true, pane, ok, null);
+    dialog.setVisible(true); // blocks until user brings dialog down...
+    return ok.getColor();
+  }
+
+  private static class ColorTracker implements ActionListener, Serializable {
+
+    private static final long serialVersionUID = 1L;
+    JColorChooser chooser;
+    Color color;
+
+    public ColorTracker(JColorChooser c) {
+      chooser = c;
     }
 
-    public static Color showColorChooserDialog(JColorChooser chooser, Component component,
-            String title, Color initialColor) throws HeadlessException {
-        final JColorChooser pane = chooser;
-        Dialogs.ColorTracker ok = new Dialogs.ColorTracker(pane);
-        JDialog dialog = JColorChooser.createDialog(component, title, true, pane, ok, null);
-        dialog.setVisible(true); // blocks until user brings dialog down...
-        return ok.getColor();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      color = chooser.getColor();
     }
 
-    private static class ColorTracker implements ActionListener, Serializable {
-
-        private static final long serialVersionUID = 1L;
-        JColorChooser chooser;
-        Color color;
-
-        public ColorTracker(JColorChooser c) {
-            chooser = c;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            color = chooser.getColor();
-        }
-
-        public Color getColor() {
-            return color;
-        }
+    public Color getColor() {
+      return color;
     }
+  }
 }

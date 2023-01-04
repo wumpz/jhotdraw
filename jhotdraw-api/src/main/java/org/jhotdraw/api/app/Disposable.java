@@ -14,8 +14,6 @@ package org.jhotdraw.api.app;
  * @version $Id$
  */
 public interface Disposable {
-    /** Disposes of all resources held by this object so that they can be
-     * garbage collected.
-     */
-    public void dispose();
+  /** Disposes of all resources held by this object so that they can be garbage collected. */
+  public void dispose();
 }

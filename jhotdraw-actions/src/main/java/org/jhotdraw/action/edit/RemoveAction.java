@@ -17,45 +17,39 @@ import javax.swing.JComponent;
 
 /**
  * Same as {@code DeleteAction} but with the title "Remove".
- * <p>
- * Use this action in places where an object is not actually deleted, but
- * just removed from the application.
+ *
+ * <p>Use this action in places where an object is not actually deleted, but just removed from the
+ * application.
  *
  * @author Werner Randelshofer
  * @version 1.0 2011-07-28 Created.
  */
 public class RemoveAction extends DeleteAction {
 
-    private static final long serialVersionUID = 1L;
-    /**
-     * The ID for this action.
-     */
-    public static final String ID = "edit.remove";
+  private static final long serialVersionUID = 1L;
+  /** The ID for this action. */
+  public static final String ID = "edit.remove";
 
-    /**
-     * Creates a new instance which acts on the currently focused component.
-     */
-    public RemoveAction() {
-        this(null, ID);
-    }
+  /** Creates a new instance which acts on the currently focused component. */
+  public RemoveAction() {
+    this(null, ID);
+  }
 
-    /**
-     * Creates a new instance which acts on the specified component.
-     *
-     * @param target The target of the action. Specify null for the currently
-     * focused component.
-     */
-    public RemoveAction(JComponent target) {
-        this(target, ID);
-    }
+  /**
+   * Creates a new instance which acts on the specified component.
+   *
+   * @param target The target of the action. Specify null for the currently focused component.
+   */
+  public RemoveAction(JComponent target) {
+    this(target, ID);
+  }
 
-    /**
-     * Creates a new instance which acts on the specified component.
-     *
-     * @param target The target of the action. Specify null for the currently
-     * focused component.
-     */
-    public RemoveAction(JComponent target, String id) {
-        super(target, id);
-    }
+  /**
+   * Creates a new instance which acts on the specified component.
+   *
+   * @param target The target of the action. Specify null for the currently focused component.
+   */
+  public RemoveAction(JComponent target, String id) {
+    super(target, id);
+  }
 }

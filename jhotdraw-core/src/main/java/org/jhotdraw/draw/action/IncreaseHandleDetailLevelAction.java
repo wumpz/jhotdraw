@@ -18,31 +18,28 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "view.increaseHandleDetailLevel";
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "view.increaseHandleDetailLevel";
 
-    /**
-     * Creates a new instance.
-     */
-    public IncreaseHandleDetailLevelAction(DrawingEditor editor) {
-        super(editor);
-        ResourceBundleUtil labels
-                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        labels.configureAction(this, ID);
-        //putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
-        //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));
-        updateEnabledState();
-    }
+  /** Creates a new instance. */
+  public IncreaseHandleDetailLevelAction(DrawingEditor editor) {
+    super(editor);
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    labels.configureAction(this, ID);
+    // putValue(AbstractAction.NAME, labels.getString("editSelectSame"));
+    //  putValue(AbstractAction.MNEMONIC_KEY, labels.getString("editSelectSameMnem"));
+    updateEnabledState();
+  }
 
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        increaseHandleDetaiLevel();
-    }
+  @Override
+  public void actionPerformed(java.awt.event.ActionEvent e) {
+    increaseHandleDetaiLevel();
+  }
 
-    public void increaseHandleDetaiLevel() {
-        DrawingView view = getView();
-        if (view != null) {
-            view.setHandleDetailLevel(view.getHandleDetailLevel() + 1);
-        }
+  public void increaseHandleDetaiLevel() {
+    DrawingView view = getView();
+    if (view != null) {
+      view.setHandleDetailLevel(view.getHandleDetailLevel() + 1);
     }
+  }
 }

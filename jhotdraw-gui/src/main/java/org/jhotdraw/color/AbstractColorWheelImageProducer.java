@@ -23,72 +23,72 @@ import java.awt.image.MemoryImageSource;
  */
 public abstract class AbstractColorWheelImageProducer extends MemoryImageSource {
 
-    protected int[] pixels;
-    protected int w, h;
-    protected ColorSpace colorSpace;
-    protected int radialIndex = 1;
-    protected int angularIndex = 0;
-    protected int verticalIndex = 2;
-    protected boolean isPixelsValid = false;
-    protected float verticalValue = 1f;
-    protected boolean isLookupValid = false;
+  protected int[] pixels;
+  protected int w, h;
+  protected ColorSpace colorSpace;
+  protected int radialIndex = 1;
+  protected int angularIndex = 0;
+  protected int verticalIndex = 2;
+  protected boolean isPixelsValid = false;
+  protected float verticalValue = 1f;
+  protected boolean isLookupValid = false;
 
-    public AbstractColorWheelImageProducer(ColorSpace sys, int w, int h) {
-        super(w, h, null, 0, w);
-        this.colorSpace = sys;
-        pixels = new int[w * h];
-        this.w = w;
-        this.h = h;
-        setAnimated(true);
-        newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
+  public AbstractColorWheelImageProducer(ColorSpace sys, int w, int h) {
+    super(w, h, null, 0, w);
+    this.colorSpace = sys;
+    pixels = new int[w * h];
+    this.w = w;
+    this.h = h;
+    setAnimated(true);
+    newPixels(pixels, ColorModel.getRGBdefault(), 0, w);
+  }
+
+  public void setRadialComponentIndex(int newValue) {
+    radialIndex = newValue;
+    isPixelsValid = false;
+  }
+
+  public void setAngularComponentIndex(int newValue) {
+    angularIndex = newValue;
+    isPixelsValid = false;
+  }
+
+  public void setVerticalComponentIndex(int newValue) {
+    verticalIndex = newValue;
+    isPixelsValid = false;
+  }
+
+  public void setVerticalValue(float newValue) {
+    isPixelsValid = isPixelsValid && verticalValue == newValue;
+    verticalValue = newValue;
+  }
+
+  public boolean needsGeneration() {
+    return !isPixelsValid;
+  }
+
+  public void regenerateColorWheel() {
+    if (!isPixelsValid) {
+      generateColorWheel();
     }
+  }
 
-    public void setRadialComponentIndex(int newValue) {
-        radialIndex = newValue;
-        isPixelsValid = false;
-    }
+  public float getRadius() {
+    return Math.min(w, h) * 0.5f - 2;
+  }
 
-    public void setAngularComponentIndex(int newValue) {
-        angularIndex = newValue;
-        isPixelsValid = false;
-    }
+  public Point2D.Float getCenter() {
+    return new Point2D.Float(w * 0.5f, h * 0.5f);
+  }
 
-    public void setVerticalComponentIndex(int newValue) {
-        verticalIndex = newValue;
-        isPixelsValid = false;
-    }
+  protected abstract void generateColorWheel();
 
-    public void setVerticalValue(float newValue) {
-        isPixelsValid = isPixelsValid && verticalValue == newValue;
-        verticalValue = newValue;
-    }
+  public Point getColorLocation(Color c) {
+    float[] components = ColorUtil.fromColor(colorSpace, c);
+    return getColorLocation(components);
+  }
 
-    public boolean needsGeneration() {
-        return !isPixelsValid;
-    }
+  public abstract Point getColorLocation(float[] components);
 
-    public void regenerateColorWheel() {
-        if (!isPixelsValid) {
-            generateColorWheel();
-        }
-    }
-
-    public float getRadius() {
-        return Math.min(w, h) * 0.5f - 2;
-    }
-
-    public Point2D.Float getCenter() {
-        return new Point2D.Float(w * 0.5f, h * 0.5f);
-    }
-
-    protected abstract void generateColorWheel();
-
-    public Point getColorLocation(Color c) {
-        float[] components = ColorUtil.fromColor(colorSpace, c);
-        return getColorLocation(components);
-    }
-
-    public abstract Point getColorLocation(float[] components);
-
-    public abstract float[] getColorAt(int x, int y);
+  public abstract float[] getColorAt(int x, int y);
 }

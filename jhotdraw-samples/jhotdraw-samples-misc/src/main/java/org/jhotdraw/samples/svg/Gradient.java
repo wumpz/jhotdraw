@@ -7,10 +7,10 @@
  */
 package org.jhotdraw.samples.svg;
 
-import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * Represents an SVG Gradient.
@@ -20,13 +20,13 @@ import org.jhotdraw.draw.*;
  */
 public interface Gradient extends Cloneable {
 
-    public Paint getPaint(Figure f, double opacity);
+  public Paint getPaint(Figure f, double opacity);
 
-    public boolean isRelativeToFigureBounds();
+  public boolean isRelativeToFigureBounds();
 
-    public void transform(AffineTransform tx);
+  public void transform(AffineTransform tx);
 
-    public Object clone();
+  public Object clone();
 
-    public void makeRelativeToFigureBounds(Figure f);
+  public void makeRelativeToFigureBounds(Figure f);
 }

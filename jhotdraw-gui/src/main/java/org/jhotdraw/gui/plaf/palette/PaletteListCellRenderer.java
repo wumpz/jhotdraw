@@ -24,92 +24,81 @@ import javax.swing.border.EmptyBorder;
  */
 public class PaletteListCellRenderer extends DefaultListCellRenderer {
 
-    private static final long serialVersionUID = 1L;
-    /**
-     * An empty <code>Border</code>. This field might not be used. To change the
-     * <code>Border</code> used by this renderer override the
-     * <code>getListCellRendererComponent</code> method and set the border
-     * of the returned component directly.
-     */
-    private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
-    protected Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
+  private static final long serialVersionUID = 1L;
+  /**
+   * An empty <code>Border</code>. This field might not be used. To change the <code>Border</code>
+   * used by this renderer override the <code>getListCellRendererComponent</code> method and set the
+   * border of the returned component directly.
+   */
+  private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
 
-    /**
-     * Constructs a default renderer object for an item
-     * in a list.
-     */
-    public PaletteListCellRenderer() {
-        super();
-        setOpaque(true);
-        setBorder(getNoFocusBorder());
-        setName("List.cellRenderer");
-    }
+  private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+  protected Border noFocusBorder = DEFAULT_NO_FOCUS_BORDER;
 
-    private Border getNoFocusBorder() {
-        Border border = PaletteLookAndFeel.getInstance().getBorder("List.cellNoFocusBorder");
-        if (System.getSecurityManager() != null) {
-            if (border != null) {
-                return border;
-            }
-            return SAFE_NO_FOCUS_BORDER;
-        } else {
-            if (border != null
-                    && (noFocusBorder == null
-                    || noFocusBorder == DEFAULT_NO_FOCUS_BORDER)) {
-                return border;
-            }
-            return noFocusBorder;
-        }
-    }
+  /** Constructs a default renderer object for an item in a list. */
+  public PaletteListCellRenderer() {
+    super();
+    setOpaque(true);
+    setBorder(getNoFocusBorder());
+    setName("List.cellRenderer");
+  }
 
-    @Override
-    public Component getListCellRendererComponent(
-            JList list,
-            Object value,
-            int index,
-            boolean isSelected,
-            boolean cellHasFocus) {
-        PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
-        setComponentOrientation(list.getComponentOrientation());
-        Color bg = null;
-        Color fg = null;
-        JList.DropLocation dropLocation = list.getDropLocation();
-        if (dropLocation != null
-                && !dropLocation.isInsert()
-                && dropLocation.getIndex() == index) {
-            bg = plaf.getColor("List.dropCellBackground");
-            fg = plaf.getColor("List.dropCellForeground");
-            isSelected = true;
-        }
-        if (isSelected) {
-            setBackground(bg == null ? list.getSelectionBackground() : bg);
-            setForeground(fg == null ? list.getSelectionForeground() : fg);
-        } else {
-            setBackground(list.getBackground());
-            setForeground(list.getForeground());
-        }
-        if (value instanceof Icon) {
-            setIcon((Icon) value);
-            setText("");
-        } else {
-            setIcon(null);
-            setText((value == null) ? "" : value.toString());
-        }
-        setEnabled(list.isEnabled());
-        setFont(list.getFont());
-        Border border = null;
-        if (cellHasFocus) {
-            if (isSelected) {
-                border = plaf.getBorder("List.focusSelectedCellHighlightBorder");
-            }
-            if (border == null) {
-                border = plaf.getBorder("List.focusCellHighlightBorder");
-            }
-        } else {
-            border = getNoFocusBorder();
-        }
-        setBorder(border);
-        return this;
+  private Border getNoFocusBorder() {
+    Border border = PaletteLookAndFeel.getInstance().getBorder("List.cellNoFocusBorder");
+    if (System.getSecurityManager() != null) {
+      if (border != null) {
+        return border;
+      }
+      return SAFE_NO_FOCUS_BORDER;
+    } else {
+      if (border != null && (noFocusBorder == null || noFocusBorder == DEFAULT_NO_FOCUS_BORDER)) {
+        return border;
+      }
+      return noFocusBorder;
     }
+  }
+
+  @Override
+  public Component getListCellRendererComponent(
+      JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    PaletteLookAndFeel plaf = PaletteLookAndFeel.getInstance();
+    setComponentOrientation(list.getComponentOrientation());
+    Color bg = null;
+    Color fg = null;
+    JList.DropLocation dropLocation = list.getDropLocation();
+    if (dropLocation != null && !dropLocation.isInsert() && dropLocation.getIndex() == index) {
+      bg = plaf.getColor("List.dropCellBackground");
+      fg = plaf.getColor("List.dropCellForeground");
+      isSelected = true;
+    }
+    if (isSelected) {
+      setBackground(bg == null ? list.getSelectionBackground() : bg);
+      setForeground(fg == null ? list.getSelectionForeground() : fg);
+    } else {
+      setBackground(list.getBackground());
+      setForeground(list.getForeground());
+    }
+    if (value instanceof Icon) {
+      setIcon((Icon) value);
+      setText("");
+    } else {
+      setIcon(null);
+      setText((value == null) ? "" : value.toString());
+    }
+    setEnabled(list.isEnabled());
+    setFont(list.getFont());
+    Border border = null;
+    if (cellHasFocus) {
+      if (isSelected) {
+        border = plaf.getBorder("List.focusSelectedCellHighlightBorder");
+      }
+      if (border == null) {
+        border = plaf.getBorder("List.focusCellHighlightBorder");
+      }
+    } else {
+      border = getNoFocusBorder();
+    }
+    setBorder(border);
+    return this;
+  }
 }

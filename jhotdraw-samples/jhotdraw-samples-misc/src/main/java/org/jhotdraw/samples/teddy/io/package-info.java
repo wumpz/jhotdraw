@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Classes for reading and writing text files.
- */
+/** Classes for reading and writing text files. */
 package org.jhotdraw.samples.teddy.io;

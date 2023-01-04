@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides Actions which act on a window.
- */
+/** Provides Actions which act on a window. */
 package org.jhotdraw.action.window;

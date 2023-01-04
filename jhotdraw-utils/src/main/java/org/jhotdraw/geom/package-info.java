@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides classes for defining and manipulating two-dimensional geometry.
- */
+/** Provides classes for defining and manipulating two-dimensional geometry. */
 package org.jhotdraw.geom;

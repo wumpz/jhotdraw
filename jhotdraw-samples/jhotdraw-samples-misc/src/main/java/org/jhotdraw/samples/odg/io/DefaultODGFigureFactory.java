@@ -15,9 +15,6 @@ package org.jhotdraw.samples.odg.io;
  */
 public class DefaultODGFigureFactory implements ODGFigureFactory {
 
-    /**
-     * Creates a new instance.
-     */
-    public DefaultODGFigureFactory() {
-    }
+  /** Creates a new instance. */
+  public DefaultODGFigureFactory() {}
 }

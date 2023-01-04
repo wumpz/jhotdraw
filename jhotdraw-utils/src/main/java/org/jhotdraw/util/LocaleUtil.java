@@ -10,28 +10,24 @@ package org.jhotdraw.util;
 import java.util.*;
 
 /**
- * LocaleUtil provides a setDefault()/getDefault() wrapper to java.util.Locale
- * in order to overcome the security restriction preventing Applets from using
- * their own locale.
+ * LocaleUtil provides a setDefault()/getDefault() wrapper to java.util.Locale in order to overcome
+ * the security restriction preventing Applets from using their own locale.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class LocaleUtil {
 
-    private static Locale defaultLocale;
+  private static Locale defaultLocale;
 
-    /**
-     * Creates a new instance.
-     */
-    public LocaleUtil() {
-    }
+  /** Creates a new instance. */
+  public LocaleUtil() {}
 
-    public static void setDefault(Locale newValue) {
-        defaultLocale = newValue;
-    }
+  public static void setDefault(Locale newValue) {
+    defaultLocale = newValue;
+  }
 
-    public static Locale getDefault() {
-        return (defaultLocale == null) ? Locale.getDefault() : defaultLocale;
-    }
+  public static Locale getDefault() {
+    return (defaultLocale == null) ? Locale.getDefault() : defaultLocale;
+  }
 }

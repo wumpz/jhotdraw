@@ -17,30 +17,33 @@ import java.awt.geom.*;
  */
 public class GeneralPathTip extends AbstractLineDecoration {
 
-    private static final long serialVersionUID = 1L;
-    private Path2D.Double path;
-    double decorationRadius;
+  private static final long serialVersionUID = 1L;
+  private Path2D.Double path;
+  double decorationRadius;
 
-    /**
-     * Creates a new instance.
-     */
-    public GeneralPathTip(Path2D.Double path, double decorationRadius) {
-        this(path, decorationRadius, false, true, false);
-    }
+  /** Creates a new instance. */
+  public GeneralPathTip(Path2D.Double path, double decorationRadius) {
+    this(path, decorationRadius, false, true, false);
+  }
 
-    public GeneralPathTip(Path2D.Double path, double decorationRadius, boolean isFilled, boolean isStroked, boolean isSolid) {
-        super(isFilled, isStroked, isSolid);
-        this.path = path;
-        this.decorationRadius = decorationRadius;
-    }
+  public GeneralPathTip(
+      Path2D.Double path,
+      double decorationRadius,
+      boolean isFilled,
+      boolean isStroked,
+      boolean isSolid) {
+    super(isFilled, isStroked, isSolid);
+    this.path = path;
+    this.decorationRadius = decorationRadius;
+  }
 
-    @Override
-    protected Path2D.Double getDecoratorPath(org.jhotdraw.draw.figure.Figure f) {
-        return (Path2D.Double) path.clone();
-    }
+  @Override
+  protected Path2D.Double getDecoratorPath(org.jhotdraw.draw.figure.Figure f) {
+    return (Path2D.Double) path.clone();
+  }
 
-    @Override
-    protected double getDecoratorPathRadius(org.jhotdraw.draw.figure.Figure f) {
-        return decorationRadius;
-    }
+  @Override
+  protected double getDecoratorPathRadius(org.jhotdraw.draw.figure.Figure f) {
+    return decorationRadius;
+  }
 }

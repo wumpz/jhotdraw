@@ -16,25 +16,17 @@ package org.jhotdraw.color;
  */
 public interface NamedColorSpace {
 
-    public String getName();
+  public String getName();
 
-    /**
-     * Faster toRGB method which uses the provided output array.
-     */
-    public float[] toRGB(float[] colorvalue, float[] rgb);
+  /** Faster toRGB method which uses the provided output array. */
+  public float[] toRGB(float[] colorvalue, float[] rgb);
 
-    /**
-     * Faster fromRGB method which uses the provided output array.
-     */
-    public float[] fromRGB(float[] rgb, float[] colorvalue);
+  /** Faster fromRGB method which uses the provided output array. */
+  public float[] fromRGB(float[] rgb, float[] colorvalue);
 
-    /**
-     * Faster toCIEXYZ method which uses the provided output array.
-     */
-    public float[] toCIEXYZ(float[] colorvalue, float[] xyz);
+  /** Faster toCIEXYZ method which uses the provided output array. */
+  public float[] toCIEXYZ(float[] colorvalue, float[] xyz);
 
-    /**
-     * Faster fromCIEXYZ method which uses the provided output array.
-     */
-    public float[] fromCIEXYZ(float[] xyz, float[] colorvalue);
+  /** Faster fromCIEXYZ method which uses the provided output array. */
+  public float[] fromCIEXYZ(float[] xyz, float[] colorvalue);
 }

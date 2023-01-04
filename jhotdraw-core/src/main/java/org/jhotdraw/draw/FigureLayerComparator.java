@@ -7,8 +7,8 @@
  */
 package org.jhotdraw.draw;
 
-import org.jhotdraw.draw.figure.Figure;
 import java.util.*;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * A {@code Comparator} used to sort figures by their layer property.
@@ -18,16 +18,13 @@ import java.util.*;
  */
 public class FigureLayerComparator implements Comparator<Figure> {
 
-    public static final FigureLayerComparator INSTANCE = new FigureLayerComparator();
+  public static final FigureLayerComparator INSTANCE = new FigureLayerComparator();
 
-    /**
-     * Creates a new instance.
-     */
-    private FigureLayerComparator() {
-    }
+  /** Creates a new instance. */
+  private FigureLayerComparator() {}
 
-    @Override
-    public int compare(Figure f1, Figure f2) {
-        return f1.getLayer() - f2.getLayer();
-    }
+  @Override
+  public int compare(Figure f1, Figure f2) {
+    return f1.getLayer() - f2.getLayer();
+  }
 }

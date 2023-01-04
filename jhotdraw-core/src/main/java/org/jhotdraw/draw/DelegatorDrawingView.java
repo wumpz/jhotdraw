@@ -35,127 +35,125 @@ import javax.swing.JComponent;
  */
 public abstract class DelegatorDrawingView extends AbstractDrawingView {
 
-    private JComponent drawTo;
+  private JComponent drawTo;
 
-    public DelegatorDrawingView(JComponent drawTo) {
-        this.drawTo = drawTo;
-    }
+  public DelegatorDrawingView(JComponent drawTo) {
+    this.drawTo = drawTo;
+  }
 
-    public DelegatorDrawingView() {
-    }
+  public DelegatorDrawingView() {}
 
-    public void setDrawTo(JComponent drawTo) {
-        this.drawTo = drawTo;
-    }
+  public void setDrawTo(JComponent drawTo) {
+    this.drawTo = drawTo;
+  }
 
-    public JComponent getDrawTo() {
-        return drawTo;
-    }
+  public JComponent getDrawTo() {
+    return drawTo;
+  }
 
-    @Override
-    public abstract AffineTransform getDrawingToViewTransform();
+  @Override
+  public abstract AffineTransform getDrawingToViewTransform();
 
-    @Override
-    public void repaint(Rectangle r) {
-        drawTo.repaint(r);
-    }
+  @Override
+  public void repaint(Rectangle r) {
+    drawTo.repaint(r);
+  }
 
-    @Override
-    public Color getBackground() {
-        return drawTo.getBackground();
-    }
+  @Override
+  public Color getBackground() {
+    return drawTo.getBackground();
+  }
 
-    @Override
-    public void repaint() {
-        drawTo.repaint();
-    }
+  @Override
+  public void repaint() {
+    drawTo.repaint();
+  }
 
-    @Override
-    public int getWidth() {
-        return drawTo.getWidth();
-    }
+  @Override
+  public int getWidth() {
+    return drawTo.getWidth();
+  }
 
-    @Override
-    public int getHeight() {
-        return drawTo.getHeight();
-    }
+  @Override
+  public int getHeight() {
+    return drawTo.getHeight();
+  }
 
-    @Override
-    public void revalidate() {
-        drawTo.revalidate();
-    }
+  @Override
+  public void revalidate() {
+    drawTo.revalidate();
+  }
 
-    @Override
-    public void setCursor(Cursor c) {
-        drawTo.setCursor(c);
-    }
+  @Override
+  public void setCursor(Cursor c) {
+    drawTo.setCursor(c);
+  }
 
-    @Override
-    public void requestFocus() {
-        drawTo.requestFocus();
-    }
+  @Override
+  public void requestFocus() {
+    drawTo.requestFocus();
+  }
 
-    @Override
-    public JComponent getComponent() {
-        return drawTo;
-    }
+  @Override
+  public JComponent getComponent() {
+    return drawTo;
+  }
 
-    @Override
-    public double getScaleFactor() {
-        return 1;
-    }
+  @Override
+  public double getScaleFactor() {
+    return 1;
+  }
 
-    @Override
-    public void setScaleFactor(double newValue) {
-    }
+  @Override
+  public void setScaleFactor(double newValue) {}
 
-    @Override
-    public void setEnabled(boolean newValue) {
-        drawTo.setEnabled(newValue);
-    }
+  @Override
+  public void setEnabled(boolean newValue) {
+    drawTo.setEnabled(newValue);
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return drawTo.isEnabled();
-    }
+  @Override
+  public boolean isEnabled() {
+    return drawTo.isEnabled();
+  }
 
-    @Override
-    public void addMouseListener(MouseListener l) {
-        drawTo.addMouseListener(l);
-    }
+  @Override
+  public void addMouseListener(MouseListener l) {
+    drawTo.addMouseListener(l);
+  }
 
-    @Override
-    public void removeMouseListener(MouseListener l) {
-        drawTo.removeMouseListener(l);
-    }
+  @Override
+  public void removeMouseListener(MouseListener l) {
+    drawTo.removeMouseListener(l);
+  }
 
-    @Override
-    public void addKeyListener(KeyListener l) {
-        drawTo.addKeyListener(l);
-    }
+  @Override
+  public void addKeyListener(KeyListener l) {
+    drawTo.addKeyListener(l);
+  }
 
-    @Override
-    public void removeKeyListener(KeyListener l) {
-        drawTo.removeKeyListener(l);
-    }
+  @Override
+  public void removeKeyListener(KeyListener l) {
+    drawTo.removeKeyListener(l);
+  }
 
-    @Override
-    public void addMouseMotionListener(MouseMotionListener l) {
-        drawTo.addMouseMotionListener(l);
-    }
+  @Override
+  public void addMouseMotionListener(MouseMotionListener l) {
+    drawTo.addMouseMotionListener(l);
+  }
 
-    @Override
-    public void removeMouseMotionListener(MouseMotionListener l) {
-        drawTo.removeMouseMotionListener(l);
-    }
+  @Override
+  public void removeMouseMotionListener(MouseMotionListener l) {
+    drawTo.removeMouseMotionListener(l);
+  }
 
-    @Override
-    public void removeMouseWheelListener(MouseWheelListener l) {
-        drawTo.removeMouseWheelListener(l);
-    }
+  @Override
+  public void removeMouseWheelListener(MouseWheelListener l) {
+    drawTo.removeMouseWheelListener(l);
+  }
 
-    @Override
-    public void addMouseWheelListener(MouseWheelListener l) {
-        drawTo.addMouseWheelListener(l);
-    }
+  @Override
+  public void addMouseWheelListener(MouseWheelListener l) {
+    drawTo.addMouseWheelListener(l);
+  }
 }

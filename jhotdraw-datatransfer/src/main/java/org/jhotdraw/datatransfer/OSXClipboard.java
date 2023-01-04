@@ -19,26 +19,26 @@ import java.awt.datatransfer.Transferable;
  */
 public class OSXClipboard extends AWTClipboard {
 
-    public OSXClipboard(Clipboard target) {
-        super(target);
-    }
+  public OSXClipboard(Clipboard target) {
+    super(target);
+  }
 
-    @Override
-    public Transferable getContents(Object requestor) {
-        Transferable t = super.getContents(requestor);
-        try {
-            Class<?> c = Class.forName("ch.randelshofer.quaqua.osx.OSXClipboardTransferable");
-            @SuppressWarnings("unchecked")
-            boolean isAvailable = (Boolean) c.getMethod("isNativeCodeAvailable").invoke(null);
-            if (isAvailable) {
-                CompositeTransferable ct = new CompositeTransferable();
-                ct.add(t);
-                ct.add((Transferable) c.newInstance());
-                t = ct;
-            }
-        } catch (Throwable ex) {
-            // silently suppress
-        }
-        return t;
+  @Override
+  public Transferable getContents(Object requestor) {
+    Transferable t = super.getContents(requestor);
+    try {
+      Class<?> c = Class.forName("ch.randelshofer.quaqua.osx.OSXClipboardTransferable");
+      @SuppressWarnings("unchecked")
+      boolean isAvailable = (Boolean) c.getMethod("isNativeCodeAvailable").invoke(null);
+      if (isAvailable) {
+        CompositeTransferable ct = new CompositeTransferable();
+        ct.add(t);
+        ct.add((Transferable) c.newInstance());
+        t = ct;
+      }
+    } catch (Throwable ex) {
+      // silently suppress
     }
+    return t;
+  }
 }

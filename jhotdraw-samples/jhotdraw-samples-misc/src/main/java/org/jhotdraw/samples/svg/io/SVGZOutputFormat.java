@@ -20,26 +20,23 @@ import org.jhotdraw.draw.*;
  */
 public class SVGZOutputFormat extends SVGOutputFormat {
 
-    /**
-     * Creates a new instance.
-     */
-    public SVGZOutputFormat() {
-    }
+  /** Creates a new instance. */
+  public SVGZOutputFormat() {}
 
-    @Override
-    public String getFileExtension() {
-        return "svgz";
-    }
+  @Override
+  public String getFileExtension() {
+    return "svgz";
+  }
 
-    @Override
-    public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new FileNameExtensionFilter("Compressed Scalable Vector Graphics (SVGZ)", "svgz");
-    }
+  @Override
+  public javax.swing.filechooser.FileFilter getFileFilter() {
+    return new FileNameExtensionFilter("Compressed Scalable Vector Graphics (SVGZ)", "svgz");
+  }
 
-    @Override
-    public void write(OutputStream out, Drawing drawing) throws IOException {
-        GZIPOutputStream gout = new GZIPOutputStream(out);
-        super.write(gout, drawing, drawing.getChildren());
-        gout.finish();
-    }
+  @Override
+  public void write(OutputStream out, Drawing drawing) throws IOException {
+    GZIPOutputStream gout = new GZIPOutputStream(out);
+    super.write(gout, drawing, drawing.getChildren());
+    gout.finish();
+  }
 }

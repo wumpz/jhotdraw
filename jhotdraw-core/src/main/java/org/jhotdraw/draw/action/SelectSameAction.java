@@ -20,33 +20,31 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class SelectSameAction extends AbstractSelectedAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "edit.selectSame";
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "edit.selectSame";
 
-    /**
-     * Creates a new instance.
-     */
-    public SelectSameAction(DrawingEditor editor) {
-        super(editor);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        labels.configureAction(this, ID);
-        updateEnabledState();
-    }
+  /** Creates a new instance. */
+  public SelectSameAction(DrawingEditor editor) {
+    super(editor);
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    labels.configureAction(this, ID);
+    updateEnabledState();
+  }
 
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        selectSame();
-    }
+  @Override
+  public void actionPerformed(java.awt.event.ActionEvent e) {
+    selectSame();
+  }
 
-    public void selectSame() {
-        HashSet<Class<?>> selectedClasses = new HashSet<>();
-        for (Figure selected : getView().getSelectedFigures()) {
-            selectedClasses.add(selected.getClass());
-        }
-        for (Figure f : getDrawing().getChildren()) {
-            if (selectedClasses.contains(f.getClass())) {
-                getView().addToSelection(f);
-            }
-        }
+  public void selectSame() {
+    HashSet<Class<?>> selectedClasses = new HashSet<>();
+    for (Figure selected : getView().getSelectedFigures()) {
+      selectedClasses.add(selected.getClass());
     }
+    for (Figure f : getDrawing().getChildren()) {
+      if (selectedClasses.contains(f.getClass())) {
+        getView().addToSelection(f);
+      }
+    }
+  }
 }

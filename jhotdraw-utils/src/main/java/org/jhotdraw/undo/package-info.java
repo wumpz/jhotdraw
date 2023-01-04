@@ -7,8 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides undo/redo support leveraging the javax.swing.undo package.
- *
- */
+/** Provides undo/redo support leveraging the javax.swing.undo package. */
 package org.jhotdraw.undo;

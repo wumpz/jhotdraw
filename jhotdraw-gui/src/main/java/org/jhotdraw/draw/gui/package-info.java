@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides GUI components which are specific to the drawing framework.
- */
+/** Provides GUI components which are specific to the drawing framework. */
 package org.jhotdraw.draw.gui;

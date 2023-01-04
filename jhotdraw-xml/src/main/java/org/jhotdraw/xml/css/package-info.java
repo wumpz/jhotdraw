@@ -11,7 +11,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides support for cascading style sheets (CSS) in XML DOM.
- */
+/** Provides support for cascading style sheets (CSS) in XML DOM. */
 package org.jhotdraw.xml.css;

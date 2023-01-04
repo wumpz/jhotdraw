@@ -14,33 +14,33 @@ import java.util.*;
 import org.w3c.dom.Element;
 
 /**
- * StyleManager applies styling Rules to an XML DOM.
- * This class supports net.n3.nanoxml as well as org.w3c.dom.
+ * StyleManager applies styling Rules to an XML DOM. This class supports net.n3.nanoxml as well as
+ * org.w3c.dom.
  *
  * @author Werner Randelshofer
  * @version $Id$
  */
 public class StyleManager {
 
-    private java.util.List<CSSRule> rules;
+  private java.util.List<CSSRule> rules;
 
-    public StyleManager() {
-        rules = new ArrayList<CSSRule>();
-    }
+  public StyleManager() {
+    rules = new ArrayList<CSSRule>();
+  }
 
-    public void add(CSSRule rule) {
-        rules.add(rule);
-    }
+  public void add(CSSRule rule) {
+    rules.add(rule);
+  }
 
-    public void applyStylesTo(Element elem) {
-        for (CSSRule rule : rules) {
-            if (rule.matches(elem)) {
-                rule.apply(elem);
-            }
-        }
+  public void applyStylesTo(Element elem) {
+    for (CSSRule rule : rules) {
+      if (rule.matches(elem)) {
+        rule.apply(elem);
+      }
     }
+  }
 
-    public void clear() {
-        rules.clear();
-    }
+  public void clear() {
+    rules.clear();
+  }
 }

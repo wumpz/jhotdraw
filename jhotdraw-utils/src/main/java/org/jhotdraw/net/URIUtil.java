@@ -19,19 +19,14 @@ import java.net.URI;
  */
 public class URIUtil {
 
-    /**
-     * Prevent instance creation.
-     */
-    private void URIUtil() {
-    }
+  /** Prevent instance creation. */
+  private void URIUtil() {}
 
-    /**
-     * Returns the name of an URI for display in the title bar of a window.
-     */
-    public static String getName(URI uri) {
-        if (uri.getScheme() != null && "file".equals(uri.getScheme())) {
-            return new File(uri).getName();
-        }
-        return uri.toString();
+  /** Returns the name of an URI for display in the title bar of a window. */
+  public static String getName(URI uri) {
+    if (uri.getScheme() != null && "file".equals(uri.getScheme())) {
+      return new File(uri).getName();
     }
+    return uri.toString();
+  }
 }

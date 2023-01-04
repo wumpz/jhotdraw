@@ -13,5 +13,4 @@ package org.jhotdraw.samples.svg.io;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface SVGElementFactory {
-}
+public interface SVGElementFactory {}

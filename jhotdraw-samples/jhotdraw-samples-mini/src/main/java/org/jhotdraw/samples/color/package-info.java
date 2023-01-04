@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * A sample programs showing the use of the JHotDraw color classes.
- */
+/** A sample programs showing the use of the JHotDraw color classes. */
 package org.jhotdraw.samples.color;

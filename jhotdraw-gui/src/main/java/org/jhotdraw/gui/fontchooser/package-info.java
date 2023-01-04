@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides model classes for {@link org.jhotdraw.gui.JFontChooser}.
- */
+/** Provides model classes for {@link org.jhotdraw.gui.JFontChooser}. */
 package org.jhotdraw.gui.fontchooser;

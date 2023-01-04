@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * PaletteLookAndFeel for components used in the palette windows of a drawing editor.
- */
+/** PaletteLookAndFeel for components used in the palette windows of a drawing editor. */
 package org.jhotdraw.gui.plaf.palette;

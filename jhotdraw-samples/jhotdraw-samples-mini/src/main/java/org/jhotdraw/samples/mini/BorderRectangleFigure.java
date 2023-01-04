@@ -7,36 +7,33 @@
  */
 package org.jhotdraw.samples.mini;
 
-import org.jhotdraw.draw.figure.RectangleFigure;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.RectangleFigure;
 
 /**
  * BorderRectangle2D.DoubleFigure.
  *
  * @deprecated This class should be in one of the samples package
- *
  * @author Werner Randelshofer
  * @version $Id$
  */
 @Deprecated
 public class BorderRectangleFigure extends RectangleFigure {
 
-    private static final long serialVersionUID = 1L;
-    protected Border border;
-    protected static final JComponent BORDER_COMPONENT = new JPanel();
+  private static final long serialVersionUID = 1L;
+  protected Border border;
+  protected static final JComponent BORDER_COMPONENT = new JPanel();
 
-    /**
-     * Creates a new instance.
-     */
-    public BorderRectangleFigure(Border border) {
-        this.border = border;
-    }
+  /** Creates a new instance. */
+  public BorderRectangleFigure(Border border) {
+    this.border = border;
+  }
 
-    public void drawFigure(Graphics2D g) {
-        Rectangle bounds = getBounds().getBounds();
-        border.paintBorder(BORDER_COMPONENT, g, bounds.x, bounds.y, bounds.width, bounds.height);
-    }
+  public void drawFigure(Graphics2D g) {
+    Rectangle bounds = getBounds().getBounds();
+    border.paintBorder(BORDER_COMPONENT, g, bounds.x, bounds.y, bounds.width, bounds.height);
+  }
 }

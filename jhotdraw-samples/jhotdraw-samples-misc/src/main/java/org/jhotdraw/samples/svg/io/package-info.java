@@ -8,7 +8,7 @@
  * @version $Id$
  */
 /**
- * Classes for reading and writing drawings using the Scalable Vector Graphics SVG
- * Mobile 1.2 file format.
+ * Classes for reading and writing drawings using the Scalable Vector Graphics SVG Mobile 1.2 file
+ * format.
  */
 package org.jhotdraw.samples.svg.io;

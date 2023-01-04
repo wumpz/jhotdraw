@@ -1,18 +1,18 @@
 /**
  * @(#)DefaultHarmonicColorModel.java
  *
- * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the
- * accompanying license terms.
+ * <p>Copyright (c) 2008 The authors and contributors of JHotDraw. You may not use, copy or modify
+ * this file, except in compliance with the accompanying license terms.
  */
 package org.jhotdraw.color;
+
+import static org.jhotdraw.color.HarmonicColorModel.*;
 
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.beans.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import static org.jhotdraw.color.HarmonicColorModel.*;
 
 /**
  * DefaultHarmonicColorModel.
@@ -20,191 +20,192 @@ import static org.jhotdraw.color.HarmonicColorModel.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DefaultHarmonicColorModel extends AbstractListModel implements HarmonicColorModel, Cloneable {
+public class DefaultHarmonicColorModel extends AbstractListModel
+    implements HarmonicColorModel, Cloneable {
 
-    private static final long serialVersionUID = 1L;
-    protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-    private ArrayList<Color> colors;
-    private ColorSliderModel sliderModel;
-    private int base;
-    private ArrayList<HarmonicRule> rules;
-    private float customHueConstraint = 30f / 360f;
-    private int adjusting;
+  private static final long serialVersionUID = 1L;
+  protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
+  private ArrayList<Color> colors;
+  private ColorSliderModel sliderModel;
+  private int base;
+  private ArrayList<HarmonicRule> rules;
+  private float customHueConstraint = 30f / 360f;
+  private int adjusting;
 
-    public DefaultHarmonicColorModel() {
-        ColorSpace sys = HSLPhysiologicColorSpace.getInstance();
-        sliderModel = new DefaultColorSliderModel(sys);
-        colors = new ArrayList<>();
-        rules = new ArrayList<>();
-        base = 0;
-        add(Color.RED);
-        DefaultListModel x;
+  public DefaultHarmonicColorModel() {
+    ColorSpace sys = HSLPhysiologicColorSpace.getInstance();
+    sliderModel = new DefaultColorSliderModel(sys);
+    colors = new ArrayList<>();
+    rules = new ArrayList<>();
+    base = 0;
+    add(Color.RED);
+    DefaultListModel x;
+  }
+
+  @Override
+  public void setSize(int newValue) {
+    int oldSize = size();
+    while (colors.size() > newValue) {
+      colors.remove(colors.size() - 1);
     }
-
-    @Override
-    public void setSize(int newValue) {
-        int oldSize = size();
-        while (colors.size() > newValue) {
-            colors.remove(colors.size() - 1);
-        }
-        while (colors.size() < newValue) {
-            colors.add(null);
-        }
-        if (oldSize < newValue) {
-            fireIntervalRemoved(this, oldSize, newValue - 1);
-        } else if (oldSize > newValue) {
-            fireIntervalRemoved(this, newValue, oldSize - 1);
-        }
+    while (colors.size() < newValue) {
+      colors.add(null);
     }
-
-    @Override
-    public int size() {
-        return colors.size();
+    if (oldSize < newValue) {
+      fireIntervalRemoved(this, oldSize, newValue - 1);
+    } else if (oldSize > newValue) {
+      fireIntervalRemoved(this, newValue, oldSize - 1);
     }
+  }
 
-    @Override
-    public boolean isAdjusting() {
-        return adjusting > 0;
-    }
+  @Override
+  public int size() {
+    return colors.size();
+  }
 
-    @Override
-    public void set(int index, Color newValue) {
-        adjusting++;
-        Color oldValue = colors.set(index, newValue);
-        for (HarmonicRule r : rules) {
-            r.colorChanged(this, index, oldValue, newValue);
-        }
-        for (HarmonicRule r : rules) {
-            if (r.getBaseIndex() == index) {
-                r.apply(this);
-            }
-        }
-        adjusting--;
-        fireContentsChanged(this, index, index);
-    }
+  @Override
+  public boolean isAdjusting() {
+    return adjusting > 0;
+  }
 
-    @Override
-    public void applyRules() {
-        for (HarmonicRule r : rules) {
-            if (r.getBaseIndex() == base) {
-                r.apply(this);
-            }
-        }
+  @Override
+  public void set(int index, Color newValue) {
+    adjusting++;
+    Color oldValue = colors.set(index, newValue);
+    for (HarmonicRule r : rules) {
+      r.colorChanged(this, index, oldValue, newValue);
     }
+    for (HarmonicRule r : rules) {
+      if (r.getBaseIndex() == index) {
+        r.apply(this);
+      }
+    }
+    adjusting--;
+    fireContentsChanged(this, index, index);
+  }
 
-    @Override
-    public Color get(int index) {
-        return colors.get(index);
+  @Override
+  public void applyRules() {
+    for (HarmonicRule r : rules) {
+      if (r.getBaseIndex() == base) {
+        r.apply(this);
+      }
     }
+  }
 
-    @Override
-    public boolean add(Color c) {
-        boolean b = colors.add(c);
-        if (b) {
-            fireIntervalAdded(this, size() - 1, size() - 1);
-        }
-        return b;
-    }
+  @Override
+  public Color get(int index) {
+    return colors.get(index);
+  }
 
-    @Override
-    public void setBase(int newValue) {
-        base = newValue;
+  @Override
+  public boolean add(Color c) {
+    boolean b = colors.add(c);
+    if (b) {
+      fireIntervalAdded(this, size() - 1, size() - 1);
     }
+    return b;
+  }
 
-    @Override
-    public int getBase() {
-        return base;
-    }
+  @Override
+  public void setBase(int newValue) {
+    base = newValue;
+  }
 
-    @Override
-    public float[] RGBtoComponent(int rgb, float[] hsb) {
-        return ColorUtil.fromColor(sliderModel.getColorSpace(), new Color(rgb));
-    }
+  @Override
+  public int getBase() {
+    return base;
+  }
 
-    @Override
-    public int componentToRGB(float h, float s, float b) {
-        return ColorUtil.toRGB24(sliderModel.getColorSpace(), h, s, b);
-    }
+  @Override
+  public float[] RGBtoComponent(int rgb, float[] hsb) {
+    return ColorUtil.fromColor(sliderModel.getColorSpace(), new Color(rgb));
+  }
 
-    @Override
-    public int getSize() {
-        return size();
-    }
+  @Override
+  public int componentToRGB(float h, float s, float b) {
+    return ColorUtil.toRGB24(sliderModel.getColorSpace(), h, s, b);
+  }
 
-    @Override
-    public Object getElementAt(int index) {
-        return get(index);
-    }
+  @Override
+  public int getSize() {
+    return size();
+  }
 
-    @Override
-    public ColorSpace getColorSpace() {
-        return sliderModel.getColorSpace();
-    }
+  @Override
+  public Object getElementAt(int index) {
+    return get(index);
+  }
 
-    @Override
-    public void addRule(HarmonicRule newValue) {
-        rules.add(newValue);
-    }
+  @Override
+  public ColorSpace getColorSpace() {
+    return sliderModel.getColorSpace();
+  }
 
-    @Override
-    public void removeAllRules() {
-        rules.clear();
-    }
+  @Override
+  public void addRule(HarmonicRule newValue) {
+    rules.add(newValue);
+  }
 
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertySupport.addPropertyChangeListener(listener);
-    }
+  @Override
+  public void removeAllRules() {
+    rules.clear();
+  }
 
-    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        propertySupport.addPropertyChangeListener(propertyName, listener);
-    }
+  @Override
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+    propertySupport.addPropertyChangeListener(listener);
+  }
 
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertySupport.removePropertyChangeListener(listener);
-    }
+  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertySupport.addPropertyChangeListener(propertyName, listener);
+  }
 
-    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        propertySupport.removePropertyChangeListener(propertyName, listener);
-    }
+  @Override
+  public void removePropertyChangeListener(PropertyChangeListener listener) {
+    propertySupport.removePropertyChangeListener(listener);
+  }
 
-    protected void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
-        propertySupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
+  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertySupport.removePropertyChangeListener(propertyName, listener);
+  }
 
-    protected void firePropertyChange(String propertyName, int oldValue, int newValue) {
-        propertySupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
+  protected void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
+    propertySupport.firePropertyChange(propertyName, oldValue, newValue);
+  }
 
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        propertySupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
+  protected void firePropertyChange(String propertyName, int oldValue, int newValue) {
+    propertySupport.firePropertyChange(propertyName, oldValue, newValue);
+  }
 
-    @Override
-    public DefaultHarmonicColorModel clone() {
-        DefaultHarmonicColorModel that;
-        try {
-            that = (DefaultHarmonicColorModel) super.clone();
-        } catch (CloneNotSupportedException ex) {
-            InternalError error = new InternalError("Clone failed");
-            error.initCause(ex);
-            throw error;
-        }
-        that.propertySupport = new PropertyChangeSupport(that);
-        return that;
-    }
+  protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    propertySupport.firePropertyChange(propertyName, oldValue, newValue);
+  }
 
-    @Override
-    public void setColorSpace(ColorSpace newValue) {
-        ColorSpace oldValue = sliderModel.getColorSpace();
-        sliderModel.setColorSpace(newValue);
-        firePropertyChange(COLOR_SPACE_PROPERTY, oldValue, newValue);
-        for (int i = 0; i < colors.size(); i++) {
-            if (get(i) != null) {
-                set(i, new Color(newValue, ColorUtil.fromColor(newValue, get(i)), 1f));
-            }
-        }
-        fireContentsChanged(this, 0, size() - 1);
+  @Override
+  public DefaultHarmonicColorModel clone() {
+    DefaultHarmonicColorModel that;
+    try {
+      that = (DefaultHarmonicColorModel) super.clone();
+    } catch (CloneNotSupportedException ex) {
+      InternalError error = new InternalError("Clone failed");
+      error.initCause(ex);
+      throw error;
     }
+    that.propertySupport = new PropertyChangeSupport(that);
+    return that;
+  }
+
+  @Override
+  public void setColorSpace(ColorSpace newValue) {
+    ColorSpace oldValue = sliderModel.getColorSpace();
+    sliderModel.setColorSpace(newValue);
+    firePropertyChange(COLOR_SPACE_PROPERTY, oldValue, newValue);
+    for (int i = 0; i < colors.size(); i++) {
+      if (get(i) != null) {
+        set(i, new Color(newValue, ColorUtil.fromColor(newValue, get(i)), 1f));
+      }
+    }
+    fireContentsChanged(this, 0, size() - 1);
+  }
 }

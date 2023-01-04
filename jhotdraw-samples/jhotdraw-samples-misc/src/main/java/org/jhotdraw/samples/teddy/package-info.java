@@ -7,9 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * <p>
- * A sample text editor that demonstrates the JHotDraw application framework.
- * </p>
- */
+/** A sample text editor that demonstrates the JHotDraw application framework. */
 package org.jhotdraw.samples.teddy;

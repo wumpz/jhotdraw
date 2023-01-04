@@ -7,14 +7,14 @@
  */
 package org.jhotdraw.draw.connector;
 
-import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.draw.figure.TriangleFigure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TriangleFigure;
 
 /**
- * A {@link Connector} which locates a connection point at the bounds
- * of a {@link TriangleFigure}.
+ * A {@link Connector} which locates a connection point at the bounds of a {@link TriangleFigure}.
+ *
  * <p>
  *
  * @author Werner Randelshofer.
@@ -22,24 +22,19 @@ import org.jhotdraw.draw.*;
  */
 public class ChopTriangleConnector extends ChopRectangleConnector {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Only used for DOMStorable input.
-     */
-    public ChopTriangleConnector() {
-    }
+  /** Only used for DOMStorable input. */
+  public ChopTriangleConnector() {}
 
-    /**
-     * Creates a new instance.
-     */
-    public ChopTriangleConnector(TriangleFigure owner) {
-        super(owner);
-    }
+  /** Creates a new instance. */
+  public ChopTriangleConnector(TriangleFigure owner) {
+    super(owner);
+  }
 
-    @Override
-    protected Point2D.Double chop(Figure target, Point2D.Double from) {
-        TriangleFigure bf = (TriangleFigure) getConnectorTarget(target);
-        return bf.chop(from);
-    }
+  @Override
+  protected Point2D.Double chop(Figure target, Point2D.Double from) {
+    TriangleFigure bf = (TriangleFigure) getConnectorTarget(target);
+    return bf.chop(from);
+  }
 }

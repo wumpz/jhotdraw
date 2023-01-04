@@ -14,8 +14,9 @@ import javax.swing.text.*;
 
 /**
  * NumberedEditorKit.
- * <p>
- * Usage:
+ *
+ * <p>Usage:
+ *
  * <pre>
  * JEditorPane edit = new JEditorPane();
  * edit.setEditorKit(new NumberedEditorKit());
@@ -26,14 +27,14 @@ import javax.swing.text.*;
  */
 public class NumberedEditorKit extends StyledEditorKit {
 
-    private static final long serialVersionUID = 1L;
-    private NumberedViewFactory viewFactory;
+  private static final long serialVersionUID = 1L;
+  private NumberedViewFactory viewFactory;
 
-    @Override
-    public ViewFactory getViewFactory() {
-        if (viewFactory == null) {
-            viewFactory = new NumberedViewFactory();
-        }
-        return viewFactory;
+  @Override
+  public ViewFactory getViewFactory() {
+    if (viewFactory == null) {
+      viewFactory = new NumberedViewFactory();
     }
+    return viewFactory;
+  }
 }

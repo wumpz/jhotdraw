@@ -1,9 +1,8 @@
 /**
  * @(#)HarmonicColorModel.java
  *
- * Copyright (c) 2008 The authors and contributors of JHotDraw.
- * You may not use, copy or modify this file, except in compliance with the
- * accompanying license terms.
+ * <p>Copyright (c) 2008 The authors and contributors of JHotDraw. You may not use, copy or modify
+ * this file, except in compliance with the accompanying license terms.
  */
 package org.jhotdraw.color;
 
@@ -20,39 +19,39 @@ import javax.swing.ListModel;
  */
 public interface HarmonicColorModel extends ListModel {
 
-    public static final String COLOR_SPACE_PROPERTY = "colorSpace";
+  public static final String COLOR_SPACE_PROPERTY = "colorSpace";
 
-    public void setBase(int newValue);
+  public void setBase(int newValue);
 
-    public int getBase();
+  public int getBase();
 
-    public void addRule(HarmonicRule rule);
+  public void addRule(HarmonicRule rule);
 
-    public void removeAllRules();
+  public void removeAllRules();
 
-    public void applyRules();
+  public void applyRules();
 
-    public ColorSpace getColorSpace();
+  public ColorSpace getColorSpace();
 
-    public void setColorSpace(ColorSpace newValue);
+  public void setColorSpace(ColorSpace newValue);
 
-    public void setSize(int newValue);
+  public void setSize(int newValue);
 
-    public int size();
+  public int size();
 
-    public boolean isAdjusting();
+  public boolean isAdjusting();
 
-    public boolean add(Color c);
+  public boolean add(Color c);
 
-    public void set(int index, Color color);
+  public void set(int index, Color color);
 
-    public Color get(int index);
+  public Color get(int index);
 
-    public float[] RGBtoComponent(int rgb, float[] hsb);
+  public float[] RGBtoComponent(int rgb, float[] hsb);
 
-    public int componentToRGB(float h, float s, float b);
+  public int componentToRGB(float h, float s, float b);
 
-    public void addPropertyChangeListener(PropertyChangeListener listener);
+  public void addPropertyChangeListener(PropertyChangeListener listener);
 
-    public void removePropertyChangeListener(PropertyChangeListener listener);
+  public void removePropertyChangeListener(PropertyChangeListener listener);
 }

@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Classes for working with colors using a variety of color spaces.
- */
+/** Classes for working with colors using a variety of color spaces. */
 package org.jhotdraw.color;

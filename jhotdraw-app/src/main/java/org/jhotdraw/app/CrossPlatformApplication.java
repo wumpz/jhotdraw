@@ -22,31 +22,33 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class CrossPlatformApplication extends SDIApplication {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Override
-    public void init() {
-        super.init();
-        ResourceBundleUtil.putPropertyNameModifier("os", "other", "default");
-    }
+  @Override
+  public void init() {
+    super.init();
+    ResourceBundleUtil.putPropertyNameModifier("os", "other", "default");
+  }
 
-    @Override
-    protected void initLookAndFeel() {
-        try {
-            String lafName = UIManager.getCrossPlatformLookAndFeelClassName();
-            JFrame.setDefaultLookAndFeelDecorated(true);
-            JDialog.setDefaultLookAndFeelDecorated(true);
-            UIManager.setLookAndFeel(lafName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "<head>"
-                    + "<style type=\"text/css\">"
-                    + "b { font: 13pt \"Dialog\" }"
-                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
-                    + "</style>"
-                    + "</head>");
-        }
+  @Override
+  protected void initLookAndFeel() {
+    try {
+      String lafName = UIManager.getCrossPlatformLookAndFeelClassName();
+      JFrame.setDefaultLookAndFeelDecorated(true);
+      JDialog.setDefaultLookAndFeelDecorated(true);
+      UIManager.setLookAndFeel(lafName);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    if (UIManager.getString("OptionPane.css") == null) {
+      UIManager.put(
+          "OptionPane.css",
+          "<head>"
+              + "<style type=\"text/css\">"
+              + "b { font: 13pt \"Dialog\" }"
+              + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
+              + "</style>"
+              + "</head>");
+    }
+  }
 }

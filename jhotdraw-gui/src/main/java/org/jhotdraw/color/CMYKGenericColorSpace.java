@@ -20,23 +20,25 @@ import java.io.IOException;
  */
 public class CMYKGenericColorSpace extends ICC_ColorSpace {
 
-    private static final long serialVersionUID = 1L;
-    private static CMYKGenericColorSpace instance;
+  private static final long serialVersionUID = 1L;
+  private static CMYKGenericColorSpace instance;
 
-    public static CMYKGenericColorSpace getInstance() {
-        if (instance == null) {
-            try {
-                instance = new CMYKGenericColorSpace();
-            } catch (IOException ex) {
-                InternalError error = new InternalError("Can't instanciate CMYKColorSpace");
-                error.initCause(ex);
-                throw error;
-            }
-        }
-        return instance;
+  public static CMYKGenericColorSpace getInstance() {
+    if (instance == null) {
+      try {
+        instance = new CMYKGenericColorSpace();
+      } catch (IOException ex) {
+        InternalError error = new InternalError("Can't instanciate CMYKColorSpace");
+        error.initCause(ex);
+        throw error;
+      }
     }
+    return instance;
+  }
 
-    public CMYKGenericColorSpace() throws IOException {
-        super(ICC_Profile.getInstance(CMYKGenericColorSpace.class.getResourceAsStream("Generic CMYK Profile.icc")));
-    }
+  public CMYKGenericColorSpace() throws IOException {
+    super(
+        ICC_Profile.getInstance(
+            CMYKGenericColorSpace.class.getResourceAsStream("Generic CMYK Profile.icc")));
+  }
 }

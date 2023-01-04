@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides classes for representing and manipulating ODG geometry.
- */
+/** Provides classes for representing and manipulating ODG geometry. */
 package org.jhotdraw.samples.odg.geom;

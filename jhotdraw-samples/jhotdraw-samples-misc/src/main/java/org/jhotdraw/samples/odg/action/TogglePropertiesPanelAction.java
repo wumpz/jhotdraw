@@ -23,39 +23,31 @@ import org.jhotdraw.util.*;
  */
 public class TogglePropertiesPanelAction extends AbstractViewAction {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public TogglePropertiesPanelAction(Application app, View view) {
-        super(app, view);
-        setPropertyName("propertiesPanelVisible");
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-        putValue(AbstractAction.NAME, labels.getString("propertiesPanel"));
-    }
+  /** Creates a new instance. */
+  public TogglePropertiesPanelAction(Application app, View view) {
+    super(app, view);
+    setPropertyName("propertiesPanelVisible");
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
+    putValue(AbstractAction.NAME, labels.getString("propertiesPanel"));
+  }
 
-    /**
-     * This method is invoked, when the property changed and when
-     * the view changed.
-     */
-    @Override
-    protected void updateView() {
-        putValue(ActionUtil.SELECTED_KEY,
-                getActiveView() != null
-                && !getActiveView().isPropertiesPanelVisible()
-        );
-    }
+  /** This method is invoked, when the property changed and when the view changed. */
+  @Override
+  protected void updateView() {
+    putValue(
+        ActionUtil.SELECTED_KEY,
+        getActiveView() != null && !getActiveView().isPropertiesPanelVisible());
+  }
 
-    @Override
-    public ODGView getActiveView() {
-        return (ODGView) super.getActiveView();
-    }
+  @Override
+  public ODGView getActiveView() {
+    return (ODGView) super.getActiveView();
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        getActiveView().setPropertiesPanelVisible(
-                !getActiveView().isPropertiesPanelVisible()
-        );
-    }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    getActiveView().setPropertiesPanelVisible(!getActiveView().isPropertiesPanelVisible());
+  }
 }

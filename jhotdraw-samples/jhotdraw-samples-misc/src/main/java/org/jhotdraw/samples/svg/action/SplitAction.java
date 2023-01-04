@@ -19,21 +19,19 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class SplitAction extends CombineAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "edit.splitPath";
-    private ResourceBundleUtil labels
-            = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "edit.splitPath";
+  private ResourceBundleUtil labels =
+      ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-    /**
-     * Creates a new instance.
-     */
-    public SplitAction(DrawingEditor editor) {
-        super(editor, new SVGPathFigure(), false);
-        labels.configureAction(this, ID);
-    }
+  /** Creates a new instance. */
+  public SplitAction(DrawingEditor editor) {
+    super(editor, new SVGPathFigure(), false);
+    labels.configureAction(this, ID);
+  }
 
-    public SplitAction(DrawingEditor editor, SVGPathFigure prototype) {
-        super(editor, prototype, false);
-        labels.configureAction(this, ID);
-    }
+  public SplitAction(DrawingEditor editor, SVGPathFigure prototype) {
+    super(editor, prototype, false);
+    labels.configureAction(this, ID);
+  }
 }

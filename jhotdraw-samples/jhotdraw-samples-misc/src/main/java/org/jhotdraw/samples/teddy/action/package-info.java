@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provide actions for the text editor application.
- */
+/** Provide actions for the text editor application. */
 package org.jhotdraw.samples.teddy.action;

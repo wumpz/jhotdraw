@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Contains preferences classes leveraging the java.util.prefs package.
- */
+/** Contains preferences classes leveraging the java.util.prefs package. */
 package org.jhotdraw.util.prefs;

@@ -7,7 +7,5 @@
  * @author Werner Randelshofer
  * @version $Id$
  */
-/**
- * Provides the figures for the SVG basic shapes.
- */
+/** Provides the figures for the SVG basic shapes. */
 package org.jhotdraw.samples.svg.figures;

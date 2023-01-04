@@ -19,40 +19,40 @@ import java.awt.color.ColorSpace;
  */
 public abstract class AbstractNamedColorSpace extends ColorSpace implements NamedColorSpace {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public AbstractNamedColorSpace(int type, int numcomponents) {
-        super(type, numcomponents);
-    }
+  public AbstractNamedColorSpace(int type, int numcomponents) {
+    super(type, numcomponents);
+  }
 
-    @Override
-    public float[] fromCIEXYZ(float[] colorvalue) {
-        return fromCIEXYZ(colorvalue, new float[getNumComponents()]);
-    }
+  @Override
+  public float[] fromCIEXYZ(float[] colorvalue) {
+    return fromCIEXYZ(colorvalue, new float[getNumComponents()]);
+  }
 
-    @Override
-    public final float[] toRGB(float[] colorvalue) {
-        return toRGB(colorvalue, new float[3]);
-    }
+  @Override
+  public final float[] toRGB(float[] colorvalue) {
+    return toRGB(colorvalue, new float[3]);
+  }
 
-    @Override
-    public float[] fromRGB(float[] rgb) {
-        float[] tmp = new float[getNumComponents()];
-        return fromRGB(rgb, new float[getNumComponents()]);
-    }
+  @Override
+  public float[] fromRGB(float[] rgb) {
+    float[] tmp = new float[getNumComponents()];
+    return fromRGB(rgb, new float[getNumComponents()]);
+  }
 
-    @Override
-    public final float[] toCIEXYZ(float[] colorvalue) {
-        return toCIEXYZ(colorvalue, new float[3]);
-    }
+  @Override
+  public final float[] toCIEXYZ(float[] colorvalue) {
+    return toCIEXYZ(colorvalue, new float[3]);
+  }
 
-    @Override
-    public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
-        return ColorUtil.RGBtoCIEXYZ(toRGB(colorvalue, xyz), xyz);
-    }
+  @Override
+  public float[] toCIEXYZ(float[] colorvalue, float[] xyz) {
+    return ColorUtil.RGBtoCIEXYZ(toRGB(colorvalue, xyz), xyz);
+  }
 
-    @Override
-    public float[] fromCIEXYZ(float[] xyz, float[] colorvalue) {
-        return fromRGB(ColorUtil.CIEXYZtoRGB(xyz, colorvalue), colorvalue);
-    }
+  @Override
+  public float[] fromCIEXYZ(float[] xyz, float[] colorvalue) {
+    return fromRGB(ColorUtil.CIEXYZtoRGB(xyz, colorvalue), colorvalue);
+  }
 }

@@ -20,15 +20,15 @@ import org.jhotdraw.api.gui.ActivityModel;
  */
 public class ActivityManagerEvent extends EventObject {
 
-    private static final long serialVersionUID = 1L;
-    private ActivityModel activity;
+  private static final long serialVersionUID = 1L;
+  private ActivityModel activity;
 
-    public ActivityManagerEvent(Object source, ActivityModel activity) {
-        super(source);
-        this.activity = activity;
-    }
+  public ActivityManagerEvent(Object source, ActivityModel activity) {
+    super(source);
+    this.activity = activity;
+  }
 
-    public ActivityModel getActivityModel() {
-        return activity;
-    }
+  public ActivityModel getActivityModel() {
+    return activity;
+  }
 }

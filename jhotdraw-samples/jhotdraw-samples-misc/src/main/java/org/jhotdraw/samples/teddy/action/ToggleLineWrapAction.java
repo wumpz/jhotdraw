@@ -23,34 +23,30 @@ import org.jhotdraw.util.*;
  */
 public class ToggleLineWrapAction extends AbstractViewAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "view.toggleLineWrap";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "view.toggleLineWrap";
+  private ResourceBundleUtil labels =
+      ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
 
-    /**
-     * Creates a new instance.
-     */
-    public ToggleLineWrapAction(Application app, View view) {
-        super(app, view);
-        labels.configureAction(this, ID);
-        setPropertyName("lineWrap");
-    }
+  /** Creates a new instance. */
+  public ToggleLineWrapAction(Application app, View view) {
+    super(app, view);
+    labels.configureAction(this, ID);
+    setPropertyName("lineWrap");
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        getActiveView().setLineWrap(!getActiveView().isLineWrap());
-    }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    getActiveView().setLineWrap(!getActiveView().isLineWrap());
+  }
 
-    @Override
-    public TeddyView getActiveView() {
-        return (TeddyView) super.getActiveView();
-    }
+  @Override
+  public TeddyView getActiveView() {
+    return (TeddyView) super.getActiveView();
+  }
 
-    @Override
-    protected void updateView() {
-        putValue(
-                Action.SELECTED_KEY,
-                getActiveView() != null && getActiveView().isLineWrap()
-        );
-    }
+  @Override
+  protected void updateView() {
+    putValue(Action.SELECTED_KEY, getActiveView() != null && getActiveView().isLineWrap());
+  }
 }

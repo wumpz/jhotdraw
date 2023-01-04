@@ -7,10 +7,10 @@
  */
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
 import java.io.Serializable;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.xml.*;
 
 /**
@@ -21,16 +21,13 @@ import org.jhotdraw.xml.*;
  */
 public abstract class AbstractLocator implements Locator, DOMStorable, Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public AbstractLocator() {
-    }
+  /** Creates a new instance. */
+  public AbstractLocator() {}
 
-    @Override
-    public Point2D.Double locate(Figure owner, Figure dependent) {
-        return locate(owner);
-    }
+  @Override
+  public Point2D.Double locate(Figure owner, Figure dependent) {
+    return locate(owner);
+  }
 }

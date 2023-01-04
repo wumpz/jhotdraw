@@ -17,26 +17,21 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 
 /**
  * {@code AbstractSelectionAction} acts on the selection of a target component.
- * <p>
- * By default, the action is disabled when the target component is disabled or has
- * no selection. If the target component is null, updateEnabled does nothing.
- * You can change this behavior by overriding method {@code updateEnabled()}.
- * <p>
- * This action registers a {@link WeakPropertyChangeListener} on the component.
  *
- * <hr>
- * <b>Design Patterns</b>
+ * <p>By default, the action is disabled when the target component is disabled or has no selection.
+ * If the target component is null, updateEnabled does nothing. You can change this behavior by
+ * overriding method {@code updateEnabled()}.
  *
- * <p>
- * <em>Framework</em><br>
- * The interfaces and classes listed below work together:
- * <br>
+ * <p>This action registers a {@link WeakPropertyChangeListener} on the component.
+ *
+ * <p><hr> <b>Design Patterns</b>
+ *
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below work together: <br>
  * Contract: {@link org.jhotdraw.gui.EditableComponent}, {@code JTextComponent}.<br>
- * Client: {@link org.jhotdraw.action.edit.AbstractSelectionAction},
- * {@link org.jhotdraw.action.edit.DeleteAction},
- * {@link org.jhotdraw.action.edit.DuplicateAction},
- * {@link org.jhotdraw.action.edit.SelectAllAction},
- * {@link org.jhotdraw.action.edit.ClearSelectionAction}.
+ * Client: {@link org.jhotdraw.action.edit.AbstractSelectionAction}, {@link
+ * org.jhotdraw.action.edit.DeleteAction}, {@link org.jhotdraw.action.edit.DuplicateAction}, {@link
+ * org.jhotdraw.action.edit.SelectAllAction}, {@link org.jhotdraw.action.edit.ClearSelectionAction}.
  * <hr>
  *
  * @author Werner Randelshofer
@@ -44,47 +39,42 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  */
 public abstract class AbstractSelectionAction extends AbstractAction {
 
-    private static final long serialVersionUID = 1L;
-    /**
-     * The target of the action or null if the action acts on the currently
-     * focused component.
-     */
-    protected JComponent target;
-    /**
-     * This variable keeps a strong reference on the property change listener.
-     */
-    private PropertyChangeListener propertyHandler;
+  private static final long serialVersionUID = 1L;
+  /** The target of the action or null if the action acts on the currently focused component. */
+  protected JComponent target;
+  /** This variable keeps a strong reference on the property change listener. */
+  private PropertyChangeListener propertyHandler;
 
-    /**
-     * Creates a new instance which acts on the specified component.
-     *
-     * @param target The target of the action. Specify null for the currently
-     * focused component.
-     */
-    public AbstractSelectionAction(JComponent target) {
-        this.target = target;
-        if (target != null) {
-            // Register with a weak reference on the JComponent.
-            propertyHandler = new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    String n = evt.getPropertyName();
-                    if ("enabled".equals(n)) {
-                        updateEnabled();
-                    } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
-                        updateEnabled();
-                    }
-                }
-            };
-            target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
-        }
+  /**
+   * Creates a new instance which acts on the specified component.
+   *
+   * @param target The target of the action. Specify null for the currently focused component.
+   */
+  public AbstractSelectionAction(JComponent target) {
+    this.target = target;
+    if (target != null) {
+      // Register with a weak reference on the JComponent.
+      propertyHandler =
+          new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+              String n = evt.getPropertyName();
+              if ("enabled".equals(n)) {
+                updateEnabled();
+              } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
+                updateEnabled();
+              }
+            }
+          };
+      target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
     }
+  }
 
-    protected void updateEnabled() {
-        if (target instanceof EditableComponent) {
-            setEnabled(target.isEnabled() && !((EditableComponent) target).isSelectionEmpty());
-        } else if (target != null) {
-            setEnabled(target.isEnabled());
-        }
+  protected void updateEnabled() {
+    if (target instanceof EditableComponent) {
+      setEnabled(target.isEnabled() && !((EditableComponent) target).isSelectionEmpty());
+    } else if (target != null) {
+      setEnabled(target.isEnabled());
     }
+  }
 }
