@@ -7,7 +7,9 @@
  */
 package org.jhotdraw.draw;
 
-import javax.swing.event.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 import org.jhotdraw.beans.AbstractBean;
 
 /**

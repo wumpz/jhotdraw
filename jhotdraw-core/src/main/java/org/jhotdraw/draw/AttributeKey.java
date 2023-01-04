@@ -7,11 +7,12 @@
  */
 package org.jhotdraw.draw;
 
-import java.io.Serializable;
-import java.util.*;
-import javax.swing.undo.*;
+import java.util.Map;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.Methods;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * An <em>attribute key</em> provides typesafe access to an attribute of a {@link Figure}.
@@ -31,7 +32,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class AttributeKey<T> implements Serializable {
+public class AttributeKey<T> {
 
   private static final long serialVersionUID = 1L;
   /** Holds a String representation of the attribute key. */

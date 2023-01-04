@@ -7,12 +7,13 @@
  */
 package org.jhotdraw.draw;
 
-import java.awt.font.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.undo.*;
+import java.awt.font.FontRenderContext;
+import java.io.IOException;
+import java.util.LinkedList;
+import javax.swing.JPanel;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
