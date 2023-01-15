@@ -7,14 +7,15 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.awt.geom.*;
-import java.util.HashSet;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.constrainer.TranslationDirection;
 import static org.jhotdraw.draw.constrainer.TranslationDirection.EAST;
 import static org.jhotdraw.draw.constrainer.TranslationDirection.NORTH;
 import static org.jhotdraw.draw.constrainer.TranslationDirection.SOUTH;
 import static org.jhotdraw.draw.constrainer.TranslationDirection.WEST;
+
+import java.awt.geom.*;
+import java.util.HashSet;
+import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.constrainer.TranslationDirection;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.undo.CompositeEdit;
