@@ -67,6 +67,8 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.api.gui.EditableComponent;
+import org.jhotdraw.draw.constrainer.Constrainer;
+import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
 import org.jhotdraw.draw.event.FigureAdapter;
