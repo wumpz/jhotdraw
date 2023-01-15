@@ -5,11 +5,12 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.constrainer;
 
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.event.ChangeListener;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 
 /**

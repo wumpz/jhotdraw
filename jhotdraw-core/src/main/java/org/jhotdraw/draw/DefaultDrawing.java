@@ -17,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -217,7 +218,7 @@ public class DefaultDrawing extends AbstractDrawing {
   /** Ensures that the children are sorted in z-order sequence from back to front. */
   private void ensureSorted() {
     if (needsSorting) {
-      Collections.sort(children, FigureLayerComparator.INSTANCE);
+      Collections.sort(children, Comparator.comparing(Figure::getLayer));
       needsSorting = false;
     }
   }

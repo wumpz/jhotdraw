@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.event.*;
-import org.jhotdraw.draw.FigureLayerComparator;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -259,7 +258,7 @@ public abstract class QuadTreeCompositeFigure extends AbstractCompositeFigure {
   /** Ensures that the children are sorted in z-order sequence. */
   private void ensureSorted() {
     if (needsSorting) {
-      Collections.sort(children, FigureLayerComparator.INSTANCE);
+      Collections.sort(children, Comparator.comparing(Figure::getLayer));
       needsSorting = false;
     }
   }

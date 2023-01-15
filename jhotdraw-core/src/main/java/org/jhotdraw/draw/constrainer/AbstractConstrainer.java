@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.constrainer;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

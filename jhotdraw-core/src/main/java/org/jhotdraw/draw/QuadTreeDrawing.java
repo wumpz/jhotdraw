@@ -272,7 +272,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   /** Ensures that the children are sorted in z-order sequence. */
   private void ensureSorted() {
     if (needsSorting) {
-      Collections.sort(children, FigureLayerComparator.INSTANCE);
+      Collections.sort(children, Comparator.comparing(Figure::getLayer));
       needsSorting = false;
     }
   }

@@ -21,7 +21,9 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Set;
 import javax.swing.JComponent;
+import org.jhotdraw.draw.constrainer.Constrainer;
 import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 
