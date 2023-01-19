@@ -59,7 +59,7 @@ public abstract class AbstractViewAction extends AbstractAction {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
           String name = evt.getPropertyName();
-          if ("enabled".equals(name)) {
+          if (ENABLED_PROPERTY.equals(name)) {
             updateEnabled();
           } else if ((name == null && propertyName == null)
               || (name != null && name.equals(propertyName))) {
