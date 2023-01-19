@@ -13,8 +13,8 @@ import java.util.prefs.Preferences;
 import javax.swing.JDialog;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.GridConstrainer;
 import org.jhotdraw.draw.action.AbstractDrawingViewAction;
+import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 

@@ -29,7 +29,7 @@ import org.jhotdraw.app.AbstractView;
 import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.draw.GridConstrainer;
+import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.draw.io.ImageInputFormat;
 import org.jhotdraw.draw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.InputFormat;

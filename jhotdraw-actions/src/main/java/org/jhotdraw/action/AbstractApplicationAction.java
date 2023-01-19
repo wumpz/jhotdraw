@@ -71,6 +71,7 @@ public abstract class AbstractApplicationAction extends AbstractAction implement
       }
     };
   }
+
   private static final String ENABLED_PROPERTY = "enabled";
 
   public Application getApplication() {

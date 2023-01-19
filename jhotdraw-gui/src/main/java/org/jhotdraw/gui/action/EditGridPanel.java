@@ -9,7 +9,7 @@ package org.jhotdraw.gui.action;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.jhotdraw.draw.GridConstrainer;
+import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.util.ResourceBundleUtil;
 
