@@ -37,7 +37,7 @@ import org.jhotdraw.xml.DefaultDOMFactory;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DefaultDOM2DrawFigureFactory extends DefaultDOMFactory {
+public class DefaultDOMDrawFigureFactory extends DefaultDOMFactory {
 
   private static final Object[][] CLASS_TAGS = {
     {DefaultDrawing.class, "drawing"},
@@ -74,7 +74,7 @@ public class DefaultDOM2DrawFigureFactory extends DefaultDOMFactory {
   };
 
   /** Creates a new instance. */
-  public DefaultDOM2DrawFigureFactory() {
+  public DefaultDOMDrawFigureFactory() {
     for (Object[] o : CLASS_TAGS) {
       addStorableClass((String) o[1], (Class) o[0]);
     }
