@@ -34,5 +34,6 @@ public class DOMStorableInputOutputFormatTest {
     @Test
     public void testSomeMethod() {
         InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+        
     }
 }

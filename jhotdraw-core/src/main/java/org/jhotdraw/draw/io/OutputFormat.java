@@ -52,14 +52,6 @@ public interface OutputFormat {
   public String getFileExtension();
 
   /**
-   * Return a JFileChooser accessory that can be used to customize the output format.
-   *
-   * @return A JFileChooser accessory to be used with a javax.swing.JFileChooser Returns null, if no
-   *     accessory is provided for this format.
-   */
-  public JComponent getOutputFormatAccessory();
-
-  /**
    * Writes a Drawing into an URI.
    *
    * @param uri The uri.

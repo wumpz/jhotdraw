@@ -44,14 +44,6 @@ public interface InputFormat {
   public javax.swing.filechooser.FileFilter getFileFilter();
 
   /**
-   * Return a JFileChooser accessory that can be used to customize the input format.
-   *
-   * @return A JFileChooser accessory to be used with a javax.swing.JFileChooser Returns null, if no
-   *     accessory is provided for this format.
-   */
-  public JComponent getInputFormatAccessory();
-
-  /**
    * Reads figures from an URI and replaces the children of the drawing with them.
    *
    * <p>This is a convenience method for calling read(URI,Drawing,true).
@@ -59,7 +51,9 @@ public interface InputFormat {
    * @param uri The URI.
    * @param drawing The drawing.
    */
-  public void read(URI uri, Drawing drawing) throws IOException;
+  public default void read(URI uri, Drawing drawing) throws IOException {
+    read(uri, drawing, true);
+  }
 
   /**
    * Reads figures from an URI and adds them to the specified drawing.
@@ -71,7 +65,9 @@ public interface InputFormat {
    *     contents of the file to the drawing (for example, when the file has been dropped into the
    *     drawing view).
    */
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException;
+  public default void read(URI uri, Drawing drawing, boolean replace) throws IOException {
+    read(uri.toURL().openStream(), drawing, replace);
+  }
 
   /**
    * Reads figures from a file and adds them to the specified drawing.

@@ -80,11 +80,6 @@ public class ImageMapOutputFormat implements OutputFormat {
   }
 
   @Override
-  public JComponent getOutputFormatAccessory() {
-    return null;
-  }
-
-  @Override
   public void write(URI uri, Drawing drawing) throws IOException {
     write(new File(uri), drawing);
   }

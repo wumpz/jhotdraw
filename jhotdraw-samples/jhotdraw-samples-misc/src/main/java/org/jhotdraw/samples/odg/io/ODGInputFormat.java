@@ -13,7 +13,6 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 import java.util.zip.*;
 import javax.swing.*;
@@ -64,21 +63,6 @@ public class ODGInputFormat implements InputFormat {
   @Override
   public javax.swing.filechooser.FileFilter getFileFilter() {
     return new FileNameExtensionFilter("Open Document Drawing (ODG)", "odg");
-  }
-
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
   }
 
   public void read(File file, Drawing drawing) throws IOException {

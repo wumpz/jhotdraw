@@ -214,8 +214,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             public void propertyChange(PropertyChangeEvent evt) {
               if ("fileFilterChanged".equals(evt.getPropertyName())) {
                 InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-                openChooser.setAccessory(
-                    (inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
+                openChooser.setAccessory(null);
               }
             }
           });
@@ -245,8 +244,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
             public void propertyChange(PropertyChangeEvent evt) {
               if ("fileFilterChanged".equals(evt.getPropertyName())) {
                 OutputFormat outputFormat = fileFilterOutputFormatMap.get(evt.getNewValue());
-                saveChooser.setAccessory(
-                    (outputFormat == null) ? null : outputFormat.getOutputFormatAccessory());
+                saveChooser.setAccessory(null);
               }
             }
           });

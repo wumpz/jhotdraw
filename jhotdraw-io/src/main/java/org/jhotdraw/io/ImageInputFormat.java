@@ -113,21 +113,6 @@ public class ImageInputFormat implements InputFormat {
     return fileExtensions.clone();
   }
 
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
-  }
-
   public void read(File file, Drawing drawing, boolean replace) throws IOException {
     ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
     figure.loadImage(file);

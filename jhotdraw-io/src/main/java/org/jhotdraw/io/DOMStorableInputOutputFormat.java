@@ -87,16 +87,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     return new FileNameExtensionFilter(description, fileExtension);
   }
 
-  @Override
-  public JComponent getOutputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
   /**
    * Reads a list of figures into the specified drawing. This method expects that there is a child
    * element named "figures" in the element that represents the drawing.
@@ -144,16 +134,6 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     drawing.write(domo);
     domo.closeElement();
     domo.save(out);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
   }
 
   public void read(File file, Drawing drawing) throws IOException {

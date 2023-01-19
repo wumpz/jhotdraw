@@ -140,16 +140,6 @@ public class SVGInputFormat implements InputFormat {
     this.factory = factory;
   }
 
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
-  }
-
   public void read(File file, Drawing drawing) throws IOException {
     read(file, drawing, true);
   }
@@ -3319,11 +3309,6 @@ public class SVGInputFormat implements InputFormat {
   @Override
   public javax.swing.filechooser.FileFilter getFileFilter() {
     return new FileNameExtensionFilter("Scalable Vector Graphics (SVG)", "svg");
-  }
-
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
   }
 
   @Override
