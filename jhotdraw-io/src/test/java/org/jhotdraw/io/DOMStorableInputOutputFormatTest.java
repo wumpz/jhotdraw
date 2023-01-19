@@ -37,7 +37,7 @@ public class DOMStorableInputOutputFormatTest {
 
   @Test
   public void testRectangle() throws IOException {
-    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOM2DrawFigureFactory());
     Drawing drawing = new DefaultDrawing();
     format.read(
         DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"),
@@ -54,7 +54,7 @@ public class DOMStorableInputOutputFormatTest {
   
   @Test
   public void testSomeFigures() throws IOException {
-    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOM2DrawFigureFactory());
     Drawing drawing = new DefaultDrawing();
     format.read(
         DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"),
