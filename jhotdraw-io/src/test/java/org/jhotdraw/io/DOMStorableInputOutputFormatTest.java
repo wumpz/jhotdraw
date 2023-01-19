@@ -31,20 +31,6 @@ import org.junit.jupiter.api.Test;
  */
 public class DOMStorableInputOutputFormatTest {
 
-  public DOMStorableInputOutputFormatTest() {}
-
-  @BeforeAll
-  public static void setUpClass() {}
-
-  @AfterAll
-  public static void tearDownClass() {}
-
-  @BeforeEach
-  public void setUp() {}
-
-  @AfterEach
-  public void tearDown() {}
-
     @Test
     public void testSomeMethod() {
         InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
