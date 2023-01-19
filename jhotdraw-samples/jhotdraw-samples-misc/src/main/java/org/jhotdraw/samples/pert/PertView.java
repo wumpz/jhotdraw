@@ -26,13 +26,13 @@ import org.jhotdraw.draw.DefaultDrawing;
 import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
-import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 

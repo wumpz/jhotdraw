@@ -10,11 +10,10 @@ package org.jhotdraw.samples.mini;
 import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.figure.RectangleFigure;
-import org.jhotdraw.draw.io.SerializationInputOutputFormat;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.gui.action.ButtonFactory;
+import org.jhotdraw.io.SerializationInputOutputFormat;
 import org.jhotdraw.util.*;
 
 /**

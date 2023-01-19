@@ -18,10 +18,10 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.TextFigure;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
-import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.xml.*;
 
 /**

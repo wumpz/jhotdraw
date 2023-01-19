@@ -29,5 +29,10 @@
 	  <artifactId>jhotdraw-api</artifactId>
 	  <version>${project.version}</version>
 	 </dependency>
+	 <dependency>
+	  <groupId>${project.groupId}</groupId>
+	  <artifactId>jhotdraw-io</artifactId>
+	  <version>${project.version}</version>
+	 </dependency>
 	</dependencies>
 </project>
