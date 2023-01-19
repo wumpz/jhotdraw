@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.io;
 
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -75,7 +74,7 @@ public interface InputFormat {
   public default void read(URI uri, Drawing drawing, boolean replace) throws IOException {
     read(uri.toURL().openStream(), drawing, replace);
   }
-  
+
   public default void read(File file, Drawing drawing) throws IOException {
     read(file, drawing, true);
   }

@@ -19,11 +19,15 @@
 
 package org.jhotdraw.io;
 
+import java.awt.Color;
+import java.io.IOException;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.DefaultDrawing;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,9 +35,37 @@ import org.junit.jupiter.api.Test;
  */
 public class DOMStorableInputOutputFormatTest {
 
-    @Test
-    public void testSomeMethod() {
-        InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
-        
-    }
+  @Test
+  public void testRectangle() throws IOException {
+    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+    Drawing drawing = new DefaultDrawing();
+    format.read(
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"),
+        drawing,
+        true);
+
+    assertThat(drawing.getChildren()).hasSize(1);
+    Figure rect = drawing.getChild(0);
+    assertThat(rect).isInstanceOf(RectangleFigure.class);
+    assertThat(rect.get(AttributeKeys.STROKE_COLOR)).isEqualTo(new Color(255, 0, 0));
+    assertThat(rect.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(3.0);
+    assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(0, 128, 0));
+  }
+  
+  @Test
+  public void testSomeFigures() throws IOException {
+    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+    Drawing drawing = new DefaultDrawing();
+    format.read(
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"),
+        drawing,
+        true);
+
+    assertThat(drawing.getChildren()).hasSize(11);
+    Figure rect = drawing.getChild(0);
+    assertThat(rect).isInstanceOf(RectangleFigure.class);
+    assertThat(rect.get(AttributeKeys.STROKE_COLOR)).isEqualTo(Color.BLACK);
+    assertThat(rect.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(1.0);
+    assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(255, 255, 102));
+  }
 }
