@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw.io;
+package org.jhotdraw.io;
 
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TextHolderFigure;
+import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
@@ -34,7 +35,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * The text input format creates new text holder figures by cloning a prototype figure object and
  * assigning an image to it, which was read from data input. That's the reason why {@code Figure}
  * extends the {@code Cloneable} interface. <br>
- * Prototype: {@link TextHolderFigure}; Client: {@link org.jhotdraw.draw.io.TextInputFormat}. <hr>
+ * Prototype: {@link TextHolderFigure}; Client: {@link org.jhotdraw.io.TextInputFormat}. <hr>
  *
  * @author Werner Randelshofer
  * @version $Id$

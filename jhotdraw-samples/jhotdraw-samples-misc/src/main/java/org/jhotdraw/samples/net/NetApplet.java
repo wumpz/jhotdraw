@@ -19,12 +19,12 @@ import javax.swing.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.ImageFigure;
 import org.jhotdraw.draw.figure.TextFigure;
-import org.jhotdraw.draw.io.DOMStorableInputOutputFormat;
-import org.jhotdraw.draw.io.ImageInputFormat;
-import org.jhotdraw.draw.io.ImageOutputFormat;
+import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.ImageInputFormat;
+import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.draw.io.TextInputFormat;
+import org.jhotdraw.io.TextInputFormat;
 import org.jhotdraw.xml.*;
 
 /**

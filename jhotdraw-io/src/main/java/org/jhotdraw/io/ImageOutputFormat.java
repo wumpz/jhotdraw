@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw.io;
+package org.jhotdraw.io;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
@@ -21,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.datatransfer.ImageTransferable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.io.OutputFormat;
 
 /**
  * An output format for exporting drawings using one of the image formats supported by
