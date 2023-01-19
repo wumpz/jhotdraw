@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.draw.io;
 
-import java.awt.datatransfer.*;
-import java.io.*;
+import java.awt.datatransfer.Transferable;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
-import java.util.*;
-import javax.swing.*;
-import org.jhotdraw.draw.*;
+import java.util.List;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 
 /**

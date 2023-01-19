@@ -113,25 +113,6 @@ public class ImageInputFormat implements InputFormat {
     return fileExtensions.clone();
   }
 
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
-    figure.loadImage(file);
-    figure.setBounds(
-        new Point2D.Double(0, 0),
-        new Point2D.Double(
-            figure.getBufferedImage().getWidth(), figure.getBufferedImage().getHeight()));
-    if (replace) {
-      drawing.removeAllChildren();
-      drawing.set(CANVAS_WIDTH, figure.getBounds().width);
-      drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
-    }
-    drawing.basicAdd(figure);
-  }
-
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
   @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
     ImageHolderFigure figure = createImageHolder(in);

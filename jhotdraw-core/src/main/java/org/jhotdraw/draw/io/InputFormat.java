@@ -7,11 +7,18 @@
  */
 package org.jhotdraw.draw.io;
 
-import java.awt.datatransfer.*;
-import java.io.*;
+
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
-import javax.swing.*;
-import org.jhotdraw.draw.*;
+import javax.swing.filechooser.FileFilter;
+import org.jhotdraw.draw.Drawing;
 
 /**
  * An <em>input format</em> implements a strategy for reading a {@link Drawing} using a specific
@@ -41,7 +48,7 @@ public interface InputFormat {
    *
    * @return FileFilter to be used with a javax.swing.JFileChooser
    */
-  public javax.swing.filechooser.FileFilter getFileFilter();
+  public FileFilter getFileFilter();
 
   /**
    * Reads figures from an URI and replaces the children of the drawing with them.
@@ -68,9 +75,19 @@ public interface InputFormat {
   public default void read(URI uri, Drawing drawing, boolean replace) throws IOException {
     read(uri.toURL().openStream(), drawing, replace);
   }
+  
+  public default void read(File file, Drawing drawing) throws IOException {
+    read(file, drawing, true);
+  }
+
+  public default void read(File file, Drawing drawing, boolean replace) throws IOException {
+    try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
+      read(in, drawing, replace);
+    }
+  }
 
   /**
-   * Reads figures from a file and adds them to the specified drawing.
+   * Reads figures from an InputStream and adds them to the specified drawing.
    *
    * @param in The input stream.
    * @param drawing The drawing.

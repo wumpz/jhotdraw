@@ -134,17 +134,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     drawing.write(domo);
     domo.closeElement();
     domo.save(out);
-  }
-
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
-      read(in, drawing, replace);
-    }
-  }
+  }  
 
   @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {

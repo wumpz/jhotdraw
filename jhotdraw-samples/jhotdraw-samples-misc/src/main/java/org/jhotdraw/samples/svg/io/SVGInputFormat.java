@@ -140,10 +140,6 @@ public class SVGInputFormat implements InputFormat {
     this.factory = factory;
   }
 
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
   public void read(File file, Drawing drawing, boolean replace) throws IOException {
     this.url = file.toURI().toURL();
     BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));

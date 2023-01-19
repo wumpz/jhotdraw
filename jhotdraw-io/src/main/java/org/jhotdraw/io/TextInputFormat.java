@@ -93,16 +93,6 @@ public class TextInputFormat implements InputFormat {
     return fileExtension;
   }
 
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    try (InputStream in = new FileInputStream(file)) {
-      read(in, drawing, replace);
-    }
-  }
-
   @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
     if (replace) {
