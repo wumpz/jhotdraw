@@ -58,7 +58,7 @@ public class DefaultDOMStorableSample {
     try {
       // Set up the DefaultDOMFactory
       DefaultDOMFactory factory = new DefaultDOMFactory();
-      factory.addStorableClass("MyElementName", MyObject.class);
+      factory.register("MyElementName", MyObject.class);
       // Create a DOMStorable object
       MyObject obj = new MyObject("Hello World");
       System.out.println("The name of the original object is:" + obj.getName());

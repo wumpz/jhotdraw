@@ -9,7 +9,6 @@ package org.jhotdraw.xml;
 
 import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
@@ -283,14 +282,8 @@ public class JavaxDOMInput implements DOMInput {
       if (id != null) {
         idobjects.put(id, o);
       }
-      LOG.warning("internal element read from dom is now disabled");
-      //      if (o instanceof DOMStorable) {
-      //        ((DOMStorable) o).read(this);
-      //      }
     }
     closeElement();
     return o;
   }
-
-  private static final Logger LOG = Logger.getLogger(JavaxDOMInput.class.getName());
 }

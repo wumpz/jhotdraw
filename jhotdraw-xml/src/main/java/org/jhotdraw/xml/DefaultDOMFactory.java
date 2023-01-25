@@ -53,7 +53,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
    * register a dom tag processor assuming the the instance of this prototype is able to write /
    * read itself.
    */
-  public <T> void register(String tagName, Class<T> prototype) {
+  public <T extends DOMStorable> void register(String tagName, Class<T> prototype) {
     register(
         tagName,
         prototype,
