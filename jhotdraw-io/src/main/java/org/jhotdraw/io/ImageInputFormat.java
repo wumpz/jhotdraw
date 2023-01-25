@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;

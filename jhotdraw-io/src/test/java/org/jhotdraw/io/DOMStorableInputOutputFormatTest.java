@@ -19,9 +19,10 @@
 
 package org.jhotdraw.io;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.awt.Color;
 import java.io.IOException;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DefaultDrawing;
 import org.jhotdraw.draw.Drawing;
@@ -37,7 +38,7 @@ public class DOMStorableInputOutputFormatTest {
 
   @Test
   public void testRectangle() throws IOException {
-    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+    InputFormat format = new DOMStorableInputOutputFormat(new DOMDefaultDrawFigureFactory());
     Drawing drawing = new DefaultDrawing();
     format.read(
         DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"),
@@ -51,15 +52,13 @@ public class DOMStorableInputOutputFormatTest {
     assertThat(rect.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(3.0);
     assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(0, 128, 0));
   }
-  
+
   @Test
   public void testSomeFigures() throws IOException {
-    InputFormat format = new DOMStorableInputOutputFormat(new DefaultDOMDrawFigureFactory());
+    InputFormat format = new DOMStorableInputOutputFormat(new DOMDefaultDrawFigureFactory());
     Drawing drawing = new DefaultDrawing();
     format.read(
-        DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"),
-        drawing,
-        true);
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"), drawing, true);
 
     assertThat(drawing.getChildren()).hasSize(11);
     Figure rect = drawing.getChild(0);

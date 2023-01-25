@@ -10,7 +10,6 @@ package org.jhotdraw.io;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

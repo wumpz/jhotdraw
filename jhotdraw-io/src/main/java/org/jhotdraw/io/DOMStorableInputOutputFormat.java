@@ -15,7 +15,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.JComponent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.datatransfer.InputStreamTransferable;
 import org.jhotdraw.draw.*;
@@ -134,7 +133,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
     drawing.write(domo);
     domo.closeElement();
     domo.save(out);
-  }  
+  }
 
   @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
