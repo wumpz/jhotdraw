@@ -266,7 +266,6 @@ public abstract class QuadTreeCompositeFigure extends AbstractCompositeFigure {
   public void setCanvasSize(Dimension2DDouble newValue) {
     Dimension2DDouble oldValue = canvasSize;
     canvasSize = newValue;
-    firePropertyChange("canvasSize", oldValue, newValue);
   }
 
   public Dimension2DDouble getCanvasSize() {

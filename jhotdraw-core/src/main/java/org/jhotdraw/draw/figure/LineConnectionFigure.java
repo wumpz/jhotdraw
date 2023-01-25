@@ -482,7 +482,6 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
   public void setLiner(Liner newValue) {
     Liner oldValue = liner;
     this.liner = newValue;
-    firePropertyChange(LINER_PROPERTY, oldValue, newValue);
   }
 
   @Override

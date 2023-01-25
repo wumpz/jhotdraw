@@ -117,14 +117,12 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   public void setArcWidth(double newValue) {
     double oldValue = roundrect.arcwidth;
     roundrect.arcwidth = newValue;
-    firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
   }
 
   /** Sets the arc height. */
   public void setArcHeight(double newValue) {
     double oldValue = roundrect.archeight;
     roundrect.archeight = newValue;
-    firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
   }
 
   /** Convenience method for setting both the arc width and the arc height. */

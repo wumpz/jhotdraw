@@ -15,7 +15,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingView;
@@ -36,7 +35,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractFigure extends AbstractBean implements Figure {
+public abstract class AbstractFigure implements Figure, Cloneable {
 
   private static final long serialVersionUID = 1L;
   protected EventListenerList listenerList = new EventListenerList();
@@ -298,7 +297,12 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   */
   @Override
   public AbstractFigure clone() {
-    AbstractFigure that = (AbstractFigure) super.clone();
+    AbstractFigure that;
+    try {
+      that = (AbstractFigure) super.clone();
+    } catch (CloneNotSupportedException ex) {
+      throw new InternalError("clone failed", ex);
+    }
     that.listenerList = new EventListenerList();
     that.drawing = null; // Clones need to be explictly added to a drawing
     return that;
@@ -482,7 +486,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setConnectable(boolean newValue) {
     boolean oldValue = isConnectable;
     isConnectable = newValue;
-    firePropertyChange(CONNECTABLE_PROPERTY, oldValue, newValue);
   }
 
   /**
@@ -496,7 +499,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setSelectable(boolean newValue) {
     boolean oldValue = isSelectable;
     isSelectable = newValue;
-    firePropertyChange(SELECTABLE_PROPERTY, oldValue, newValue);
   }
 
   /** Checks whether this figure is removable. By default {@code AbstractFigure} can be removed. */
@@ -508,7 +510,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setRemovable(boolean newValue) {
     boolean oldValue = isRemovable;
     isRemovable = newValue;
-    firePropertyChange(REMOVABLE_PROPERTY, oldValue, newValue);
   }
 
   /**
@@ -523,7 +524,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setTransformable(boolean newValue) {
     boolean oldValue = isTransformable;
     isTransformable = newValue;
-    firePropertyChange(TRANSFORMABLE_PROPERTY, oldValue, newValue);
   }
 
   /** Checks whether this figure is visible. By default {@code AbstractFigure} is visible. */

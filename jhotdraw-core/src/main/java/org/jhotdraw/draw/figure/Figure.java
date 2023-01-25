@@ -10,7 +10,6 @@ package org.jhotdraw.draw.figure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -493,19 +492,19 @@ public interface Figure extends Cloneable, Serializable {
   /** Removes a listener for FigureEvent's. */
   public void removeFigureListener(FigureListener l);
 
-  /**
-   * Adds a {@code PropertyChangeListener} which can optionally be wrapped into a {@code
-   * WeakPropertyChangeListener}.
-   *
-   * @param listener
-   */
-  public void addPropertyChangeListener(PropertyChangeListener listener);
-
-  /**
-   * Removes a {@code PropertyChangeListener}. If the listener was added wrapped into a {@code
-   * WeakPropertyChangeListener}, the {@code WeakPropertyChangeListener} is removed.
-   *
-   * @param listener
-   */
-  public void removePropertyChangeListener(PropertyChangeListener listener);
+  //  /**
+  //   * Adds a {@code PropertyChangeListener} which can optionally be wrapped into a {@code
+  //   * WeakPropertyChangeListener}.
+  //   *
+  //   * @param listener
+  //   */
+  //  public void addPropertyChangeListener(PropertyChangeListener listener);
+  //
+  //  /**
+  //   * Removes a {@code PropertyChangeListener}. If the listener was added wrapped into a {@code
+  //   * WeakPropertyChangeListener}, the {@code WeakPropertyChangeListener} is removed.
+  //   *
+  //   * @param listener
+  //   */
+  //  public void removePropertyChangeListener(PropertyChangeListener listener);
 }

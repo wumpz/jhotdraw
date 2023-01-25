@@ -10,7 +10,6 @@ package org.jhotdraw.draw.constrainer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-import org.jhotdraw.beans.AbstractBean;
 
 /**
  * This abstract class can be extended to implement a {@link Constrainer}.
@@ -18,7 +17,7 @@ import org.jhotdraw.beans.AbstractBean;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractConstrainer extends AbstractBean implements Constrainer {
+public abstract class AbstractConstrainer implements Constrainer {
 
   private static final long serialVersionUID = 1L;
   /** The listeners waiting for model changes. */
@@ -63,7 +62,12 @@ public abstract class AbstractConstrainer extends AbstractBean implements Constr
 
   @Override
   public AbstractConstrainer clone() {
-    AbstractConstrainer that = (AbstractConstrainer) super.clone();
+    AbstractConstrainer that;
+    try {
+      that = (AbstractConstrainer) super.clone();
+    } catch (CloneNotSupportedException ex) {
+      throw new InternalError("unable to clone", ex);
+    }
     that.listenerList = new EventListenerList();
     return that;
   }
