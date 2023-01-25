@@ -47,7 +47,7 @@ public class PertFactory extends DefaultDOMFactory {
   /** Creates a new instance. */
   public PertFactory() {
     for (Object[] o : CLASS_TAGS) {
-      addStorableClass((String) o[1], (Class) o[0]);
+      register((String) o[1], (Class) o[0]);
     }
   }
 }
