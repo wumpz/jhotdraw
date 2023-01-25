@@ -73,25 +73,6 @@ public class DOMStorableOutputFormat implements OutputFormat {
     return new FileNameExtensionFilter(description, fileExtension);
   }
 
-  /**
-   * Reads a list of figures into the specified drawing. This method expects that there is a child
-   * element named "figures" in the element that represents the drawing.
-   */
-  protected void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures)
-      throws IOException {
-    JavaxDOMInput domi = new JavaxDOMInput(factory, in);
-    domi.openElement(factory.getName(drawing));
-    domi.openElement("figures", 0);
-    figures.clear();
-    for (int i = 0, n = domi.getElementCount(); i < n; i++) {
-      Figure f = (Figure) domi.readObject();
-      figures.add(f);
-    }
-    domi.closeElement();
-    domi.closeElement();
-    drawing.basicAddAll(drawing.getChildCount(), figures);
-  }
-
   @Override
   public String getFileExtension() {
     return fileExtension;
@@ -112,7 +93,12 @@ public class DOMStorableOutputFormat implements OutputFormat {
   public void write(OutputStream out, Drawing drawing) throws IOException {
     JavaxDOMOutput domo = new JavaxDOMOutput(factory);
     domo.openElement(factory.getName(drawing));
-    drawing.write(domo);
+//    drawing.write(domo);
+    domo.openElement("figures");
+    for (Figure f : drawing.getChildren()) {
+      domo.writeObject(f);
+    }
+    domo.closeElement();
     domo.closeElement();
     domo.save(out);
   }

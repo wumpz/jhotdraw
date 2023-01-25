@@ -101,8 +101,7 @@ public class DOMStorableInputFormat implements InputFormat {
       drawing.removeAllChildren();
     }
     for (int i = 0; i < domi.getElementCount(); i++) {
-      Figure f;
-      drawing.add(f = (Figure) domi.readObject(i));
+      drawing.add((Figure) domi.readObject(i));
     }
     domi.closeElement();
     domi.closeElement();
@@ -116,8 +115,7 @@ public class DOMStorableInputFormat implements InputFormat {
     JavaxDOMInput domi = new JavaxDOMInput(factory, in);
     domi.openElement("Drawing-Clip");
     for (int i = 0, n = domi.getElementCount(); i < n; i++) {
-      Figure f = (Figure) domi.readObject(i);
-      figures.add(f);
+      figures.add((Figure) domi.readObject(i));
     }
     domi.closeElement();
     if (replace) {

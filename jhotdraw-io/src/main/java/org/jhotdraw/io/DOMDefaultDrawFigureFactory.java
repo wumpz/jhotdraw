@@ -38,34 +38,6 @@ import org.jhotdraw.xml.DefaultDOMFactory;
  * @version $Id$
  */
 public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
-
-  private static final Object[][] CLASS_TAGS = {
-    {DefaultDrawing.class, "drawing"},
-    {QuadTreeDrawing.class, "drawing"},
-    {DiamondFigure.class, "diamond"},
-    {TriangleFigure.class, "triangle"},
-    {BezierFigure.class, "bezier"},
-    {RectangleFigure.class, "r"},
-    {RoundRectangleFigure.class, "rr"},
-    {LineFigure.class, "l"},
-    {BezierFigure.class, "b"},
-    {LineConnectionFigure.class, "lnk"},
-    {EllipseFigure.class, "e"},
-    {TextFigure.class, "t"},
-    {TextAreaFigure.class, "ta"},
-    {ImageFigure.class, "image"},
-    {GroupFigure.class, "g"},
-    {ArrowTip.class, "arrowTip"},
-    {ChopRectangleConnector.class, "rConnector"},
-    {ChopEllipseConnector.class, "ellipseConnector"},
-    {ChopRoundRectangleConnector.class, "rrConnector"},
-    {ChopTriangleConnector.class, "triangleConnector"},
-    {ChopDiamondConnector.class, "diamondConnector"},
-    {ChopBezierConnector.class, "bezierConnector"},
-    {ElbowLiner.class, "elbowLiner"},
-    {CurvedLiner.class, "curvedLiner"}
-  };
-
   private static final Object[][] ENUM_TAGS = {
     {AttributeKeys.StrokePlacement.class, "strokePlacement"},
     {AttributeKeys.StrokeType.class, "strokeType"},
@@ -75,9 +47,31 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
 
   /** Creates a new instance. */
   public DOMDefaultDrawFigureFactory() {
-    for (Object[] o : CLASS_TAGS) {
-      addStorableClass((String) o[1], (Class) o[0]);
-    }
+    register("drawing", DefaultDrawing.class, null, null);
+    register("drawing", QuadTreeDrawing.class, null, null);
+    register("diamond", DiamondFigure.class);
+    register("triangle", TriangleFigure.class);
+    register("bezier", BezierFigure.class);
+    register("r", RectangleFigure.class);
+    register("rr", RoundRectangleFigure.class);
+    register("l", LineFigure.class);
+    register("b", BezierFigure.class);
+    register("lnk", LineConnectionFigure.class);
+    register("e", EllipseFigure.class);
+    register("t", TextFigure.class);
+    register("ta", TextAreaFigure.class);
+    register("image", ImageFigure.class);
+    register("g", GroupFigure.class);
+    register("arrowTip", ArrowTip.class);
+    register("rConnector", ChopRectangleConnector.class);
+    register("ellipseConnector", ChopEllipseConnector.class);
+    register("rrConnector", ChopRoundRectangleConnector.class);
+    register("triangleConnector", ChopTriangleConnector.class);
+    register("diamondConnector", ChopDiamondConnector.class);
+    register("bezierConnector", ChopBezierConnector.class);
+    register("elbowLiner", ElbowLiner.class);
+    register("curvedLiner", CurvedLiner.class);
+
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }

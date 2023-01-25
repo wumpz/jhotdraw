@@ -15,17 +15,6 @@ import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 
-/**
- * DOMOutput.
- *
- * <p>Design pattern:<br>
- * Name: Adapter.<br>
- * Role: Adapter.<br>
- * Partners: {@link org.w3c.dom.Document} as Adaptee.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
 public class JavaxDOMOutput implements DOMOutput {
 
   /** The doctype of the XML document. */
@@ -242,7 +231,7 @@ public class JavaxDOMOutput implements DOMOutput {
       prototypes = new HashMap<String, Object>();
     }
     if (!prototypes.containsKey(current.getNodeName())) {
-      prototypes.put(current.getNodeName(), factory.create(current.getNodeName()));
+      prototypes.put(current.getNodeName(), factory.createPrototype(current.getNodeName()));
     }
     return prototypes.get(current.getNodeName());
   }

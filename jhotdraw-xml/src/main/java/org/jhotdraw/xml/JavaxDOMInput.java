@@ -9,23 +9,13 @@ package org.jhotdraw.xml;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/**
- * DOMInput.
- *
- * <p>Design pattern:<br>
- * Name: Adapter.<br>
- * Role: Adapter.<br>
- * Partners: {@link org.w3c.dom.Document} as Adaptee.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
 public class JavaxDOMInput implements DOMInput {
 
   /**
@@ -293,11 +283,14 @@ public class JavaxDOMInput implements DOMInput {
       if (id != null) {
         idobjects.put(id, o);
       }
-      if (o instanceof DOMStorable) {
-        ((DOMStorable) o).read(this);
-      }
+      LOG.warning("internal element read from dom is now disabled");
+      //      if (o instanceof DOMStorable) {
+      //        ((DOMStorable) o).read(this);
+      //      }
     }
     closeElement();
     return o;
   }
+
+  private static final Logger LOG = Logger.getLogger(JavaxDOMInput.class.getName());
 }
