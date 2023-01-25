@@ -21,7 +21,8 @@ import org.jhotdraw.draw.figure.ImageFigure;
 import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageInputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.TextInputFormat;
@@ -157,11 +158,10 @@ public class NetApplet extends JApplet {
   private void initDrawing(Drawing d) {
     d.setInputFormats((java.util.List<InputFormat>) Collections.EMPTY_LIST);
     d.setOutputFormats((java.util.List<OutputFormat>) Collections.EMPTY_LIST);
-    DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(new NetFactory());
-    d.addInputFormat(ioFormat);
+    d.addInputFormat(new DOMStorableInputFormat(new NetFactory()));
     d.addInputFormat(new ImageInputFormat(new ImageFigure()));
     d.addInputFormat(new TextInputFormat(new TextFigure()));
-    d.addOutputFormat(ioFormat);
+    d.addOutputFormat(new DOMStorableOutputFormat(new NetFactory()));
     d.addOutputFormat(new ImageOutputFormat());
   }
 

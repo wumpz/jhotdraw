@@ -34,12 +34,10 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jhotdraw-actions</artifactId>
             <version>${project.version}</version>
         </dependency>
-                --> 
     </dependencies>
 </project>

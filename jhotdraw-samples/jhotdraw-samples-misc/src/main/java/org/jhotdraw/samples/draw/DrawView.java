@@ -33,7 +33,8 @@ import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageInputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.TextInputFormat;
@@ -43,6 +44,8 @@ import org.jhotdraw.util.*;
 
 /**
  * Provides a view on a drawing.
+ *
+ * <p>
  *
  * <p>See {@link org.jhotdraw.api.app.View} interface on how this view interacts with an
  * application.
@@ -101,16 +104,14 @@ public class DrawView extends AbstractView {
   /** Creates a new Drawing for this view. */
   protected Drawing createDrawing() {
     Drawing drawing = new QuadTreeDrawing();
-    DOMStorableInputOutputFormat ioFormat =
-        new DOMStorableInputOutputFormat(new DrawFigureFactory());
-    drawing.addInputFormat(ioFormat);
+    drawing.addInputFormat(new DOMStorableInputFormat(new DrawFigureFactory()));
     ImageFigure prototype = new ImageFigure();
     drawing.addInputFormat(new ImageInputFormat(prototype));
     drawing.addInputFormat(new TextInputFormat(new TextFigure()));
     TextAreaFigure taf = new TextAreaFigure();
     taf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(60, 40));
     drawing.addInputFormat(new TextInputFormat(taf));
-    drawing.addOutputFormat(ioFormat);
+    drawing.addOutputFormat(new DOMStorableOutputFormat(new DrawFigureFactory()));
     drawing.addOutputFormat(new ImageOutputFormat());
     return drawing;
   }

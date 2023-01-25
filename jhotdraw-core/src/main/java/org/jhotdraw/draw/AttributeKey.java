@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import java.io.Serializable;
 import java.util.Map;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
@@ -32,7 +33,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class AttributeKey<T> {
+public class AttributeKey<T> implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /** Holds a String representation of the attribute key. */

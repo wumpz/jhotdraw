@@ -13,7 +13,8 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.io.SerializationInputOutputFormat;
+import org.jhotdraw.io.SerializationInputFormat;
+import org.jhotdraw.io.SerializationOutputFormat;
 import org.jhotdraw.util.*;
 
 /**
@@ -92,8 +93,8 @@ public class MultiEditorSample {
     // Create a default drawing with
     // input/output formats for basic clipboard support.
     DefaultDrawing drawing = new DefaultDrawing();
-    drawing.addInputFormat(new SerializationInputOutputFormat());
-    drawing.addOutputFormat(new SerializationInputOutputFormat());
+    drawing.addInputFormat(new SerializationInputFormat());
+    drawing.addOutputFormat(new SerializationOutputFormat());
     return drawing;
   }
 }

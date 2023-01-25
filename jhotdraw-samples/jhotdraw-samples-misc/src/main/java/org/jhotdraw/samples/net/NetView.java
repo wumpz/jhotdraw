@@ -30,7 +30,8 @@ import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.TextInputFormat;
 import org.jhotdraw.samples.net.figures.NodeFigure;
@@ -122,10 +123,9 @@ public class NetView extends AbstractView {
   /** Creates a new Drawing for this view. */
   protected Drawing createDrawing() {
     DefaultDrawing drawing = new DefaultDrawing();
-    DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(new NetFactory());
-    drawing.addInputFormat(ioFormat);
+    drawing.addInputFormat(new DOMStorableInputFormat(new NetFactory()));
     drawing.addInputFormat(new TextInputFormat(new NodeFigure()));
-    drawing.addOutputFormat(ioFormat);
+    drawing.addOutputFormat(new DOMStorableOutputFormat(new NetFactory()));
     drawing.addOutputFormat(new ImageOutputFormat());
     return drawing;
   }

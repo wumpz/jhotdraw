@@ -31,7 +31,8 @@ import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
@@ -97,12 +98,11 @@ public class PertView extends AbstractView {
   /** Creates a new Drawing for this view. */
   protected Drawing createDrawing() {
     DefaultDrawing drawing = new DefaultDrawing();
-    DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(new PertFactory());
     LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
-    inputFormats.add(ioFormat);
+    inputFormats.add(new DOMStorableInputFormat(new PertFactory()));
     drawing.setInputFormats(inputFormats);
     LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-    outputFormats.add(ioFormat);
+    outputFormats.add(new DOMStorableOutputFormat(new PertFactory()));
     outputFormats.add(new ImageOutputFormat());
     drawing.setOutputFormats(outputFormats);
     return drawing;

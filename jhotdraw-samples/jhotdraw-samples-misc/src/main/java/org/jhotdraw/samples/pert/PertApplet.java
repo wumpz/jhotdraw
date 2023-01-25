@@ -20,7 +20,8 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.xml.*;
 
@@ -154,9 +155,9 @@ public class PertApplet extends JApplet {
   private void initDrawing(Drawing d) {
     LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
     LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
-    DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(new PertFactory());
-    inputFormats.add(ioFormat);
-    outputFormats.add(ioFormat);
+    DOMStorableOutputFormat ioFormat = new DOMStorableOutputFormat(new PertFactory());
+    inputFormats.add(new DOMStorableInputFormat(new PertFactory()));
+    outputFormats.add(new DOMStorableOutputFormat(new PertFactory()));
     outputFormats.add(new ImageOutputFormat());
     d.setInputFormats(inputFormats);
     d.setOutputFormats(outputFormats);
