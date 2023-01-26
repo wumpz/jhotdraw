@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<drawing>
+    <figures>
+        <r h="77" id="13" w="91" x="226" y="231">
+            <a>
+                <fillColor>
+                    <color id="6" rgba="#ff6666ff"/>
+                </fillColor>
+                <textColor>
+                    <color id="14" rgba="#ff000000"/>
+                </textColor>
+            </a>
+        </r>
+    </figures>
+</drawing>

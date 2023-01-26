@@ -117,4 +117,26 @@ public class DOMStorableInputOutputFormatTest {
         .ignoreWhitespace()
         .areIdentical();
   }
+
+  /**
+   * This new implementation skipped color entries like <color id="14" rgba="#ff000000"/>.
+   *
+   * <p>Indeed this is correct since this is the standard value for this data item and skipping it
+   * would result in the same output.
+   */
+  @Test
+  public void testProblemAttributeRectangle() throws IOException {
+    InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());
+    Drawing drawing = new DefaultDrawing();
+    format.read(
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream("problem_figure_attributes.xml"),
+        drawing,
+        true);
+
+    assertThat(drawing.getChildren()).hasSize(1);
+    Figure rect = drawing.getChild(0);
+    assertThat(rect).isInstanceOf(RectangleFigure.class);
+    assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(102, 102, 255));
+    assertThat(rect.get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
+  }
 }

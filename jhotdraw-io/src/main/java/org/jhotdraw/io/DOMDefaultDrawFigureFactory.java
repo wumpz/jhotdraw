@@ -52,19 +52,31 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   public DOMDefaultDrawFigureFactory() {
     register("drawing", DefaultDrawing.class, null, null);
     register("drawing", QuadTreeDrawing.class, null, null);
-    register("diamond", DiamondFigure.class);
-    register("triangle", TriangleFigure.class);
+    register("diamond", DiamondFigure.class,
+        DOMDefaultDrawFigureFactory::readBaseData,
+        DOMDefaultDrawFigureFactory::writeBaseData);
+    register("triangle", TriangleFigure.class,
+        DOMDefaultDrawFigureFactory::readBaseData,
+        DOMDefaultDrawFigureFactory::writeBaseData);
     register("bezier", BezierFigure.class);
     register(
         "r",
         RectangleFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
-    register("rr", RoundRectangleFigure.class);
+    register(
+        "rr",
+        RoundRectangleFigure.class,
+        DOMDefaultDrawFigureFactory::readRoundRectangle,
+        DOMDefaultDrawFigureFactory::writeRoundRectangle);
     register("l", LineFigure.class);
     register("b", BezierFigure.class);
     register("lnk", LineConnectionFigure.class);
-    register("e", EllipseFigure.class);
+    register(
+        "e",
+        EllipseFigure.class,
+        DOMDefaultDrawFigureFactory::readBaseData,
+        DOMDefaultDrawFigureFactory::writeBaseData);
     register("t", TextFigure.class);
     register("ta", TextAreaFigure.class);
     register("image", ImageFigure.class);
@@ -82,6 +94,21 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
+  }
+
+  private static void readRoundRectangle(RoundRectangleFigure figure, DOMInput domInput)
+      throws IOException {
+    readBaseData(figure, domInput);
+    figure.setArc(
+        domInput.getAttribute("arcWidth", RoundRectangleFigure.DEFAULT_ARC),
+        domInput.getAttribute("arcHeight", RoundRectangleFigure.DEFAULT_ARC));
+  }
+
+  private static void writeRoundRectangle(RoundRectangleFigure figure, DOMOutput domOutput)
+      throws IOException {
+    writeBaseData(figure, domOutput);
+    domOutput.addAttribute("arcWidth", figure.getArcWidth());
+    domOutput.addAttribute("arcHeight", figure.getArcHeight());
   }
 
   private static void readBaseData(Figure figure, DOMInput domInput) throws IOException {

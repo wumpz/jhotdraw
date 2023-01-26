@@ -41,7 +41,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 
   protected RoundRectangle2D.Double roundrect;
-  protected static final double DEFAULT_ARC = 20;
+  public static final double DEFAULT_ARC = 20;
 
   /** Creates a new instance. */
   public RoundRectangleFigure() {
