@@ -181,5 +181,6 @@
         <module>jhotdraw-app</module>
         <module>jhotdraw-datatransfer</module>
         <module>jhotdraw-actions</module>
+        <module>jhotdraw-io</module>
     </modules>
 </project>

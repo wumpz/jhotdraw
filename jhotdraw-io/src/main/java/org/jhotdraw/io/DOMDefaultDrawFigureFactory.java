@@ -52,10 +52,14 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   public DOMDefaultDrawFigureFactory() {
     register("drawing", DefaultDrawing.class, null, null);
     register("drawing", QuadTreeDrawing.class, null, null);
-    register("diamond", DiamondFigure.class,
+    register(
+        "diamond",
+        DiamondFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
-    register("triangle", TriangleFigure.class,
+    register(
+        "triangle",
+        TriangleFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
     register("bezier", BezierFigure.class);
