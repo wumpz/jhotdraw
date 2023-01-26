@@ -87,7 +87,9 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         TextFigure.class,
         DOMDefaultDrawFigureFactory::readText,
         DOMDefaultDrawFigureFactory::writeText);
-    register("ta", TextAreaFigure.class);
+    register("ta", TextAreaFigure.class,
+        DOMDefaultDrawFigureFactory::readBaseData,
+        DOMDefaultDrawFigureFactory::writeBaseData);
     register("image", ImageFigure.class);
     register("g", GroupFigure.class);
     register("arrowTip", ArrowTip.class);

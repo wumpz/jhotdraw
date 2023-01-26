@@ -91,13 +91,10 @@ public class DOMStorableInputOutputFormatTest {
     outFormat.write(
         new FileOutputStream("target/test-output/green_rectangle_roundtrip.xml"), drawing);
 
-    assertEquals(
-        outputFile.length(),
-        Files.size(
-            Paths.get(
-                DOMStorableInputOutputFormatTest.class
-                    .getResource("green_rectangle.xml")
-                    .toURI())));
+    XmlAssert.assertThat(DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"))
+        .and(outputFile)
+        .ignoreWhitespace()
+        .areIdentical();   
   }
 
   @Test
