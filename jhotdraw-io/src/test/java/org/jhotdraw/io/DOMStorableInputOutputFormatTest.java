@@ -37,6 +37,7 @@ import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.assertj.XmlAssert;
 
 /**
  * @author tw
@@ -90,8 +91,13 @@ public class DOMStorableInputOutputFormatTest {
     outFormat.write(
         new FileOutputStream("target/test-output/green_rectangle_roundtrip.xml"), drawing);
 
-    assertEquals(outputFile.length(), Files.size(
-            Paths.get(DOMStorableInputOutputFormatTest.class.getResource("green_rectangle.xml").toURI())));
+    assertEquals(
+        outputFile.length(),
+        Files.size(
+            Paths.get(
+                DOMStorableInputOutputFormatTest.class
+                    .getResource("green_rectangle.xml")
+                    .toURI())));
   }
 
   @Test
@@ -106,10 +112,9 @@ public class DOMStorableInputOutputFormatTest {
     outputFile.getParentFile().mkdirs();
     outFormat.write(new FileOutputStream("target/test-output/figure_roundtrip.xml"), drawing);
 
-    // this resorting of entries of the drawing is strange
-    assertEquals(
-        outputFile.length(),
-        Files.size(
-            Paths.get(DOMStorableInputOutputFormatTest.class.getResource("figures.xml").toURI())));
+    XmlAssert.assertThat(DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"))
+        .and(outputFile)
+        .ignoreWhitespace()
+        .areIdentical();
   }
 }

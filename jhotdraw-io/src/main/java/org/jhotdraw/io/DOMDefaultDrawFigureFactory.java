@@ -37,7 +37,6 @@ import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 import org.jhotdraw.xml.DefaultDOMFactory;
 
 /** DOM based figure factory */
