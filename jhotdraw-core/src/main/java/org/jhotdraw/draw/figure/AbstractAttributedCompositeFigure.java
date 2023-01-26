@@ -50,7 +50,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
   }
 
-  public <T> boolean isAttributeEnabled(AttributeKey<?> key) {
+  @Override
+  public boolean isAttributeEnabled(AttributeKey<?> key) {
     return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
   }
 

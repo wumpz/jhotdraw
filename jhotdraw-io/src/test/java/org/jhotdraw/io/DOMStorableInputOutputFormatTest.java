@@ -20,11 +20,15 @@
 package org.jhotdraw.io;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DefaultDrawing;
 import org.jhotdraw.draw.Drawing;
@@ -32,7 +36,6 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -71,9 +74,9 @@ public class DOMStorableInputOutputFormatTest {
     assertThat(rect.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(1.0);
     assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(255, 255, 102));
   }
-  
+
   @Test
-  public void testRectangleInOut() throws IOException {
+  public void testRectangleInOut() throws IOException, URISyntaxException {
     InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());
     Drawing drawing = new DefaultDrawing();
     format.read(
@@ -84,8 +87,29 @@ public class DOMStorableInputOutputFormatTest {
     OutputFormat outFormat = new DOMStorableOutputFormat(new DOMDefaultDrawFigureFactory());
     File outputFile = new File("target/test-output/green_rectangle_roundtrip.xml");
     outputFile.getParentFile().mkdirs();
-    outFormat.write(new FileOutputStream("target/test-output/green_rectangle_roundtrip.xml"), drawing);
+    outFormat.write(
+        new FileOutputStream("target/test-output/green_rectangle_roundtrip.xml"), drawing);
 
-    assertEquals(outputFile.length(), 311);
+    assertEquals(outputFile.length(), Files.size(
+            Paths.get(DOMStorableInputOutputFormatTest.class.getResource("green_rectangle.xml").toURI())));
+  }
+
+  @Test
+  public void testSomeFiguresInOut() throws IOException, URISyntaxException {
+    InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());
+    Drawing drawing = new DefaultDrawing();
+    format.read(
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"), drawing, true);
+
+    OutputFormat outFormat = new DOMStorableOutputFormat(new DOMDefaultDrawFigureFactory());
+    File outputFile = new File("target/test-output/figure_roundtrip.xml");
+    outputFile.getParentFile().mkdirs();
+    outFormat.write(new FileOutputStream("target/test-output/figure_roundtrip.xml"), drawing);
+
+    // this resorting of entries of the drawing is strange
+    assertEquals(
+        outputFile.length(),
+        Files.size(
+            Paths.get(DOMStorableInputOutputFormatTest.class.getResource("figures.xml").toURI())));
   }
 }

@@ -113,6 +113,10 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
 
   @Override
   public void write(DOMOutput out, Object o) throws IOException {
+    if (o == null) {
+      super.write(out, o);
+      return;
+    }
     ClassRegistration reg = REGISTRATION.get(o.getClass().getName());
     if (reg != null) {
       reg.write().accept(o, out);
@@ -143,7 +147,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
   @Override
   public String getName(Object o) {
     if (o == null) {
-      return null;
+      return super.getName(o);
     }
     return Optional.ofNullable(REGISTRATION.get(o.getClass().getName()))
         .map(reg -> reg.tagName())

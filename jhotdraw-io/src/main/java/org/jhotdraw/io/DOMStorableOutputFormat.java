@@ -11,8 +11,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.io.*;
 import java.net.URI;
-import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.datatransfer.InputStreamTransferable;
@@ -93,7 +91,7 @@ public class DOMStorableOutputFormat implements OutputFormat {
   public void write(OutputStream out, Drawing drawing) throws IOException {
     JavaxDOMOutput domo = new JavaxDOMOutput(factory);
     domo.openElement(factory.getName(drawing));
-//    drawing.write(domo);
+    //    drawing.write(domo);
     domo.openElement("figures");
     for (Figure f : drawing.getChildren()) {
       domo.writeObject(f);

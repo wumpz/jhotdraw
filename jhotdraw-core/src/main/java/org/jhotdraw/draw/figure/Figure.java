@@ -280,6 +280,16 @@ public interface Figure extends Cloneable, Serializable {
   public Map<AttributeKey<?>, Object> getAttributes();
 
   /**
+   * Is this attribute enabled for this figure to be processed.
+   *
+   * @param key
+   * @return
+   */
+  public default boolean isAttributeEnabled(AttributeKey<?> key) {
+    return true;
+  }
+
+  /**
    * Gets data which can be used to restore the attributes of the figure after a set has been
    * applied to it.
    */
