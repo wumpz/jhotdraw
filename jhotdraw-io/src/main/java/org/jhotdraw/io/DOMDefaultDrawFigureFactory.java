@@ -41,6 +41,7 @@ import org.jhotdraw.xml.DefaultDOMFactory;
 
 /** DOM based figure factory */
 public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
+
   private static final Object[][] ENUM_TAGS = {
     {AttributeKeys.StrokePlacement.class, "strokePlacement"},
     {AttributeKeys.StrokeType.class, "strokeType"},
@@ -81,7 +82,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         EllipseFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
-    register("t", TextFigure.class);
+    register(
+        "t",
+        TextFigure.class,
+        DOMDefaultDrawFigureFactory::readText,
+        DOMDefaultDrawFigureFactory::writeText);
     register("ta", TextAreaFigure.class);
     register("image", ImageFigure.class);
     register("g", GroupFigure.class);
@@ -97,6 +102,40 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
 
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
+    }
+  }
+
+  private static void readText(TextFigure figure, DOMInput domInput) throws IOException {
+    figure.setBounds(
+        new Point2D.Double(domInput.getAttribute("x", 0d), domInput.getAttribute("y", 0d)),
+        new Point2D.Double(0, 0));
+    readAttributes(figure, domInput);
+    readDecorator(figure, domInput);
+  }
+
+  private static void readDecorator(TextFigure figure, DOMInput domInput) throws IOException {
+    if (domInput.getElementCount("decorator") > 0) {
+      domInput.openElement("decorator");
+      figure.setDecorator((Figure) domInput.readObject());
+      domInput.closeElement();
+    } else {
+      figure.setDecorator(null);
+    }
+  }
+
+  private static void writeText(TextFigure figure, DOMOutput domOutput) throws IOException {
+    Rectangle2D.Double b = figure.getBounds();
+    domOutput.addAttribute("x", b.x);
+    domOutput.addAttribute("y", b.y);
+    writeAttributes(figure, domOutput);
+    writeDecorator(figure, domOutput);
+  }
+
+  private static void writeDecorator(TextFigure figure, DOMOutput domOutput) throws IOException {
+    if (figure.getDecorator() != null) {
+      domOutput.openElement("decorator");
+      domOutput.writeObject(figure.getDecorator());
+      domOutput.closeElement();
     }
   }
 
