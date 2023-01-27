@@ -39,15 +39,15 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     this.isSolid = isSolid;
   }
 
-  protected boolean isFilled() {
+  public boolean isFilled() {
     return isFilled;
   }
 
-  protected boolean isStroked() {
+  public boolean isStroked() {
     return isStroked;
   }
 
-  protected boolean isSolid() {
+  public boolean isSolid() {
     return isSolid;
   }
 
@@ -128,15 +128,15 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     return path;
   }
 
-  protected void setFilled(boolean b) {
+  public void setFilled(boolean b) {
     isFilled = b;
   }
 
-  protected void setStroked(boolean b) {
+  public void setStroked(boolean b) {
     isStroked = b;
   }
 
-  protected void setSolid(boolean b) {
+  public void setSolid(boolean b) {
     isSolid = b;
   }
 

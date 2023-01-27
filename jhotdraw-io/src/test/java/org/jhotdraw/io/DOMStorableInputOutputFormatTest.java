@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.logging.Logger;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DefaultDrawing;
 import org.jhotdraw.draw.Drawing;
@@ -35,6 +36,8 @@ import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.xmlunit.assertj.XmlAssert;
 
 /**
@@ -74,45 +77,32 @@ public class DOMStorableInputOutputFormatTest {
     assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(255, 255, 102));
   }
 
-  @Test
-  public void testRectangleInOut() throws IOException, URISyntaxException {
+  @ParameterizedTest(name = "{index} {0}")
+  @CsvSource({"figures", "arrowtip", "green_rectangle", "bezier"})
+  public void testSomeFiguresInOut(String filename) throws IOException, URISyntaxException {
+    LOG.info("testing " + filename + ".xml");
     InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());
     Drawing drawing = new DefaultDrawing();
     format.read(
-        DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"),
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream(filename + ".xml"),
         drawing,
         true);
 
     OutputFormat outFormat = new DOMStorableOutputFormat(new DOMDefaultDrawFigureFactory());
-    File outputFile = new File("target/test-output/green_rectangle_roundtrip.xml");
+    File outputFile = new File("target/test-output/" + filename + "_roundtrip.xml");
     outputFile.getParentFile().mkdirs();
     outFormat.write(
-        new FileOutputStream("target/test-output/green_rectangle_roundtrip.xml"), drawing);
+        new FileOutputStream("target/test-output/" + filename + "_roundtrip.xml"), drawing);
 
     XmlAssert.assertThat(
-            DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"))
+            DOMStorableInputOutputFormatTest.class.getResourceAsStream(filename + ".xml"))
         .and(outputFile)
         .ignoreWhitespace()
         .areIdentical();
   }
 
-  @Test
-  public void testSomeFiguresInOut() throws IOException, URISyntaxException {
-    InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());
-    Drawing drawing = new DefaultDrawing();
-    format.read(
-        DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"), drawing, true);
-
-    OutputFormat outFormat = new DOMStorableOutputFormat(new DOMDefaultDrawFigureFactory());
-    File outputFile = new File("target/test-output/figure_roundtrip.xml");
-    outputFile.getParentFile().mkdirs();
-    outFormat.write(new FileOutputStream("target/test-output/figure_roundtrip.xml"), drawing);
-
-    XmlAssert.assertThat(DOMStorableInputOutputFormatTest.class.getResourceAsStream("figures.xml"))
-        .and(outputFile)
-        .ignoreWhitespace()
-        .areIdentical();
-  }
+  private static final Logger LOG =
+      Logger.getLogger(DOMStorableInputOutputFormatTest.class.getName());
 
   /**
    * This new implementation skipped color entries like <color id="14" rgba="#ff000000"/>.

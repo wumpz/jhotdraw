@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <drawing>
     <figures>
-        <b id="7">
+        <b id="0">
             <points closed="true">
                 <p colinear="true" x="501" y="15"/>
                 <p c1y="120" c2y="120" colinear="true" x="530" y="121"/>
@@ -16,10 +16,10 @@
             </points>
             <a>
                 <fillColor>
-                    <color id="8" rgba="#ff00ff80"/>
+                    <color id="1" rgba="#ff00ff80"/>
                 </fillColor>
                 <pathClosed>
-                    <boolean id="9">true</boolean>
+                    <boolean id="2">true</boolean>
                 </pathClosed>
             </a>
         </b>

@@ -95,6 +95,18 @@ public class ArrowTip extends AbstractLineDecoration implements DOMStorable {
     return outerRadius;
   }
 
+  public void setAngle(double angle) {
+    this.angle = angle;
+  }
+
+  public void setOuterRadius(double outerRadius) {
+    this.outerRadius = outerRadius;
+  }
+
+  public void setInnerRadius(double innerRadius) {
+    this.innerRadius = innerRadius;
+  }
+
   @Override
   public void read(DOMInput in) {
     angle = in.getAttribute("angle", 0.35f);

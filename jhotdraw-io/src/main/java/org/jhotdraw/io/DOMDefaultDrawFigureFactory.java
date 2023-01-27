@@ -116,7 +116,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::writeBaseData);
     register("image", ImageFigure.class);
     register("g", GroupFigure.class);
-    register("arrowTip", ArrowTip.class);
+    register(
+        "arrowTip",
+        ArrowTip.class,
+        DOMDefaultDrawFigureFactory::readArrowTip,
+        DOMDefaultDrawFigureFactory::writeArrowTip);
     register(
         "rConnector",
         ChopRectangleConnector.class,
@@ -153,6 +157,24 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
+  }
+
+  private static void readArrowTip(ArrowTip figure, DOMInput domInput) throws IOException {
+    figure.setAngle(domInput.getAttribute("angle", 0.35f));
+    figure.setInnerRadius(domInput.getAttribute("innerRadius", 12f));
+    figure.setOuterRadius(domInput.getAttribute("outerRadius", 12f));
+    figure.setFilled(domInput.getAttribute("isFilled", false));
+    figure.setStroked(domInput.getAttribute("isStroked", false));
+    figure.setSolid(domInput.getAttribute("isSolid", false));
+  }
+
+  private static void writeArrowTip(ArrowTip figure, DOMOutput domOutput) throws IOException {
+    domOutput.addAttribute("angle", figure.getAngle());
+    domOutput.addAttribute("innerRadius", figure.getInnerRadius());
+    domOutput.addAttribute("outerRadius", figure.getOuterRadius());
+    domOutput.addAttribute("isFilled", figure.isFilled());
+    domOutput.addAttribute("isStroked", figure.isStroked());
+    domOutput.addAttribute("isSolid", figure.isSolid());
   }
 
   private static void readLineConnection(LineConnectionFigure figure, DOMInput domInput)
