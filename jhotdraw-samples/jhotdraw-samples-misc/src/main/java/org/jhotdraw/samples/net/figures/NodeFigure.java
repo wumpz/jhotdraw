@@ -139,16 +139,6 @@ public class NodeFigure extends TextFigure {
   }
 
   @Override
-  protected void writeDecorator(DOMOutput out) throws IOException {
-    // do nothing
-  }
-
-  @Override
-  protected void readDecorator(DOMInput in) throws IOException {
-    // do nothing
-  }
-
-  @Override
   public <T> void set(AttributeKey<T> key, T newValue) {
     super.set(key, newValue);
     if (getDecorator() != null) {

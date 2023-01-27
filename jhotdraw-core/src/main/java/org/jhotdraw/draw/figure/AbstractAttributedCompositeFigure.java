@@ -190,7 +190,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
       that.forbiddenAttributes = new HashSet<>(this.forbiddenAttributes);
     }
     return that;
-  }  
+  }
 
   protected AttributeKey<?> getAttributeKey(String name) {
     return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
