@@ -17,7 +17,7 @@
  * MA 02110-1301  USA
  */
 
-package org.jhotdraw.draw.attributes;
+package org.jhotdraw.draw.figure;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 
 /** implementation of Attribute storage and processing. */
-public class Attributes {
+public final class Attributes {
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
   /**
    * Forbidden attributes can't be put by the put() operation. They can only be changed by put().
@@ -52,36 +52,61 @@ public class Attributes {
     }
   }
 
+  /**
+   * Is this attribute enabled for this figure to be processed.
+   *
+   * @param key
+   * @return
+   */
   public boolean isAttributeEnabled(AttributeKey<?> key) {
     return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
   }
 
-  @SuppressWarnings("unchecked")
-  public void setAttributes(Map<AttributeKey<?>, Object> map) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+  /** Set attributes from map. */
+  public void setAttributes(Map<AttributeKey, Object> map) {
+    for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
+      set(entry.getKey(), entry.getValue());
     }
   }
 
+  /**
+   * Returns a view to all attributes of this figure. By convention, an unmodifiable map is
+   * returned.
+   */
   public Map<AttributeKey<?>, Object> getAttributes() {
     return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
   }
 
+  /**
+   * Gets data which can be used to restore the attributes of the figure after a set has been
+   * applied to it.
+   */
   public Object getAttributesRestoreData() {
     return getAttributes();
   }
 
+  /** Restores the attributes of the figure to a previously stored state. */
   public void restoreAttributesTo(Object restoreData) {
     attributes.clear();
-    @SuppressWarnings("unchecked")
-    HashMap<AttributeKey<?>, Object> restoreDataHashMap =
-        (HashMap<AttributeKey<?>, Object>) restoreData;
+    HashMap<AttributeKey, Object> restoreDataHashMap = (HashMap<AttributeKey, Object>) restoreData;
     setAttributes(restoreDataHashMap);
   }
 
   /**
-   * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
-   * implementing the figure interface.
+   * Sets an attribute on the figure and calls {@code attributeChanged} on all registered {@code
+   * FigureListener}s if the attribute value has changed.
+   *
+   * <p>For efficiency reasons, the drawing is not automatically repainted. If you want the drawing
+   * to be repainted when the attribute is changed, you can either use {@code key.set(figure,
+   * value); } or
+   *
+   * <pre>
+   * figure.willChange();
+   * figure.set(...);
+   * figure.changed();
+   * </pre>
+   *
+   * @see AttributeKey#set
    */
   public <T> void set(AttributeKey<T> key, T newValue) {
     if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
@@ -90,6 +115,13 @@ public class Attributes {
     }
   }
 
+  /**
+   * Gets an attribute from the Figure.
+   *
+   * @see AttributeKey#get
+   * @return Returns the attribute value. If the Figure does not have an attribute with the
+   *     specified key, returns key.getDefaultValue().
+   */
   public <T> T get(AttributeKey<T> key) {
     return key.get(attributes);
   }
@@ -106,6 +138,12 @@ public class Attributes {
     }
   }
 
+  /**
+   * Is this attribute set within this container.
+   *
+   * @param key
+   * @return
+   */
   public boolean hasAttribute(AttributeKey<?> key) {
     return attributes.containsKey(key);
   }
