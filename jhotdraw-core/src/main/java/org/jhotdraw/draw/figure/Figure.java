@@ -263,7 +263,7 @@ public interface Figure extends Cloneable, Serializable {
    * @see AttributeKey#set
    */
   public <T> void set(AttributeKey<T> key, T value);
-  
+
   /**
    * Gets an attribute from the Figure.
    *
