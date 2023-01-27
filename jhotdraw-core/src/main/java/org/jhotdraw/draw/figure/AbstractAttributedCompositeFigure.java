@@ -11,14 +11,11 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure} which has its own
@@ -193,56 +190,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
       that.forbiddenAttributes = new HashSet<>(this.forbiddenAttributes);
     }
     return that;
-  }
-
-  protected void writeAttributes(DOMOutput out) throws IOException {
-    Figure prototype = (Figure) out.getPrototype();
-    boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      AttributeKey<?> key = entry.getKey();
-      if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-        @SuppressWarnings("unchecked")
-        Object prototypeValue = prototype.get(key);
-        @SuppressWarnings("unchecked")
-        Object attributeValue = get(key);
-        if (prototypeValue != attributeValue
-            || (prototypeValue != null
-                && attributeValue != null
-                && !prototypeValue.equals(attributeValue))) {
-          if (!isElementOpen) {
-            out.openElement("a");
-            isElementOpen = true;
-          }
-          out.openElement(key.getKey());
-          out.writeObject(entry.getValue());
-          out.closeElement();
-        }
-      }
-    }
-    if (isElementOpen) {
-      out.closeElement();
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  protected void readAttributes(DOMInput in) throws IOException {
-    if (in.getElementCount("a") > 0) {
-      in.openElement("a");
-      for (int i = 0, n = in.getElementCount(); i < n; i++) {
-        in.openElement(i);
-        String name = in.getTagName();
-        Object value = in.readObject();
-        AttributeKey<?> key = getAttributeKey(name);
-        if (key != null && key.isAssignable(value)) {
-          if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-            set((AttributeKey<Object>) key, value);
-          }
-        }
-        in.closeElement();
-      }
-      in.closeElement();
-    }
-  }
+  }  
 
   protected AttributeKey<?> getAttributeKey(String name) {
     return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);

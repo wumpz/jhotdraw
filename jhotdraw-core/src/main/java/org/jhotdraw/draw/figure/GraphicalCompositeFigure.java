@@ -11,19 +11,17 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.AbstractCompositeFigure;
+import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * The GraphicalCompositeFigure fills in the gap between a CompositeFigure and other figures which
@@ -324,55 +322,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
   protected void applyAttributesTo(Figure that) {
     for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
       that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
-  }
-
-  protected void writeAttributes(DOMOutput out) throws IOException {
-    Figure prototype = (Figure) out.getPrototype();
-    boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      AttributeKey<?> key = entry.getKey();
-      if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-        @SuppressWarnings("unchecked")
-        Object prototypeValue = prototype.get(key);
-        @SuppressWarnings("unchecked")
-        Object attributeValue = get(key);
-        if (prototypeValue != attributeValue
-            || (prototypeValue != null
-                && attributeValue != null
-                && !prototypeValue.equals(attributeValue))) {
-          if (!isElementOpen) {
-            out.openElement("a");
-            isElementOpen = true;
-          }
-          out.openElement(key.getKey());
-          out.writeObject(entry.getValue());
-          out.closeElement();
-        }
-      }
-    }
-    if (isElementOpen) {
-      out.closeElement();
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  protected void readAttributes(DOMInput in) throws IOException {
-    if (in.getElementCount("a") > 0) {
-      in.openElement("a");
-      for (int i = 0, n = in.getElementCount(); i < n; i++) {
-        in.openElement(i);
-        String name = in.getTagName();
-        Object value = in.readObject();
-        AttributeKey<?> key = getAttributeKey(name);
-        if (key != null && key.isAssignable(value)) {
-          if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-            set((AttributeKey<Object>) key, value);
-          }
-        }
-        in.closeElement();
-      }
-      in.closeElement();
     }
   }
 

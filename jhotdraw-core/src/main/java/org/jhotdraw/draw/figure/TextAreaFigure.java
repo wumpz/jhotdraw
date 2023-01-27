@@ -12,7 +12,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.text.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKeys;
@@ -24,8 +23,6 @@ import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@code TextHolderFigure} which holds multiple lines of text in a rectangular area.
@@ -431,20 +428,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
       handles.add(new TextOverflowHandle(this));
     }
     return handles;
-  }
-
-  protected void readBounds(DOMInput in) throws IOException {
-    bounds.x = in.getAttribute("x", 0d);
-    bounds.y = in.getAttribute("y", 0d);
-    bounds.width = in.getAttribute("w", 0d);
-    bounds.height = in.getAttribute("h", 0d);
-  }
-
-  protected void writeBounds(DOMOutput out) throws IOException {
-    out.addAttribute("x", bounds.x);
-    out.addAttribute("y", bounds.y);
-    out.addAttribute("w", bounds.width);
-    out.addAttribute("h", bounds.height);
   }
 
   @Override
