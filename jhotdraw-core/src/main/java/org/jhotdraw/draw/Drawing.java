@@ -78,7 +78,7 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
+public interface Drawing extends CompositeFigure, Serializable {
 
   /**
    * Draws on the <em>canvas area</em>. The canvas is the background area onto which the drawing is

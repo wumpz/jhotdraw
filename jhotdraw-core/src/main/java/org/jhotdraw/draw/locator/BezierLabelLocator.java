@@ -31,7 +31,6 @@ public class BezierLabelLocator implements Locator {
   private double angle;
   private double distance;
 
-  /** Creates a new instance. This constructor is for use by DOMStorable only. */
   public BezierLabelLocator() {}
 
   /**
