@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-
 package org.jhotdraw.draw.figure;
 
 import java.util.HashMap;
@@ -25,7 +24,9 @@ import java.util.Map;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 
-/** implementation of Attribute storage and processing. */
+/** 
+ * implementation of Attribute storage and processing. 
+ */
 public final class Attributes {
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
   /**
