@@ -256,18 +256,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractComposit
     }
   }
 
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    writeAttributes(out);
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    readAttributes(in);
-  }
-
   public <T> void removeAttribute(AttributeKey<T> key) {
     if (hasAttribute(key)) {
       T oldValue = get(key);

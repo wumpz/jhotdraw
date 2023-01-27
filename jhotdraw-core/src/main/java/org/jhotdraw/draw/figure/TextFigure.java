@@ -26,8 +26,6 @@ import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@code TextHolderFigure} which holds a single line of text.
@@ -299,25 +297,6 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   protected void validate() {
     super.validate();
     textLayout = null;
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    setBounds(
-        new Point2D.Double(in.getAttribute("x", 0d), in.getAttribute("y", 0d)),
-        new Point2D.Double(0, 0));
-    readAttributes(in);
-    readDecorator(in);
-    invalidate();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    Rectangle2D.Double b = getBounds();
-    out.addAttribute("x", b.x);
-    out.addAttribute("y", b.y);
-    writeAttributes(out);
-    writeDecorator(out);
   }
 
   @Override

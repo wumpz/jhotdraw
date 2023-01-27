@@ -376,18 +376,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     }
   }
 
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    readAttributes(in);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    writeAttributes(out);
-  }
-
   protected AttributeKey<?> getAttributeKey(String name) {
     return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
   }

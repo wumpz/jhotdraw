@@ -17,8 +17,6 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.RoundRectangleRadiusHandle;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@link Figure} with a rounded rectangular shape.
@@ -209,18 +207,4 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   }
 
   // EVENT HANDLING
-  // PERSISTENCE
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    roundrect.arcwidth = in.getAttribute("arcWidth", DEFAULT_ARC);
-    roundrect.archeight = in.getAttribute("arcHeight", DEFAULT_ARC);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    out.addAttribute("arcWidth", roundrect.arcwidth);
-    out.addAttribute("arcHeight", roundrect.archeight);
-  }
 }

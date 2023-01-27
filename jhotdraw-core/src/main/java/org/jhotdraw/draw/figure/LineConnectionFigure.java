@@ -24,8 +24,6 @@ import org.jhotdraw.draw.handle.ConnectionStartHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@link ConnectionFigure} which connects two figures using a bezier path.
@@ -419,63 +417,6 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
       }
     }
     return false;
-  }
-
-  // PERSISTENCE
-  @Override
-  protected void readPoints(DOMInput in) throws IOException {
-    super.readPoints(in);
-    in.openElement("startConnector");
-    setStartConnector((Connector) in.readObject());
-    in.closeElement();
-    in.openElement("endConnector");
-    setEndConnector((Connector) in.readObject());
-    in.closeElement();
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    readAttributes(in);
-    readLiner(in);
-    // Note: Points must be read after Liner, because Liner influences
-    // the location of the points.
-    readPoints(in);
-  }
-
-  protected void readLiner(DOMInput in) throws IOException {
-    if (in.getElementCount("liner") > 0) {
-      in.openElement("liner");
-      liner = (Liner) in.readObject();
-      in.closeElement();
-    } else {
-      liner = null;
-    }
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    writePoints(out);
-    writeAttributes(out);
-    writeLiner(out);
-  }
-
-  protected void writeLiner(DOMOutput out) throws IOException {
-    if (liner != null) {
-      out.openElement("liner");
-      out.writeObject(liner);
-      out.closeElement();
-    }
-  }
-
-  @Override
-  protected void writePoints(DOMOutput out) throws IOException {
-    super.writePoints(out);
-    out.openElement("startConnector");
-    out.writeObject(getStartConnector());
-    out.closeElement();
-    out.openElement("endConnector");
-    out.writeObject(getEndConnector());
-    out.closeElement();
   }
 
   @Override

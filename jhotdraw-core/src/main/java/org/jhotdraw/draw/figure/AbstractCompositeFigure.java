@@ -11,7 +11,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
@@ -27,9 +26,6 @@ import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}.
@@ -38,8 +34,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractCompositeFigure extends AbstractFigure
-    implements CompositeFigure, DOMStorable {
+public abstract class AbstractCompositeFigure extends AbstractFigure implements CompositeFigure {
 
   private static final long serialVersionUID = 1L;
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
@@ -506,24 +501,6 @@ public abstract class AbstractCompositeFigure extends AbstractFigure
     list.add(this);
     list.addAll(getChildren());
     return list;
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    in.openElement("children");
-    for (int i = 0; i < in.getElementCount(); i++) {
-      basicAdd((Figure) in.readObject(i));
-    }
-    in.closeElement();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    out.openElement("children");
-    for (Figure child : getChildren()) {
-      out.writeObject(child);
-    }
-    out.closeElement();
   }
 
   @Override

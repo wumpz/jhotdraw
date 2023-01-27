@@ -29,8 +29,6 @@ import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@link Figure} which draws an opened or a closed bezier path.
@@ -651,61 +649,5 @@ public class BezierFigure extends AbstractAttributedFigure {
       }
     }
     return false;
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    writePoints(out);
-    writeAttributes(out);
-  }
-
-  protected void writePoints(DOMOutput out) throws IOException {
-    out.openElement("points");
-    if (isClosed()) {
-      out.addAttribute("closed", true);
-    }
-    for (int i = 0, n = getNodeCount(); i < n; i++) {
-      BezierPath.Node node = getNode(i);
-      out.openElement("p");
-      out.addAttribute("mask", node.mask, 0);
-      out.addAttribute("colinear", true);
-      out.addAttribute("x", node.x[0]);
-      out.addAttribute("y", node.y[0]);
-      out.addAttribute("c1x", node.x[1], node.x[0]);
-      out.addAttribute("c1y", node.y[1], node.y[0]);
-      out.addAttribute("c2x", node.x[2], node.x[0]);
-      out.addAttribute("c2y", node.y[2], node.y[0]);
-      out.closeElement();
-    }
-    out.closeElement();
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    readPoints(in);
-    readAttributes(in);
-  }
-
-  protected void readPoints(DOMInput in) throws IOException {
-    path.clear();
-    in.openElement("points");
-    setClosed(in.getAttribute("closed", false));
-    for (int i = 0, n = in.getElementCount("p"); i < n; i++) {
-      in.openElement("p", i);
-      BezierPath.Node node =
-          new BezierPath.Node(
-              in.getAttribute("mask", 0),
-              in.getAttribute("x", 0d),
-              in.getAttribute("y", 0d),
-              in.getAttribute("c1x", in.getAttribute("x", 0d)),
-              in.getAttribute("c1y", in.getAttribute("y", 0d)),
-              in.getAttribute("c2x", in.getAttribute("x", 0d)),
-              in.getAttribute("c2y", in.getAttribute("y", 0d)));
-      node.keepColinear = in.getAttribute("colinear", true);
-      path.add(node);
-      path.invalidatePath();
-      in.closeElement();
-    }
-    in.closeElement();
   }
 }

@@ -16,9 +16,6 @@ import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * A {@link Liner} that constrains a connection to orthogonal lines.
@@ -26,7 +23,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class ElbowLiner implements Liner, DOMStorable {
+public class ElbowLiner implements Liner {
 
   private double shoulderSize;
 
@@ -175,12 +172,6 @@ public class ElbowLiner implements Liner, DOMStorable {
     }
     path.invalidatePath();
   }
-
-  @Override
-  public void read(DOMInput in) {}
-
-  @Override
-  public void write(DOMOutput out) {}
 
   @Override
   public Liner clone() {

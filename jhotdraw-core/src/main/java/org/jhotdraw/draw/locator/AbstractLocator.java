@@ -19,7 +19,7 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractLocator implements Locator, DOMStorable, Serializable {
+public abstract class AbstractLocator implements Locator, Serializable {
 
   private static final long serialVersionUID = 1L;
 

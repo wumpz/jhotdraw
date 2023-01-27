@@ -11,15 +11,11 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * This abstract class can be extended to implement a {@link Figure} which has its own attribute
@@ -28,7 +24,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id: AbstractAttributedFigure.java 778 2012-04-13 15:37:19Z rawcoder $
  */
-public abstract class AbstractAttributedFigure extends AbstractFigure implements DOMStorable {
+public abstract class AbstractAttributedFigure extends AbstractFigure {
 
   private static final long serialVersionUID = 1L;
   /** Holds the attributes of the figure. */
@@ -181,55 +177,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     return that;
   }
 
-  protected void writeAttributes(DOMOutput out) throws IOException {
-    Figure prototype = (Figure) out.getPrototype();
-    boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      AttributeKey<?> key = entry.getKey();
-      if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-        @SuppressWarnings("unchecked")
-        Object prototypeValue = prototype.get(key);
-        @SuppressWarnings("unchecked")
-        Object attributeValue = get(key);
-        if (prototypeValue != attributeValue
-            || (prototypeValue != null
-                && attributeValue != null
-                && !prototypeValue.equals(attributeValue))) {
-          if (!isElementOpen) {
-            out.openElement("a");
-            isElementOpen = true;
-          }
-          out.openElement(key.getKey());
-          out.writeObject(entry.getValue());
-          out.closeElement();
-        }
-      }
-    }
-    if (isElementOpen) {
-      out.closeElement();
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  protected void readAttributes(DOMInput in) throws IOException {
-    if (in.getElementCount("a") > 0) {
-      in.openElement("a");
-      for (int i = 0, n = in.getElementCount(); i < n; i++) {
-        in.openElement(i);
-        String name = in.getTagName();
-        Object value = in.readObject();
-        AttributeKey<?> key = getAttributeKey(name);
-        if (key != null && key.isAssignable(value)) {
-          if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-            set((AttributeKey<Object>) key, value);
-          }
-        }
-        in.closeElement();
-      }
-      in.closeElement();
-    }
-  }
-
   protected AttributeKey<?> getAttributeKey(String name) {
     return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
   }
@@ -240,26 +187,6 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
     for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
       that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    Rectangle2D.Double r = getBounds();
-    out.addAttribute("x", r.x);
-    out.addAttribute("y", r.y);
-    out.addAttribute("w", r.width);
-    out.addAttribute("h", r.height);
-    writeAttributes(out);
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    double x = in.getAttribute("x", 0d);
-    double y = in.getAttribute("y", 0d);
-    double w = in.getAttribute("w", 0d);
-    double h = in.getAttribute("h", 0d);
-    setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
-    readAttributes(in);
   }
 
   public <T> void removeAttribute(AttributeKey<T> key) {

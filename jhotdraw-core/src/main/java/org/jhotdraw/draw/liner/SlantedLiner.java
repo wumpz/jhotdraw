@@ -15,9 +15,6 @@ import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * SlantedLiner.
@@ -25,7 +22,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class SlantedLiner implements Liner, DOMStorable {
+public class SlantedLiner implements Liner {
 
   private double slantSize;
 
@@ -195,15 +192,15 @@ public class SlantedLiner implements Liner, DOMStorable {
     path.invalidatePath();
   }
 
-  @Override
-  public void read(DOMInput in) {
-    slantSize = in.getAttribute("slant", 20d);
-  }
-
-  @Override
-  public void write(DOMOutput out) {
-    out.addAttribute("slant", slantSize);
-  }
+  //  @Override
+  //  public void read(DOMInput in) {
+  //    slantSize = in.getAttribute("slant", 20d);
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) {
+  //    out.addAttribute("slant", slantSize);
+  //  }
 
   @Override
   public Liner clone() {

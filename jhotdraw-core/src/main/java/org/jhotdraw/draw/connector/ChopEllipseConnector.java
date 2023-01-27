@@ -28,7 +28,6 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Only used for DOMStorable input. */
   public ChopEllipseConnector() {}
 
   public ChopEllipseConnector(Figure owner) {

@@ -448,18 +448,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   }
 
   @Override
-  public void read(DOMInput in) throws IOException {
-    readBounds(in);
-    readAttributes(in);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    writeBounds(out);
-    writeAttributes(out);
-  }
-
-  @Override
   public void invalidate() {
     super.invalidate();
     isTextOverflow = null;

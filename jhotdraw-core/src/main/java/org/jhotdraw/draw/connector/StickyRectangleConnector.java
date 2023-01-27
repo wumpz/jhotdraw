@@ -9,12 +9,9 @@ package org.jhotdraw.draw.connector;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.IOException;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A StickyRectangleConnector locates connection points by choping the connection between the
@@ -77,15 +74,15 @@ public class StickyRectangleConnector extends ChopRectangleConnector {
     return Float.toString((float) (angle / Math.PI * 180));
   }
 
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    angle = (float) in.getAttribute("angle", 0.0);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    out.addAttribute("angle", angle);
-  }
+  //  @Override
+  //  public void read(DOMInput in) throws IOException {
+  //    super.read(in);
+  //    angle = (float) in.getAttribute("angle", 0.0);
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) throws IOException {
+  //    super.write(out);
+  //    out.addAttribute("angle", angle);
+  //  }
 }

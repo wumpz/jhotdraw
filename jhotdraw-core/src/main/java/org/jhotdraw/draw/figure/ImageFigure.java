@@ -21,7 +21,6 @@ import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.io.Base64;
 import org.jhotdraw.util.*;
 import org.jhotdraw.xml.*;
 
@@ -206,29 +205,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
     ImageFigure that = (ImageFigure) super.clone();
     that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
     return that;
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    if (in.getElementCount("imageData") > 0) {
-      in.openElement("imageData");
-      String base64Data = in.getText();
-      if (base64Data != null) {
-        setImageData(Base64.decode(base64Data));
-      }
-      in.closeElement();
-    }
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    if (getImageData() != null) {
-      out.openElement("imageData");
-      out.addText(Base64.encodeBytes(getImageData()));
-      out.closeElement();
-    }
   }
 
   /**

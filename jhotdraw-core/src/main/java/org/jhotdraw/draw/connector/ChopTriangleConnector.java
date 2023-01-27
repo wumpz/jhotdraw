@@ -24,10 +24,8 @@ public class ChopTriangleConnector extends ChopRectangleConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Only used for DOMStorable input. */
   public ChopTriangleConnector() {}
 
-  /** Creates a new instance. */
   public ChopTriangleConnector(TriangleFigure owner) {
     super(owner);
   }

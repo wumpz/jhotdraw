@@ -28,7 +28,6 @@ public class ChopRoundRectangleConnector extends ChopRectangleConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Only used for DOMStorable input. */
   public ChopRoundRectangleConnector() {}
 
   public ChopRoundRectangleConnector(Figure owner) {

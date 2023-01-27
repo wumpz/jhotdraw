@@ -14,8 +14,6 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A locator that specfies a point that is relative to the bounds of a figure.
@@ -228,17 +226,17 @@ public class RelativeLocator extends AbstractLocator {
     return new RelativeLocator(0.5, 0.5, isTransform);
   }
 
-  @Override
-  public void write(DOMOutput out) {
-    out.addAttribute("relativeX", relativeX, 0.5);
-    out.addAttribute("relativeY", relativeY, 0.5);
-  }
-
-  @Override
-  public void read(DOMInput in) {
-    relativeX = in.getAttribute("relativeX", 0.5);
-    relativeY = in.getAttribute("relativeY", 0.5);
-  }
+  //  @Override
+  //  public void write(DOMOutput out) {
+  //    out.addAttribute("relativeX", relativeX, 0.5);
+  //    out.addAttribute("relativeY", relativeY, 0.5);
+  //  }
+  //
+  //  @Override
+  //  public void read(DOMInput in) {
+  //    relativeX = in.getAttribute("relativeX", 0.5);
+  //    relativeY = in.getAttribute("relativeY", 0.5);
+  //  }
 
   @Override
   public boolean equals(Object obj) {

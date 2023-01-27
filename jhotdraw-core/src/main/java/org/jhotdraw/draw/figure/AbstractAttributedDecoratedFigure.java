@@ -23,7 +23,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public abstract class AbstractAttributedDecoratedFigure extends AbstractAttributedFigure
-    implements DecoratedFigure, DOMStorable {
+    implements DecoratedFigure {
 
   private static final long serialVersionUID = 1L;
   private Figure decorator;
@@ -99,36 +99,6 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
   }
 
   protected abstract boolean figureContains(Point2D.Double p);
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    readDecorator(in);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    writeDecorator(out);
-  }
-
-  protected void writeDecorator(DOMOutput out) throws IOException {
-    if (decorator != null) {
-      out.openElement("decorator");
-      out.writeObject(decorator);
-      out.closeElement();
-    }
-  }
-
-  protected void readDecorator(DOMInput in) throws IOException {
-    if (in.getElementCount("decorator") > 0) {
-      in.openElement("decorator");
-      decorator = (Figure) in.readObject();
-      in.closeElement();
-    } else {
-      decorator = null;
-    }
-  }
 
   @Override
   public AbstractAttributedDecoratedFigure clone() {
