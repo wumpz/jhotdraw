@@ -14,6 +14,7 @@ import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.DnDTracker;
 import org.jhotdraw.draw.tool.SelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.SerializationInputFormat;

@@ -31,6 +31,7 @@ import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.io.DefaultDrawingViewTransferHandler;
 import org.jhotdraw.util.*;
 
 /**

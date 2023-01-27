@@ -21,6 +21,7 @@ import org.jhotdraw.draw.figure.ImageFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
 

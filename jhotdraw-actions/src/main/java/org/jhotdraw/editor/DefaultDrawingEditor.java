@@ -5,7 +5,7 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.editor;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
@@ -26,6 +26,10 @@ import org.jhotdraw.action.edit.DeleteAction;
 import org.jhotdraw.action.edit.PasteAction;
 import org.jhotdraw.action.edit.SelectAllAction;
 import org.jhotdraw.beans.AbstractBean;
+import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.event.ToolAdapter;
 import org.jhotdraw.draw.event.ToolEvent;

@@ -21,6 +21,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 
 /**
  * Example showing how to create a graphical composite figure which holds component figures that can

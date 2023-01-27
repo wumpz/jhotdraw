@@ -15,6 +15,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.io.SerializationInputFormat;
 import org.jhotdraw.io.SerializationOutputFormat;

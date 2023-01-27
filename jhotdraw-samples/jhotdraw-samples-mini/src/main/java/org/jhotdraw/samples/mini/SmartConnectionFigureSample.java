@@ -19,6 +19,7 @@ import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.geom.Geom;
 
 /**
