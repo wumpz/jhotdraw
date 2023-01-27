@@ -8,10 +8,8 @@
 package org.jhotdraw.draw.locator;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.xml.*;
 
 /**
  * A {@link Locator} which locates a node on the bezier path of a BezierFigure.

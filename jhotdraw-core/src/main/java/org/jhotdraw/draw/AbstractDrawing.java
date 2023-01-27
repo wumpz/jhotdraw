@@ -16,7 +16,6 @@ import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link Drawing}.

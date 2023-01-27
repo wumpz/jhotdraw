@@ -21,11 +21,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jhotdraw-xml</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>jhotdraw-datatransfer</artifactId>
             <version>${project.version}</version>
         </dependency>

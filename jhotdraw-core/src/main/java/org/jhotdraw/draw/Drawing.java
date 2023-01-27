@@ -18,7 +18,6 @@ import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.xml.*;
 
 /**
  * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold multiple figures, but a

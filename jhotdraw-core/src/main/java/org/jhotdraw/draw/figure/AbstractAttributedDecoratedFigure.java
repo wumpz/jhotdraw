@@ -11,9 +11,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link DecoratedFigure} which has an attribute

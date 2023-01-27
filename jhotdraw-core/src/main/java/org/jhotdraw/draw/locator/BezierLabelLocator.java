@@ -8,11 +8,9 @@
 package org.jhotdraw.draw.locator;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.xml.*;
 
 /**
  * A {@link Locator} which can be used to place a label on the path of a {@link BezierFigure}.

@@ -10,7 +10,6 @@ package org.jhotdraw.samples.net.figures;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
@@ -27,7 +26,6 @@ import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.*;
 
 /**
  * NodeFigure.

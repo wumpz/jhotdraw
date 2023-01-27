@@ -7,6 +7,12 @@
  */
 package org.jhotdraw.samples.net;
 
+import static org.jhotdraw.io.DOMDefaultDrawFigureFactory.readAttributes;
+import static org.jhotdraw.io.DOMDefaultDrawFigureFactory.writeAttributes;
+
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.LocatorConnector;
@@ -47,11 +53,7 @@ public class NetFactory extends DefaultDOMFactory {
   /** Creates a new instance. */
   public NetFactory() {
     register("Net", DefaultDrawing.class, null, null); // do not allow processing
-    register(
-        "node",
-        NodeFigure.class,
-        DOMDefaultDrawFigureFactory::readText,
-        DOMDefaultDrawFigureFactory::writeText);
+    register("node", NodeFigure.class, NetFactory::readNode, NetFactory::writeNode);
     register(
         "link",
         LineConnectionFigure.class,
@@ -82,12 +84,26 @@ public class NetFactory extends DefaultDOMFactory {
         ArrowTip.class,
         DOMDefaultDrawFigureFactory::readArrowTip,
         DOMDefaultDrawFigureFactory::writeArrowTip);
-    
+
     register("insets", Insets2D.Double.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
     register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
-    
+
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
+  }
+
+  public static void readNode(NodeFigure figure, DOMInput domInput) throws IOException {
+    figure.setBounds(
+        new Point2D.Double(domInput.getAttribute("x", 0d), domInput.getAttribute("y", 0d)),
+        new Point2D.Double(0, 0));
+    readAttributes(figure, domInput);
+  }
+
+  public static void writeNode(NodeFigure figure, DOMOutput domOutput) throws IOException {
+    Rectangle2D.Double b = figure.getBounds();
+    domOutput.addAttribute("x", b.x);
+    domOutput.addAttribute("y", b.y);
+    writeAttributes(figure, domOutput);
   }
 }

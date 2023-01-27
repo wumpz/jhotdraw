@@ -8,11 +8,9 @@
 package org.jhotdraw.draw.connector;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.xml.*;
 
 /**
  * A LocatorConnector locates connection points with the help of a Locator. It supports the

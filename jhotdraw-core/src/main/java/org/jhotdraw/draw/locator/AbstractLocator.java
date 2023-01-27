@@ -9,9 +9,7 @@ package org.jhotdraw.draw.locator;
 
 import java.awt.geom.*;
 import java.io.Serializable;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link Locator}.
