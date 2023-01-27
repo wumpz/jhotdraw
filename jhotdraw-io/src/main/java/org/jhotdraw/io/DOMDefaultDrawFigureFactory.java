@@ -25,6 +25,7 @@ import org.jhotdraw.draw.connector.ChopTriangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.draw.figure.BezierFigure;
+import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.DiamondFigure;
 import org.jhotdraw.draw.figure.EllipseFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -114,8 +115,15 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         TextAreaFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
-    register("image", ImageFigure.class);
-    register("g", GroupFigure.class, DOMDefaultDrawFigureFactory::readGroup,
+    register(
+        "image",
+        ImageFigure.class,
+        DOMDefaultDrawFigureFactory::readImage,
+        DOMDefaultDrawFigureFactory::writeImage);
+    register(
+        "g",
+        GroupFigure.class,
+        DOMDefaultDrawFigureFactory::readGroup,
         DOMDefaultDrawFigureFactory::writeGroup);
     register(
         "arrowTip",
@@ -159,7 +167,30 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       addEnumClass((String) o[1], (Class) o[0]);
     }
   }
-  
+
+  private static void readImage(ImageFigure figure, DOMInput domInput) throws IOException {
+    readBaseData(figure, domInput);
+    readDecorator(figure, domInput);
+    if (domInput.getElementCount("imageData") > 0) {
+      domInput.openElement("imageData");
+      String base64Data = domInput.getText();
+      if (base64Data != null) {
+        figure.setImageData(Base64.decode(base64Data));
+      }
+      domInput.closeElement();
+    }
+  }
+
+  private static void writeImage(ImageFigure figure, DOMOutput domOutput) throws IOException {
+    writeBaseData(figure, domOutput);
+    writeDecorator(figure, domOutput);
+    if (figure.getImageData() != null) {
+      domOutput.openElement("imageData");
+      domOutput.addText(Base64.encodeBytes(figure.getImageData()));
+      domOutput.closeElement();
+    }
+  }
+
   private static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
     domInput.openElement("children");
     for (int i = 0; i < domInput.getElementCount(); i++) {
@@ -338,7 +369,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     readDecorator(figure, domInput);
   }
 
-  private static void readDecorator(TextFigure figure, DOMInput domInput) throws IOException {
+  private static void readDecorator(DecoratedFigure figure, DOMInput domInput) throws IOException {
     if (domInput.getElementCount("decorator") > 0) {
       domInput.openElement("decorator");
       figure.setDecorator((Figure) domInput.readObject());
@@ -356,7 +387,8 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     writeDecorator(figure, domOutput);
   }
 
-  private static void writeDecorator(TextFigure figure, DOMOutput domOutput) throws IOException {
+  private static void writeDecorator(DecoratedFigure figure, DOMOutput domOutput)
+      throws IOException {
     if (figure.getDecorator() != null) {
       domOutput.openElement("decorator");
       domOutput.writeObject(figure.getDecorator());
