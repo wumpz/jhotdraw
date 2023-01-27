@@ -10,6 +10,8 @@ package org.jhotdraw.io;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.jhotdraw.draw.*;
@@ -35,6 +37,7 @@ import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.figure.TriangleFigure;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
+import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DefaultDOMFactory;
@@ -63,7 +66,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         TriangleFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
-    register("bezier", BezierFigure.class);
+    register(
+        "bezier",
+        BezierFigure.class,
+        DOMDefaultDrawFigureFactory::readBezier,
+        DOMDefaultDrawFigureFactory::writeBezier);
     register(
         "r",
         RectangleFigure.class,
@@ -74,8 +81,16 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         RoundRectangleFigure.class,
         DOMDefaultDrawFigureFactory::readRoundRectangle,
         DOMDefaultDrawFigureFactory::writeRoundRectangle);
-    register("l", LineFigure.class);
-    register("b", BezierFigure.class);
+    register(
+        "l",
+        LineFigure.class,
+        DOMDefaultDrawFigureFactory::readBezier,
+        DOMDefaultDrawFigureFactory::writeBezier);
+    register(
+        "b",
+        BezierFigure.class,
+        DOMDefaultDrawFigureFactory::readBezier,
+        DOMDefaultDrawFigureFactory::writeBezier);
     register("lnk", LineConnectionFigure.class);
     register(
         "e",
@@ -87,7 +102,9 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         TextFigure.class,
         DOMDefaultDrawFigureFactory::readText,
         DOMDefaultDrawFigureFactory::writeText);
-    register("ta", TextAreaFigure.class,
+    register(
+        "ta",
+        TextAreaFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
     register("image", ImageFigure.class);
@@ -105,6 +122,59 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
+  }
+
+  private static void readBezier(BezierFigure figure, DOMInput domInput) throws IOException {
+    readPoints(figure, domInput);
+    readAttributes(figure, domInput);
+  }
+
+  private static void readPoints(BezierFigure figure, DOMInput domInput) throws IOException {
+    domInput.openElement("points");
+    figure.setClosed(domInput.getAttribute("closed", false));
+    List<BezierPath.Node> nodes = new ArrayList<>();
+    for (int i = 0, n = domInput.getElementCount("p"); i < n; i++) {
+      domInput.openElement("p", i);
+      BezierPath.Node node =
+          new BezierPath.Node(
+              domInput.getAttribute("mask", 0),
+              domInput.getAttribute("x", 0d),
+              domInput.getAttribute("y", 0d),
+              domInput.getAttribute("c1x", domInput.getAttribute("x", 0d)),
+              domInput.getAttribute("c1y", domInput.getAttribute("y", 0d)),
+              domInput.getAttribute("c2x", domInput.getAttribute("x", 0d)),
+              domInput.getAttribute("c2y", domInput.getAttribute("y", 0d)));
+      node.keepColinear = domInput.getAttribute("colinear", true);
+      figure.addNode(node);
+      domInput.closeElement();
+    }
+    domInput.closeElement();
+  }
+
+  private static void writeBezier(BezierFigure figure, DOMOutput domOutput) throws IOException {
+    writePoints(figure, domOutput);
+    writeAttributes(figure, domOutput);
+  }
+
+  private static void writePoints(BezierFigure figure, DOMOutput domOutput) throws IOException {
+    domOutput.openElement("points");
+    if (figure.isClosed()) {
+      domOutput.addAttribute("closed", true);
+    }
+    for (int i = 0, n = figure.getNodeCount(); i < n; i++) {
+      BezierPath.Node node = figure.getNode(i);
+      domOutput.openElement("p");
+      domOutput.addAttribute("mask", node.mask, 0);
+      domOutput.addAttribute("colinear", true);
+      domOutput.addAttribute("x", node.x[0]);
+      domOutput.addAttribute("y", node.y[0]);
+      domOutput.addAttribute("c1x", node.x[1], node.x[0]);
+      domOutput.addAttribute("c1y", node.y[1], node.y[0]);
+      domOutput.addAttribute("c2x", node.x[2], node.x[0]);
+      domOutput.addAttribute("c2y", node.y[2], node.y[0]);
+      domOutput.closeElement();
+    }
+    domOutput.closeElement();
   }
 
   private static void readText(TextFigure figure, DOMInput domInput) throws IOException {

@@ -20,18 +20,16 @@
 package org.jhotdraw.io;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DefaultDrawing;
 import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.io.InputFormat;
@@ -91,10 +89,11 @@ public class DOMStorableInputOutputFormatTest {
     outFormat.write(
         new FileOutputStream("target/test-output/green_rectangle_roundtrip.xml"), drawing);
 
-    XmlAssert.assertThat(DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"))
+    XmlAssert.assertThat(
+            DOMStorableInputOutputFormatTest.class.getResourceAsStream("green_rectangle.xml"))
         .and(outputFile)
         .ignoreWhitespace()
-        .areIdentical();   
+        .areIdentical();
   }
 
   @Test
@@ -134,6 +133,20 @@ public class DOMStorableInputOutputFormatTest {
     Figure rect = drawing.getChild(0);
     assertThat(rect).isInstanceOf(RectangleFigure.class);
     assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(102, 102, 255));
+    assertThat(rect.get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
+  }
+
+  @Test
+  public void testBezierFigure() throws IOException {
+    InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());
+    Drawing drawing = new DefaultDrawing();
+    format.read(
+        DOMStorableInputOutputFormatTest.class.getResourceAsStream("bezier.xml"), drawing, true);
+
+    assertThat(drawing.getChildren()).hasSize(1);
+    Figure rect = drawing.getChild(0);
+    assertThat(rect).isInstanceOf(BezierFigure.class);
+    assertThat(((BezierFigure) rect).getNodeCount()).isEqualTo(10);
     assertThat(rect.get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
   }
 }
