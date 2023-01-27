@@ -68,6 +68,11 @@ public class NetFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
     register(
+        "locConnect",
+        LocatorConnector.class,
+        DOMDefaultDrawFigureFactory::readLocatorConnector,
+        DOMDefaultDrawFigureFactory::writeLocatorConnector);
+    register(
         "rectConnect",
         ChopRectangleConnector.class,
         DOMDefaultDrawFigureFactory::readConnector,
@@ -77,6 +82,9 @@ public class NetFactory extends DefaultDOMFactory {
         ArrowTip.class,
         DOMDefaultDrawFigureFactory::readArrowTip,
         DOMDefaultDrawFigureFactory::writeArrowTip);
+    
+    register("insets", Insets2D.Double.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
+    register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
     
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);

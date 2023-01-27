@@ -15,7 +15,6 @@ import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
 import java.util.zip.*;
-import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

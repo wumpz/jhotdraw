@@ -46,6 +46,10 @@ public class LocatorConnector extends AbstractConnector {
     return locator;
   }
 
+  public void setLocator(Locator locator) {
+    this.locator = locator;
+  }
+
   protected Point2D.Double locate(ConnectionFigure connection) {
     return locator.locate(getOwner());
   }

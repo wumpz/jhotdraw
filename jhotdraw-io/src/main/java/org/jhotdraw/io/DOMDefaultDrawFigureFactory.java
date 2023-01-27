@@ -23,6 +23,7 @@ import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
 import org.jhotdraw.draw.connector.ChopTriangleConnector;
 import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.connector.LocatorConnector;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.DecoratedFigure;
@@ -41,6 +42,8 @@ import org.jhotdraw.draw.figure.TriangleFigure;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
@@ -159,6 +162,13 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         ChopBezierConnector.class,
         DOMDefaultDrawFigureFactory::readConnector,
         DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "locatorConnector",
+        LocatorConnector.class,
+        DOMDefaultDrawFigureFactory::readLocatorConnector,
+        DOMDefaultDrawFigureFactory::writeLocatorConnector);
+    
+    register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
     register("elbowLiner", ElbowLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
     register("curvedLiner", CurvedLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
 
@@ -277,6 +287,23 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.closeElement();
     domOutput.openElement("endConnector");
     domOutput.writeObject(figure.getEndConnector());
+    domOutput.closeElement();
+  }
+
+  public static void readLocatorConnector(LocatorConnector connector, DOMInput domInput)
+      throws IOException {
+    readConnector(connector, domInput);
+
+    domInput.openElement("locator");
+    connector.setLocator((Locator) domInput.readObject(0));
+    domInput.closeElement();
+  }
+
+  public static void writeLocatorConnector(LocatorConnector connector, DOMOutput domOutput)
+      throws IOException {
+    writeConnector(connector, domOutput);
+    domOutput.openElement("locator");
+    domOutput.writeObject(connector.getLocator());
     domOutput.closeElement();
   }
 
