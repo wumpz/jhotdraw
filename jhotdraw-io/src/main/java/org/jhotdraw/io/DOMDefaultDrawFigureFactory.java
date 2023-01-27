@@ -167,7 +167,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void readImage(ImageFigure figure, DOMInput domInput) throws IOException {
+  public static void readImage(ImageFigure figure, DOMInput domInput) throws IOException {
     readBaseData(figure, domInput);
     readDecorator(figure, domInput);
     if (domInput.getElementCount("imageData") > 0) {
@@ -180,7 +180,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void writeImage(ImageFigure figure, DOMOutput domOutput) throws IOException {
+  public static void writeImage(ImageFigure figure, DOMOutput domOutput) throws IOException {
     writeBaseData(figure, domOutput);
     writeDecorator(figure, domOutput);
     if (figure.getImageData() != null) {
@@ -190,7 +190,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
+  public static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
     domInput.openElement("children");
     for (int i = 0; i < domInput.getElementCount(); i++) {
       figure.basicAdd((Figure) domInput.readObject(i));
@@ -198,7 +198,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domInput.closeElement();
   }
 
-  private static void writeGroup(GroupFigure figure, DOMOutput domOutput) throws IOException {
+  public static void writeGroup(GroupFigure figure, DOMOutput domOutput) throws IOException {
     domOutput.openElement("children");
     for (Figure child : figure.getChildren()) {
       domOutput.writeObject(child);
@@ -206,7 +206,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.closeElement();
   }
 
-  private static void readArrowTip(ArrowTip figure, DOMInput domInput) throws IOException {
+  public static void readArrowTip(ArrowTip figure, DOMInput domInput) throws IOException {
     figure.setAngle(domInput.getAttribute("angle", 0.35f));
     figure.setInnerRadius(domInput.getAttribute("innerRadius", 12f));
     figure.setOuterRadius(domInput.getAttribute("outerRadius", 12f));
@@ -215,7 +215,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     figure.setSolid(domInput.getAttribute("isSolid", false));
   }
 
-  private static void writeArrowTip(ArrowTip figure, DOMOutput domOutput) throws IOException {
+  public static void writeArrowTip(ArrowTip figure, DOMOutput domOutput) throws IOException {
     domOutput.addAttribute("angle", figure.getAngle());
     domOutput.addAttribute("innerRadius", figure.getInnerRadius());
     domOutput.addAttribute("outerRadius", figure.getOuterRadius());
@@ -224,7 +224,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.addAttribute("isSolid", figure.isSolid());
   }
 
-  private static void readLineConnection(LineConnectionFigure figure, DOMInput domInput)
+  public static void readLineConnection(LineConnectionFigure figure, DOMInput domInput)
       throws IOException {
     figure.removeNode(0);
     readAttributes(figure, domInput);
@@ -233,7 +233,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     readPointsForLineConnection(figure, domInput);
   }
 
-  private static void readLiner(LineConnectionFigure figure, DOMInput domInput) throws IOException {
+  public static void readLiner(LineConnectionFigure figure, DOMInput domInput) throws IOException {
     if (domInput.getElementCount("liner") > 0) {
       domInput.openElement("liner");
       figure.setLiner((Liner) domInput.readObject());
@@ -243,7 +243,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void readPointsForLineConnection(LineConnectionFigure figure, DOMInput domInput)
+  public static void readPointsForLineConnection(LineConnectionFigure figure, DOMInput domInput)
       throws IOException {
     domInput.openElement("startConnector");
     figure.setStartConnector((Connector) domInput.readObject());
@@ -253,7 +253,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domInput.closeElement();
   }
 
-  private static void writeLineConnection(LineConnectionFigure figure, DOMOutput domOutput)
+  public static void writeLineConnection(LineConnectionFigure figure, DOMOutput domOutput)
       throws IOException {
     writePoints(figure, domOutput);
     writePointsForLineConnection(figure, domOutput);
@@ -261,7 +261,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     writeLiner(figure, domOutput);
   }
 
-  private static void writeLiner(LineConnectionFigure figure, DOMOutput domOutput)
+  public static void writeLiner(LineConnectionFigure figure, DOMOutput domOutput)
       throws IOException {
     if (figure.getLiner() != null) {
       domOutput.openElement("liner");
@@ -270,7 +270,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void writePointsForLineConnection(LineConnectionFigure figure, DOMOutput domOutput)
+  public static void writePointsForLineConnection(LineConnectionFigure figure, DOMOutput domOutput)
       throws IOException {
     domOutput.openElement("startConnector");
     domOutput.writeObject(figure.getStartConnector());
@@ -280,7 +280,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.closeElement();
   }
 
-  private static void readConnector(AbstractConnector connector, DOMInput domInput)
+  public static void readConnector(AbstractConnector connector, DOMInput domInput)
       throws IOException {
     // statePersistent is never set
     //    if (connector.isStatePersistent) {
@@ -291,7 +291,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domInput.closeElement();
   }
 
-  private static void writeConnector(Connector connector, DOMOutput domOutput) throws IOException {
+  public static void writeConnector(Connector connector, DOMOutput domOutput) throws IOException {
     // statePersistent is never set
     //    if (isStatePersistent) {
     //      if (isConnectToDecorator) {
@@ -303,12 +303,12 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.closeElement();
   }
 
-  private static void readBezier(BezierFigure figure, DOMInput domInput) throws IOException {
+  public static void readBezier(BezierFigure figure, DOMInput domInput) throws IOException {
     readPoints(figure, domInput);
     readAttributes(figure, domInput);
   }
 
-  private static void readPoints(BezierFigure figure, DOMInput domInput) throws IOException {
+  public static void readPoints(BezierFigure figure, DOMInput domInput) throws IOException {
     while (figure.getNodeCount() > 0) {
       figure.removeNode(0);
     }
@@ -334,12 +334,12 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domInput.closeElement();
   }
 
-  private static void writeBezier(BezierFigure figure, DOMOutput domOutput) throws IOException {
+  public static void writeBezier(BezierFigure figure, DOMOutput domOutput) throws IOException {
     writePoints(figure, domOutput);
     writeAttributes(figure, domOutput);
   }
 
-  private static void writePoints(BezierFigure figure, DOMOutput domOutput) throws IOException {
+  public static void writePoints(BezierFigure figure, DOMOutput domOutput) throws IOException {
     domOutput.openElement("points");
     if (figure.isClosed()) {
       domOutput.addAttribute("closed", true);
@@ -360,7 +360,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.closeElement();
   }
 
-  private static void readText(TextFigure figure, DOMInput domInput) throws IOException {
+  public static void readText(TextFigure figure, DOMInput domInput) throws IOException {
     figure.setBounds(
         new Point2D.Double(domInput.getAttribute("x", 0d), domInput.getAttribute("y", 0d)),
         new Point2D.Double(0, 0));
@@ -368,7 +368,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     readDecorator(figure, domInput);
   }
 
-  private static void readDecorator(DecoratedFigure figure, DOMInput domInput) throws IOException {
+  public static void readDecorator(DecoratedFigure figure, DOMInput domInput) throws IOException {
     if (domInput.getElementCount("decorator") > 0) {
       domInput.openElement("decorator");
       figure.setDecorator((Figure) domInput.readObject());
@@ -378,7 +378,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void writeText(TextFigure figure, DOMOutput domOutput) throws IOException {
+  public static void writeText(TextFigure figure, DOMOutput domOutput) throws IOException {
     Rectangle2D.Double b = figure.getBounds();
     domOutput.addAttribute("x", b.x);
     domOutput.addAttribute("y", b.y);
@@ -386,7 +386,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     writeDecorator(figure, domOutput);
   }
 
-  private static void writeDecorator(DecoratedFigure figure, DOMOutput domOutput)
+  public static void writeDecorator(DecoratedFigure figure, DOMOutput domOutput)
       throws IOException {
     if (figure.getDecorator() != null) {
       domOutput.openElement("decorator");
@@ -395,7 +395,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void readRoundRectangle(RoundRectangleFigure figure, DOMInput domInput)
+  public static void readRoundRectangle(RoundRectangleFigure figure, DOMInput domInput)
       throws IOException {
     readBaseData(figure, domInput);
     figure.setArc(
@@ -403,19 +403,19 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         domInput.getAttribute("arcHeight", RoundRectangleFigure.DEFAULT_ARC));
   }
 
-  private static void writeRoundRectangle(RoundRectangleFigure figure, DOMOutput domOutput)
+  public static void writeRoundRectangle(RoundRectangleFigure figure, DOMOutput domOutput)
       throws IOException {
     writeBaseData(figure, domOutput);
     domOutput.addAttribute("arcWidth", figure.getArcWidth());
     domOutput.addAttribute("arcHeight", figure.getArcHeight());
   }
 
-  private static void readBaseData(Figure figure, DOMInput domInput) throws IOException {
+  public static void readBaseData(Figure figure, DOMInput domInput) throws IOException {
     readBounds(figure, domInput);
     readAttributes(figure, domInput);
   }
 
-  private static void readBounds(Figure figure, DOMInput domInput) {
+  public static void readBounds(Figure figure, DOMInput domInput) {
     double x = domInput.getAttribute("x", 0d);
     double y = domInput.getAttribute("y", 0d);
     double w = domInput.getAttribute("w", 0d);
@@ -423,7 +423,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     figure.setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
   }
 
-  private static void readAttributes(Figure figure, DOMInput domInput) throws IOException {
+  public static void readAttributes(Figure figure, DOMInput domInput) throws IOException {
     if (domInput.getElementCount("a") > 0) {
       domInput.openElement("a");
       for (int i = 0, n = domInput.getElementCount(); i < n; i++) {
@@ -439,12 +439,12 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void writeBaseData(Figure figure, DOMOutput domOutput) throws IOException {
+  public static void writeBaseData(Figure figure, DOMOutput domOutput) throws IOException {
     writeBounds(figure, domOutput);
     writeAttributes(figure, domOutput);
   }
 
-  private static void writeAttributes(Figure figure, DOMOutput domOutput) throws IOException {
+  public static void writeAttributes(Figure figure, DOMOutput domOutput) throws IOException {
     Figure prototype = (Figure) domOutput.getPrototype();
     boolean isElementOpen = false;
     for (Map.Entry<AttributeKey<?>, Object> entry : figure.getAttributes().entrySet()) {
@@ -468,7 +468,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     }
   }
 
-  private static void writeBounds(Figure figure, DOMOutput domOutput) {
+  public static void writeBounds(Figure figure, DOMOutput domOutput) {
     Rectangle2D.Double r = figure.getBounds();
     domOutput.addAttribute("x", r.x);
     domOutput.addAttribute("y", r.y);

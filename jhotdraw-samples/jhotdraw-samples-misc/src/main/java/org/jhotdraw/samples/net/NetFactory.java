@@ -16,6 +16,7 @@ import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.io.DOMDefaultDrawFigureFactory;
 import org.jhotdraw.samples.net.figures.NodeFigure;
 import org.jhotdraw.xml.*;
 
@@ -45,9 +46,38 @@ public class NetFactory extends DefaultDOMFactory {
 
   /** Creates a new instance. */
   public NetFactory() {
-    for (Object[] o : CLASS_TAGS) {
-      register((String) o[1], (Class) o[0]);
-    }
+    register("Net", DefaultDrawing.class, null, null); // do not allow processing
+    register(
+        "node",
+        NodeFigure.class,
+        DOMDefaultDrawFigureFactory::readText,
+        DOMDefaultDrawFigureFactory::writeText);
+    register(
+        "link",
+        LineConnectionFigure.class,
+        DOMDefaultDrawFigureFactory::readLineConnection,
+        DOMDefaultDrawFigureFactory::writeLineConnection);
+    register(
+        "g",
+        GroupFigure.class,
+        DOMDefaultDrawFigureFactory::readGroup,
+        DOMDefaultDrawFigureFactory::writeGroup);
+    register(
+        "ta",
+        TextAreaFigure.class,
+        DOMDefaultDrawFigureFactory::readBaseData,
+        DOMDefaultDrawFigureFactory::writeBaseData);
+    register(
+        "rectConnect",
+        ChopRectangleConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "arrowTip",
+        ArrowTip.class,
+        DOMDefaultDrawFigureFactory::readArrowTip,
+        DOMDefaultDrawFigureFactory::writeArrowTip);
+    
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
