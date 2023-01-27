@@ -78,7 +78,7 @@ public class DOMStorableInputOutputFormatTest {
   }
 
   @ParameterizedTest(name = "{index} {0}")
-  @CsvSource({"figures", "arrowtip", "green_rectangle", "bezier"})
+  @CsvSource({"figures", "arrowtip", "green_rectangle", "bezier", "group"})
   public void testSomeFiguresInOut(String filename) throws IOException, URISyntaxException {
     LOG.info("testing " + filename + ".xml");
     InputFormat format = new DOMStorableInputFormat(new DOMDefaultDrawFigureFactory());

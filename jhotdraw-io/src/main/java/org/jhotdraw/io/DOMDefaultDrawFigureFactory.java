@@ -115,7 +115,8 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
     register("image", ImageFigure.class);
-    register("g", GroupFigure.class);
+    register("g", GroupFigure.class, DOMDefaultDrawFigureFactory::readGroup,
+        DOMDefaultDrawFigureFactory::writeGroup);
     register(
         "arrowTip",
         ArrowTip.class,
@@ -157,6 +158,22 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
+  }
+  
+  private static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
+    domInput.openElement("children");
+    for (int i = 0; i < domInput.getElementCount(); i++) {
+      figure.basicAdd((Figure) domInput.readObject(i));
+    }
+    domInput.closeElement();
+  }
+
+  private static void writeGroup(GroupFigure figure, DOMOutput domOutput) throws IOException {
+    domOutput.openElement("children");
+    for (Figure child : figure.getChildren()) {
+      domOutput.writeObject(child);
+    }
+    domOutput.closeElement();
   }
 
   private static void readArrowTip(ArrowTip figure, DOMInput domInput) throws IOException {
