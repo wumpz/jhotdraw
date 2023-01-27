@@ -171,7 +171,7 @@ public class JavaxDOMInput implements DOMInput {
     NodeList list = current.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
       Node node = list.item(i);
-      if ((node instanceof Element) && ((Element) node).getTagName().equals(tagName)) {
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
         count++;
       }
     }
@@ -203,7 +203,7 @@ public class JavaxDOMInput implements DOMInput {
     int len = list.getLength();
     for (int i = 0; i < len; i++) {
       Node node = list.item(i);
-      if ((node instanceof Element) && ((Element) node).getTagName().equals(tagName)) {
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
         current = node;
         return;
       }
@@ -219,7 +219,7 @@ public class JavaxDOMInput implements DOMInput {
     int len = list.getLength();
     for (int i = 0; i < len; i++) {
       Node node = list.item(i);
-      if ((node instanceof Element) && ((Element) node).getTagName().equals(tagName)) {
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
         if (count++ == index) {
           current = node;
           return;
