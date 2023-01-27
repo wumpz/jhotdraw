@@ -100,7 +100,7 @@ public class AbstractConnector implements Connector, DOMStorable {
   }
 
   /** Sets the connector's owner. */
-  protected void setOwner(Figure newValue) {
+  public void setOwner(Figure newValue) {
     owner = newValue;
   }
 

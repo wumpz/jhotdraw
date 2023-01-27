@@ -15,12 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.connector.AbstractConnector;
 import org.jhotdraw.draw.connector.ChopBezierConnector;
 import org.jhotdraw.draw.connector.ChopDiamondConnector;
 import org.jhotdraw.draw.connector.ChopEllipseConnector;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
 import org.jhotdraw.draw.connector.ChopTriangleConnector;
+import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.DiamondFigure;
@@ -37,6 +39,7 @@ import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.figure.TriangleFigure;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
+import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
@@ -54,8 +57,8 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
 
   /** Creates a new instance. */
   public DOMDefaultDrawFigureFactory() {
-    register("drawing", DefaultDrawing.class, null, null);
-    register("drawing", QuadTreeDrawing.class, null, null);
+    register("drawing", DefaultDrawing.class, null, null); // do not allow processing
+    register("drawing", QuadTreeDrawing.class, null, null); // do not allow processing
     register(
         "diamond",
         DiamondFigure.class,
@@ -91,7 +94,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         BezierFigure.class,
         DOMDefaultDrawFigureFactory::readBezier,
         DOMDefaultDrawFigureFactory::writeBezier);
-    register("lnk", LineConnectionFigure.class);
+    register(
+        "lnk",
+        LineConnectionFigure.class,
+        DOMDefaultDrawFigureFactory::readLineConnection,
+        DOMDefaultDrawFigureFactory::writeLineConnection);
     register(
         "e",
         EllipseFigure.class,
@@ -110,18 +117,121 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     register("image", ImageFigure.class);
     register("g", GroupFigure.class);
     register("arrowTip", ArrowTip.class);
-    register("rConnector", ChopRectangleConnector.class);
-    register("ellipseConnector", ChopEllipseConnector.class);
-    register("rrConnector", ChopRoundRectangleConnector.class);
-    register("triangleConnector", ChopTriangleConnector.class);
-    register("diamondConnector", ChopDiamondConnector.class);
-    register("bezierConnector", ChopBezierConnector.class);
-    register("elbowLiner", ElbowLiner.class);
-    register("curvedLiner", CurvedLiner.class);
+    register(
+        "rConnector",
+        ChopRectangleConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "ellipseConnector",
+        ChopEllipseConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "rrConnector",
+        ChopRoundRectangleConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "triangleConnector",
+        ChopTriangleConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "diamondConnector",
+        ChopDiamondConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register(
+        "bezierConnector",
+        ChopBezierConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+    register("elbowLiner", ElbowLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
+    register("curvedLiner", CurvedLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
 
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
     }
+  }
+
+  private static void readLineConnection(LineConnectionFigure figure, DOMInput domInput)
+      throws IOException {
+    figure.removeNode(0);
+    readAttributes(figure, domInput);
+    readLiner(figure, domInput);
+    readPoints(figure, domInput);
+    readPointsForLineConnection(figure, domInput);
+  }
+
+  private static void readLiner(LineConnectionFigure figure, DOMInput domInput) throws IOException {
+    if (domInput.getElementCount("liner") > 0) {
+      domInput.openElement("liner");
+      figure.setLiner((Liner) domInput.readObject());
+      domInput.closeElement();
+    } else {
+      figure.setLiner(null);
+    }
+  }
+
+  private static void readPointsForLineConnection(LineConnectionFigure figure, DOMInput domInput)
+      throws IOException {
+    domInput.openElement("startConnector");
+    figure.setStartConnector((Connector) domInput.readObject());
+    domInput.closeElement();
+    domInput.openElement("endConnector");
+    figure.setEndConnector((Connector) domInput.readObject());
+    domInput.closeElement();
+  }
+
+  private static void writeLineConnection(LineConnectionFigure figure, DOMOutput domOutput)
+      throws IOException {
+    writePoints(figure, domOutput);
+    writePointsForLineConnection(figure, domOutput);
+    writeAttributes(figure, domOutput);
+    writeLiner(figure, domOutput);
+  }
+
+  private static void writeLiner(LineConnectionFigure figure, DOMOutput domOutput)
+      throws IOException {
+    if (figure.getLiner() != null) {
+      domOutput.openElement("liner");
+      domOutput.writeObject(figure.getLiner());
+      domOutput.closeElement();
+    }
+  }
+
+  private static void writePointsForLineConnection(LineConnectionFigure figure, DOMOutput domOutput)
+      throws IOException {
+    domOutput.openElement("startConnector");
+    domOutput.writeObject(figure.getStartConnector());
+    domOutput.closeElement();
+    domOutput.openElement("endConnector");
+    domOutput.writeObject(figure.getEndConnector());
+    domOutput.closeElement();
+  }
+
+  private static void readConnector(AbstractConnector connector, DOMInput domInput)
+      throws IOException {
+    // statePersistent is never set
+    //    if (connector.isStatePersistent) {
+    //      isConnectToDecorator = in.getAttribute("connectToDecorator", false);
+    //    }
+    domInput.openElement("Owner");
+    connector.setOwner((Figure) domInput.readObject(0));
+    domInput.closeElement();
+  }
+
+  private static void writeConnector(Connector connector, DOMOutput domOutput) throws IOException {
+    // statePersistent is never set
+    //    if (isStatePersistent) {
+    //      if (isConnectToDecorator) {
+    //        out.addAttribute("connectToDecorator", true);
+    //      }
+    //    }
+    domOutput.openElement("Owner");
+    domOutput.writeObject(connector.getOwner());
+    domOutput.closeElement();
   }
 
   private static void readBezier(BezierFigure figure, DOMInput domInput) throws IOException {
@@ -130,6 +240,10 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   }
 
   private static void readPoints(BezierFigure figure, DOMInput domInput) throws IOException {
+    while (figure.getNodeCount() > 0) {
+      figure.removeNode(0);
+    }
+
     domInput.openElement("points");
     figure.setClosed(domInput.getAttribute("closed", false));
     List<BezierPath.Node> nodes = new ArrayList<>();

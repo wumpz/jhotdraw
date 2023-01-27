@@ -111,12 +111,9 @@
                 <fillColor>
                     <null ref="12"/>
                 </fillColor>
-                <textColor>
-                    <color id="17" rgba="#ff000000"/>
-                </textColor>
             </a>
         </lnk>
-        <b id="18">
+        <b id="17">
             <points>
                 <p colinear="true" x="78" y="447"/>
                 <p colinear="true" x="115" y="387"/>
