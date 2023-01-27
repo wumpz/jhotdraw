@@ -167,7 +167,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         LocatorConnector.class,
         DOMDefaultDrawFigureFactory::readLocatorConnector,
         DOMDefaultDrawFigureFactory::writeLocatorConnector);
-    
+
     register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
     register("elbowLiner", ElbowLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
     register("curvedLiner", CurvedLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
