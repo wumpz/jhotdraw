@@ -56,7 +56,6 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     {AttributeKeys.Orientation.class, "orientation"}
   };
 
-  /** Creates a new instance. */
   public DOMDefaultDrawFigureFactory() {
     register("drawing", DefaultDrawing.class, null, null); // do not allow processing
     register("drawing", QuadTreeDrawing.class, null, null); // do not allow processing
