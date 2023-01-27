@@ -37,6 +37,7 @@ import org.jhotdraw.xml.DefaultDOMFactory;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@Deprecated
 public class DrawFigureFactory extends DefaultDOMFactory {
 
   private static final Object[][] CLASS_TAGS = {

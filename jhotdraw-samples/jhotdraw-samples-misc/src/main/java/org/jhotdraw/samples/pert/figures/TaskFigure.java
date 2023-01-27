@@ -10,7 +10,6 @@ package org.jhotdraw.samples.pert.figures;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.geom.*;
-import java.io.IOException;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.LocatorConnector;
@@ -216,39 +215,39 @@ public class TaskFigure extends GraphicalCompositeFigure {
     return that;
   }
 
-//  @Override
-//  public void read(DOMInput in) throws IOException {
-//    double x = in.getAttribute("x", 0d);
-//    double y = in.getAttribute("y", 0d);
-//    double w = in.getAttribute("w", 0d);
-//    double h = in.getAttribute("h", 0d);
-//    setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
-//    readAttributes(in);
-//    in.openElement("model");
-//    in.openElement("name");
-//    setName((String) in.readObject());
-//    in.closeElement();
-//    in.openElement("duration");
-//    setDuration((Integer) in.readObject());
-//    in.closeElement();
-//    in.closeElement();
-//  }
-//
-//  @Override
-//  public void write(DOMOutput out) throws IOException {
-//    Rectangle2D.Double r = getBounds();
-//    out.addAttribute("x", r.x);
-//    out.addAttribute("y", r.y);
-//    writeAttributes(out);
-//    out.openElement("model");
-//    out.openElement("name");
-//    out.writeObject(getName());
-//    out.closeElement();
-//    out.openElement("duration");
-//    out.writeObject(getDuration());
-//    out.closeElement();
-//    out.closeElement();
-//  }
+  //  @Override
+  //  public void read(DOMInput in) throws IOException {
+  //    double x = in.getAttribute("x", 0d);
+  //    double y = in.getAttribute("y", 0d);
+  //    double w = in.getAttribute("w", 0d);
+  //    double h = in.getAttribute("h", 0d);
+  //    setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
+  //    readAttributes(in);
+  //    in.openElement("model");
+  //    in.openElement("name");
+  //    setName((String) in.readObject());
+  //    in.closeElement();
+  //    in.openElement("duration");
+  //    setDuration((Integer) in.readObject());
+  //    in.closeElement();
+  //    in.closeElement();
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) throws IOException {
+  //    Rectangle2D.Double r = getBounds();
+  //    out.addAttribute("x", r.x);
+  //    out.addAttribute("y", r.y);
+  //    writeAttributes(out);
+  //    out.openElement("model");
+  //    out.openElement("name");
+  //    out.writeObject(getName());
+  //    out.closeElement();
+  //    out.openElement("duration");
+  //    out.writeObject(getDuration());
+  //    out.closeElement();
+  //    out.closeElement();
+  //  }
 
   @Override
   public int getLayer() {

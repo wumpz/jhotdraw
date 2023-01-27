@@ -54,6 +54,9 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
    * read itself.
    */
   public <T extends DOMStorable> void register(String tagName, Class<T> prototype) {
+    if (!prototype.isInstance(DOMStorable.class)) {
+      throw new IllegalArgumentException(prototype.getName() + " does not implement DOMStorable");
+    }
     register(
         tagName,
         prototype,
