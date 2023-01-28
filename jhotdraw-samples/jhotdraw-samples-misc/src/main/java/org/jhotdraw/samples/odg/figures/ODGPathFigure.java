@@ -61,7 +61,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   @Override
   public void draw(Graphics2D g) {
-    double opacity = get(OPACITY);
+    double opacity = attr().get(OPACITY);
     opacity = Math.min(Math.max(0d, opacity), 1d);
     if (opacity != 0d) {
       if (opacity != 1d) {
@@ -102,18 +102,18 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
   @Override
   public void drawFigure(Graphics2D g) {
     AffineTransform savedTransform = null;
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       savedTransform = g.getTransform();
-      g.transform(get(TRANSFORM));
+      g.transform(attr().get(TRANSFORM));
     }
-    if (get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
+    if (attr().get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
       Paint paint = ODGAttributeKeys.getFillPaint(this);
       if (paint != null) {
         g.setPaint(paint);
         drawFill(g);
       }
     }
-    if (get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
+    if (attr().get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
       Paint paint = ODGAttributeKeys.getStrokePaint(this);
       if (paint != null) {
         g.setPaint(paint);
@@ -121,14 +121,14 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         drawStroke(g);
       }
     }
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       g.setTransform(savedTransform);
     }
   }
 
   @Override
   public void drawFill(Graphics2D g) {
-    boolean isClosed = getChild(0).get(PATH_CLOSED);
+    boolean isClosed = getChild(0).attr().get(PATH_CLOSED);
     if (isClosed) {
       g.fill(getPath());
     }
@@ -150,7 +150,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     if (cachedPath == null) {
       cachedPath = new Path2D.Double();
       cachedPath.setWindingRule(
-          get(WINDING_RULE) == WindingRule.EVEN_ODD
+          attr().get(WINDING_RULE) == WindingRule.EVEN_ODD
               ? Path2D.Double.WIND_EVEN_ODD
               : Path2D.Double.WIND_NON_ZERO);
       for (Figure child : getChildren()) {
@@ -166,17 +166,17 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     if (cachedDrawingArea == null) {
       double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
       double width = strokeTotalWidth / 2d;
-      if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-        width *= get(STROKE_MITER_LIMIT);
-      } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+      if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+        width *= attr().get(STROKE_MITER_LIMIT);
+      } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
         width += strokeTotalWidth * 2;
       }
       Path2D.Double gp = getPath();
       Rectangle2D strokeRect = new Rectangle2D.Double(0, 0, width, width);
-      if (get(TRANSFORM) != null) {
+      if (attr().get(TRANSFORM) != null) {
         gp = (Path2D.Double) gp.clone();
-        gp.transform(get(TRANSFORM));
-        strokeRect = get(TRANSFORM).createTransformedShape(strokeRect).getBounds2D();
+        gp.transform(attr().get(TRANSFORM));
+        strokeRect = attr().get(TRANSFORM).createTransformedShape(strokeRect).getBounds2D();
       }
       Rectangle2D rx = gp.getBounds2D();
       Rectangle2D.Double r =
@@ -192,9 +192,9 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
   @Override
   public boolean contains(Point2D.Double p) {
     getPath();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       try {
-        p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
+        p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());
       } catch (NoninvertibleTransformException ex) {
         ex.printStackTrace();
       }
@@ -202,7 +202,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     /*
     return cachedPath.contains(p2);
      */
-    boolean isClosed = getChild(0).get(PATH_CLOSED);
+    boolean isClosed = getChild(0).attr().get(PATH_CLOSED);
     double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, 1.0) / 2d);
     if (isClosed) {
       if (getPath().contains(p)) {
@@ -211,7 +211,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
       double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d;
       GrowStroke gs =
           new GrowStroke(
-              grow, (AttributeKeys.getStrokeTotalWidth(this, 1.0) * get(STROKE_MITER_LIMIT)));
+              grow,
+              (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
       if (gs.createStrokedShape(getPath()).contains(p)) {
         return true;
       } else {
@@ -241,28 +242,30 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   @Override
   public void transform(AffineTransform tx) {
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-      if (get(TRANSFORM) == null) {
+      if (attr().get(TRANSFORM) == null) {
         TRANSFORM.setClone(this, tx);
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       for (Figure f : getChildren()) {
         f.transform(tx);
       }
-      if (get(FILL_GRADIENT) != null && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(FILL_GRADIENT) != null
+          && !attr().get(FILL_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = FILL_GRADIENT.getClone(this);
         g.transform(tx);
-        set(FILL_GRADIENT, g);
+        attr().set(FILL_GRADIENT, g);
       }
-      if (get(STROKE_GRADIENT) != null && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(STROKE_GRADIENT) != null
+          && !attr().get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = STROKE_GRADIENT.getClone(this);
         g.transform(tx);
-        set(STROKE_GRADIENT, g);
+        attr().set(STROKE_GRADIENT, g);
       }
     }
     invalidate();
@@ -292,17 +295,6 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     return new Object[] {
       paths, TRANSFORM.getClone(this), FILL_GRADIENT.getClone(this), STROKE_GRADIENT.getClone(this)
     };
-  }
-
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    super.set(key, newValue);
-    invalidate();
-  }
-
-  @Override
-  protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
-    // empty!
   }
 
   @Override
@@ -340,7 +332,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
     final ResourceBundleUtil labels =
         ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
     LinkedList<Action> actions = new LinkedList<Action>();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       actions.add(
           new AbstractAction(labels.getString("edit.removeTransform.text")) {
             private static final long serialVersionUID = 1L;
@@ -495,14 +487,14 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   public void flattenTransform() {
     willChange();
-    AffineTransform tx = get(TRANSFORM);
+    AffineTransform tx = attr().get(TRANSFORM);
     if (tx != null) {
       for (Figure child : getChildren()) {
         ((ODGBezierFigure) child).transform(tx);
         ((ODGBezierFigure) child).flattenTransform();
       }
     }
-    set(TRANSFORM, null);
+    attr().set(TRANSFORM, null);
     changed();
   }
 }

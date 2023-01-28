@@ -40,7 +40,7 @@ public class ChopRoundRectangleConnector extends ChopRectangleConnector {
     RoundRectangleFigure rrf = (RoundRectangleFigure) target;
     Rectangle2D.Double outer = rrf.getBounds();
     double grow;
-    switch (target.get(STROKE_PLACEMENT)) {
+    switch (target.attr().get(STROKE_PLACEMENT)) {
       case CENTER:
       default:
         grow = AttributeKeys.getStrokeTotalWidth(target, 1.0) / 2d;

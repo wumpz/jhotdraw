@@ -69,7 +69,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   @Override
   public void draw(Graphics2D g) {
-    double opacity = get(OPACITY);
+    double opacity = attr().get(OPACITY);
     opacity = Math.min(Math.max(0d, opacity), 1d);
     if (opacity != 0d) {
       if (opacity != 1d) {
@@ -110,9 +110,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
   @Override
   public void drawFigure(Graphics2D g) {
     AffineTransform savedTransform = null;
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       savedTransform = g.getTransform();
-      g.transform(get(TRANSFORM));
+      g.transform(attr().get(TRANSFORM));
     }
     Paint paint = SVGAttributeKeys.getFillPaint(this);
     if (paint != null) {
@@ -125,7 +125,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
       g.setStroke(SVGAttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
       drawStroke(g);
     }
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       g.setTransform(savedTransform);
     }
   }
@@ -157,7 +157,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     if (cachedPath == null) {
       cachedPath = new Path2D.Double();
       cachedPath.setWindingRule(
-          get(WINDING_RULE) == WindingRule.EVEN_ODD
+          attr().get(WINDING_RULE) == WindingRule.EVEN_ODD
               ? Path2D.Double.WIND_EVEN_ODD
               : Path2D.Double.WIND_NON_ZERO);
       for (Figure child : getChildren()) {
@@ -171,7 +171,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
   protected Shape getHitShape() {
     if (cachedHitShape == null) {
       cachedHitShape = getPath();
-      if (get(FILL_COLOR) == null && get(FILL_GRADIENT) == null) {
+      if (attr().get(FILL_COLOR) == null && attr().get(FILL_GRADIENT) == null) {
         cachedHitShape =
             SVGAttributeKeys.getHitStroke(this, 1.0).createStrokedShape(cachedHitShape);
       }
@@ -185,14 +185,14 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     if (cachedDrawingArea == null) {
       double strokeTotalWidth = Math.max(1d, AttributeKeys.getStrokeTotalWidth(this, 1.0));
       double width = strokeTotalWidth / 2d;
-      if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-        width *= get(STROKE_MITER_LIMIT);
-      } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+      if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+        width *= attr().get(STROKE_MITER_LIMIT);
+      } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
         width += strokeTotalWidth * 2;
       }
       Shape gp = getPath();
       Rectangle2D strokeRect = new Rectangle2D.Double(0, 0, width, width);
-      AffineTransform tx = get(TRANSFORM);
+      AffineTransform tx = attr().get(TRANSFORM);
       if (tx != null) {
         // We have to use the (rectangular) bounds of the path here,
         // because we draw a rectangular handle over the shape of the figure
@@ -213,22 +213,22 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
   @Override
   public boolean contains(Point2D.Double p) {
     getPath();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       try {
-        p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
+        p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());
       } catch (NoninvertibleTransformException ex) {
         ex.printStackTrace();
       }
     }
-    boolean isClosed = getChild(0).get(PATH_CLOSED);
-    if (isClosed && get(FILL_COLOR) == null && get(FILL_GRADIENT) == null) {
+    boolean isClosed = getChild(0).attr().get(PATH_CLOSED);
+    if (isClosed && attr().get(FILL_COLOR) == null && attr().get(FILL_GRADIENT) == null) {
       return getHitShape().contains(p);
     }
     /*
     return cachedPath.contains(p2);
     */
     double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, 1.0) / 2d);
-    if (isClosed || get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
+    if (isClosed || attr().get(FILL_COLOR) != null || attr().get(FILL_GRADIENT) != null) {
       if (getPath().contains(p)) {
         return true;
       }
@@ -237,7 +237,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
           ;
       GrowStroke gs =
           new GrowStroke(
-              grow, (AttributeKeys.getStrokeTotalWidth(this, 1.0) * get(STROKE_MITER_LIMIT)));
+              grow,
+              (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
       if (gs.createStrokedShape(getPath()).contains(p)) {
         return true;
       } else {
@@ -267,28 +268,30 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   @Override
   public void transform(AffineTransform tx) {
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-      if (get(TRANSFORM) == null) {
+      if (attr().get(TRANSFORM) == null) {
         TRANSFORM.setClone(this, tx);
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       for (Figure f : getChildren()) {
         f.transform(tx);
       }
-      if (get(FILL_GRADIENT) != null && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(FILL_GRADIENT) != null
+          && !attr().get(FILL_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = FILL_GRADIENT.getClone(this);
         g.transform(tx);
-        set(FILL_GRADIENT, g);
+        attr().set(FILL_GRADIENT, g);
       }
-      if (get(STROKE_GRADIENT) != null && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(STROKE_GRADIENT) != null
+          && !attr().get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = STROKE_GRADIENT.getClone(this);
         g.transform(tx);
-        set(STROKE_GRADIENT, g);
+        attr().set(STROKE_GRADIENT, g);
       }
     }
     invalidate();
@@ -317,12 +320,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     return new Object[] {
       paths, TRANSFORM.getClone(this), FILL_GRADIENT.getClone(this), STROKE_GRADIENT.getClone(this)
     };
-  }
-
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    super.set(key, newValue);
-    invalidate();
   }
 
   @Override
@@ -364,7 +361,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     final ResourceBundleUtil labels =
         ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
     LinkedList<Action> actions = new LinkedList<Action>();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       actions.add(
           new AbstractAction(labels.getString("edit.removeTransform.text")) {
             private static final long serialVersionUID = 1L;
@@ -418,7 +415,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
           });
     }
-    if (getChild(getChildCount() - 1).get(PATH_CLOSED)) {
+    if (getChild(getChildCount() - 1).attr().get(PATH_CLOSED)) {
       actions.add(
           new AbstractAction(labels.getString("attribute.openPath.text")) {
             private static final long serialVersionUID = 1L;
@@ -447,7 +444,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             }
           });
     }
-    if (get(WINDING_RULE) != WindingRule.EVEN_ODD) {
+    if (attr().get(WINDING_RULE) != WindingRule.EVEN_ODD) {
       actions.add(
           new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
             private static final long serialVersionUID = 1L;
@@ -469,7 +466,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
             @Override
             public void actionPerformed(ActionEvent evt) {
               willChange();
-              set(WINDING_RULE, WindingRule.NON_ZERO);
+              attr().set(WINDING_RULE, WindingRule.NON_ZERO);
               changed();
               getDrawing()
                   .fireUndoableEditHappened(
@@ -517,20 +514,20 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   public void flattenTransform() {
     willChange();
-    AffineTransform tx = get(TRANSFORM);
+    AffineTransform tx = attr().get(TRANSFORM);
     if (tx != null) {
       for (Figure child : getChildren()) {
         // ((SVGBezierFigure) child).transform(tx);
         ((SVGBezierFigure) child).flattenTransform();
       }
     }
-    if (get(FILL_GRADIENT) != null) {
-      get(FILL_GRADIENT).transform(tx);
+    if (attr().get(FILL_GRADIENT) != null) {
+      attr().get(FILL_GRADIENT).transform(tx);
     }
-    if (get(STROKE_GRADIENT) != null) {
-      get(STROKE_GRADIENT).transform(tx);
+    if (attr().get(STROKE_GRADIENT) != null) {
+      attr().get(STROKE_GRADIENT).transform(tx);
     }
-    set(TRANSFORM, null);
+    attr().set(TRANSFORM, null);
     changed();
   }
 }

@@ -247,10 +247,10 @@ public class SVGInputFormat implements InputFormat {
     drawing.addAll(figures);
     if (replace) {
       Viewport viewport = viewportStack.firstElement();
-      drawing.set(VIEWPORT_FILL, VIEWPORT_FILL.get(viewport.attributes));
-      drawing.set(VIEWPORT_FILL_OPACITY, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
-      drawing.set(VIEWPORT_HEIGHT, VIEWPORT_HEIGHT.get(viewport.attributes));
-      drawing.set(VIEWPORT_WIDTH, VIEWPORT_WIDTH.get(viewport.attributes));
+      drawing.attr().set(VIEWPORT_FILL, VIEWPORT_FILL.get(viewport.attributes));
+      drawing.attr().set(VIEWPORT_FILL_OPACITY, VIEWPORT_FILL_OPACITY.get(viewport.attributes));
+      drawing.attr().set(VIEWPORT_HEIGHT, VIEWPORT_HEIGHT.get(viewport.attributes));
+      drawing.attr().set(VIEWPORT_WIDTH, VIEWPORT_WIDTH.get(viewport.attributes));
     }
     // Get rid of all objects we don't need anymore to help garbage collector.
     identifiedElements.clear();
@@ -452,8 +452,8 @@ public class SVGInputFormat implements InputFormat {
         }
       }
       if (childFigure != null) {
-        childFigure.set(LINK, href);
-        childFigure.set(LINK_TARGET, target);
+        childFigure.attr().set(LINK, href);
+        childFigure.attr().set(LINK_TARGET, target);
       } else {
         if (DEBUG) {
           System.out.println("SVGInputFormat <a> has no child figure");
@@ -994,7 +994,7 @@ public class SVGInputFormat implements InputFormat {
         if (obj != null) {
           Figure figure = obj.clone();
           for (Map.Entry<AttributeKey<?>, Object> entry : a2.entrySet()) {
-            figure.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+            figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
           }
           AffineTransform tx =
               (TRANSFORM.get(a) == null) ? new AffineTransform() : TRANSFORM.get(a);

@@ -76,7 +76,7 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
     if (decorator != null) {
       Point2D.Double sp = getStartPoint();
       Point2D.Double ep = getEndPoint();
-      Insets2D.Double decoratorInsets = get(DECORATOR_INSETS);
+      Insets2D.Double decoratorInsets = attr().get(DECORATOR_INSETS);
       sp.x -= decoratorInsets.left;
       sp.y -= decoratorInsets.top;
       ep.x += decoratorInsets.right;

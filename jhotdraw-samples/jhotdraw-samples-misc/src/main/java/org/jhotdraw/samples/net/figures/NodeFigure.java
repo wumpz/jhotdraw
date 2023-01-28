@@ -47,10 +47,10 @@ public class NodeFigure extends TextFigure {
     RectangleFigure rf = new RectangleFigure();
     setDecorator(rf);
     createConnectors();
-    set(DECORATOR_INSETS, new Insets2D.Double(6, 10, 6, 10));
+    attr().set(DECORATOR_INSETS, new Insets2D.Double(6, 10, 6, 10));
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
     setText(labels.getString("nodeDefaultName"));
-    setAttributeEnabled(DECORATOR_INSETS, false);
+    attr().setAttributeEnabled(DECORATOR_INSETS, false);
   }
 
   private void createConnectors() {
@@ -134,13 +134,5 @@ public class NodeFigure extends TextFigure {
   @Override
   public int getLayer() {
     return -1; // stay below ConnectionFigures
-  }
-
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    super.set(key, newValue);
-    if (getDecorator() != null) {
-      getDecorator().set(key, newValue);
-    }
   }
 }

@@ -112,7 +112,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
       FontRenderContext frc = getFontRenderContext();
       HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
       textAttributes.put(TextAttribute.FONT, getFont());
-      if (get(FONT_UNDERLINE)) {
+      if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
       textLayout = new TextLayout(text, textAttributes, frc);
@@ -181,7 +181,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   /** Gets the text shown by the text figure. */
   @Override
   public String getText() {
-    return get(TEXT);
+    return attr().get(TEXT);
   }
 
   /**
@@ -190,7 +190,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
    */
   @Override
   public void setText(String newText) {
-    set(TEXT, newText);
+    attr().set(TEXT, newText);
   }
 
   @Override
@@ -222,22 +222,22 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public Color getTextColor() {
-    return get(TEXT_COLOR);
+    return attr().get(TEXT_COLOR);
   }
 
   @Override
   public Color getFillColor() {
-    return get(FILL_COLOR);
+    return attr().get(FILL_COLOR);
   }
 
   @Override
   public void setFontSize(float size) {
-    set(FONT_SIZE, new Double(size));
+    attr().set(FONT_SIZE, new Double(size));
   }
 
   @Override
   public float getFontSize() {
-    return get(FONT_SIZE).floatValue();
+    return attr().get(FONT_SIZE).floatValue();
   }
 
   // EDITING

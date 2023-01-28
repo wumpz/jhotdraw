@@ -88,7 +88,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
   /** Updates the panel due to changes made on the drawing. */
   private void updatePanel() {
     if (drawing != null) {
-      colorButton.setBackground(drawing.get(CANVAS_FILL_COLOR));
+      colorButton.setBackground(drawing.attr().get(CANVAS_FILL_COLOR));
     }
   }
 
@@ -165,7 +165,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
               colorChooser,
               this,
               labels.getString("attribute.backgroundColor"),
-              drawing.get(CANVAS_FILL_COLOR));
+              drawing.attr().get(CANVAS_FILL_COLOR));
       colorButton.setBackground(color);
       updateDrawing();
     }

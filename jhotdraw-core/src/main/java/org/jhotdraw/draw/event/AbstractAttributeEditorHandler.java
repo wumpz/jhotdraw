@@ -145,7 +145,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
       Iterator<Object> di = editUndoData.iterator();
       for (Figure f : editedFigures) {
         f.willChange();
-        f.restoreAttributesTo(di.next());
+        f.attr().restoreAttributesTo(di.next());
         f.changed();
       }
     }
@@ -154,7 +154,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     public void redo() throws CannotRedoException {
       super.redo();
       for (Figure f : editedFigures) {
-        f.set(attributeKey, editRedoValue);
+        f.attr().set(attributeKey, editRedoValue);
       }
     }
 
@@ -335,10 +335,10 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         attributeEditor.setMultipleValues(false);
       } else {
         attributeEditor.getComponent().setEnabled(true);
-        T value = figures.iterator().next().get(attributeKey);
+        T value = figures.iterator().next().attr().get(attributeKey);
         boolean isMultiple = false;
         for (Figure f : figures) {
-          T v = f.get(attributeKey);
+          T v = f.attr().get(attributeKey);
           if ((v == null || value == null) && v != value
               || v != null && value != null && !v.equals(value)) {
             isMultiple = true;
@@ -362,14 +362,14 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         if (attributeRestoreData == null) {
           attributeRestoreData = new LinkedList<>();
           for (Figure f : figures) {
-            attributeRestoreData.add(f.getAttributesRestoreData());
+            attributeRestoreData.add(f.attr().getAttributesRestoreData());
           }
         }
         for (Figure f : figures) {
           f.willChange();
-          f.set(attributeKey, value);
+          f.attr().set(attributeKey, value);
           for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
-            f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+            f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
           }
           f.changed();
         }

@@ -216,7 +216,7 @@ public class DrawingPanel extends JPanel {
     ButtonFactory.addToolTo(
         tb, editor, ct = new CreationTool(new LineFigure()), "edit.createArrow", labels);
     af = (AbstractAttributedFigure) ct.getPrototype();
-    af.set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
+    af.attr().set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
     ButtonFactory.addToolTo(
         tb,
         editor,

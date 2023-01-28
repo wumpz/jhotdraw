@@ -77,10 +77,10 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
   public void actionPerformed(java.awt.event.ActionEvent evt) {
     final ArrayList<Object> restoreData = new ArrayList<>();
     final Figure drawing = getView().getDrawing();
-    restoreData.add(drawing.getAttributesRestoreData());
+    restoreData.add(drawing.attr().getAttributesRestoreData());
     drawing.willChange();
     for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      drawing.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+      drawing.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
     drawing.changed();
     UndoableEdit edit =
@@ -105,7 +105,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
             super.undo();
             Iterator<Object> iRestore = restoreData.iterator();
             drawing.willChange();
-            drawing.restoreAttributesTo(iRestore.next());
+            drawing.attr().restoreAttributesTo(iRestore.next());
             drawing.changed();
           }
 
@@ -116,7 +116,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
             // restoreData.add(drawing.getAttributesRestoreData());
             drawing.willChange();
             for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-              drawing.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+              drawing.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
             }
             drawing.changed();
           }

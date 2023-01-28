@@ -314,12 +314,12 @@ public class ImageMapOutputFormat implements OutputFormat {
   }
 
   private void writeHrefAttribute(Element elem, SVGFigure f) {
-    String link = f.get(LINK);
+    String link = f.attr().get(LINK);
     if (link != null && link.trim().length() > 0) {
       elem.setAttribute("href", link);
       elem.setAttribute("title", link);
       elem.setAttribute("alt", link);
-      String linkTarget = f.get(LINK_TARGET);
+      String linkTarget = f.attr().get(LINK_TARGET);
       if (linkTarget != null && linkTarget.trim().length() > 0) {
         elem.setAttribute("target", linkTarget);
       }

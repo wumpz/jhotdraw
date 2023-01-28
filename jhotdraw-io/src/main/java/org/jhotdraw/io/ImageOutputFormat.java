@@ -221,8 +221,8 @@ public class ImageOutputFormat implements OutputFormat {
       AffineTransform transform,
       Dimension imageSize) {
     // Create the buffered image and clear it
-    Color background = drawing.get(CANVAS_FILL_COLOR);
-    double opacity = drawing.get(CANVAS_FILL_OPACITY);
+    Color background = drawing.attr().get(CANVAS_FILL_COLOR);
+    double opacity = drawing.attr().get(CANVAS_FILL_OPACITY);
     if (background == null) {
       background = new Color(0xff, 0xff, 0xff, 0x0);
     } else {

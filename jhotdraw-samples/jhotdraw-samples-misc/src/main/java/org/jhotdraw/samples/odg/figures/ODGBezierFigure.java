@@ -40,7 +40,7 @@ public class ODGBezierFigure extends BezierFigure {
 
   public ODGBezierFigure(boolean isClosed) {
     super(isClosed);
-    set(UNCLOSED_PATH_FILLED, true);
+    attr().set(UNCLOSED_PATH_FILLED, true);
   }
 
   public Collection<Handle> createHandles(ODGPathFigure pathFigure, int detailLevel) {
@@ -97,14 +97,14 @@ public class ODGBezierFigure extends BezierFigure {
 
   @Override
   public void transform(AffineTransform tx) {
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-      if (get(TRANSFORM) == null) {
+      if (attr().get(TRANSFORM) == null) {
         TRANSFORM.setClone(this, tx);
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       super.transform(tx);
@@ -114,11 +114,11 @@ public class ODGBezierFigure extends BezierFigure {
   @Override
   public Rectangle2D.Double getDrawingArea() {
     if (cachedDrawingArea == null) {
-      if (get(TRANSFORM) == null) {
+      if (attr().get(TRANSFORM) == null) {
         cachedDrawingArea = path.getBounds2D();
       } else {
         BezierPath p2 = path.clone();
-        p2.transform(get(TRANSFORM));
+        p2.transform(attr().get(TRANSFORM));
         cachedDrawingArea = p2.getBounds2D();
       }
     }
@@ -130,9 +130,9 @@ public class ODGBezierFigure extends BezierFigure {
    * TRANSFORM attribute to null.
    */
   public void flattenTransform() {
-    if (get(TRANSFORM) != null) {
-      path.transform(get(TRANSFORM));
-      set(TRANSFORM, null);
+    if (attr().get(TRANSFORM) != null) {
+      path.transform(attr().get(TRANSFORM));
+      attr().set(TRANSFORM, null);
     }
     invalidate();
   }

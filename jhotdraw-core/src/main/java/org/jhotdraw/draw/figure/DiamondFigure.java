@@ -51,7 +51,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   @Override
   protected void drawFill(Graphics2D g) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    if (get(IS_QUADRATIC)) {
+    if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
       r.x -= (side - r.width) / 2;
       r.y -= (side - r.height) / 2;
@@ -83,7 +83,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   @Override
   protected void drawStroke(Graphics2D g) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    if (get(IS_QUADRATIC)) {
+    if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
       r.x -= (side - r.width) / 2;
       r.y -= (side - r.height) / 2;
@@ -122,7 +122,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   @Override
   public Rectangle2D.Double getDrawingArea() {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    if (get(IS_QUADRATIC)) {
+    if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
       r.x -= (side - r.width) / 2;
       r.y -= (side - r.height) / 2;
@@ -148,7 +148,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   @Override
   public boolean contains(Point2D.Double p) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    if (get(IS_QUADRATIC)) {
+    if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
       r.x -= (side - r.width) / 2;
       r.y -= (side - r.height) / 2;

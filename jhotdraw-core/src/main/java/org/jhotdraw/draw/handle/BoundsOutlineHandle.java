@@ -111,8 +111,8 @@ public class BoundsOutlineHandle extends AbstractHandle {
   @Override
   protected Rectangle basicGetBounds() {
     Shape bounds = getOwner().getBounds();
-    if (getOwner().get(TRANSFORM) != null) {
-      bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
+    if (getOwner().attr().get(TRANSFORM) != null) {
+      bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }
     bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
     Rectangle r = bounds.getBounds();
@@ -137,8 +137,8 @@ public class BoundsOutlineHandle extends AbstractHandle {
   @Override
   public void draw(Graphics2D g) {
     Shape bounds = getOwner().getBounds();
-    if (getOwner().get(TRANSFORM) != null) {
-      bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
+    if (getOwner().attr().get(TRANSFORM) != null) {
+      bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }
     bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
     Stroke stroke1;

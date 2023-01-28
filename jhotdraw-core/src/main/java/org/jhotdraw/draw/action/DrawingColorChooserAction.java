@@ -83,7 +83,7 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
     DrawingView v = getEditor().getActiveView();
     if (v != null) {
       Figure f = v.getDrawing();
-      initialColor = f.get(key);
+      initialColor = f.attr().get(key);
     }
     if (initialColor == null) {
       initialColor = super.getInitialColor();

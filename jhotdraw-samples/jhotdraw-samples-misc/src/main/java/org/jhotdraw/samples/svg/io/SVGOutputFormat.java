@@ -119,11 +119,11 @@ public class SVGOutputFormat implements OutputFormat {
 
   protected void writeElement(Element parent, Figure f) throws IOException {
     // Write link attribute as encosing "a" element
-    if (f.get(LINK) != null && f.get(LINK).trim().length() > 0) {
+    if (f.attr().get(LINK) != null && f.attr().get(LINK).trim().length() > 0) {
       Element aElement = parent.getOwnerDocument().createElement("a");
-      aElement.setAttribute("xlink:href", f.get(LINK));
-      if (f.get(LINK_TARGET) != null && f.get(LINK).trim().length() > 0) {
-        aElement.setAttribute("target", f.get(LINK_TARGET));
+      aElement.setAttribute("xlink:href", f.attr().get(LINK));
+      if (f.attr().get(LINK_TARGET) != null && f.attr().get(LINK).trim().length() > 0) {
+        aElement.setAttribute("target", f.attr().get(LINK_TARGET));
       }
       parent.appendChild(aElement);
       parent = aElement;
@@ -185,7 +185,7 @@ public class SVGOutputFormat implements OutputFormat {
             f.getX() + f.getWidth() / 2d,
             f.getY() + f.getHeight() / 2d,
             f.getWidth() / 2d,
-            f.getAttributes()));
+            f.attr().getAttributes()));
   }
 
   protected Element createCircle(
@@ -284,7 +284,7 @@ public class SVGOutputFormat implements OutputFormat {
             f.getY() + f.getHeight() / 2d,
             f.getWidth() / 2d,
             f.getHeight() / 2d,
-            f.getAttributes()));
+            f.attr().getAttributes()));
   }
 
   protected Element createEllipse(
@@ -307,7 +307,7 @@ public class SVGOutputFormat implements OutputFormat {
   }
 
   protected void writeGElement(Element parent, SVGGroupFigure f) throws IOException {
-    Element elem = createG(document, f.getAttributes());
+    Element elem = createG(document, f.attr().getAttributes());
     for (Figure child : f.getChildren()) {
       writeElement(elem, child);
     }
@@ -323,7 +323,7 @@ public class SVGOutputFormat implements OutputFormat {
             f.getWidth(),
             f.getHeight(),
             f.getImageData(),
-            f.getAttributes()));
+            f.attr().getAttributes()));
   }
 
   protected Element createImage(
@@ -351,7 +351,7 @@ public class SVGOutputFormat implements OutputFormat {
     for (int i = 0; i < beziers.length; i++) {
       beziers[i] = ((BezierFigure) f.getChild(i)).getBezierPath();
     }
-    parent.appendChild(createPath(document, beziers, f.getAttributes()));
+    parent.appendChild(createPath(document, beziers, f.attr().getAttributes()));
   }
 
   protected Element createPath(
@@ -375,7 +375,7 @@ public class SVGOutputFormat implements OutputFormat {
     }
     parent.appendChild(
         createPolygon(
-            document, points.toArray(new Point2D.Double[points.size()]), f.getAttributes()));
+            document, points.toArray(new Point2D.Double[points.size()]), f.attr().getAttributes()));
   }
 
   protected Element createPolygon(
@@ -399,7 +399,7 @@ public class SVGOutputFormat implements OutputFormat {
     }
     parent.appendChild(
         createPolyline(
-            document, points.toArray(new Point2D.Double[points.size()]), f.getAttributes()));
+            document, points.toArray(new Point2D.Double[points.size()]), f.attr().getAttributes()));
   }
 
   protected Element createPolyline(
@@ -422,7 +422,7 @@ public class SVGOutputFormat implements OutputFormat {
             bezier.getNode(0).y[0],
             bezier.getNode(1).x[0],
             bezier.getNode(1).y[0],
-            f.getAttributes()));
+            f.attr().getAttributes()));
   }
 
   protected Element createLine(
@@ -454,7 +454,7 @@ public class SVGOutputFormat implements OutputFormat {
             f.getHeight(),
             f.getArcWidth(),
             f.getArcHeight(),
-            f.getAttributes()));
+            f.attr().getAttributes()));
   }
 
   protected Element createRect(
@@ -490,7 +490,8 @@ public class SVGOutputFormat implements OutputFormat {
       throw error;
     }
     parent.appendChild(
-        createText(document, f.getCoordinates(), f.getRotates(), styledDoc, f.getAttributes()));
+        createText(
+            document, f.getCoordinates(), f.getRotates(), styledDoc, f.attr().getAttributes()));
   }
 
   protected Element createText(
@@ -557,7 +558,7 @@ public class SVGOutputFormat implements OutputFormat {
             bounds.width,
             bounds.height,
             styledDoc,
-            f.getAttributes()));
+            f.attr().getAttributes()));
   }
 
   protected Element createTextArea(
@@ -1335,7 +1336,7 @@ public class SVGOutputFormat implements OutputFormat {
     document.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
     document.setAttribute("version", "1.2");
     document.setAttribute("baseProfile", "tiny");
-    writeViewportAttributes(document, drawing.getAttributes());
+    writeViewportAttributes(document, drawing.attr().getAttributes());
     initStorageContext(document);
     defs = doc.createElement("defs");
     document.appendChild(defs);

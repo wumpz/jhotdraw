@@ -12,7 +12,6 @@ import java.awt.geom.*;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
@@ -145,17 +144,17 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
    * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
    * implementing the figure interface.
    */
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    super.set(key, newValue);
-    if (isAttributeEnabled(key)) {
-      if (children != null) {
-        for (Figure child : children) {
-          child.set(key, newValue);
-        }
-      }
-    }
-  }
+  //  @Override
+  //  public <T> void set(AttributeKey<T> key, T newValue) {
+  //    super.set(key, newValue);
+  //    if (isAttributeEnabled(key)) {
+  //      if (children != null) {
+  //        for (Figure child : children) {
+  //          child.set(key, newValue);
+  //        }
+  //      }
+  //    }
+  //  }
 
   // EDITING
   @Override

@@ -57,9 +57,9 @@ public class DOMStorableInputOutputFormatTest {
     assertThat(drawing.getChildren()).hasSize(1);
     Figure rect = drawing.getChild(0);
     assertThat(rect).isInstanceOf(RectangleFigure.class);
-    assertThat(rect.get(AttributeKeys.STROKE_COLOR)).isEqualTo(new Color(255, 0, 0));
-    assertThat(rect.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(3.0);
-    assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(0, 128, 0));
+    assertThat(rect.attr().get(AttributeKeys.STROKE_COLOR)).isEqualTo(new Color(255, 0, 0));
+    assertThat(rect.attr().get(AttributeKeys.STROKE_WIDTH)).isEqualTo(3.0);
+    assertThat(rect.attr().get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(0, 128, 0));
   }
 
   @Test
@@ -72,9 +72,9 @@ public class DOMStorableInputOutputFormatTest {
     assertThat(drawing.getChildren()).hasSize(11);
     Figure rect = drawing.getChild(0);
     assertThat(rect).isInstanceOf(RectangleFigure.class);
-    assertThat(rect.get(AttributeKeys.STROKE_COLOR)).isEqualTo(Color.BLACK);
-    assertThat(rect.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(1.0);
-    assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(255, 255, 102));
+    assertThat(rect.attr().get(AttributeKeys.STROKE_COLOR)).isEqualTo(Color.BLACK);
+    assertThat(rect.attr().get(AttributeKeys.STROKE_WIDTH)).isEqualTo(1.0);
+    assertThat(rect.attr().get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(255, 255, 102));
   }
 
   @ParameterizedTest(name = "{index} {0}")
@@ -122,8 +122,8 @@ public class DOMStorableInputOutputFormatTest {
     assertThat(drawing.getChildren()).hasSize(1);
     Figure rect = drawing.getChild(0);
     assertThat(rect).isInstanceOf(RectangleFigure.class);
-    assertThat(rect.get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(102, 102, 255));
-    assertThat(rect.get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
+    assertThat(rect.attr().get(AttributeKeys.FILL_COLOR)).isEqualTo(new Color(102, 102, 255));
+    assertThat(rect.attr().get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
   }
 
   @Test
@@ -137,6 +137,6 @@ public class DOMStorableInputOutputFormatTest {
     Figure rect = drawing.getChild(0);
     assertThat(rect).isInstanceOf(BezierFigure.class);
     assertThat(((BezierFigure) rect).getNodeCount()).isEqualTo(10);
-    assertThat(rect.get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
+    assertThat(rect.attr().get(AttributeKeys.TEXT_COLOR)).isEqualTo(new Color(0, 0, 0));
   }
 }

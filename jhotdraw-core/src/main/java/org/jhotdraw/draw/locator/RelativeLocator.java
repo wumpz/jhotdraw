@@ -63,7 +63,7 @@ public class RelativeLocator extends AbstractLocator {
   public java.awt.geom.Point2D.Double locate(Figure owner) {
     Rectangle2D.Double bounds = owner.getBounds();
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
-      Insets2D.Double insets = owner.get(DECORATOR_INSETS);
+      Insets2D.Double insets = owner.attr().get(DECORATOR_INSETS);
       if (insets != null) {
         insets.addTo(bounds);
       }
@@ -73,12 +73,12 @@ public class RelativeLocator extends AbstractLocator {
       location =
           new Point2D.Double(
               bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
-      if (owner.get(TRANSFORM) != null) {
-        owner.get(TRANSFORM).transform(location, location);
+      if (owner.attr().get(TRANSFORM) != null) {
+        owner.attr().get(TRANSFORM).transform(location, location);
       }
     } else {
-      if (owner.get(TRANSFORM) != null) {
-        Rectangle2D r = owner.get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
+      if (owner.attr().get(TRANSFORM) != null) {
+        Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
         bounds.x = r.getX();
         bounds.y = r.getY();
         bounds.width = r.getWidth();

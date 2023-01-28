@@ -35,9 +35,9 @@ public class AnimationSample extends javax.swing.JFrame {
     add(view);
     setSize(400, 400);
     Drawing d = new DefaultDrawing();
-    d.set(CANVAS_FILL_COLOR, new Color(0x76a9d2));
+    d.attr().set(CANVAS_FILL_COLOR, new Color(0x76a9d2));
     final EllipseFigure ellipse = new EllipseFigure(160, 160, 80, 80);
-    ellipse.set(STROKE_WIDTH, 7d);
+    ellipse.attr().set(STROKE_WIDTH, 7d);
     d.add(ellipse);
     view.setDrawing(d);
     Timer t =

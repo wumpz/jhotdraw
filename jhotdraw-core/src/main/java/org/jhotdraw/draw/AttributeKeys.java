@@ -355,7 +355,7 @@ public class AttributeKeys {
 
   /** Computing a global scale factor derived from pixel with or different measures. */
   public static double getGlobalValueFactor(Figure f, double factor) {
-    if (factor != 1.0 && f.get(IS_STROKE_PIXEL_VALUE)) {
+    if (factor != 1.0 && f.attr().get(IS_STROKE_PIXEL_VALUE)) {
       return factor != 0.0 ? factor : 1.0;
     }
     return 1.0;
@@ -390,14 +390,14 @@ public class AttributeKeys {
    * STROKE_INNER_WIDTH and STROKE_TYPE attributes.
    */
   public static double getStrokeTotalWidth(Figure f, double factor) {
-    switch (f.get(STROKE_TYPE)) {
+    switch (f.attr().get(STROKE_TYPE)) {
       case BASIC:
       default:
-        return f.get(STROKE_WIDTH) / getGlobalValueFactor(f, factor);
+        return f.attr().get(STROKE_WIDTH) / getGlobalValueFactor(f, factor);
         // break; not reached
       case DOUBLE:
-        return f.get(STROKE_WIDTH)
-            * (1d + f.get(STROKE_INNER_WIDTH_FACTOR))
+        return f.attr().get(STROKE_WIDTH)
+            * (1d + f.attr().get(STROKE_INNER_WIDTH_FACTOR))
             / getGlobalValueFactor(f, factor);
         // break; not reached
     }
@@ -408,19 +408,21 @@ public class AttributeKeys {
    * IS_STROKE_MITER_LIMIT factor.
    */
   public static double getStrokeTotalMiterLimit(Figure f, double factor) {
-    if (f.get(IS_STROKE_MITER_LIMIT_FACTOR)) {
-      return f.get(STROKE_MITER_LIMIT) * f.get(STROKE_WIDTH) * getGlobalValueFactor(f, factor);
+    if (f.attr().get(IS_STROKE_MITER_LIMIT_FACTOR)) {
+      return f.attr().get(STROKE_MITER_LIMIT)
+          * f.attr().get(STROKE_WIDTH)
+          * getGlobalValueFactor(f, factor);
     } else {
-      return f.get(STROKE_MITER_LIMIT);
+      return f.attr().get(STROKE_MITER_LIMIT);
     }
   }
 
   public static Stroke getStroke(Figure f, double factor) {
-    double strokeWidth = f.get(STROKE_WIDTH) * getGlobalValueFactor(f, factor);
+    double strokeWidth = f.attr().get(STROKE_WIDTH) * getGlobalValueFactor(f, factor);
     float miterLimit = (float) getStrokeTotalMiterLimit(f, factor);
-    double dashFactor = f.get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
-    double dashPhase = f.get(STROKE_DASH_PHASE);
-    double[] ddashes = f.get(STROKE_DASHES);
+    double dashFactor = f.attr().get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
+    double dashPhase = f.attr().get(STROKE_DASH_PHASE);
+    double[] ddashes = f.attr().get(STROKE_DASHES);
     float[] dashes = null;
     boolean isAllZeroes = true;
     if (ddashes != null) {
@@ -444,23 +446,23 @@ public class AttributeKeys {
       // don't draw dashes, if all values are 0.
       dashes = null;
     }
-    switch (f.get(STROKE_TYPE)) {
+    switch (f.attr().get(STROKE_TYPE)) {
       case BASIC:
       default:
         return new BasicStroke(
             (float) strokeWidth,
-            f.get(STROKE_CAP),
-            f.get(STROKE_JOIN),
+            f.attr().get(STROKE_CAP),
+            f.attr().get(STROKE_JOIN),
             Math.max(1, miterLimit),
             dashes,
             Math.max(0, (float) (dashPhase * dashFactor)));
         // not reached
       case DOUBLE:
         return new DoubleStroke(
-            (float) (f.get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
+            (float) (f.attr().get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
             (float) strokeWidth,
-            f.get(STROKE_CAP),
-            f.get(STROKE_JOIN),
+            f.attr().get(STROKE_CAP),
+            f.attr().get(STROKE_JOIN),
             Math.max(1, miterLimit),
             dashes,
             Math.max(0, (float) (dashPhase * dashFactor)));
@@ -476,51 +478,51 @@ public class AttributeKeys {
    * @return A stroke suited for creating a shape for hit testing.
    */
   public static Stroke getHitStroke(Figure f, double factor) {
-    double strokeWidth = Math.max(1, f.get(STROKE_WIDTH) * getGlobalValueFactor(f, factor));
+    double strokeWidth = Math.max(1, f.attr().get(STROKE_WIDTH) * getGlobalValueFactor(f, factor));
     float miterLimit = (float) getStrokeTotalMiterLimit(f, factor);
-    double dashFactor = f.get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
-    switch (f.get(STROKE_TYPE)) {
+    double dashFactor = f.attr().get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
+    switch (f.attr().get(STROKE_TYPE)) {
       case BASIC:
       default:
         return new BasicStroke(
             (float) strokeWidth,
-            f.get(STROKE_CAP),
-            f.get(STROKE_JOIN),
+            f.attr().get(STROKE_CAP),
+            f.attr().get(STROKE_JOIN),
             miterLimit,
             null,
-            Math.max(0, (float) (f.get(STROKE_DASH_PHASE) * dashFactor)));
+            Math.max(0, (float) (f.attr().get(STROKE_DASH_PHASE) * dashFactor)));
         // not reached
       case DOUBLE:
         return new DoubleStroke(
-            (float) (f.get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
+            (float) (f.attr().get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
             (float) strokeWidth,
-            f.get(STROKE_CAP),
-            f.get(STROKE_JOIN),
+            f.attr().get(STROKE_CAP),
+            f.attr().get(STROKE_JOIN),
             miterLimit,
             null,
-            Math.max(0, (float) (f.get(STROKE_DASH_PHASE).floatValue() * dashFactor)));
+            Math.max(0, (float) (f.attr().get(STROKE_DASH_PHASE).floatValue() * dashFactor)));
         // not reached
     }
   }
 
   public static Font getFont(Figure f) {
-    Font prototype = f.get(FONT_FACE);
+    Font prototype = f.attr().get(FONT_FACE);
     if (prototype == null) {
       return null;
     }
     if (getFontStyle(f) != Font.PLAIN) {
-      return prototype.deriveFont(getFontStyle(f), f.get(FONT_SIZE).floatValue());
+      return prototype.deriveFont(getFontStyle(f), f.attr().get(FONT_SIZE).floatValue());
     } else {
-      return prototype.deriveFont(f.get(FONT_SIZE).floatValue());
+      return prototype.deriveFont(f.attr().get(FONT_SIZE).floatValue());
     }
   }
 
   public static int getFontStyle(Figure f) {
     int style = Font.PLAIN;
-    if (f.get(FONT_BOLD)) {
+    if (f.attr().get(FONT_BOLD)) {
       style |= Font.BOLD;
     }
-    if (f.get(FONT_ITALIC)) {
+    if (f.attr().get(FONT_ITALIC)) {
       style |= Font.ITALIC;
     }
     return style;
@@ -535,8 +537,8 @@ public class AttributeKeys {
   public static double getPerpendicularFillGrowth(Figure f, double factor) {
     double grow;
     double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
-    StrokePlacement placement = f.get(STROKE_PLACEMENT);
-    switch (f.get(FILL_UNDER_STROKE)) {
+    StrokePlacement placement = f.attr().get(STROKE_PLACEMENT);
+    switch (f.attr().get(FILL_UNDER_STROKE)) {
       case FULL:
         switch (placement) {
           case INSIDE:
@@ -593,7 +595,7 @@ public class AttributeKeys {
   public static double getPerpendicularDrawGrowth(Figure f, double factor) {
     double grow;
     double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
-    switch (f.get(STROKE_PLACEMENT)) {
+    switch (f.attr().get(STROKE_PLACEMENT)) {
       case INSIDE:
         grow = strokeWidth / -2d;
         break;
@@ -616,7 +618,7 @@ public class AttributeKeys {
    */
   public static double getPerpendicularHitGrowth(Figure f, double factor) {
     double grow;
-    if (f.get(STROKE_COLOR) == null) {
+    if (f.attr().get(STROKE_COLOR) == null) {
       grow = getPerpendicularFillGrowth(f, factor);
     } else {
       double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);

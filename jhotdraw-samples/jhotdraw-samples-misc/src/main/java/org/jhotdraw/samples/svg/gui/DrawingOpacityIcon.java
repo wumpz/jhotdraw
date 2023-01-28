@@ -81,9 +81,9 @@ public class DrawingOpacityIcon extends javax.swing.ImageIcon {
       DrawingView view = editor.getActiveView();
       if (view != null && view.getDrawing() != null) {
         Drawing d = view.getDrawing();
-        opacity = d.get(opacityKey);
-        fillColor = (fillColorKey == null) ? null : d.get(fillColorKey);
-        strokeColor = (strokeColorKey == null) ? null : d.get(strokeColorKey);
+        opacity = d.attr().get(opacityKey);
+        fillColor = (fillColorKey == null) ? null : d.attr().get(fillColorKey);
+        strokeColor = (strokeColorKey == null) ? null : d.attr().get(strokeColorKey);
       } else {
         opacity = opacityKey.get(editor.getDefaultAttributes());
         fillColor = (fillColorKey == null) ? null : fillColorKey.get(editor.getDefaultAttributes());

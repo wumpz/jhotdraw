@@ -14,7 +14,6 @@ import java.awt.geom.*;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
@@ -319,41 +318,41 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
     return children.size() == 0 ? new LinkedList<>() : new ReversedList<>(getChildren());
   }
 
-  @Override
-  public <T> void set(AttributeKey<T> key, T value) {
-    for (Figure child : getChildren()) {
-      child.set(key, value);
-    }
-    invalidate();
-  }
-
-  @Override
-  public <T> T get(AttributeKey<T> name) {
-    return null;
-  }
-
-  @Override
-  public Map<AttributeKey<?>, Object> getAttributes() {
-    return new HashMap<>();
-  }
-
-  @Override
-  public Object getAttributesRestoreData() {
-    LinkedList<Object> data = new LinkedList<>();
-    for (Figure child : getChildren()) {
-      data.add(child.getAttributesRestoreData());
-    }
-    return data;
-  }
-
-  @Override
-  public void restoreAttributesTo(Object newData) {
-    @SuppressWarnings("unchecked")
-    Iterator<Object> data = ((LinkedList<Object>) newData).iterator();
-    for (Figure child : getChildren()) {
-      child.restoreAttributesTo(data.next());
-    }
-  }
+  //  @Override
+  //  public <T> void set(AttributeKey<T> key, T value) {
+  //    for (Figure child : getChildren()) {
+  //      child.set(key, value);
+  //    }
+  //    invalidate();
+  //  }
+  //
+  //  @Override
+  //  public <T> T get(AttributeKey<T> name) {
+  //    return null;
+  //  }
+  //
+  //  @Override
+  //  public Map<AttributeKey<?>, Object> getAttributes() {
+  //    return new HashMap<>();
+  //  }
+  //
+  //  @Override
+  //  public Object getAttributesRestoreData() {
+  //    LinkedList<Object> data = new LinkedList<>();
+  //    for (Figure child : getChildren()) {
+  //      data.add(child.getAttributesRestoreData());
+  //    }
+  //    return data;
+  //  }
+  //
+  //  @Override
+  //  public void restoreAttributesTo(Object newData) {
+  //    @SuppressWarnings("unchecked")
+  //    Iterator<Object> data = ((LinkedList<Object>) newData).iterator();
+  //    for (Figure child : getChildren()) {
+  //      child.restoreAttributesTo(data.next());
+  //    }
+  //  }
 
   @Override
   public boolean contains(Figure f) {
@@ -363,9 +362,9 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
   @Override
   public boolean contains(Point2D.Double p) {
     if (getDrawingArea().contains(p)) {
-      if (get(TRANSFORM) != null) {
+      if (attr().get(TRANSFORM) != null) {
         try {
-          p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
+          p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());
         } catch (NoninvertibleTransformException ex) {
           InternalError error = new InternalError(ex.getMessage());
           error.initCause(ex);

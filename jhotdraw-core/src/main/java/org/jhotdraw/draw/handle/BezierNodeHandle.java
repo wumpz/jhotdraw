@@ -16,7 +16,6 @@ import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -103,8 +102,8 @@ public class BezierNodeHandle extends AbstractHandle {
   protected Point getLocation() {
     if (getOwner().getNodeCount() > index) {
       Point2D.Double p = getOwner().getPoint(index, 0);
-      if (getTransformOwner().get(TRANSFORM) != null) {
-        getTransformOwner().get(TRANSFORM).transform(p, p);
+      if (getTransformOwner().attr().get(TRANSFORM) != null) {
+        getTransformOwner().attr().get(TRANSFORM).transform(p, p);
       }
       return view.drawingToView(p);
     } else {
@@ -146,9 +145,9 @@ public class BezierNodeHandle extends AbstractHandle {
         view.getConstrainer() == null
             ? view.viewToDrawing(lead)
             : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
-    if (getTransformOwner().get(TRANSFORM) != null) {
+    if (getTransformOwner().attr().get(TRANSFORM) != null) {
       try {
-        getTransformOwner().get(TRANSFORM).inverseTransform(p, p);
+        getTransformOwner().attr().get(TRANSFORM).inverseTransform(p, p);
       } catch (NoninvertibleTransformException ex) {
         ex.printStackTrace();
       }

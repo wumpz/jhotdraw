@@ -72,8 +72,8 @@ public class SerializationInputFormat implements InputFormat {
       ObjectInputStream oin = new ObjectInputStream(in);
       Drawing d = (Drawing) oin.readObject();
       if (replace) {
-        for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
-          drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> e : d.attr().getAttributes().entrySet()) {
+          drawing.attr().set((AttributeKey<Object>) e.getKey(), e.getValue());
         }
       }
       for (Figure f : d.getChildren()) {
@@ -98,8 +98,8 @@ public class SerializationInputFormat implements InputFormat {
     try {
       Drawing d = (Drawing) t.getTransferData(dataFlavor);
       if (replace) {
-        for (Map.Entry<AttributeKey<?>, Object> e : d.getAttributes().entrySet()) {
-          drawing.set((AttributeKey<Object>) e.getKey(), e.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> e : d.attr().getAttributes().entrySet()) {
+          drawing.attr().set((AttributeKey<Object>) e.getKey(), e.getValue());
         }
       }
       for (Figure f : d.getChildren()) {

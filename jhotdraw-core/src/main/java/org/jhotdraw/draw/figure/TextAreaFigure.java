@@ -78,7 +78,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   protected void drawText(Graphics2D g) {
     if (getText() != null || isEditable()) {
       Font font = getFont();
-      boolean isUnderlined = get(FONT_UNDERLINE);
+      boolean isUnderlined = attr().get(FONT_UNDERLINE);
       Insets2D.Double insets = getInsets();
       Rectangle2D.Double textRect =
           new Rectangle2D.Double(
@@ -225,7 +225,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
       // If there is only one layout element on the line, and we are
       // drawing, then honor alignment
       if (first == layouts.size() - 1 && g != null) {
-        switch (get(TEXT_ALIGNMENT)) {
+        switch (attr().get(TEXT_ALIGNMENT)) {
           case TRAILING:
             penPositions.set(first, rightMargin - layouts.get(first).getVisibleAdvance() - 1);
             break;
@@ -321,13 +321,13 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   /** Gets the text shown by the text figure. */
   @Override
   public String getText() {
-    return get(TEXT);
+    return attr().get(TEXT);
   }
 
   /** Returns the insets used to draw text. */
   @Override
   public Insets2D.Double getInsets() {
-    double sw = Math.ceil(get(STROKE_WIDTH) / 2);
+    double sw = Math.ceil(attr().get(STROKE_WIDTH) / 2);
     Insets2D.Double insets = new Insets2D.Double(4, 4, 4, 4);
     return new Insets2D.Double(
         insets.top + sw, insets.left + sw, insets.bottom + sw, insets.right + sw);
@@ -347,7 +347,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   /** Sets the text shown by the text figure. */
   @Override
   public void setText(String newText) {
-    set(TEXT, newText);
+    attr().set(TEXT, newText);
   }
 
   @Override
@@ -362,22 +362,22 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
   @Override
   public Color getTextColor() {
-    return get(TEXT_COLOR);
+    return attr().get(TEXT_COLOR);
   }
 
   @Override
   public Color getFillColor() {
-    return get(FILL_COLOR);
+    return attr().get(FILL_COLOR);
   }
 
   @Override
   public void setFontSize(float size) {
-    set(FONT_SIZE, new Double(size));
+    attr().set(FONT_SIZE, new Double(size));
   }
 
   @Override
   public float getFontSize() {
-    return get(FONT_SIZE).floatValue();
+    return attr().get(FONT_SIZE).floatValue();
   }
 
   // EDITING
@@ -461,7 +461,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     Rectangle2D.Double textRect = new Rectangle2D.Double();
     if (getText() != null) {
       Font font = getFont();
-      boolean isUnderlined = get(FONT_UNDERLINE);
+      boolean isUnderlined = attr().get(FONT_UNDERLINE);
       float leftMargin = 0;
       float rightMargin = (float) maxWidth - 1;
       float verticalPos = 0;

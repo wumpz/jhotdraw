@@ -222,8 +222,8 @@ public abstract class QuadTreeCompositeFigure extends AbstractCompositeFigure {
     LinkedList<Figure> contained = new LinkedList<>();
     for (Figure f : children) {
       Rectangle2D r = f.getBounds();
-      if (f.get(TRANSFORM) != null) {
-        r = f.get(TRANSFORM).createTransformedShape(r).getBounds2D();
+      if (f.attr().get(TRANSFORM) != null) {
+        r = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
       }
       if (f.isVisible() && bounds.contains(r)) {
         contained.add(f);

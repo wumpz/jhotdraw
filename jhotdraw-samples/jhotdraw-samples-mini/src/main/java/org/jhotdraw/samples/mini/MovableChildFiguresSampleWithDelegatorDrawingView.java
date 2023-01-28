@@ -15,6 +15,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.EllipseFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.LabelFigure;
 import org.jhotdraw.draw.handle.DragHandle;
 import org.jhotdraw.draw.handle.Handle;

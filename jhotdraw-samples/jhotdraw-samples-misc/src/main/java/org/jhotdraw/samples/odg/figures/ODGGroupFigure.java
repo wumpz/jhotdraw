@@ -38,35 +38,8 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
   }
 
   @Override
-  public <T> void set(AttributeKey<T> key, T value) {
-    if (key == OPACITY) {
-      attributes.put(key, value);
-    } else {
-      super.set(key, value);
-    }
-    invalidate();
-  }
-
-  @Override
-  public <T> T get(AttributeKey<T> key) {
-    return key.get(attributes);
-  }
-
-  @Override
-  public Map<AttributeKey<?>, Object> getAttributes() {
-    return new HashMap<AttributeKey<?>, Object>(attributes);
-  }
-
-  @SuppressWarnings("unchecked")
-  public void setAttributes(Map<AttributeKey<?>, Object> map) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
-  }
-
-  @Override
   public void draw(Graphics2D g) {
-    double opacity = get(OPACITY);
+    double opacity = attr().get(OPACITY);
     opacity = Math.min(Math.max(0d, opacity), 1d);
     if (opacity != 0d) {
       if (opacity != 1d) {
@@ -112,8 +85,8 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
       } else {
         for (Figure f : children) {
           Rectangle2D.Double bounds = f.getBounds();
-          if (f.get(TRANSFORM) != null) {
-            bounds.setRect(f.get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
+          if (f.attr().get(TRANSFORM) != null) {
+            bounds.setRect(f.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
           }
           if (cachedBounds == null || cachedBounds.isEmpty()) {
             cachedBounds = bounds;

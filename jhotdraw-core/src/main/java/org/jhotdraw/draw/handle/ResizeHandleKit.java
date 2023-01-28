@@ -173,9 +173,9 @@ public class ResizeHandleKit {
       if (view.getConstrainer() != null) {
         p = view.getConstrainer().constrainPoint(p);
       }
-      if (getOwner().get(TRANSFORM) != null) {
+      if (getOwner().attr().get(TRANSFORM) != null) {
         try {
-          getOwner().get(TRANSFORM).inverseTransform(p, p);
+          getOwner().attr().get(TRANSFORM).inverseTransform(p, p);
         } catch (NoninvertibleTransformException ex) {
           if (DEBUG) {
             ex.printStackTrace();

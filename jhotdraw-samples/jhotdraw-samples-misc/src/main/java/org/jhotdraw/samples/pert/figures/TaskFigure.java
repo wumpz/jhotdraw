@@ -9,12 +9,11 @@ package org.jhotdraw.samples.pert.figures;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.LocatorConnector;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.ListFigure;
 import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.figure.TextFigure;
@@ -26,7 +25,6 @@ import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.*;
 
 /**
  * TaskFigure.
@@ -80,10 +78,10 @@ public class TaskFigure extends GraphicalCompositeFigure {
     super(new RectangleFigure());
     setLayouter(new VerticalLayouter());
     RectangleFigure nameCompartmentPF = new RectangleFigure();
-    nameCompartmentPF.set(STROKE_COLOR, null);
-    nameCompartmentPF.setAttributeEnabled(STROKE_COLOR, false);
-    nameCompartmentPF.set(FILL_COLOR, null);
-    nameCompartmentPF.setAttributeEnabled(FILL_COLOR, false);
+    nameCompartmentPF.attr().set(STROKE_COLOR, null);
+    nameCompartmentPF.attr().setAttributeEnabled(STROKE_COLOR, false);
+    nameCompartmentPF.attr().set(FILL_COLOR, null);
+    nameCompartmentPF.attr().setAttributeEnabled(FILL_COLOR, false);
     ListFigure nameCompartment = new ListFigure(nameCompartmentPF);
     ListFigure attributeCompartment = new ListFigure();
     SeparatorLineFigure separator1 = new SeparatorLineFigure();
@@ -91,23 +89,23 @@ public class TaskFigure extends GraphicalCompositeFigure {
     add(separator1);
     add(attributeCompartment);
     Insets2D.Double insets = new Insets2D.Double(4, 8, 4, 8);
-    nameCompartment.set(LAYOUT_INSETS, insets);
-    attributeCompartment.set(LAYOUT_INSETS, insets);
+    nameCompartment.attr().set(LAYOUT_INSETS, insets);
+    attributeCompartment.attr().set(LAYOUT_INSETS, insets);
     TextFigure nameFigure;
     nameCompartment.add(nameFigure = new TextFigure());
-    nameFigure.set(FONT_BOLD, true);
-    nameFigure.setAttributeEnabled(FONT_BOLD, false);
+    nameFigure.attr().set(FONT_BOLD, true);
+    nameFigure.attr().setAttributeEnabled(FONT_BOLD, false);
     TextFigure durationFigure;
     attributeCompartment.add(durationFigure = new TextFigure());
-    durationFigure.set(FONT_BOLD, true);
+    durationFigure.attr().set(FONT_BOLD, true);
     durationFigure.setText("0");
-    durationFigure.setAttributeEnabled(FONT_BOLD, false);
+    durationFigure.attr().setAttributeEnabled(FONT_BOLD, false);
     TextFigure startTimeFigure;
     attributeCompartment.add(startTimeFigure = new TextFigure());
     startTimeFigure.setEditable(false);
     startTimeFigure.setText("0");
-    startTimeFigure.setAttributeEnabled(FONT_BOLD, false);
-    setAttributeEnabled(STROKE_DASHES, false);
+    startTimeFigure.attr().setAttributeEnabled(FONT_BOLD, false);
+    attr().setAttributeEnabled(STROKE_DASHES, false);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.pert.Labels");
     setName(labels.getString("pert.task.defaultName"));
     setDuration(0);

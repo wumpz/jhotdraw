@@ -27,14 +27,14 @@ public class DependencyFigure extends LineConnectionFigure {
 
   /** Creates a new instance. */
   public DependencyFigure() {
-    set(STROKE_COLOR, new Color(0x000099));
-    set(STROKE_WIDTH, 1d);
-    set(END_DECORATION, new ArrowTip());
-    setAttributeEnabled(END_DECORATION, false);
-    setAttributeEnabled(START_DECORATION, false);
-    setAttributeEnabled(STROKE_DASHES, false);
-    setAttributeEnabled(FONT_ITALIC, false);
-    setAttributeEnabled(FONT_UNDERLINE, false);
+    attr().set(STROKE_COLOR, new Color(0x000099));
+    attr().set(STROKE_WIDTH, 1d);
+    attr().set(END_DECORATION, new ArrowTip());
+    attr().setAttributeEnabled(END_DECORATION, false);
+    attr().setAttributeEnabled(START_DECORATION, false);
+    attr().setAttributeEnabled(STROKE_DASHES, false);
+    attr().setAttributeEnabled(FONT_ITALIC, false);
+    attr().setAttributeEnabled(FONT_UNDERLINE, false);
   }
 
   /**

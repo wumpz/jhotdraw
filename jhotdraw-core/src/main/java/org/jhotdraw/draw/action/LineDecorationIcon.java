@@ -31,11 +31,11 @@ public class LineDecorationIcon implements Icon {
     lineFigure = new LineFigure();
     lineFigure.setBounds(new Point2D.Double(2, 8), new Point2D.Double(23, 8));
     if (isStartDecoration) {
-      lineFigure.set(START_DECORATION, decoration);
+      lineFigure.attr().set(START_DECORATION, decoration);
     } else {
-      lineFigure.set(END_DECORATION, decoration);
+      lineFigure.attr().set(END_DECORATION, decoration);
     }
-    lineFigure.set(STROKE_COLOR, Color.black);
+    lineFigure.attr().set(STROKE_COLOR, Color.black);
   }
 
   @Override

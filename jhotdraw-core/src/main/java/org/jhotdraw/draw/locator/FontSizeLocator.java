@@ -38,10 +38,10 @@ public class FontSizeLocator implements Locator {
       p.y += ((TextHolderFigure) owner).getFontSize();
       p.y += ((TextHolderFigure) owner).getInsets().top;
     } else {
-      p.y += owner.get(FONT_SIZE);
+      p.y += owner.attr().get(FONT_SIZE);
     }
-    if (owner.get(TRANSFORM) != null) {
-      owner.get(TRANSFORM).transform(p, p);
+    if (owner.attr().get(TRANSFORM) != null) {
+      owner.attr().get(TRANSFORM).transform(p, p);
     }
     return p;
   }

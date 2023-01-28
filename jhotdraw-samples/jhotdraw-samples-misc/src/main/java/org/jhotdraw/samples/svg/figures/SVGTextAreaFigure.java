@@ -95,11 +95,11 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
       Rectangle2D.Double r = getBounds();
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0);
       Geom.grow(r, g, g);
-      if (get(TRANSFORM) == null) {
+      if (attr().get(TRANSFORM) == null) {
         cachedDrawingArea = r;
       } else {
         cachedDrawingArea = new Rectangle2D.Double();
-        cachedDrawingArea.setRect(get(TRANSFORM).createTransformedShape(r).getBounds2D());
+        cachedDrawingArea.setRect(attr().get(TRANSFORM).createTransformedShape(r).getBounds2D());
       }
     }
     return (Rectangle2D.Double) cachedDrawingArea.clone();
@@ -108,9 +108,9 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
   public boolean contains(Point2D.Double p) {
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       try {
-        p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
+        p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());
       } catch (NoninvertibleTransformException ex) {
         ex.printStackTrace();
       }
@@ -125,7 +125,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
       cachedTextShape = shape = new Path2D.Double();
       if (getText() != null || isEditable()) {
         Font font = getFont();
-        boolean isUnderlined = get(FONT_UNDERLINE);
+        boolean isUnderlined = attr().get(FONT_UNDERLINE);
         Insets2D.Double insets = getInsets();
         Rectangle2D.Double textRect =
             new Rectangle2D.Double(
@@ -307,30 +307,32 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
    */
   @Override
   public void transform(AffineTransform tx) {
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || (tx.getType() & (AffineTransform.TYPE_TRANSLATION /*| AffineTransform.TYPE_MASK_SCALE*/))
             != tx.getType()) {
-      if (get(TRANSFORM) == null) {
-        set(TRANSFORM, (AffineTransform) tx.clone());
+      if (attr().get(TRANSFORM) == null) {
+        attr().set(TRANSFORM, (AffineTransform) tx.clone());
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       Point2D.Double anchor = getStartPoint();
       Point2D.Double lead = getEndPoint();
       setBounds(
           (Point2D.Double) tx.transform(anchor, anchor), (Point2D.Double) tx.transform(lead, lead));
-      if (get(FILL_GRADIENT) != null && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(FILL_GRADIENT) != null
+          && !attr().get(FILL_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = FILL_GRADIENT.getClone(this);
         g.transform(tx);
-        set(FILL_GRADIENT, g);
+        attr().set(FILL_GRADIENT, g);
       }
-      if (get(STROKE_GRADIENT) != null && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(STROKE_GRADIENT) != null
+          && !attr().get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = STROKE_GRADIENT.getClone(this);
         g.transform(tx);
-        set(STROKE_GRADIENT, g);
+        attr().set(STROKE_GRADIENT, g);
       }
     }
     invalidate();
@@ -359,7 +361,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
 
   @Override
   public String getText() {
-    return get(TEXT);
+    return attr().get(TEXT);
   }
 
   @Override
@@ -368,7 +370,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   }
 
   @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
+  protected <T> void fireAttributeChanged(AttributeKey<T> key, T oldValue, T newValue) {
     if (key.equals(SVGAttributeKeys.TRANSFORM)
         || key.equals(SVGAttributeKeys.FONT_FACE)
         || key.equals(SVGAttributeKeys.FONT_BOLD)
@@ -379,19 +381,18 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
         || key.equals(SVGAttributeKeys.STROKE_GRADIENT)) {
       invalidate();
     }
-    super.set(key, newValue);
   }
 
   /** Sets the text shown by the text figure. */
   @Override
   public void setText(String newText) {
-    set(TEXT, newText);
+    attr().set(TEXT, newText);
   }
 
   /** Returns the insets used to draw text. */
   @Override
   public Insets2D.Double getInsets() {
-    double sw = (get(STROKE_COLOR) == null) ? 0 : Math.ceil(get(STROKE_WIDTH) / 2);
+    double sw = (attr().get(STROKE_COLOR) == null) ? 0 : Math.ceil(attr().get(STROKE_WIDTH) / 2);
     Insets2D.Double insets = new Insets2D.Double(0, 0, 0, 0);
     return new Insets2D.Double(
         insets.top + sw, insets.left + sw, insets.bottom + sw, insets.right + sw);
@@ -420,19 +421,19 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
 
   @Override
   public Color getTextColor() {
-    return get(FILL_COLOR);
+    return attr().get(FILL_COLOR);
     //   return TEXT_COLOR.get(this);
   }
 
   @Override
   public Color getFillColor() {
-    return get(FILL_COLOR).equals(Color.white) ? Color.black : Color.WHITE;
+    return attr().get(FILL_COLOR).equals(Color.white) ? Color.black : Color.WHITE;
   }
 
   @Override
   public void setFontSize(float size) {
     Point2D.Double p = new Point2D.Double(0, size);
-    AffineTransform tx = get(TRANSFORM);
+    AffineTransform tx = attr().get(TRANSFORM);
     if (tx != null) {
       try {
         tx.inverseTransform(p, p);
@@ -443,13 +444,13 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
         ex.printStackTrace();
       }
     }
-    set(FONT_SIZE, Math.abs(p.y));
+    attr().set(FONT_SIZE, Math.abs(p.y));
   }
 
   @Override
   public float getFontSize() {
-    Point2D.Double p = new Point2D.Double(0, get(FONT_SIZE));
-    AffineTransform tx = get(TRANSFORM);
+    Point2D.Double p = new Point2D.Double(0, attr().get(FONT_SIZE));
+    AffineTransform tx = attr().get(TRANSFORM);
     if (tx != null) {
       tx.transform(p, p);
       Point2D.Double p0 = new Point2D.Double(0, 0);
@@ -554,7 +555,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
     Rectangle2D.Double textRect = new Rectangle2D.Double();
     if (getText() != null) {
       Font font = getFont();
-      boolean isUnderlined = get(FONT_UNDERLINE);
+      boolean isUnderlined = attr().get(FONT_UNDERLINE);
       float leftMargin = 0;
       float rightMargin = (float) maxWidth - 1;
       float verticalPos = 0;

@@ -458,7 +458,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         Object value = domInput.readObject();
         AttributeKey<?> key = AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(domInput.getTagName());
         if (key != null && key.isAssignable(value)) {
-          figure.set((AttributeKey<Object>) key, value);
+          figure.attr().set((AttributeKey<Object>) key, value);
         }
         domInput.closeElement();
       }
@@ -474,11 +474,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   public static void writeAttributes(Figure figure, DOMOutput domOutput) throws IOException {
     Figure prototype = (Figure) domOutput.getPrototype();
     boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : figure.getAttributes().entrySet()) {
+    for (Map.Entry<AttributeKey<?>, Object> entry : figure.attr().getAttributes().entrySet()) {
       AttributeKey<?> key = entry.getKey();
-      if (figure.isAttributeEnabled(key)) {
-        Object prototypeValue = prototype.get(key);
-        Object attributeValue = figure.get(key);
+      if (figure.attr().isAttributeEnabled(key)) {
+        Object prototypeValue = prototype.attr().get(key);
+        Object attributeValue = figure.attr().get(key);
         if (!Objects.equals(prototypeValue, attributeValue)) {
           if (!isElementOpen) {
             domOutput.openElement("a");

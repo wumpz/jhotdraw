@@ -24,10 +24,9 @@ import java.util.Map;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 
-/** 
- * implementation of Attribute storage and processing. 
- */
+/** implementation of Attribute storage and processing. */
 public final class Attributes {
+
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
   /**
    * Forbidden attributes can't be put by the put() operation. They can only be changed by put().
@@ -64,9 +63,9 @@ public final class Attributes {
   }
 
   /** Set attributes from map. */
-  public void setAttributes(Map<AttributeKey, Object> map) {
-    for (Map.Entry<AttributeKey, Object> entry : map.entrySet()) {
-      set(entry.getKey(), entry.getValue());
+  public void setAttributes(Map<AttributeKey<?>, Object> map) {
+    for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
+      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
   }
 
@@ -89,7 +88,8 @@ public final class Attributes {
   /** Restores the attributes of the figure to a previously stored state. */
   public void restoreAttributesTo(Object restoreData) {
     attributes.clear();
-    HashMap<AttributeKey, Object> restoreDataHashMap = (HashMap<AttributeKey, Object>) restoreData;
+    HashMap<AttributeKey<?>, Object> restoreDataHashMap =
+        (HashMap<AttributeKey<?>, Object>) restoreData;
     setAttributes(restoreDataHashMap);
   }
 
@@ -157,6 +157,16 @@ public final class Attributes {
 
   @FunctionalInterface
   public static interface AttributeListener {
+
     <T> void attributeChanged(AttributeKey<T> attribute, T oldValue, T newValue);
+  }
+
+  public static Attributes from(Attributes source, AttributeListener listener) {
+    Attributes attr = new Attributes(listener);
+    attr.attributes.putAll(source.attributes);
+    if (source.forbiddenAttributes != null) {
+      attr.forbiddenAttributes = new HashSet<>(source.forbiddenAttributes);
+    }
+    return attr;
   }
 }

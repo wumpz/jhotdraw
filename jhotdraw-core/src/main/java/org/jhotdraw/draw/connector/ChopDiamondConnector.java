@@ -41,7 +41,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
     target = getConnectorTarget(target);
     Rectangle2D.Double r = target.getBounds();
-    if (target.get(DiamondFigure.IS_QUADRATIC)) {
+    if (target.attr().get(DiamondFigure.IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
       r.x -= (side - r.width) / 2;
       r.y -= (side - r.height) / 2;
@@ -50,7 +50,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
     double growx;
     double growy;
     // FIXME - This code is wrong. Copy correct code from DiamondFigure.
-    switch (target.get(STROKE_PLACEMENT)) {
+    switch (target.attr().get(STROKE_PLACEMENT)) {
       case INSIDE:
         growx = growy = 0f;
         break;

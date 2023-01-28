@@ -51,7 +51,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     SVGRectFigure figure = new SVGRectFigure();
     figure.setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
     figure.setArc(rx, ry);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -64,7 +64,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
   public Figure createEllipse(
       double cx, double cy, double rx, double ry, Map<AttributeKey<?>, Object> a) {
     SVGEllipseFigure figure = new SVGEllipseFigure(cx - rx, cy - ry, rx * 2d, ry * 2d);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -77,7 +77,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     bf.addNode(new BezierPath.Node(x1, y1));
     bf.addNode(new BezierPath.Node(x2, y2));
     figure.add(bf);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -90,7 +90,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
       bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
     }
     figure.add(bf);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -104,7 +104,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
     bf.setClosed(true);
     figure.add(bf);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -117,14 +117,14 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
       bf.setBezierPath(beziers[i]);
       figure.add(bf);
     }
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
   @Override
   public CompositeFigure createG(Map<AttributeKey<?>, Object> a) {
     SVGGroupFigure figure = new SVGGroupFigure();
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -140,7 +140,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     SVGImageFigure figure = new SVGImageFigure();
     figure.setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
     figure.setImage(imageData, bufferedImage);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -161,7 +161,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
       ex.initCause(e);
       throw ex;
     }
-    figure.setAttributes(attributes);
+    figure.attr().setAttributes(attributes);
     return figure;
   }
 
@@ -181,7 +181,7 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
       ex.initCause(e);
       throw ex;
     }
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 

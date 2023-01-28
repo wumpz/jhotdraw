@@ -66,8 +66,8 @@ public class BezierOutlineHandle extends AbstractHandle {
   public void draw(Graphics2D g) {
     BezierFigure owner = getOwner();
     Shape bounds = owner.getBezierPath();
-    if (owner.get(TRANSFORM) != null) {
-      bounds = owner.get(TRANSFORM).createTransformedShape(bounds);
+    if (owner.attr().get(TRANSFORM) != null) {
+      bounds = owner.attr().get(TRANSFORM).createTransformedShape(bounds);
     }
     bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
     Stroke stroke1;

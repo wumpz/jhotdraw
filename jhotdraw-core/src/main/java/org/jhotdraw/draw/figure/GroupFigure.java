@@ -20,6 +20,12 @@ public class GroupFigure extends AbstractCompositeFigure {
 
   private static final long serialVersionUID = 1L;
 
+  private Attributes attributes = new Attributes(this::fireAttributeChanged);
+
+  public Attributes attr() {
+    return attributes;
+  }
+
   /** Creates a new instance. */
   public GroupFigure() {
     setConnectable(false);

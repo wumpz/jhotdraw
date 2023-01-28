@@ -55,7 +55,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
 
   public TriangleFigure(double x, double y, double width, double height, Orientation direction) {
     rectangle = new Rectangle2D.Double(x, y, width, height);
-    set(ORIENTATION, direction);
+    attr().set(ORIENTATION, direction);
   }
 
   // DRAWING
@@ -100,7 +100,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
           new GrowStroke(
               (float) grow,
               (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, scaleFactor) * get(STROKE_MITER_LIMIT)));
+                  (AttributeKeys.getStrokeTotalWidth(this, scaleFactor)
+                      * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     g.fill(triangle);
@@ -116,7 +117,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
           new GrowStroke(
               (float) grow,
               (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, scaleFactor) * get(STROKE_MITER_LIMIT)));
+                  (AttributeKeys.getStrokeTotalWidth(this, scaleFactor)
+                      * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     g.draw(triangle);
@@ -134,7 +136,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
   public BezierPath getBezierPath() {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     BezierPath triangle = new BezierPath();
-    switch (get(ORIENTATION)) {
+    switch (attr().get(ORIENTATION)) {
       case NORTH:
       default:
         triangle.moveTo((float) (r.x + r.width / 2), (float) r.y);
@@ -190,7 +192,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
       GrowStroke gs =
           new GrowStroke(
               (float) grow,
-              (float) (AttributeKeys.getStrokeTotalWidth(this, 1.0) * get(STROKE_MITER_LIMIT)));
+              (float)
+                  (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return triangle.contains(p);
@@ -208,21 +211,21 @@ public class TriangleFigure extends AbstractAttributedFigure {
   public Rectangle2D.Double getDrawingArea() {
     double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
     double width = 0d;
-    if (get(STROKE_COLOR) != null) {
-      switch (get(STROKE_PLACEMENT)) {
+    if (attr().get(STROKE_COLOR) != null) {
+      switch (attr().get(STROKE_PLACEMENT)) {
         case INSIDE:
           width = 0d;
           break;
         case OUTSIDE:
-          if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-            width = totalStrokeWidth * get(STROKE_MITER_LIMIT);
+          if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+            width = totalStrokeWidth * attr().get(STROKE_MITER_LIMIT);
           } else {
             width = totalStrokeWidth;
           }
           break;
         case CENTER:
-          if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-            width = totalStrokeWidth / 2d * get(STROKE_MITER_LIMIT);
+          if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+            width = totalStrokeWidth / 2d * attr().get(STROKE_MITER_LIMIT);
           } else {
             width = totalStrokeWidth / 2d;
           }
@@ -242,7 +245,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
       GrowStroke gs =
           new GrowStroke(
               (float) grow,
-              (float) (AttributeKeys.getStrokeTotalWidth(this, 1.0) * get(STROKE_MITER_LIMIT)));
+              (float)
+                  (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return Geom.chop(triangle, p);

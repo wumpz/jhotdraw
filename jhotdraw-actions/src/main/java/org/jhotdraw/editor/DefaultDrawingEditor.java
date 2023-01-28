@@ -178,7 +178,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   @Override
   public void applyDefaultAttributesTo(Figure f) {
     for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
-      f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+      f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
   }
 
