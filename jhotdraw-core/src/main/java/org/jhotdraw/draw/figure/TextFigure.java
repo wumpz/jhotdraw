@@ -12,7 +12,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;

@@ -10,7 +10,6 @@ package org.jhotdraw.draw.handle;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
 

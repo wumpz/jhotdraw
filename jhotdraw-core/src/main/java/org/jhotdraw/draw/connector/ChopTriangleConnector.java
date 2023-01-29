@@ -8,7 +8,6 @@
 package org.jhotdraw.draw.connector;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TriangleFigure;
 

@@ -9,7 +9,6 @@ package org.jhotdraw.draw.figure;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;

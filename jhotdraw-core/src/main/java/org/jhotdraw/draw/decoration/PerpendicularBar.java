@@ -8,7 +8,6 @@
 package org.jhotdraw.draw.decoration;
 
 import java.awt.geom.Path2D;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
 /**

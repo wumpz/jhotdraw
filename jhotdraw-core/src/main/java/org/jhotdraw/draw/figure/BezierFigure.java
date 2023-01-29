@@ -12,7 +12,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.AttributeKey;

@@ -10,7 +10,6 @@ package org.jhotdraw.draw.handle;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.geom.Geom;

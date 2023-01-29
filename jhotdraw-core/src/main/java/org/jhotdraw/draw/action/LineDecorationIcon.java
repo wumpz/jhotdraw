@@ -12,7 +12,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.figure.LineFigure;
 

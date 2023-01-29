@@ -10,7 +10,6 @@ package org.jhotdraw.draw.handle;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 
 /**
