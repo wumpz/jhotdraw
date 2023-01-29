@@ -419,11 +419,6 @@ public interface Figure extends Cloneable, Serializable {
    */
   public Figure findFigureInside(Point2D.Double p);
 
-  /**
-   * Returns a decompositon of a figure into its parts. A figure is considered as a part of itself.
-   */
-  public Collection<Figure> getDecomposition();
-
   // CLONING
   /**
    * Returns a clone of the figure, with clones of all aggregated figures, such as children and

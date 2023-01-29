@@ -435,13 +435,6 @@ public abstract class AbstractFigure implements Figure, Cloneable {
     }
   }
 
-  @Override
-  public Collection<Figure> getDecomposition() {
-    LinkedList<Figure> list = new LinkedList<>();
-    list.add(this);
-    return list;
-  }
-
   protected FontRenderContext getFontRenderContext() {
     FontRenderContext frc = null;
     if (frc == null) {

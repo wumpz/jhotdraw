@@ -495,14 +495,6 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
   }
 
   @Override
-  public Collection<Figure> getDecomposition() {
-    LinkedList<Figure> list = new LinkedList<>();
-    list.add(this);
-    list.addAll(getChildren());
-    return list;
-  }
-
-  @Override
   public void restoreTransformTo(Object geometry) {
     @SuppressWarnings("unchecked")
     LinkedList<Object> list = (LinkedList<Object>) geometry;
