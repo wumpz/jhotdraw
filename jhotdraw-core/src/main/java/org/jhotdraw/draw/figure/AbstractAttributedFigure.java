@@ -11,15 +11,9 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
-import java.util.*;
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * This abstract class can be extended to implement a {@link Figure} which has its own attribute
@@ -28,105 +22,113 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id: AbstractAttributedFigure.java 778 2012-04-13 15:37:19Z rawcoder $
  */
-public abstract class AbstractAttributedFigure extends AbstractFigure implements DOMStorable {
+public abstract class AbstractAttributedFigure extends AbstractFigure {
 
   private static final long serialVersionUID = 1L;
-  /** Holds the attributes of the figure. */
-  private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
-  /**
-   * Forbidden attributes can't be put by the put() operation. They can only be changed by put().
-   */
-  private HashSet<AttributeKey<?>> forbiddenAttributes;
 
-  /** Creates a new instance. */
-  public AbstractAttributedFigure() {}
+  private Attributes attributes = new Attributes(this::fireAttributeChanged);
 
-  public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
-    if (forbiddenAttributes == null) {
-      forbiddenAttributes = new HashSet<>();
-    }
-    if (b) {
-      forbiddenAttributes.remove(key);
-    } else {
-      forbiddenAttributes.add(key);
-    }
+  public Attributes attr() {
+    return attributes;
   }
 
-  public boolean isAttributeEnabled(AttributeKey<?> key) {
-    return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
-  }
-
-  @SuppressWarnings("unchecked")
-  public void setAttributes(Map<AttributeKey<?>, Object> map) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
-  }
-
-  @Override
-  public Map<AttributeKey<?>, Object> getAttributes() {
-    return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
-  }
-
-  @Override
-  public Object getAttributesRestoreData() {
-    return getAttributes();
-  }
-
-  @Override
-  public void restoreAttributesTo(Object restoreData) {
-    attributes.clear();
-    @SuppressWarnings("unchecked")
-    HashMap<AttributeKey<?>, Object> restoreDataHashMap =
-        (HashMap<AttributeKey<?>, Object>) restoreData;
-    setAttributes(restoreDataHashMap);
-  }
-
-  /**
-   * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
-   * implementing the figure interface.
-   */
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-      @SuppressWarnings("unchecked")
-      T oldValue = key.put(attributes, newValue);
-      fireAttributeChanged(key, oldValue, newValue);
-    }
-  }
-
-  /** Gets an attribute from the figure. */
-  @Override
-  public <T> T get(AttributeKey<T> key) {
-    return key.get(attributes);
-  }
+  //  /** Holds the attributes of the figure. */
+  //  private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
+  //  /**
+  //   * Forbidden attributes can't be put by the put() operation. They can only be changed by
+  // put().
+  //   */
+  //  private HashSet<AttributeKey<?>> forbiddenAttributes;
+  //
+  //  /** Creates a new instance. */
+  //  public AbstractAttributedFigure() {}
+  //
+  //  public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
+  //    if (forbiddenAttributes == null) {
+  //      forbiddenAttributes = new HashSet<>();
+  //    }
+  //    if (b) {
+  //      forbiddenAttributes.remove(key);
+  //    } else {
+  //      forbiddenAttributes.add(key);
+  //    }
+  //  }
+  //
+  //  public boolean isAttributeEnabled(AttributeKey<?> key) {
+  //    return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
+  //  }
+  //
+  //  @SuppressWarnings("unchecked")
+  //  public void setAttributes(Map<AttributeKey<?>, Object> map) {
+  //    for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
+  //      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+  //    }
+  //  }
+  //
+  //  @Override
+  //  public Map<AttributeKey<?>, Object> getAttributes() {
+  //    return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
+  //  }
+  //
+  //  @Override
+  //  public Object getAttributesRestoreData() {
+  //    return getAttributes();
+  //  }
+  //
+  //  @Override
+  //  public void restoreAttributesTo(Object restoreData) {
+  //    attributes.clear();
+  //    @SuppressWarnings("unchecked")
+  //    HashMap<AttributeKey<?>, Object> restoreDataHashMap =
+  //        (HashMap<AttributeKey<?>, Object>) restoreData;
+  //    setAttributes(restoreDataHashMap);
+  //  }
+  //
+  //  /**
+  //   * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
+  //   * implementing the figure interface.
+  //   */
+  //  @Override
+  //  public <T> void set(AttributeKey<T> key, T newValue) {
+  //    if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
+  //      @SuppressWarnings("unchecked")
+  //      T oldValue = key.put(attributes, newValue);
+  //      fireAttributeChanged(key, oldValue, newValue);
+  //    }
+  //  }
+  //
+  //  /** Gets an attribute from the figure. */
+  //  @Override
+  //  public <T> T get(AttributeKey<T> key) {
+  //    return key.get(attributes);
+  //  }
 
   @Override
   public void draw(Graphics2D g) {
-    if (get(FILL_COLOR) != null) {
-      g.setColor(get(FILL_COLOR));
+    if (attr().get(FILL_COLOR) != null) {
+      g.setColor(attr().get(FILL_COLOR));
       drawFill(g);
     }
-    if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
+    if (attr().get(STROKE_COLOR) != null && attr().get(STROKE_WIDTH) >= 0d) {
       g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
-      g.setColor(get(STROKE_COLOR));
+      g.setColor(attr().get(STROKE_COLOR));
       drawStroke(g);
     }
-    if (get(TEXT_COLOR) != null) {
-      if (get(TEXT_SHADOW_COLOR) != null && get(TEXT_SHADOW_OFFSET) != null) {
-        Dimension2DDouble d = get(TEXT_SHADOW_OFFSET);
+    if (attr().get(TEXT_COLOR) != null) {
+      if (attr().get(TEXT_SHADOW_COLOR) != null && attr().get(TEXT_SHADOW_OFFSET) != null) {
+        Dimension2DDouble d = attr().get(TEXT_SHADOW_OFFSET);
         g.translate(d.width, d.height);
-        g.setColor(get(TEXT_SHADOW_COLOR));
+        g.setColor(attr().get(TEXT_SHADOW_COLOR));
         drawText(g);
         g.translate(-d.width, -d.height);
       }
-      g.setColor(get(TEXT_COLOR));
+      g.setColor(attr().get(TEXT_COLOR));
       drawText(g);
     }
   }
 
   public double getStrokeMiterLimitFactor() {
-    Number value = (Number) get(AttributeKeys.STROKE_MITER_LIMIT);
+    Number value = (Number) attr().get(AttributeKeys.STROKE_MITER_LIMIT);
     return (value != null) ? value.doubleValue() : 10f;
   }
 
@@ -139,9 +141,9 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
   public Rectangle2D.Double getDrawingArea(double factor) {
     double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
     double width = strokeTotalWidth / 2d;
-    if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-      width *= get(STROKE_MITER_LIMIT);
-    } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+      width *= attr().get(STROKE_MITER_LIMIT);
+    } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
       width += strokeTotalWidth * 2;
     }
     width++;
@@ -174,103 +176,31 @@ public abstract class AbstractAttributedFigure extends AbstractFigure implements
   @Override
   public AbstractAttributedFigure clone() {
     AbstractAttributedFigure that = (AbstractAttributedFigure) super.clone();
-    that.attributes = new HashMap<>(this.attributes);
-    if (this.forbiddenAttributes != null) {
-      that.forbiddenAttributes = new HashSet<>(this.forbiddenAttributes);
-    }
+    that.attributes = Attributes.from(attributes, that::fireAttributeChanged);
     return that;
   }
 
-  protected void writeAttributes(DOMOutput out) throws IOException {
-    Figure prototype = (Figure) out.getPrototype();
-    boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      AttributeKey<?> key = entry.getKey();
-      if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-        @SuppressWarnings("unchecked")
-        Object prototypeValue = prototype.get(key);
-        @SuppressWarnings("unchecked")
-        Object attributeValue = get(key);
-        if (prototypeValue != attributeValue
-            || (prototypeValue != null
-                && attributeValue != null
-                && !prototypeValue.equals(attributeValue))) {
-          if (!isElementOpen) {
-            out.openElement("a");
-            isElementOpen = true;
-          }
-          out.openElement(key.getKey());
-          out.writeObject(entry.getValue());
-          out.closeElement();
-        }
-      }
-    }
-    if (isElementOpen) {
-      out.closeElement();
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  protected void readAttributes(DOMInput in) throws IOException {
-    if (in.getElementCount("a") > 0) {
-      in.openElement("a");
-      for (int i = 0, n = in.getElementCount(); i < n; i++) {
-        in.openElement(i);
-        String name = in.getTagName();
-        Object value = in.readObject();
-        AttributeKey<?> key = getAttributeKey(name);
-        if (key != null && key.isAssignable(value)) {
-          if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-            set((AttributeKey<Object>) key, value);
-          }
-        }
-        in.closeElement();
-      }
-      in.closeElement();
-    }
-  }
-
-  protected AttributeKey<?> getAttributeKey(String name) {
-    return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
-  }
-
-  /** Applies all attributes of this figure to that figure. */
-  @SuppressWarnings("unchecked")
-  protected void applyAttributesTo(Figure that) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    Rectangle2D.Double r = getBounds();
-    out.addAttribute("x", r.x);
-    out.addAttribute("y", r.y);
-    out.addAttribute("w", r.width);
-    out.addAttribute("h", r.height);
-    writeAttributes(out);
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    double x = in.getAttribute("x", 0d);
-    double y = in.getAttribute("y", 0d);
-    double w = in.getAttribute("w", 0d);
-    double h = in.getAttribute("h", 0d);
-    setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
-    readAttributes(in);
-  }
-
-  public <T> void removeAttribute(AttributeKey<T> key) {
-    if (hasAttribute(key)) {
-      T oldValue = get(key);
-      attributes.remove(key);
-      fireAttributeChanged(key, oldValue, key.getDefaultValue());
-    }
-  }
-
-  public boolean hasAttribute(AttributeKey<?> key) {
-    return attributes.containsKey(key);
-  }
+  //  protected AttributeKey<?> getAttributeKey(String name) {
+  //    return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.attr().get(name);
+  //  }
+  //
+  //  /** Applies all attributes of this figure to that figure. */
+  //  @SuppressWarnings("unchecked")
+  //  protected void applyAttributesTo(Figure that) {
+  //    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+  //      that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+  //    }
+  //  }
+  //
+  //  public <T> void removeAttribute(AttributeKey<T> key) {
+  //    if (hasAttribute(key)) {
+  //      T oldValue = attr().get(key);
+  //      attributes.remove(key);
+  //      fireAttributeChanged(key, oldValue, key.getDefaultValue());
+  //    }
+  //  }
+  //
+  //  public boolean hasAttribute(AttributeKey<?> key) {
+  //    return attributes.containsKey(key);
+  //  }
 }

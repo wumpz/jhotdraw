@@ -163,7 +163,7 @@ public class BezierTool extends AbstractTool {
     getEditor().applyDefaultAttributesTo(f);
     if (attributes != null) {
       for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-        f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+        f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
       }
     }
     return f;

@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.figure;
 
-import org.jhotdraw.draw.GraphicalCompositeFigure;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.geom.Insets2D;
 
@@ -33,6 +32,6 @@ public class ListFigure extends GraphicalCompositeFigure {
   public ListFigure(Figure presentationFigure) {
     super(presentationFigure);
     setLayouter(new VerticalLayouter());
-    set(LAYOUT_INSETS, new Insets2D.Double(4, 8, 4, 8));
+    attr().set(LAYOUT_INSETS, new Insets2D.Double(4, 8, 4, 8));
   }
 }

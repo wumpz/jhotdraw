@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw;
 
+import java.io.Serializable;
 import java.util.Map;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
@@ -32,7 +33,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class AttributeKey<T> {
+public class AttributeKey<T> implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /** Holds a String representation of the attribute key. */
@@ -127,7 +128,7 @@ public class AttributeKey<T> {
   /** Gets a clone of the value from the Figure. */
   @SuppressWarnings("unchecked")
   public T getClone(Figure f) {
-    T value = f.get(this);
+    T value = f.attr().get(this);
     try {
       return value == null ? null : clazz.cast(Methods.invoke(value, "clone"));
     } catch (NoSuchMethodException ex) {
@@ -144,7 +145,7 @@ public class AttributeKey<T> {
    * @return The value of the attribute.
    */
   public T get(Figure f) {
-    return f.get(this);
+    return f.attr().get(this);
   }
 
   /**
@@ -171,7 +172,7 @@ public class AttributeKey<T> {
     if (value == null && !isNullValueAllowed) {
       throw new NullPointerException("Null value not allowed for AttributeKey " + key);
     }
-    f.set(this, value);
+    f.attr().set(this, value);
   }
 
   /**
@@ -184,8 +185,8 @@ public class AttributeKey<T> {
     if (value == null && !isNullValueAllowed) {
       throw new NullPointerException("Null value not allowed for AttributeKey " + key);
     }
-    final Object restoreData = f.getAttributesRestoreData();
-    f.set(this, value);
+    final Object restoreData = f.attr().getAttributesRestoreData();
+    f.attr().set(this, value);
     UndoableEdit edit =
         new AbstractUndoableEdit() {
           private static final long serialVersionUID = 1L;
@@ -199,7 +200,7 @@ public class AttributeKey<T> {
           public void undo() {
             super.undo();
             f.willChange();
-            f.restoreAttributesTo(restoreData);
+            f.attr().restoreAttributesTo(restoreData);
             f.changed();
           }
 
@@ -207,7 +208,7 @@ public class AttributeKey<T> {
           public void redo() {
             super.redo();
             f.willChange();
-            f.set(AttributeKey.this, value);
+            f.attr().set(AttributeKey.this, value);
             f.changed();
           }
         };
@@ -225,7 +226,7 @@ public class AttributeKey<T> {
    */
   public void setClone(Figure f, T value) {
     try {
-      f.set(this, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
+      f.attr().set(this, value == null ? null : clazz.cast(Methods.invoke(value, "clone")));
     } catch (NoSuchMethodException ex) {
       InternalError e = new InternalError();
       e.initCause(ex);

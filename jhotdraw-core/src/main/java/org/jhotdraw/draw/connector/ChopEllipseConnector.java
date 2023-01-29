@@ -11,7 +11,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 
@@ -28,7 +27,6 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Only used for DOMStorable input. */
   public ChopEllipseConnector() {}
 
   public ChopEllipseConnector(Figure owner) {
@@ -36,11 +34,11 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
   }
 
   private Color getStrokeColor(Figure f) {
-    return f.get(STROKE_COLOR);
+    return f.attr().get(STROKE_COLOR);
   }
 
   private float getStrokeWidth(Figure f) {
-    Double w = f.get(STROKE_WIDTH);
+    Double w = f.attr().get(STROKE_WIDTH);
     return (w == null) ? 1f : w.floatValue();
   }
 
@@ -50,7 +48,7 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
     Rectangle2D.Double r = target.getBounds();
     if (getStrokeColor(target) != null) {
       double grow;
-      switch (target.get(STROKE_PLACEMENT)) {
+      switch (target.attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
           grow = getStrokeTotalWidth(target, 1.0) / 2d;

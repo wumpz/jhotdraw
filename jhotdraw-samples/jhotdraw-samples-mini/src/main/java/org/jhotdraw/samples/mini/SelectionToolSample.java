@@ -12,6 +12,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.LineFigure;
 import org.jhotdraw.draw.tool.SelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 
 /**
  * SelectionToolSample demonstrates how the <code>SelectionTool</code> works.

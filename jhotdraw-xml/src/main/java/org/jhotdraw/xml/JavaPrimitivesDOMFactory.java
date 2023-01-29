@@ -11,6 +11,7 @@ package org.jhotdraw.xml;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 
 /**
@@ -122,24 +123,12 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
   }
 
   @Override
-  public Object create(String name) {
-    name = unescape(name);
+  public Object createPrototype(String tagName) {
+    String name = unescape(tagName);
     try {
-      return Class.forName(name).newInstance();
-    } catch (InstantiationException ex) {
-      IllegalArgumentException e =
-          new IllegalArgumentException("Class " + name + " can not instantiate an object");
-      e.initCause(ex);
-      throw e;
-    } catch (IllegalAccessException ex) {
-      IllegalArgumentException e = new IllegalArgumentException("Class " + name + " is not public");
-      e.initCause(ex);
-      throw e;
-    } catch (ClassNotFoundException ex) {
-      IllegalArgumentException e =
-          new IllegalArgumentException("Class " + name + " does not exist");
-      e.initCause(ex);
-      throw e;
+      return Class.forName(name).getConstructor().newInstance();
+    } catch (Exception ex) {
+      throw new IllegalArgumentException("unable to instatiate instance from class " + name, ex);
     }
   }
 
@@ -171,7 +160,8 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     if (o == null) {
       // nothing to do
     } else if (o instanceof DOMStorable) {
-      ((DOMStorable) o).write(out);
+      // ((DOMStorable) o).write(out);
+      LOG.warning("direct call of DOMOutput from JavaPrimitivesDOMFactory removed");
     } else if (o instanceof String) {
       out.addText((String) o);
     } else if (o instanceof Integer) {
@@ -257,6 +247,8 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     }
   }
 
+  private static final Logger LOG = Logger.getLogger(JavaPrimitivesDOMFactory.class.getName());
+
   @Override
   public Object read(DOMInput in) throws IOException {
     Object o;
@@ -274,9 +266,9 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     } else if ("long".equals(tagName)) {
       o = Long.decode(in.getText());
     } else if ("float".equals(tagName)) {
-      o = new Float(Float.parseFloat(in.getText()));
+      o = Float.parseFloat(in.getText());
     } else if ("double".equals(tagName)) {
-      o = new Double(Double.parseDouble(in.getText()));
+      o = Double.parseDouble(in.getText());
     } else if ("string".equals(tagName)) {
       o = in.getText();
     } else if ("enum".equals(tagName)) {
@@ -326,7 +318,7 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
       }
       o = a;
     } else {
-      o = create(in.getTagName());
+      throw new IllegalArgumentException("unkown tagname " + tagName + " --> is not registered");
     }
     return o;
   }

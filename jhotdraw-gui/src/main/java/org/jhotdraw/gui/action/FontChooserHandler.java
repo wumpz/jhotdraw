@@ -69,9 +69,9 @@ public class FontChooserHandler extends AbstractSelectedAction implements Proper
     final ArrayList<Figure> selectedFigures = new ArrayList<>(getView().getSelectedFigures());
     final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
     for (Figure figure : selectedFigures) {
-      restoreData.add(figure.getAttributesRestoreData());
+      restoreData.add(figure.attr().getAttributesRestoreData());
       figure.willChange();
-      figure.set(key, fontChooser.getSelectedFont());
+      figure.attr().set(key, fontChooser.getSelectedFont());
       figure.changed();
     }
     getEditor().setDefaultAttribute(key, fontChooser.getSelectedFont());
@@ -101,7 +101,7 @@ public class FontChooserHandler extends AbstractSelectedAction implements Proper
             Iterator<Object> iRestore = restoreData.iterator();
             for (Figure figure : selectedFigures) {
               figure.willChange();
-              figure.restoreAttributesTo(iRestore.next());
+              figure.attr().restoreAttributesTo(iRestore.next());
               figure.changed();
             }
           }
@@ -112,7 +112,7 @@ public class FontChooserHandler extends AbstractSelectedAction implements Proper
             for (Figure figure : selectedFigures) {
               // restoreData.add(figure.getAttributesRestoreData());
               figure.willChange();
-              figure.set(key, undoValue);
+              figure.attr().set(key, undoValue);
               figure.changed();
             }
           }

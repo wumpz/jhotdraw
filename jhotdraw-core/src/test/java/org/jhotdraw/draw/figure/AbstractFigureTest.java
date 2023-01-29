@@ -25,8 +25,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Map;
-import org.jhotdraw.draw.AttributeKey;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -85,35 +83,14 @@ public class AbstractFigureTest {
     public void transform(AffineTransform tx) {}
 
     @Override
-    public <T> void set(AttributeKey<T> key, T value) {}
-
-    @Override
-    public <T> T get(AttributeKey<T> key) {
-      throw new UnsupportedOperationException(
-          "Not supported yet."); // To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Map<AttributeKey<?>, Object> getAttributes() {
-      throw new UnsupportedOperationException(
-          "Not supported yet."); // To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object getAttributesRestoreData() {
-      throw new UnsupportedOperationException(
-          "Not supported yet."); // To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void restoreAttributesTo(Object restoreData) {
-      throw new UnsupportedOperationException(
-          "Not supported yet."); // To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Rectangle2D.Double getDrawingArea(double factor) {
       return null;
+    }
+
+    @Override
+    public Attributes attr() {
+      throw new UnsupportedOperationException("Not supported yet."); // Generated from
+      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
   }
 }

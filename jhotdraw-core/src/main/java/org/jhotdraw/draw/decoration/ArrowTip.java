@@ -8,11 +8,7 @@
 package org.jhotdraw.draw.decoration;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * A {@link LineDecoration} which can draws an arrow tip.
@@ -29,7 +25,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class ArrowTip extends AbstractLineDecoration implements DOMStorable {
+public class ArrowTip extends AbstractLineDecoration {
 
   private static final long serialVersionUID = 1L;
   /** Pointiness of arrow. */
@@ -95,23 +91,15 @@ public class ArrowTip extends AbstractLineDecoration implements DOMStorable {
     return outerRadius;
   }
 
-  @Override
-  public void read(DOMInput in) {
-    angle = in.getAttribute("angle", 0.35f);
-    innerRadius = in.getAttribute("innerRadius", 12f);
-    outerRadius = in.getAttribute("outerRadius", 12f);
-    setFilled(in.getAttribute("isFilled", false));
-    setStroked(in.getAttribute("isStroked", false));
-    setSolid(in.getAttribute("isSolid", false));
+  public void setAngle(double angle) {
+    this.angle = angle;
   }
 
-  @Override
-  public void write(DOMOutput out) {
-    out.addAttribute("angle", angle);
-    out.addAttribute("innerRadius", innerRadius);
-    out.addAttribute("outerRadius", outerRadius);
-    out.addAttribute("isFilled", isFilled());
-    out.addAttribute("isStroked", isStroked());
-    out.addAttribute("isSolid", isSolid());
+  public void setOuterRadius(double outerRadius) {
+    this.outerRadius = outerRadius;
+  }
+
+  public void setInnerRadius(double innerRadius) {
+    this.innerRadius = innerRadius;
   }
 }

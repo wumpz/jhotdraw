@@ -11,7 +11,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
@@ -86,8 +85,8 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
   protected Rectangle2D.Double getTransformedBounds() {
     Figure owner = getOwner();
     Rectangle2D.Double bounds = owner.getBounds();
-    if (owner.get(TRANSFORM) != null) {
-      Rectangle2D r = owner.get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
+    if (owner.attr().get(TRANSFORM) != null) {
+      Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
       bounds.x = r.getX();
       bounds.y = r.getY();
       bounds.width = r.getWidth();

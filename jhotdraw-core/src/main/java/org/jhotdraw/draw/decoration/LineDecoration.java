@@ -10,7 +10,6 @@ package org.jhotdraw.draw.decoration;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
 /**

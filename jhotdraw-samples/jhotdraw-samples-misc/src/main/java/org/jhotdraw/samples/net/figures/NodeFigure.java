@@ -10,7 +10,6 @@ package org.jhotdraw.samples.net.figures;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
@@ -27,7 +26,6 @@ import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.*;
 
 /**
  * NodeFigure.
@@ -49,10 +47,10 @@ public class NodeFigure extends TextFigure {
     RectangleFigure rf = new RectangleFigure();
     setDecorator(rf);
     createConnectors();
-    set(DECORATOR_INSETS, new Insets2D.Double(6, 10, 6, 10));
+    attr().set(DECORATOR_INSETS, new Insets2D.Double(6, 10, 6, 10));
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.net.Labels");
     setText(labels.getString("nodeDefaultName"));
-    setAttributeEnabled(DECORATOR_INSETS, false);
+    attr().setAttributeEnabled(DECORATOR_INSETS, false);
   }
 
   private void createConnectors() {
@@ -136,23 +134,5 @@ public class NodeFigure extends TextFigure {
   @Override
   public int getLayer() {
     return -1; // stay below ConnectionFigures
-  }
-
-  @Override
-  protected void writeDecorator(DOMOutput out) throws IOException {
-    // do nothing
-  }
-
-  @Override
-  protected void readDecorator(DOMInput in) throws IOException {
-    // do nothing
-  }
-
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    super.set(key, newValue);
-    if (getDecorator() != null) {
-      getDecorator().set(key, newValue);
-    }
   }
 }

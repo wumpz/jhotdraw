@@ -9,16 +9,12 @@ package org.jhotdraw.draw.liner;
 
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * A {@link Liner} that constrains a connection to a curved line.
@@ -26,7 +22,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class CurvedLiner implements Liner, DOMStorable {
+public class CurvedLiner implements Liner {
 
   private double shoulderSize;
 
@@ -182,12 +178,6 @@ public class CurvedLiner implements Liner, DOMStorable {
     }
     path.invalidatePath();
   }
-
-  @Override
-  public void read(DOMInput in) {}
-
-  @Override
-  public void write(DOMOutput out) {}
 
   @Override
   public Liner clone() {

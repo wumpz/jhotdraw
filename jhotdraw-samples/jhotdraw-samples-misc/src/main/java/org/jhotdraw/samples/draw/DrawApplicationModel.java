@@ -17,7 +17,6 @@ import org.jhotdraw.api.app.ApplicationModel;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.DefaultApplicationModel;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.decoration.ArrowTip;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
@@ -41,6 +40,7 @@ import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.ImageTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.util.*;
@@ -146,7 +146,7 @@ public class DrawApplicationModel extends DefaultApplicationModel {
     ButtonFactory.addToolTo(
         tb, editor, ct = new CreationTool(new LineFigure()), "edit.createArrow", labels);
     af = (AbstractAttributedFigure) ct.getPrototype();
-    af.set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
+    af.attr().set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
     ButtonFactory.addToolTo(
         tb,
         editor,

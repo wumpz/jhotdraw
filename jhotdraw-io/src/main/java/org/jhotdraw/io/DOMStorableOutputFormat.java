@@ -9,34 +9,18 @@ package org.jhotdraw.io;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.*;
 import java.net.URI;
-import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
-import javax.swing.JComponent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.datatransfer.InputStreamTransferable;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.xml.*;
 
-/**
- * An OutputFormat that can write Drawings with DOMStorable Figure's.
- *
- * <p>This class is here to support quick-and-dirty implementations of drawings that can be read and
- * written from/to output streams. For example, in student projects.
- *
- * <p>This class should no be used as a means to implement long-term storage of drawings, since it
- * does not support structural changes that might occur in a drawing application over time.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
-public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
+/** An OutputFormat that can write Drawings with DOMStorable Figure's. */
+public class DOMStorableOutputFormat implements OutputFormat {
 
   private DOMFactory factory;
   /** Format description used for the file filter. */
@@ -54,7 +38,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
    * Creates a new instance with format name "Drawing", file extension "xml" and mime type
    * "image/x-jhotdraw".
    */
-  public DOMStorableInputOutputFormat(DOMFactory factory) {
+  public DOMStorableOutputFormat(DOMFactory factory) {
     this(factory, "Drawing", "xml", "image/x-jhotdraw");
   }
 
@@ -66,7 +50,7 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
    * @param fileExtension The file extension to be used for file filter.
    * @param mimeType The Mime Type is used for clipboard access.
    */
-  public DOMStorableInputOutputFormat(
+  public DOMStorableOutputFormat(
       DOMFactory factory, String description, String fileExtension, String mimeType) {
     this.factory = factory;
     this.description = description;
@@ -88,42 +72,8 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
   }
 
   @Override
-  public JComponent getOutputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
-  /**
-   * Reads a list of figures into the specified drawing. This method expects that there is a child
-   * element named "figures" in the element that represents the drawing.
-   */
-  protected void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures)
-      throws IOException {
-    JavaxDOMInput domi = new JavaxDOMInput(factory, in);
-    domi.openElement(factory.getName(drawing));
-    domi.openElement("figures", 0);
-    figures.clear();
-    for (int i = 0, n = domi.getElementCount(); i < n; i++) {
-      Figure f = (Figure) domi.readObject();
-      figures.add(f);
-    }
-    domi.closeElement();
-    domi.closeElement();
-    drawing.basicAddAll(drawing.getChildCount(), figures);
-  }
-
-  @Override
   public String getFileExtension() {
     return fileExtension;
-  }
-
-  @Override
-  public boolean isDataFlavorSupported(DataFlavor flavor) {
-    return flavor.equals(dataFlavor);
   }
 
   @Override
@@ -141,58 +91,14 @@ public class DOMStorableInputOutputFormat implements OutputFormat, InputFormat {
   public void write(OutputStream out, Drawing drawing) throws IOException {
     JavaxDOMOutput domo = new JavaxDOMOutput(factory);
     domo.openElement(factory.getName(drawing));
-    drawing.write(domo);
+    //    drawing.write(domo);
+    domo.openElement("figures");
+    for (Figure f : drawing.getChildren()) {
+      domo.writeObject(f);
+    }
+    domo.closeElement();
     domo.closeElement();
     domo.save(out);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
-  }
-
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
-      read(in, drawing, replace);
-    }
-  }
-
-  @Override
-  public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
-    JavaxDOMInput domi = new JavaxDOMInput(factory, in);
-    domi.openElement(factory.getName(drawing));
-    if (replace) {
-      drawing.removeAllChildren();
-    }
-    drawing.read(domi);
-    domi.closeElement();
-  }
-
-  @Override
-  public void read(Transferable t, Drawing drawing, boolean replace)
-      throws UnsupportedFlavorException, IOException {
-    LinkedList<Figure> figures = new LinkedList<>();
-    InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType, description));
-    JavaxDOMInput domi = new JavaxDOMInput(factory, in);
-    domi.openElement("Drawing-Clip");
-    for (int i = 0, n = domi.getElementCount(); i < n; i++) {
-      Figure f = (Figure) domi.readObject(i);
-      figures.add(f);
-    }
-    domi.closeElement();
-    if (replace) {
-      drawing.removeAllChildren();
-    }
-    drawing.addAll(figures);
   }
 
   @Override

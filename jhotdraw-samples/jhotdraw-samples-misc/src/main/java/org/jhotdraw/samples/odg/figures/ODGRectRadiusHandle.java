@@ -54,8 +54,8 @@ public class ODGRectRadiusHandle extends AbstractHandle {
     ODGRectFigure owner = (ODGRectFigure) getOwner();
     Rectangle2D.Double r = owner.getBounds();
     Point2D.Double p = new Point2D.Double(r.x + owner.getArcWidth(), r.y + owner.getArcHeight());
-    if (owner.get(TRANSFORM) != null) {
-      owner.get(TRANSFORM).transform(p, p);
+    if (owner.attr().get(TRANSFORM) != null) {
+      owner.attr().get(TRANSFORM).transform(p, p);
     }
     return view.drawingToView(p);
   }
@@ -71,9 +71,9 @@ public class ODGRectRadiusHandle extends AbstractHandle {
     ODGRectFigure odgRect = (ODGRectFigure) getOwner();
     odgRect.willChange();
     Point2D.Double p = view.viewToDrawing(lead);
-    if (odgRect.get(TRANSFORM) != null) {
+    if (odgRect.attr().get(TRANSFORM) != null) {
       try {
-        odgRect.get(TRANSFORM).inverseTransform(p, p);
+        odgRect.attr().get(TRANSFORM).inverseTransform(p, p);
       } catch (NoninvertibleTransformException ex) {
         if (DEBUG) {
           ex.printStackTrace();

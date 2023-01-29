@@ -79,9 +79,9 @@ public class ChopRectangleConnector extends AbstractConnector {
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
     target = getConnectorTarget(target);
     Rectangle2D.Double r = target.getBounds();
-    if (target.get(STROKE_COLOR) != null) {
+    if (target.attr().get(STROKE_COLOR) != null) {
       double grow;
-      switch (target.get(STROKE_PLACEMENT)) {
+      switch (target.attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
           grow = AttributeKeys.getStrokeTotalWidth(target, 1.0) / 2d;

@@ -19,6 +19,7 @@ import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.geom.Geom;
 
 /**
@@ -40,25 +41,28 @@ public class SmartConnectionFigureSample {
     private static final long serialVersionUID = 1L;
 
     public SmartConnectionFigure() {
-      setAttributeEnabled(STROKE_TYPE, false);
+      attr().setAttributeEnabled(STROKE_TYPE, false);
     }
 
     @Override
     public void handleConnect(Connector start, Connector end) {
-      setAttributeEnabled(STROKE_TYPE, true);
+      attr().setAttributeEnabled(STROKE_TYPE, true);
       willChange();
-      set(STROKE_TYPE, (start.getOwner() == end.getOwner()) ? StrokeType.DOUBLE : StrokeType.BASIC);
+      attr()
+          .set(
+              STROKE_TYPE,
+              (start.getOwner() == end.getOwner()) ? StrokeType.DOUBLE : StrokeType.BASIC);
       changed();
-      setAttributeEnabled(STROKE_TYPE, false);
+      attr().setAttributeEnabled(STROKE_TYPE, false);
     }
 
     @Override
     public void handleDisconnect(Connector start, Connector end) {
-      setAttributeEnabled(STROKE_TYPE, true);
+      attr().setAttributeEnabled(STROKE_TYPE, true);
       willChange();
-      set(STROKE_TYPE, StrokeType.BASIC);
+      attr().set(STROKE_TYPE, StrokeType.BASIC);
       changed();
-      setAttributeEnabled(STROKE_TYPE, false);
+      attr().setAttributeEnabled(STROKE_TYPE, false);
     }
   }
 

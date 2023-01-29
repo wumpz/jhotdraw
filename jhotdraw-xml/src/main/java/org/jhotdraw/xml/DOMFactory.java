@@ -38,7 +38,7 @@ public interface DOMFactory {
   public String getName(Object o);
 
   /** Creates an object from the specified element name. */
-  public Object create(String name);
+  public Object createPrototype(String name);
 
   /**
    * Writes the specified object to DOMOutput.

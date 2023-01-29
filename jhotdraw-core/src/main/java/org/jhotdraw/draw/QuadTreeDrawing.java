@@ -232,8 +232,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
     LinkedList<Figure> contained = new LinkedList<>();
     for (Figure f : children) {
       Rectangle2D.Double r = f.getBounds();
-      if (f.get(TRANSFORM) != null) {
-        Rectangle2D rt = f.get(TRANSFORM).createTransformedShape(r).getBounds2D();
+      if (f.attr().get(TRANSFORM) != null) {
+        Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
         r =
             (rt instanceof Rectangle2D.Double)
                 ? (Rectangle2D.Double) rt
@@ -275,11 +275,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
       Collections.sort(children, Comparator.comparing(Figure::getLayer));
       needsSorting = false;
     }
-  }
-
-  @Override
-  protected <T> void setAttributeOnChildren(AttributeKey<T> key, T newValue) {
-    // empty
   }
 
   @Override
@@ -326,15 +321,16 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   @Override
   public void drawCanvas(Graphics2D g) {
-    if (get(CANVAS_WIDTH) != null && get(CANVAS_HEIGHT) != null) {
+    if (attr().get(CANVAS_WIDTH) != null && attr().get(CANVAS_HEIGHT) != null) {
       // Determine canvas color and opacity
-      Color canvasColor = get(CANVAS_FILL_COLOR);
-      Double fillOpacity = get(CANVAS_FILL_OPACITY);
+      Color canvasColor = attr().get(CANVAS_FILL_COLOR);
+      Double fillOpacity = attr().get(CANVAS_FILL_OPACITY);
       if (canvasColor != null && fillOpacity > 0) {
         canvasColor =
             new Color((canvasColor.getRGB() & 0xffffff) | ((int) (fillOpacity * 255) << 24), true);
         // Fill the canvas
-        Rectangle2D.Double r = new Rectangle2D.Double(0, 0, get(CANVAS_WIDTH), get(CANVAS_HEIGHT));
+        Rectangle2D.Double r =
+            new Rectangle2D.Double(0, 0, attr().get(CANVAS_WIDTH), attr().get(CANVAS_HEIGHT));
         g.setColor(canvasColor);
         g.fill(r);
       }

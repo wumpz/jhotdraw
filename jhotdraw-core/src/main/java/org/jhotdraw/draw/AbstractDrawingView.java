@@ -166,10 +166,11 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
       // there is no drawing and thus no canvas
       g.setColor(getBackground());
       g.fillRect(0, 0, getWidth(), getHeight());
-    } else if (drawing.get(CANVAS_WIDTH) == null || drawing.get(CANVAS_HEIGHT) == null) {
+    } else if (drawing.attr().get(CANVAS_WIDTH) == null
+        || drawing.attr().get(CANVAS_HEIGHT) == null) {
       // the canvas is infinitely large
-      Color canvasColor = drawing.get(CANVAS_FILL_COLOR);
-      double canvasOpacity = drawing.get(CANVAS_FILL_OPACITY);
+      Color canvasColor = drawing.attr().get(CANVAS_FILL_COLOR);
+      double canvasOpacity = drawing.attr().get(CANVAS_FILL_OPACITY);
       if (canvasColor != null) {
         if (canvasOpacity == 1) {
           g.setColor(new Color(canvasColor.getRGB()));
@@ -194,7 +195,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
       g.fillRect(0, 0, getWidth(), getHeight());
       Rectangle r =
           drawingToView(
-              new Rectangle2D.Double(0, 0, drawing.get(CANVAS_WIDTH), drawing.get(CANVAS_HEIGHT)));
+              new Rectangle2D.Double(
+                  0, 0, drawing.attr().get(CANVAS_WIDTH), drawing.attr().get(CANVAS_HEIGHT)));
       g.setPaint(getBackgroundPaint(r.x, r.y));
       g.fillRect(r.x, r.y, r.width, r.height);
     }
@@ -422,8 +424,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     int w = getWidth();
     int h = getHeight();
     if (getDrawing() != null) {
-      Double cw = getDrawing().get(CANVAS_WIDTH);
-      Double ch = getDrawing().get(CANVAS_HEIGHT);
+      Double cw = getDrawing().attr().get(CANVAS_WIDTH);
+      Double ch = getDrawing().attr().get(CANVAS_HEIGHT);
       if (cw != null && ch != null) {
         Point lowerRight = drawingToView(new Point2D.Double(cw, ch));
         w = lowerRight.x - x;

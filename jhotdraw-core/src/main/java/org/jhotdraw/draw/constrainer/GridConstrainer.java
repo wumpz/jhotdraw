@@ -106,21 +106,18 @@ public class GridConstrainer extends AbstractConstrainer {
   public void setWidth(double newValue) {
     double oldValue = width;
     width = newValue;
-    firePropertyChange("width", oldValue, newValue);
     fireStateChanged();
   }
 
   public void setHeight(double newValue) {
     double oldValue = height;
     height = newValue;
-    firePropertyChange("height", oldValue, newValue);
     fireStateChanged();
   }
 
   public void setTheta(double newValue) {
     double oldValue = theta;
     theta = newValue;
-    firePropertyChange("theta", oldValue, newValue);
     fireStateChanged();
   }
 
@@ -333,7 +330,6 @@ public class GridConstrainer extends AbstractConstrainer {
   public void setVisible(boolean newValue) {
     boolean oldValue = isVisible;
     isVisible = newValue;
-    firePropertyChange("visible", oldValue, newValue);
     fireStateChanged();
   }
 
@@ -346,7 +342,6 @@ public class GridConstrainer extends AbstractConstrainer {
   public void setMajorGridSpacing(int newValue) {
     int oldValue = majorGridSpacing;
     majorGridSpacing = newValue;
-    firePropertyChange("majorGridSpacing", oldValue, newValue);
     fireStateChanged();
   }
 

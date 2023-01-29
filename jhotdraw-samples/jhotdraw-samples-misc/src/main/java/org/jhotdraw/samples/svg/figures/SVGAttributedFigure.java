@@ -37,7 +37,7 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
 
   @Override
   public void draw(Graphics2D g) {
-    double opacity = get(OPACITY);
+    double opacity = attr().get(OPACITY);
     opacity = Math.min(Math.max(0d, opacity), 1d);
     if (opacity != 0d) {
       if (opacity != 1d) {
@@ -78,9 +78,9 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
   /** This method is invoked before the rendered image of the figure is composited. */
   public void drawFigure(Graphics2D g) {
     AffineTransform savedTransform = null;
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       savedTransform = g.getTransform();
-      g.transform(get(TRANSFORM));
+      g.transform(attr().get(TRANSFORM));
     }
     Paint paint = SVGAttributeKeys.getFillPaint(this);
     if (paint != null) {
@@ -88,28 +88,20 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
       drawFill(g);
     }
     paint = SVGAttributeKeys.getStrokePaint(this);
-    if (paint != null && get(STROKE_WIDTH) > 0) {
+    if (paint != null && attr().get(STROKE_WIDTH) > 0) {
       g.setPaint(paint);
       g.setStroke(SVGAttributeKeys.getStroke(this, 1.0));
       drawStroke(g);
     }
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       g.setTransform(savedTransform);
     }
   }
 
   @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    if (key == TRANSFORM) {
-      invalidate();
-    }
-    super.set(key, newValue);
-  }
-
-  @Override
   public Collection<Action> getActions(Point2D.Double p) {
     LinkedList<Action> actions = new LinkedList<Action>();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
       actions.add(
           new AbstractAction(labels.getString("edit.removeTransform.text")) {

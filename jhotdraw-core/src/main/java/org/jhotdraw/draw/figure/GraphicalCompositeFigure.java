@@ -5,25 +5,25 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.draw;
+package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.CENTER;
+import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.INSIDE;
+import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.OUTSIDE;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
+import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.figure.AbstractCompositeFigure;
-import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * The GraphicalCompositeFigure fills in the gap between a CompositeFigure and other figures which
@@ -47,8 +47,13 @@ import org.jhotdraw.xml.DOMOutput;
 public class GraphicalCompositeFigure extends AbstractCompositeFigure {
 
   private static final long serialVersionUID = 1L;
-  protected HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
-  private HashSet<AttributeKey<?>> forbiddenAttributes;
+
+  private Attributes attributes = new Attributes(this::fireAttributeChanged);
+
+  public Attributes attr() {
+    return attributes;
+  }
+
   /**
    * Figure which performs all presentation tasks for this BasicCompositeFigure as CompositeFigures
    * usually don't have an own presentation but present only the sum of all its children.
@@ -268,11 +273,12 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     if (that.presentationFigure != null) {
       that.presentationFigure.addFigureListener(that.presentationFigureHandler);
     }
-    that.attributes = (HashMap<AttributeKey<?>, Object>) this.attributes.clone();
-    that.forbiddenAttributes =
-        this.forbiddenAttributes == null
-            ? null
-            : (HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
+    that.attributes = Attributes.from(attributes, that::fireAttributeChanged);
+    //    that.attributes = (HashMap<AttributeKey<?>, Object>) this.attributes.clone();
+    //    that.forbiddenAttributes =
+    //        this.forbiddenAttributes == null
+    //            ? null
+    //            : (HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
     return that;
   }
 
@@ -287,115 +293,54 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
    * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
    * implementing the figure interface.
    */
-  @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-      if (getPresentationFigure() != null) {
-        getPresentationFigure().set(key, newValue);
-      }
-      T oldValue = key.put(attributes, newValue);
-      fireAttributeChanged(key, oldValue, newValue);
-    }
-  }
-
-  public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
-    if (forbiddenAttributes == null) {
-      forbiddenAttributes = new HashSet<>();
-    }
-    if (b) {
-      forbiddenAttributes.remove(key);
-    } else {
-      forbiddenAttributes.add(key);
-    }
-  }
-
-  /** Gets an attribute from the figure. */
-  @Override
-  public <T> T get(AttributeKey<T> key) {
-    if (getPresentationFigure() != null) {
-      return getPresentationFigure().get(key);
-    } else {
-      return (!attributes.containsKey(key)) ? key.getDefaultValue() : key.get(attributes);
-    }
-  }
-
-  /** Applies all attributes of this figure to that figure. */
-  @SuppressWarnings("unchecked")
-  protected void applyAttributesTo(Figure that) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
-  }
-
-  protected void writeAttributes(DOMOutput out) throws IOException {
-    Figure prototype = (Figure) out.getPrototype();
-    boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-      AttributeKey<?> key = entry.getKey();
-      if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-        @SuppressWarnings("unchecked")
-        Object prototypeValue = prototype.get(key);
-        @SuppressWarnings("unchecked")
-        Object attributeValue = get(key);
-        if (prototypeValue != attributeValue
-            || (prototypeValue != null
-                && attributeValue != null
-                && !prototypeValue.equals(attributeValue))) {
-          if (!isElementOpen) {
-            out.openElement("a");
-            isElementOpen = true;
-          }
-          out.openElement(key.getKey());
-          out.writeObject(entry.getValue());
-          out.closeElement();
-        }
-      }
-    }
-    if (isElementOpen) {
-      out.closeElement();
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  protected void readAttributes(DOMInput in) throws IOException {
-    if (in.getElementCount("a") > 0) {
-      in.openElement("a");
-      for (int i = 0, n = in.getElementCount(); i < n; i++) {
-        in.openElement(i);
-        String name = in.getTagName();
-        Object value = in.readObject();
-        AttributeKey<?> key = getAttributeKey(name);
-        if (key != null && key.isAssignable(value)) {
-          if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-            set((AttributeKey<Object>) key, value);
-          }
-        }
-        in.closeElement();
-      }
-      in.closeElement();
-    }
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    readAttributes(in);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    writeAttributes(out);
-  }
-
-  protected AttributeKey<?> getAttributeKey(String name) {
-    return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
-  }
-
-  @Override
-  public Map<AttributeKey<?>, Object> getAttributes() {
-    return new HashMap<>(attributes);
-  }
+  //  @Override
+  //  public <T> void set(AttributeKey<T> key, T newValue) {
+  //    if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
+  //      if (getPresentationFigure() != null) {
+  //        getPresentationFigure().set(key, newValue);
+  //      }
+  //      T oldValue = key.put(attributes, newValue);
+  //      fireAttributeChanged(key, oldValue, newValue);
+  //    }
+  //  }
+  //
+  //  public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
+  //    if (forbiddenAttributes == null) {
+  //      forbiddenAttributes = new HashSet<>();
+  //    }
+  //    if (b) {
+  //      forbiddenAttributes.remove(key);
+  //    } else {
+  //      forbiddenAttributes.add(key);
+  //    }
+  //  }
+  //
+  //  /** Gets an attribute from the figure. */
+  //  @Override
+  //  public <T> T get(AttributeKey<T> key) {
+  //    if (getPresentationFigure() != null) {
+  //      return getPresentationFigure().get(key);
+  //    } else {
+  //      return (!attributes.containsKey(key)) ? key.getDefaultValue() : key.get(attributes);
+  //    }
+  //  }
+  //
+  //  /** Applies all attributes of this figure to that figure. */
+  //  @SuppressWarnings("unchecked")
+  //  protected void applyAttributesTo(Figure that) {
+  //    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+  //      that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+  //    }
+  //  }
+  //
+  //  protected AttributeKey<?> getAttributeKey(String name) {
+  //    return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
+  //  }
+  //
+  //  @Override
+  //  public Map<AttributeKey<?>, Object> getAttributes() {
+  //    return new HashMap<>(attributes);
+  //  }
 
   /**
    * This is a default implementation that chops the point at the rectangle returned by getBounds()
@@ -408,9 +353,9 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
    */
   public Point2D.Double chop(Point2D.Double from) {
     Rectangle2D.Double r = getBounds();
-    if (get(STROKE_COLOR) != null) {
+    if (attr().get(STROKE_COLOR) != null) {
       double grow;
-      switch (get(STROKE_PLACEMENT)) {
+      switch (attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
           grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);

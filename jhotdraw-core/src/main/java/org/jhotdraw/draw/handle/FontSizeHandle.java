@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
 import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.locator.FontSizeLocator;
 import org.jhotdraw.draw.locator.Locator;
@@ -68,7 +67,7 @@ public class FontSizeHandle extends LocatorHandle {
   public void trackStart(Point anchor, int modifiersEx) {
     TextHolderFigure textOwner = (TextHolderFigure) getOwner();
     oldSize = newSize = textOwner.getFontSize();
-    restoreData = textOwner.getAttributesRestoreData();
+    restoreData = textOwner.attr().getAttributesRestoreData();
   }
 
   @Override
@@ -76,10 +75,10 @@ public class FontSizeHandle extends LocatorHandle {
     TextHolderFigure textOwner = (TextHolderFigure) getOwner();
     Point2D.Double anchor2D = view.viewToDrawing(anchor);
     Point2D.Double lead2D = view.viewToDrawing(lead);
-    if (textOwner.get(TRANSFORM) != null) {
+    if (textOwner.attr().get(TRANSFORM) != null) {
       try {
-        textOwner.get(TRANSFORM).inverseTransform(anchor2D, anchor2D);
-        textOwner.get(TRANSFORM).inverseTransform(lead2D, lead2D);
+        textOwner.attr().get(TRANSFORM).inverseTransform(anchor2D, anchor2D);
+        textOwner.attr().get(TRANSFORM).inverseTransform(lead2D, lead2D);
       } catch (NoninvertibleTransformException ex) {
         ex.printStackTrace();
       }
@@ -109,7 +108,7 @@ public class FontSizeHandle extends LocatorHandle {
           public void undo() {
             super.undo();
             textOwner.willChange();
-            textOwner.restoreAttributesTo(editRestoreData);
+            textOwner.attr().restoreAttributesTo(editRestoreData);
             textOwner.changed();
           }
 
@@ -147,7 +146,7 @@ public class FontSizeHandle extends LocatorHandle {
         break;
     }
     if (newSize != oldSize) {
-      restoreData = textOwner.getAttributesRestoreData();
+      restoreData = textOwner.attr().getAttributesRestoreData();
       textOwner.willChange();
       textOwner.setFontSize(newSize);
       textOwner.changed();
@@ -167,7 +166,7 @@ public class FontSizeHandle extends LocatorHandle {
             public void undo() {
               super.undo();
               textOwner.willChange();
-              textOwner.restoreAttributesTo(editRestoreData);
+              textOwner.attr().restoreAttributesTo(editRestoreData);
               textOwner.changed();
             }
 

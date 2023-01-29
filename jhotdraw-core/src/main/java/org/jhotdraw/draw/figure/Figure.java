@@ -10,7 +10,6 @@ package org.jhotdraw.draw.figure;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -247,47 +246,60 @@ public interface Figure extends Cloneable, Serializable {
   public void transform(AffineTransform tx);
 
   // ATTRIBUTES
-  /**
-   * Sets an attribute on the figure and calls {@code attributeChanged} on all registered {@code
-   * FigureListener}s if the attribute value has changed.
-   *
-   * <p>For efficiency reasons, the drawing is not automatically repainted. If you want the drawing
-   * to be repainted when the attribute is changed, you can either use {@code key.set(figure,
-   * value); } or
-   *
-   * <pre>
-   * figure.willChange();
-   * figure.set(...);
-   * figure.changed();
-   * </pre>
-   *
-   * @see AttributeKey#set
-   */
-  public <T> void set(AttributeKey<T> key, T value);
 
-  /**
-   * Gets an attribute from the Figure.
-   *
-   * @see AttributeKey#get
-   * @return Returns the attribute value. If the Figure does not have an attribute with the
-   *     specified key, returns key.getDefaultValue().
-   */
-  public <T> T get(AttributeKey<T> key);
-
-  /**
-   * Returns a view to all attributes of this figure. By convention, an unmodifiable map is
-   * returned.
-   */
-  public Map<AttributeKey<?>, Object> getAttributes();
-
-  /**
-   * Gets data which can be used to restore the attributes of the figure after a set has been
-   * applied to it.
-   */
-  public Object getAttributesRestoreData();
-
-  /** Restores the attributes of the figure to a previously stored state. */
-  public void restoreAttributesTo(Object restoreData);
+  public Attributes attr();
+  //  /**
+  //   * Sets an attribute on the figure and calls {@code attributeChanged} on all registered {@code
+  //   * FigureListener}s if the attribute value has changed.
+  //   *
+  //   * <p>For efficiency reasons, the drawing is not automatically repainted. If you want the
+  // drawing
+  //   * to be repainted when the attribute is changed, you can either use {@code key.set(figure,
+  //   * value); } or
+  //   *
+  //   * <pre>
+  //   * figure.willChange();
+  //   * figure.set(...);
+  //   * figure.changed();
+  //   * </pre>
+  //   *
+  //   * @see AttributeKey#set
+  //   */
+  //  public <T> void set(AttributeKey<T> key, T value);
+  //
+  //  /**
+  //   * Gets an attribute from the Figure.
+  //   *
+  //   * @see AttributeKey#get
+  //   * @return Returns the attribute value. If the Figure does not have an attribute with the
+  //   *     specified key, returns key.getDefaultValue().
+  //   */
+  //  public <T> T get(AttributeKey<T> key);
+  //
+  //  /**
+  //   * Returns a view to all attributes of this figure. By convention, an unmodifiable map is
+  //   * returned.
+  //   */
+  //  public Map<AttributeKey<?>, Object> getAttributes();
+  //
+  //  /**
+  //   * Is this attribute enabled for this figure to be processed.
+  //   *
+  //   * @param key
+  //   * @return
+  //   */
+  //  public default boolean isAttributeEnabled(AttributeKey<?> key) {
+  //    return true;
+  //  }
+  //
+  //  /**
+  //   * Gets data which can be used to restore the attributes of the figure after a set has been
+  //   * applied to it.
+  //   */
+  //  public Object getAttributesRestoreData();
+  //
+  //  /** Restores the attributes of the figure to a previously stored state. */
+  //  public void restoreAttributesTo(Object restoreData);
 
   // EDITING
   /**
@@ -407,11 +419,6 @@ public interface Figure extends Cloneable, Serializable {
    */
   public Figure findFigureInside(Point2D.Double p);
 
-  /**
-   * Returns a decompositon of a figure into its parts. A figure is considered as a part of itself.
-   */
-  public Collection<Figure> getDecomposition();
-
   // CLONING
   /**
    * Returns a clone of the figure, with clones of all aggregated figures, such as children and
@@ -493,19 +500,19 @@ public interface Figure extends Cloneable, Serializable {
   /** Removes a listener for FigureEvent's. */
   public void removeFigureListener(FigureListener l);
 
-  /**
-   * Adds a {@code PropertyChangeListener} which can optionally be wrapped into a {@code
-   * WeakPropertyChangeListener}.
-   *
-   * @param listener
-   */
-  public void addPropertyChangeListener(PropertyChangeListener listener);
-
-  /**
-   * Removes a {@code PropertyChangeListener}. If the listener was added wrapped into a {@code
-   * WeakPropertyChangeListener}, the {@code WeakPropertyChangeListener} is removed.
-   *
-   * @param listener
-   */
-  public void removePropertyChangeListener(PropertyChangeListener listener);
+  //  /**
+  //   * Adds a {@code PropertyChangeListener} which can optionally be wrapped into a {@code
+  //   * WeakPropertyChangeListener}.
+  //   *
+  //   * @param listener
+  //   */
+  //  public void addPropertyChangeListener(PropertyChangeListener listener);
+  //
+  //  /**
+  //   * Removes a {@code PropertyChangeListener}. If the listener was added wrapped into a {@code
+  //   * WeakPropertyChangeListener}, the {@code WeakPropertyChangeListener} is removed.
+  //   *
+  //   * @param listener
+  //   */
+  //  public void removePropertyChangeListener(PropertyChangeListener listener);
 }

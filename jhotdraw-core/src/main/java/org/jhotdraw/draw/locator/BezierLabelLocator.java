@@ -8,11 +8,9 @@
 package org.jhotdraw.draw.locator;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.xml.*;
 
 /**
  * A {@link Locator} which can be used to place a label on the path of a {@link BezierFigure}.
@@ -25,13 +23,12 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class BezierLabelLocator implements Locator, DOMStorable {
+public class BezierLabelLocator implements Locator {
 
   private double relativePosition;
   private double angle;
   private double distance;
 
-  /** Creates a new instance. This constructor is for use by DOMStorable only. */
   public BezierLabelLocator() {}
 
   /**
@@ -202,17 +199,17 @@ public class BezierLabelLocator implements Locator, DOMStorable {
     }*/
   }
 
-  @Override
-  public void read(DOMInput in) {
-    relativePosition = in.getAttribute("relativePosition", 0d);
-    angle = in.getAttribute("angle", 0d);
-    distance = in.getAttribute("distance", 0);
-  }
-
-  @Override
-  public void write(DOMOutput out) {
-    out.addAttribute("relativePosition", relativePosition);
-    out.addAttribute("angle", angle);
-    out.addAttribute("distance", distance);
-  }
+  //  @Override
+  //  public void read(DOMInput in) {
+  //    relativePosition = in.getAttribute("relativePosition", 0d);
+  //    angle = in.getAttribute("angle", 0d);
+  //    distance = in.getAttribute("distance", 0);
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) {
+  //    out.addAttribute("relativePosition", relativePosition);
+  //    out.addAttribute("angle", angle);
+  //    out.addAttribute("distance", distance);
+  //  }
 }

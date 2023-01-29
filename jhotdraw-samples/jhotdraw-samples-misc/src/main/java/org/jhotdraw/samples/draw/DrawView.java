@@ -15,13 +15,13 @@ import java.beans.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.URI;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.*;
 import org.jhotdraw.action.edit.RedoAction;
 import org.jhotdraw.action.edit.UndoAction;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.AbstractView;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.QuadTreeDrawing;
@@ -31,9 +31,12 @@ import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMDefaultDrawFigureFactory;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageInputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.TextInputFormat;
@@ -43,6 +46,12 @@ import org.jhotdraw.util.*;
 
 /**
  * Provides a view on a drawing.
+ *
+ * <p>
+ *
+ * <p>
+ *
+ * <p>
  *
  * <p>See {@link org.jhotdraw.api.app.View} interface on how this view interacts with an
  * application.
@@ -101,16 +110,16 @@ public class DrawView extends AbstractView {
   /** Creates a new Drawing for this view. */
   protected Drawing createDrawing() {
     Drawing drawing = new QuadTreeDrawing();
-    DOMStorableInputOutputFormat ioFormat =
-        new DOMStorableInputOutputFormat(new DrawFigureFactory());
-    drawing.addInputFormat(ioFormat);
+    final DOMDefaultDrawFigureFactory domDefaultDrawFigureFactory =
+        new DOMDefaultDrawFigureFactory();
+    drawing.addInputFormat(new DOMStorableInputFormat(domDefaultDrawFigureFactory));
     ImageFigure prototype = new ImageFigure();
     drawing.addInputFormat(new ImageInputFormat(prototype));
     drawing.addInputFormat(new TextInputFormat(new TextFigure()));
     TextAreaFigure taf = new TextAreaFigure();
     taf.setBounds(new Point2D.Double(10, 10), new Point2D.Double(60, 40));
     drawing.addInputFormat(new TextInputFormat(taf));
-    drawing.addOutputFormat(ioFormat);
+    drawing.addOutputFormat(new DOMStorableOutputFormat(domDefaultDrawFigureFactory));
     drawing.addOutputFormat(new ImageOutputFormat());
     return drawing;
   }
@@ -152,7 +161,7 @@ public class DrawView extends AbstractView {
           success = true;
           break;
         } catch (Exception e) {
-          // try with the next input format
+          e.printStackTrace();
         }
       }
       if (!success) {
@@ -180,6 +189,8 @@ public class DrawView extends AbstractView {
       throw error;
     }
   }
+
+  private static final Logger LOG = Logger.getLogger(DrawView.class.getName());
 
   /** Sets a drawing editor for the view. */
   public void setEditor(DrawingEditor newValue) {

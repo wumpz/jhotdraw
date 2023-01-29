@@ -11,11 +11,9 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import javax.swing.event.*;
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
@@ -27,9 +25,6 @@ import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}.
@@ -38,8 +33,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractCompositeFigure extends AbstractFigure
-    implements CompositeFigure, DOMStorable {
+public abstract class AbstractCompositeFigure extends AbstractFigure implements CompositeFigure {
 
   private static final long serialVersionUID = 1L;
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
@@ -324,41 +318,41 @@ public abstract class AbstractCompositeFigure extends AbstractFigure
     return children.size() == 0 ? new LinkedList<>() : new ReversedList<>(getChildren());
   }
 
-  @Override
-  public <T> void set(AttributeKey<T> key, T value) {
-    for (Figure child : getChildren()) {
-      child.set(key, value);
-    }
-    invalidate();
-  }
-
-  @Override
-  public <T> T get(AttributeKey<T> name) {
-    return null;
-  }
-
-  @Override
-  public Map<AttributeKey<?>, Object> getAttributes() {
-    return new HashMap<>();
-  }
-
-  @Override
-  public Object getAttributesRestoreData() {
-    LinkedList<Object> data = new LinkedList<>();
-    for (Figure child : getChildren()) {
-      data.add(child.getAttributesRestoreData());
-    }
-    return data;
-  }
-
-  @Override
-  public void restoreAttributesTo(Object newData) {
-    @SuppressWarnings("unchecked")
-    Iterator<Object> data = ((LinkedList<Object>) newData).iterator();
-    for (Figure child : getChildren()) {
-      child.restoreAttributesTo(data.next());
-    }
-  }
+  //  @Override
+  //  public <T> void set(AttributeKey<T> key, T value) {
+  //    for (Figure child : getChildren()) {
+  //      child.set(key, value);
+  //    }
+  //    invalidate();
+  //  }
+  //
+  //  @Override
+  //  public <T> T get(AttributeKey<T> name) {
+  //    return null;
+  //  }
+  //
+  //  @Override
+  //  public Map<AttributeKey<?>, Object> getAttributes() {
+  //    return new HashMap<>();
+  //  }
+  //
+  //  @Override
+  //  public Object getAttributesRestoreData() {
+  //    LinkedList<Object> data = new LinkedList<>();
+  //    for (Figure child : getChildren()) {
+  //      data.add(child.getAttributesRestoreData());
+  //    }
+  //    return data;
+  //  }
+  //
+  //  @Override
+  //  public void restoreAttributesTo(Object newData) {
+  //    @SuppressWarnings("unchecked")
+  //    Iterator<Object> data = ((LinkedList<Object>) newData).iterator();
+  //    for (Figure child : getChildren()) {
+  //      child.restoreAttributesTo(data.next());
+  //    }
+  //  }
 
   @Override
   public boolean contains(Figure f) {
@@ -368,9 +362,9 @@ public abstract class AbstractCompositeFigure extends AbstractFigure
   @Override
   public boolean contains(Point2D.Double p) {
     if (getDrawingArea().contains(p)) {
-      if (get(TRANSFORM) != null) {
+      if (attr().get(TRANSFORM) != null) {
         try {
-          p = (Point2D.Double) get(TRANSFORM).inverseTransform(p, new Point2D.Double());
+          p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());
         } catch (NoninvertibleTransformException ex) {
           InternalError error = new InternalError(ex.getMessage());
           error.initCause(ex);
@@ -498,32 +492,6 @@ public abstract class AbstractCompositeFigure extends AbstractFigure
         }
       }
     }
-  }
-
-  @Override
-  public Collection<Figure> getDecomposition() {
-    LinkedList<Figure> list = new LinkedList<>();
-    list.add(this);
-    list.addAll(getChildren());
-    return list;
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    in.openElement("children");
-    for (int i = 0; i < in.getElementCount(); i++) {
-      basicAdd((Figure) in.readObject(i));
-    }
-    in.closeElement();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    out.openElement("children");
-    for (Figure child : getChildren()) {
-      out.writeObject(child);
-    }
-    out.closeElement();
   }
 
   @Override

@@ -60,9 +60,9 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
     if (selectedColor != null && selectedColor.getAlpha() == 0) {
       selectedColor = null;
     }
-    final Object restoreData = drawing.getAttributesRestoreData();
+    final Object restoreData = drawing.attr().getAttributesRestoreData();
     drawing.willChange();
-    drawing.set(key, selectedColor);
+    drawing.attr().set(key, selectedColor);
     drawing.changed();
     getEditor().setDefaultAttribute(key, selectedColor);
     final Color undoValue = selectedColor;
@@ -89,7 +89,7 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
           public void undo() {
             super.undo();
             drawing.willChange();
-            drawing.restoreAttributesTo(restoreData);
+            drawing.attr().restoreAttributesTo(restoreData);
             drawing.changed();
           }
 
@@ -98,7 +98,7 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
             super.redo();
             // restoreData.add(figure.getAttributesRestoreData());
             drawing.willChange();
-            drawing.set(key, undoValue);
+            drawing.attr().set(key, undoValue);
             drawing.changed();
           }
         };
@@ -112,7 +112,7 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
       colorChooser.setEnabled(getView().getSelectionCount() > 0);
       popupMenu.setEnabled(getView().getSelectionCount() > 0);
       isUpdating++;
-      Color drawingColor = getView().getDrawing().get(key);
+      Color drawingColor = getView().getDrawing().attr().get(key);
       colorChooser.setColor(drawingColor == null ? new Color(0, true) : drawingColor);
       isUpdating--;
     }

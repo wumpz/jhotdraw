@@ -14,7 +14,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
@@ -182,8 +181,8 @@ public class TransformHandleKit {
     protected Rectangle2D.Double getTransformedBounds() {
       Figure owner = getOwner();
       Rectangle2D.Double bounds = owner.getBounds();
-      if (owner.get(TRANSFORM) != null) {
-        Rectangle2D r = owner.get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
+      if (owner.attr().get(TRANSFORM) != null) {
+        Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
         bounds.x = r.getX();
         bounds.y = r.getY();
         bounds.width = r.getWidth();

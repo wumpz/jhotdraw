@@ -11,7 +11,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -59,8 +58,8 @@ public class TextOverflowHandle extends AbstractHandle {
     Rectangle2D.Double b = getOwner().getBounds();
     Point2D.Double p = new Point2D.Double(b.x + b.width, b.y + b.height);
     Figure o = getOwner();
-    if (o.get(TRANSFORM) != null) {
-      o.get(TRANSFORM).transform(p, p);
+    if (o.attr().get(TRANSFORM) != null) {
+      o.attr().get(TRANSFORM).transform(p, p);
     }
     Rectangle r = new Rectangle(view.drawingToView(p));
     int h = getHandlesize();

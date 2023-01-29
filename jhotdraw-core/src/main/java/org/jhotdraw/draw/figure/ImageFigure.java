@@ -21,9 +21,7 @@ import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.io.Base64;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.*;
 
 /**
  * A default implementation of {@link ImageHolderFigure} which can hold a buffered image.
@@ -53,25 +51,25 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
   // DRAWING
   @Override
   protected void drawFigure(Graphics2D g) {
-    if (get(FILL_COLOR) != null) {
-      g.setColor(get(FILL_COLOR));
+    if (attr().get(FILL_COLOR) != null) {
+      g.setColor(attr().get(FILL_COLOR));
       drawFill(g);
     }
     drawImage(g);
-    if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) > 0d) {
+    if (attr().get(STROKE_COLOR) != null && attr().get(STROKE_WIDTH) > 0d) {
       g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
-      g.setColor(get(STROKE_COLOR));
+      g.setColor(attr().get(STROKE_COLOR));
       drawStroke(g);
     }
-    if (get(TEXT_COLOR) != null) {
-      if (get(TEXT_SHADOW_COLOR) != null && get(TEXT_SHADOW_OFFSET) != null) {
-        Dimension2DDouble d = get(TEXT_SHADOW_OFFSET);
+    if (attr().get(TEXT_COLOR) != null) {
+      if (attr().get(TEXT_SHADOW_COLOR) != null && attr().get(TEXT_SHADOW_OFFSET) != null) {
+        Dimension2DDouble d = attr().get(TEXT_SHADOW_OFFSET);
         g.translate(d.width, d.height);
-        g.setColor(get(TEXT_SHADOW_COLOR));
+        g.setColor(attr().get(TEXT_SHADOW_COLOR));
         drawText(g);
         g.translate(-d.width, -d.height);
       }
-      g.setColor(get(TEXT_COLOR));
+      g.setColor(attr().get(TEXT_COLOR));
       drawText(g);
     }
   }
@@ -206,29 +204,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
     ImageFigure that = (ImageFigure) super.clone();
     that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
     return that;
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    if (in.getElementCount("imageData") > 0) {
-      in.openElement("imageData");
-      String base64Data = in.getText();
-      if (base64Data != null) {
-        setImageData(Base64.decode(base64Data));
-      }
-      in.closeElement();
-    }
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    if (getImageData() != null) {
-      out.openElement("imageData");
-      out.addText(Base64.encodeBytes(getImageData()));
-      out.closeElement();
-    }
   }
 
   /**

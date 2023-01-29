@@ -17,10 +17,12 @@ import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.AttributeKeys.Alignment;
+import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.ImageFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
 
@@ -66,7 +68,7 @@ public class FileIconsSample {
               g.dispose();
               ImageFigure imf = new ImageFigure();
               imf.setBufferedImage(bimg);
-              imf.set(STROKE_COLOR, null);
+              imf.attr().set(STROKE_COLOR, null);
               imf.setBounds(
                   new Point2D.Double(0, 0),
                   new Point2D.Double(icon.getIconWidth(), icon.getIconHeight()));
@@ -80,9 +82,9 @@ public class FileIconsSample {
                   new Point2D.Double(
                       Math.max(100, dim.width) + insets.left + insets.right,
                       dim.height + insets.top + insets.bottom));
-              tef.set(STROKE_COLOR, null);
-              tef.set(FILL_COLOR, null);
-              tef.set(TEXT_ALIGNMENT, Alignment.CENTER);
+              tef.attr().set(STROKE_COLOR, null);
+              tef.attr().set(FILL_COLOR, null);
+              tef.attr().set(TEXT_ALIGNMENT, Alignment.CENTER);
               // Alternatively, you could just create a TextFigure
               /*
               TextFigure tef = new TextFigure(f.getName());
@@ -91,7 +93,7 @@ public class FileIconsSample {
               // and add the icon and the text figure to it
               GraphicalCompositeFigure gcf = new GraphicalCompositeFigure();
               gcf.setLayouter(new VerticalLayouter());
-              gcf.set(COMPOSITE_ALIGNMENT, Alignment.CENTER);
+              gcf.attr().set(COMPOSITE_ALIGNMENT, Alignment.CENTER);
               gcf.add(imf);
               gcf.add(tef);
               gcf.layout();

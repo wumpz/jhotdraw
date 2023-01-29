@@ -7,12 +7,12 @@
  */
 package org.jhotdraw.draw.io;
 
-import java.awt.datatransfer.*;
-import java.io.*;
+import java.awt.datatransfer.Transferable;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
-import java.util.*;
-import javax.swing.*;
-import org.jhotdraw.draw.*;
+import java.util.List;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 
 /**
@@ -50,14 +50,6 @@ public interface OutputFormat {
    * file name when storing a Drawing with the specified file format.
    */
   public String getFileExtension();
-
-  /**
-   * Return a JFileChooser accessory that can be used to customize the output format.
-   *
-   * @return A JFileChooser accessory to be used with a javax.swing.JFileChooser Returns null, if no
-   *     accessory is provided for this format.
-   */
-  public JComponent getOutputFormatAccessory();
 
   /**
    * Writes a Drawing into an URI.

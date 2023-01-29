@@ -39,15 +39,15 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     this.isSolid = isSolid;
   }
 
-  protected boolean isFilled() {
+  public boolean isFilled() {
     return isFilled;
   }
 
-  protected boolean isStroked() {
+  public boolean isStroked() {
     return isStroked;
   }
 
-  protected boolean isSolid() {
+  public boolean isSolid() {
     return isSolid;
   }
 
@@ -58,9 +58,9 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     Color color;
     if (isFilled) {
       if (isSolid) {
-        color = f.get(STROKE_COLOR);
+        color = f.attr().get(STROKE_COLOR);
       } else {
-        color = f.get(FILL_COLOR);
+        color = f.attr().get(FILL_COLOR);
       }
       if (color != null) {
         g.setColor(color);
@@ -68,7 +68,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
       }
     }
     if (isStroked) {
-      color = f.get(STROKE_COLOR);
+      color = f.attr().get(STROKE_COLOR);
       if (color != null) {
         g.setColor(color);
         g.setStroke(AttributeKeys.getStroke(f, AttributeKeys.getScaleFactorFromGraphics(g)));
@@ -85,9 +85,9 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     Rectangle2D.Double area =
         new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
     if (isStroked) {
-      double strokeWidth = f.get(STROKE_WIDTH);
-      int strokeJoin = f.get(STROKE_JOIN);
-      double miterLimit = (f.get(STROKE_MITER_LIMIT) * strokeWidth);
+      double strokeWidth = f.attr().get(STROKE_WIDTH);
+      int strokeJoin = f.attr().get(STROKE_JOIN);
+      double miterLimit = (f.attr().get(STROKE_MITER_LIMIT) * strokeWidth);
       double grow;
       if (strokeJoin == BasicStroke.JOIN_MITER) {
         grow = (int) (1 + strokeWidth / 2 * miterLimit);
@@ -103,7 +103,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 
   @Override
   public double getDecorationRadius(Figure f) {
-    double strokeWidth = f.get(STROKE_WIDTH);
+    double strokeWidth = f.attr().get(STROKE_WIDTH);
     double scaleFactor;
     if (strokeWidth > 1f) {
       scaleFactor = 1d + (strokeWidth - 1d) / 2d;
@@ -116,7 +116,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
   private Path2D.Double getTransformedDecoratorPath(
       Figure f, Point2D.Double p1, Point2D.Double p2) {
     Path2D.Double path = getDecoratorPath(f);
-    double strokeWidth = f.get(STROKE_WIDTH);
+    double strokeWidth = f.attr().get(STROKE_WIDTH);
     AffineTransform transform = new AffineTransform();
     transform.translate(p1.x, p1.y);
     transform.rotate(Math.atan2(p1.x - p2.x, p2.y - p1.y));
@@ -128,15 +128,15 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     return path;
   }
 
-  protected void setFilled(boolean b) {
+  public void setFilled(boolean b) {
     isFilled = b;
   }
 
-  protected void setStroked(boolean b) {
+  public void setStroked(boolean b) {
     isStroked = b;
   }
 
-  protected void setSolid(boolean b) {
+  public void setSolid(boolean b) {
     isSolid = b;
   }
 

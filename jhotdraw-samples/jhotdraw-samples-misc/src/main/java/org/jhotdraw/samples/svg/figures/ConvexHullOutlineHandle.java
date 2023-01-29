@@ -114,8 +114,8 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
   @Override
   protected Rectangle basicGetBounds() {
     Shape bounds = getOwner().getBounds();
-    if (getOwner().get(TRANSFORM) != null) {
-      bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
+    if (getOwner().attr().get(TRANSFORM) != null) {
+      bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }
     bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
     Rectangle r = bounds.getBounds();
@@ -146,8 +146,8 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
   public void draw(Graphics2D g) {
     if (outline == null) {
       Shape bounds = getOwner().getPath();
-      if (getOwner().get(TRANSFORM) != null) {
-        bounds = getOwner().get(TRANSFORM).createTransformedShape(bounds);
+      if (getOwner().attr().get(TRANSFORM) != null) {
+        bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
       }
       bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
       outline = ConvexHull.getConvexHullPath2D(bounds);

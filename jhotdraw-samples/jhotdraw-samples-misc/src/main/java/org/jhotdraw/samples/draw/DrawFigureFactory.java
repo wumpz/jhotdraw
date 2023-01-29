@@ -37,6 +37,7 @@ import org.jhotdraw.xml.DefaultDOMFactory;
  * @author Werner Randelshofer
  * @version $Id$
  */
+@Deprecated
 public class DrawFigureFactory extends DefaultDOMFactory {
 
   private static final Object[][] CLASS_TAGS = {
@@ -76,7 +77,7 @@ public class DrawFigureFactory extends DefaultDOMFactory {
   /** Creates a new instance. */
   public DrawFigureFactory() {
     for (Object[] o : CLASS_TAGS) {
-      addStorableClass((String) o[1], (Class) o[0]);
+      register((String) o[1], (Class) o[0]);
     }
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);

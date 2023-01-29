@@ -8,10 +8,8 @@
 package org.jhotdraw.draw.locator;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.xml.*;
 
 /**
  * A {@link Locator} which locates a node on the bezier path of a BezierFigure.
@@ -44,15 +42,15 @@ public class BezierPointLocator extends AbstractLocator {
     return new Point2D.Double(0, 0);
   }
 
-  @Override
-  public void write(DOMOutput out) {
-    out.addAttribute("index", index, 0);
-    out.addAttribute("coord", coord, 0);
-  }
-
-  @Override
-  public void read(DOMInput in) {
-    index = in.getAttribute("index", 0);
-    coord = in.getAttribute("coord", 0);
-  }
+  //  @Override
+  //  public void write(DOMOutput out) {
+  //    out.addAttribute("index", index, 0);
+  //    out.addAttribute("coord", coord, 0);
+  //  }
+  //
+  //  @Override
+  //  public void read(DOMInput in) {
+  //    index = in.getAttribute("index", 0);
+  //    coord = in.getAttribute("coord", 0);
+  //  }
 }

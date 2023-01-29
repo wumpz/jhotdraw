@@ -12,7 +12,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
@@ -26,8 +25,6 @@ import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@code TextHolderFigure} which holds a single line of text.
@@ -114,7 +111,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
       FontRenderContext frc = getFontRenderContext();
       HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
       textAttributes.put(TextAttribute.FONT, getFont());
-      if (get(FONT_UNDERLINE)) {
+      if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
       textLayout = new TextLayout(text, textAttributes, frc);
@@ -183,7 +180,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   /** Gets the text shown by the text figure. */
   @Override
   public String getText() {
-    return get(TEXT);
+    return attr().get(TEXT);
   }
 
   /**
@@ -192,7 +189,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
    */
   @Override
   public void setText(String newText) {
-    set(TEXT, newText);
+    attr().set(TEXT, newText);
   }
 
   @Override
@@ -224,22 +221,22 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public Color getTextColor() {
-    return get(TEXT_COLOR);
+    return attr().get(TEXT_COLOR);
   }
 
   @Override
   public Color getFillColor() {
-    return get(FILL_COLOR);
+    return attr().get(FILL_COLOR);
   }
 
   @Override
   public void setFontSize(float size) {
-    set(FONT_SIZE, new Double(size));
+    attr().set(FONT_SIZE, new Double(size));
   }
 
   @Override
   public float getFontSize() {
-    return get(FONT_SIZE).floatValue();
+    return attr().get(FONT_SIZE).floatValue();
   }
 
   // EDITING
@@ -299,25 +296,6 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   protected void validate() {
     super.validate();
     textLayout = null;
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    setBounds(
-        new Point2D.Double(in.getAttribute("x", 0d), in.getAttribute("y", 0d)),
-        new Point2D.Double(0, 0));
-    readAttributes(in);
-    readDecorator(in);
-    invalidate();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    Rectangle2D.Double b = getBounds();
-    out.addAttribute("x", b.x);
-    out.addAttribute("y", b.y);
-    writeAttributes(out);
-    writeDecorator(out);
   }
 
   @Override

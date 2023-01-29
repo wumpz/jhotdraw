@@ -160,8 +160,8 @@ public class CombineAction extends AbstractSelectedAction {
       int index = drawing.indexOf(group);
       for (Figure f : group.getChildren()) {
         SVGPathFigure path = new SVGPathFigure(true);
-        for (Map.Entry<AttributeKey<?>, Object> entry : group.getAttributes().entrySet()) {
-          path.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+        for (Map.Entry<AttributeKey<?>, Object> entry : group.attr().getAttributes().entrySet()) {
+          path.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }
         ungroupedPaths.add(path);
         ungroupedPathsIndices[i] = index + i;
@@ -230,9 +230,9 @@ public class CombineAction extends AbstractSelectedAction {
     group.willChange();
     group.basicRemoveAllChildren();
     // Verify if all figures have the same transform
-    AffineTransform tx = figures.iterator().next().get(TRANSFORM);
+    AffineTransform tx = figures.iterator().next().attr().get(TRANSFORM);
     for (Figure f : figures) {
-      AffineTransform ftx = f.get(TRANSFORM);
+      AffineTransform ftx = f.attr().get(TRANSFORM);
       if (ftx == tx || ftx != null && tx != null && ftx.equals(tx)) {
       } else {
         tx = null;
@@ -240,12 +240,12 @@ public class CombineAction extends AbstractSelectedAction {
       }
     }
     for (Map.Entry<AttributeKey<?>, Object> entry :
-        figures.iterator().next().getAttributes().entrySet()) {
-      group.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+        figures.iterator().next().attr().getAttributes().entrySet()) {
+      group.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
     // In case all figures have the same transforms, we set it here.
     // In case the transforms are different, we set null here.
-    group.set(TRANSFORM, tx);
+    group.attr().set(TRANSFORM, tx);
     for (Figure f : figures) {
       SVGPathFigure path = (SVGPathFigure) f;
       // In case the transforms are different, we flatten it in the figures.

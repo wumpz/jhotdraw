@@ -92,10 +92,10 @@ public class AttributeAction extends AbstractSelectedAction {
     final ArrayList<Figure> selectedFigures = new ArrayList<>(figures);
     final ArrayList<Object> restoreData = new ArrayList<>(selectedFigures.size());
     for (Figure figure : selectedFigures) {
-      restoreData.add(figure.getAttributesRestoreData());
+      restoreData.add(figure.attr().getAttributesRestoreData());
       figure.willChange();
       for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
-        figure.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+        figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
       }
       figure.changed();
     }
@@ -122,7 +122,7 @@ public class AttributeAction extends AbstractSelectedAction {
             Iterator<Object> iRestore = restoreData.iterator();
             for (Figure figure : selectedFigures) {
               figure.willChange();
-              figure.restoreAttributesTo(iRestore.next());
+              figure.attr().restoreAttributesTo(iRestore.next());
               figure.changed();
             }
           }
@@ -134,7 +134,7 @@ public class AttributeAction extends AbstractSelectedAction {
               // restoreData.add(figure.getAttributesRestoreData());
               figure.willChange();
               for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
-                figure.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+                figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
               }
               figure.changed();
             }

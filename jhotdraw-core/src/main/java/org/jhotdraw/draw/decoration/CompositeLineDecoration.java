@@ -10,14 +10,9 @@ package org.jhotdraw.draw.decoration;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * A {@link LineDecoration} which can compose multiple individual line decorations.
@@ -27,7 +22,7 @@ import org.jhotdraw.xml.DOMStorable;
  *
  * @author Huw Jones
  */
-public class CompositeLineDecoration implements LineDecoration, DOMStorable {
+public class CompositeLineDecoration implements LineDecoration {
 
   private static final long serialVersionUID = 1L;
   private List<LineDecoration> decorations = new ArrayList<>();
@@ -87,24 +82,24 @@ public class CompositeLineDecoration implements LineDecoration, DOMStorable {
     return radius;
   }
 
-  @Override
-  public void read(DOMInput in) throws IOException {
-    for (int i = in.getElementCount("decoration") - 1; i >= 0; i--) {
-      in.openElement("decoration", i);
-      Object value = in.readObject();
-      if (value instanceof LineDecoration) {
-        addDecoration((LineDecoration) value);
-      }
-      in.closeElement();
-    }
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    for (LineDecoration decoration : decorations) {
-      out.openElement("decoration");
-      out.writeObject(decoration);
-      out.closeElement();
-    }
-  }
+  //  @Override
+  //  public void read(DOMInput in) throws IOException {
+  //    for (int i = in.getElementCount("decoration") - 1; i >= 0; i--) {
+  //      in.openElement("decoration", i);
+  //      Object value = in.readObject();
+  //      if (value instanceof LineDecoration) {
+  //        addDecoration((LineDecoration) value);
+  //      }
+  //      in.closeElement();
+  //    }
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) throws IOException {
+  //    for (LineDecoration decoration : decorations) {
+  //      out.openElement("decoration");
+  //      out.writeObject(decoration);
+  //      out.closeElement();
+  //    }
+  //  }
 }

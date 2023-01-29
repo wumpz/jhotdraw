@@ -18,7 +18,6 @@ import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.xml.*;
 
 /**
  * A <em>drawing</em> is a container for {@link Figure}s. A drawing can hold multiple figures, but a
@@ -78,7 +77,7 @@ import org.jhotdraw.xml.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface Drawing extends CompositeFigure, Serializable, DOMStorable {
+public interface Drawing extends CompositeFigure, Serializable {
 
   /**
    * Draws on the <em>canvas area</em>. The canvas is the background area onto which the drawing is

@@ -17,7 +17,6 @@ import org.jhotdraw.action.edit.DuplicateAction;
 import org.jhotdraw.action.edit.PasteAction;
 import org.jhotdraw.action.edit.SelectAllAction;
 import org.jhotdraw.draw.DefaultDrawing;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -42,6 +41,7 @@ import org.jhotdraw.draw.tool.ConnectionTool;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.undo.UndoRedoManager;
@@ -216,7 +216,7 @@ public class DrawingPanel extends JPanel {
     ButtonFactory.addToolTo(
         tb, editor, ct = new CreationTool(new LineFigure()), "edit.createArrow", labels);
     af = (AbstractAttributedFigure) ct.getPrototype();
-    af.set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
+    af.attr().set(END_DECORATION, new ArrowTip(0.35, 12, 11.3));
     ButtonFactory.addToolTo(
         tb,
         editor,

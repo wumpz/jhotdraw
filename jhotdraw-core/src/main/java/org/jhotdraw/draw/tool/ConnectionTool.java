@@ -324,7 +324,7 @@ public class ConnectionTool extends AbstractTool {
     getEditor().applyDefaultAttributesTo(f);
     if (prototypeAttributes != null) {
       for (Map.Entry<AttributeKey<?>, Object> entry : prototypeAttributes.entrySet()) {
-        f.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+        f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
       }
     }
     return f;

@@ -11,9 +11,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link DecoratedFigure} which has an attribute
@@ -23,7 +21,7 @@ import org.jhotdraw.xml.*;
  * @version $Id$
  */
 public abstract class AbstractAttributedDecoratedFigure extends AbstractAttributedFigure
-    implements DecoratedFigure, DOMStorable {
+    implements DecoratedFigure {
 
   private static final long serialVersionUID = 1L;
   private Figure decorator;
@@ -78,7 +76,7 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
     if (decorator != null) {
       Point2D.Double sp = getStartPoint();
       Point2D.Double ep = getEndPoint();
-      Insets2D.Double decoratorInsets = get(DECORATOR_INSETS);
+      Insets2D.Double decoratorInsets = attr().get(DECORATOR_INSETS);
       sp.x -= decoratorInsets.left;
       sp.y -= decoratorInsets.top;
       ep.x += decoratorInsets.right;
@@ -99,36 +97,6 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
   }
 
   protected abstract boolean figureContains(Point2D.Double p);
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    readDecorator(in);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    writeDecorator(out);
-  }
-
-  protected void writeDecorator(DOMOutput out) throws IOException {
-    if (decorator != null) {
-      out.openElement("decorator");
-      out.writeObject(decorator);
-      out.closeElement();
-    }
-  }
-
-  protected void readDecorator(DOMInput in) throws IOException {
-    if (in.getElementCount("decorator") > 0) {
-      in.openElement("decorator");
-      decorator = (Figure) in.readObject();
-      in.closeElement();
-    } else {
-      decorator = null;
-    }
-  }
 
   @Override
   public AbstractAttributedDecoratedFigure clone() {

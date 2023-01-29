@@ -29,12 +29,12 @@ import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.action.file.ExportFileAction;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.tool.CreationTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.samples.odg.figures.ODGGroupFigure;
@@ -252,7 +252,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
           public void propertyChange(PropertyChangeEvent evt) {
             if ("fileFilterChanged".equals(evt.getPropertyName())) {
               InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-              c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
+              c.setAccessory(null);
             }
           }
         });

@@ -10,7 +10,6 @@ package org.jhotdraw.draw.layouter;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.AttributeKeys.Alignment;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -41,7 +40,7 @@ public class VerticalLayouter extends AbstractLayouter {
   @Override
   public Rectangle2D.Double calculateLayout(
       CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
-    Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
+    Insets2D.Double layoutInsets = layoutable.attr().get(LAYOUT_INSETS);
     if (layoutInsets == null) {
       layoutInsets = new Insets2D.Double(0, 0, 0, 0);
     }
@@ -63,8 +62,8 @@ public class VerticalLayouter extends AbstractLayouter {
   @Override
   public Rectangle2D.Double layout(
       CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
-    Insets2D.Double layoutInsets = layoutable.get(LAYOUT_INSETS);
-    Alignment compositeAlignment = layoutable.get(COMPOSITE_ALIGNMENT);
+    Insets2D.Double layoutInsets = layoutable.attr().get(LAYOUT_INSETS);
+    Alignment compositeAlignment = layoutable.attr().get(COMPOSITE_ALIGNMENT);
     if (layoutInsets == null) {
       layoutInsets = new Insets2D.Double();
     }

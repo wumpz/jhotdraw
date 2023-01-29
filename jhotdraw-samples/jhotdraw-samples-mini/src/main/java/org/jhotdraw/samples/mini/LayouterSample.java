@@ -9,10 +9,12 @@ package org.jhotdraw.samples.mini;
 
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.LineFigure;
 import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 
 /**
  * Example showing how to layout two editable text figures and a line figure within a graphical

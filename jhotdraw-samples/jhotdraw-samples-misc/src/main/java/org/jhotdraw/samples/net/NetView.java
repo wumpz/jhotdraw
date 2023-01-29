@@ -22,15 +22,16 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.AbstractView;
 import org.jhotdraw.draw.DefaultDrawing;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.PlacardScrollPaneLayout;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.io.DOMStorableInputOutputFormat;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.TextInputFormat;
 import org.jhotdraw.samples.net.figures.NodeFigure;
@@ -122,10 +123,9 @@ public class NetView extends AbstractView {
   /** Creates a new Drawing for this view. */
   protected Drawing createDrawing() {
     DefaultDrawing drawing = new DefaultDrawing();
-    DOMStorableInputOutputFormat ioFormat = new DOMStorableInputOutputFormat(new NetFactory());
-    drawing.addInputFormat(ioFormat);
+    drawing.addInputFormat(new DOMStorableInputFormat(new NetFactory()));
     drawing.addInputFormat(new TextInputFormat(new NodeFigure()));
-    drawing.addOutputFormat(ioFormat);
+    drawing.addOutputFormat(new DOMStorableOutputFormat(new NetFactory()));
     drawing.addOutputFormat(new ImageOutputFormat());
     return drawing;
   }

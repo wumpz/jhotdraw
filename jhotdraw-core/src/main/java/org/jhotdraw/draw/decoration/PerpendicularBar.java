@@ -8,18 +8,14 @@
 package org.jhotdraw.draw.decoration;
 
 import java.awt.geom.Path2D;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * A {@link LineDecoration} which draws a perpendicular bar.
  *
  * @author Huw Jones
  */
-public class PerpendicularBar extends AbstractLineDecoration implements DOMStorable {
+public class PerpendicularBar extends AbstractLineDecoration {
 
   private static final long serialVersionUID = 1L;
   private double height;
@@ -51,13 +47,13 @@ public class PerpendicularBar extends AbstractLineDecoration implements DOMStora
     return 0.5;
   }
 
-  @Override
-  public void read(DOMInput in) {
-    height = in.getAttribute("height", 10);
-  }
-
-  @Override
-  public void write(DOMOutput out) {
-    out.addAttribute("height", height);
-  }
+  //  @Override
+  //  public void read(DOMInput in) {
+  //    height = in.getAttribute("height", 10);
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) {
+  //    out.addAttribute("height", height);
+  //  }
 }

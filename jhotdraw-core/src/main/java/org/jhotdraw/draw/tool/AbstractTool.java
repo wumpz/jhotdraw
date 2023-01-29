@@ -378,11 +378,11 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   protected void maybeFireBoundsInvalidated(Rectangle invalidatedArea) {
     Drawing d = getDrawing();
     Rectangle2D.Double canvasBounds = new Rectangle2D.Double(0, 0, 0, 0);
-    if (d.get(CANVAS_WIDTH) != null) {
-      canvasBounds.width += d.get(CANVAS_WIDTH);
+    if (d.attr().get(CANVAS_WIDTH) != null) {
+      canvasBounds.width += d.attr().get(CANVAS_WIDTH);
     }
-    if (d.get(CANVAS_HEIGHT) != null) {
-      canvasBounds.height += d.get(CANVAS_HEIGHT);
+    if (d.attr().get(CANVAS_HEIGHT) != null) {
+      canvasBounds.height += d.attr().get(CANVAS_HEIGHT);
     }
     if (!canvasBounds.contains(invalidatedArea)) {
       fireBoundsInvalidated(invalidatedArea);

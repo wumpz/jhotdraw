@@ -37,7 +37,7 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
 
   @Override
   public void draw(Graphics2D g) {
-    double opacity = get(OPACITY);
+    double opacity = attr().get(OPACITY);
     opacity = Math.min(Math.max(0d, opacity), 1d);
     if (opacity != 0d) {
       if (opacity != 1d) {
@@ -78,18 +78,18 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
   /** This method is invoked before the rendered image of the figure is composited. */
   public void drawFigure(Graphics2D g) {
     AffineTransform savedTransform = null;
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       savedTransform = g.getTransform();
-      g.transform(get(TRANSFORM));
+      g.transform(attr().get(TRANSFORM));
     }
-    if (get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
+    if (attr().get(FILL_STYLE) != ODGConstants.FillStyle.NONE) {
       Paint paint = ODGAttributeKeys.getFillPaint(this);
       if (paint != null) {
         g.setPaint(paint);
         drawFill(g);
       }
     }
-    if (get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
+    if (attr().get(STROKE_STYLE) != ODGConstants.StrokeStyle.NONE) {
       Paint paint = ODGAttributeKeys.getStrokePaint(this);
       if (paint != null) {
         g.setPaint(paint);
@@ -97,23 +97,15 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
         drawStroke(g);
       }
     }
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       g.setTransform(savedTransform);
     }
   }
 
   @Override
-  public <T> void set(AttributeKey<T> key, T newValue) {
-    if (key == TRANSFORM) {
-      invalidate();
-    }
-    super.set(key, newValue);
-  }
-
-  @Override
   public Collection<Action> getActions(Point2D.Double p) {
     LinkedList<Action> actions = new LinkedList<Action>();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
       actions.add(
           new AbstractAction(labels.getString("edit.removeTransform.text")) {

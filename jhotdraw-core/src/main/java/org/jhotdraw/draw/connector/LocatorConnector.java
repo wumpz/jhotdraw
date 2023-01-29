@@ -8,12 +8,9 @@
 package org.jhotdraw.draw.connector;
 
 import java.awt.geom.*;
-import java.io.IOException;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.xml.*;
 
 /**
  * A LocatorConnector locates connection points with the help of a Locator. It supports the
@@ -36,7 +33,6 @@ public class LocatorConnector extends AbstractConnector {
 
   private Locator locator;
 
-  /** Creates a new instance. Only used for DOMStorable. */
   public LocatorConnector() {}
 
   public LocatorConnector(Figure owner, Locator l) {
@@ -46,6 +42,10 @@ public class LocatorConnector extends AbstractConnector {
 
   public Locator getLocator() {
     return locator;
+  }
+
+  public void setLocator(Locator locator) {
+    this.locator = locator;
   }
 
   protected Point2D.Double locate(ConnectionFigure connection) {
@@ -65,19 +65,19 @@ public class LocatorConnector extends AbstractConnector {
     return new Rectangle2D.Double(p.x - SIZE / 2, p.y - SIZE / 2, SIZE, SIZE);
   }
 
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    in.openElement("locator");
-    this.locator = (Locator) in.readObject(0);
-    in.closeElement();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    out.openElement("locator");
-    out.writeObject(locator);
-    out.closeElement();
-  }
+  //  @Override
+  //  public void read(DOMInput in) throws IOException {
+  //    super.read(in);
+  //    in.openElement("locator");
+  //    this.locator = (Locator) in.readObject(0);
+  //    in.closeElement();
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) throws IOException {
+  //    super.write(out);
+  //    out.openElement("locator");
+  //    out.writeObject(locator);
+  //    out.closeElement();
+  //  }
 }

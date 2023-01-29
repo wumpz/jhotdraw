@@ -15,17 +15,6 @@ import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-/**
- * DOMInput.
- *
- * <p>Design pattern:<br>
- * Name: Adapter.<br>
- * Role: Adapter.<br>
- * Partners: {@link org.w3c.dom.Document} as Adaptee.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
 public class JavaxDOMInput implements DOMInput {
 
   /**
@@ -182,7 +171,7 @@ public class JavaxDOMInput implements DOMInput {
     NodeList list = current.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
       Node node = list.item(i);
-      if ((node instanceof Element) && ((Element) node).getTagName().equals(tagName)) {
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
         count++;
       }
     }
@@ -214,7 +203,7 @@ public class JavaxDOMInput implements DOMInput {
     int len = list.getLength();
     for (int i = 0; i < len; i++) {
       Node node = list.item(i);
-      if ((node instanceof Element) && ((Element) node).getTagName().equals(tagName)) {
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
         current = node;
         return;
       }
@@ -230,7 +219,7 @@ public class JavaxDOMInput implements DOMInput {
     int len = list.getLength();
     for (int i = 0; i < len; i++) {
       Node node = list.item(i);
-      if ((node instanceof Element) && ((Element) node).getTagName().equals(tagName)) {
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
         if (count++ == index) {
           current = node;
           return;
@@ -292,9 +281,6 @@ public class JavaxDOMInput implements DOMInput {
       o = factory.read(this);
       if (id != null) {
         idobjects.put(id, o);
-      }
-      if (o instanceof DOMStorable) {
-        ((DOMStorable) o).read(this);
       }
     }
     closeElement();

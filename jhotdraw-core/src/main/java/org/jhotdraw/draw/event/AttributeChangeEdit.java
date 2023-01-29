@@ -43,7 +43,7 @@ public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
   public void redo() throws CannotRedoException {
     super.redo();
     owner.willChange();
-    owner.set(name, newValue);
+    owner.attr().set(name, newValue);
     owner.changed();
   }
 
@@ -51,7 +51,7 @@ public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
   public void undo() throws CannotUndoException {
     super.undo();
     owner.willChange();
-    owner.set(name, oldValue);
+    owner.attr().set(name, oldValue);
     owner.changed();
   }
 }

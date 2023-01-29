@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.layouter;
 
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Insets2D;
@@ -22,7 +21,7 @@ import org.jhotdraw.geom.Insets2D;
 public abstract class AbstractLayouter implements Layouter {
 
   public Insets2D.Double getInsets(Figure child) {
-    Insets2D.Double value = child.get(CompositeFigure.LAYOUT_INSETS);
+    Insets2D.Double value = child.attr().get(CompositeFigure.LAYOUT_INSETS);
     return (value == null) ? new Insets2D.Double() : (Insets2D.Double) value.clone();
   }
 }

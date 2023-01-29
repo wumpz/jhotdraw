@@ -163,14 +163,12 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
   public void setArcWidth(double newValue) {
     double oldValue = roundrect.arcwidth;
     roundrect.arcwidth = newValue;
-    firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
   }
 
   /** Sets the arc height. */
   public void setArcHeight(double newValue) {
     double oldValue = roundrect.archeight;
     roundrect.archeight = newValue;
-    firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
   }
 
   /** Convenience method for setting both the arc width and the arc height. */
@@ -191,16 +189,16 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         (rx instanceof Rectangle2D.Double)
             ? (Rectangle2D.Double) rx
             : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-    if (get(TRANSFORM) == null) {
+    if (attr().get(TRANSFORM) == null) {
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d + 1d;
       Geom.grow(r, g, g);
     } else {
       double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
       double width = strokeTotalWidth / 2d;
-      if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-        width *= get(STROKE_MITER_LIMIT);
+      if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+        width *= attr().get(STROKE_MITER_LIMIT);
       }
-      if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+      if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
         width += strokeTotalWidth * 2;
       }
       width++;
@@ -237,8 +235,9 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
       } else {
         cachedTransformedShape = (Shape) roundrect.clone();
       }
-      if (get(TRANSFORM) != null) {
-        cachedTransformedShape = get(TRANSFORM).createTransformedShape(cachedTransformedShape);
+      if (attr().get(TRANSFORM) != null) {
+        cachedTransformedShape =
+            attr().get(TRANSFORM).createTransformedShape(cachedTransformedShape);
       }
     }
     return cachedTransformedShape;
@@ -246,7 +245,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
 
   private Shape getHitShape() {
     if (cachedHitShape == null) {
-      if (get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
+      if (attr().get(FILL_COLOR) != null || attr().get(FILL_GRADIENT) != null) {
         cachedHitShape =
             new GrowStroke(
                     (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
@@ -268,31 +267,33 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
   @Override
   public void transform(AffineTransform tx) {
     invalidateTransformedShape();
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION |
         // AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
         (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-      if (get(TRANSFORM) == null) {
-        set(TRANSFORM, (AffineTransform) tx.clone());
+      if (attr().get(TRANSFORM) == null) {
+        attr().set(TRANSFORM, (AffineTransform) tx.clone());
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       Point2D.Double anchor = getStartPoint();
       Point2D.Double lead = getEndPoint();
       setBounds(
           (Point2D.Double) tx.transform(anchor, anchor), (Point2D.Double) tx.transform(lead, lead));
-      if (get(FILL_GRADIENT) != null && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(FILL_GRADIENT) != null
+          && !attr().get(FILL_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = FILL_GRADIENT.getClone(this);
         g.transform(tx);
-        set(FILL_GRADIENT, g);
+        attr().set(FILL_GRADIENT, g);
       }
-      if (get(STROKE_GRADIENT) != null && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(STROKE_GRADIENT) != null
+          && !attr().get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = STROKE_GRADIENT.getClone(this);
         g.transform(tx);
-        set(STROKE_GRADIENT, g);
+        attr().set(STROKE_GRADIENT, g);
       }
     }
   }

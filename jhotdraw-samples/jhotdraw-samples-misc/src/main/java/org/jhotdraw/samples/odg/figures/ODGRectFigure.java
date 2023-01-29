@@ -113,16 +113,16 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
         (rx instanceof Rectangle2D.Double)
             ? (Rectangle2D.Double) rx
             : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-    if (get(TRANSFORM) == null) {
+    if (attr().get(TRANSFORM) == null) {
       double g = ODGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2;
       Geom.grow(r, g, g);
     } else {
       double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
       double width = strokeTotalWidth / 2d;
-      if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-        width *= get(STROKE_MITER_LIMIT);
+      if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+        width *= attr().get(STROKE_MITER_LIMIT);
       }
-      if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+      if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
         width += strokeTotalWidth * 2;
       }
       width++;
@@ -158,8 +158,9 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
       } else {
         cachedTransformedShape = (Shape) roundrect.clone();
       }
-      if (get(TRANSFORM) != null) {
-        cachedTransformedShape = get(TRANSFORM).createTransformedShape(cachedTransformedShape);
+      if (attr().get(TRANSFORM) != null) {
+        cachedTransformedShape =
+            attr().get(TRANSFORM).createTransformedShape(cachedTransformedShape);
       }
     }
     return cachedTransformedShape;
@@ -184,31 +185,33 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
   @Override
   public void transform(AffineTransform tx) {
     invalidateTransformedShape();
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION |
         // AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
         (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-      if (get(TRANSFORM) == null) {
-        set(TRANSFORM, (AffineTransform) tx.clone());
+      if (attr().get(TRANSFORM) == null) {
+        attr().set(TRANSFORM, (AffineTransform) tx.clone());
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       Point2D.Double anchor = getStartPoint();
       Point2D.Double lead = getEndPoint();
       setBounds(
           (Point2D.Double) tx.transform(anchor, anchor), (Point2D.Double) tx.transform(lead, lead));
-      if (get(FILL_GRADIENT) != null && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(FILL_GRADIENT) != null
+          && !attr().get(FILL_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = FILL_GRADIENT.getClone(this);
         g.transform(tx);
-        set(FILL_GRADIENT, g);
+        attr().set(FILL_GRADIENT, g);
       }
-      if (get(STROKE_GRADIENT) != null && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+      if (attr().get(STROKE_GRADIENT) != null
+          && !attr().get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
         Gradient g = STROKE_GRADIENT.getClone(this);
         g.transform(tx);
-        set(STROKE_GRADIENT, g);
+        attr().set(STROKE_GRADIENT, g);
       }
     }
   }

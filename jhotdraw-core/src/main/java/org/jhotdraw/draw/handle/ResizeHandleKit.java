@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
@@ -173,9 +172,9 @@ public class ResizeHandleKit {
       if (view.getConstrainer() != null) {
         p = view.getConstrainer().constrainPoint(p);
       }
-      if (getOwner().get(TRANSFORM) != null) {
+      if (getOwner().attr().get(TRANSFORM) != null) {
         try {
-          getOwner().get(TRANSFORM).inverseTransform(p, p);
+          getOwner().attr().get(TRANSFORM).inverseTransform(p, p);
         } catch (NoninvertibleTransformException ex) {
           if (DEBUG) {
             ex.printStackTrace();

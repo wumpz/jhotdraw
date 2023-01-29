@@ -63,9 +63,9 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction impleme
       selectedColor = null;
     }
     for (Figure figure : selectedFigures) {
-      restoreData.add(figure.getAttributesRestoreData());
+      restoreData.add(figure.attr().getAttributesRestoreData());
       figure.willChange();
-      figure.set(key, selectedColor);
+      figure.attr().set(key, selectedColor);
       figure.changed();
     }
     getEditor().setDefaultAttribute(key, selectedColor);
@@ -95,7 +95,7 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction impleme
             Iterator<Object> iRestore = restoreData.iterator();
             for (Figure figure : selectedFigures) {
               figure.willChange();
-              figure.restoreAttributesTo(iRestore.next());
+              figure.attr().restoreAttributesTo(iRestore.next());
               figure.changed();
             }
           }
@@ -106,7 +106,7 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction impleme
             for (Figure figure : selectedFigures) {
               // restoreData.add(figure.getAttributesRestoreData());
               figure.willChange();
-              figure.set(key, undoValue);
+              figure.attr().set(key, undoValue);
               figure.changed();
             }
           }
@@ -123,7 +123,7 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction impleme
       isUpdating++;
       if (getView().getSelectionCount() > 0 /*&& colorChooser.isShowing()*/) {
         for (Figure f : getView().getSelectedFigures()) {
-          Color figureColor = f.get(key);
+          Color figureColor = f.attr().get(key);
           colorChooser.setColor(figureColor == null ? new Color(0, true) : figureColor);
           break;
         }

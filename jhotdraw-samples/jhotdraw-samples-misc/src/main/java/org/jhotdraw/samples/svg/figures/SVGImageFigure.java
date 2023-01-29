@@ -64,7 +64,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
   @Override
   public void draw(Graphics2D g) {
     // super.draw(g);
-    double opacity = get(OPACITY);
+    double opacity = attr().get(OPACITY);
     opacity = Math.min(Math.max(0d, opacity), 1d);
     if (opacity != 0d) {
       Composite savedComposite = g.getComposite();
@@ -73,13 +73,13 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
       }
       BufferedImage image = getBufferedImage();
       if (image != null) {
-        if (get(TRANSFORM) != null) {
+        if (attr().get(TRANSFORM) != null) {
           // FIXME - We should cache the transformed image.
           //         Drawing a transformed image appears to be very slow.
           Graphics2D gx = (Graphics2D) g.create();
           // Use same rendering hints like parent graphics
           gx.setRenderingHints(g.getRenderingHints());
-          gx.transform(get(TRANSFORM));
+          gx.transform(attr().get(TRANSFORM));
           gx.drawImage(
               image,
               (int) rectangle.x,
@@ -170,8 +170,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
   private Shape getTransformedShape() {
     if (cachedTransformedShape == null) {
       cachedTransformedShape = (Shape) rectangle.clone();
-      if (get(TRANSFORM) != null) {
-        cachedTransformedShape = get(TRANSFORM).createTransformedShape(cachedTransformedShape);
+      if (attr().get(TRANSFORM) != null) {
+        cachedTransformedShape =
+            attr().get(TRANSFORM).createTransformedShape(cachedTransformedShape);
       }
     }
     return cachedTransformedShape;
@@ -196,15 +197,15 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
   @Override
   public void transform(AffineTransform tx) {
     invalidateTransformedShape();
-    if (get(TRANSFORM) != null
+    if (attr().get(TRANSFORM) != null
         || (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE))
             != tx.getType()) {
-      if (get(TRANSFORM) == null) {
-        set(TRANSFORM, (AffineTransform) tx.clone());
+      if (attr().get(TRANSFORM) == null) {
+        attr().set(TRANSFORM, (AffineTransform) tx.clone());
       } else {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
-        set(TRANSFORM, t);
+        attr().set(TRANSFORM, t);
       }
     } else {
       Point2D.Double anchor = getStartPoint();
@@ -221,15 +222,15 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     Object[] o = (Object[]) geometry;
     rectangle = (Rectangle2D.Double) ((Rectangle2D.Double) o[0]).clone();
     if (o[1] == null) {
-      set(TRANSFORM, null);
+      attr().set(TRANSFORM, null);
     } else {
-      set(TRANSFORM, (AffineTransform) ((AffineTransform) o[1]).clone());
+      attr().set(TRANSFORM, (AffineTransform) ((AffineTransform) o[1]).clone());
     }
   }
 
   @Override
   public Object getTransformRestoreData() {
-    return new Object[] {rectangle.clone(), get(TRANSFORM)};
+    return new Object[] {rectangle.clone(), attr().get(TRANSFORM)};
   }
 
   // EDITING
@@ -258,7 +259,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     final ResourceBundleUtil labels =
         ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
     LinkedList<Action> actions = new LinkedList<Action>();
-    if (get(TRANSFORM) != null) {
+    if (attr().get(TRANSFORM) != null) {
       actions.add(
           new AbstractAction(labels.getString("edit.removeTransform.text")) {
             private static final long serialVersionUID = 1L;

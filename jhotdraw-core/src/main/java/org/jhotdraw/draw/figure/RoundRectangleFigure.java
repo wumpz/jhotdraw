@@ -9,7 +9,6 @@ package org.jhotdraw.draw.figure;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
@@ -17,8 +16,6 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.RoundRectangleRadiusHandle;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
 
 /**
  * A {@link Figure} with a rounded rectangular shape.
@@ -41,7 +38,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 
   protected RoundRectangle2D.Double roundrect;
-  protected static final double DEFAULT_ARC = 20;
+  public static final double DEFAULT_ARC = 20;
 
   /** Creates a new instance. */
   public RoundRectangleFigure() {
@@ -117,14 +114,12 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   public void setArcWidth(double newValue) {
     double oldValue = roundrect.arcwidth;
     roundrect.arcwidth = newValue;
-    firePropertyChange(ARC_WIDTH_PROPERTY, oldValue, newValue);
   }
 
   /** Sets the arc height. */
   public void setArcHeight(double newValue) {
     double oldValue = roundrect.archeight;
     roundrect.archeight = newValue;
-    firePropertyChange(ARC_HEIGHT_PROPERTY, oldValue, newValue);
   }
 
   /** Convenience method for setting both the arc width and the arc height. */
@@ -211,18 +206,4 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   }
 
   // EVENT HANDLING
-  // PERSISTENCE
-  @Override
-  public void read(DOMInput in) throws IOException {
-    super.read(in);
-    roundrect.arcwidth = in.getAttribute("arcWidth", DEFAULT_ARC);
-    roundrect.archeight = in.getAttribute("arcHeight", DEFAULT_ARC);
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    super.write(out);
-    out.addAttribute("arcWidth", roundrect.arcwidth);
-    out.addAttribute("arcHeight", roundrect.archeight);
-  }
 }

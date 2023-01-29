@@ -9,15 +9,10 @@ package org.jhotdraw.draw.connector;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.io.IOException;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
  * This abstract class can be extended to implement a {@link Connector}.
@@ -26,7 +21,7 @@ import org.jhotdraw.xml.DOMStorable;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class AbstractConnector implements Connector, DOMStorable {
+public class AbstractConnector implements Connector {
 
   private static final long serialVersionUID = 1L;
   /** The owner of the connector */
@@ -100,7 +95,7 @@ public class AbstractConnector implements Connector, DOMStorable {
   }
 
   /** Sets the connector's owner. */
-  protected void setOwner(Figure newValue) {
+  public void setOwner(Figure newValue) {
     owner = newValue;
   }
 
@@ -143,32 +138,6 @@ public class AbstractConnector implements Connector, DOMStorable {
     return isConnectToDecorator()
         ? ((DecoratedFigure) getOwner()).getDecorator().getBounds()
         : getOwner().getBounds();
-  }
-
-  @Override
-  public void read(DOMInput in) throws IOException {
-    if (isStatePersistent) {
-      isConnectToDecorator = in.getAttribute("connectToDecorator", false);
-    }
-    if (in.getElementCount("Owner") != 0) {
-      in.openElement("Owner");
-    } else {
-      in.openElement("owner");
-    }
-    this.owner = (Figure) in.readObject(0);
-    in.closeElement();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    if (isStatePersistent) {
-      if (isConnectToDecorator) {
-        out.addAttribute("connectToDecorator", true);
-      }
-    }
-    out.openElement("Owner");
-    out.writeObject(getOwner());
-    out.closeElement();
   }
 
   @Override

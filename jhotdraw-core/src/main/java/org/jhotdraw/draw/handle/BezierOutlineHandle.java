@@ -10,7 +10,6 @@ package org.jhotdraw.draw.handle;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 
 /**
@@ -66,8 +65,8 @@ public class BezierOutlineHandle extends AbstractHandle {
   public void draw(Graphics2D g) {
     BezierFigure owner = getOwner();
     Shape bounds = owner.getBezierPath();
-    if (owner.get(TRANSFORM) != null) {
-      bounds = owner.get(TRANSFORM).createTransformedShape(bounds);
+    if (owner.attr().get(TRANSFORM) != null) {
+      bounds = owner.attr().get(TRANSFORM).createTransformedShape(bounds);
     }
     bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
     Stroke stroke1;

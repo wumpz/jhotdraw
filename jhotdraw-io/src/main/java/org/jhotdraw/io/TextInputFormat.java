@@ -10,7 +10,6 @@ package org.jhotdraw.io;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -91,31 +90,6 @@ public class TextInputFormat implements InputFormat {
 
   public String getFileExtension() {
     return fileExtension;
-  }
-
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
-  }
-
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    try (InputStream in = new FileInputStream(file)) {
-      read(in, drawing, replace);
-    }
   }
 
   @Override

@@ -8,7 +8,6 @@
 package org.jhotdraw.draw.connector;
 
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TriangleFigure;
 
@@ -24,10 +23,8 @@ public class ChopTriangleConnector extends ChopRectangleConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Only used for DOMStorable input. */
   public ChopTriangleConnector() {}
 
-  /** Creates a new instance. */
   public ChopTriangleConnector(TriangleFigure owner) {
     super(owner);
   }

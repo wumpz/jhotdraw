@@ -23,13 +23,13 @@ import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.app.DefaultApplicationModel;
 import org.jhotdraw.app.DefaultMenuBuilder;
 import org.jhotdraw.app.action.file.ExportFileAction;
-import org.jhotdraw.draw.DefaultDrawingEditor;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.samples.svg.action.CombineAction;
 import org.jhotdraw.samples.svg.action.SplitAction;
@@ -192,7 +192,7 @@ public class SVGApplicationModel extends DefaultApplicationModel {
           public void propertyChange(PropertyChangeEvent evt) {
             if ("fileFilterChanged".equals(evt.getPropertyName())) {
               InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-              c.setAccessory((inputFormat == null) ? null : inputFormat.getInputFormatAccessory());
+              c.setAccessory(null);
             }
           }
         });

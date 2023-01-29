@@ -90,11 +90,11 @@ public class ODGAttributeKeys extends AttributeKeys {
    * filled.
    */
   public static Paint getFillPaint(Figure f) {
-    double opacity = f.get(FILL_OPACITY);
-    if (f.get(FILL_GRADIENT) != null) {
-      return f.get(FILL_GRADIENT).getPaint(f, opacity);
+    double opacity = f.attr().get(FILL_OPACITY);
+    if (f.attr().get(FILL_GRADIENT) != null) {
+      return f.attr().get(FILL_GRADIENT).getPaint(f, opacity);
     }
-    Color color = f.get(FILL_COLOR);
+    Color color = f.attr().get(FILL_COLOR);
     if (color != null) {
       if (opacity != 1) {
         color = new Color((color.getRGB() & 0xffffff) | (int) (opacity * 255) << 24, true);
@@ -109,11 +109,11 @@ public class ODGAttributeKeys extends AttributeKeys {
    * filled.
    */
   public static Paint getStrokePaint(Figure f) {
-    double opacity = f.get(STROKE_OPACITY);
-    if (f.get(STROKE_GRADIENT) != null) {
-      return f.get(STROKE_GRADIENT).getPaint(f, opacity);
+    double opacity = f.attr().get(STROKE_OPACITY);
+    if (f.attr().get(STROKE_GRADIENT) != null) {
+      return f.attr().get(STROKE_GRADIENT).getPaint(f, opacity);
     }
-    Color color = f.get(STROKE_COLOR);
+    Color color = f.attr().get(STROKE_COLOR);
     if (color != null) {
       if (opacity != 1) {
         color = new Color((color.getRGB() & 0xffffff) | (int) (opacity * 255) << 24, true);
@@ -123,7 +123,7 @@ public class ODGAttributeKeys extends AttributeKeys {
   }
 
   public static Stroke getStroke(Figure f) {
-    double strokeWidth = f.get(STROKE_WIDTH);
+    double strokeWidth = f.attr().get(STROKE_WIDTH);
     if (strokeWidth == 0) {
       strokeWidth = 1;
     }
@@ -133,17 +133,17 @@ public class ODGAttributeKeys extends AttributeKeys {
   /** Sets ODG default values. */
   public static void setDefaults(Figure f) {
     // Fill properties
-    f.set(FILL_COLOR, Color.black);
-    f.set(WINDING_RULE, WindingRule.NON_ZERO);
+    f.attr().set(FILL_COLOR, Color.black);
+    f.attr().set(WINDING_RULE, WindingRule.NON_ZERO);
     // Stroke properties
-    f.set(STROKE_COLOR, null);
-    f.set(STROKE_WIDTH, 1d);
-    f.set(STROKE_CAP, BasicStroke.CAP_BUTT);
-    f.set(STROKE_JOIN, BasicStroke.JOIN_MITER);
-    f.set(STROKE_MITER_LIMIT, 4d);
-    f.set(IS_STROKE_MITER_LIMIT_FACTOR, false);
-    f.set(STROKE_DASHES, null);
-    f.set(STROKE_DASH_PHASE, 0d);
-    f.set(IS_STROKE_DASH_FACTOR, false);
+    f.attr().set(STROKE_COLOR, null);
+    f.attr().set(STROKE_WIDTH, 1d);
+    f.attr().set(STROKE_CAP, BasicStroke.CAP_BUTT);
+    f.attr().set(STROKE_JOIN, BasicStroke.JOIN_MITER);
+    f.attr().set(STROKE_MITER_LIMIT, 4d);
+    f.attr().set(IS_STROKE_MITER_LIMIT_FACTOR, false);
+    f.attr().set(STROKE_DASHES, null);
+    f.attr().set(STROKE_DASH_PHASE, 0d);
+    f.attr().set(IS_STROKE_DASH_FACTOR, false);
   }
 }

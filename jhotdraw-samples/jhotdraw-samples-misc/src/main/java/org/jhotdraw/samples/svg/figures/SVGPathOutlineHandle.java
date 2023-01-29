@@ -68,8 +68,8 @@ public class SVGPathOutlineHandle extends AbstractHandle {
   public void draw(Graphics2D g) {
     SVGPathFigure o = getOwner();
     Shape bounds = o.getPath();
-    if (o.get(TRANSFORM) != null) {
-      bounds = o.get(TRANSFORM).createTransformedShape(bounds);
+    if (o.attr().get(TRANSFORM) != null) {
+      bounds = o.attr().get(TRANSFORM).createTransformedShape(bounds);
     }
     bounds = view.getDrawingToViewTransform().createTransformedShape(bounds);
     Stroke stroke1;

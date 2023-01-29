@@ -8,17 +8,14 @@
 package org.jhotdraw.draw;
 
 import java.awt.font.FontRenderContext;
-import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
-import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.xml.*;
 
 /**
  * This abstract class can be extended to implement a {@link Drawing}.
@@ -79,24 +76,24 @@ public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure 
     fontRenderContext = frc;
   }
 
-  @Override
-  public void read(DOMInput in) throws IOException {
-    in.openElement("figures");
-    for (int i = 0; i < in.getElementCount(); i++) {
-      Figure f;
-      add(f = (Figure) in.readObject(i));
-    }
-    in.closeElement();
-  }
-
-  @Override
-  public void write(DOMOutput out) throws IOException {
-    out.openElement("figures");
-    for (Figure f : getChildren()) {
-      out.writeObject(f);
-    }
-    out.closeElement();
-  }
+  //  @Override
+  //  public void read(DOMInput in) throws IOException {
+  //    in.openElement("figures");
+  //    for (int i = 0; i < in.getElementCount(); i++) {
+  //      Figure f;
+  //      add(f = (Figure) in.readObject(i));
+  //    }
+  //    in.closeElement();
+  //  }
+  //
+  //  @Override
+  //  public void write(DOMOutput out) throws IOException {
+  //    out.openElement("figures");
+  //    for (Figure f : getChildren()) {
+  //      out.writeObject(f);
+  //    }
+  //    out.closeElement();
+  //  }
 
   /** The drawing view synchronizes on the lock when drawing a drawing. */
   @Override

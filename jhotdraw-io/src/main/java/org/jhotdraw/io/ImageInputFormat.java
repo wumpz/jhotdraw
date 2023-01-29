@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
@@ -114,46 +113,12 @@ public class ImageInputFormat implements InputFormat {
   }
 
   @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
-  }
-
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
-    figure.loadImage(file);
-    figure.setBounds(
-        new Point2D.Double(0, 0),
-        new Point2D.Double(
-            figure.getBufferedImage().getWidth(), figure.getBufferedImage().getHeight()));
-    if (replace) {
-      drawing.removeAllChildren();
-      drawing.set(CANVAS_WIDTH, figure.getBounds().width);
-      drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
-    }
-    drawing.basicAdd(figure);
-  }
-
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
-  @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
     ImageHolderFigure figure = createImageHolder(in);
     if (replace) {
       drawing.removeAllChildren();
-      drawing.set(CANVAS_WIDTH, figure.getBounds().width);
-      drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
+      drawing.attr().set(CANVAS_WIDTH, figure.getBounds().width);
+      drawing.attr().set(CANVAS_HEIGHT, figure.getBounds().height);
     }
     drawing.basicAdd(figure);
   }
@@ -218,8 +183,8 @@ public class ImageInputFormat implements InputFormat {
     list.add(figure);
     if (replace) {
       drawing.removeAllChildren();
-      drawing.set(CANVAS_WIDTH, figure.getBounds().width);
-      drawing.set(CANVAS_HEIGHT, figure.getBounds().height);
+      drawing.attr().set(CANVAS_WIDTH, figure.getBounds().width);
+      drawing.attr().set(CANVAS_HEIGHT, figure.getBounds().height);
     }
     drawing.addAll(list);
   }

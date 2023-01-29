@@ -13,10 +13,8 @@ import static org.jhotdraw.samples.odg.ODGConstants.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 import java.util.zip.*;
-import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -64,34 +62,6 @@ public class ODGInputFormat implements InputFormat {
   @Override
   public javax.swing.filechooser.FileFilter getFileFilter() {
     return new FileNameExtensionFilter("Open Document Drawing (ODG)", "odg");
-  }
-
-  @Override
-  public JComponent getInputFormatAccessory() {
-    return null;
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing) throws IOException {
-    read(new File(uri), drawing);
-  }
-
-  @Override
-  public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
-    read(new File(uri), drawing, replace);
-  }
-
-  public void read(File file, Drawing drawing) throws IOException {
-    read(file, drawing, true);
-  }
-
-  public void read(File file, Drawing drawing, boolean replace) throws IOException {
-    BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-    try {
-      read(in, drawing, replace);
-    } finally {
-      in.close();
-    }
   }
 
   @Override
@@ -534,7 +504,7 @@ public class ODGInputFormat implements InputFormat {
       Rectangle2D.Double bounds, Map<AttributeKey<?>, Object> a) throws IOException {
     ODGEllipseFigure figure = new ODGEllipseFigure();
     figure.setBounds(bounds);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -543,7 +513,7 @@ public class ODGInputFormat implements InputFormat {
       Rectangle2D.Double bounds, Map<AttributeKey<?>, Object> a) throws IOException {
     ODGRectFigure figure = new ODGRectFigure();
     figure.setBounds(bounds);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -552,7 +522,7 @@ public class ODGInputFormat implements InputFormat {
       Point2D.Double p1, Point2D.Double p2, Map<AttributeKey<?>, Object> a) throws IOException {
     ODGPathFigure figure = new ODGPathFigure();
     figure.setBounds(p1, p2);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -566,7 +536,7 @@ public class ODGInputFormat implements InputFormat {
     }
     figure.removeAllChildren();
     figure.add(bezier);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -581,7 +551,7 @@ public class ODGInputFormat implements InputFormat {
     bezier.setClosed(true);
     figure.removeAllChildren();
     figure.add(bezier);
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 
@@ -595,7 +565,7 @@ public class ODGInputFormat implements InputFormat {
       bezier.setBezierPath(p);
       figure.add(bezier);
     }
-    figure.setAttributes(a);
+    figure.attr().setAttributes(a);
     return figure;
   }
 

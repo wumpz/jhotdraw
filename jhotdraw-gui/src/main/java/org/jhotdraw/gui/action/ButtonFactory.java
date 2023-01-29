@@ -1052,7 +1052,14 @@ public class ButtonFactory {
             }
             Color c;
             if (editor.getActiveView() != null && editor.getActiveView().getSelectionCount() > 0) {
-              c = editor.getActiveView().getSelectedFigures().iterator().next().get(attributeKey);
+              c =
+                  editor
+                      .getActiveView()
+                      .getSelectedFigures()
+                      .iterator()
+                      .next()
+                      .attr()
+                      .get(attributeKey);
             } else {
               c = editor.getDefaultAttribute(attributeKey);
             }
@@ -1345,7 +1352,7 @@ public class ButtonFactory {
             }
             Color c;
             if (editor.getActiveView() != null) {
-              c = editor.getActiveView().getDrawing().get(attributeKey);
+              c = editor.getActiveView().getDrawing().attr().get(attributeKey);
             } else {
               c = editor.getDefaultAttribute(attributeKey);
             }

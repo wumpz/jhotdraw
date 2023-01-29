@@ -45,7 +45,7 @@ public class OrientationHandle extends AbstractHandle {
     Rectangle2D.Double r = owner.getBounds();
     Point2D.Double p;
     double offset = getHandlesize();
-    switch (owner.get(ORIENTATION)) {
+    switch (owner.attr().get(ORIENTATION)) {
       case NORTH:
       default:
         p = new Point2D.Double(r.x + r.width / 2d, r.y + offset);
@@ -88,7 +88,7 @@ public class OrientationHandle extends AbstractHandle {
 
   @Override
   public void trackStart(Point anchor, int modifiersEx) {
-    oldValue = getOwner().get(ORIENTATION);
+    oldValue = getOwner().attr().get(ORIENTATION);
     centerBox = view.drawingToView(getOwner().getBounds());
     centerBox.grow(centerBox.width / -3, centerBox.height / -3);
   }
@@ -124,7 +124,7 @@ public class OrientationHandle extends AbstractHandle {
         break;
     }
     getOwner().willChange();
-    getOwner().set(ORIENTATION, newValue);
+    getOwner().attr().set(ORIENTATION, newValue);
     getOwner().changed();
     updateBounds();
   }

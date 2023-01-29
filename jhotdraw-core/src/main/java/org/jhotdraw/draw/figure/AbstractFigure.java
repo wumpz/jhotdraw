@@ -12,10 +12,11 @@ import java.awt.event.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingView;
@@ -36,7 +37,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractFigure extends AbstractBean implements Figure {
+public abstract class AbstractFigure implements Figure, Cloneable {
 
   private static final long serialVersionUID = 1L;
   protected EventListenerList listenerList = new EventListenerList();
@@ -93,6 +94,19 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
     return (getDrawing() == null) ? this : getDrawing().getLock();
   }
 
+  /** tool method to process a listener and create its event object lazily. */
+  protected void fireFigureEvent(
+      BiConsumer<FigureListener, FigureEvent> listenerConsumer,
+      Supplier<FigureEvent> eventSupplier) {
+    FigureEvent event = null;
+    for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
+      if (event == null) {
+        event = eventSupplier.get();
+      }
+      listenerConsumer.accept(listener, event);
+    }
+  }
+
   /** Notify all listenerList that have registered interest for notification on this event type. */
   public void fireAreaInvalidated() {
     fireAreaInvalidated(getDrawingArea());
@@ -100,100 +114,36 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireAreaInvalidated(Rectangle2D.Double invalidatedArea) {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, invalidatedArea);
-          }
-          ((FigureListener) listeners[i + 1]).areaInvalidated(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.areaInvalidated(event),
+        () -> new FigureEvent(this, invalidatedArea));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireAreaInvalidated(FigureEvent event) {
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == FigureListener.class) {
-        ((FigureListener) listeners[i + 1]).areaInvalidated(event);
-      }
+    for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
+      listener.areaInvalidated(event);
     }
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRequestRemove() {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, getBounds());
-          }
-          ((FigureListener) listeners[i + 1]).figureRequestRemove(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureRequestRemove(event),
+        () -> new FigureEvent(this, getBounds()));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureAdded() {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, getBounds());
-          }
-          ((FigureListener) listeners[i + 1]).figureAdded(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureAdded(event), () -> new FigureEvent(this, getBounds()));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRemoved() {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, getBounds());
-          }
-          ((FigureListener) listeners[i + 1]).figureRemoved(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureRemoved(event),
+        () -> new FigureEvent(this, getBounds()));
   }
 
   public void fireFigureChanged() {
@@ -202,83 +152,27 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureChanged(Rectangle2D.Double changedArea) {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, changedArea);
-          }
-          ((FigureListener) listeners[i + 1]).figureChanged(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureChanged(event),
+        () -> new FigureEvent(this, changedArea));
   }
 
   protected void fireFigureChanged(FigureEvent event) {
-    if (listenerList.getListenerCount() > 0) {
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          ((FigureListener) listeners[i + 1]).figureChanged(event);
-        }
-      }
-    }
+    fireFigureEvent((listener, evt) -> listener.figureChanged(evt), () -> event);
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
-    if (listenerList.getListenerCount() > 0
-        && (oldValue == null || newValue == null || !oldValue.equals(newValue))) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, attribute, oldValue, newValue);
-          }
-          ((FigureListener) listeners[i + 1]).attributeChanged(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.attributeChanged(event),
+        () -> new FigureEvent(this, attribute, oldValue, newValue));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureHandlesChanged() {
-    Rectangle2D.Double changedArea = getDrawingArea();
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, changedArea);
-          }
-          ((FigureListener) listeners[i + 1]).figureHandlesChanged(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureHandlesChanged(event),
+        () -> new FigureEvent(this, getDrawingArea()));
   }
 
   /**
@@ -295,10 +189,15 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public Set createHandles() {
   return new HashSet();
   }
-  */
+     */
   @Override
   public AbstractFigure clone() {
-    AbstractFigure that = (AbstractFigure) super.clone();
+    AbstractFigure that;
+    try {
+      that = (AbstractFigure) super.clone();
+    } catch (CloneNotSupportedException ex) {
+      throw new InternalError("clone failed", ex);
+    }
     that.listenerList = new EventListenerList();
     that.drawing = null; // Clones need to be explictly added to a drawing
     return that;
@@ -464,7 +363,7 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public Rectangle2D.Double getHitBounds() {
   return getBounds();
   }
-  */
+     */
   @Override
   public Dimension2DDouble getPreferredSize() {
     Rectangle2D.Double r = getBounds();
@@ -482,7 +381,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setConnectable(boolean newValue) {
     boolean oldValue = isConnectable;
     isConnectable = newValue;
-    firePropertyChange(CONNECTABLE_PROPERTY, oldValue, newValue);
   }
 
   /**
@@ -496,7 +394,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setSelectable(boolean newValue) {
     boolean oldValue = isSelectable;
     isSelectable = newValue;
-    firePropertyChange(SELECTABLE_PROPERTY, oldValue, newValue);
   }
 
   /** Checks whether this figure is removable. By default {@code AbstractFigure} can be removed. */
@@ -508,7 +405,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setRemovable(boolean newValue) {
     boolean oldValue = isRemovable;
     isRemovable = newValue;
-    firePropertyChange(REMOVABLE_PROPERTY, oldValue, newValue);
   }
 
   /**
@@ -523,7 +419,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
   public void setTransformable(boolean newValue) {
     boolean oldValue = isTransformable;
     isTransformable = newValue;
-    firePropertyChange(TRANSFORMABLE_PROPERTY, oldValue, newValue);
   }
 
   /** Checks whether this figure is visible. By default {@code AbstractFigure} is visible. */
@@ -538,13 +433,6 @@ public abstract class AbstractFigure extends AbstractBean implements Figure {
       isVisible = newValue;
       changed();
     }
-  }
-
-  @Override
-  public Collection<Figure> getDecomposition() {
-    LinkedList<Figure> list = new LinkedList<>();
-    list.add(this);
-    return list;
   }
 
   protected FontRenderContext getFontRenderContext() {

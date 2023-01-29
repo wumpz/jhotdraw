@@ -31,7 +31,6 @@ public class ODGDrawing extends QuadTreeDrawing {
   public void setTitle(String newValue) {
     String oldValue = title;
     title = newValue;
-    firePropertyChange("title", oldValue, newValue);
   }
 
   public String getTitle() {
@@ -41,7 +40,6 @@ public class ODGDrawing extends QuadTreeDrawing {
   public void setDescription(String newValue) {
     String oldValue = description;
     description = newValue;
-    firePropertyChange("description", oldValue, newValue);
   }
 
   public String getDescription() {
