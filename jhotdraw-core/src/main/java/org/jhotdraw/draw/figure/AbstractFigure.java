@@ -12,6 +12,8 @@ import java.awt.event.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
@@ -92,6 +94,19 @@ public abstract class AbstractFigure implements Figure, Cloneable {
     return (getDrawing() == null) ? this : getDrawing().getLock();
   }
 
+  /** tool method to process a listener and create its event object lazily. */
+  protected void fireFigureEvent(
+      BiConsumer<FigureListener, FigureEvent> listenerConsumer,
+      Supplier<FigureEvent> eventSupplier) {
+    FigureEvent event = null;
+    for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
+      if (event == null) {
+        event = eventSupplier.get();
+      }
+      listenerConsumer.accept(listener, event);
+    }
+  }
+
   /** Notify all listenerList that have registered interest for notification on this event type. */
   public void fireAreaInvalidated() {
     fireAreaInvalidated(getDrawingArea());
@@ -99,100 +114,36 @@ public abstract class AbstractFigure implements Figure, Cloneable {
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireAreaInvalidated(Rectangle2D.Double invalidatedArea) {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, invalidatedArea);
-          }
-          ((FigureListener) listeners[i + 1]).areaInvalidated(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.areaInvalidated(event),
+        () -> new FigureEvent(this, invalidatedArea));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireAreaInvalidated(FigureEvent event) {
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == FigureListener.class) {
-        ((FigureListener) listeners[i + 1]).areaInvalidated(event);
-      }
+    for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
+      listener.areaInvalidated(event);
     }
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRequestRemove() {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, getBounds());
-          }
-          ((FigureListener) listeners[i + 1]).figureRequestRemove(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureRequestRemove(event),
+        () -> new FigureEvent(this, getBounds()));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureAdded() {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, getBounds());
-          }
-          ((FigureListener) listeners[i + 1]).figureAdded(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureAdded(event), () -> new FigureEvent(this, getBounds()));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRemoved() {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, getBounds());
-          }
-          ((FigureListener) listeners[i + 1]).figureRemoved(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureRemoved(event),
+        () -> new FigureEvent(this, getBounds()));
   }
 
   public void fireFigureChanged() {
@@ -201,83 +152,27 @@ public abstract class AbstractFigure implements Figure, Cloneable {
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureChanged(Rectangle2D.Double changedArea) {
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, changedArea);
-          }
-          ((FigureListener) listeners[i + 1]).figureChanged(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureChanged(event),
+        () -> new FigureEvent(this, changedArea));
   }
 
   protected void fireFigureChanged(FigureEvent event) {
-    if (listenerList.getListenerCount() > 0) {
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          ((FigureListener) listeners[i + 1]).figureChanged(event);
-        }
-      }
-    }
+    fireFigureEvent((listener, evt) -> listener.figureChanged(evt), () -> event);
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
-    if (listenerList.getListenerCount() > 0
-        && (oldValue == null || newValue == null || !oldValue.equals(newValue))) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, attribute, oldValue, newValue);
-          }
-          ((FigureListener) listeners[i + 1]).attributeChanged(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.attributeChanged(event),
+        () -> new FigureEvent(this, attribute, oldValue, newValue));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureHandlesChanged() {
-    Rectangle2D.Double changedArea = getDrawingArea();
-    if (listenerList.getListenerCount() > 0) {
-      FigureEvent event = null;
-      // Notify all listeners that have registered interest for
-      // Guaranteed to return a non-null array
-      Object[] listeners = listenerList.getListenerList();
-      // Process the listeners last to first, notifying
-      // those that are interested in this event
-      for (int i = listeners.length - 2; i >= 0; i -= 2) {
-        if (listeners[i] == FigureListener.class) {
-          // Lazily create the event:
-          if (event == null) {
-            event = new FigureEvent(this, changedArea);
-          }
-          ((FigureListener) listeners[i + 1]).figureHandlesChanged(event);
-        }
-      }
-    }
+    fireFigureEvent(
+        (listener, event) -> listener.figureHandlesChanged(event),
+        () -> new FigureEvent(this, getDrawingArea()));
   }
 
   /**
@@ -294,7 +189,7 @@ public abstract class AbstractFigure implements Figure, Cloneable {
   public Set createHandles() {
   return new HashSet();
   }
-  */
+     */
   @Override
   public AbstractFigure clone() {
     AbstractFigure that;
@@ -468,7 +363,7 @@ public abstract class AbstractFigure implements Figure, Cloneable {
   public Rectangle2D.Double getHitBounds() {
   return getBounds();
   }
-  */
+     */
   @Override
   public Dimension2DDouble getPreferredSize() {
     Rectangle2D.Double r = getBounds();
