@@ -2,6 +2,7 @@
 
 [![Java CI with Maven](https://github.com/wumpz/jhotdraw/actions/workflows/maven.yml/badge.svg)](https://github.com/wumpz/jhotdraw/actions/workflows/maven.yml)
 
+* heavy restructuring of classes and interfaces and cleanup
 * JDK 17
 * maven build process
 * restructured project layout
