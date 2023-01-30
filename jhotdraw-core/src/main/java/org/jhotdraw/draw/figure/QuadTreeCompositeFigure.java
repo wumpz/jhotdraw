@@ -25,7 +25,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class QuadTreeCompositeFigure extends AbstractCompositeFigure {
+public abstract class QuadTreeCompositeFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;
   private QuadTree<Figure> quadTree = new QuadTree<>();

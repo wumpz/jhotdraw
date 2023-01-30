@@ -44,15 +44,9 @@ import org.jhotdraw.geom.Geom;
  * @author Wolfram Kaiser (original code), Werner Randelshofer (this derived version)
  * @version $Id$
  */
-public class GraphicalCompositeFigure extends AbstractCompositeFigure {
+public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;
-
-  private Attributes attributes = new Attributes(this::fireAttributeChanged);
-
-  public Attributes attr() {
-    return attributes;
-  }
 
   /**
    * Figure which performs all presentation tasks for this BasicCompositeFigure as CompositeFigures
@@ -273,12 +267,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     if (that.presentationFigure != null) {
       that.presentationFigure.addFigureListener(that.presentationFigureHandler);
     }
-    that.attributes = Attributes.from(attributes, that::fireAttributeChanged);
-    //    that.attributes = (HashMap<AttributeKey<?>, Object>) this.attributes.clone();
-    //    that.forbiddenAttributes =
-    //        this.forbiddenAttributes == null
-    //            ? null
-    //            : (HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
     return that;
   }
 

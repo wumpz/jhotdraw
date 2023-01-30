@@ -39,7 +39,7 @@ public class AbstractFigureTest {
 
   @Test
   public void testWillChangeChangedEvents() {
-    AbstractFigure figure = new AbstractFigureImpl();
+    AbstractAttributedFigure figure = new AbstractFigureImpl();
     assertEquals(figure.getChangingDepth(), 0);
     figure.willChange();
     assertEquals(figure.getChangingDepth(), 1);
@@ -51,7 +51,7 @@ public class AbstractFigureTest {
     assertEquals(figure.getChangingDepth(), 0);
   }
 
-  public class AbstractFigureImpl extends AbstractFigure {
+  public class AbstractFigureImpl extends AbstractAttributedFigure {
 
     @Override
     public void draw(Graphics2D g) {}
@@ -89,6 +89,18 @@ public class AbstractFigureTest {
 
     @Override
     public Attributes attr() {
+      throw new UnsupportedOperationException("Not supported yet."); // Generated from
+      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void drawFill(Graphics2D g) {
+      throw new UnsupportedOperationException("Not supported yet."); // Generated from
+      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void drawStroke(Graphics2D g) {
       throw new UnsupportedOperationException("Not supported yet."); // Generated from
       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

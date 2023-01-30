@@ -9,7 +9,7 @@ package org.jhotdraw.draw.event;
 
 import java.awt.geom.*;
 import javax.swing.undo.*;
-import org.jhotdraw.draw.figure.AbstractFigure;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 
 /**
  * SetBoundsEdit.
@@ -20,13 +20,13 @@ import org.jhotdraw.draw.figure.AbstractFigure;
 public class SetBoundsEdit extends AbstractUndoableEdit {
 
   private static final long serialVersionUID = 1L;
-  private AbstractFigure owner;
+  private AbstractAttributedFigure owner;
   private Point2D.Double oldAnchor, oldLead;
   private Point2D.Double newAnchor, newLead;
 
   /** Creates a new instance. */
   public SetBoundsEdit(
-      AbstractFigure owner,
+      AbstractAttributedFigure owner,
       Point2D.Double oldAnchor,
       Point2D.Double oldLead,
       Point2D.Double newAnchor,
