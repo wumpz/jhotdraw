@@ -99,6 +99,9 @@ public abstract class AbstractFigure implements Figure, Cloneable {
       BiConsumer<FigureListener, FigureEvent> listenerConsumer,
       Supplier<FigureEvent> eventSupplier) {
     FigureEvent event = null;
+    if (listenerList.getListenerCount() == 0) {
+      return;
+    }
     for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
       if (event == null) {
         event = eventSupplier.get();

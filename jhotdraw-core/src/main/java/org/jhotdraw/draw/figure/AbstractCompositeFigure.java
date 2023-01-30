@@ -13,6 +13,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import javax.swing.event.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
@@ -639,42 +641,35 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
     return (Rectangle2D.Double) cachedBounds.clone();
   }
 
-  /** Notify all listenerList that have registered interest for notification on this event type. */
-  protected void fireFigureAdded(Figure f, int zIndex) {
+  /** tool method to process a listener and create its event object lazily. */
+  protected void fireCompositeFigureEvent(
+      BiConsumer<CompositeFigureListener, CompositeFigureEvent> listenerConsumer,
+      Supplier<CompositeFigureEvent> eventSupplier) {
     CompositeFigureEvent event = null;
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CompositeFigureListener.class) {
-        // Lazily create the event:
-        if (event == null) {
-          event = new CompositeFigureEvent(this, f, f.getDrawingArea(), zIndex);
-        }
-        ((CompositeFigureListener) listeners[i + 1]).figureAdded(event);
+    if (listenerList.getListenerCount() == 0) {
+      return;
+    }
+    for (CompositeFigureListener listener :
+        listenerList.getListeners(CompositeFigureListener.class)) {
+      if (event == null) {
+        event = eventSupplier.get();
       }
+      listenerConsumer.accept(listener, event);
     }
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireFigureAdded(Figure f, int zIndex) {
+    fireCompositeFigureEvent(
+        (listener, event) -> listener.figureAdded(event),
+        () -> new CompositeFigureEvent(this, f, f.getDrawingArea(), zIndex));
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRemoved(Figure f, int zIndex) {
-    CompositeFigureEvent event = null;
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == CompositeFigureListener.class) {
-        // Lazily create the event:
-        if (event == null) {
-          event = new CompositeFigureEvent(this, f, f.getDrawingArea(), zIndex);
-        }
-        ((CompositeFigureListener) listeners[i + 1]).figureRemoved(event);
-      }
-    }
+    fireCompositeFigureEvent(
+        (listener, event) -> listener.figureRemoved(event),
+        () -> new CompositeFigureEvent(this, f, f.getDrawingArea(), zIndex));
   }
 
   @Override
