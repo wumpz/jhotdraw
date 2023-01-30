@@ -12,6 +12,7 @@ import static org.jhotdraw.draw.AttributeKeys.CANVAS_FILL_OPACITY;
 import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.*;
+import javax.swing.undo.AbstractUndoableEdit;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
@@ -78,9 +79,35 @@ public class EditCanvasPanel extends javax.swing.JPanel {
   /** Updates the drawing due to changes made on this panel. */
   private void updateDrawing() {
     if (drawing != null) {
+      Color oldColor = drawing.attr().get(CANVAS_FILL_COLOR);
+
       drawing.willChange();
+      drawing.attr().set(CANVAS_FILL_COLOR, colorButton.getBackground());
+
       drawing.fireUndoableEditHappened(
-          CANVAS_FILL_COLOR.setUndoable(drawing, colorButton.getBackground()));
+          new AbstractUndoableEdit() {
+            @Override
+            public String getPresentationName() {
+              return CANVAS_FILL_COLOR.getPresentationName();
+            }
+
+            @Override
+            public void undo() {
+              super.undo();
+              drawing.willChange();
+              drawing.attr().set(CANVAS_FILL_COLOR, oldColor);
+              drawing.changed();
+            }
+
+            @Override
+            public void redo() {
+              super.redo();
+              drawing.willChange();
+              drawing.attr().set(CANVAS_FILL_COLOR, colorButton.getBackground());
+              drawing.changed();
+            }
+          });
+
       drawing.changed();
     }
   }

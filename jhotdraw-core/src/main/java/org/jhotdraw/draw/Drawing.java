@@ -14,6 +14,9 @@ import java.io.*;
 import java.util.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
+import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.figure.Attributes;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
@@ -77,7 +80,34 @@ import org.jhotdraw.draw.io.OutputFormat;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface Drawing extends CompositeFigure, Serializable {
+public interface Drawing extends Serializable {
+
+  Attributes attr();
+
+  /** Returns an unchangeable list view on the children. */
+  public java.util.List<Figure> getChildren();
+
+  /**
+   * Returns the number of children.
+   *
+   * <p>This is a convenience method for calling {@code getChildren().size();}.
+   */
+  public int getChildCount();
+
+  /**
+   * Returns the child figure at the specified index.
+   *
+   * <p>This is a convenience method for calling {@code getChildren().get(index);}.
+   */
+  public Figure getChild(int index);
+
+  /** Informs that the Drawing is about to change its visual representation . */
+  public void willChange();
+
+  /** Informs that a Drawing changed its visual representation and needs to be redrawn. */
+  public void changed();
+
+  public void draw(Graphics2D g);
 
   /**
    * Draws on the <em>canvas area</em>. The canvas is the background area onto which the drawing is
@@ -91,13 +121,44 @@ public interface Drawing extends CompositeFigure, Serializable {
   public void drawCanvas(Graphics2D g);
 
   /**
+   * Returns the drawing area of the figure as a Rectangle.
+   *
+   * <p>The drawing area is used to inform {@link DrawingView} about the area that is needed to draw
+   * this figure.
+   *
+   * <p>The drawing area needs to be large enough, to take line width, line caps and other
+   * decorations into account that exceed the bounds of the Figure.
+   */
+  public Rectangle2D.Double getDrawingArea();
+
+  /**
+   * Returns the drawing area of the figure as a Rectangle.
+   *
+   * <p>The drawing area is used to inform {@link DrawingView} about the area that is needed to draw
+   * this figure.
+   *
+   * <p>The drawing area needs to be large enough, to take line width, line caps and other
+   * decorations into account that exceed the bounds of the Figure.
+   */
+  public Rectangle2D.Double getDrawingArea(double factor);
+
+  /**
+   * Returns the index of the specified child.
+   *
+   * <p>This is a convenience method for calling {@code getChildren().indexOf(index);}.
+   *
+   * @return The index of the child, or -1 if the specified figure is not a child of this
+   *     CompositeFigure.
+   */
+  public int indexOf(Figure child);
+
+  /**
    * Adds a figure to the drawing. The drawing sends an {@code addNotify} message to the figure
    * after it has been added.
    *
    * @see Figure#addNotify
    * @param figure to be added to the drawing
    */
-  @Override
   boolean add(Figure figure);
 
   /**
@@ -108,7 +169,6 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @param index The z-index of the figure.
    * @param figure to be added to the drawing
    */
-  @Override
   void add(int index, Figure figure);
 
   /**
@@ -127,7 +187,6 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @see Figure#removeNotify
    * @param figure that is part of the drawing and should be removed
    */
-  @Override
   boolean remove(Figure figure);
 
   /**
@@ -138,6 +197,13 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @param figures A collection of figures which are part of the drawing and should be removed
    */
   void removeAll(Collection<? extends Figure> figures);
+
+  /**
+   * Removes all children from the composite figure.
+   *
+   * <p>This is a convenience method for {@code while(getChildCount() > 0) removeChild(0); }
+   */
+  public void removeAllChildren();
 
   /**
    * Removes the specified figures temporarily from the drawing.
@@ -155,7 +221,6 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @param figure that is part of the drawing and should be removed
    * @see #basicRemove(Figure)
    */
-  @Override
   void basicAdd(Figure figure);
 
   /**
@@ -164,7 +229,6 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @see #basicRemove(Figure)
    * @param figure that is part of the drawing and should be removed
    */
-  @Override
   void basicAdd(int index, Figure figure);
 
   /**
@@ -232,7 +296,6 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @return Returns the innermost figure at the location, or null if the location is not contained
    *     in a figure.
    */
-  @Override
   Figure findFigureInside(Point2D.Double p);
 
   /**
@@ -267,6 +330,18 @@ public interface Drawing extends CompositeFigure, Serializable {
   /** Sets the font render context used to do text layout and text drawing. */
   void setFontRenderContext(FontRenderContext frc);
 
+  /** Adds a listener for this composite figure. */
+  public void addCompositeFigureListener(CompositeFigureListener listener);
+
+  /** Removes a listener from this composite figure. */
+  public void removeCompositeFigureListener(CompositeFigureListener listener);
+
+  /** Adds a listener for FigureEvent's. */
+  public void addFigureListener(FigureListener l);
+
+  /** Removes a listener for FigureEvent's. */
+  public void removeFigureListener(FigureListener l);
+
   /**
    * Returns the lock object on which all threads acting on Figures in this drawing synchronize to
    * prevent race conditions.
@@ -300,4 +375,10 @@ public interface Drawing extends CompositeFigure, Serializable {
 
   /** Gets output formats for the Drawing in order of preferred formats. */
   List<OutputFormat> getOutputFormats();
+
+  /**
+   * Returns a clone of the figure, with clones of all aggregated figures, such as children and
+   * decorators. The cloned figure does not clone the list of FigureListeners from its original.
+   */
+  public Drawing clone();
 }

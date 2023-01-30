@@ -72,7 +72,7 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
       HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);
       attr.put(key, chosenColor);
       HashSet<Figure> figures = new HashSet<>();
-      figures.add(getView().getDrawing());
+      figures.addAll(getView().getDrawing().getChildren());
       applyAttributesTo(attr, figures);
     }
   }
@@ -82,7 +82,7 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
     Color initialColor = null;
     DrawingView v = getEditor().getActiveView();
     if (v != null) {
-      Figure f = v.getDrawing();
+      Drawing f = v.getDrawing();
       initialColor = f.attr().get(key);
     }
     if (initialColor == null) {

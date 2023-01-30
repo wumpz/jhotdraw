@@ -11,7 +11,6 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ActionUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 
@@ -76,7 +75,7 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
   @Override
   public void actionPerformed(java.awt.event.ActionEvent evt) {
     final ArrayList<Object> restoreData = new ArrayList<>();
-    final Figure drawing = getView().getDrawing();
+    final Drawing drawing = getView().getDrawing();
     restoreData.add(drawing.attr().getAttributesRestoreData());
     drawing.willChange();
     for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {

@@ -45,9 +45,9 @@ public class DrawingAttributeEditorHandler<T> extends AbstractAttributeEditorHan
   protected Set<Figure> getEditedFigures() {
     HashSet<Figure> s = new HashSet<>();
     if (drawing != null) {
-      s.add(drawing);
+      s.addAll(drawing.getChildren());
     } else if (activeView != null) {
-      s.add(activeView.getDrawing());
+      s.addAll(activeView.getDrawing().getChildren());
     }
     return s;
   }
