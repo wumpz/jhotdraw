@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import javax.swing.event.*;
+import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
@@ -26,6 +28,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
 
 /**
@@ -35,7 +38,8 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractCompositeFigure extends AbstractFigure implements CompositeFigure {
+public abstract class AbstractCompositeFigure extends AbstractAttributedFigure
+    implements CompositeFigure {
 
   private static final long serialVersionUID = 1L;
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
@@ -320,42 +324,6 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
     return children.size() == 0 ? new LinkedList<>() : new ReversedList<>(getChildren());
   }
 
-  //  @Override
-  //  public <T> void set(AttributeKey<T> key, T value) {
-  //    for (Figure child : getChildren()) {
-  //      child.set(key, value);
-  //    }
-  //    invalidate();
-  //  }
-  //
-  //  @Override
-  //  public <T> T get(AttributeKey<T> name) {
-  //    return null;
-  //  }
-  //
-  //  @Override
-  //  public Map<AttributeKey<?>, Object> getAttributes() {
-  //    return new HashMap<>();
-  //  }
-  //
-  //  @Override
-  //  public Object getAttributesRestoreData() {
-  //    LinkedList<Object> data = new LinkedList<>();
-  //    for (Figure child : getChildren()) {
-  //      data.add(child.getAttributesRestoreData());
-  //    }
-  //    return data;
-  //  }
-  //
-  //  @Override
-  //  public void restoreAttributesTo(Object newData) {
-  //    @SuppressWarnings("unchecked")
-  //    Iterator<Object> data = ((LinkedList<Object>) newData).iterator();
-  //    for (Figure child : getChildren()) {
-  //      child.restoreAttributesTo(data.next());
-  //    }
-  //  }
-
   @Override
   public boolean contains(Figure f) {
     return children.contains(f);
@@ -548,6 +516,11 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
   @Override
   public AbstractCompositeFigure clone() {
     AbstractCompositeFigure that = (AbstractCompositeFigure) super.clone();
+    that.attributes =
+        Attributes.from(
+            attributes,
+            that::fireAttributeChanged,
+            Attributes.attrSupplier(() -> that.getChildren()));
     that.children = new ArrayList<>();
     that.eventHandler = that.createEventHandler();
     for (Figure thisChild : this.children) {
@@ -681,4 +654,95 @@ public abstract class AbstractCompositeFigure extends AbstractFigure implements 
   public void addCompositeFigureListener(CompositeFigureListener listener) {
     listenerList.add(CompositeFigureListener.class, listener);
   }
+
+  private Attributes attributes =
+      new Attributes(
+          this::fireAttributeChanged,
+          Attributes.attrSupplier(() -> AbstractCompositeFigure.this.getChildren()));
+
+  public Attributes attr() {
+    return attributes;
+  }
+
+  @Override
+  protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
+    // send attribute changes to children
+    for (Figure figure : getChildren()) {
+      figure.attr().set(attribute, newValue);
+    }
+    super.fireAttributeChanged(
+        attribute, oldValue,
+        newValue); // To change body of generated methods, choose Tools | Templates.
+  }
+
+  public void drawFigure(Graphics2D g) {
+    drawChildren(g);
+    if (attr().get(FILL_COLOR) != null) {
+      g.setColor(attr().get(FILL_COLOR));
+      drawFill(g);
+    }
+    if (attr().get(STROKE_COLOR) != null && attr().get(STROKE_WIDTH) >= 0d) {
+      g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
+      g.setColor(attr().get(STROKE_COLOR));
+      drawStroke(g);
+    }
+    if (attr().get(TEXT_COLOR) != null) {
+      if (attr().get(TEXT_SHADOW_COLOR) != null && attr().get(TEXT_SHADOW_OFFSET) != null) {
+        Dimension2DDouble d = attr().get(TEXT_SHADOW_OFFSET);
+        g.translate(d.width, d.height);
+        g.setColor(attr().get(TEXT_SHADOW_COLOR));
+        drawText(g);
+        g.translate(-d.width, -d.height);
+      }
+      g.setColor(attr().get(TEXT_COLOR));
+      drawText(g);
+    }
+  }
+
+  protected void drawChildren(Graphics2D g) {
+    for (Figure child : getChildren()) {
+      child.draw(g);
+    }
+  }
+
+  public Stroke getStroke() {
+    return AttributeKeys.getStroke(this, 1.0);
+  }
+
+  public double getStrokeMiterLimitFactor() {
+    Number value = (Number) attr().get(AttributeKeys.STROKE_MITER_LIMIT);
+    return (value != null) ? value.doubleValue() : 10f;
+  }
+
+  public Rectangle2D.Double getFigureDrawBounds() {
+    double width = AttributeKeys.getStrokeTotalWidth(this, 1.0) / 2d;
+    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+      width *= attr().get(STROKE_MITER_LIMIT);
+    }
+    width++;
+    Rectangle2D.Double r = getBounds();
+    Geom.grow(r, width, width);
+    return r;
+  }
+
+  /**
+   * This method is called by method draw() to draw the fill area of the figure. AttributedFigure
+   * configures the Graphics2D object with the FILL_COLOR attribute before calling this method. If
+   * the FILL_COLOR attribute is null, this method is not called.
+   */
+  protected void drawFill(java.awt.Graphics2D g) {}
+
+  /**
+   * This method is called by method draw() to draw the lines of the figure . AttributedFigure
+   * configures the Graphics2D object with the STROKE_COLOR attribute before calling this method. If
+   * the STROKE_COLOR attribute is null, this method is not called.
+   */
+  protected void drawStroke(java.awt.Graphics2D g) {}
+
+  /**
+   * This method is called by method draw() to draw the text of the figure . AttributedFigure
+   * configures the Graphics2D object with the TEXT_COLOR attribute before calling this method. If
+   * the TEXT_COLOR attribute is null, this method is not called.
+   */
+  protected void drawText(java.awt.Graphics2D g) {}
 }

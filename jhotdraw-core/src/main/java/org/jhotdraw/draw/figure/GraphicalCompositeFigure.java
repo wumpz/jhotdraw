@@ -48,12 +48,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
 
   private static final long serialVersionUID = 1L;
 
-  private Attributes attributes = new Attributes(this::fireAttributeChanged);
-
-  public Attributes attr() {
-    return attributes;
-  }
-
   /**
    * Figure which performs all presentation tasks for this BasicCompositeFigure as CompositeFigures
    * usually don't have an own presentation but present only the sum of all its children.
@@ -273,12 +267,6 @@ public class GraphicalCompositeFigure extends AbstractCompositeFigure {
     if (that.presentationFigure != null) {
       that.presentationFigure.addFigureListener(that.presentationFigureHandler);
     }
-    that.attributes = Attributes.from(attributes, that::fireAttributeChanged);
-    //    that.attributes = (HashMap<AttributeKey<?>, Object>) this.attributes.clone();
-    //    that.forbiddenAttributes =
-    //        this.forbiddenAttributes == null
-    //            ? null
-    //            : (HashSet<AttributeKey<?>>) this.forbiddenAttributes.clone();
     return that;
   }
 

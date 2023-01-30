@@ -18,9 +18,15 @@
  */
 package org.jhotdraw.draw.figure;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 
@@ -35,10 +41,19 @@ public final class Attributes {
 
   private AttributeListener listener;
 
-  public Attributes() {}
+  private Supplier<List<Attributes>> DEPENDENT;
+
+  public Attributes() {
+    this(null, null);
+  }
 
   public Attributes(AttributeListener listener) {
+    this(listener, null);
+  }
+
+  public Attributes(AttributeListener listener, Supplier<List<Attributes>> dependent) {
     this.listener = listener;
+    this.DEPENDENT = dependent == null ? () -> Collections.emptyList() : dependent;
   }
 
   public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
@@ -82,15 +97,35 @@ public final class Attributes {
    * applied to it.
    */
   public Object getAttributesRestoreData() {
-    return getAttributes();
+    List<Attributes> dependent = DEPENDENT.get();
+    if (dependent.isEmpty()) {
+      return getAttributes();
+    } else {
+      List<Map<AttributeKey<?>, Object>> list = new ArrayList<>();
+      list.add(getAttributes());
+      for (Attributes attr : dependent) {
+        list.add(attr.getAttributes());
+      }
+      return list;
+    }
   }
 
   /** Restores the attributes of the figure to a previously stored state. */
   public void restoreAttributesTo(Object restoreData) {
-    attributes.clear();
-    HashMap<AttributeKey<?>, Object> restoreDataHashMap =
-        (HashMap<AttributeKey<?>, Object>) restoreData;
-    setAttributes(restoreDataHashMap);
+    if (restoreData instanceof List) {
+      List<Map<AttributeKey<?>, Object>> list = (List<Map<AttributeKey<?>, Object>>) restoreData;
+      restoreAttributesTo(list.get(0));
+      int idx = 1;
+      for (Attributes attr : DEPENDENT.get()) {
+        attr.restoreAttributesTo(list.get(idx));
+        idx++;
+      }
+    } else {
+      attributes.clear();
+      HashMap<AttributeKey<?>, Object> restoreDataHashMap =
+          (HashMap<AttributeKey<?>, Object>) restoreData;
+      setAttributes(restoreDataHashMap);
+    }
   }
 
   /**
@@ -157,16 +192,24 @@ public final class Attributes {
 
   @FunctionalInterface
   public static interface AttributeListener {
-
     <T> void attributeChanged(AttributeKey<T> attribute, T oldValue, T newValue);
   }
 
   public static Attributes from(Attributes source, AttributeListener listener) {
-    Attributes attr = new Attributes(listener);
+    return from(source, listener, null);
+  }
+
+  public static Attributes from(
+      Attributes source, AttributeListener listener, Supplier<List<Attributes>> dependent) {
+    Attributes attr = new Attributes(listener, dependent);
     attr.attributes.putAll(source.attributes);
     if (source.forbiddenAttributes != null) {
       attr.forbiddenAttributes = new HashSet<>(source.forbiddenAttributes);
     }
     return attr;
+  }
+
+  public static Supplier<List<Attributes>> attrSupplier(Supplier<List<Figure>> dependent) {
+    return () -> dependent.get().stream().map(f -> f.attr()).collect(toList());
   }
 }

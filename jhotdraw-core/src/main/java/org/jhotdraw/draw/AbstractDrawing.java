@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEdit;
-import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
+import org.jhotdraw.draw.figure.AbstractCompositeFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 
@@ -23,7 +23,7 @@ import org.jhotdraw.draw.io.OutputFormat;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractDrawing extends AbstractAttributedCompositeFigure implements Drawing {
+public abstract class AbstractDrawing extends AbstractCompositeFigure implements Drawing {
 
   private static final long serialVersionUID = 1L;
   private static final Object LOCK = new JPanel().getTreeLock();

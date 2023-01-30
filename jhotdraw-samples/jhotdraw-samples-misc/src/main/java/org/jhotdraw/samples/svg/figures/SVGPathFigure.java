@@ -25,7 +25,7 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.AttributeKeys.WindingRule;
-import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
+import org.jhotdraw.draw.figure.AbstractCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -42,7 +42,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
+public class SVGPathFigure extends AbstractCompositeFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;
   /** This cached path is used for drawing. */
