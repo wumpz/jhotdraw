@@ -121,16 +121,6 @@ public interface Drawing extends CompositeFigure, Serializable {
   void addAll(Collection<? extends Figure> figures);
 
   /**
-   * Adds a collection of figures to the drawing. The drawing sends an {@code addNotify} message to
-   * each figure after it has been added.
-   *
-   * @see Figure#addNotify
-   * @param index The z-index of the figure.
-   * @param figures to be added to the drawing
-   */
-  void addAll(int index, Collection<? extends Figure> figures);
-
-  /**
    * Removes a figure from the drawing. The drawing sends a {@code removeNotify} message to the
    * figure before it is removed.
    *
@@ -148,15 +138,6 @@ public interface Drawing extends CompositeFigure, Serializable {
    * @param figures A collection of figures which are part of the drawing and should be removed
    */
   void removeAll(Collection<? extends Figure> figures);
-
-  /**
-   * Removes a figure temporarily from the drawing.
-   *
-   * @see #basicAdd(Figure)
-   * @param figure that is part of the drawing and should be removed
-   */
-  @Override
-  int basicRemove(Figure figure);
 
   /**
    * Removes the specified figures temporarily from the drawing.
@@ -280,10 +261,10 @@ public interface Drawing extends CompositeFigure, Serializable {
   /** Notify all listenerList that have registered interest for notification on this event type. */
   void fireUndoableEditHappened(UndoableEdit edit);
 
-  /** Returns the font render context used to do text leyout and text drawing. */
+  /** Returns the font render context used to do text layout and text drawing. */
   FontRenderContext getFontRenderContext();
 
-  /** Sets the font render context used to do text leyout and text drawing. */
+  /** Sets the font render context used to do text layout and text drawing. */
   void setFontRenderContext(FontRenderContext frc);
 
   /**
