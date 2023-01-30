@@ -38,7 +38,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public abstract class AbstractCompositeFigure extends AbstractAttributedFigure
+public abstract class AbstractAttributedCompositeFigure extends AbstractAttributedFigure
     implements CompositeFigure {
 
   private static final long serialVersionUID = 1L;
@@ -108,7 +108,7 @@ public abstract class AbstractCompositeFigure extends AbstractAttributedFigure
     }
   }
 
-  public AbstractCompositeFigure() {
+  public AbstractAttributedCompositeFigure() {
     eventHandler = createEventHandler();
   }
 
@@ -514,8 +514,8 @@ public abstract class AbstractCompositeFigure extends AbstractAttributedFigure
   }
 
   @Override
-  public AbstractCompositeFigure clone() {
-    AbstractCompositeFigure that = (AbstractCompositeFigure) super.clone();
+  public AbstractAttributedCompositeFigure clone() {
+    AbstractAttributedCompositeFigure that = (AbstractAttributedCompositeFigure) super.clone();
     that.attributes =
         Attributes.from(
             attributes,
@@ -658,7 +658,7 @@ public abstract class AbstractCompositeFigure extends AbstractAttributedFigure
   private Attributes attributes =
       new Attributes(
           this::fireAttributeChanged,
-          Attributes.attrSupplier(() -> AbstractCompositeFigure.this.getChildren()));
+          Attributes.attrSupplier(() -> AbstractAttributedCompositeFigure.this.getChildren()));
 
   public Attributes attr() {
     return attributes;

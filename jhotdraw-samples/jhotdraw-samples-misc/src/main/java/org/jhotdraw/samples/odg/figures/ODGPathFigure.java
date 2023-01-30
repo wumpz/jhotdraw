@@ -25,7 +25,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.AttributeKeys.WindingRule;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.figure.AbstractCompositeFigure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
@@ -45,7 +45,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class ODGPathFigure extends AbstractCompositeFigure implements ODGFigure {
+public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;
   /** This cachedPath is used for drawing. */

@@ -16,7 +16,7 @@ import org.jhotdraw.geom.Geom;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class GroupFigure extends AbstractCompositeFigure {
+public class GroupFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;
 

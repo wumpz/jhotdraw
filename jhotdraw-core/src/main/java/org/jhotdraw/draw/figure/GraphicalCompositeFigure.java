@@ -44,7 +44,7 @@ import org.jhotdraw.geom.Geom;
  * @author Wolfram Kaiser (original code), Werner Randelshofer (this derived version)
  * @version $Id$
  */
-public class GraphicalCompositeFigure extends AbstractCompositeFigure {
+public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;
 

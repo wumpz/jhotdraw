@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.figure.AbstractCompositeFigure;
+import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.QuadTree;
@@ -293,7 +293,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   }
 
   /** Handles all figure events fired by Figures contained in the Drawing. */
-  protected class QuadTreeEventHandler extends AbstractCompositeFigure.EventHandler {
+  protected class QuadTreeEventHandler extends AbstractAttributedCompositeFigure.EventHandler {
 
     private static final long serialVersionUID = 1L;
 
