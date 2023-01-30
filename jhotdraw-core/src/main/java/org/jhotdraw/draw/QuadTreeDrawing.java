@@ -12,6 +12,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.List;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -110,7 +111,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   public Figure findFigureInside(Point2D.Double p) {
     Collection<Figure> c = quadTree.findContains(p);
-    for (Figure f : getFiguresFrontToBack()) {
+    for (Figure f : getFiguresFrontToBack(c)) {
       if (c.contains(f) && f.contains(p)) {
         return f.findFigureInside(p);
       }
@@ -123,6 +124,12 @@ public class QuadTreeDrawing extends AbstractDrawing {
   public java.util.List<Figure> getFiguresFrontToBack() {
     ensureSorted();
     return new ReversedList<>(children);
+  }
+
+  protected java.util.List<Figure> getFiguresFrontToBack(Collection<Figure> smallCollection) {
+    List<Figure> list = new ArrayList<>(smallCollection);
+    Collections.sort(list, Comparator.comparing(Figure::getLayer).reversed());
+    return list;
   }
 
   @Override
@@ -154,7 +161,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         Figure f = c.iterator().next();
         return (f == ignore || !f.contains(p)) ? null : f;
       default:
-        for (Figure f2 : getFiguresFrontToBack()) {
+        for (Figure f2 : getFiguresFrontToBack(c)) {
           if (f2 != ignore && f2.contains(p)) {
             return f2;
           }
@@ -173,7 +180,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
         Figure f = c.iterator().next();
         return (!ignore.contains(f) || !f.contains(p)) ? null : f;
       default:
-        for (Figure f2 : getFiguresFrontToBack()) {
+        for (Figure f2 : getFiguresFrontToBack(c)) {
           if (!ignore.contains(f2) && f2.contains(p)) {
             return f2;
           }
