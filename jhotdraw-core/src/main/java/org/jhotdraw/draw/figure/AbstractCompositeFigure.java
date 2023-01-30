@@ -666,10 +666,6 @@ public abstract class AbstractCompositeFigure extends AbstractAttributedFigure
 
   @Override
   protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
-    // send attribute changes to children
-    for (Figure figure : getChildren()) {
-      figure.attr().set(attribute, newValue);
-    }
     super.fireAttributeChanged(
         attribute, oldValue,
         newValue); // To change body of generated methods, choose Tools | Templates.

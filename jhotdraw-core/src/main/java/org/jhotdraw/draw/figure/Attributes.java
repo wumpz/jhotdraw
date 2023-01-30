@@ -149,6 +149,8 @@ public final class Attributes {
       T oldValue = key.put(attributes, newValue);
       fireAttributeChanged(key, oldValue, newValue);
     }
+
+    DEPENDENT.get().forEach(a -> a.set(key, newValue));
   }
 
   /**
