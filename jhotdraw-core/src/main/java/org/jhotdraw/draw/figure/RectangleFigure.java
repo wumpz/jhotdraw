@@ -65,12 +65,12 @@ public class RectangleFigure extends AbstractAttributedFigure {
     Geom.grow(r, grow, grow);
     return r;
   }
-
+  
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1d;
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) + 1d;
     Geom.grow(r, grow, grow);
     return r.contains(p);
   }

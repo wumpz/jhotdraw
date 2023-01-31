@@ -86,10 +86,10 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
   }
 
   @Override
-  public final boolean contains(Point2D.Double p) {
+  public final boolean contains(Point2D.Double p, double scaleDenominator) {
     if (decorator != null) {
       updateDecoratorBounds();
-      if (decorator.contains(p)) {
+      if (decorator.contains(p, scaleDenominator)) {
         return true;
       }
     }

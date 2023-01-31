@@ -114,6 +114,16 @@ public class DefaultDrawing extends AbstractDrawing {
     }
     return null;
   }
+  
+  @Override
+  public Figure findFigure(Point2D.Double p, double scaleDenominator) {
+    for (Figure f : getFiguresFrontToBack()) {
+      if (f.isVisible() && f.contains(p, scaleDenominator)) {
+        return f;
+      }
+    }
+    return null;
+  }
 
   @Override
   public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
@@ -131,6 +141,21 @@ public class DefaultDrawing extends AbstractDrawing {
     for (Figure f : getFiguresFrontToBack()) {
       if (isBehind) {
         if (f.isVisible() && f.contains(p)) {
+          return f;
+        }
+      } else {
+        isBehind = figure == f;
+      }
+    }
+    return null;
+  }
+  
+  @Override
+  public Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure) {
+    boolean isBehind = false;
+    for (Figure f : getFiguresFrontToBack()) {
+      if (isBehind) {
+        if (f.isVisible() && f.contains(p, scaleDenominator)) {
           return f;
         }
       } else {

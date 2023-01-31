@@ -47,10 +47,6 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
 
   public RoundRectangleFigure(double x, double y, double width, double height) {
     roundrect = new RoundRectangle2D.Double(x, y, width, height, DEFAULT_ARC, DEFAULT_ARC);
-    /*
-    FILL_COLOR.set(this, Color.white);
-    STROKE_COLOR.set(this, Color.black);
-         */
   }
 
   // DRAWING
@@ -130,9 +126,9 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     RoundRectangle2D.Double r = (RoundRectangle2D.Double) roundrect.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator);
     r.x -= grow;
     r.y -= grow;
     r.width += grow * 2;

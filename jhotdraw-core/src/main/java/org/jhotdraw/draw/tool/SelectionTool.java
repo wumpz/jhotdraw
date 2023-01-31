@@ -10,6 +10,7 @@ package org.jhotdraw.draw.tool;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolAdapter;
@@ -53,6 +54,8 @@ public class SelectionTool extends AbstractTool {
   private SelectAreaTracker selectAreaTracker;
   /** The tracker encapsulates the current state of the SelectionTool. */
   private DragTracker dragTracker;
+
+  private int pixelTolerance = 10;
 
   private class TrackerHandler extends ToolAdapter {
 
@@ -213,10 +216,9 @@ public class SelectionTool extends AbstractTool {
         if (isSelectBehindEnabled()
             && (evt.getModifiersEx() & (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK))
                 != 0) {
-          // Select a figure behind the current selection
-          figure = view.findFigure(anchor);
+          figure = drawing.findFigure(p, view.getScaleFactor());
           while (figure != null && !figure.isSelectable()) {
-            figure = drawing.findFigureBehind(p, figure);
+            figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
           }
           HashSet<Figure> ignoredFigures = new HashSet<>(view.getSelectedFigures());
           ignoredFigures.add(figure);
@@ -232,8 +234,9 @@ public class SelectionTool extends AbstractTool {
           // If possible, continue to work with the current selection
           figure = null;
           if (isSelectBehindEnabled()) {
+            // this will never happen
             for (Figure f : view.getSelectedFigures()) {
-              if (f.contains(p)) {
+              if (f.contains(p, view.getScaleFactor())) {
                 figure = f;
                 break;
               }
@@ -242,9 +245,9 @@ public class SelectionTool extends AbstractTool {
           // If the point is not contained in the current selection,
           // search for a figure in the drawing.
           if (figure == null) {
-            figure = view.findFigure(anchor);
+            figure = drawing.findFigure(p, view.getScaleFactor());
             while (figure != null && !figure.isSelectable()) {
-              figure = drawing.findFigureBehind(p, figure);
+              figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
             }
           }
         }

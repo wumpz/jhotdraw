@@ -334,6 +334,11 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     return changingDepth;
   }
 
+@Override
+  public boolean contains(Point2D.Double p) {
+    return contains(p, 1.0);
+  }
+  
   /**
    * Informs that a figure is about to change something that affects the contents of its display
    * box.

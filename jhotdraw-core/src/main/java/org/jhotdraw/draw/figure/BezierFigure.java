@@ -169,16 +169,16 @@ public class BezierFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public boolean contains(Point2D.Double p) {
-    double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, 1.0) / 2d);
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
+    double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) / 2d);
     if (isClosed() || attr().get(FILL_COLOR) != null && attr().get(UNCLOSED_PATH_FILLED)) {
       if (path.contains(p)) {
         return true;
       }
-      double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d;
+      double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) * 2d;
       GrowStroke gs =
           new GrowStroke(
-              grow, AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT));
+              grow, AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) * attr().get(STROKE_MITER_LIMIT));
       if (gs.createStrokedShape(path).contains(p)) {
         return true;
       } else {
@@ -212,7 +212,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     return false;
   }
-
+  
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
     LinkedList<Handle> handles = new LinkedList<>();
