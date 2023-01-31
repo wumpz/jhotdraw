@@ -146,7 +146,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
@@ -155,7 +155,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
       r.width = r.height = side;
     }
     //   if (r.contains(p)) {
-    double grow = AttributeKeys.getPerpendicularFillGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularFillGrowth(this, scaleDenominator);
     if (grow != 0d) {
       double w = r.width / 2d;
       double h = r.height / 2d;

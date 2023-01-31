@@ -299,6 +299,32 @@ public class QuadTreeDrawing extends AbstractDrawing {
     return new QuadTreeEventHandler();
   }
 
+  @Override
+  public Figure findFigure(Point2D.Double p, double scaleDenominator) {
+    double tolerance = 10 / 2 / scaleDenominator;
+    Rectangle2D.Double rect =
+        new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
+    for (Figure figure : findFigures(rect)) {
+      if (figure.isVisible() && figure.contains(p, scaleDenominator)) return figure;
+    }
+    return null;
+  }
+
+  @Override
+  public Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure behindFigure) {
+    double tolerance = 10 / 2 / scaleDenominator;
+    Rectangle2D.Double rect =
+        new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
+    boolean check = false;
+    for (Figure figure : findFigures(rect)) {
+      if (check && figure.isVisible() && figure.contains(p, scaleDenominator)) return figure;
+      else if (figure == behindFigure) {
+        check = true;
+      }
+    }
+    return null;
+  }
+
   /** Handles all figure events fired by Figures contained in the Drawing. */
   protected class QuadTreeEventHandler extends AbstractAttributedCompositeFigure.EventHandler {
 

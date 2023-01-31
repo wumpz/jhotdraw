@@ -330,7 +330,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     if (getDrawingArea().contains(p)) {
       if (attr().get(TRANSFORM) != null) {
         try {
@@ -342,7 +342,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
         }
       }
       for (Figure child : getChildren()) {
-        if (child.isVisible() && child.contains(p)) {
+        if (child.isVisible() && child.contains(p, scaleDenominator)) {
           return true;
         }
       }
@@ -720,25 +720,4 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     Geom.grow(r, width, width);
     return r;
   }
-
-  /**
-   * This method is called by method draw() to draw the fill area of the figure. AttributedFigure
-   * configures the Graphics2D object with the FILL_COLOR attribute before calling this method. If
-   * the FILL_COLOR attribute is null, this method is not called.
-   */
-  protected void drawFill(java.awt.Graphics2D g) {}
-
-  /**
-   * This method is called by method draw() to draw the lines of the figure . AttributedFigure
-   * configures the Graphics2D object with the STROKE_COLOR attribute before calling this method. If
-   * the STROKE_COLOR attribute is null, this method is not called.
-   */
-  protected void drawStroke(java.awt.Graphics2D g) {}
-
-  /**
-   * This method is called by method draw() to draw the text of the figure . AttributedFigure
-   * configures the Graphics2D object with the TEXT_COLOR attribute before calling this method. If
-   * the TEXT_COLOR attribute is null, this method is not called.
-   */
-  protected void drawText(java.awt.Graphics2D g) {}
 }

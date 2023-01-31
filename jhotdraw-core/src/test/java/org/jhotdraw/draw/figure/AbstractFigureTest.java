@@ -89,20 +89,18 @@ public class AbstractFigureTest {
 
     @Override
     public Attributes attr() {
-      throw new UnsupportedOperationException("Not supported yet."); // Generated from
-      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      return null;
     }
 
     @Override
-    protected void drawFill(Graphics2D g) {
-      throw new UnsupportedOperationException("Not supported yet."); // Generated from
-      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    protected void drawFill(Graphics2D g) {}
 
     @Override
-    protected void drawStroke(Graphics2D g) {
-      throw new UnsupportedOperationException("Not supported yet."); // Generated from
-      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    protected void drawStroke(Graphics2D g) {}
+
+    @Override
+    public boolean contains(Point2D.Double p, double scaleDenominator) {
+      return false;
     }
   }
 }

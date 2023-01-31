@@ -122,14 +122,14 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
    * AbstractAttributedFigure configures the Graphics2D object with the FILL_COLOR attribute before
    * calling this method. If the FILL_COLOR attribute is null, this method is not called.
    */
-  protected abstract void drawFill(java.awt.Graphics2D g);
+  protected void drawFill(java.awt.Graphics2D g) {}
 
   /**
    * This method is called by method draw() to draw the lines of the figure . AttributedFigure
    * configures the Graphics2D object with the STROKE_COLOR attribute before calling this method. If
    * the STROKE_COLOR attribute is null, this method is not called.
    */
-  protected abstract void drawStroke(java.awt.Graphics2D g);
+  protected void drawStroke(java.awt.Graphics2D g) {}
 
   /**
    * This method is called by method draw() to draw the text of the figure .
@@ -334,11 +334,11 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     return changingDepth;
   }
 
-@Override
+  @Override
   public boolean contains(Point2D.Double p) {
     return contains(p, 1.0);
   }
-  
+
   /**
    * Informs that a figure is about to change something that affects the contents of its display
    * box.

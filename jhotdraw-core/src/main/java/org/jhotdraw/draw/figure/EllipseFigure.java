@@ -106,9 +106,9 @@ public class EllipseFigure extends AbstractAttributedFigure {
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     Ellipse2D.Double r = (Ellipse2D.Double) ellipse.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator);
     r.x -= grow;
     r.y -= grow;
     r.width += grow * 2;
