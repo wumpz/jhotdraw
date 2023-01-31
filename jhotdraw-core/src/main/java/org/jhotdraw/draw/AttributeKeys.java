@@ -394,12 +394,10 @@ public class AttributeKeys {
       case BASIC:
       default:
         return f.attr().get(STROKE_WIDTH) / getGlobalValueFactor(f, factor);
-        // break; not reached
       case DOUBLE:
         return f.attr().get(STROKE_WIDTH)
             * (1d + f.attr().get(STROKE_INNER_WIDTH_FACTOR))
             / getGlobalValueFactor(f, factor);
-        // break; not reached
     }
   }
 

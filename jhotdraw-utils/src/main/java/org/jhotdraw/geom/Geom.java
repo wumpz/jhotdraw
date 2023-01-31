@@ -269,30 +269,6 @@ public final class Geom {
     return new Point2D.Double(cx, cy);
   }
 
-  //  public static Point west(Rectangle r) {
-  //    return new Point(r.x, r.y + r.height / 2);
-  //  }
-  //
-  //  public static Point2D.Double west(Rectangle2D.Double r) {
-  //    return new Point2D.Double(r.x, r.y + r.height / 2);
-  //  }
-  //
-  //  public static Point east(Rectangle r) {
-  //    return new Point(r.x + r.width, r.y + r.height / 2);
-  //  }
-  //
-  //  public static Point2D.Double east(Rectangle2D.Double r) {
-  //    return new Point2D.Double(r.x + r.width, r.y + r.height / 2);
-  //  }
-  //
-  //  public static Point north(Rectangle r) {
-  //    return new Point(r.x + r.width / 2, r.y);
-  //  }
-  //
-  //  public static Point2D.Double north(Rectangle2D.Double r) {
-  //    return new Point2D.Double(r.x + r.width / 2, r.y);
-  //  }
-
   /**
    * Constains a value to the given range.
    *
@@ -322,16 +298,6 @@ public final class Geom {
     }
     return value;
   }
-
-  //  /** Gets the square distance between two points. */
-  //  public static long length2(int x1, int y1, int x2, int y2) {
-  //    return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
-  //  }
-  //
-  //  /** Gets the distance between to points */
-  //  public static long length(int x1, int y1, int x2, int y2) {
-  //    return (long) sqrt(length2(x1, y1, x2, y2));
-  //  }
 
   /** Gets the square distance between two points. */
   public static double length2(double x1, double y1, double x2, double y2) {
