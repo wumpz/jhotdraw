@@ -17,7 +17,6 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import org.jhotdraw.util.*;

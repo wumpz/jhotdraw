@@ -18,7 +18,6 @@ import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
-import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
@@ -166,7 +165,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     if (attr().get(TRANSFORM) != null) {
       try {
         p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());

@@ -108,7 +108,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     return getHitShape().contains(p);
   }
 

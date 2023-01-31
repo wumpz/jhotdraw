@@ -178,7 +178,9 @@ public class BezierFigure extends AbstractAttributedFigure {
       double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) * 2d;
       GrowStroke gs =
           new GrowStroke(
-              grow, AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) * attr().get(STROKE_MITER_LIMIT));
+              grow,
+              AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
+                  * attr().get(STROKE_MITER_LIMIT));
       if (gs.createStrokedShape(path).contains(p)) {
         return true;
       } else {
@@ -212,7 +214,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     }
     return false;
   }
-  
+
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
     LinkedList<Handle> handles = new LinkedList<>();

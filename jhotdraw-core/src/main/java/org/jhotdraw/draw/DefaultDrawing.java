@@ -114,7 +114,7 @@ public class DefaultDrawing extends AbstractDrawing {
     }
     return null;
   }
-  
+
   @Override
   public Figure findFigure(Point2D.Double p, double scaleDenominator) {
     for (Figure f : getFiguresFrontToBack()) {
@@ -149,7 +149,7 @@ public class DefaultDrawing extends AbstractDrawing {
     }
     return null;
   }
-  
+
   @Override
   public Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure) {
     boolean isBehind = false;

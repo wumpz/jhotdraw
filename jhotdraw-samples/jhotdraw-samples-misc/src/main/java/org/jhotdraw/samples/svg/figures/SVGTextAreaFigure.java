@@ -107,7 +107,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     if (attr().get(TRANSFORM) != null) {
       try {
         p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());

@@ -193,7 +193,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
           new GrowStroke(
               (float) grow,
               (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) * attr().get(STROKE_MITER_LIMIT)));
+                  (AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
+                      * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return triangle.contains(p);

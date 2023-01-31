@@ -305,7 +305,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
     Rectangle2D.Double rect =
         new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
     for (Figure figure : findFigures(rect)) {
-      if (figure.isVisible() && figure.contains(p, scaleDenominator)) return figure;
+      if (figure.isVisible() && figure.contains(p, scaleDenominator)) {
+        return figure;
+      }
     }
     return null;
   }
@@ -317,8 +319,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
         new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
     boolean check = false;
     for (Figure figure : findFigures(rect)) {
-      if (check && figure.isVisible() && figure.contains(p, scaleDenominator)) return figure;
-      else if (figure == behindFigure) {
+      if (check && figure.isVisible() && figure.contains(p, scaleDenominator)) {
+        return figure;
+      } else if (figure == behindFigure) {
         check = true;
       }
     }

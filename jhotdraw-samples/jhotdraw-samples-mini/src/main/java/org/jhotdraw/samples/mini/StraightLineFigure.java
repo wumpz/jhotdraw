@@ -66,9 +66,15 @@ public class StraightLineFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     return Geom.lineContainsPoint(
-        line.x1, line.y1, line.x2, line.y2, p.x, p.y, AttributeKeys.getStrokeTotalWidth(this, 1.0));
+        line.x1,
+        line.y1,
+        line.x2,
+        line.y2,
+        p.x,
+        p.y,
+        AttributeKeys.getStrokeTotalWidth(this, scaleDenominator));
   }
 
   @Override

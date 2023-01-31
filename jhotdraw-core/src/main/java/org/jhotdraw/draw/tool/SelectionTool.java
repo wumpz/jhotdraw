@@ -10,7 +10,6 @@ package org.jhotdraw.draw.tool;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolAdapter;

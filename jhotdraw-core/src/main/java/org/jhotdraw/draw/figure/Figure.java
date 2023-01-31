@@ -212,9 +212,9 @@ public interface Figure extends Cloneable, Serializable {
    * <p>This is used for hit testing by Tool's.
    */
   public boolean contains(Point2D.Double p);
-  
+
   /**
-   * Checks if a point is contained by the figure with a tolerance. 
+   * Checks if a point is contained by the figure with a tolerance.
    *
    * <p>This is used for hit testing by Tool's.
    */

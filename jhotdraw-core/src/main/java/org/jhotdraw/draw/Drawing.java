@@ -259,10 +259,10 @@ public interface Drawing extends Serializable {
    * <p>Use {@link #findFigureInside} If you need to descend into children of composite figures.
    */
   Figure findFigure(Point2D.Double p);
-  
+
   /**
    * Finds a top level Figure. Use this call for hit detection that should not descend into children
-   * of composite figures. 
+   * of composite figures.
    *
    * <p>Use {@link #findFigureInside} If you need to descend into children of composite figures.
    */
@@ -282,7 +282,7 @@ public interface Drawing extends Serializable {
 
   /** Finds a top level Figure which is behind the specified Figure. */
   Figure findFigureBehind(Point2D.Double p, Figure figure);
-  
+
   /** Finds a top level Figure which is behind the specified Figure. */
   Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure);
 
