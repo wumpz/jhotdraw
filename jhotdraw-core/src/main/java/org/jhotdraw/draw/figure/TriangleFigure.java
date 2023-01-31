@@ -185,15 +185,15 @@ public class TriangleFigure extends AbstractAttributedFigure {
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean contains(Point2D.Double p) {
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
     Shape triangle = getBezierPath();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator);
     if (grow != 0d) {
       GrowStroke gs =
           new GrowStroke(
               (float) grow,
               (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
+                  (AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return triangle.contains(p);
