@@ -294,8 +294,8 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   @Override
-  public Cursor getCursor(Point2D.Double p) {
-    if (contains(p)) {
+  public Cursor getCursor(Point2D.Double p, double scaleDenominator) {
+    if (contains(p, scaleDenominator)) {
       return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
     } else {
       return Cursor.getDefaultCursor();

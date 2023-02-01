@@ -424,7 +424,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
           figure = drawing.findFigureBehind(point, figure);
         }
         if (figure != null) {
-          view.setCursor(figure.getCursor(view.viewToDrawing(p)));
+          view.setCursor(figure.getCursor(view.viewToDrawing(p), view.getScaleFactor()));
         } else {
           view.setCursor(Cursor.getDefaultCursor());
         }

@@ -352,7 +352,7 @@ public interface Figure extends Cloneable, Serializable {
   public Collection<Handle> createHandles(int detailLevel);
 
   /** Returns a cursor for the specified location. */
-  public Cursor getCursor(Point2D.Double p);
+  public Cursor getCursor(Point2D.Double p, double scaleDenominator);
 
   /**
    * Returns a collection of Action's for the specified location on the figure.

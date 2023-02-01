@@ -80,7 +80,7 @@ import org.jhotdraw.draw.io.OutputFormat;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public interface Drawing extends Serializable {
+public interface Drawing {
 
   Attributes attr();
 
