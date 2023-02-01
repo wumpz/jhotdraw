@@ -57,9 +57,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   public void draw(Graphics2D g) {
     Rectangle2D clipBounds = g.getClipBounds();
     if (clipBounds != null) {
-      Collection<Figure> c = quadTree.findIntersects(clipBounds);
-      Collection<Figure> toDraw = sort(c);
-      draw(g, toDraw);
+      draw(g, sort(quadTree.findIntersects(clipBounds)));
     } else {
       draw(g, children);
     }
@@ -67,19 +65,20 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   /** Implementation note: Sorting can not be done for orphaned children. */
   @Override
-  public java.util.List<Figure> sort(Collection<? extends Figure> c) {
-    ensureSorted();
-    ArrayList<Figure> sorted = new ArrayList<>(c.size());
-    for (Figure f : children) {
-      if (c.contains(f)) {
-        sorted.add(f);
-      }
-    }
+  public List<Figure> sort(Collection<? extends Figure> c) {
+    //ensureSorted();
+    ArrayList<Figure> sorted = new ArrayList<>(c);
+    Collections.sort(sorted, Comparator.comparing(Figure::getLayer));
+//    for (Figure f : children) {
+//      if (c.contains(f)) {
+//        sorted.add(f);
+//      }
+//    }
     return sorted;
   }
 
   public void draw(Graphics2D g, Collection<Figure> c) {
-    double factor = AttributeKeys.getScaleFactorFromGraphics(g);
+    //double factor = AttributeKeys.getScaleFactorFromGraphics(g);
     for (Figure f : c) {
       if (f.isVisible()) {
         f.draw(g);

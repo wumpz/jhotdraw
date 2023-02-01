@@ -16,6 +16,7 @@ import org.jhotdraw.draw.figure.ListFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.locator.RelativeLocator;
+import org.jhotdraw.io.DOMDefaultDrawFigureFactory;
 import org.jhotdraw.samples.pert.figures.DependencyFigure;
 import org.jhotdraw.samples.pert.figures.SeparatorLineFigure;
 import org.jhotdraw.samples.pert.figures.TaskFigure;
@@ -46,8 +47,42 @@ public class PertFactory extends DefaultDOMFactory {
 
   /** Creates a new instance. */
   public PertFactory() {
-    for (Object[] o : CLASS_TAGS) {
-      register((String) o[1], (Class) o[0]);
-    }
+      register("Net", DefaultDrawing.class, null, null); // do not allow processing
+      register(
+        "t",
+        TextFigure.class,
+        DOMDefaultDrawFigureFactory::readText,
+        DOMDefaultDrawFigureFactory::writeText);
+      register(
+        "g",
+        GroupFigure.class,
+        DOMDefaultDrawFigureFactory::readGroup,
+        DOMDefaultDrawFigureFactory::writeGroup);
+      register(
+        "ta",
+        TextAreaFigure.class,
+        DOMDefaultDrawFigureFactory::readBaseData,
+        DOMDefaultDrawFigureFactory::writeBaseData);
+      register(
+        "rectConnector",
+        ChopRectangleConnector.class,
+        DOMDefaultDrawFigureFactory::readConnector,
+        DOMDefaultDrawFigureFactory::writeConnector);
+      register(
+        "locConnector",
+        LocatorConnector.class,
+        DOMDefaultDrawFigureFactory::readLocatorConnector,
+        DOMDefaultDrawFigureFactory::writeLocatorConnector);
+      register(
+        "arrowTip",
+        ArrowTip.class,
+        DOMDefaultDrawFigureFactory::readArrowTip,
+        DOMDefaultDrawFigureFactory::writeArrowTip);
+      
+      register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
+      
+//    for (Object[] o : CLASS_TAGS) {
+//      register((String) o[1], (Class) o[0], null, null);
+//    }
   }
 }
