@@ -126,10 +126,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   }
 
   @Override
-  public boolean contains(Point2D.Double p) {
-    boolean contains = super.contains(p);
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
+    boolean contains = super.contains(p, scaleDenominator);
     if (!contains && getPresentationFigure() != null) {
-      contains = getPresentationFigure().contains(p);
+      contains = getPresentationFigure().contains(p, scaleDenominator);
     }
     return contains;
   }
