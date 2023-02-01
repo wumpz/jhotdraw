@@ -382,7 +382,11 @@ public abstract class AbstractDrawing implements Drawing {
         }
       }
     }
-    return (Rectangle2D.Double) cachedDrawingArea.clone();
+    return new Rectangle2D.Double(
+        cachedDrawingArea.x,
+        cachedDrawingArea.y,
+        cachedDrawingArea.width,
+        cachedDrawingArea.height);
   }
 
   @Override
