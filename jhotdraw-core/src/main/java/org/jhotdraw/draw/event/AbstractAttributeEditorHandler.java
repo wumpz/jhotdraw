@@ -63,7 +63,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
    */
   private Set<Figure> figuresOfInterest;
 
-  protected class EventHandler extends FigureAdapter
+  protected class EventHandler extends FigureListenerAdapter
       implements FigureSelectionListener, PropertyChangeListener {
 
     @Override

@@ -23,7 +23,7 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.event.DrawingEvent;
 import org.jhotdraw.draw.event.DrawingListener;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.Attributes;
 import org.jhotdraw.draw.figure.Figure;
@@ -57,7 +57,7 @@ public abstract class AbstractDrawing implements Drawing {
     return new EventHandler();
   }
 
-  protected class EventHandler extends FigureAdapter implements UndoableEditListener, Serializable {
+  protected class EventHandler extends FigureListenerAdapter implements UndoableEditListener, Serializable {
 
     private static final long serialVersionUID = 1L;
 

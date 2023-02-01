@@ -13,7 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.figure.TextHolderFigure;
@@ -46,7 +46,7 @@ public class FloatingTextArea {
 
   private TextHolderFigure editedFigure;
   private FigureListener figureHandler =
-      new FigureAdapter() {
+      new FigureListenerAdapter() {
         @Override
         public void attributeChanged(FigureEvent e) {
           updateWidget();

@@ -22,7 +22,7 @@ import org.jhotdraw.draw.constrainer.Constrainer;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.draw.event.DrawingEvent;
 import org.jhotdraw.draw.event.DrawingListener;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
@@ -75,7 +75,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   private JLabel emptyDrawingLabel;
   protected BufferedImage backgroundTile;
   private FigureListener handleInvalidator =
-      new FigureAdapter() {
+      new FigureListenerAdapter() {
         @Override
         public void figureHandlesChanged(FigureEvent e) {
           invalidateHandles();

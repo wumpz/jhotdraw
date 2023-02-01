@@ -11,7 +11,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.util.*;
 import org.jhotdraw.draw.connector.LocatorConnector;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.ListFigure;
@@ -38,7 +38,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
   private HashSet<DependencyFigure> dependencies;
 
   /** This adapter is used, to connect a TextFigure with the name of the TaskFigure model. */
-  private static class NameAdapter extends FigureAdapter {
+  private static class NameAdapter extends FigureListenerAdapter {
 
     private TaskFigure target;
 
@@ -54,7 +54,7 @@ public class TaskFigure extends GraphicalCompositeFigure {
     }
   }
 
-  private static class DurationAdapter extends FigureAdapter {
+  private static class DurationAdapter extends FigureListenerAdapter {
 
     private TaskFigure target;
 

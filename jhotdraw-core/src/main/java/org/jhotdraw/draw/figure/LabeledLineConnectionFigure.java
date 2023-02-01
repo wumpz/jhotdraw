@@ -15,7 +15,7 @@ import javax.swing.event.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.util.*;
@@ -46,7 +46,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   /** Handles figure changes in the children. */
   private ChildHandler childHandler = new ChildHandler(this);
 
-  private static class ChildHandler extends FigureAdapter
+  private static class ChildHandler extends FigureListenerAdapter
       implements UndoableEditListener, Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -19,7 +19,7 @@ import java.util.*;
 import javax.swing.event.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
@@ -56,7 +56,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   /** Handles figure changes in the children. */
   private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
-  private static class PresentationFigureHandler extends FigureAdapter
+  private static class PresentationFigureHandler extends FigureListenerAdapter
       implements UndoableEditListener, Serializable {
 
     private static final long serialVersionUID = 1L;
