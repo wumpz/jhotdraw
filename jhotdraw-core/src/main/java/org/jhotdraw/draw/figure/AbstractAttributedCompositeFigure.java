@@ -575,11 +575,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
-    return getDrawingArea(1.0);
-  }
-
-  @Override
   public Rectangle2D.Double getDrawingArea(double factor) {
     if (cachedDrawingArea == null) {
       if (getChildCount() == 0) {
@@ -594,7 +589,11 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
         }
       }
     }
-    return (Rectangle2D.Double) cachedDrawingArea.clone();
+    return new Rectangle2D.Double(
+        cachedDrawingArea.x,
+        cachedDrawingArea.y,
+        cachedDrawingArea.width,
+        cachedDrawingArea.height);
   }
 
   @Override

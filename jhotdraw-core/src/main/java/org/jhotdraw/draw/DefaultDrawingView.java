@@ -182,7 +182,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     return selectedFigures.isEmpty();
   }
 
-  private class EventHandler implements DrawingListener, HandleListener, FocusListener {
+  protected class EventHandler implements DrawingListener, HandleListener, FocusListener {
 
     @Override
     public void drawingChanged(DrawingEvent e) {
@@ -195,7 +195,9 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(evt.getInvalidatedArea());
+        repaintDrawingArea(
+            evt.getFigure()
+                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
       invalidateDimension();
     }
@@ -205,7 +207,9 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(evt.getInvalidatedArea());
+        repaintDrawingArea(
+            evt.getFigure()
+                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
       removeFromSelection(evt.getFigure());
       invalidateDimension();
@@ -259,14 +263,16 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
           repaint(); // must repaint everything
         }
         if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(e.getInvalidatedArea());
+          repaintDrawingArea(
+              e.getFigure()
+                  .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
         } else {
           repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
         }
       } else {
-        if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(e.getInvalidatedArea());
-        }
+        // this view should not invalidate its area from foreign drawings changes
+        //        if (e.getInvalidatedArea() != null) {
+        //          repaintDrawingArea(e.getInvalidatedArea());
       }
     }
   }

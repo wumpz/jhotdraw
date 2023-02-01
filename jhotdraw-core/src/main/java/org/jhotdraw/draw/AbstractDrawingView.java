@@ -207,7 +207,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     return selectedFigures.isEmpty();
   }
 
-  private class EventHandler implements DrawingListener, HandleListener, FocusListener {
+  protected class EventHandler implements DrawingListener, HandleListener, FocusListener {
 
     @Override
     public void figureAdded(DrawingEvent evt) {
@@ -282,18 +282,19 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
           repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
         }
       } else {
-        if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(
-              e.getFigure()
-                  .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
-        }
+        // this view should not invalidate its area from foreign drawings changes
+        //        if (e.getInvalidatedArea() != null) {
+        //          repaintDrawingArea(
+        //              e.getFigure()
+        //
+        // .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+        //        }
       }
     }
 
     @Override
     public void drawingChanged(DrawingEvent e) {
-      repaintDrawingArea(
-          e.getFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+      repaintDrawingArea(e.getInvalidatedArea());
     }
   }
 
