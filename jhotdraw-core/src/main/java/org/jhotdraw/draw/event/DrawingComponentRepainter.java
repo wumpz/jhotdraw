@@ -21,7 +21,7 @@ import org.jhotdraw.draw.DrawingView;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class DrawingComponentRepainter extends FigureAdapter
+public class DrawingComponentRepainter extends DrawingListenerAdapter
     implements PropertyChangeListener, Disposable {
 
   private DrawingEditor editor;
@@ -35,7 +35,7 @@ public class DrawingComponentRepainter extends FigureAdapter
         DrawingView view = editor.getActiveView();
         view.addPropertyChangeListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().addFigureListener(this);
+          view.getDrawing().addDrawingListener(this);
         }
       }
       editor.addPropertyChangeListener(this);
@@ -43,7 +43,7 @@ public class DrawingComponentRepainter extends FigureAdapter
   }
 
   @Override
-  public void attributeChanged(FigureEvent evt) {
+  public void drawingAttributeChanged(DrawingEvent evt) {
     component.repaint();
   }
 
@@ -56,14 +56,14 @@ public class DrawingComponentRepainter extends FigureAdapter
       if (view != null) {
         view.removePropertyChangeListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().removeFigureListener(this);
+          view.getDrawing().removeDrawingListener(this);
         }
       }
       view = (DrawingView) evt.getNewValue();
       if (view != null) {
         view.addPropertyChangeListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().addFigureListener(this);
+          view.getDrawing().addDrawingListener(this);
         }
       }
       component.repaint();
@@ -71,11 +71,11 @@ public class DrawingComponentRepainter extends FigureAdapter
         || (name != null && name.equals(DrawingView.DRAWING_PROPERTY))) {
       Drawing drawing = (Drawing) evt.getOldValue();
       if (drawing != null) {
-        drawing.removeFigureListener(this);
+        drawing.removeDrawingListener(this);
       }
       drawing = (Drawing) evt.getNewValue();
       if (drawing != null) {
-        drawing.addFigureListener(this);
+        drawing.addDrawingListener(this);
       }
       component.repaint();
     } else {
@@ -90,7 +90,7 @@ public class DrawingComponentRepainter extends FigureAdapter
         DrawingView view = editor.getActiveView();
         view.removePropertyChangeListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().removeFigureListener(this);
+          view.getDrawing().removeDrawingListener(this);
         }
       }
       editor.removePropertyChangeListener(this);

@@ -69,8 +69,8 @@ import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.api.gui.EditableComponent;
 import org.jhotdraw.draw.constrainer.Constrainer;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.draw.event.CompositeFigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.event.DrawingEvent;
+import org.jhotdraw.draw.event.DrawingListener;
 import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
@@ -207,37 +207,29 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     return selectedFigures.isEmpty();
   }
 
-  private class EventHandler
-      implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
+  private class EventHandler implements DrawingListener, HandleListener, FocusListener {
 
     @Override
-    public void figureAdded(CompositeFigureEvent evt) {
+    public void figureAdded(DrawingEvent evt) {
       if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
         repaintDrawingArea(
-            evt.getCompositeFigure()
+            evt.getFigure()
                 .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
     }
 
     @Override
-    public void figureRemoved(CompositeFigureEvent evt) {
+    public void figureRemoved(DrawingEvent evt) {
       if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
         repaintDrawingArea(
-            evt.getCompositeFigure()
+            evt.getFigure()
                 .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
-      removeFromSelection(evt.getChildFigure());
-    }
-
-    @Override
-    public void areaInvalidated(FigureEvent evt) {
-      repaintDrawingArea(
-          evt.getFigure()
-              .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+      removeFromSelection(evt.getFigure());
     }
 
     @Override
@@ -276,7 +268,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     @Override
-    public void attributeChanged(FigureEvent e) {
+    public void drawingAttributeChanged(DrawingEvent e) {
       if (e.getSource() == drawing) {
         AttributeKey<?> a = e.getAttribute();
         if (a.equals(CANVAS_HEIGHT) || a.equals(CANVAS_WIDTH)) {
@@ -299,22 +291,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     @Override
-    public void figureHandlesChanged(FigureEvent e) {}
-
-    @Override
-    public void figureChanged(FigureEvent e) {
+    public void drawingChanged(DrawingEvent e) {
       repaintDrawingArea(
           e.getFigure().getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
     }
-
-    @Override
-    public void figureAdded(FigureEvent e) {}
-
-    @Override
-    public void figureRemoved(FigureEvent e) {}
-
-    @Override
-    public void figureRequestRemove(FigureEvent e) {}
   }
 
   private final EventHandler eventHandler = new EventHandler();
@@ -502,14 +482,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   public void setDrawing(Drawing newValue) {
     Drawing oldValue = drawing;
     if (this.drawing != null) {
-      this.drawing.removeCompositeFigureListener(eventHandler);
-      this.drawing.removeFigureListener(eventHandler);
+      this.drawing.removeDrawingListener(eventHandler);
       clearSelection();
     }
     this.drawing = newValue;
     if (this.drawing != null) {
-      this.drawing.addCompositeFigureListener(eventHandler);
-      this.drawing.addFigureListener(eventHandler);
+      this.drawing.addDrawingListener(eventHandler);
     }
     firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
     // Revalidate without flickering

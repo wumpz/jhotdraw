@@ -10,12 +10,10 @@ package org.jhotdraw.draw;
 import java.awt.Graphics2D;
 import java.awt.font.*;
 import java.awt.geom.*;
-import java.io.*;
 import java.util.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
-import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.DrawingListener;
 import org.jhotdraw.draw.figure.Attributes;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -342,16 +340,16 @@ public interface Drawing {
   void setFontRenderContext(FontRenderContext frc);
 
   /** Adds a listener for this composite figure. */
-  public void addCompositeFigureListener(CompositeFigureListener listener);
+  public void addDrawingListener(DrawingListener listener);
 
   /** Removes a listener from this composite figure. */
-  public void removeCompositeFigureListener(CompositeFigureListener listener);
+  public void removeDrawingListener(DrawingListener listener);
 
-  /** Adds a listener for FigureEvent's. */
-  public void addFigureListener(FigureListener l);
-
-  /** Removes a listener for FigureEvent's. */
-  public void removeFigureListener(FigureListener l);
+  //  /** Adds a listener for FigureEvent's. */
+  //  public void addFigureListener(FigureListener l);
+  //
+  //  /** Removes a listener for FigureEvent's. */
+  //  public void removeFigureListener(FigureListener l);
 
   /**
    * Returns the lock object on which all threads acting on Figures in this drawing synchronize to

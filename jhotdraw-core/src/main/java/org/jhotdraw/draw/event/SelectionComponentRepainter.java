@@ -21,7 +21,7 @@ import org.jhotdraw.draw.DrawingView;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class SelectionComponentRepainter extends FigureAdapter
+public class SelectionComponentRepainter extends DrawingListenerAdapter
     implements PropertyChangeListener, FigureSelectionListener, Disposable {
 
   private DrawingEditor editor;
@@ -36,7 +36,7 @@ public class SelectionComponentRepainter extends FigureAdapter
         view.addPropertyChangeListener(this);
         view.addFigureSelectionListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().addFigureListener(this);
+          view.getDrawing().addDrawingListener(this);
         }
       }
       editor.addPropertyChangeListener(this);
@@ -44,7 +44,7 @@ public class SelectionComponentRepainter extends FigureAdapter
   }
 
   @Override
-  public void attributeChanged(FigureEvent evt) {
+  public void drawingAttributeChanged(DrawingEvent evt) {
     component.repaint();
   }
 
@@ -58,7 +58,7 @@ public class SelectionComponentRepainter extends FigureAdapter
         view.removePropertyChangeListener(this);
         view.removeFigureSelectionListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().removeFigureListener(this);
+          view.getDrawing().removeDrawingListener(this);
         }
       }
       view = (DrawingView) evt.getNewValue();
@@ -66,7 +66,7 @@ public class SelectionComponentRepainter extends FigureAdapter
         view.addPropertyChangeListener(this);
         view.addFigureSelectionListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().addFigureListener(this);
+          view.getDrawing().addDrawingListener(this);
         }
       }
       component.repaint();
@@ -74,11 +74,11 @@ public class SelectionComponentRepainter extends FigureAdapter
         || (name != null && name.equals(DrawingView.DRAWING_PROPERTY))) {
       Drawing drawing = (Drawing) evt.getOldValue();
       if (drawing != null) {
-        drawing.removeFigureListener(this);
+        drawing.removeDrawingListener(this);
       }
       drawing = (Drawing) evt.getNewValue();
       if (drawing != null) {
-        drawing.addFigureListener(this);
+        drawing.addDrawingListener(this);
       }
       component.repaint();
     } else {
@@ -99,7 +99,7 @@ public class SelectionComponentRepainter extends FigureAdapter
         view.removePropertyChangeListener(this);
         view.removeFigureSelectionListener(this);
         if (view.getDrawing() != null) {
-          view.getDrawing().removeFigureListener(this);
+          view.getDrawing().removeDrawingListener(this);
         }
       }
       editor.removePropertyChangeListener(this);

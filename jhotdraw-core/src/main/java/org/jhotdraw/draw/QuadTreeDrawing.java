@@ -14,7 +14,6 @@ import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.QuadTree;
@@ -258,7 +257,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     if (children.remove(figure)) {
       children.add(figure);
       needsSorting = true;
-      fireAreaInvalidated(figure.getDrawingArea());
+      fireDrawingChanged(figure.getDrawingArea());
     }
   }
 
@@ -267,14 +266,14 @@ public class QuadTreeDrawing extends AbstractDrawing {
     if (children.remove(figure)) {
       children.add(0, figure);
       needsSorting = true;
-      fireAreaInvalidated(figure.getDrawingArea());
+      fireDrawingChanged(figure.getDrawingArea());
     }
   }
 
-  @Override
-  public boolean contains(Figure f) {
-    return children.contains(f);
-  }
+  //  @Override
+  //  public boolean contains(Figure f) {
+  //    return children.contains(f);
+  //  }
 
   /** Ensures that the children are sorted in z-order sequence. */
   private void ensureSorted() {
@@ -329,7 +328,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   }
 
   /** Handles all figure events fired by Figures contained in the Drawing. */
-  protected class QuadTreeEventHandler extends AbstractAttributedCompositeFigure.EventHandler {
+  protected class QuadTreeEventHandler extends AbstractDrawing.EventHandler {
 
     private static final long serialVersionUID = 1L;
 
@@ -340,19 +339,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
         quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
         needsSorting = true;
         invalidate();
-        fireAreaInvalidated(e);
+        fireDrawingChanged(e.getInvalidatedArea());
       }
     }
-  }
-
-  @Override
-  protected void drawFill(Graphics2D g) {
-    // throw new UnsupportedOperationException("Not supported yet.");
-  }
-
-  @Override
-  protected void drawStroke(Graphics2D g) {
-    // throw new UnsupportedOperationException("Not supported yet.");
   }
 
   @Override

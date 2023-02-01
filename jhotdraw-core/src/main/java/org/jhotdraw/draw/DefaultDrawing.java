@@ -254,12 +254,6 @@ public class DefaultDrawing extends AbstractDrawing {
   }
 
   @Override
-  protected void drawFill(Graphics2D g) {}
-
-  @Override
-  protected void drawStroke(Graphics2D g) {}
-
-  @Override
   public void drawCanvas(Graphics2D g) {
     if (attr().get(CANVAS_WIDTH) != null && attr().get(CANVAS_HEIGHT) != null) {
       // Determine canvas color and opacity

@@ -180,7 +180,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   public void removeNotify(Drawing drawing) {
     super.removeNotify(drawing);
     // Copy children collection to avoid concurrent modification exception
-    for (Figure child : new LinkedList<>(getChildren())) {
+    for (Figure child : new ArrayList<>(getChildren())) {
       child.removeNotify(drawing);
     }
   }
@@ -216,7 +216,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
    */
   public void removeAll(Collection<? extends Figure> figures) {
     willChange();
-    for (Figure f : new LinkedList<Figure>(figures)) {
+    for (Figure f : new ArrayList<Figure>(figures)) {
       remove(f);
     }
     changed();
@@ -239,7 +239,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
    */
   @Override
   public void basicRemoveAllChildren() {
-    for (Figure f : new LinkedList<>(getChildren())) {
+    for (Figure f : new ArrayList<>(getChildren())) {
       basicRemove(f);
     }
   }
@@ -321,7 +321,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   /** Returns an iterator to iterate in Z-order front to back over the children. */
   public java.util.List<Figure> getChildrenFrontToBack() {
-    return children.size() == 0 ? new LinkedList<>() : new ReversedList<>(getChildren());
+    return children.size() == 0 ? new ArrayList<>() : new ReversedList<>(getChildren());
   }
 
   @Override

@@ -197,6 +197,10 @@ public final class Attributes {
     <T> void attributeChanged(AttributeKey<T> attribute, T oldValue, T newValue);
   }
 
+  public static Attributes from(Attributes source) {
+    return from(source, null, null);
+  }
+
   public static Attributes from(Attributes source, AttributeListener listener) {
     return from(source, listener, null);
   }

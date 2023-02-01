@@ -33,8 +33,9 @@ import javax.swing.undo.*;
 import org.jhotdraw.datatransfer.CompositeTransferable;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingView;
-import org.jhotdraw.draw.event.CompositeFigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureListener;
+import org.jhotdraw.draw.event.DrawingEvent;
+import org.jhotdraw.draw.event.DrawingListener;
+import org.jhotdraw.draw.event.DrawingListenerAdapter;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.ReversedList;
@@ -365,7 +366,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
       final DrawingView view = (DrawingView) source;
       final Drawing drawing = view.getDrawing();
       if (action == MOVE) {
-        final LinkedList<CompositeFigureEvent> deletionEvents = new LinkedList<>();
+        final LinkedList<DrawingEvent> deletionEvents = new LinkedList<>();
         final LinkedList<Figure> selectedFigures =
             (exportedFigures == null) ? new LinkedList<>() : new LinkedList<>(exportedFigures);
         // Abort, if not all of the selected figures may be removed from the
@@ -377,19 +378,19 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
           }
         }
         // view.clearSelection();
-        CompositeFigureListener removeListener =
-            new CompositeFigureListener() {
+        DrawingListener removeListener =
+            new DrawingListenerAdapter() {
               @Override
-              public void figureAdded(CompositeFigureEvent e) {}
+              public void figureAdded(DrawingEvent e) {}
 
               @Override
-              public void figureRemoved(CompositeFigureEvent evt) {
+              public void figureRemoved(DrawingEvent evt) {
                 deletionEvents.addFirst(evt);
               }
             };
-        drawing.addCompositeFigureListener(removeListener);
+        drawing.addDrawingListener(removeListener);
         drawing.removeAll(selectedFigures);
-        drawing.removeCompositeFigureListener(removeListener);
+        drawing.removeDrawingListener(removeListener);
         drawing.removeAll(selectedFigures);
         drawing.fireUndoableEditHappened(
             new AbstractUndoableEdit() {
@@ -406,8 +407,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
               public void undo() throws CannotUndoException {
                 super.undo();
                 view.clearSelection();
-                for (CompositeFigureEvent evt : deletionEvents) {
-                  drawing.add(evt.getIndex(), evt.getChildFigure());
+                for (DrawingEvent evt : deletionEvents) {
+                  drawing.add(evt.getFigureIndex(), evt.getFigure());
                 }
                 view.addToSelection(selectedFigures);
               }
@@ -415,8 +416,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
               @Override
               public void redo() throws CannotRedoException {
                 super.redo();
-                for (CompositeFigureEvent evt : new ReversedList<>(deletionEvents)) {
-                  drawing.remove(evt.getChildFigure());
+                for (DrawingEvent evt : new ReversedList<>(deletionEvents)) {
+                  drawing.remove(evt.getFigure());
                 }
               }
             });
