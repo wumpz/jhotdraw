@@ -156,7 +156,7 @@ public abstract class AbstractDrawing implements Drawing {
     }
     changingDepth--;
   }
-  
+
   @Override
   @SuppressWarnings("unchecked")
   public AbstractDrawing clone() {
