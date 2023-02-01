@@ -11,8 +11,8 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.util.*;
 import org.jhotdraw.draw.connector.LocatorConnector;
-import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.ListFigure;
 import org.jhotdraw.draw.figure.RectangleFigure;

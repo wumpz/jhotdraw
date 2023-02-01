@@ -21,8 +21,8 @@ import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -58,7 +58,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   /** Handles figure changes in the children. */
   protected EventHandler eventHandler;
 
-  protected class EventHandler extends FigureListenerAdapter implements UndoableEditListener, Serializable {
+  protected class EventHandler extends FigureListenerAdapter
+      implements UndoableEditListener, Serializable {
 
     private static final long serialVersionUID = 1L;
 

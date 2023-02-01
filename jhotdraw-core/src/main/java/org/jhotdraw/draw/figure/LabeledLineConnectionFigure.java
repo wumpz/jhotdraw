@@ -15,8 +15,8 @@ import javax.swing.event.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.util.*;
 

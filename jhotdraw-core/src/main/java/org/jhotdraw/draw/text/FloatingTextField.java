@@ -14,9 +14,9 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 
 /**
