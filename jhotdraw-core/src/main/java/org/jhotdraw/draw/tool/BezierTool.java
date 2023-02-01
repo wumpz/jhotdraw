@@ -32,8 +32,6 @@ import org.jhotdraw.util.*;
 public class BezierTool extends AbstractTool {
 
   private static final long serialVersionUID = 1L;
-  /** Set this to true to turn on debugging output on System.out. */
-  private static final boolean DEBUG = false;
 
   private Boolean finishWhenMouseReleased;
   protected Map<AttributeKey<?>, Object> attributes;
@@ -116,9 +114,6 @@ public class BezierTool extends AbstractTool {
 
   @Override
   public void mousePressed(MouseEvent evt) {
-    if (DEBUG) {
-      System.out.println("BezierTool.mousePressed " + evt);
-    }
     if (mouseLocation != null) {
       Rectangle r = new Rectangle(mouseLocation);
       r.add(evt.getPoint());
@@ -264,9 +259,6 @@ public class BezierTool extends AbstractTool {
 
   @Override
   public void mouseReleased(MouseEvent evt) {
-    if (DEBUG) {
-      System.out.println("BezierTool.mouseReleased " + evt);
-    }
     isWorking = false;
     if (createdFigure.getNodeCount() > nodeCountBeforeDrag + 1) {
       createdFigure.willChange();

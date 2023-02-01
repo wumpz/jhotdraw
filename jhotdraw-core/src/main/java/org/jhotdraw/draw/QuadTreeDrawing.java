@@ -83,17 +83,17 @@ public class QuadTreeDrawing extends AbstractDrawing {
     for (Figure f : c) {
       if (f.isVisible()) {
         f.draw(g);
-        if (isDebugMode()) {
-          Graphics2D g2 = (Graphics2D) g.create();
-          try {
-            g2.setStroke(new BasicStroke(0));
-            g2.setColor(Color.BLUE);
-            Rectangle2D.Double rect = f.getDrawingArea(factor);
-            g2.draw(rect);
-          } finally {
-            g2.dispose();
-          }
-        }
+        //        if (isDebugMode()) {
+        //          Graphics2D g2 = (Graphics2D) g.create();
+        //          try {
+        //            g2.setStroke(new BasicStroke(0));
+        //            g2.setColor(Color.BLUE);
+        //            Rectangle2D.Double rect = f.getDrawingArea(factor);
+        //            g2.draw(rect);
+        //          } finally {
+        //            g2.dispose();
+        //          }
+        //        }
       }
     }
   }

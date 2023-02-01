@@ -49,8 +49,6 @@ import org.jhotdraw.util.*;
 public class DefaultDrawingView extends JComponent implements DrawingView, EditableComponent {
 
   private static final long serialVersionUID = 1L;
-  /** Set this to true to turn on debugging output on System.out. */
-  private static final boolean DEBUG = false;
 
   private Drawing drawing;
   /**
@@ -788,9 +786,6 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   /** Adds a figure to the current selection. */
   @Override
   public void addToSelection(Figure figure) {
-    if (DEBUG) {
-      System.out.println("DefaultDrawingView" + ".addToSelection(" + figure + ")");
-    }
     Set<Figure> oldSelection = new HashSet<>(selectedFigures);
     if (selectedFigures.add(figure)) {
       figure.addFigureListener(handleInvalidator);

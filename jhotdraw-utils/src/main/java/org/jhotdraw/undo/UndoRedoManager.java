@@ -10,6 +10,7 @@ package org.jhotdraw.undo;
 import java.awt.event.*;
 import java.beans.*;
 import java.util.*;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
@@ -24,7 +25,6 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
 
   private static final long serialVersionUID = 1L;
   protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-  private static final boolean DEBUG = false;
   /** The resource bundle used for internationalisation. */
   private static ResourceBundleUtil labels;
   /**
@@ -157,9 +157,6 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
    */
   @Override
   public boolean addEdit(UndoableEdit anEdit) {
-    if (DEBUG) {
-      System.out.println("UndoRedoManager@" + hashCode() + ".add " + anEdit);
-    }
     if (undoOrRedoInProgress) {
       anEdit.die();
       return true;
@@ -185,17 +182,15 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
   /** Updates the properties of the UndoAction and of the RedoAction. */
   private void updateActions() {
     String label;
-    if (DEBUG) {
-      System.out.println(
-          "UndoRedoManager@"
-              + hashCode()
-              + ".updateActions "
-              + editToBeUndone()
-              + " canUndo="
-              + canUndo()
-              + " canRedo="
-              + canRedo());
-    }
+    LOG.fine(
+        "UndoRedoManager@"
+            + hashCode()
+            + ".updateActions "
+            + editToBeUndone()
+            + " canUndo="
+            + canUndo()
+            + " canRedo="
+            + canRedo());
     if (canUndo()) {
       undoAction.setEnabled(true);
       label = getUndoPresentationName();
@@ -215,6 +210,8 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
     redoAction.putValue(Action.NAME, label);
     redoAction.putValue(Action.SHORT_DESCRIPTION, label);
   }
+
+  private static final Logger LOG = Logger.getLogger(UndoRedoManager.class.getName());
 
   /**
    * Undoes the last edit event. The UndoRedoManager ignores all incoming UndoableEdit events, while

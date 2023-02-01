@@ -12,6 +12,7 @@ import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.*;
+import java.util.logging.Logger;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.CompositeFigureEdit;
 import org.jhotdraw.draw.figure.Figure;
@@ -29,7 +30,6 @@ import org.jhotdraw.util.*;
  */
 public class SVGRectRadiusHandle extends AbstractHandle {
 
-  private static final boolean DEBUG = false;
   private static final int OFFSET = 6;
   private Dimension2DDouble originalArc2D;
 
@@ -87,9 +87,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
       try {
         owner.attr().get(TRANSFORM).inverseTransform(p, p);
       } catch (NoninvertibleTransformException ex) {
-        if (DEBUG) {
-          ex.printStackTrace();
-        }
+        LOG.throwing(SVGRectRadiusHandle.class.getName(), "trackStep", ex);
       }
     }
     Rectangle2D.Double r = owner.getBounds();
@@ -98,6 +96,8 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         Math.min(owner.getHeight(), Math.max(0, p.y - r.y)));
     owner.changed();
   }
+
+  private static final Logger LOG = Logger.getLogger(SVGRectRadiusHandle.class.getName());
 
   @Override
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {

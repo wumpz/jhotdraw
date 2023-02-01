@@ -63,8 +63,6 @@ import org.xml.sax.SAXException;
  */
 public class SVGInputFormat implements InputFormat {
 
-  /** Set this to true, to getChild debug output on if (DEBUG) System.out. */
-  private static final boolean DEBUG = false;
   /** The SVGFigure factory is used to create Figure's for the drawing. */
   private SVGFigureFactory factory;
   /**
@@ -173,9 +171,6 @@ public class SVGInputFormat implements InputFormat {
   @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
     long start;
-    if (DEBUG) {
-      start = System.currentTimeMillis();
-    }
     this.figures = new LinkedList<Figure>();
     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     DocumentBuilder builder;
@@ -185,17 +180,11 @@ public class SVGInputFormat implements InputFormat {
       Logger.getLogger(SVGInputFormat.class.getName()).log(Level.SEVERE, null, ex);
       throw new IOException(ex);
     }
-    if (DEBUG) {
-      System.out.println("SVGInputFormat parser created " + (System.currentTimeMillis() - start));
-    }
     try {
       document = (Element) builder.parse(in);
     } catch (SAXException ex) {
       Logger.getLogger(SVGInputFormat.class.getName()).log(Level.SEVERE, null, ex);
       throw new IOException(ex);
-    }
-    if (DEBUG) {
-      System.out.println("SVGInputFormat document created " + (System.currentTimeMillis() - start));
     }
     // Search for the first 'svg' element in the XML document
     // in preorder sequence
@@ -233,14 +222,7 @@ public class SVGInputFormat implements InputFormat {
     flattenStyles(svg);
     // long end2 = System.currentTimeMillis();
     readElement(svg);
-    if (DEBUG) {
-      long end = System.currentTimeMillis();
-      System.out.println("SVGInputFormat elapsed:" + (end - start));
-    }
-    /*if (DEBUG) System.out.println("SVGInputFormat read:"+(end1-start));
-    if (DEBUG) System.out.println("SVGInputFormat flatten:"+(end2-end1));
-    if (DEBUG) System.out.println("SVGInputFormat build:"+(end-end2));
-     */
+
     if (replace) {
       drawing.removeAllChildren();
     }
@@ -315,16 +297,11 @@ public class SVGInputFormat implements InputFormat {
    *     cases.
    */
   private Figure readElement(Element elem) throws IOException {
-    if (DEBUG) {
-      System.out.println("SVGInputFormat.readElement " + elem.getLocalName());
-    }
     Figure f = null;
     if (elem.getPrefix() == null || elem.getPrefix().equals(SVG_NAMESPACE)) {
       String name = elem.getLocalName();
       if (name == null) {
-        if (DEBUG) {
-          System.err.println("SVGInputFormat warning: skipping nameless element");
-        }
+        LOG.warning("SVGInputFormat warning: skipping nameless element");
       } else if ("a".equals(name)) {
         f = readAElement(elem);
       } else if ("circle".equals(name)) {
@@ -375,9 +352,7 @@ public class SVGInputFormat implements InputFormat {
         // Nothing to do, style elements have been already
         // processed in method flattenStyles
       } else {
-        if (DEBUG) {
-          System.out.println("SVGInputFormat not implemented for <" + name + ">");
-        }
+        LOG.info("SVGInputFormat not implemented for <" + name + ">");
       }
     }
     if (f instanceof SVGFigure) {
@@ -386,12 +361,12 @@ public class SVGInputFormat implements InputFormat {
         return null;
       }
     } else if (f != null) {
-      if (DEBUG) {
-        System.out.println("SVGInputFormat warning: not an SVGFigure " + f);
-      }
+      LOG.fine("SVGInputFormat warning: not an SVGFigure " + f);
     }
     return f;
   }
+
+  private static final Logger LOG = Logger.getLogger(SVGInputFormat.class.getName());
 
   /** Reads an SVG "defs" element. */
   private void readDefsElement(Element elem) throws IOException {
@@ -437,9 +412,6 @@ public class SVGInputFormat implements InputFormat {
       href = readAttribute(elem, "href", null);
     }
     String target = readAttribute(elem, "target", null);
-    if (DEBUG) {
-      System.out.println("SVGInputFormat.readAElement href=" + href);
-    }
     NodeList list = elem.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
       Element child = (Element) list.item(i);
@@ -455,9 +427,7 @@ public class SVGInputFormat implements InputFormat {
         childFigure.attr().set(LINK, href);
         childFigure.attr().set(LINK_TARGET, target);
       } else {
-        if (DEBUG) {
-          System.out.println("SVGInputFormat <a> has no child figure");
-        }
+        LOG.fine("SVGInputFormat <a> has no child figure");
       }
     }
     return (g.getChildCount() == 1) ? g.getChild(0) : g;
@@ -792,10 +762,7 @@ public class SVGInputFormat implements InputFormat {
           } else if ("tspan".equals(node.getLocalName())) {
             readTSpanElement(node, doc);
           } else {
-            if (DEBUG) {
-              System.out.println(
-                  "SVGInputFormat unsupported text node <" + node.getLocalName() + ">");
-            }
+            LOG.fine("SVGInputFormat unsupported text node <" + node.getLocalName() + ">");
           }
         }
       }
@@ -839,9 +806,7 @@ public class SVGInputFormat implements InputFormat {
           } else if ("tspan".equals(node.getLocalName())) {
             readTSpanElement(node, doc);
           } else {
-            if (DEBUG) {
-              System.out.println("SVGInputFormat unknown  text node " + node.getLocalName());
-            }
+            LOG.fine("SVGInputFormat unknown  text node " + node.getLocalName());
           }
         }
       }
@@ -867,9 +832,7 @@ public class SVGInputFormat implements InputFormat {
           if (node.getLocalName() != null && node.getLocalName().equals("tspan")) {
             readTSpanElement(node, doc);
           } else {
-            if (DEBUG) {
-              System.out.println("SVGInputFormat unknown text node " + node.getLocalName());
-            }
+            LOG.warning("SVGInputFormat unknown text node " + node.getLocalName());
           }
         }
       }
@@ -986,9 +949,7 @@ public class SVGInputFormat implements InputFormat {
     if (href != null && href.startsWith("#")) {
       Element refElem = identifiedElements.get(href.substring(1));
       if (refElem == null) {
-        if (DEBUG) {
-          System.out.println("SVGInputFormat couldn't find href for <use> element:" + href);
-        }
+        LOG.warning("SVGInputFormat couldn't find href for <use> element:" + href);
       } else {
         Figure obj = readElement(refElem);
         if (obj != null) {
@@ -1825,13 +1786,11 @@ public class SVGInputFormat implements InputFormat {
           break;
 
         default:
-          if (DEBUG) {
-            System.out.println(
-                "SVGInputFormat.toPath aborting after illegal path command: "
-                    + command
-                    + " found in path "
-                    + str);
-          }
+          LOG.fine(
+              "SVGInputFormat.toPath aborting after illegal path command: "
+                  + command
+                  + " found in path "
+                  + str);
           break Commands;
           // throw new IOException("Illegal command: "+command);
       }
@@ -1961,9 +1920,6 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:   yes
     // Computed value:    Specified value, except inherit
     value = readInheritAttribute(elem, "line-increment", "auto");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented line-increment=" + value);
-    }
   }
 
   /* Reads the transform attribute as specified in
@@ -2055,9 +2011,6 @@ public class SVGInputFormat implements InputFormat {
       FILL_COLOR.put(a, null);
     } else {
       FILL_COLOR.put(a, null);
-      if (DEBUG) {
-        System.out.println("SVGInputFormat not implemented  fill=" + objectValue);
-      }
     }
     // 'fill-opacity'
     // Value:    <opacity-value> | inherit
@@ -2100,9 +2053,6 @@ public class SVGInputFormat implements InputFormat {
       STROKE_COLOR.put(a, null);
     } else {
       STROKE_COLOR.put(a, null);
-      if (DEBUG) {
-        System.out.println("SVGInputFormat not implemented  stroke=" + objectValue);
-      }
     }
     // 'stroke-dasharray'
     // Value:    none | <dasharray> | inherit
@@ -2243,9 +2193,6 @@ public class SVGInputFormat implements InputFormat {
         FILL_COLOR.put(a, null);
       } else {
         FILL_COLOR.put(a, null);
-        if (DEBUG) {
-          System.out.println("SVGInputFormat not implemented  fill=" + objectValue);
-        }
       }
     }
     // 'fill-opacity'
@@ -2441,9 +2388,6 @@ public class SVGInputFormat implements InputFormat {
       FILL_COLOR.put(a, null);
     } else {
       FILL_COLOR.put(a, null);
-      if (DEBUG) {
-        System.out.println("SVGInputFormat not implemented  fill=" + objectValue);
-      }
     }
     // 'fill-opacity'
     // Value:    <opacity-value> | inherit
@@ -2486,9 +2430,6 @@ public class SVGInputFormat implements InputFormat {
       STROKE_COLOR.put(a, null);
     } else {
       STROKE_COLOR.put(a, null);
-      if (DEBUG) {
-        System.out.println("SVGInputFormat not implemented  stroke=" + objectValue);
-      }
     }
     // 'stroke-dasharray'
     // Value:    none | <dasharray> | inherit
@@ -2588,13 +2529,11 @@ public class SVGInputFormat implements InputFormat {
     Double doubleValue;
     // width of the viewport
     value = readAttribute(elem, "width", null);
-    if (DEBUG) {
-      System.out.println(
-          "SVGInputFormat READ viewport w/h factors:"
-              + viewportStack.peek().widthPercentFactor
-              + ","
-              + viewportStack.peek().heightPercentFactor);
-    }
+    LOG.fine(
+        "SVGInputFormat READ viewport w/h factors:"
+            + viewportStack.peek().widthPercentFactor
+            + ","
+            + viewportStack.peek().heightPercentFactor);
     if (value != null) {
       doubleValue = toLength(elem, (String) value, viewportStack.peek().widthPercentFactor);
       VIEWPORT_WIDTH.put(a, doubleValue);
@@ -2652,9 +2591,7 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
     value = readAttribute(elem, "display", "inline");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented display=" + value);
-    }
+
     // 'image-rendering'
     // Value:    auto | optimizeSpeed | optimizeQuality | inherit
     // Initial:    auto
@@ -2665,9 +2602,7 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
     value = readInheritAttribute(elem, "image-rendering", "auto");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented image-rendering=" + value);
-    }
+
     // 'pointer-events'
     // Value:   boundingBox | visiblePainted | visibleFill | visibleStroke | visible |
     // painted | fill | stroke | all | none | inherit
@@ -2679,9 +2614,7 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:   yes
     // Computed value:   Specified value, except inherit
     value = readInheritAttribute(elem, "pointer-events", "visiblePainted");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented pointer-events=" + value);
-    }
+
     // 'shape-rendering'
     // Value:    auto | optimizeSpeed | crispEdges |
     // geometricPrecision | inherit
@@ -2693,9 +2626,7 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
     value = readInheritAttribute(elem, "shape-rendering", "auto");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented shape-rendering=" + value);
-    }
+
     // 'text-rendering'
     // Value:    auto | optimizeSpeed | optimizeLegibility |
     // geometricPrecision | inherit
@@ -2707,9 +2638,7 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
     value = readInheritAttribute(elem, "text-rendering", "auto");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented text-rendering=" + value);
-    }
+
     // 'vector-effect'
     // Value:    non-scaling-stroke | none | inherit
     // Initial:    none
@@ -2720,9 +2649,7 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
     value = readAttribute(elem, "vector-effect", "none");
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented vector-effect=" + value);
-    }
+
     // 'visibility'
     // Value:    visible | hidden | collapse | inherit
     // Initial:    visible
@@ -2734,9 +2661,6 @@ public class SVGInputFormat implements InputFormat {
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
     value = readInheritAttribute(elem, "visibility", null);
-    if (DEBUG) {
-      System.out.println("SVGInputFormat not implemented visibility=" + value);
-    }
   }
 
   /** Reads an SVG "linearGradient" element. */
@@ -2767,9 +2691,7 @@ public class SVGInputFormat implements InputFormat {
       }
     }
     if (stops.getLength() == 0) {
-      if (DEBUG) {
-        System.out.println("SVGInpuFormat: Warning no stops in linearGradient " + elem);
-      }
+      LOG.fine("SVGInpuFormat: Warning no stops in linearGradient " + elem);
     }
     double[] stopOffsets = new double[stops.getLength()];
     Color[] stopColors = new Color[stops.getLength()];
@@ -3077,9 +2999,7 @@ public class SVGInputFormat implements InputFormat {
         return obj;
       }
       // XXX - Implement me
-      if (DEBUG) {
-        System.out.println("SVGInputFormat.toPaint not implemented for " + href);
-      }
+
       return null;
     } else {
       return null;
@@ -3137,16 +3057,10 @@ public class SVGInputFormat implements InputFormat {
                     : Integer.decode(b));
         return c;
       } catch (Exception e) {
-        if (DEBUG) {
-          System.out.println("SVGInputFormat.toColor illegal RGB value " + str);
-        }
         return null;
       }
     } else if (str.startsWith("url")) {
       // FIXME - Implement me
-      if (DEBUG) {
-        System.out.println("SVGInputFormat.toColor not implemented for " + str);
-      }
       return null;
     } else {
       return null;

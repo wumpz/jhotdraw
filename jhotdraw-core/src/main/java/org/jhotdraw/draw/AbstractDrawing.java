@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import javax.swing.JPanel;
@@ -39,16 +40,7 @@ import org.jhotdraw.draw.io.OutputFormat;
 public abstract class AbstractDrawing implements Drawing {
 
   private static final Object LOCK = new JPanel().getTreeLock();
-  private static boolean debugMode = false;
-  private static final long serialVersionUID = 1L;
 
-  public static boolean isDebugMode() {
-    return debugMode;
-  }
-
-  public static void setDebugMode(boolean debugMode) {
-    AbstractDrawing.debugMode = debugMode;
-  }
   /** Caches the bounds to improve the performance of method {@link #getBounds}. */
   protected transient Rectangle2D.Double cachedBounds;
 
@@ -98,9 +90,6 @@ public abstract class AbstractDrawing implements Drawing {
   @Override
   public void addOutputFormat(OutputFormat format) {
     outputFormats.add(format);
-    if (debugMode) {
-      System.out.println(this + ".addOutputFormat(" + format + ")");
-    }
   }
 
   @Override
@@ -258,6 +247,7 @@ public abstract class AbstractDrawing implements Drawing {
   public void setInputFormats(java.util.List<InputFormat> formats) {
     this.inputFormats = new LinkedList<>(formats);
   }
+
   /** The drawing view synchronizes on the lock when drawing a drawing. */
   @Override
   public Object getLock() {
@@ -265,15 +255,12 @@ public abstract class AbstractDrawing implements Drawing {
   }
 
   @Override
-  public java.util.List<OutputFormat> getOutputFormats() {
-    if (debugMode) {
-      System.out.println(this + ".getOutputFormats size:" + outputFormats.size());
-    }
+  public List<OutputFormat> getOutputFormats() {
     return outputFormats;
   }
 
   @Override
-  public void setOutputFormats(java.util.List<OutputFormat> formats) {
+  public void setOutputFormats(List<OutputFormat> formats) {
     this.outputFormats = new LinkedList<>(formats);
   }
 
