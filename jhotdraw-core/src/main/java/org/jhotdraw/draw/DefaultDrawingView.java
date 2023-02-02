@@ -1052,7 +1052,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
    */
   @Override
   public Figure findFigure(Point p) {
-    return getDrawing().findFigure(viewToDrawing(p));
+    return getDrawing().findFigure(viewToDrawing(p), getScaleFactor());
   }
 
   @Override

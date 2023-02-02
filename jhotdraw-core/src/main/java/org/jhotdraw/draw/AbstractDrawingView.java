@@ -777,7 +777,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
    */
   @Override
   public Figure findFigure(Point p) {
-    return drawing == null ? null : drawing.findFigure(viewToDrawing(p));
+    return drawing == null ? null : drawing.findFigure(viewToDrawing(p), getScaleFactor());
   }
 
   @Override

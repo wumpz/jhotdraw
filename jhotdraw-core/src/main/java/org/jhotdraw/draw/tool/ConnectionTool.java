@@ -202,7 +202,7 @@ public class ConnectionTool extends AbstractTool {
     super.mousePressed(evt);
     getView().clearSelection();
     Point2D.Double startPoint = viewToDrawing(anchor);
-    Figure startFigure = getDrawing().findFigure(startPoint);
+    Figure startFigure = getDrawing().findFigure(startPoint, getView().getScaleFactor());
     startConnector =
         (startFigure == null) ? null : startFigure.findConnector(startPoint, prototype);
     if (startConnector != null && canConnect(prototype, startConnector)) {
