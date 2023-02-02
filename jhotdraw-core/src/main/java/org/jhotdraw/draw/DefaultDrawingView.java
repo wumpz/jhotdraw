@@ -20,11 +20,11 @@ import javax.swing.undo.*;
 import org.jhotdraw.api.gui.EditableComponent;
 import org.jhotdraw.draw.constrainer.Constrainer;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.draw.event.CompositeFigureEvent;
-import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.FigureAdapter;
+import org.jhotdraw.draw.event.DrawingEvent;
+import org.jhotdraw.draw.event.DrawingListener;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
 import org.jhotdraw.draw.event.HandleEvent;
@@ -38,6 +38,8 @@ import org.jhotdraw.util.*;
  * A default implementation of {@link DrawingView} suited for viewing drawings with a small number
  * of figures.
  *
+ * <p>
+ *
  * <p>FIXME - Implement clone Method. FIXME - Use double buffering for the drawing to improve
  * performance.
  *
@@ -47,8 +49,6 @@ import org.jhotdraw.util.*;
 public class DefaultDrawingView extends JComponent implements DrawingView, EditableComponent {
 
   private static final long serialVersionUID = 1L;
-  /** Set this to true to turn on debugging output on System.out. */
-  private static final boolean DEBUG = false;
 
   private Drawing drawing;
   /**
@@ -73,7 +73,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   private JLabel emptyDrawingLabel;
   protected BufferedImage backgroundTile;
   private FigureListener handleInvalidator =
-      new FigureAdapter() {
+      new FigureListenerAdapter() {
         @Override
         public void figureHandlesChanged(FigureEvent e) {
           invalidateHandles();
@@ -180,33 +180,36 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     return selectedFigures.isEmpty();
   }
 
-  private class EventHandler
-      implements FigureListener, CompositeFigureListener, HandleListener, FocusListener {
+  protected class EventHandler implements DrawingListener, HandleListener, FocusListener {
 
     @Override
-    public void figureAdded(CompositeFigureEvent evt) {
+    public void drawingChanged(DrawingEvent e) {
+      repaintDrawingArea(e.getInvalidatedArea());
+      invalidateDimension();
+    }
+
+    @Override
+    public void figureAdded(DrawingEvent evt) {
       if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(evt.getInvalidatedArea());
+        repaintDrawingArea(
+            evt.getFigure()
+                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
       invalidateDimension();
     }
 
     @Override
-    public void figureRemoved(CompositeFigureEvent evt) {
+    public void figureRemoved(DrawingEvent evt) {
       if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(evt.getInvalidatedArea());
+        repaintDrawingArea(
+            evt.getFigure()
+                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
-      removeFromSelection(evt.getChildFigure());
-      invalidateDimension();
-    }
-
-    @Override
-    public void areaInvalidated(FigureEvent evt) {
-      repaintDrawingArea(evt.getInvalidatedArea());
+      removeFromSelection(evt.getFigure());
       invalidateDimension();
     }
 
@@ -250,7 +253,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     }
 
     @Override
-    public void attributeChanged(FigureEvent e) {
+    public void drawingAttributeChanged(DrawingEvent e) {
       if (e.getSource() == drawing) {
         AttributeKey<?> a = e.getAttribute();
         if (a.equals(CANVAS_HEIGHT) || a.equals(CANVAS_WIDTH)) {
@@ -258,33 +261,18 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
           repaint(); // must repaint everything
         }
         if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(e.getInvalidatedArea());
+          repaintDrawingArea(
+              e.getFigure()
+                  .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
         } else {
           repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
         }
       } else {
-        if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(e.getInvalidatedArea());
-        }
+        // this view should not invalidate its area from foreign drawings changes
+        //        if (e.getInvalidatedArea() != null) {
+        //          repaintDrawingArea(e.getInvalidatedArea());
       }
     }
-
-    @Override
-    public void figureHandlesChanged(FigureEvent e) {}
-
-    @Override
-    public void figureChanged(FigureEvent e) {
-      repaintDrawingArea(e.getInvalidatedArea());
-    }
-
-    @Override
-    public void figureAdded(FigureEvent e) {}
-
-    @Override
-    public void figureRemoved(FigureEvent e) {}
-
-    @Override
-    public void figureRequestRemove(FigureEvent e) {}
   }
 
   private EventHandler eventHandler;
@@ -308,8 +296,12 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   /**
    * This method is called from within the constructor to initialize the form.
    *
+   * <p>
+   *
    * <p>WARNING: Do NOT modify this code. The content of this method is always regenerated by the
    * Form Editor.
+   *
+   * <p>
    *
    * <p>NOTE: To prevent undesired layout effects when using floating text fields, the
    * DefaultDrawingView must not use a layout manager.
@@ -731,14 +723,12 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   public void setDrawing(Drawing newValue) {
     Drawing oldValue = drawing;
     if (this.drawing != null) {
-      this.drawing.removeCompositeFigureListener(eventHandler);
-      this.drawing.removeFigureListener(eventHandler);
+      this.drawing.removeDrawingListener(eventHandler);
       clearSelection();
     }
     this.drawing = newValue;
     if (this.drawing != null) {
-      this.drawing.addCompositeFigureListener(eventHandler);
-      this.drawing.addFigureListener(eventHandler);
+      this.drawing.addDrawingListener(eventHandler);
     }
     dirtyArea.add(bufferedArea);
     firePropertyChange(DRAWING_PROPERTY, oldValue, newValue);
@@ -796,9 +786,6 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   /** Adds a figure to the current selection. */
   @Override
   public void addToSelection(Figure figure) {
-    if (DEBUG) {
-      System.out.println("DefaultDrawingView" + ".addToSelection(" + figure + ")");
-    }
     Set<Figure> oldSelection = new HashSet<>(selectedFigures);
     if (selectedFigures.add(figure)) {
       figure.addFigureListener(handleInvalidator);
@@ -1478,9 +1465,15 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   /**
    * Sets whether the drawing is double buffered.
    *
+   * <p>
+   *
    * <p>The default value is true.
    *
+   * <p>
+   *
    * <p>This is a bound property.
+   *
+   * <p>
    *
    * <p>If the drawing view is used for editing, you should leave this to true. If the drawing view
    * is used for viewing only, you should set this to false.

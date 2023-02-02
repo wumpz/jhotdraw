@@ -15,8 +15,8 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.ConnectionEndHandle;
@@ -46,7 +46,7 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
   /** Handles figure changes in the start and the end figure. */
   private ConnectionHandler connectionHandler = new ConnectionHandler(this);
 
-  private static class ConnectionHandler extends FigureAdapter implements Serializable {
+  private static class ConnectionHandler extends FigureListenerAdapter implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private LineConnectionFigure owner;

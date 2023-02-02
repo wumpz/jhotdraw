@@ -23,8 +23,7 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 public class PathTool extends BezierTool {
 
   private static final long serialVersionUID = 1L;
-  /** Set this to true to turn on debugging output on System.out. */
-  private static final boolean DEBUG = false;
+
   /** The path prototype for new figures. */
   private SVGPathFigure pathPrototype;
 
@@ -56,9 +55,6 @@ public class PathTool extends BezierTool {
 
   @Override
   protected void finishCreation(BezierFigure createdFigure, DrawingView creationView) {
-    if (DEBUG) {
-      System.out.println("PathTool.finishCreation " + createdFigure);
-    }
     creationView.getDrawing().remove(createdFigure);
     SVGPathFigure createdPath = createPath();
     createdPath.removeAllChildren();

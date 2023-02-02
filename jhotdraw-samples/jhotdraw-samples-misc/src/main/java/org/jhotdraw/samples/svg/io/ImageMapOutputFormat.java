@@ -57,7 +57,6 @@ public class ImageMapOutputFormat implements OutputFormat {
   /** The affine transformation for the output. This is used to create scaled image maps. */
   private AffineTransform drawingTransform = new AffineTransform();
 
-  private static boolean DEBUG = true;
   /**
    * Set this to true, if AREA elements with <code>nohref="true"</code> shall e included in the
    * image map.

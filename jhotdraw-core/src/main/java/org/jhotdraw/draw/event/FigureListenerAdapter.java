@@ -14,7 +14,7 @@ package org.jhotdraw.draw.event;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class FigureAdapter implements FigureListener {
+public class FigureListenerAdapter implements FigureListener {
 
   @Override
   public void areaInvalidated(FigureEvent e) {}

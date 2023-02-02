@@ -21,8 +21,8 @@ import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
-import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
@@ -58,7 +58,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   /** Handles figure changes in the children. */
   protected EventHandler eventHandler;
 
-  protected class EventHandler extends FigureAdapter implements UndoableEditListener, Serializable {
+  protected class EventHandler extends FigureListenerAdapter
+      implements UndoableEditListener, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -180,7 +181,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   public void removeNotify(Drawing drawing) {
     super.removeNotify(drawing);
     // Copy children collection to avoid concurrent modification exception
-    for (Figure child : new LinkedList<>(getChildren())) {
+    for (Figure child : new ArrayList<>(getChildren())) {
       child.removeNotify(drawing);
     }
   }
@@ -216,7 +217,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
    */
   public void removeAll(Collection<? extends Figure> figures) {
     willChange();
-    for (Figure f : new LinkedList<Figure>(figures)) {
+    for (Figure f : new ArrayList<Figure>(figures)) {
       remove(f);
     }
     changed();
@@ -239,7 +240,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
    */
   @Override
   public void basicRemoveAllChildren() {
-    for (Figure f : new LinkedList<>(getChildren())) {
+    for (Figure f : new ArrayList<>(getChildren())) {
       basicRemove(f);
     }
   }
@@ -321,7 +322,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   /** Returns an iterator to iterate in Z-order front to back over the children. */
   public java.util.List<Figure> getChildrenFrontToBack() {
-    return children.size() == 0 ? new LinkedList<>() : new ReversedList<>(getChildren());
+    return children.size() == 0 ? new ArrayList<>() : new ReversedList<>(getChildren());
   }
 
   @Override
@@ -574,11 +575,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
-    return getDrawingArea(1.0);
-  }
-
-  @Override
   public Rectangle2D.Double getDrawingArea(double factor) {
     if (cachedDrawingArea == null) {
       if (getChildCount() == 0) {
@@ -593,7 +589,11 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
         }
       }
     }
-    return (Rectangle2D.Double) cachedDrawingArea.clone();
+    return new Rectangle2D.Double(
+        cachedDrawingArea.x,
+        cachedDrawingArea.y,
+        cachedDrawingArea.width,
+        cachedDrawingArea.height);
   }
 
   @Override

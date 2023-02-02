@@ -19,8 +19,8 @@ import java.util.*;
 import javax.swing.event.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
-import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.geom.Geom;
@@ -56,7 +56,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   /** Handles figure changes in the children. */
   private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
-  private static class PresentationFigureHandler extends FigureAdapter
+  private static class PresentationFigureHandler extends FigureListenerAdapter
       implements UndoableEditListener, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -126,10 +126,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   }
 
   @Override
-  public boolean contains(Point2D.Double p) {
-    boolean contains = super.contains(p);
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
+    boolean contains = super.contains(p, scaleDenominator);
     if (!contains && getPresentationFigure() != null) {
-      contains = getPresentationFigure().contains(p);
+      contains = getPresentationFigure().contains(p, scaleDenominator);
     }
     return contains;
   }

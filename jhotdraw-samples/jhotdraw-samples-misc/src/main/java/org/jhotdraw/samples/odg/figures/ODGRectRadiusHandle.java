@@ -11,6 +11,7 @@ import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.logging.Logger;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
@@ -27,7 +28,6 @@ import org.jhotdraw.util.*;
  */
 public class ODGRectRadiusHandle extends AbstractHandle {
 
-  private static final boolean DEBUG = false;
   private static final int OFFSET = 6;
   private Dimension2DDouble originalArc2D;
   CompositeEdit edit;
@@ -75,15 +75,15 @@ public class ODGRectRadiusHandle extends AbstractHandle {
       try {
         odgRect.attr().get(TRANSFORM).inverseTransform(p, p);
       } catch (NoninvertibleTransformException ex) {
-        if (DEBUG) {
-          ex.printStackTrace();
-        }
+        LOG.throwing(ODGRectRadiusHandle.class.getName(), "trackStep", ex);
       }
     }
     Rectangle2D.Double r = odgRect.getBounds();
     odgRect.setArc(p.x - r.x, p.y - r.y);
     odgRect.changed();
   }
+
+  private static final Logger LOG = Logger.getLogger(ODGRectRadiusHandle.class.getName());
 
   @Override
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {

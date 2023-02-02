@@ -14,6 +14,7 @@ import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.zip.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -47,8 +48,6 @@ import org.xml.sax.SAXException;
  */
 public class ODGInputFormat implements InputFormat {
 
-  /** Set this to true, to get debug output on System.out. */
-  private static final boolean DEBUG = true;
   /** Holds the figures that are currently being read. */
   private LinkedList<Figure> figures;
   /** Holds the document that is currently being read. */
@@ -370,24 +369,19 @@ public class ODGInputFormat implements InputFormat {
       } else if ("regularPolygon".equals(name)) {
         f = readRegularPolygonElement(elem);
       } else {
-        if (DEBUG) {
-          System.out.println("ODGInputFormat.readElement(" + elem + ") not implemented.");
-        }
+        LOG.fine("ODGInputFormat.readElement(" + elem + ") not implemented.");
       }
     }
     if (f != null) {
       if (f.isEmpty()) {
-        if (DEBUG) {
-          System.out.println("ODGInputFormat.readElement():null - discarded empty figure " + f);
-        }
+        LOG.fine("ODGInputFormat.readElement():null - discarded empty figure " + f);
         return null;
-      }
-      if (DEBUG) {
-        System.out.println("ODGInputFormat.readElement():" + f + ".");
       }
     }
     return f;
   }
+
+  private static final Logger LOG = Logger.getLogger(ODGInputFormat.class.getName());
 
   private ODGFigure readEllipseElement(Element elem) throws IOException {
     throw new UnsupportedOperationException("not implemented");
@@ -853,9 +847,6 @@ public class ODGInputFormat implements InputFormat {
    * parameter value then.
    */
   private EnhancedPath toEnhancedPath(String str) throws IOException {
-    if (DEBUG) {
-      System.out.println("ODGInputFormat toEnhancedPath " + str);
-    }
     EnhancedPath path = null;
 
     Object x, y;
@@ -1075,15 +1066,13 @@ public class ODGInputFormat implements InputFormat {
           path.quadTo(x1, y1, x, y);
           break;
         default:
-          if (DEBUG) {
-            System.out.println(
-                "ODGInputFormat.toEnhancedPath aborting after illegal path command: "
-                    + command
-                    + " found in path "
-                    + str);
-          }
+          LOG.fine(
+              "ODGInputFormat.toEnhancedPath aborting after illegal path command: "
+                  + command
+                  + " found in path "
+                  + str);
+
           break Commands;
-          // throw new IOException("Illegal command: "+command);
       }
     }
     return path;
@@ -1924,13 +1913,11 @@ public class ODGInputFormat implements InputFormat {
           nextCommand = 'a';
           break;
         default:
-          if (DEBUG) {
-            System.out.println(
-                "SVGInputFormat.toPath aborting after illegal path command: "
-                    + command
-                    + " found in path "
-                    + str);
-          }
+          LOG.fine(
+              "SVGInputFormat.toPath aborting after illegal path command: "
+                  + command
+                  + " found in path "
+                  + str);
           break Commands;
           // throw new IOException("Illegal command: "+command);
       }

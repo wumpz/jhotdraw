@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.logging.Logger;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
@@ -27,8 +28,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * @version $Id$
  */
 public class ResizeHandleKit {
-
-  private static final boolean DEBUG = false;
 
   /** Creates a new instance. */
   public ResizeHandleKit() {}
@@ -176,9 +175,7 @@ public class ResizeHandleKit {
         try {
           getOwner().attr().get(TRANSFORM).inverseTransform(p, p);
         } catch (NoninvertibleTransformException ex) {
-          if (DEBUG) {
-            ex.printStackTrace();
-          }
+          LOG.throwing(ResizeHandleKit.class.getName(), "trackStep", ex);
         }
       }
       trackStepNormalized(
@@ -189,6 +186,8 @@ public class ResizeHandleKit {
                       | InputEvent.SHIFT_DOWN_MASK))
               != 0);
     }
+
+    private static final Logger LOG = Logger.getLogger(ResizeHandle.class.getName());
 
     @Override
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {

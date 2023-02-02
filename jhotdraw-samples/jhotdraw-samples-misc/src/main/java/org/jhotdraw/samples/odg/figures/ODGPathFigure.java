@@ -50,8 +50,6 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
   private static final long serialVersionUID = 1L;
   /** This cachedPath is used for drawing. */
   private transient Path2D.Double cachedPath;
-  // private transient Rectangle2D.Double cachedDrawingArea;
-  private static final boolean DEBUG = false;
 
   /** Creates a new instance. */
   public ODGPathFigure() {

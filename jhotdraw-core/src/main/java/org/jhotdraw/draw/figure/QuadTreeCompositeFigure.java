@@ -13,8 +13,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.event.*;
-import org.jhotdraw.draw.event.FigureAdapter;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.QuadTree;
 import org.jhotdraw.util.*;
@@ -273,7 +273,7 @@ public abstract class QuadTreeCompositeFigure extends AbstractAttributedComposit
   }
 
   /** Handles all figure events fired by Figures contained in the Drawing. */
-  protected class FigureHandler extends FigureAdapter implements UndoableEditListener {
+  protected class FigureHandler extends FigureListenerAdapter implements UndoableEditListener {
 
     /**
      * We propagate all edit events from our children to undoable edit listeners, which have
