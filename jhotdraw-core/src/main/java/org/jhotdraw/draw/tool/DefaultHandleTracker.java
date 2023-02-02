@@ -202,7 +202,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
       Figure figure = null;
       Point2D.Double p = view.viewToDrawing(point);
       for (Figure f : view.getSelectedFigures()) {
-        if (f.contains(p)) {
+        if (f.contains(p, view.getScaleFactor())) {
           figure = f;
         }
       }
@@ -210,7 +210,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         figure = view.findFigure(point);
         Drawing drawing = view.getDrawing();
         while (figure != null && !figure.isSelectable()) {
-          figure = drawing.findFigureBehind(p, figure);
+          figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
         }
       }
       updateHoverHandles(view, figure);
