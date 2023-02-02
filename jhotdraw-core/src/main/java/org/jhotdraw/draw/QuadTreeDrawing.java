@@ -66,19 +66,19 @@ public class QuadTreeDrawing extends AbstractDrawing {
   /** Implementation note: Sorting can not be done for orphaned children. */
   @Override
   public List<Figure> sort(Collection<? extends Figure> c) {
-    //ensureSorted();
+    // ensureSorted();
     ArrayList<Figure> sorted = new ArrayList<>(c);
     Collections.sort(sorted, Comparator.comparing(Figure::getLayer));
-//    for (Figure f : children) {
-//      if (c.contains(f)) {
-//        sorted.add(f);
-//      }
-//    }
+    //    for (Figure f : children) {
+    //      if (c.contains(f)) {
+    //        sorted.add(f);
+    //      }
+    //    }
     return sorted;
   }
 
   public void draw(Graphics2D g, Collection<Figure> c) {
-    //double factor = AttributeKeys.getScaleFactorFromGraphics(g);
+    // double factor = AttributeKeys.getScaleFactorFromGraphics(g);
     for (Figure f : c) {
       if (f.isVisible()) {
         f.draw(g);

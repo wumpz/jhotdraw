@@ -47,42 +47,42 @@ public class PertFactory extends DefaultDOMFactory {
 
   /** Creates a new instance. */
   public PertFactory() {
-      register("Net", DefaultDrawing.class, null, null); // do not allow processing
-      register(
+    register("Net", DefaultDrawing.class, null, null); // do not allow processing
+    register(
         "t",
         TextFigure.class,
         DOMDefaultDrawFigureFactory::readText,
         DOMDefaultDrawFigureFactory::writeText);
-      register(
+    register(
         "g",
         GroupFigure.class,
         DOMDefaultDrawFigureFactory::readGroup,
         DOMDefaultDrawFigureFactory::writeGroup);
-      register(
+    register(
         "ta",
         TextAreaFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
         DOMDefaultDrawFigureFactory::writeBaseData);
-      register(
+    register(
         "rectConnector",
         ChopRectangleConnector.class,
         DOMDefaultDrawFigureFactory::readConnector,
         DOMDefaultDrawFigureFactory::writeConnector);
-      register(
+    register(
         "locConnector",
         LocatorConnector.class,
         DOMDefaultDrawFigureFactory::readLocatorConnector,
         DOMDefaultDrawFigureFactory::writeLocatorConnector);
-      register(
+    register(
         "arrowTip",
         ArrowTip.class,
         DOMDefaultDrawFigureFactory::readArrowTip,
         DOMDefaultDrawFigureFactory::writeArrowTip);
-      
-      register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
-      
-//    for (Object[] o : CLASS_TAGS) {
-//      register((String) o[1], (Class) o[0], null, null);
-//    }
+
+    register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
+
+    //    for (Object[] o : CLASS_TAGS) {
+    //      register((String) o[1], (Class) o[0], null, null);
+    //    }
   }
 }
