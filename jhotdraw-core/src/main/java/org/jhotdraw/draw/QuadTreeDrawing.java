@@ -119,12 +119,12 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   /** Returns an iterator to iterate in Z-order front to back over the children. */
   @Override
-  public java.util.List<Figure> getFiguresFrontToBack() {
+  public List<Figure> getFiguresFrontToBack() {
     ensureSorted();
     return new ReversedList<>(children);
   }
 
-  protected java.util.List<Figure> getFiguresFrontToBack(Collection<Figure> smallCollection) {
+  protected List<Figure> getFiguresFrontToBack(Collection<Figure> smallCollection) {
     List<Figure> list = new ArrayList<>(smallCollection);
     Collections.sort(list, Comparator.comparing(Figure::getLayer).reversed());
     return list;
@@ -140,8 +140,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
         Figure f = c.iterator().next();
         return (f.contains(p)) ? f : null;
       default:
-        for (Figure f2 : getFiguresFrontToBack()) {
-          if (c.contains(f2) && f2.contains(p)) {
+        for (Figure f2 : getFiguresFrontToBack(c)) {
+          if (f2.contains(p)) {
             return f2;
           }
         }
@@ -228,7 +228,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
       case 1:
         return c;
       default:
-        return sort(c);
+        return getFiguresFrontToBack(c);
     }
   }
 
