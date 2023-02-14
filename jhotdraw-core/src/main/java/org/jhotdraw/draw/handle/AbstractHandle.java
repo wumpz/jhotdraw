@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
@@ -80,69 +82,43 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     return view.getEditor();
   }
 
-  /** Notify all listenerList that have registered interest for notification on this event type. */
-  protected void fireAreaInvalidated(Rectangle invalidatedArea) {
+  protected void fireHandleEvent(
+      BiConsumer<HandleListener, HandleEvent> listenerConsumer,
+      Supplier<HandleEvent> eventSupplier) {
     HandleEvent event = null;
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == HandleListener.class) {
-        // Lazily create the event:
-        if (event == null) {
-          event = new HandleEvent(this, invalidatedArea);
-        }
-        ((HandleListener) listeners[i + 1]).areaInvalidated(event);
+    if (listenerList.getListenerCount() == 0) {
+      return;
+    }
+    for (HandleListener listener : listenerList.getListeners(HandleListener.class)) {
+      if (event == null) {
+        event = eventSupplier.get();
       }
+      listenerConsumer.accept(listener, event);
     }
   }
+  
+  protected void fireAreaInvalidated(Rectangle invalidatedArea) {
+    fireHandleEvent(
+        (listener, event) -> listener.areaInvalidated(event),
+        () -> new HandleEvent(this, invalidatedArea));   
+  }
 
-  /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireUndoableEditHappened(UndoableEdit edit) {
     view.getDrawing().fireUndoableEditHappened(edit);
   }
 
-  /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireHandleRequestRemove(Rectangle invalidatedArea) {
-    HandleEvent event = null;
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == HandleListener.class) {
-        // Lazily create the event:
-        if (event == null) {
-          event = new HandleEvent(this, invalidatedArea);
-        }
-        ((HandleListener) listeners[i + 1]).handleRequestRemove(event);
-      }
-    }
+    fireHandleEvent(
+        (listener, event) -> listener.handleRequestRemove(event),
+        () -> new HandleEvent(this, invalidatedArea));   
   }
 
-  /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireHandleRequestSecondaryHandles() {
-    HandleEvent event = null;
-    // Notify all listeners that have registered interest for
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == HandleListener.class) {
-        // Lazily create the event:
-        if (event == null) {
-          event = new HandleEvent(this, null);
-        }
-        ((HandleListener) listeners[i + 1]).handleRequestSecondaryHandles(event);
-      }
-    }
+    fireHandleEvent(
+        (listener, event) -> listener.handleRequestSecondaryHandles(event),
+        () -> new HandleEvent(this, null));   
   }
 
-  /** Draws this handle. */
   @Override
   public void draw(Graphics2D g) {
     drawCircle(
@@ -245,7 +221,6 @@ public abstract class AbstractHandle implements Handle, FigureListener {
   @Override
   public void dispose() {
     owner.removeFigureListener(this);
-    // owner = null;
   }
 
   /**
@@ -311,7 +286,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     if (bounds == null) {
       bounds = basicGetBounds();
     }
-    return (Rectangle) bounds.clone();
+    return new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height); 
   }
 
   @Override
