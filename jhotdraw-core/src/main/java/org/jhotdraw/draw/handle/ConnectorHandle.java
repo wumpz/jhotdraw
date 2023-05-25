@@ -7,15 +7,23 @@
  */
 package org.jhotdraw.draw.handle;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
-import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Collection;
+import java.util.Collections;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
+
 
 /**
  * A {@link Handle} associated to a {@link Connector} which allows to create a new {@link
@@ -252,7 +260,7 @@ public class ConnectorHandle extends AbstractHandle {
     }
     connectors =
         (connectableFigure == null)
-            ? new java.util.LinkedList<>()
+            ? Collections.emptyList()
             : connectableFigure.getConnectors(prototype);
     for (Connector c : connectors) {
       if (invalidArea == null) {

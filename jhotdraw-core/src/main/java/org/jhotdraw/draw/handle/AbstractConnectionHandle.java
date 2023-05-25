@@ -7,18 +7,25 @@
  */
 package org.jhotdraw.draw.handle;
 
-import java.awt.*;
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.InputEvent;
-import java.awt.geom.*;
-import java.util.*;
-import org.jhotdraw.draw.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.BezierPath;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
+
 
 /**
  * This abstract class can be extended to implement a {@link Handle} the start or end point of a
@@ -241,7 +248,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
   @Override
   public final Collection<Handle> createSecondaryHandles() {
-    LinkedList<Handle> list = new LinkedList<>();
+    Collection<Handle> list = new ArrayList<>();
     if (getOwner().getLiner() == null && savedLiner == null) {
       int index = getBezierNodeIndex();
       BezierFigure f = getBezierFigure();
@@ -311,7 +318,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     }
     connectors =
         (connectableFigure == null)
-            ? new java.util.LinkedList<>()
+            ? Collections.emptyList()
             : connectableFigure.getConnectors(getOwner());
     for (Connector c : connectors) {
       if (invalidArea == null) {

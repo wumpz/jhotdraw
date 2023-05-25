@@ -126,7 +126,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
 
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
+    var handles = super.createHandles(detailLevel);
     if (detailLevel == 0) {
       handles.add(new OrientationHandle(this));
     }

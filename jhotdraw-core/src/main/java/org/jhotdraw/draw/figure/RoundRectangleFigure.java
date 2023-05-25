@@ -7,9 +7,14 @@
  */
 package org.jhotdraw.draw.figure;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopRoundRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
@@ -162,7 +167,7 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   // EDITING
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
+    Collection<Handle> handles = super.createHandles(detailLevel);
     handles.add(new RoundRectangleRadiusHandle(this));
     return handles;
   }

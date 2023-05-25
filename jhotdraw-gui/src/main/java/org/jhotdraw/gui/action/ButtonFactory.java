@@ -38,10 +38,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -113,14 +114,16 @@ import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * ButtonFactory.
- *
- * <p>Design pattern:<br>
+ * <p>
+ * <p>
+ * Design pattern:<br>
  * Name: Abstract Factory.<br>
  * Role: Abstract Factory.<br>
  * Partners: org.jhotdraw.samples.draw.DrawApplicationModel as Client,
  * org.jhotdraw.samples.draw.DrawView as Client, org.jhotdraw.samples.draw.DrawingPanel as Client.
- *
- * <p>FIXME - All buttons created using the ButtonFactory must automatically become
+ * <p>
+ * <p>
+ * FIXME - All buttons created using the ButtonFactory must automatically become
  * disabled/enabled, when the DrawingEditor is disabled/enabled.
  *
  * @author Werner Randelshofer
@@ -132,56 +135,54 @@ public class ButtonFactory {
   public static final java.util.List<ColorIcon> DEFAULT_COLORS;
 
   static {
-    LinkedList<ColorIcon> m = new LinkedList<>();
-    m.add(new ColorIcon(0x800000, "Cayenne"));
-    m.add(new ColorIcon(0x808000, "Asparagus"));
-    m.add(new ColorIcon(0x008000, "Clover"));
-    m.add(new ColorIcon(0x008080, "Teal"));
-    m.add(new ColorIcon(0x000080, "Midnight"));
-    m.add(new ColorIcon(0x800080, "Plum"));
-    m.add(new ColorIcon(0x7f7f7f, "Tin"));
-    m.add(new ColorIcon(0x808080, "Nickel"));
-    m.add(new ColorIcon(0xff0000, "Maraschino"));
-    m.add(new ColorIcon(0xffff00, "Lemon"));
-    m.add(new ColorIcon(0x00ff00, "Spring"));
-    m.add(new ColorIcon(0x00ffff, "Turquoise"));
-    m.add(new ColorIcon(0x0000ff, "Blueberry"));
-    m.add(new ColorIcon(0xff00ff, "Magenta"));
-    m.add(new ColorIcon(0x666666, "Steel"));
-    m.add(new ColorIcon(0x999999, "Aluminium"));
-    m.add(new ColorIcon(0xff6666, "Salmon"));
-    m.add(new ColorIcon(0xffff66, "Banana"));
-    m.add(new ColorIcon(0x66ff66, "Flora"));
-    m.add(new ColorIcon(0x66ffff, "Ice"));
-    m.add(new ColorIcon(0x6666ff, "Orchid"));
-    m.add(new ColorIcon(0xff66ff, "Bubblegum"));
-    m.add(new ColorIcon(0x4c4c4c, "Iron"));
-    m.add(new ColorIcon(0xb3b3b3, "Magnesium"));
-    m.add(new ColorIcon(0x804000, "Mocha"));
-    m.add(new ColorIcon(0x408000, "Fern"));
-    m.add(new ColorIcon(0x008040, "Moss"));
-    m.add(new ColorIcon(0x004080, "Ocean"));
-    m.add(new ColorIcon(0x400080, "Eggplant"));
-    m.add(new ColorIcon(0x800040, "Maroon"));
-    m.add(new ColorIcon(0x333333, "Tungsten"));
-    m.add(new ColorIcon(0xcccccc, "Silver"));
-    m.add(new ColorIcon(0xff8000, "Tangerine"));
-    m.add(new ColorIcon(0x80ff00, "Lime"));
-    m.add(new ColorIcon(0x00ff80, "Sea Foam"));
-    m.add(new ColorIcon(0x0080ff, "Aqua"));
-    m.add(new ColorIcon(0x8000ff, "Grape"));
-    m.add(new ColorIcon(0xff0080, "Strawberry"));
-    m.add(new ColorIcon(0x191919, "Lead"));
-    m.add(new ColorIcon(0xe6e6e6, "Mercury"));
-    m.add(new ColorIcon(0xffcc66, "Cantaloupe"));
-    m.add(new ColorIcon(0xccff66, "Honeydew"));
-    m.add(new ColorIcon(0x66ffcc, "Spindrift"));
-    m.add(new ColorIcon(0x66ccff, "Sky"));
-    m.add(new ColorIcon(0xcc66ff, "Lavender"));
-    m.add(new ColorIcon(0xff6fcf, "Carnation"));
-    m.add(new ColorIcon(0x000000, "Licorice"));
-    m.add(new ColorIcon(0xffffff, "Snow"));
-    DEFAULT_COLORS = Collections.unmodifiableList(m);
+    DEFAULT_COLORS = List.of(new ColorIcon(0x800000, "Cayenne"),
+                                new ColorIcon(0x808000, "Asparagus"),
+                                new ColorIcon(0x008000, "Clover"),
+                                new ColorIcon(0x008080, "Teal"),
+                                new ColorIcon(0x000080, "Midnight"),
+                                new ColorIcon(0x800080, "Plum"),
+                                new ColorIcon(0x7f7f7f, "Tin"),
+                                new ColorIcon(0x808080, "Nickel"),
+                                new ColorIcon(0xff0000, "Maraschino"),
+                                new ColorIcon(0xffff00, "Lemon"),
+                                new ColorIcon(0x00ff00, "Spring"),
+                                new ColorIcon(0x00ffff, "Turquoise"),
+                                new ColorIcon(0x0000ff, "Blueberry"),
+                                new ColorIcon(0xff00ff, "Magenta"),
+                                new ColorIcon(0x666666, "Steel"),
+                                new ColorIcon(0x999999, "Aluminium"),
+                                new ColorIcon(0xff6666, "Salmon"),
+                                new ColorIcon(0xffff66, "Banana"),
+                                new ColorIcon(0x66ff66, "Flora"),
+                                new ColorIcon(0x66ffff, "Ice"),
+                                new ColorIcon(0x6666ff, "Orchid"),
+                                new ColorIcon(0xff66ff, "Bubblegum"),
+                                new ColorIcon(0x4c4c4c, "Iron"),
+                                new ColorIcon(0xb3b3b3, "Magnesium"),
+                                new ColorIcon(0x804000, "Mocha"),
+                                new ColorIcon(0x408000, "Fern"),
+                                new ColorIcon(0x008040, "Moss"),
+                                new ColorIcon(0x004080, "Ocean"),
+                                new ColorIcon(0x400080, "Eggplant"),
+                                new ColorIcon(0x800040, "Maroon"),
+                                new ColorIcon(0x333333, "Tungsten"),
+                                new ColorIcon(0xcccccc, "Silver"),
+                                new ColorIcon(0xff8000, "Tangerine"),
+                                new ColorIcon(0x80ff00, "Lime"),
+                                new ColorIcon(0x00ff80, "Sea Foam"),
+                                new ColorIcon(0x0080ff, "Aqua"),
+                                new ColorIcon(0x8000ff, "Grape"),
+                                new ColorIcon(0xff0080, "Strawberry"),
+                                new ColorIcon(0x191919, "Lead"),
+                                new ColorIcon(0xe6e6e6, "Mercury"),
+                                new ColorIcon(0xffcc66, "Cantaloupe"),
+                                new ColorIcon(0xccff66, "Honeydew"),
+                                new ColorIcon(0x66ffcc, "Spindrift"),
+                                new ColorIcon(0x66ccff, "Sky"),
+                                new ColorIcon(0xcc66ff, "Lavender"),
+                                new ColorIcon(0xff6fcf, "Carnation"),
+                                new ColorIcon(0x000000, "Licorice"),
+                                new ColorIcon(0xffffff, "Snow"));
   }
 
   public static final int DEFAULT_COLORS_COLUMN_COUNT = 8;
@@ -193,7 +194,7 @@ public class ButtonFactory {
   public static final java.util.List<ColorIcon> WEBSAVE_COLORS;
 
   static {
-    LinkedList<ColorIcon> m = new LinkedList<>();
+    List<ColorIcon> m = new ArrayList<>();
     for (int b = 0; b <= 0xff; b += 0x33) {
       int rgb = (b << 16) | (b << 8) | b;
       m.add(new ColorIcon(rgb));
@@ -221,23 +222,29 @@ public class ButtonFactory {
   public static final int WEBSAVE_COLORS_COLUMN_COUNT = 19;
   /**
    * HSB color palette with a set of colors chosen based on a physical criteria.
-   *
-   * <p>This is a 'human friendly' color palette which arranges the color in a way that makes it
+   * <p>
+   * <p>
+   * This is a 'human friendly' color palette which arranges the color in a way that makes it
    * easy for humans to select the desired color. The colors are ordered in a way which minimizes
    * the color contrast effect in the human visual system.
-   *
-   * <p>This palette has 12 columns and 10 rows.
-   *
-   * <p>The topmost row contains a null-color and a gray scale from white to black in 10 percent
+   * <p>
+   * <p>
+   * This palette has 12 columns and 10 rows.
+   * <p>
+   * <p>
+   * The topmost row contains a null-color and a gray scale from white to black in 10 percent
    * steps.
-   *
-   * <p>The remaining rows contain colors taken from the outer hull of the HSB color model:
-   *
-   * <p>The columns are ordered by hue starting with red - the lowest wavelength - and ending with
+   * <p>
+   * <p>
+   * The remaining rows contain colors taken from the outer hull of the HSB color model:
+   * <p>
+   * <p>
+   * The columns are ordered by hue starting with red - the lowest wavelength - and ending with
    * purple - the highest wavelength. There are 12 different hues, so that all primary colors with
    * their additive complements can be selected.
-   *
-   * <p>The rows are orderd by brightness with the brightest color at the top (sky) and the darkest
+   * <p>
+   * <p>
+   * The rows are orderd by brightness with the brightest color at the top (sky) and the darkest
    * color at the bottom (earth). The first 5 rows contain colors with maximal brightness and a
    * saturation ranging form 20% up to 100%. The remaining 4 rows contain colors with maximal
    * saturation and a brightness ranging from 90% to 20% (this also makes for a range from 100% to
@@ -257,20 +264,20 @@ public class ButtonFactory {
   static {
     ColorSpace grayCS = ColorSpace.getInstance(ColorSpace.CS_GRAY);
     HSBColorSpace hsbCS = HSBColorSpace.getInstance();
-    LinkedList<ColorIcon> m = new LinkedList<>();
+    List<ColorIcon> m = new ArrayList<>();
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     m.add(
         new ColorIcon(
             new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
     for (int b = 10; b >= 0; b--) {
-      Color c = new Color(grayCS, new float[] {b / 10f}, 1f);
+      Color c = new Color(grayCS, new float[]{b / 10f}, 1f);
       m.add(
           new ColorIcon(
               c, labels.getFormatted("attribute.color.grayComponents.toolTipText", b * 10)));
     }
     for (int s = 2; s <= 8; s += 2) {
       for (int h = 0; h < 12; h++) {
-        Color c = new Color(hsbCS, new float[] {(h) / 12f, s * 0.1f, 1f}, 1f);
+        Color c = new Color(hsbCS, new float[]{(h) / 12f, s * 0.1f, 1f}, 1f);
         m.add(
             new ColorIcon(
                 c,
@@ -280,16 +287,16 @@ public class ButtonFactory {
     }
     for (int b = 10; b >= 2; b -= 2) {
       for (int h = 0; h < 12; h++) {
-        Color c = new Color(hsbCS, new float[] {(h) / 12f, 1f, b * 0.1f}, 1f);
+        Color c = new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f);
         m.add(
             new ColorIcon(
-                new Color(hsbCS, new float[] {(h) / 12f, 1f, b * 0.1f}, 1f),
+                new Color(hsbCS, new float[]{(h) / 12f, 1f, b * 0.1f}, 1f),
                 labels.getFormatted(
                     "attribute.color.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
       }
     }
     HSB_COLORS = Collections.unmodifiableList(m);
-    m = new LinkedList<>();
+    m = new ArrayList<>();
     for (ColorIcon ci : HSB_COLORS) {
       if (ci.getColor() == null) {
         m.add(
@@ -297,14 +304,14 @@ public class ButtonFactory {
                 new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
       } else {
         Color c = ci.getColor();
-        c =
-            c.getColorSpace() == grayCS
-                ? new Color(
-                    c.getGreen(),
-                    c.getGreen(),
-                    c.getGreen(),
-                    c.getAlpha()) // workaround for rounding error
-                : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+        c
+            = c.getColorSpace() == grayCS
+            ? new Color(
+                c.getGreen(),
+                c.getGreen(),
+                c.getGreen(),
+                c.getAlpha()) // workaround for rounding error
+            : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
         m.add(
             new ColorIcon(
                 c,
@@ -337,15 +344,16 @@ public class ButtonFactory {
   }
 
   /** Prevent instance creation. */
-  private ButtonFactory() {}
+  private ButtonFactory() {
+  }
 
   public static Collection<Action> createDrawingActions(DrawingEditor editor) {
-    return createDrawingActions(editor, new LinkedList<>());
+    return createDrawingActions(editor, new ArrayList<>());
   }
 
   public static Collection<Action> createDrawingActions(
       DrawingEditor editor, java.util.List<Disposable> dsp) {
-    LinkedList<Action> list = new LinkedList<>();
+    List<Action> list = new ArrayList<>();
     AbstractSelectedAction a;
     list.add(new CutAction());
     list.add(new CopyAction());
@@ -356,7 +364,7 @@ public class ButtonFactory {
   }
 
   public static Collection<Action> createSelectionActions(DrawingEditor editor) {
-    LinkedList<Action> a = new LinkedList<>();
+    List<Action> a = new ArrayList<>();
     a.add(new DuplicateAction());
     a.add(null); // separator
     a.add(new GroupAction(editor));
@@ -400,13 +408,13 @@ public class ButtonFactory {
     final JToggleButton defaultToolButton = t;
     if (!(tb.getClientProperty("toolHandler") instanceof ToolListener)) {
       ToolListener toolHandler;
-      toolHandler =
-          new ToolAdapter() {
-            @Override
-            public void toolDone(ToolEvent event) {
-              defaultToolButton.setSelected(true);
-            }
-          };
+      toolHandler
+          = new ToolAdapter() {
+        @Override
+        public void toolDone(ToolEvent event) {
+          defaultToolButton.setSelected(true);
+        }
+      };
       tb.putClientProperty("toolHandler", toolHandler);
     }
     labels.configureToolBarButton(t, "selectionTool");
@@ -450,33 +458,33 @@ public class ButtonFactory {
     }
     editor.addPropertyChangeListener(
         new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            // String constants are interned
-            if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null)
-                || (evt.getPropertyName() != null
-                    && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
-              if (evt.getNewValue() == null) {
-                zoomPopupButton.setText("100 %");
-              } else {
-                zoomPopupButton.setText(
-                    (int) (editor.getActiveView().getScaleFactor() * 100) + " %");
-              }
-            }
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // String constants are interned
+        if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null)
+            || (evt.getPropertyName() != null
+                && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
+          if (evt.getNewValue() == null) {
+            zoomPopupButton.setText("100 %");
+          } else {
+            zoomPopupButton.setText(
+                (int) (editor.getActiveView().getScaleFactor() * 100) + " %");
           }
-        });
+        }
+      }
+    });
     double[] factors = {16, 8, 5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     for (int i = 0; i < factors.length; i++) {
       zoomPopupButton.add(
           new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
-            private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-              super.actionPerformed(e);
-              zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
-            }
-          });
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+          super.actionPerformed(e);
+          zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
+        }
+      });
     }
     // zoomPopupButton.setPreferredSize(new Dimension(16,16));
     zoomPopupButton.setFocusable(false);
@@ -484,7 +492,7 @@ public class ButtonFactory {
   }
 
   public static AbstractButton createZoomButton(DrawingView view) {
-    return createZoomButton(view, new double[] {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10});
+    return createZoomButton(view, new double[]{5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10});
   }
 
   public static AbstractButton createZoomButton(final DrawingView view, double[] factors) {
@@ -495,25 +503,25 @@ public class ButtonFactory {
     zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
     view.addPropertyChangeListener(
         new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            // String constants are interned
-            if ("scaleFactor".equals(evt.getPropertyName())) {
-              zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
-            }
-          }
-        });
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // String constants are interned
+        if ("scaleFactor".equals(evt.getPropertyName())) {
+          zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
+        }
+      }
+    });
     for (int i = 0; i < factors.length; i++) {
       zoomPopupButton.add(
           new ZoomAction(view, factors[i], zoomPopupButton) {
-            private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-              super.actionPerformed(e);
-              zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
-            }
-          });
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+          super.actionPerformed(e);
+          zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
+        }
+      });
     }
     // zoomPopupButton.setPreferredSize(new Dimension(16,16));
     zoomPopupButton.setFocusable(false);
@@ -574,26 +582,27 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Microsoft Office:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks on the action region, the default color of the DrawingEditor is
-   *       applied to the selected figures.
-   *   <li>When the user opens the popup menu, a color palette is displayed. Choosing a color from
-   *       the palette changes the default color of the editor and also changes the color of the
-   *       selected figures.
-   *   <li>A rectangle on the color button displays the current default color of the DrawingEditor.
-   *       The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
+   * <li>When the user clicks on the action region, the default color of the DrawingEditor is
+   * applied to the selected figures.
+   * <li>When the user opens the popup menu, a color palette is displayed. Choosing a color from
+   * the palette changes the default color of the editor and also changes the color of the
+   * selected figures.
+   * <li>A rectangle on the color button displays the current default color of the DrawingEditor.
+   * The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
    * </ul>
    *
-   * @param editor The DrawingEditor.
+   * @param editor       The DrawingEditor.
    * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a LinkedMap,
-   *     so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param swatches     A list with labeled colors containing the color palette of the popup menu.
+   *                     The
+   *                     actual labels are retrieved from the supplied resource bundle. This is usually a LinkedMap,
+   *                     so that the colors have a predictable order.
+   * @param columnCount  The number of columns of the color palette.
+   * @param labelKey     The resource bundle key used for retrieving the icon and the tooltip of the
+   *                     button.
+   * @param labels       The resource bundle.
    */
   public static JPopupButton createEditorColorButton(
       DrawingEditor editor,
@@ -609,30 +618,32 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Microsoft Office:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks on the action region, the default color of the DrawingEditor is
-   *       applied to the selected figures.
-   *   <li>When the user opens the popup menu, a color palette is displayed. Choosing a color from
-   *       the palette changes the default color of the editor and also changes the color of the
-   *       selected figures.
-   *   <li>A rectangle on the color button displays the current default color of the DrawingEditor.
-   *       The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
+   * <li>When the user clicks on the action region, the default color of the DrawingEditor is
+   * applied to the selected figures.
+   * <li>When the user opens the popup menu, a color palette is displayed. Choosing a color from
+   * the palette changes the default color of the editor and also changes the color of the
+   * selected figures.
+   * <li>A rectangle on the color button displays the current default color of the DrawingEditor.
+   * The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
    * </ul>
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a LinkedMap,
-   *     so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a LinkedMap,
+   *                          so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
    */
   public static JPopupButton createEditorColorButton(
       DrawingEditor editor,
@@ -656,31 +667,34 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Microsoft Office:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks on the action region, the default color of the DrawingEditor is
-   *       applied to the selected figures.
-   *   <li>When the user opens the popup menu, a color palette is displayed. Choosing a color from
-   *       the palette changes the default color of the editor and also changes the color of the
-   *       selected figures.
-   *   <li>A shape on the color button displays the current default color of the DrawingEditor.
+   * <li>When the user clicks on the action region, the default color of the DrawingEditor is
+   * applied to the selected figures.
+   * <li>When the user opens the popup menu, a color palette is displayed. Choosing a color from
+   * the palette changes the default color of the editor and also changes the color of the
+   * selected figures.
+   * <li>A shape on the color button displays the current default color of the DrawingEditor.
    * </ul>
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
-   * @param colorShape This shape is superimposed on the icon of the button. The shape is drawn with
-   *     the default color of the DrawingEditor.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
+   * @param colorShape        This shape is superimposed on the icon of the button. The shape is
+   *                          drawn with
+   *                          the default color of the DrawingEditor.
    */
   public static JPopupButton createEditorColorButton(
       DrawingEditor editor,
@@ -710,9 +724,9 @@ public class ButtonFactory {
         hasNullColor = true;
       }
       popupButton.add(
-          a =
-              new AttributeAction(
-                  editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
+          a
+          = new AttributeAction(
+              editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
       a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
       a.setUpdateEnabledState(false);
     }
@@ -722,36 +736,36 @@ public class ButtonFactory {
       HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
       attributes.put(attributeKey, null);
       popupButton.add(
-          a =
-              new AttributeAction(
-                  editor,
-                  attributes,
+          a
+          = new AttributeAction(
+              editor,
+              attributes,
+              labels.getToolTipTextProperty("attribute.color.noColor"),
+              new ColorIcon(
+                  null,
                   labels.getToolTipTextProperty("attribute.color.noColor"),
-                  new ColorIcon(
-                      null,
-                      labels.getToolTipTextProperty("attribute.color.noColor"),
-                      swatches.get(0).getIconWidth(),
-                      swatches.get(0).getIconHeight())));
+                  swatches.get(0).getIconWidth(),
+                  swatches.get(0).getIconHeight())));
       a.putValue(
           Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
       a.setUpdateEnabledState(false);
     }
     // Color chooser
-    ImageIcon chooserIcon =
-        new ImageIcon(
+    ImageIcon chooserIcon
+        = new ImageIcon(
             Images.createImage(
                 ButtonFactory.class,
                 "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
     Action a;
     popupButton.add(
-        a =
-            new EditorColorChooserAction(
-                editor, attributeKey, "color", chooserIcon, defaultAttributes));
+        a
+        = new EditorColorChooserAction(
+            editor, attributeKey, "color", chooserIcon, defaultAttributes));
     labels.configureToolBarButton(popupButton, labelKey);
     a.putValue(
         Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
-    Icon icon =
-        new EditorColorIcon(
+    Icon icon
+        = new EditorColorIcon(
             editor,
             attributeKey,
             labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -761,37 +775,38 @@ public class ButtonFactory {
     popupButton.setFocusable(false);
     editor.addPropertyChangeListener(
         new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            popupButton.repaint();
-          }
-        });
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        popupButton.repaint();
+      }
+    });
     return popupButton;
   }
 
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
-   *       Choosing a color from the palette changes the default color of the editor and also
-   *       changes the color of the selected figures.
-   *   <li>A shape on the color button displays the color of the selected figures. If no figures are
-   *       selected, the default color of the DrawingEditor is displayed.
-   *   <li>A rectangle on the color button displays the current default color of the DrawingEditor.
-   *       The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
+   * <li>When the user clicks at the button a popup menu with a color palette is displayed.
+   * Choosing a color from the palette changes the default color of the editor and also
+   * changes the color of the selected figures.
+   * <li>A shape on the color button displays the color of the selected figures. If no figures are
+   * selected, the default color of the DrawingEditor is displayed.
+   * <li>A rectangle on the color button displays the current default color of the DrawingEditor.
+   * The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
    * </ul>
    *
-   * @param editor The DrawingEditor.
+   * @param editor       The DrawingEditor.
    * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param swatches     A list with labeled colors containing the color palette of the popup menu.
+   *                     The
+   *                     actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                     LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount  The number of columns of the color palette.
+   * @param labelKey     The resource bundle key used for retrieving the icon and the tooltip of the
+   *                     button.
+   * @param labels       The resource bundle.
    */
   public static JPopupButton createSelectionColorButton(
       DrawingEditor editor,
@@ -807,28 +822,30 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
-   *       Choosing a color from the palette changes the default color of the editor and also
-   *       changes the color of the selected figures.
-   *   <li>A rectangle on the color button displays the current default color of the DrawingEditor.
-   *       The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
+   * <li>When the user clicks at the button a popup menu with a color palette is displayed.
+   * Choosing a color from the palette changes the default color of the editor and also
+   * changes the color of the selected figures.
+   * <li>A rectangle on the color button displays the current default color of the DrawingEditor.
+   * The rectangle has the dimensions 1, 17, 20, 4 (x, y, width, height).
    * </ul>
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
    */
   public static JPopupButton createSelectionColorButton(
       DrawingEditor editor,
@@ -852,30 +869,33 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
-   *       Choosing a color from the palette changes the default color of the editor and also
-   *       changes the color of the selected figures.
-   *   <li>A shape on the color button displays the color of the selected figures. If no figures are
-   *       selected, the default color of the DrawingEditor is displayed.
+   * <li>When the user clicks at the button a popup menu with a color palette is displayed.
+   * Choosing a color from the palette changes the default color of the editor and also
+   * changes the color of the selected figures.
+   * <li>A shape on the color button displays the color of the selected figures. If no figures are
+   * selected, the default color of the DrawingEditor is displayed.
    * </ul>
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
-   * @param colorShape This shape is superimposed on the icon of the button. The shape is drawn with
-   *     the default color of the DrawingEditor.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
+   * @param colorShape        This shape is superimposed on the icon of the button. The shape is
+   *                          drawn with
+   *                          the default color of the DrawingEditor.
    */
   public static JPopupButton createSelectionColorButton(
       DrawingEditor editor,
@@ -895,36 +915,39 @@ public class ButtonFactory {
         labels,
         defaultAttributes,
         colorShape,
-        new LinkedList<>());
+        new ArrayList<>());
   }
 
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
-   *
+   * <p>
    * <ul>
-   *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
-   *       Choosing a color from the palette changes the default color of the editor and also
-   *       changes the color of the selected figures.
-   *   <li>A shape on the color button displays the color of the selected figures. If no figures are
-   *       selected, the default color of the DrawingEditor is displayed.
+   * <li>When the user clicks at the button a popup menu with a color palette is displayed.
+   * Choosing a color from the palette changes the default color of the editor and also
+   * changes the color of the selected figures.
+   * <li>A shape on the color button displays the color of the selected figures. If no figures are
+   * selected, the default color of the DrawingEditor is displayed.
    * </ul>
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
-   * @param colorShape This shape is superimposed on the icon of the button. The shape is drawn with
-   *     the default color of the DrawingEditor.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
+   * @param colorShape        This shape is superimposed on the icon of the button. The shape is
+   *                          drawn with
+   *                          the default color of the DrawingEditor.
    */
   public static JPopupButton createSelectionColorButton(
       DrawingEditor editor,
@@ -953,9 +976,9 @@ public class ButtonFactory {
           hasNullColor = true;
         }
         popupButton.add(
-            a =
-                new AttributeAction(
-                    editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
+            a
+            = new AttributeAction(
+                editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
         a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         a.setUpdateEnabledState(false);
         dsp.add(a);
@@ -969,38 +992,38 @@ public class ButtonFactory {
       HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
       attributes.put(attributeKey, null);
       popupButton.add(
-          a =
-              new AttributeAction(
-                  editor,
-                  attributes,
-                  labels.getToolTipTextProperty("attribute.color.noColor"),
-                  new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+          a
+          = new AttributeAction(
+              editor,
+              attributes,
+              labels.getToolTipTextProperty("attribute.color.noColor"),
+              new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
       a.putValue(
           Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
       a.setUpdateEnabledState(false);
       dsp.add(a);
     }
     // Color chooser
-    ImageIcon chooserIcon =
-        new ImageIcon(
+    ImageIcon chooserIcon
+        = new ImageIcon(
             Images.createImage(
                 ButtonFactory.class,
                 "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
     AttributeAction a;
     popupButton.add(
-        a =
-            new SelectionColorChooserAction(
-                editor,
-                attributeKey,
-                labels.getToolTipTextProperty("attribute.color.colorChooser"),
-                chooserIcon,
-                defaultAttributes));
+        a
+        = new SelectionColorChooserAction(
+            editor,
+            attributeKey,
+            labels.getToolTipTextProperty("attribute.color.colorChooser"),
+            chooserIcon,
+            defaultAttributes));
     a.putValue(
         Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
     dsp.add(a);
     labels.configureToolBarButton(popupButton, labelKey);
-    Icon icon =
-        new SelectionColorIcon(
+    Icon icon
+        = new SelectionColorIcon(
             editor,
             attributeKey,
             labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -1040,58 +1063,57 @@ public class ButtonFactory {
     popupButton.setRequestFocusEnabled(false);
     // We lazily initialize the popup menu because creating a JColorChooser
     // takes a lot of time.
-    JComponentPopup popupMenu =
-        new JComponentPopup() {
-          private static final long serialVersionUID = 1L;
-          private JColorChooser colorChooser;
+    JComponentPopup popupMenu
+        = new JComponentPopup() {
+      private static final long serialVersionUID = 1L;
+      private JColorChooser colorChooser;
 
-          @Override
-          public void show(Component invoker, int x, int y) {
-            if (colorChooser == null) {
-              initialize();
-            }
-            Color c;
-            if (editor.getActiveView() != null && editor.getActiveView().getSelectionCount() > 0) {
-              c =
-                  editor
-                      .getActiveView()
-                      .getSelectedFigures()
-                      .iterator()
-                      .next()
-                      .attr()
-                      .get(attributeKey);
-            } else {
-              c = editor.getDefaultAttribute(attributeKey);
-            }
-            colorChooser.setColor(c == null ? new Color(0, true) : c);
-            super.show(invoker, x, y);
-          }
+      @Override
+      public void show(Component invoker, int x, int y) {
+        if (colorChooser == null) {
+          initialize();
+        }
+        Color c;
+        if (editor.getActiveView() != null && editor.getActiveView().getSelectionCount() > 0) {
+          c
+              = editor
+                  .getActiveView()
+                  .getSelectedFigures()
+                  .iterator()
+                  .next()
+                  .attr()
+                  .get(attributeKey);
+        } else {
+          c = editor.getDefaultAttribute(attributeKey);
+        }
+        colorChooser.setColor(c == null ? new Color(0, true) : c);
+        super.show(invoker, x, y);
+      }
 
-          private void initialize() {
-            colorChooser = new JColorChooser();
-            colorChooser.setOpaque(true);
-            colorChooser.setBackground(Color.WHITE);
-            if (uiclass != null) {
-              try {
-                colorChooser.setUI(
-                    (ColorChooserUI)
-                        Methods.invokeStatic(
-                            uiclass,
-                            "createUI",
-                            new Class<?>[] {JComponent.class},
-                            new Object[] {colorChooser}));
-              } catch (NoSuchMethodException ex) {
-                ex.printStackTrace();
-              }
-            }
-            dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
-            add(colorChooser);
+      private void initialize() {
+        colorChooser = new JColorChooser();
+        colorChooser.setOpaque(true);
+        colorChooser.setBackground(Color.WHITE);
+        if (uiclass != null) {
+          try {
+            colorChooser.setUI(
+                (ColorChooserUI) Methods.invokeStatic(
+                    uiclass,
+                    "createUI",
+                    new Class<?>[]{JComponent.class},
+                    new Object[]{colorChooser}));
+          } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
           }
-        };
+        }
+        dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
+        add(colorChooser);
+      }
+    };
     popupButton.setPopupMenu(popupMenu);
     popupButton.setPopupAlpha(1.0f); // must be set after we set the popup menu
-    Icon icon =
-        new SelectionColorIcon(
+    Icon icon
+        = new SelectionColorIcon(
             editor,
             attributeKey,
             labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -1109,15 +1131,16 @@ public class ButtonFactory {
    * Creates a color button, with an action region and a popup menu. The button acts on attributes
    * of the Drawing object in the current DrawingView of the DrawingEditor.
    *
-   * @param editor The DrawingEditor.
+   * @param editor       The DrawingEditor.
    * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param swatches     A list with labeled colors containing the color palette of the popup menu.
+   *                     The
+   *                     actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                     LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount  The number of columns of the color palette.
+   * @param labelKey     The resource bundle key used for retrieving the icon and the tooltip of the
+   *                     button.
+   * @param labels       The resource bundle.
    */
   public static JPopupButton createDrawingColorButton(
       DrawingEditor editor,
@@ -1134,19 +1157,21 @@ public class ButtonFactory {
    * Creates a color button, with an action region and a popup menu. The button acts on attributes
    * of the Drawing object in the current DrawingView of the DrawingEditor.
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
    */
   public static JPopupButton createDrawingColorButton(
       DrawingEditor editor,
@@ -1171,21 +1196,24 @@ public class ButtonFactory {
    * Creates a color button, with an action region and a popup menu. The button acts on attributes
    * of the Drawing object in the current DrawingView of the DrawingEditor.
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
-   * @param colorShape This shape is superimposed on the icon of the button. The shape is drawn with
-   *     the default color of the DrawingEditor.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
+   * @param colorShape        This shape is superimposed on the icon of the button. The shape is
+   *                          drawn with
+   *                          the default color of the DrawingEditor.
    */
   public static JPopupButton createDrawingColorButton(
       DrawingEditor editor,
@@ -1205,28 +1233,31 @@ public class ButtonFactory {
         labels,
         defaultAttributes,
         colorShape,
-        new LinkedList<>());
+        new ArrayList<>());
   }
 
   /**
    * Creates a color button, with an action region and a popup menu. The button acts on attributes
    * of the Drawing object in the current DrawingView of the DrawingEditor.
    *
-   * @param editor The DrawingEditor.
-   * @param attributeKey The AttributeKey of the color.
-   * @param swatches A list with labeled colors containing the color palette of the popup menu. The
-   *     actual labels are retrieved from the supplied resource bundle. This is usually a
-   *     LinkedHashMap, so that the colors have a predictable order.
-   * @param columnCount The number of columns of the color palette.
-   * @param labelKey The resource bundle key used for retrieving the icon and the tooltip of the
-   *     button.
-   * @param labels The resource bundle.
+   * @param editor            The DrawingEditor.
+   * @param attributeKey      The AttributeKey of the color.
+   * @param swatches          A list with labeled colors containing the color palette of the popup
+   *                          menu. The
+   *                          actual labels are retrieved from the supplied resource bundle. This is usually a
+   *                          LinkedHashMap, so that the colors have a predictable order.
+   * @param columnCount       The number of columns of the color palette.
+   * @param labelKey          The resource bundle key used for retrieving the icon and the tooltip
+   *                          of the
+   *                          button.
+   * @param labels            The resource bundle.
    * @param defaultAttributes A set of attributes which are also applied to the selected figures,
-   *     when a color is selected. This can be used, to set attributes that otherwise prevent the
-   *     color from being shown. For example, when the color attribute is set, we wan't the gradient
-   *     attribute of the Figure to be cleared.
-   * @param colorShape This shape is superimposed on the icon of the button. The shape is drawn with
-   *     the default color of the DrawingEditor.
+   *                          when a color is selected. This can be used, to set attributes that otherwise prevent the
+   *                          color from being shown. For example, when the color attribute is set, we wan't the gradient
+   *                          attribute of the Figure to be cleared.
+   * @param colorShape        This shape is superimposed on the icon of the button. The shape is
+   *                          drawn with
+   *                          the default color of the DrawingEditor.
    */
   public static JPopupButton createDrawingColorButton(
       DrawingEditor editor,
@@ -1255,9 +1286,9 @@ public class ButtonFactory {
           hasNullColor = true;
         }
         popupButton.add(
-            a =
-                new DrawingAttributeAction(
-                    editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
+            a
+            = new DrawingAttributeAction(
+                editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
         dsp.add(a);
         a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         a.setUpdateEnabledState(false);
@@ -1271,34 +1302,34 @@ public class ButtonFactory {
       HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
       attributes.put(attributeKey, null);
       popupButton.add(
-          a =
-              new DrawingAttributeAction(
-                  editor,
-                  attributes,
-                  labels.getToolTipTextProperty("attribute.color.noColor"),
-                  new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+          a
+          = new DrawingAttributeAction(
+              editor,
+              attributes,
+              labels.getToolTipTextProperty("attribute.color.noColor"),
+              new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
       dsp.add(a);
       a.putValue(
           Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
       a.setUpdateEnabledState(false);
     }
     // Color chooser
-    ImageIcon chooserIcon =
-        new ImageIcon(
+    ImageIcon chooserIcon
+        = new ImageIcon(
             Images.createImage(
                 ButtonFactory.class,
                 "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
     DrawingColorChooserAction a;
     popupButton.add(
-        a =
-            new DrawingColorChooserAction(
-                editor, attributeKey, "color", chooserIcon, defaultAttributes));
+        a
+        = new DrawingColorChooserAction(
+            editor, attributeKey, "color", chooserIcon, defaultAttributes));
     dsp.add(a);
     labels.configureToolBarButton(popupButton, labelKey);
     a.putValue(
         Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
-    Icon icon =
-        new DrawingColorIcon(
+    Icon icon
+        = new DrawingColorIcon(
             editor,
             attributeKey,
             labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -1340,51 +1371,50 @@ public class ButtonFactory {
     popupButton.setRequestFocusEnabled(false);
     // We lazily initialize the popup menu because creating a JColorChooser
     // takes a lot of time.
-    JComponentPopup popupMenu =
-        new JComponentPopup() {
-          private static final long serialVersionUID = 1L;
-          private JColorChooser colorChooser;
+    JComponentPopup popupMenu
+        = new JComponentPopup() {
+      private static final long serialVersionUID = 1L;
+      private JColorChooser colorChooser;
 
-          @Override
-          public void show(Component invoker, int x, int y) {
-            if (colorChooser == null) {
-              initialize();
-            }
-            Color c;
-            if (editor.getActiveView() != null) {
-              c = editor.getActiveView().getDrawing().attr().get(attributeKey);
-            } else {
-              c = editor.getDefaultAttribute(attributeKey);
-            }
-            colorChooser.setColor(c == null ? new Color(0, true) : c);
-            super.show(invoker, x, y);
-          }
+      @Override
+      public void show(Component invoker, int x, int y) {
+        if (colorChooser == null) {
+          initialize();
+        }
+        Color c;
+        if (editor.getActiveView() != null) {
+          c = editor.getActiveView().getDrawing().attr().get(attributeKey);
+        } else {
+          c = editor.getDefaultAttribute(attributeKey);
+        }
+        colorChooser.setColor(c == null ? new Color(0, true) : c);
+        super.show(invoker, x, y);
+      }
 
-          private void initialize() {
-            colorChooser = new JColorChooser();
-            colorChooser.setOpaque(true);
-            colorChooser.setBackground(Color.WHITE);
-            if (uiclass != null) {
-              try {
-                colorChooser.setUI(
-                    (ColorChooserUI)
-                        Methods.invokeStatic(
-                            uiclass,
-                            "createUI",
-                            new Class<?>[] {JComponent.class},
-                            new Object[] {colorChooser}));
-              } catch (NoSuchMethodException ex) {
-                ex.printStackTrace();
-              }
-            }
-            dsp.add(new DrawingColorChooserHandler(editor, attributeKey, colorChooser, this));
-            add(colorChooser);
+      private void initialize() {
+        colorChooser = new JColorChooser();
+        colorChooser.setOpaque(true);
+        colorChooser.setBackground(Color.WHITE);
+        if (uiclass != null) {
+          try {
+            colorChooser.setUI(
+                (ColorChooserUI) Methods.invokeStatic(
+                    uiclass,
+                    "createUI",
+                    new Class<?>[]{JComponent.class},
+                    new Object[]{colorChooser}));
+          } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
           }
-        };
+        }
+        dsp.add(new DrawingColorChooserHandler(editor, attributeKey, colorChooser, this));
+        add(colorChooser);
+      }
+    };
     popupButton.setPopupMenu(popupMenu);
     popupButton.setPopupAlpha(1.0f); // must be set after we set the popup menu
-    Icon icon =
-        new DrawingColorIcon(
+    Icon icon
+        = new DrawingColorIcon(
             editor,
             attributeKey,
             labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
@@ -1411,19 +1441,19 @@ public class ButtonFactory {
   public static JPopupButton createStrokeWidthButton(DrawingEditor editor) {
     return createStrokeWidthButton(
         editor,
-        new double[] {0d, 0.5d, 1d, 2d, 3d, 5d, 9d, 13d},
+        new double[]{0d, 0.5d, 1d, 2d, 3d, 5d, 9d, 13d},
         ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels"));
   }
 
   public static JPopupButton createStrokeWidthButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createStrokeWidthButton(editor, new double[] {0.5d, 1d, 2d, 3d, 5d, 9d, 13d}, labels);
+    return createStrokeWidthButton(editor, new double[]{0.5d, 1d, 2d, 3d, 5d, 9d, 13d}, labels);
   }
 
   public static JPopupButton createStrokeWidthButton(DrawingEditor editor, double[] widths) {
     return createStrokeWidthButton(
         editor,
-        new double[] {0.5d, 1d, 2d, 3d, 5d, 9d, 13d},
+        new double[]{0.5d, 1d, 2d, 3d, 5d, 9d, 13d},
         ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels"));
   }
 
@@ -1439,8 +1469,8 @@ public class ButtonFactory {
     }
     for (int i = 0; i < widths.length; i++) {
       String label = Double.toString(widths[i]);
-      Icon icon =
-          new StrokeIcon(
+      Icon icon
+          = new StrokeIcon(
               new BasicStroke((float) widths[i], BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
       AttributeAction a = new AttributeAction(editor, STROKE_WIDTH, widths[i], label, icon);
       a.putValue(
@@ -1498,7 +1528,7 @@ public class ButtonFactory {
       DrawingEditor editor, ResourceBundleUtil labels) {
     return createStrokeDashesButton(
         editor,
-        new double[][] {null, {4d, 4d}, {2d, 2d}, {4d, 2d}, {2d, 4d}, {8d, 2d}, {6d, 2d, 2d, 2d}},
+        new double[][]{null, {4d, 4d}, {2d, 2d}, {4d, 2d}, {2d, 4d}, {8d, 2d}, {6d, 2d, 2d, 2d}},
         labels);
   }
 
@@ -1509,7 +1539,7 @@ public class ButtonFactory {
 
   public static JPopupButton createStrokeDashesButton(
       DrawingEditor editor, double[][] dashes, ResourceBundleUtil labels) {
-    return createStrokeDashesButton(editor, dashes, labels, new LinkedList<>());
+    return createStrokeDashesButton(editor, dashes, labels, new ArrayList<>());
   }
 
   public static JPopupButton createStrokeDashesButton(
@@ -1531,12 +1561,12 @@ public class ButtonFactory {
           fdashes[j] = (float) dashe[j];
         }
       }
-      Icon icon =
-          new StrokeIcon(
+      Icon icon
+          = new StrokeIcon(
               new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10f, fdashes, 0));
       AttributeAction a;
-      AbstractButton btn =
-          strokeDashesPopupButton.add(
+      AbstractButton btn
+          = strokeDashesPopupButton.add(
               a = new AttributeAction(editor, STROKE_DASHES, dashe, null, icon));
       dsp.add(a);
       btn.setDisabledIcon(icon);
@@ -1666,7 +1696,7 @@ public class ButtonFactory {
 
   public static JPopupButton createFontButton(
       DrawingEditor editor, AttributeKey<Font> key, ResourceBundleUtil labels) {
-    return createFontButton(editor, key, labels, new LinkedList<>());
+    return createFontButton(editor, key, labels, new ArrayList<>());
   }
 
   public static JPopupButton createFontButton(
@@ -1693,7 +1723,7 @@ public class ButtonFactory {
   }
 
   public static JButton createFontStyleBoldButton(DrawingEditor editor, ResourceBundleUtil labels) {
-    return createFontStyleBoldButton(editor, labels, new LinkedList<>());
+    return createFontStyleBoldButton(editor, labels, new ArrayList<>());
   }
 
   public static JButton createFontStyleBoldButton(
@@ -1702,8 +1732,8 @@ public class ButtonFactory {
     btn = new JButton();
     labels.configureToolBarButton(btn, "attribute.fontStyle.bold");
     btn.setFocusable(false);
-    AbstractAction a =
-        new AttributeToggler<>(
+    AbstractAction a
+        = new AttributeToggler<>(
             editor, FONT_BOLD, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold.text"));
@@ -1718,7 +1748,7 @@ public class ButtonFactory {
 
   public static JButton createFontStyleItalicButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createFontStyleItalicButton(editor, labels, new LinkedList<>());
+    return createFontStyleItalicButton(editor, labels, new ArrayList<>());
   }
 
   public static JButton createFontStyleItalicButton(
@@ -1727,8 +1757,8 @@ public class ButtonFactory {
     btn = new JButton();
     labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
     btn.setFocusable(false);
-    AbstractAction a =
-        new AttributeToggler<>(
+    AbstractAction a
+        = new AttributeToggler<>(
             editor, FONT_ITALIC, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
@@ -1743,7 +1773,7 @@ public class ButtonFactory {
 
   public static JButton createFontStyleUnderlineButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createFontStyleUnderlineButton(editor, labels, new LinkedList<>());
+    return createFontStyleUnderlineButton(editor, labels, new ArrayList<>());
   }
 
   public static JButton createFontStyleUnderlineButton(
@@ -1752,8 +1782,8 @@ public class ButtonFactory {
     btn = new JButton();
     labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
     btn.setFocusable(false);
-    AbstractAction a =
-        new AttributeToggler<>(
+    AbstractAction a
+        = new AttributeToggler<>(
             editor, FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY,
@@ -1764,7 +1794,7 @@ public class ButtonFactory {
 
   /** Creates toolbar buttons and adds them to the specified JToolBar */
   public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor) {
-    addAlignmentButtonsTo(bar, editor, new LinkedList<>());
+    addAlignmentButtonsTo(bar, editor, new ArrayList<>());
   }
 
   /** Creates toolbar buttons and adds them to the specified JToolBar. */
@@ -1808,24 +1838,24 @@ public class ButtonFactory {
     toggleButton.setFocusable(false);
     toggleButton.addItemListener(
         new ItemListener() {
-          @Override
-          public void itemStateChanged(ItemEvent event) {
-            view.setConstrainerVisible(toggleButton.isSelected());
-            // view.getComponent().repaint();
-          }
-        });
+      @Override
+      public void itemStateChanged(ItemEvent event) {
+        view.setConstrainerVisible(toggleButton.isSelected());
+        // view.getComponent().repaint();
+      }
+    });
     view.addPropertyChangeListener(
         new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            // String constants are interned
-            if ((evt.getPropertyName() == null && DrawingView.CONSTRAINER_VISIBLE_PROPERTY == null)
-                || (evt.getPropertyName() != null
-                    && evt.getPropertyName().equals(DrawingView.CONSTRAINER_VISIBLE_PROPERTY))) {
-              toggleButton.setSelected(view.isConstrainerVisible());
-            }
-          }
-        });
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // String constants are interned
+        if ((evt.getPropertyName() == null && DrawingView.CONSTRAINER_VISIBLE_PROPERTY == null)
+            || (evt.getPropertyName() != null
+                && evt.getPropertyName().equals(DrawingView.CONSTRAINER_VISIBLE_PROPERTY))) {
+          toggleButton.setSelected(view.isConstrainerVisible());
+        }
+      }
+    });
     return toggleButton;
   }
 
@@ -1835,7 +1865,7 @@ public class ButtonFactory {
 
   public static JPopupButton createStrokeCapButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createStrokeCapButton(editor, labels, new LinkedList<>());
+    return createStrokeCapButton(editor, labels, new ArrayList<>());
   }
 
   public static JPopupButton createStrokeCapButton(
@@ -1858,9 +1888,9 @@ public class ButtonFactory {
     attr = new HashMap<>();
     attr.put(STROKE_CAP, BasicStroke.CAP_SQUARE);
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeCap.square"), null));
+        a
+        = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeCap.square"), null));
     dsp.add(a);
     return popupButton;
   }
@@ -1871,7 +1901,7 @@ public class ButtonFactory {
 
   public static JPopupButton createStrokeJoinButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createStrokeJoinButton(editor, labels, new LinkedList<>());
+    return createStrokeJoinButton(editor, labels, new ArrayList<>());
   }
 
   public static JPopupButton createStrokeJoinButton(
@@ -1884,29 +1914,29 @@ public class ButtonFactory {
     attr.put(STROKE_JOIN, BasicStroke.JOIN_BEVEL);
     AttributeAction a;
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeJoin.bevel"), null));
+        a
+        = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeJoin.bevel"), null));
     dsp.add(a);
     attr = new HashMap<>();
     attr.put(STROKE_JOIN, BasicStroke.JOIN_ROUND);
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeJoin.round"), null));
+        a
+        = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeJoin.round"), null));
     dsp.add(a);
     attr = new HashMap<>();
     attr.put(STROKE_JOIN, BasicStroke.JOIN_MITER);
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeJoin.miter"), null));
+        a
+        = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeJoin.miter"), null));
     dsp.add(a);
     return popupButton;
   }
 
   public static JButton createPickAttributesButton(DrawingEditor editor) {
-    return createPickAttributesButton(editor, new LinkedList<>());
+    return createPickAttributesButton(editor, new ArrayList<>());
   }
 
   public static JButton createPickAttributesButton(
@@ -1929,7 +1959,7 @@ public class ButtonFactory {
    * Creates a button that applies the default attributes of the editor to the current selection.
    */
   public static JButton createApplyAttributesButton(DrawingEditor editor) {
-    return createApplyAttributesButton(editor, new LinkedList<>());
+    return createApplyAttributesButton(editor, new ArrayList<>());
   }
 
   public static JButton createApplyAttributesButton(

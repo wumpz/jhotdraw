@@ -7,12 +7,26 @@
  */
 package org.jhotdraw.draw.tool;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.util.*;
-import javax.swing.*;
-import org.jhotdraw.draw.*;
+
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.util.ActionUtil;
@@ -25,8 +39,6 @@ import org.jhotdraw.util.ActionUtil;
  * <p>By default, this Tool delegates mouse events to a specific Tool if the figure which has been
  * double clicked, provides a specialized tool.
  *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DelegationSelectionTool extends SelectionTool {
 
@@ -54,7 +66,7 @@ public class DelegationSelectionTool extends SelectionTool {
 
   /** Creates a new instance. */
   public DelegationSelectionTool() {
-    this(new LinkedList<Action>(), new LinkedList<Action>());
+    this(new ArrayList<Action>(), new ArrayList<Action>());
   }
 
   /** Creates a new instance. */
@@ -176,9 +188,9 @@ public class DelegationSelectionTool extends SelectionTool {
     popupMenu = menu;
     JMenu submenu = null;
     String submenuName = null;
-    LinkedList<Action> popupActions = new LinkedList<>();
+    List<Action> popupActions = new ArrayList<>();
     if (figure != null) {
-      LinkedList<Action> figureActions = new LinkedList<>(figure.getActions(viewToDrawing(p)));
+      List<Action> figureActions = new ArrayList<>(figure.getActions(viewToDrawing(p)));
       if (popupActions.size() != 0 && figureActions.size() != 0) {
         popupActions.add(null);
       }

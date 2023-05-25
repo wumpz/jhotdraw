@@ -7,16 +7,21 @@
  */
 package org.jhotdraw.draw.figure;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import static org.jhotdraw.draw.AttributeKeys.*;
 import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.CENTER;
 import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.INSIDE;
 import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.OUTSIDE;
-
-import java.awt.*;
-import java.awt.geom.*;
-import java.io.Serializable;
-import java.util.*;
-import javax.swing.event.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.FigureEvent;
@@ -217,7 +222,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   /** Return default handles from the presentation figure. */
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = new LinkedList<>();
+    List<Handle> handles = new ArrayList<>();
     if (detailLevel == 0) {
       MoveHandle.addMoveHandles(this, handles);
     }

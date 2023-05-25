@@ -7,11 +7,20 @@
  */
 package org.jhotdraw.draw.tool;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.*;
-import org.jhotdraw.draw.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.event.HandleMulticaster;
@@ -76,7 +85,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
    * The hover handles, are the handles of the figure over which the mouse pointer is currently
    * hovering.
    */
-  private LinkedList<Handle> hoverHandles = new LinkedList<>();
+  private final List<Handle> hoverHandles = new ArrayList<>();
   /** The hover Figure is the figure, over which the mouse is currently hovering. */
   private Figure hoverFigure = null;
 

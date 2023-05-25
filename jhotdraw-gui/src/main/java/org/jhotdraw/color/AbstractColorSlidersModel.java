@@ -6,8 +6,10 @@
  */
 package org.jhotdraw.color;
 
-import java.util.*;
-import javax.swing.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.jhotdraw.beans.AbstractBean;
 
 /**
@@ -20,12 +22,12 @@ public abstract class AbstractColorSlidersModel extends AbstractBean implements 
 
   private static final long serialVersionUID = 1L;
   /** ChangeListener's listening to changes in this model. */
-  protected LinkedList<ChangeListener> listeners;
+  protected List<ChangeListener> listeners;
 
   @Override
   public void addChangeListener(ChangeListener l) {
     if (listeners == null) {
-      listeners = new LinkedList<>();
+      listeners = new ArrayList<>();
     }
     listeners.add(l);
   }
