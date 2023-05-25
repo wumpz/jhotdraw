@@ -84,7 +84,8 @@ public abstract class AbstractHandle implements Handle, FigureListener {
 
   /**
    * Wrapper around multiple types of event firing. This is used to define all kinds of event
-   * methods below. 
+   * methods below.
+   *
    * @param listenerConsumer lambda to call the right listener method with the right event
    * @param eventSupplier creates if needed an event instance for the listener
    */
@@ -102,11 +103,11 @@ public abstract class AbstractHandle implements Handle, FigureListener {
       listenerConsumer.accept(listener, event);
     }
   }
-  
+
   protected void fireAreaInvalidated(Rectangle invalidatedArea) {
     fireHandleEvent(
         (listener, event) -> listener.areaInvalidated(event),
-        () -> new HandleEvent(this, invalidatedArea));   
+        () -> new HandleEvent(this, invalidatedArea));
   }
 
   protected void fireUndoableEditHappened(UndoableEdit edit) {
@@ -116,13 +117,13 @@ public abstract class AbstractHandle implements Handle, FigureListener {
   protected void fireHandleRequestRemove(Rectangle invalidatedArea) {
     fireHandleEvent(
         (listener, event) -> listener.handleRequestRemove(event),
-        () -> new HandleEvent(this, invalidatedArea));   
+        () -> new HandleEvent(this, invalidatedArea));
   }
 
   protected void fireHandleRequestSecondaryHandles() {
     fireHandleEvent(
         (listener, event) -> listener.handleRequestSecondaryHandles(event),
-        () -> new HandleEvent(this, null));   
+        () -> new HandleEvent(this, null));
   }
 
   @Override
@@ -292,7 +293,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     if (bounds == null) {
       bounds = basicGetBounds();
     }
-    return new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height); 
+    return new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
   }
 
   @Override

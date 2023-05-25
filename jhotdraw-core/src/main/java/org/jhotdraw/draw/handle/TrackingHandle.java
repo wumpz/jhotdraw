@@ -18,8 +18,8 @@ import java.util.function.Supplier;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.event.TrackingEdit;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.undo.CompositeEdit;
 
 /**
@@ -34,14 +34,17 @@ public class TrackingHandle extends AbstractHandle {
   private CompositeEdit edit;
 
   public TrackingHandle(
-      Figure owner, Supplier<Point2D.Double> readLocation, Consumer<Point2D.Double> writeLocation, Runnable deleteLocation, Runnable insertLocation) {
+      Figure owner,
+      Supplier<Point2D.Double> readLocation,
+      Consumer<Point2D.Double> writeLocation,
+      Runnable deleteLocation,
+      Runnable insertLocation) {
     super(owner);
     this.readLocation = Objects.requireNonNull(readLocation);
     this.writeLocation = Objects.requireNonNull(writeLocation);
     this.deleteLocation = deleteLocation;
     this.insertLocation = insertLocation;
   }
-  
 
   @Override
   public void draw(Graphics2D g) {
