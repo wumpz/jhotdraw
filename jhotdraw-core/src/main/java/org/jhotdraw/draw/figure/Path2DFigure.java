@@ -18,7 +18,7 @@ import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.BezierPath;
 
-public class Path2DFigure extends AbstractAttributedFigure {
+public abstract class Path2DFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
   private final Path2D.Double path = new Path2D.Double();
@@ -40,16 +40,16 @@ public class Path2DFigure extends AbstractAttributedFigure {
       switch (detailLevel) {
         case 1:
           PathIterator pathIterator = path.getPathIterator(null);
-          while (!pathIterator.isDone()) {
-            switch (pathIterator.
-            handles.add(new )
-          }
+//          while (!pathIterator.isDone()) {
+//            switch (pathIterator.
+//            handles.add(new )
+//          }
 
           break;
 
       }
+      return handles;
     }
-    return handles;
   }
   // CONNECTING
   // COMPOSITE FIGURES
@@ -59,35 +59,36 @@ public class Path2DFigure extends AbstractAttributedFigure {
   /** Handles a mouse click. */
   @Override
   public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
-    if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 0) {
-      willChange();
-      final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
-      if (index != -1) {
-        final BezierPath.Node newNode = getNode(index);
-        fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
-
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                willChange();
-                addNode(index, newNode);
-                changed();
-              }
-
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                willChange();
-                removeNode(index);
-                changed();
-              }
-            });
-        changed();
-        return true;
-      }
-    }
+//    if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 0) {
+//      willChange();
+//      final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
+//      if (index != -1) {
+//        final BezierPath.Node newNode = getNode(index);
+//        fireUndoableEditHappened(
+//            new AbstractUndoableEdit() {
+//              private static final long serialVersionUID = 1L;
+//
+//              @Override
+//              public void redo() throws CannotRedoException {
+//                super.redo();
+//                willChange();
+//                addNode(index, newNode);
+//                changed();
+//              }
+//
+//              @Override
+//              public void undo() throws CannotUndoException {
+//                super.undo();
+//                willChange();
+//                removeNode(index);
+//                changed();
+//              }
+//            });
+//        changed();
+//        return true;
+//      }
+//    }
     return false;
   }
 }
+  
