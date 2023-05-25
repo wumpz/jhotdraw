@@ -7,15 +7,22 @@
  */
 package org.jhotdraw.draw.handle;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.geom.Path2D;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import javax.swing.event.*;
-import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
+import javax.swing.event.EventListenerList;
+import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.HandleEvent;

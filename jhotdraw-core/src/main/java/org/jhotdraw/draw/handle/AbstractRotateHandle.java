@@ -6,16 +6,20 @@
  */
 package org.jhotdraw.draw.handle;
 
-import static org.jhotdraw.draw.AttributeKeys.*;
-
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
+
 
 /**
  * This abstract class can be extended to implement a {@link Handle} which can rotate a {@link
