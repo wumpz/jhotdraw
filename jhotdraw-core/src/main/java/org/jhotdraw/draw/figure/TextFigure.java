@@ -9,10 +9,18 @@ package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
@@ -24,7 +32,7 @@ import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A {@code TextHolderFigure} which holds a single line of text.
@@ -251,7 +259,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = new LinkedList<>();
+    Collection<Handle> handles = new ArrayList<>();
     switch (detailLevel) {
       case -1:
         handles.add(new BoundsOutlineHandle(this, false, true));

@@ -7,11 +7,19 @@
  */
 package org.jhotdraw.xml;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.xml.XMLConstants;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -118,12 +126,12 @@ public class JavaxDOMInput implements DOMInput {
    * Gets an attribute of the current element of the DOM Document and of all parent DOM elements.
    */
   @Override
-  public java.util.List<String> getInheritedAttribute(String name) {
-    LinkedList<String> values = new LinkedList<String>();
+  public List<String> getInheritedAttribute(String name) {
+    List<String> values = new ArrayList<>();
     Node node = current;
     while (node != null) {
       String value = ((Element) node).getAttribute(name);
-      values.addFirst(value);
+      values.add(0, value);
       node = node.getParentNode();
     }
     return values;

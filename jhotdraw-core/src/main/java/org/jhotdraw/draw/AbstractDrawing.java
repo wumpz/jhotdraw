@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -51,8 +50,8 @@ public abstract class AbstractDrawing implements Drawing {
   protected EventListenerList listenerList = new EventListenerList();
   private Attributes attributes = new Attributes(this::fireDrawingAttributeChanged);
   private transient FontRenderContext fontRenderContext;
-  private LinkedList<InputFormat> inputFormats = new LinkedList<>();
-  private LinkedList<OutputFormat> outputFormats = new LinkedList<>();
+  private List<InputFormat> inputFormats = new ArrayList<>();
+  private List<OutputFormat> outputFormats = new ArrayList<>();
   /** Creates a new instance. */
   public AbstractDrawing() {
     eventHandler = createEventHandler();
@@ -158,10 +157,8 @@ public abstract class AbstractDrawing implements Drawing {
     that.attributes = Attributes.from(attributes, that::fireDrawingAttributeChanged);
     that.listenerList = new EventListenerList();
 
-    that.inputFormats =
-        (this.inputFormats == null) ? null : (LinkedList<InputFormat>) this.inputFormats.clone();
-    that.outputFormats =
-        (this.outputFormats == null) ? null : (LinkedList<OutputFormat>) this.outputFormats.clone();
+    that.inputFormats = (this.inputFormats == null) ? null : new ArrayList<>(this.inputFormats);
+    that.outputFormats = (this.outputFormats == null) ? null : new ArrayList<>(this.outputFormats);
     return that;
   }
 
@@ -239,13 +236,13 @@ public abstract class AbstractDrawing implements Drawing {
   }
 
   @Override
-  public java.util.List<InputFormat> getInputFormats() {
+  public List<InputFormat> getInputFormats() {
     return inputFormats;
   }
 
   @Override
-  public void setInputFormats(java.util.List<InputFormat> formats) {
-    this.inputFormats = new LinkedList<>(formats);
+  public void setInputFormats(List<InputFormat> formats) {
+    this.inputFormats = new ArrayList<>(formats);
   }
 
   /** The drawing view synchronizes on the lock when drawing a drawing. */
@@ -261,7 +258,7 @@ public abstract class AbstractDrawing implements Drawing {
 
   @Override
   public void setOutputFormats(List<OutputFormat> formats) {
-    this.outputFormats = new LinkedList<>(formats);
+    this.outputFormats = new ArrayList<>(formats);
   }
 
   @Override

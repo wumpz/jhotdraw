@@ -9,9 +9,13 @@ package org.jhotdraw.color;
 import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
-import java.util.LinkedList;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.BoundedRangeModel;
+import javax.swing.DefaultBoundedRangeModel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * DefaultColorSliderModel.
@@ -24,7 +28,7 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
   private static final long serialVersionUID = 1L;
   protected ColorSpace colorSpace;
   /** JSlider's associated to this model. */
-  protected LinkedList<JSlider> sliders = new LinkedList<>();
+  protected List<JSlider> sliders = new ArrayList<>();
   /** Components of the color model. */
   protected DefaultBoundedRangeModel[] componentModels;
 

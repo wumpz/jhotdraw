@@ -9,8 +9,9 @@
 package org.jhotdraw.gui.plaf.palette.colorchooser;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ListModel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -71,7 +72,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
   static {
     // FIXME - Move this into a lazy initializer
     HSBColorSpace hsbCS = HSBColorSpace.getInstance();
-    LinkedList<ColorIcon> m = new LinkedList<>();
+    List<ColorIcon> m = new ArrayList<>();
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.gui.Labels");
     for (int s = 2; s <= 8; s += 2) {
       for (int h = 0; h < 12; h++) {
@@ -103,7 +104,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
         new ColorIcon(
             new Color(0, true), labels.getToolTipTextProperty("ColorChooser.colorSwatch.noColor")));
     HSB_COLORS = Collections.unmodifiableList(m);
-    m = new LinkedList<>();
+    m = new ArrayList<>();
     for (ColorIcon ci : HSB_COLORS) {
       if (ci.getColor() == null) {
         m.add(

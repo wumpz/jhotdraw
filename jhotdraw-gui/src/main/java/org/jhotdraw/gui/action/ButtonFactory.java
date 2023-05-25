@@ -38,10 +38,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -114,11 +115,15 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * ButtonFactory.
  *
+ * <p>
+ *
  * <p>Design pattern:<br>
  * Name: Abstract Factory.<br>
  * Role: Abstract Factory.<br>
  * Partners: org.jhotdraw.samples.draw.DrawApplicationModel as Client,
  * org.jhotdraw.samples.draw.DrawView as Client, org.jhotdraw.samples.draw.DrawingPanel as Client.
+ *
+ * <p>
  *
  * <p>FIXME - All buttons created using the ButtonFactory must automatically become
  * disabled/enabled, when the DrawingEditor is disabled/enabled.
@@ -132,56 +137,56 @@ public class ButtonFactory {
   public static final java.util.List<ColorIcon> DEFAULT_COLORS;
 
   static {
-    LinkedList<ColorIcon> m = new LinkedList<>();
-    m.add(new ColorIcon(0x800000, "Cayenne"));
-    m.add(new ColorIcon(0x808000, "Asparagus"));
-    m.add(new ColorIcon(0x008000, "Clover"));
-    m.add(new ColorIcon(0x008080, "Teal"));
-    m.add(new ColorIcon(0x000080, "Midnight"));
-    m.add(new ColorIcon(0x800080, "Plum"));
-    m.add(new ColorIcon(0x7f7f7f, "Tin"));
-    m.add(new ColorIcon(0x808080, "Nickel"));
-    m.add(new ColorIcon(0xff0000, "Maraschino"));
-    m.add(new ColorIcon(0xffff00, "Lemon"));
-    m.add(new ColorIcon(0x00ff00, "Spring"));
-    m.add(new ColorIcon(0x00ffff, "Turquoise"));
-    m.add(new ColorIcon(0x0000ff, "Blueberry"));
-    m.add(new ColorIcon(0xff00ff, "Magenta"));
-    m.add(new ColorIcon(0x666666, "Steel"));
-    m.add(new ColorIcon(0x999999, "Aluminium"));
-    m.add(new ColorIcon(0xff6666, "Salmon"));
-    m.add(new ColorIcon(0xffff66, "Banana"));
-    m.add(new ColorIcon(0x66ff66, "Flora"));
-    m.add(new ColorIcon(0x66ffff, "Ice"));
-    m.add(new ColorIcon(0x6666ff, "Orchid"));
-    m.add(new ColorIcon(0xff66ff, "Bubblegum"));
-    m.add(new ColorIcon(0x4c4c4c, "Iron"));
-    m.add(new ColorIcon(0xb3b3b3, "Magnesium"));
-    m.add(new ColorIcon(0x804000, "Mocha"));
-    m.add(new ColorIcon(0x408000, "Fern"));
-    m.add(new ColorIcon(0x008040, "Moss"));
-    m.add(new ColorIcon(0x004080, "Ocean"));
-    m.add(new ColorIcon(0x400080, "Eggplant"));
-    m.add(new ColorIcon(0x800040, "Maroon"));
-    m.add(new ColorIcon(0x333333, "Tungsten"));
-    m.add(new ColorIcon(0xcccccc, "Silver"));
-    m.add(new ColorIcon(0xff8000, "Tangerine"));
-    m.add(new ColorIcon(0x80ff00, "Lime"));
-    m.add(new ColorIcon(0x00ff80, "Sea Foam"));
-    m.add(new ColorIcon(0x0080ff, "Aqua"));
-    m.add(new ColorIcon(0x8000ff, "Grape"));
-    m.add(new ColorIcon(0xff0080, "Strawberry"));
-    m.add(new ColorIcon(0x191919, "Lead"));
-    m.add(new ColorIcon(0xe6e6e6, "Mercury"));
-    m.add(new ColorIcon(0xffcc66, "Cantaloupe"));
-    m.add(new ColorIcon(0xccff66, "Honeydew"));
-    m.add(new ColorIcon(0x66ffcc, "Spindrift"));
-    m.add(new ColorIcon(0x66ccff, "Sky"));
-    m.add(new ColorIcon(0xcc66ff, "Lavender"));
-    m.add(new ColorIcon(0xff6fcf, "Carnation"));
-    m.add(new ColorIcon(0x000000, "Licorice"));
-    m.add(new ColorIcon(0xffffff, "Snow"));
-    DEFAULT_COLORS = Collections.unmodifiableList(m);
+    DEFAULT_COLORS =
+        List.of(
+            new ColorIcon(0x800000, "Cayenne"),
+            new ColorIcon(0x808000, "Asparagus"),
+            new ColorIcon(0x008000, "Clover"),
+            new ColorIcon(0x008080, "Teal"),
+            new ColorIcon(0x000080, "Midnight"),
+            new ColorIcon(0x800080, "Plum"),
+            new ColorIcon(0x7f7f7f, "Tin"),
+            new ColorIcon(0x808080, "Nickel"),
+            new ColorIcon(0xff0000, "Maraschino"),
+            new ColorIcon(0xffff00, "Lemon"),
+            new ColorIcon(0x00ff00, "Spring"),
+            new ColorIcon(0x00ffff, "Turquoise"),
+            new ColorIcon(0x0000ff, "Blueberry"),
+            new ColorIcon(0xff00ff, "Magenta"),
+            new ColorIcon(0x666666, "Steel"),
+            new ColorIcon(0x999999, "Aluminium"),
+            new ColorIcon(0xff6666, "Salmon"),
+            new ColorIcon(0xffff66, "Banana"),
+            new ColorIcon(0x66ff66, "Flora"),
+            new ColorIcon(0x66ffff, "Ice"),
+            new ColorIcon(0x6666ff, "Orchid"),
+            new ColorIcon(0xff66ff, "Bubblegum"),
+            new ColorIcon(0x4c4c4c, "Iron"),
+            new ColorIcon(0xb3b3b3, "Magnesium"),
+            new ColorIcon(0x804000, "Mocha"),
+            new ColorIcon(0x408000, "Fern"),
+            new ColorIcon(0x008040, "Moss"),
+            new ColorIcon(0x004080, "Ocean"),
+            new ColorIcon(0x400080, "Eggplant"),
+            new ColorIcon(0x800040, "Maroon"),
+            new ColorIcon(0x333333, "Tungsten"),
+            new ColorIcon(0xcccccc, "Silver"),
+            new ColorIcon(0xff8000, "Tangerine"),
+            new ColorIcon(0x80ff00, "Lime"),
+            new ColorIcon(0x00ff80, "Sea Foam"),
+            new ColorIcon(0x0080ff, "Aqua"),
+            new ColorIcon(0x8000ff, "Grape"),
+            new ColorIcon(0xff0080, "Strawberry"),
+            new ColorIcon(0x191919, "Lead"),
+            new ColorIcon(0xe6e6e6, "Mercury"),
+            new ColorIcon(0xffcc66, "Cantaloupe"),
+            new ColorIcon(0xccff66, "Honeydew"),
+            new ColorIcon(0x66ffcc, "Spindrift"),
+            new ColorIcon(0x66ccff, "Sky"),
+            new ColorIcon(0xcc66ff, "Lavender"),
+            new ColorIcon(0xff6fcf, "Carnation"),
+            new ColorIcon(0x000000, "Licorice"),
+            new ColorIcon(0xffffff, "Snow"));
   }
 
   public static final int DEFAULT_COLORS_COLUMN_COUNT = 8;
@@ -193,7 +198,7 @@ public class ButtonFactory {
   public static final java.util.List<ColorIcon> WEBSAVE_COLORS;
 
   static {
-    LinkedList<ColorIcon> m = new LinkedList<>();
+    List<ColorIcon> m = new ArrayList<>();
     for (int b = 0; b <= 0xff; b += 0x33) {
       int rgb = (b << 16) | (b << 8) | b;
       m.add(new ColorIcon(rgb));
@@ -222,20 +227,32 @@ public class ButtonFactory {
   /**
    * HSB color palette with a set of colors chosen based on a physical criteria.
    *
+   * <p>
+   *
    * <p>This is a 'human friendly' color palette which arranges the color in a way that makes it
    * easy for humans to select the desired color. The colors are ordered in a way which minimizes
    * the color contrast effect in the human visual system.
    *
+   * <p>
+   *
    * <p>This palette has 12 columns and 10 rows.
+   *
+   * <p>
    *
    * <p>The topmost row contains a null-color and a gray scale from white to black in 10 percent
    * steps.
    *
+   * <p>
+   *
    * <p>The remaining rows contain colors taken from the outer hull of the HSB color model:
+   *
+   * <p>
    *
    * <p>The columns are ordered by hue starting with red - the lowest wavelength - and ending with
    * purple - the highest wavelength. There are 12 different hues, so that all primary colors with
    * their additive complements can be selected.
+   *
+   * <p>
    *
    * <p>The rows are orderd by brightness with the brightest color at the top (sky) and the darkest
    * color at the bottom (earth). The first 5 rows contain colors with maximal brightness and a
@@ -257,7 +274,7 @@ public class ButtonFactory {
   static {
     ColorSpace grayCS = ColorSpace.getInstance(ColorSpace.CS_GRAY);
     HSBColorSpace hsbCS = HSBColorSpace.getInstance();
-    LinkedList<ColorIcon> m = new LinkedList<>();
+    List<ColorIcon> m = new ArrayList<>();
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     m.add(
         new ColorIcon(
@@ -289,7 +306,7 @@ public class ButtonFactory {
       }
     }
     HSB_COLORS = Collections.unmodifiableList(m);
-    m = new LinkedList<>();
+    m = new ArrayList<>();
     for (ColorIcon ci : HSB_COLORS) {
       if (ci.getColor() == null) {
         m.add(
@@ -340,12 +357,12 @@ public class ButtonFactory {
   private ButtonFactory() {}
 
   public static Collection<Action> createDrawingActions(DrawingEditor editor) {
-    return createDrawingActions(editor, new LinkedList<>());
+    return createDrawingActions(editor, new ArrayList<>());
   }
 
   public static Collection<Action> createDrawingActions(
       DrawingEditor editor, java.util.List<Disposable> dsp) {
-    LinkedList<Action> list = new LinkedList<>();
+    List<Action> list = new ArrayList<>();
     AbstractSelectedAction a;
     list.add(new CutAction());
     list.add(new CopyAction());
@@ -356,7 +373,7 @@ public class ButtonFactory {
   }
 
   public static Collection<Action> createSelectionActions(DrawingEditor editor) {
-    LinkedList<Action> a = new LinkedList<>();
+    List<Action> a = new ArrayList<>();
     a.add(new DuplicateAction());
     a.add(null); // separator
     a.add(new GroupAction(editor));
@@ -575,6 +592,8 @@ public class ButtonFactory {
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Microsoft Office:
    *
+   * <p>
+   *
    * <ul>
    *   <li>When the user clicks on the action region, the default color of the DrawingEditor is
    *       applied to the selected figures.
@@ -609,6 +628,8 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Microsoft Office:
+   *
+   * <p>
    *
    * <ul>
    *   <li>When the user clicks on the action region, the default color of the DrawingEditor is
@@ -656,6 +677,8 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Microsoft Office:
+   *
+   * <p>
    *
    * <ul>
    *   <li>When the user clicks on the action region, the default color of the DrawingEditor is
@@ -773,6 +796,8 @@ public class ButtonFactory {
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
    *
+   * <p>
+   *
    * <ul>
    *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
    *       Choosing a color from the palette changes the default color of the editor and also
@@ -807,6 +832,8 @@ public class ButtonFactory {
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
+   *
+   * <p>
    *
    * <ul>
    *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
@@ -853,6 +880,8 @@ public class ButtonFactory {
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
    *
+   * <p>
+   *
    * <ul>
    *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
    *       Choosing a color from the palette changes the default color of the editor and also
@@ -895,12 +924,14 @@ public class ButtonFactory {
         labels,
         defaultAttributes,
         colorShape,
-        new LinkedList<>());
+        new ArrayList<>());
   }
 
   /**
    * Creates a color button, with an action region and a popup menu. The button works like the color
    * button in Adobe Fireworks:
+   *
+   * <p>
    *
    * <ul>
    *   <li>When the user clicks at the button a popup menu with a color palette is displayed.
@@ -1205,7 +1236,7 @@ public class ButtonFactory {
         labels,
         defaultAttributes,
         colorShape,
-        new LinkedList<>());
+        new ArrayList<>());
   }
 
   /**
@@ -1509,7 +1540,7 @@ public class ButtonFactory {
 
   public static JPopupButton createStrokeDashesButton(
       DrawingEditor editor, double[][] dashes, ResourceBundleUtil labels) {
-    return createStrokeDashesButton(editor, dashes, labels, new LinkedList<>());
+    return createStrokeDashesButton(editor, dashes, labels, new ArrayList<>());
   }
 
   public static JPopupButton createStrokeDashesButton(
@@ -1666,7 +1697,7 @@ public class ButtonFactory {
 
   public static JPopupButton createFontButton(
       DrawingEditor editor, AttributeKey<Font> key, ResourceBundleUtil labels) {
-    return createFontButton(editor, key, labels, new LinkedList<>());
+    return createFontButton(editor, key, labels, new ArrayList<>());
   }
 
   public static JPopupButton createFontButton(
@@ -1693,7 +1724,7 @@ public class ButtonFactory {
   }
 
   public static JButton createFontStyleBoldButton(DrawingEditor editor, ResourceBundleUtil labels) {
-    return createFontStyleBoldButton(editor, labels, new LinkedList<>());
+    return createFontStyleBoldButton(editor, labels, new ArrayList<>());
   }
 
   public static JButton createFontStyleBoldButton(
@@ -1718,7 +1749,7 @@ public class ButtonFactory {
 
   public static JButton createFontStyleItalicButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createFontStyleItalicButton(editor, labels, new LinkedList<>());
+    return createFontStyleItalicButton(editor, labels, new ArrayList<>());
   }
 
   public static JButton createFontStyleItalicButton(
@@ -1743,7 +1774,7 @@ public class ButtonFactory {
 
   public static JButton createFontStyleUnderlineButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createFontStyleUnderlineButton(editor, labels, new LinkedList<>());
+    return createFontStyleUnderlineButton(editor, labels, new ArrayList<>());
   }
 
   public static JButton createFontStyleUnderlineButton(
@@ -1764,7 +1795,7 @@ public class ButtonFactory {
 
   /** Creates toolbar buttons and adds them to the specified JToolBar */
   public static void addAlignmentButtonsTo(JToolBar bar, final DrawingEditor editor) {
-    addAlignmentButtonsTo(bar, editor, new LinkedList<>());
+    addAlignmentButtonsTo(bar, editor, new ArrayList<>());
   }
 
   /** Creates toolbar buttons and adds them to the specified JToolBar. */
@@ -1835,7 +1866,7 @@ public class ButtonFactory {
 
   public static JPopupButton createStrokeCapButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createStrokeCapButton(editor, labels, new LinkedList<>());
+    return createStrokeCapButton(editor, labels, new ArrayList<>());
   }
 
   public static JPopupButton createStrokeCapButton(
@@ -1871,7 +1902,7 @@ public class ButtonFactory {
 
   public static JPopupButton createStrokeJoinButton(
       DrawingEditor editor, ResourceBundleUtil labels) {
-    return createStrokeJoinButton(editor, labels, new LinkedList<>());
+    return createStrokeJoinButton(editor, labels, new ArrayList<>());
   }
 
   public static JPopupButton createStrokeJoinButton(
@@ -1906,7 +1937,7 @@ public class ButtonFactory {
   }
 
   public static JButton createPickAttributesButton(DrawingEditor editor) {
-    return createPickAttributesButton(editor, new LinkedList<>());
+    return createPickAttributesButton(editor, new ArrayList<>());
   }
 
   public static JButton createPickAttributesButton(
@@ -1929,7 +1960,7 @@ public class ButtonFactory {
    * Creates a button that applies the default attributes of the editor to the current selection.
    */
   public static JButton createApplyAttributesButton(DrawingEditor editor) {
-    return createApplyAttributesButton(editor, new LinkedList<>());
+    return createApplyAttributesButton(editor, new ArrayList<>());
   }
 
   public static JButton createApplyAttributesButton(

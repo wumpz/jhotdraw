@@ -9,9 +9,14 @@ package org.jhotdraw.draw;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.Figure;
@@ -66,43 +71,25 @@ public class QuadTreeDrawing extends AbstractDrawing {
   /** Implementation note: Sorting can not be done for orphaned children. */
   @Override
   public List<Figure> sort(Collection<? extends Figure> c) {
-    // ensureSorted();
-    ArrayList<Figure> sorted = new ArrayList<>(c);
+    List<Figure> sorted = new ArrayList<>(c);
     Collections.sort(sorted, Comparator.comparing(Figure::getLayer));
-    //    for (Figure f : children) {
-    //      if (c.contains(f)) {
-    //        sorted.add(f);
-    //      }
-    //    }
     return sorted;
   }
 
   public void draw(Graphics2D g, Collection<Figure> c) {
-    // double factor = AttributeKeys.getScaleFactorFromGraphics(g);
     for (Figure f : c) {
       if (f.isVisible()) {
         f.draw(g);
-        //        if (isDebugMode()) {
-        //          Graphics2D g2 = (Graphics2D) g.create();
-        //          try {
-        //            g2.setStroke(new BasicStroke(0));
-        //            g2.setColor(Color.BLUE);
-        //            Rectangle2D.Double rect = f.getDrawingArea(factor);
-        //            g2.draw(rect);
-        //          } finally {
-        //            g2.dispose();
-        //          }
-        //        }
       }
     }
   }
 
-  public java.util.List<Figure> getChildren(Rectangle2D.Double bounds) {
-    return new LinkedList<>(quadTree.findInside(bounds));
+  public List<Figure> getChildren(Rectangle2D.Double bounds) {
+    return new ArrayList<>(quadTree.findInside(bounds));
   }
 
   @Override
-  public java.util.List<Figure> getChildren() {
+  public List<Figure> getChildren() {
     return Collections.unmodifiableList(children);
   }
 
@@ -220,8 +207,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
   }
 
   @Override
-  public java.util.List<Figure> findFigures(Rectangle2D.Double r) {
-    LinkedList<Figure> c = new LinkedList<>(quadTree.findIntersects(r));
+  public List<Figure> findFigures(Rectangle2D.Double r) {
+    List<Figure> c = new ArrayList<>(quadTree.findIntersects(r));
     switch (c.size()) {
       case 0:
         // fall through
@@ -233,8 +220,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
   }
 
   @Override
-  public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
-    LinkedList<Figure> contained = new LinkedList<>();
+  public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
+    List<Figure> contained = new ArrayList<>();
     for (Figure f : children) {
       Rectangle2D.Double r = f.getBounds();
       if (f.attr().get(TRANSFORM) != null) {

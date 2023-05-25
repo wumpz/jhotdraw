@@ -7,10 +7,14 @@
  */
 package org.jhotdraw.draw.figure;
 
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.util.*;
-import javax.swing.undo.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import org.jhotdraw.draw.handle.BezierOutlineHandle;
@@ -40,7 +44,7 @@ public class LineFigure extends BezierFigure {
   // EDITING
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = new LinkedList<>();
+    List<Handle> handles = new ArrayList<>();
     switch (detailLevel) {
       case -1: // Mouse hover handles
         handles.add(new BezierOutlineHandle(this, true));

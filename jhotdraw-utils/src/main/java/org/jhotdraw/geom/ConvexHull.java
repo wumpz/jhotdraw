@@ -13,9 +13,9 @@ import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -68,7 +68,7 @@ public class ConvexHull {
    * @return convex hull of the points as a Polygon2D object.
    */
   public static Path2D.Double getConvexHullPath2D(Shape shape) {
-    List<Point2D.Double> points = new LinkedList<>();
+    List<Point2D.Double> points = new ArrayList<>();
     double[] coords = new double[6];
     for (PathIterator i = shape.getPathIterator(null); !i.isDone(); i.next()) {
       switch (i.currentSegment(coords)) {

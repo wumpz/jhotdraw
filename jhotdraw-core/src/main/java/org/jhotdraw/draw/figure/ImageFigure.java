@@ -9,13 +9,25 @@ package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.io.*;
-import java.util.*;
-import javax.imageio.*;
-import javax.swing.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.Collections;
+import javax.imageio.ImageIO;
+import javax.swing.Action;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
@@ -180,8 +192,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
   // EDITING
   @Override
   public Collection<Action> getActions(Point2D.Double p) {
-    LinkedList<Action> actions = new LinkedList<>();
-    return actions;
+    return Collections.emptyList();
   }
 
   // CONNECTING

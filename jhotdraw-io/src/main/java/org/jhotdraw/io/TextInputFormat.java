@@ -7,13 +7,18 @@
  */
 package org.jhotdraw.io;
 
-import java.awt.datatransfer.*;
-import java.awt.geom.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Point2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.io.InputFormat;
@@ -100,8 +105,8 @@ public class TextInputFormat implements InputFormat {
     drawing.basicAddAll(0, createTextHolderFigures(in));
   }
 
-  public LinkedList<Figure> createTextHolderFigures(InputStream in) throws IOException {
-    LinkedList<Figure> list = new LinkedList<>();
+  public List<Figure> createTextHolderFigures(InputStream in) throws IOException {
+    List<Figure> list = new ArrayList<>();
     BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF8"));
     if (isMultiline) {
       TextHolderFigure figure = (TextHolderFigure) prototype.clone();
@@ -141,7 +146,7 @@ public class TextInputFormat implements InputFormat {
   public void read(Transferable t, Drawing drawing, boolean replace)
       throws UnsupportedFlavorException, IOException {
     String text = (String) t.getTransferData(DataFlavor.stringFlavor);
-    LinkedList<Figure> list = new LinkedList<>();
+    List<Figure> list = new ArrayList<>();
     if (isMultiline) {
       TextHolderFigure figure = (TextHolderFigure) prototype.clone();
       figure.setText(text);

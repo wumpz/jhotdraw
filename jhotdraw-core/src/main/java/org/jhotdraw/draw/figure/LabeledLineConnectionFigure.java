@@ -7,18 +7,24 @@
  */
 package org.jhotdraw.draw.figure;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-import java.util.*;
-import javax.swing.event.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.layouter.Layouter;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ReversedList;
 
 /**
  * A LineConnection with labels.
@@ -41,7 +47,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
 
   private static final long serialVersionUID = 1L;
   private Layouter layouter;
-  private ArrayList<Figure> children = new ArrayList<>();
+  private List<Figure> children = new ArrayList<>();
   private transient Rectangle2D.Double cachedDrawingArea;
   /** Handles figure changes in the children. */
   private ChildHandler childHandler = new ChildHandler(this);
@@ -139,23 +145,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
     return false;
   }
 
-  // ATTRIBUTES
-  /**
-   * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
-   * implementing the figure interface.
-   */
-  //  @Override
-  //  public <T> void set(AttributeKey<T> key, T newValue) {
-  //    super.set(key, newValue);
-  //    if (isAttributeEnabled(key)) {
-  //      if (children != null) {
-  //        for (Figure child : children) {
-  //          child.set(key, newValue);
-  //        }
-  //      }
-  //    }
-  //  }
-
   // EDITING
   @Override
   public Figure findFigureInside(Point2D.Double p) {
@@ -197,8 +186,8 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   }
 
   /** Returns an iterator to iterate in Z-order front to back over the children. */
-  public java.util.List<Figure> getChildrenFrontToBack() {
-    return children == null ? new LinkedList<>() : new ReversedList<>(children);
+  public List<Figure> getChildrenFrontToBack() {
+    return children == null ? new ArrayList<>() : new ReversedList<>(children);
   }
 
   @Override
@@ -340,7 +329,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
 
   @Override
   public void addNotify(Drawing drawing) {
-    for (Figure child : new LinkedList<>(children)) {
+    for (Figure child : children) {
       child.addNotify(drawing);
     }
     super.addNotify(drawing);
@@ -348,7 +337,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
 
   @Override
   public void removeNotify(Drawing drawing) {
-    for (Figure child : new LinkedList<>(children)) {
+    for (Figure child : children) {
       child.removeNotify(drawing);
     }
     super.removeNotify(drawing);

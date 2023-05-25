@@ -9,15 +9,17 @@ package org.jhotdraw.io;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.geom.*;
-import java.io.*;
-import java.util.*;
-import javax.imageio.*;
-import javax.swing.*;
+import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.ImageHolderFigure;
 import org.jhotdraw.draw.io.InputFormat;
@@ -179,8 +181,7 @@ public class ImageInputFormat implements InputFormat {
         new Point2D.Double(0, 0),
         new Point2D.Double(
             figure.getBufferedImage().getWidth(), figure.getBufferedImage().getHeight()));
-    LinkedList<Figure> list = new LinkedList<>();
-    list.add(figure);
+    List<Figure> list = List.of(figure);
     if (replace) {
       drawing.removeAllChildren();
       drawing.attr().set(CANVAS_WIDTH, figure.getBounds().width);

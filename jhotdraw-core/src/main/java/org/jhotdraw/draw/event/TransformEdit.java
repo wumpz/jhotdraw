@@ -7,11 +7,16 @@
  */
 package org.jhotdraw.draw.event;
 
-import java.awt.geom.*;
-import java.util.*;
-import javax.swing.undo.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * An {@code UndoableEdit} event which can undo a lossless transform of {@link Figure}s by applying
@@ -34,8 +39,8 @@ public class TransformEdit extends AbstractUndoableEdit {
 
   /** Creates a new instance. */
   public TransformEdit(Figure figure, AffineTransform tx) {
-    figures = new LinkedList<>();
-    ((LinkedList<Figure>) figures).add(figure);
+    figures = new ArrayList<>();
+    figures.add(figure);
     this.tx = (AffineTransform) tx.clone();
   }
 

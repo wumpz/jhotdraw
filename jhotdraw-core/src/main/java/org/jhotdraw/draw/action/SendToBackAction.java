@@ -7,18 +7,18 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.util.*;
-import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * SendToBackAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
 public class SendToBackAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class SendToBackAction extends AbstractSelectedAction {
   @Override
   public void actionPerformed(java.awt.event.ActionEvent e) {
     final DrawingView view = getView();
-    final LinkedList<Figure> figures = new LinkedList<>(view.getSelectedFigures());
+    final List<Figure> figures = new ArrayList<>(view.getSelectedFigures());
     sendToBack(view, figures);
     fireUndoableEditHappened(
         new AbstractUndoableEdit() {

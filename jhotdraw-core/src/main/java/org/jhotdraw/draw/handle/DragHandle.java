@@ -7,9 +7,14 @@
  */
 package org.jhotdraw.draw.handle;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
 
@@ -67,7 +72,7 @@ public class DragHandle extends AbstractHandle {
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     AffineTransform tx = new AffineTransform();
     tx.translate(lead.x - anchor.x, lead.y - anchor.y);
-    LinkedList<Figure> draggedFigures = new LinkedList<>();
+    List<Figure> draggedFigures = new ArrayList<>();
     draggedFigures.add(getOwner());
     Point2D.Double dropPoint = getView().viewToDrawing(lead);
     Figure dropTarget = getView().getDrawing().findFigureExcept(dropPoint, draggedFigures);

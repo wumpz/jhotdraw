@@ -10,13 +10,16 @@ package org.jhotdraw.io;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.*;
-import java.util.LinkedList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.xml.*;
+import org.jhotdraw.xml.DOMFactory;
+import org.jhotdraw.xml.JavaxDOMInput;
 
 /** An OutputFormat that can write Drawings with DOMStorable Figure's. */
 public class DOMStorableInputFormat implements InputFormat {
@@ -67,26 +70,6 @@ public class DOMStorableInputFormat implements InputFormat {
     return new FileNameExtensionFilter(description, fileExtension);
   }
 
-  //  /**
-  //   * Reads a list of figures into the specified drawing. This method expects that there is a
-  // child
-  //   * element named "figures" in the element that represents the drawing.
-  //   */
-  //  protected void read(URL url, InputStream in, Drawing drawing, LinkedList<Figure> figures)
-  //      throws IOException {
-  //    JavaxDOMInput domi = new JavaxDOMInput(factory, in);
-  //    domi.openElement(factory.getName(drawing));
-  //    domi.openElement("figures", 0);
-  //    figures.clear();
-  //    for (int i = 0, n = domi.getElementCount(); i < n; i++) {
-  //      Figure f = (Figure) domi.readObject();
-  //      figures.add(f);
-  //    }
-  //    domi.closeElement();
-  //    domi.closeElement();
-  //    drawing.basicAddAll(drawing.getChildCount(), figures);
-  //  }
-
   @Override
   public boolean isDataFlavorSupported(DataFlavor flavor) {
     return flavor.equals(dataFlavor);
@@ -110,7 +93,7 @@ public class DOMStorableInputFormat implements InputFormat {
   @Override
   public void read(Transferable t, Drawing drawing, boolean replace)
       throws UnsupportedFlavorException, IOException {
-    LinkedList<Figure> figures = new LinkedList<>();
+    List<Figure> figures = new ArrayList<>();
     InputStream in = (InputStream) t.getTransferData(new DataFlavor(mimeType, description));
     JavaxDOMInput domi = new JavaxDOMInput(factory, in);
     domi.openElement("Drawing-Clip");

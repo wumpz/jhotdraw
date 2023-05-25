@@ -9,11 +9,23 @@ package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.text.*;
-import java.util.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -22,7 +34,7 @@ import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
  * A {@code TextHolderFigure} which holds multiple lines of text in a rectangular area.
@@ -189,8 +201,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
       boolean lineComplete = false;
       float maxAscent = 0, maxDescent = 0;
       float horizontalPos = leftMargin;
-      LinkedList<TextLayout> layouts = new LinkedList<>();
-      LinkedList<Float> penPositions = new LinkedList<>();
+      List<TextLayout> layouts = new ArrayList<>();
+      List<Float> penPositions = new ArrayList<>();
       int first = layouts.size();
       while (!lineComplete && verticalPos <= maxVerticalPos) {
         float wrappingWidth = rightMargin - horizontalPos;
@@ -422,7 +434,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   // EVENT HANDLING
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = (LinkedList<Handle>) super.createHandles(detailLevel);
+    Collection<Handle> handles = super.createHandles(detailLevel);
     if (detailLevel == 0) {
       handles.add(new FontSizeHandle(this));
       handles.add(new TextOverflowHandle(this));

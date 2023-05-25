@@ -7,9 +7,15 @@
  */
 package org.jhotdraw.datatransfer;
 
-import java.awt.datatransfer.*;
-import java.io.*;
-import java.util.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * ComoositeTransferable.
@@ -19,7 +25,7 @@ import java.util.*;
 public class CompositeTransferable implements Transferable, ClipboardOwner {
 
   private HashMap<DataFlavor, Transferable> transferables = new HashMap<>();
-  private LinkedList<DataFlavor> flavors = new LinkedList<>();
+  private List<DataFlavor> flavors = new ArrayList<>();
 
   /** Creates a new instance of CompositeTransferable */
   public CompositeTransferable() {}

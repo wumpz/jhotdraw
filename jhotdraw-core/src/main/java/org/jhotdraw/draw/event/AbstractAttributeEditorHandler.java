@@ -10,10 +10,11 @@ package org.jhotdraw.draw.event;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.undo.AbstractUndoableEdit;
@@ -50,7 +51,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
   protected AttributeEditor<T> attributeEditor;
   protected AttributeKey<T> attributeKey;
   protected int updateDepth;
-  protected LinkedList<Object> attributeRestoreData = new LinkedList<>();
+  protected List<Object> attributeRestoreData = new ArrayList<>();
   protected Map<AttributeKey<?>, Object> defaultAttributes;
   /**
    * If this variable is put to true, the attribute editor updates the default values of the drawing
@@ -121,13 +122,13 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
     private Set<Figure> editedFigures;
     private AttributeKey<T> attributeKey;
     private T editRedoValue;
-    protected LinkedList<Object> editUndoData;
+    protected List<Object> editUndoData;
 
     public UndoableAttributeEdit(
         Set<Figure> editedFigures,
         AttributeKey<T> attributeKey,
         T editRedoValue,
-        LinkedList<Object> editUndoData) {
+        List<Object> editUndoData) {
       this.editedFigures = editedFigures;
       this.attributeKey = attributeKey;
       this.editRedoValue = editRedoValue;
@@ -360,7 +361,7 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
       } else {
         T value = attributeEditor.getAttributeValue();
         if (attributeRestoreData == null) {
-          attributeRestoreData = new LinkedList<>();
+          attributeRestoreData = new ArrayList<>();
           for (Figure f : figures) {
             attributeRestoreData.add(f.attr().getAttributesRestoreData());
           }

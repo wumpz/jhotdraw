@@ -9,13 +9,23 @@ package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import javax.swing.event.*;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
@@ -29,7 +39,7 @@ import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ReversedList;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}.
@@ -44,12 +54,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   private static final long serialVersionUID = 1L;
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
   protected Layouter layouter;
-  /**
-   * The children that this figure is composed of
-   *
-   * @see #add
-   * @see #removeChild
-   */
+
   protected ArrayList<Figure> children = new ArrayList<>();
   /** Caches the drawing area to improve the performance of method {@link #getDrawingArea}. */
   protected transient Rectangle2D.Double cachedDrawingArea;
@@ -115,7 +120,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = new LinkedList<>();
+    List<Handle> handles = new ArrayList<>();
     if (detailLevel == 0) {
       handles.add(new BoundsOutlineHandle(this, true, false));
       TransformHandleKit.addScaleMoveTransformHandles(this, handles);
@@ -468,7 +473,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public void restoreTransformTo(Object geometry) {
     @SuppressWarnings("unchecked")
-    LinkedList<Object> list = (LinkedList<Object>) geometry;
+    List list = (ArrayList) geometry;
     Iterator<Object> i = list.iterator();
     for (Figure child : getChildren()) {
       child.restoreTransformTo(i.next());
@@ -478,7 +483,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public Object getTransformRestoreData() {
-    LinkedList<Object> list = new LinkedList<>();
+    List<Object> list = new ArrayList<>();
     for (Figure child : getChildren()) {
       list.add(child.getTransformRestoreData());
     }

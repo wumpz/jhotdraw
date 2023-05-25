@@ -7,8 +7,10 @@
  */
 package org.jhotdraw.io;
 
-import java.io.*;
-import java.util.LinkedList;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This extension of <code>StreamTokenizer</code> keeps track of the position of the tokens in the
@@ -28,7 +30,7 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
   /** Start and end position of the current token. rlw */
   private int startpos = -1, endpos = -1;
 
-  private LinkedList<Integer> unread = new LinkedList<>();
+  private List<Integer> unread = new ArrayList<>();
   private char buf[] = new char[20];
   /**
    * The next character to be considered by the nextToken method. May also be NEED_CHAR to indicate
@@ -413,7 +415,7 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
     // rlw
     int data;
     if (unread.size() > 0) {
-      data = unread.removeLast();
+      data = unread.remove(unread.size() - 1);
     } else {
       data = reader.read();
     }

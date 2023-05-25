@@ -7,31 +7,27 @@
  */
 package org.jhotdraw.draw.event;
 
-import java.awt.*;
-import java.util.*;
-import org.jhotdraw.draw.*;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ReversedList;
 
-/**
- * Forwards events to one or many handles.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
 public class HandleMulticaster {
 
-  LinkedList<Handle> handles;
+  private List<Handle> handles;
 
   /** Creates a new instance. */
   public HandleMulticaster(Handle handle) {
-    this.handles = new LinkedList<>();
+    this.handles = new ArrayList<>();
     this.handles.add(handle);
   }
 
   /** Creates a new instance. */
   public HandleMulticaster(Collection<Handle> handles) {
-    this.handles = new LinkedList<>(handles);
+    this.handles = new ArrayList<>(handles);
   }
 
   public void draw(java.awt.Graphics2D g) {

@@ -9,14 +9,42 @@ package org.jhotdraw.draw;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.TexturePaint;
+import java.awt.Transparency;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.undo.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.api.gui.EditableComponent;
 import org.jhotdraw.draw.constrainer.Constrainer;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
@@ -32,7 +60,8 @@ import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.io.DefaultDrawingViewTransferHandler;
-import org.jhotdraw.util.*;
+import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.util.ReversedList;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings with a small number
@@ -57,13 +86,13 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
    */
   private Set<Figure> selectedFigures = new LinkedHashSet<>();
 
-  private LinkedList<Handle> selectionHandles = new LinkedList<>();
+  private java.util.List<Handle> selectionHandles = new ArrayList<>();
   private boolean isConstrainerVisible = false;
   private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
   private Constrainer invisibleConstrainer = new GridConstrainer();
   private Handle secondaryHandleOwner;
   private Handle activeHandle;
-  private LinkedList<Handle> secondaryHandles = new LinkedList<>();
+  private java.util.List<Handle> secondaryHandles = new ArrayList<>();
   private boolean handlesAreValid = true;
   private transient Dimension cachedPreferredSize;
   private double scaleFactor = 1;
@@ -1033,7 +1062,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   public Collection<Handle> getCompatibleHandles(Handle master) {
     validateHandles();
     HashSet<Figure> owners = new HashSet<>();
-    LinkedList<Handle> compatibleHandles = new LinkedList<>();
+    java.util.List<Handle> compatibleHandles = new ArrayList<>();
     owners.add(master.getOwner());
     compatibleHandles.add(master);
     for (Handle handle : getSelectionHandles()) {
