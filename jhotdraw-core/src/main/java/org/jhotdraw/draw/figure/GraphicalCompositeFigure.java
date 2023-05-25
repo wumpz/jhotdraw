@@ -7,6 +7,11 @@
  */
 package org.jhotdraw.draw.figure;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.CENTER;
+import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.INSIDE;
+import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.OUTSIDE;
+
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -18,10 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import static org.jhotdraw.draw.AttributeKeys.*;
-import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.CENTER;
-import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.INSIDE;
-import static org.jhotdraw.draw.AttributeKeys.StrokePlacement.OUTSIDE;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.FigureEvent;

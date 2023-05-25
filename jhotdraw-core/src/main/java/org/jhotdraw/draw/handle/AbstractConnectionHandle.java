@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.handle;
 
-
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -25,7 +24,6 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 
 /**
  * This abstract class can be extended to implement a {@link Handle} the start or end point of a

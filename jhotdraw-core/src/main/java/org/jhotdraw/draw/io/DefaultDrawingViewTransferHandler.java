@@ -7,6 +7,9 @@
  */
 package org.jhotdraw.draw.io;
 
+import static javax.swing.TransferHandler.COPY;
+import static javax.swing.TransferHandler.MOVE;
+import static javax.swing.TransferHandler.NONE;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -44,14 +47,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.SwingWorker;
 import javax.swing.TransferHandler;
-import static javax.swing.TransferHandler.COPY;
-import static javax.swing.TransferHandler.MOVE;
-import static javax.swing.TransferHandler.NONE;
 import javax.swing.TransferHandler.TransferSupport;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-
 import org.jhotdraw.datatransfer.CompositeTransferable;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingView;

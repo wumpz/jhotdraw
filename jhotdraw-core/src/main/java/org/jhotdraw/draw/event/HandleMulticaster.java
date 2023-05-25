@@ -15,7 +15,6 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.util.ReversedList;
 
-
 public class HandleMulticaster {
 
   private List<Handle> handles;

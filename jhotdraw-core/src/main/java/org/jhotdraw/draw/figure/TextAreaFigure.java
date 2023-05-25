@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.figure;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,9 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.jhotdraw.draw.AttributeKeys.*;
-
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -36,7 +35,6 @@ import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 
 /**
  * A {@code TextHolderFigure} which holds multiple lines of text in a rectangular area.

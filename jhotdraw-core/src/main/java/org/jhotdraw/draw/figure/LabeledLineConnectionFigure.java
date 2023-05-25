@@ -26,7 +26,6 @@ import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.layouter.Layouter;
 import org.jhotdraw.util.ReversedList;
 
-
 /**
  * A LineConnection with labels.
  *

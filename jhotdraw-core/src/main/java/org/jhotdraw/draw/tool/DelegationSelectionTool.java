@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.tool;
 
-
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -38,7 +37,6 @@ import org.jhotdraw.util.ActionUtil;
  *
  * <p>By default, this Tool delegates mouse events to a specific Tool if the figure which has been
  * double clicked, provides a specialized tool.
- *
  */
 public class DelegationSelectionTool extends SelectionTool {
 

@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.figure;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -26,9 +28,6 @@ import java.util.Collection;
 import java.util.Collections;
 import javax.imageio.ImageIO;
 import javax.swing.Action;
-import static org.jhotdraw.draw.AttributeKeys.*;
-
-
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;

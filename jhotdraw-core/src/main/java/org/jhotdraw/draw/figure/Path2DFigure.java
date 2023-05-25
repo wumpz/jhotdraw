@@ -29,8 +29,9 @@ public abstract class Path2DFigure extends AbstractAttributedFigure {
   // EDITING
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    if (detailLevel == -1 || detailLevel == 0) return super.createHandles(detailLevel);
-    else {
+    if (detailLevel == -1 || detailLevel == 0) {
+      return super.createHandles(detailLevel);
+    } else {
       List<Handle> handles = new ArrayList<>();
       switch (detailLevel) {
         case 1:

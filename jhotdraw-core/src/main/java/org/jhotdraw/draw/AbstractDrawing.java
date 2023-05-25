@@ -157,10 +157,8 @@ public abstract class AbstractDrawing implements Drawing {
     that.attributes = Attributes.from(attributes, that::fireDrawingAttributeChanged);
     that.listenerList = new EventListenerList();
 
-    that.inputFormats =
-        (this.inputFormats == null) ? null : new ArrayList<>( this.inputFormats );
-    that.outputFormats =
-        (this.outputFormats == null) ? null : new ArrayList<>( this.outputFormats );
+    that.inputFormats = (this.inputFormats == null) ? null : new ArrayList<>(this.inputFormats);
+    that.outputFormats = (this.outputFormats == null) ? null : new ArrayList<>(this.outputFormats);
     return that;
   }
 

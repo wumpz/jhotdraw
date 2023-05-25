@@ -18,7 +18,6 @@ import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-
 /**
  * An {@code UndoableEdit} event which can undo a lossless transform of {@link Figure}s by applying
  * the inverse of the transform to the figures.

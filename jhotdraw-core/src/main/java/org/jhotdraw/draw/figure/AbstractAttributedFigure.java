@@ -7,10 +7,11 @@
  */
 package org.jhotdraw.draw.figure;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.BasicStroke;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;

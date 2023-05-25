@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.handle;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -18,9 +20,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
-import static org.jhotdraw.draw.AttributeKeys.*;
-
-
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
@@ -30,7 +29,6 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 
 /**
  * A {@link Handle} which allows to interactively change a node of a bezier path.

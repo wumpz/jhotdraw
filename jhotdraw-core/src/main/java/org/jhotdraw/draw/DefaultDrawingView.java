@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -44,7 +46,6 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.api.gui.EditableComponent;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import org.jhotdraw.draw.constrainer.Constrainer;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
 import org.jhotdraw.draw.event.DrawingEvent;

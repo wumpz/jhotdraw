@@ -9,15 +9,15 @@ package org.jhotdraw.draw;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.Graphics2D;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.Collection;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;

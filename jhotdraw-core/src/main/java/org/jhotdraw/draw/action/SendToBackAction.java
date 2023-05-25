@@ -19,7 +19,6 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-
 public class SendToBackAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

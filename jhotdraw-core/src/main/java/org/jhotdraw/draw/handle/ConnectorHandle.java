@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.handle;
 
-
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -23,7 +22,6 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 
 /**
  * A {@link Handle} associated to a {@link Connector} which allows to create a new {@link

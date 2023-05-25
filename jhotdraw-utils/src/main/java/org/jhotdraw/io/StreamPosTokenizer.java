@@ -12,7 +12,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This extension of <code>StreamTokenizer</code> keeps track of the position of the tokens in the
  * input stream, and it can parse hexadecimal numbers and double numbers with exponents.

@@ -21,7 +21,6 @@ import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.xml.DOMFactory;
 import org.jhotdraw.xml.JavaxDOMInput;
 
-
 /** An OutputFormat that can write Drawings with DOMStorable Figure's. */
 public class DOMStorableInputFormat implements InputFormat {
 

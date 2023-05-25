@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.io;
 
+import static org.jhotdraw.draw.AttributeKeys.*;
+
 import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import javax.imageio.ImageIO;
-import static org.jhotdraw.draw.AttributeKeys.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
