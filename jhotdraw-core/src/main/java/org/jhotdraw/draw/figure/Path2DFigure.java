@@ -33,22 +33,21 @@ public class Path2DFigure extends AbstractAttributedFigure {
   // EDITING
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    if (detailLevel == -1)
+    if (detailLevel == -1 || detailLevel == 0)
       return super.createHandles(detailLevel);
     else {
-    LinkedList<Handle> handles = new LinkedList<>();
-    switch (detailLevel) {
-      case 0:
-        handles.add(new BoundsOutlineHandle(this, false, true));
-        
-      PathIterator pathIterator = path.getPathIterator(null);
-      while (!pathIterator.isDone()) {
-        handles.add(new )
-      }
-        
-        break;
+      List<Handle> handles = new ArrayList<>();
+      switch (detailLevel) {
+        case 1:
+          PathIterator pathIterator = path.getPathIterator(null);
+          while (!pathIterator.isDone()) {
+            switch (pathIterator.
+            handles.add(new )
+          }
 
-    }
+          break;
+
+      }
     }
     return handles;
   }

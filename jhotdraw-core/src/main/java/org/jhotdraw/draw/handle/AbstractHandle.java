@@ -82,6 +82,12 @@ public abstract class AbstractHandle implements Handle, FigureListener {
     return view.getEditor();
   }
 
+  /**
+   * Wrapper around multiple types of event firing. This is used to define all kinds of event
+   * methods below. 
+   * @param listenerConsumer lambda to call the right listener method with the right event
+   * @param eventSupplier creates if needed an event instance for the listener
+   */
   protected void fireHandleEvent(
       BiConsumer<HandleListener, HandleEvent> listenerConsumer,
       Supplier<HandleEvent> eventSupplier) {

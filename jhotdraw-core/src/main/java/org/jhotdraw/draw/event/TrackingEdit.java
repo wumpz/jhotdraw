@@ -25,11 +25,15 @@ import org.jhotdraw.draw.figure.Figure;
 public class TrackingEdit extends AbstractUndoableEdit {
   private final Figure owner;
   private final Point2D.Double oldValue;
-  private Point2D.Double newValue;  
+  private Point2D.Double newValue;
   private final Consumer<Point2D.Double> writeLocation;
 
   /** Creates a new instance. */
-  public TrackingEdit(Figure owner, Consumer<Point2D.Double> writeLocation, Point2D.Double oldValue, Point2D.Double newValue) {
+  public TrackingEdit(
+      Figure owner,
+      Consumer<Point2D.Double> writeLocation,
+      Point2D.Double oldValue,
+      Point2D.Double newValue) {
     this.owner = owner;
     this.writeLocation = writeLocation;
     this.oldValue = oldValue;
