@@ -7,15 +7,19 @@
  */
 package org.jhotdraw.draw.figure;
 
+import java.awt.BasicStroke;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
 import static org.jhotdraw.draw.AttributeKeys.*;
-
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -281,7 +285,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
-    LinkedList<Handle> handles = new LinkedList<>();
+    List<Handle> handles = new ArrayList<>();
     switch (detailLevel) {
       case -1:
         handles.add(new BoundsOutlineHandle(this, false, true));
@@ -551,7 +555,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Collection<Connector> getConnectors(ConnectionFigure prototype) {
-    LinkedList<Connector> connectors = new LinkedList<>();
+    List<Connector> connectors = new ArrayList<>();
     connectors.add(new ChopRectangleConnector(this));
     return connectors;
   }

@@ -56,7 +56,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -102,13 +101,13 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
    */
   private final Set<Figure> selectedFigures = new LinkedHashSet<>();
 
-  private final List<Handle> selectionHandles = new LinkedList<>();
+  private final List<Handle> selectionHandles = new ArrayList<>();
   private boolean isConstrainerVisible = false;
   private Constrainer visibleConstrainer = new GridConstrainer(8, 8);
   private Constrainer invisibleConstrainer = new GridConstrainer();
   private Handle secondaryHandleOwner;
   private Handle activeHandle;
-  private final List<Handle> secondaryHandles = new LinkedList<>();
+  private final List<Handle> secondaryHandles = new ArrayList<>();
   private boolean handlesAreValid = true;
   // TODO replace with AffineTransform to support rotation and more complex transformations from
   // document to view
@@ -758,7 +757,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   public Collection<Handle> getCompatibleHandles(Handle master) {
     validateHandles();
     HashSet<Figure> owners = new HashSet<>();
-    LinkedList<Handle> compatibleHandles = new LinkedList<>();
+    List<Handle> compatibleHandles = new ArrayList<>();
     owners.add(master.getOwner());
     compatibleHandles.add(master);
     for (Handle handle : getSelectionHandles()) {

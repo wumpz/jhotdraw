@@ -7,9 +7,15 @@
  */
 package org.jhotdraw.draw.action;
 
-import java.util.*;
-import javax.swing.undo.*;
-import org.jhotdraw.draw.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.GroupFigure;
@@ -75,7 +81,7 @@ public class GroupAction extends AbstractSelectedAction {
     if (isGroupingAction) {
       if (canGroup()) {
         final DrawingView view = getView();
-        final LinkedList<Figure> ungroupedFigures = new LinkedList<>(view.getSelectedFigures());
+        final List<Figure> ungroupedFigures = new ArrayList<>(view.getSelectedFigures());
         final CompositeFigure group = (CompositeFigure) prototype.clone();
         UndoableEdit edit =
             new AbstractUndoableEdit() {
@@ -113,7 +119,7 @@ public class GroupAction extends AbstractSelectedAction {
         final DrawingView view = getView();
         final CompositeFigure group =
             (CompositeFigure) getView().getSelectedFigures().iterator().next();
-        final LinkedList<Figure> ungroupedFigures = new LinkedList<>();
+        final List<Figure> ungroupedFigures = new ArrayList<>();
         UndoableEdit edit =
             new AbstractUndoableEdit() {
               private static final long serialVersionUID = 1L;
@@ -144,7 +150,7 @@ public class GroupAction extends AbstractSelectedAction {
   }
 
   public Collection<Figure> ungroupFigures(DrawingView view, CompositeFigure group) {
-    LinkedList<Figure> figures = new LinkedList<>(group.getChildren());
+    List<Figure> figures = new ArrayList<>(group.getChildren());
     view.clearSelection();
     group.basicRemoveAllChildren();
     view.getDrawing().basicAddAll(view.getDrawing().indexOf(group), figures);

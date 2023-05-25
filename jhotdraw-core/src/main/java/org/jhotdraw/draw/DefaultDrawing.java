@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.jhotdraw.draw.figure.Figure;
@@ -194,7 +193,7 @@ public class DefaultDrawing extends AbstractDrawing {
 
   @Override
   public List<Figure> findFigures(Rectangle2D.Double bounds) {
-    List<Figure> intersection = new LinkedList<>();
+    List<Figure> intersection = new ArrayList<>();
     for (Figure f : getChildren()) {
       if (f.isVisible() && f.getBounds().intersects(bounds)) {
         intersection.add(f);
@@ -205,7 +204,7 @@ public class DefaultDrawing extends AbstractDrawing {
 
   @Override
   public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
-    List<Figure> contained = new LinkedList<>();
+    List<Figure> contained = new ArrayList<>();
     for (Figure f : getChildren()) {
       Rectangle2D.Double r = f.getBounds();
       if (f.attr().get(TRANSFORM) != null) {
