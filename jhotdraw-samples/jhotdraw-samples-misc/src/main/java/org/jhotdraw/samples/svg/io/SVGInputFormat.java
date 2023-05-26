@@ -1291,13 +1291,13 @@ public class SVGInputFormat implements InputFormat {
         case 'Z':
         case 'z':
           // close path
-          p.x = path.get(0).x[0];
-          p.y = path.get(0).y[0];
+          p.x = path.nodes().get(0).x[0];
+          p.y = path.nodes().get(0).y[0];
           // If the last point and the first point are the same, we
           // can merge them
           if (path.size() > 1) {
-            BezierPath.Node first = path.get(0);
-            BezierPath.Node last = path.get(path.size() - 1);
+            BezierPath.Node first = path.nodes().get(0);
+            BezierPath.Node last = path.nodes().get(path.size() - 1);
             if (first.x[0] == last.x[0] && first.y[0] == last.y[0]) {
               if ((last.mask & BezierPath.C1_MASK) != 0) {
                 first.mask |= BezierPath.C1_MASK;
@@ -1493,7 +1493,7 @@ public class SVGInputFormat implements InputFormat {
           break;
         case 'S':
           // absolute-shorthand-curveto x2 y2 x y
-          node = path.get(path.size() - 1);
+          node = path.nodes().get(path.size() - 1);
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1527,7 +1527,7 @@ public class SVGInputFormat implements InputFormat {
           break;
         case 's':
           // relative-shorthand-curveto dx2 dy2 dx dy
-          node = path.get(path.size() - 1);
+          node = path.nodes().get(path.size() - 1);
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1635,7 +1635,7 @@ public class SVGInputFormat implements InputFormat {
           break;
         case 'T':
           // absolute-shorthand-quadto x y
-          node = path.get(path.size() - 1);
+          node = path.nodes().get(path.size() - 1);
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1653,7 +1653,7 @@ public class SVGInputFormat implements InputFormat {
           break;
         case 't':
           // relative-shorthand-quadto dx dy
-          node = path.get(path.size() - 1);
+          node = path.nodes().get(path.size() - 1);
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {

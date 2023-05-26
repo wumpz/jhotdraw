@@ -73,7 +73,8 @@ public class DoubleStroke implements Stroke {
           bp.moveTo(coords[0], coords[1]);
           break;
         case PathIterator.SEG_LINETO:
-          if (coords[0] != bp.get(bp.size() - 1).x[0] || coords[1] != bp.get(bp.size() - 1).y[0]) {
+          if (coords[0] != bp.nodes().get(bp.size() - 1).x[0]
+              || coords[1] != bp.nodes().get(bp.size() - 1).y[0]) {
             bp.lineTo(coords[0], coords[1]);
           }
           break;
@@ -105,9 +106,9 @@ public class DoubleStroke implements Stroke {
     Point2D.Double intersect;
     // Remove duplicate nodes from bezier path.
     if (bp.isClosed()) {
-      BezierPath.Node prev = bp.get(bp.size() - 1);
+      BezierPath.Node prev = bp.nodes().get(bp.size() - 1);
       for (int i = 0; i < bp.size(); i++) {
-        BezierPath.Node node = bp.get(i);
+        BezierPath.Node node = bp.nodes().get(i);
         if (prev.x[0] == node.x[0] && prev.y[0] == node.y[0]) {
           bp.remove(i--);
         } else {
@@ -115,9 +116,9 @@ public class DoubleStroke implements Stroke {
         }
       }
     } else {
-      BezierPath.Node prev = bp.get(0);
+      BezierPath.Node prev = bp.nodes().get(0);
       for (int i = 1; i < bp.size(); i++) {
-        BezierPath.Node node = bp.get(i);
+        BezierPath.Node node = bp.nodes().get(i);
         if (prev.x[0] == node.x[0] && prev.y[0] == node.y[0]) {
           bp.remove(i--);
         } else {
@@ -129,18 +130,18 @@ public class DoubleStroke implements Stroke {
     if (bp.isClosed() && bp.size() > 1) {
       prevCorners =
           computeThickLine(
-              bp.get(bp.size() - 1).x[0],
-              bp.get(bp.size() - 1).y[0],
-              bp.get(0).x[0],
-              bp.get(0).y[0],
+              bp.nodes().get(bp.size() - 1).x[0],
+              bp.nodes().get(bp.size() - 1).y[0],
+              bp.nodes().get(0).x[0],
+              bp.nodes().get(0).y[0],
               innerWidth,
               prevCorners);
       currentCorners =
           computeThickLine(
-              bp.get(0).x[0],
-              bp.get(0).y[0],
-              bp.get(1).x[0],
-              bp.get(1).y[0],
+              bp.nodes().get(0).x[0],
+              bp.nodes().get(0).y[0],
+              bp.nodes().get(1).x[0],
+              bp.nodes().get(1).y[0],
               innerWidth,
               currentCorners);
       intersect =
@@ -181,10 +182,10 @@ public class DoubleStroke implements Stroke {
       if (bp.size() > 1) {
         currentCorners =
             computeThickLine(
-                bp.get(0).x[0],
-                bp.get(0).y[0],
-                bp.get(1).x[0],
-                bp.get(1).y[0],
+                bp.nodes().get(0).x[0],
+                bp.nodes().get(0).y[0],
+                bp.nodes().get(1).x[0],
+                bp.nodes().get(1).y[0],
                 innerWidth,
                 currentCorners);
         right.moveTo(currentCorners[0], currentCorners[1]);
@@ -197,10 +198,10 @@ public class DoubleStroke implements Stroke {
       prevCorners = currentCorners;
       currentCorners =
           computeThickLine(
-              bp.get(i).x[0],
-              bp.get(i).y[0],
-              bp.get(i + 1).x[0],
-              bp.get(i + 1).y[0],
+              bp.nodes().get(i).x[0],
+              bp.nodes().get(i).y[0],
+              bp.nodes().get(i + 1).x[0],
+              bp.nodes().get(i + 1).y[0],
               innerWidth,
               tmp);
       intersect =
@@ -244,10 +245,10 @@ public class DoubleStroke implements Stroke {
       prevCorners = currentCorners;
       currentCorners =
           computeThickLine(
-              bp.get(bp.size() - 1).x[0],
-              bp.get(bp.size() - 1).y[0],
-              bp.get(0).x[0],
-              bp.get(0).y[0],
+              bp.nodes().get(bp.size() - 1).x[0],
+              bp.nodes().get(bp.size() - 1).y[0],
+              bp.nodes().get(0).x[0],
+              bp.nodes().get(0).y[0],
               // bp.get(1).x[0], bp.get(1).y[0],
               innerWidth,
               tmp);

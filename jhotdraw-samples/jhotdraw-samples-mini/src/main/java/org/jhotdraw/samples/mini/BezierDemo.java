@@ -101,7 +101,7 @@ public class BezierDemo extends javax.swing.JPanel {
         }
         if (ex.segments == null) {
           ArrayList<Point2D.Double> digitizedPoints = new ArrayList<Point2D.Double>();
-          for (BezierPath.Node node : ex.digitized) {
+          for (BezierPath.Node node : ex.digitized.nodes()) {
             digitizedPoints.add(new Point2D.Double(node.x[0], node.y[0]));
           }
           // Split into segments at corners
@@ -138,14 +138,14 @@ public class BezierDemo extends javax.swing.JPanel {
       if (showDigitizedCheck.isSelected()) {
         for (Example ex : examples) {
           g.setColor(Color.white);
-          for (BezierPath.Node node : ex.digitized) {
+          for (BezierPath.Node node : ex.digitized.nodes()) {
             g.fillRect(
                 (int) (node.x[0] * zoomFactor - 2), (int) (node.y[0] * zoomFactor - 2), 5, 5);
           }
         }
         for (Example ex : examples) {
           g.setColor(Color.black);
-          for (BezierPath.Node node : ex.digitized) {
+          for (BezierPath.Node node : ex.digitized.nodes()) {
             g.fillRect(
                 (int) (node.x[0] * zoomFactor - 1), (int) (node.y[0] * zoomFactor - 1), 3, 3);
           }
@@ -171,7 +171,7 @@ public class BezierDemo extends javax.swing.JPanel {
       }
       if (showControlsCheck.isSelected()) {
         for (Example ex : examples) {
-          for (BezierPath.Node node : ex.bezier) {
+          for (BezierPath.Node node : ex.bezier.nodes()) {
             if (node.mask == BezierPath.C0_MASK) {
             } else if (node.mask == BezierPath.C1C2_MASK && node.keepColinear) {
               g.setColor(Color.WHITE);
@@ -227,12 +227,12 @@ public class BezierDemo extends javax.swing.JPanel {
               }
             }
           }
-          for (BezierPath.Node node : ex.bezier) {
+          for (BezierPath.Node node : ex.bezier.nodes()) {
             g.setColor(Color.WHITE);
             g.fillRect(
                 (int) (node.x[0] * zoomFactor - 2), (int) (node.y[0] * zoomFactor - 2), 5, 5);
           }
-          for (BezierPath.Node node : ex.bezier) {
+          for (BezierPath.Node node : ex.bezier.nodes()) {
             g.setColor(
                 (node.keepColinear && node.mask != BezierPath.C0_MASK) ? Color.BLUE : Color.RED);
             g.fillRect(
@@ -450,7 +450,7 @@ public class BezierDemo extends javax.swing.JPanel {
     StringBuilder buf = new StringBuilder();
     buf.append("        Point2D.Double[] d = { //  Digitized points \n");
     for (int i = 0; i < examples.size(); i++) {
-      for (BezierPath.Node node : examples.get(i).digitized) {
+      for (BezierPath.Node node : examples.get(i).digitized.nodes()) {
         buf.append("            new Point2D.Double(");
         buf.append(node.x[0]);
         buf.append(",");

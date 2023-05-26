@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Shapes;
 
@@ -35,8 +37,10 @@ import org.jhotdraw.geom.Shapes;
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class BezierPath extends ArrayList<BezierPath.Node>
-    implements Shape, Serializable, Cloneable {
+public class BezierPath implements Shape, Serializable, Cloneable {
+
+  private final List<BezierPath.Node> NODES = new ArrayList<>();
+  private final List<BezierPath.Node> UNMODIFIEABLE_NODES = Collections.unmodifiableList(NODES);
 
   private static final long serialVersionUID = 1L;
   /**
@@ -235,16 +239,13 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
   }
 
-  /** Creates a new instance. */
-  public BezierPath() {}
-
   /**
    * Adds a node to the path.
    *
    * <p>This is a convenience method for adding a node with a single control point C0 to the path.
    */
   public void add(Point2D.Double c0) {
-    add(new Node(0, c0, c0, c0));
+    NODES.add(new Node(0, c0, c0, c0));
   }
 
   /**
@@ -253,7 +254,23 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * <p>This is a convenience method for adding a node with a single control point C0 to the path.
    */
   public void add(double x, double y) {
-    add(new Node(0, x, y, x, y, x, y));
+    NODES.add(new Node(0, x, y, x, y, x, y));
+  }
+
+  public void add(Node node) {
+    NODES.add(node);
+  }
+
+  public void addAll(BezierPath path) {
+    NODES.addAll(path.NODES);
+  }
+
+  public void add(int index, Node element) {
+    NODES.add(index, element);
+  }
+
+  public Node set(int index, Node element) {
+    return NODES.set(index, element);
   }
 
   /**
@@ -268,7 +285,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * @param c2 The coordinates of the C2 control point.
    */
   public void add(int ctrlMask, Point2D.Double c0, Point2D.Double c1, Point2D.Double c2) {
-    add(new Node(ctrlMask, c0, c1, c2));
+    NODES.add(new Node(ctrlMask, c0, c1, c2));
   }
 
   /**
@@ -278,7 +295,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    */
   public void addPolyline(Collection<Point2D.Double> points) {
     for (Point2D.Double c0 : points) {
-      add(new Node(0, c0, c0, c0));
+      NODES.add(new Node(0, c0, c0, c0));
     }
   }
 
@@ -290,7 +307,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * @param p The control point. The coordinates will be cloned.
    */
   public void set(int nodeIndex, int ctrlIndex, Point2D.Double p) {
-    Node c = get(nodeIndex);
+    Node c = NODES.get(nodeIndex);
     c.x[ctrlIndex] = p.x;
     c.y[ctrlIndex] = p.y;
   }
@@ -303,7 +320,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * @return Returns a clone of the control point.
    */
   public Point2D.Double get(int nodeIndex, int ctrlIndex) {
-    Node c = get(nodeIndex);
+    Node c = NODES.get(nodeIndex);
     return new Point2D.Double(c.x[ctrlIndex], c.y[ctrlIndex]);
   }
 
@@ -325,21 +342,21 @@ public class BezierPath extends ArrayList<BezierPath.Node>
   public Path2D.Double toGeneralPath() {
     Path2D.Double gp = new Path2D.Double();
     gp.setWindingRule(windingRule);
-    if (size() == 0) {
+    if (NODES.isEmpty()) {
       gp.moveTo(0, 0);
       gp.lineTo(0, 0 + 1);
-    } else if (size() == 1) {
-      Node current = get(0);
+    } else if (NODES.size() == 1) {
+      Node current = NODES.get(0);
       gp.moveTo(current.x[0], current.y[0]);
       gp.lineTo(current.x[0], current.y[0] + 1);
     } else {
       Node previous;
       Node current;
-      previous = current = get(0);
+      previous = current = NODES.get(0);
       gp.moveTo(current.x[0], current.y[0]);
-      for (int i = 1, n = size(); i < n; i++) {
+      for (int i = 1, n = NODES.size(); i < n; i++) {
         previous = current;
-        current = get(i);
+        current = NODES.get(i);
         if ((previous.mask & C2_MASK) == 0) {
           if ((current.mask & C1_MASK) == 0) {
             gp.lineTo(current.x[0], current.y[0]);
@@ -362,9 +379,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         }
       }
       if (isClosed) {
-        if (size() > 1) {
-          previous = get(size() - 1);
-          current = get(0);
+        if (NODES.size() > 1) {
+          previous = NODES.get(NODES.size() - 1);
+          current = NODES.get(0);
           if ((previous.mask & C2_MASK) == 0) {
             if ((current.mask & C1_MASK) == 0) {
               gp.lineTo(current.x[0], current.y[0]);
@@ -392,12 +409,28 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     return gp;
   }
 
+  public int size() {
+    return NODES.size();
+  }
+
+  public List<BezierPath.Node> nodes() {
+    return UNMODIFIEABLE_NODES;
+  }
+
+  public void clear() {
+    NODES.clear();
+  }
+
+  public Node remove(int index) {
+    return NODES.remove(index);
+  }
+
   @Override
   public boolean contains(Point2D p) {
     validatePath();
     return generalPath.contains(p);
   }
-  ;
+
   /**
    * Returns true, if the outline of this bezier path contains the specified point.
    *
@@ -440,13 +473,13 @@ public class BezierPath extends ArrayList<BezierPath.Node>
   public Rectangle2D.Double getBounds2D() {
     if (bounds == null) {
       double x1, y1, x2, y2;
-      int size = size();
+      int size = NODES.size();
       if (size == 0) {
         x1 = y1 = x2 = y2 = 0.0f;
       } else {
         double x, y;
         // handle first node
-        Node node = get(0);
+        Node node = NODES.get(0);
         y1 = y2 = node.y[0];
         x1 = x2 = node.x[0];
         if (isClosed && (node.mask & C1_MASK) != 0) {
@@ -482,7 +515,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
           }
         }
         // handle last node
-        node = get(size - 1);
+        node = NODES.get(size - 1);
         y = node.y[0];
         x = node.x[0];
         if (x < x1) {
@@ -531,7 +564,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         }
         // handle all other nodes
         for (int i = 1, n = size - 1; i < n; i++) {
-          node = get(i);
+          node = NODES.get(i);
           y = node.y[0];
           x = node.x[0];
           if (x < x1) {
@@ -614,11 +647,10 @@ public class BezierPath extends ArrayList<BezierPath.Node>
   }
 
   /** Creates a deep copy of the BezierPath. */
-  @Override
   public BezierPath clone() {
-    BezierPath that = (BezierPath) super.clone();
-    for (int i = 0, n = this.size(); i < n; i++) {
-      that.set(i, (Node) this.get(i).clone());
+    BezierPath that = (BezierPath) new BezierPath();
+    for (int i = 0, n = NODES.size(); i < n; i++) {
+      that.NODES.add(i, (Node) NODES.get(i).clone());
     }
     return that;
   }
@@ -630,7 +662,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    */
   public void transform(AffineTransform tx) {
     Point2D.Double p = new Point2D.Double();
-    for (Node cp : this) {
+    for (Node cp : NODES) {
       for (int i = 0; i < 3; i++) {
         p.x = cp.x[i];
         p.y = cp.y[i];
@@ -647,14 +679,14 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * that path.
    */
   public void setTo(BezierPath that) {
-    while (that.size() < size()) {
-      remove(size() - 1);
+    while (that.NODES.size() < NODES.size()) {
+      NODES.remove(NODES.size() - 1);
     }
-    for (int i = 0, n = size(); i < n; i++) {
-      get(i).setTo(that.get(i));
+    for (int i = 0, n = NODES.size(); i < n; i++) {
+      NODES.get(i).setTo(that.NODES.get(i));
     }
-    while (size() < that.size()) {
-      add((Node) that.get(size()).clone());
+    while (NODES.size() < that.NODES.size()) {
+      NODES.add((Node) that.NODES.get(NODES.size()).clone());
     }
   }
 
@@ -662,11 +694,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
   public Point2D.Double getCenter() {
     double sx = 0;
     double sy = 0;
-    for (Node p : this) {
+    for (Node p : NODES) {
       sx += p.x[0];
       sy += p.y[0];
     }
-    int n = size();
+    int n = NODES.size();
     return new Point2D.Double(sx / n, sy / n);
   }
 
@@ -685,8 +717,8 @@ public class BezierPath extends ArrayList<BezierPath.Node>
       Point2D.Double ctr = getCenter();
       outer = 0;
       double dist = 0;
-      for (int i = 0, n = size(); i < n; i++) {
-        Node cp = get(i);
+      for (int i = 0, n = NODES.size(); i < n; i++) {
+        Node cp = NODES.get(i);
         double d = Geom.length2(ctr.x, ctr.y, cp.x[0], cp.y[0]);
         if (d > dist) {
           dist = d;
@@ -705,15 +737,15 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    */
   public Point2D.Double getPointOnPath(double relative, double flatness) {
     // This method works only for straight lines
-    if (size() == 0) {
+    if (NODES.isEmpty()) {
       return null;
-    } else if (size() == 1) {
-      return get(0).getControlPoint(0);
+    } else if (NODES.size() == 1) {
+      return NODES.get(0).getControlPoint(0);
     }
     if (relative <= 0) {
-      return get(0).getControlPoint(0);
+      return NODES.get(0).getControlPoint(0);
     } else if (relative >= 1) {
-      return get(size() - 1).getControlPoint(0);
+      return NODES.get(NODES.size() - 1).getControlPoint(0);
     }
     validatePath();
     // Compute the relative point on the path
@@ -782,11 +814,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     Node v1, v2;
     BezierPath tempPath = new BezierPath();
     Node t1, t2;
-    tempPath.add(t1 = new Node());
-    tempPath.add(t2 = new Node());
-    for (int i = 0, n = size() - 1; i < n; i++) {
-      v1 = get(i);
-      v2 = get(i + 1);
+    tempPath.NODES.add(t1 = new Node());
+    tempPath.NODES.add(t2 = new Node());
+    for (int i = 0, n = NODES.size() - 1; i < n; i++) {
+      v1 = NODES.get(i);
+      v2 = NODES.get(i + 1);
       if (v1.mask == 0 && v2.mask == 0) {
         if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
           relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
@@ -806,9 +838,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         }
       }
     }
-    if (isClosed && size() > 1) {
-      v1 = get(size() - 1);
-      v2 = get(0);
+    if (isClosed && NODES.size() > 1) {
+      v1 = NODES.get(NODES.size() - 1);
+      v2 = NODES.get(0);
       if (v1.mask == 0 && v2.mask == 0) {
         if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
           relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
@@ -837,11 +869,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     Node v1, v2;
     BezierPath tempPath = new BezierPath();
     Node t1, t2;
-    tempPath.add(t1 = new Node());
-    tempPath.add(t2 = new Node());
-    for (int i = 0, n = size() - 1; i < n; i++) {
-      v1 = get(i);
-      v2 = get(i + 1);
+    tempPath.NODES.add(t1 = new Node());
+    tempPath.NODES.add(t2 = new Node());
+    for (int i = 0, n = NODES.size() - 1; i < n; i++) {
+      v1 = NODES.get(i);
+      v2 = NODES.get(i + 1);
       if (v1.mask == 0 && v2.mask == 0) {
         if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, tolerance)) {
           return i;
@@ -855,19 +887,19 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         }
       }
     }
-    if (isClosed && size() > 1) {
-      v1 = get(size() - 1);
-      v2 = get(0);
+    if (isClosed && NODES.size() > 1) {
+      v1 = NODES.get(NODES.size() - 1);
+      v2 = NODES.get(0);
       if (v1.mask == 0 && v2.mask == 0) {
         if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, tolerance)) {
-          return size() - 1;
+          return NODES.size() - 1;
         }
       } else {
         t1.setTo(v1);
         t2.setTo(v2);
         tempPath.invalidatePath();
         if (tempPath.outlineContains(find, tolerance)) {
-          return size() - 1;
+          return NODES.size() - 1;
         }
       }
     }
@@ -880,10 +912,10 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * @return the index of the joined segment or -1 if no segment was joined.
    */
   public int joinSegments(Point2D.Double join, double tolerance) {
-    for (int i = 0; i < size(); i++) {
-      Node p = get(i);
+    for (int i = 0; i < NODES.size(); i++) {
+      Node p = NODES.get(i);
       if (Geom.length(p.x[0], p.y[0], join.x, join.y) < tolerance) {
-        remove(i);
+        NODES.remove(i);
         return i;
       }
     }
@@ -897,20 +929,22 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    */
   public int splitSegment(Point2D.Double split, double tolerance) {
     int i = findSegment(split, tolerance);
-    int nextI = (i + 1) % size();
+    int nextI = (i + 1) % NODES.size();
     if (i != -1) {
-      if ((get(i).mask & C2_MASK) == C2_MASK && (get(nextI).mask & C1_MASK) == 0) {
+      if ((NODES.get(i).mask & C2_MASK) == C2_MASK && (NODES.get(nextI).mask & C1_MASK) == 0) {
         // quadto
-        add(i + 1, new Node(C2_MASK, split, split, split));
-      } else if ((get(i).mask & C2_MASK) == 0 && (get(nextI).mask & C1_MASK) == C1_MASK) {
+        NODES.add(i + 1, new Node(C2_MASK, split, split, split));
+      } else if ((NODES.get(i).mask & C2_MASK) == 0
+          && (NODES.get(nextI).mask & C1_MASK) == C1_MASK) {
         // quadto
-        add(i + 1, new Node(C1_MASK, split, split, split));
-      } else if ((get(i).mask & C2_MASK) == C2_MASK && (get(nextI).mask & C1_MASK) == C1_MASK) {
+        NODES.add(i + 1, new Node(C1_MASK, split, split, split));
+      } else if ((NODES.get(i).mask & C2_MASK) == C2_MASK
+          && (NODES.get(nextI).mask & C1_MASK) == C1_MASK) {
         // cubicto
-        add(i + 1, new Node(C1_MASK | C2_MASK, split, split, split));
+        NODES.add(i + 1, new Node(C1_MASK | C2_MASK, split, split, split));
       } else {
         // lineto
-        add(i + 1, new Node(split));
+        NODES.add(i + 1, new Node(split));
       }
     }
     return i + 1;
@@ -923,12 +957,12 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * bezier path.
    */
   public void moveTo(double x1, double y1) {
-    if (size() != 0) {
+    if (NODES.size() != 0) {
       throw new IllegalPathStateException("moveTo only allowed when empty");
     }
     Node node = new Node(x1, y1);
     node.keepColinear = false;
-    add(node);
+    NODES.add(node);
   }
 
   /**
@@ -942,11 +976,11 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * <p>The bezier path must already have at least one node.
    */
   public void lineTo(double x1, double y1) {
-    if (size() == 0) {
+    if (NODES.size() == 0) {
       throw new IllegalPathStateException("lineTo only allowed when not empty");
     }
-    get(size() - 1).keepColinear = false;
-    add(new Node(x1, y1));
+    NODES.get(NODES.size() - 1).keepColinear = false;
+    NODES.add(new Node(x1, y1));
   }
 
   /**
@@ -961,10 +995,10 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * <p>The bezier path must already have at least one node.
    */
   public void quadTo(double x1, double y1, double x2, double y2) {
-    if (size() == 0) {
+    if (NODES.size() == 0) {
       throw new IllegalPathStateException("quadTo only allowed when not empty");
     }
-    add(new Node(C1_MASK, x2, y2, x1, y1, x2, y2));
+    NODES.add(new Node(C1_MASK, x2, y2, x1, y1, x2, y2));
   }
 
   /**
@@ -977,10 +1011,10 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * <p>The bezier path must already have at least one node.
    */
   public void curveTo(double x1, double y1, double x2, double y2, double x3, double y3) {
-    if (size() == 0) {
+    if (NODES.size() == 0) {
       throw new IllegalPathStateException("curveTo only allowed when not empty");
     }
-    Node lastPoint = get(size() - 1);
+    Node lastPoint = NODES.get(NODES.size() - 1);
     lastPoint.mask |= C2_MASK;
     lastPoint.x[2] = x1;
     lastPoint.y[2] = y1;
@@ -991,7 +1025,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
                       - Geom.angle(lastPoint.x[2], lastPoint.y[2], lastPoint.x[0], lastPoint.y[0]))
               < 0.001;
     }
-    add(new Node(C1_MASK, x3, y3, x2, y2, x3, y3));
+    NODES.add(new Node(C1_MASK, x3, y3, x2, y2, x3, y3));
   }
 
   /**
@@ -1029,7 +1063,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
       return;
     }
     // Get the current (x, y) coordinates of the path
-    Node lastPoint = get(size() - 1);
+    Node lastPoint = NODES.get(NODES.size() - 1);
     double x0 = ((lastPoint.mask & C2_MASK) == C2_MASK) ? lastPoint.x[2] : lastPoint.x[0];
     double y0 = ((lastPoint.mask & C2_MASK) == C2_MASK) ? lastPoint.y[2] : lastPoint.y[0];
     if (x0 == x && y0 == y) {
@@ -1142,9 +1176,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
    * @return Point array.
    */
   public Point2D.Double[] toPolygonArray() {
-    Point2D.Double[] points = new Point2D.Double[size()];
-    for (int i = 0, n = size(); i < n; i++) {
-      points[i] = new Point2D.Double(get(i).x[0], get(i).y[0]);
+    Point2D.Double[] points = new Point2D.Double[NODES.size()];
+    for (int i = 0, n = NODES.size(); i < n; i++) {
+      points[i] = new Point2D.Double(NODES.get(i).x[0], NODES.get(i).y[0]);
     }
     return points;
   }

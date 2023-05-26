@@ -369,7 +369,7 @@ public class SVGOutputFormat implements OutputFormat {
     LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
     for (int i = 0, n = f.getChildCount(); i < n; i++) {
       BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
-      for (BezierPath.Node node : bezier) {
+      for (BezierPath.Node node : bezier.nodes()) {
         points.add(new Point2D.Double(node.x[0], node.y[0]));
       }
     }
@@ -393,7 +393,7 @@ public class SVGOutputFormat implements OutputFormat {
     LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
     for (int i = 0, n = f.getChildCount(); i < n; i++) {
       BezierPath bezier = ((BezierFigure) f.getChild(i)).getBezierPath();
-      for (BezierPath.Node node : bezier) {
+      for (BezierPath.Node node : bezier.nodes()) {
         points.add(new Point2D.Double(node.x[0], node.y[0]));
       }
     }
@@ -1020,7 +1020,7 @@ public class SVGOutputFormat implements OutputFormat {
       if (path.size() == 0) {
         // nothing to do
       } else if (path.size() == 1) {
-        BezierPath.Node current = path.get(0);
+        BezierPath.Node current = path.nodes().get(0);
         buf.append("M ");
         buf.append(toNumber(current.x[0]));
         buf.append(' ');
@@ -1032,7 +1032,7 @@ public class SVGOutputFormat implements OutputFormat {
       } else {
         BezierPath.Node previous;
         BezierPath.Node current;
-        previous = current = path.get(0);
+        previous = current = path.nodes().get(0);
         buf.append("M ");
         buf.append(toNumber(current.x[0]));
         buf.append(' ');
@@ -1040,7 +1040,7 @@ public class SVGOutputFormat implements OutputFormat {
         char nextCommand = 'L';
         for (int i = 1, n = path.size(); i < n; i++) {
           previous = current;
-          current = path.get(i);
+          current = path.nodes().get(i);
           if ((previous.mask & BezierPath.C2_MASK) == 0) {
             if ((current.mask & BezierPath.C1_MASK) == 0) {
               if (nextCommand != 'L') {
@@ -1105,8 +1105,8 @@ public class SVGOutputFormat implements OutputFormat {
         }
         if (path.isClosed()) {
           if (path.size() > 1) {
-            previous = path.get(path.size() - 1);
-            current = path.get(0);
+            previous = path.nodes().get(path.size() - 1);
+            current = path.nodes().get(0);
             if ((previous.mask & BezierPath.C2_MASK) == 0) {
               if ((current.mask & BezierPath.C1_MASK) == 0) {
                 if (nextCommand != 'L') {

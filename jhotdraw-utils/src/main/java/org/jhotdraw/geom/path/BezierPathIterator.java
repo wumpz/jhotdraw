@@ -229,8 +229,8 @@ public class BezierPathIterator implements PathIterator {
     if (index == path.size()) {
       // We only get here for closed paths
       if (path.size() > 1) {
-        BezierPath.Node previous = path.get(path.size() - 1);
-        BezierPath.Node current = path.get(0);
+        BezierPath.Node previous = path.nodes().get(path.size() - 1);
+        BezierPath.Node current = path.nodes().get(0);
         if ((previous.mask & BezierPath.C2_MASK) == 0) {
           if ((current.mask & BezierPath.C1_MASK) == 0) {
             numCoords = 1;
@@ -269,14 +269,14 @@ public class BezierPathIterator implements PathIterator {
       // We only get here for closed paths
       return SEG_CLOSE;
     } else if (index == 0) {
-      BezierPath.Node current = path.get(index);
+      BezierPath.Node current = path.nodes().get(index);
       coords[0] = current.x[0];
       coords[1] = current.y[0];
       numCoords = 1;
       type = SEG_MOVETO;
     } else if (index < path.size()) {
-      BezierPath.Node current = path.get(index);
-      BezierPath.Node previous = path.get(index - 1);
+      BezierPath.Node current = path.nodes().get(index);
+      BezierPath.Node previous = path.nodes().get(index - 1);
       if ((previous.mask & BezierPath.C2_MASK) == 0) {
         if ((current.mask & BezierPath.C1_MASK) == 0) {
           numCoords = 1;

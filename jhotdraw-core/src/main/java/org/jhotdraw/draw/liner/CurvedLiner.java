@@ -69,8 +69,8 @@ public class CurvedLiner implements Liner {
       if (eoutcode == 0) {
         eoutcode = Geom.outcode(sb, eb);
       }
-      path.get(0).moveTo(sp);
-      path.get(path.size() - 1).moveTo(ep);
+      path.nodes().get(0).moveTo(sp);
+      path.nodes().get(path.size() - 1).moveTo(ep);
       switch (soutcode) {
         case Geom.OUT_TOP:
           eoutcode = Geom.OUT_LEFT;
@@ -89,42 +89,42 @@ public class CurvedLiner implements Liner {
           soutcode = Geom.OUT_RIGHT;
           break;
       }
-      // path.get(0).moveTo(sp.x + shoulderSize, sp.y);
-      path.get(0).mask = BezierPath.C2_MASK;
+      // path.nodes().get(0).moveTo(sp.x + shoulderSize, sp.y);
+      path.nodes().get(0).mask = BezierPath.C2_MASK;
       if ((soutcode & Geom.OUT_RIGHT) != 0) {
-        path.get(0).x[2] = sp.x + shoulderSize;
-        path.get(0).y[2] = sp.y;
+        path.nodes().get(0).x[2] = sp.x + shoulderSize;
+        path.nodes().get(0).y[2] = sp.y;
       } else if ((soutcode & Geom.OUT_LEFT) != 0) {
-        path.get(0).x[2] = sp.x - shoulderSize;
-        path.get(0).y[2] = sp.y;
+        path.nodes().get(0).x[2] = sp.x - shoulderSize;
+        path.nodes().get(0).y[2] = sp.y;
       } else if ((soutcode & Geom.OUT_BOTTOM) != 0) {
-        path.get(0).x[2] = sp.x;
-        path.get(0).y[2] = sp.y + shoulderSize;
+        path.nodes().get(0).x[2] = sp.x;
+        path.nodes().get(0).y[2] = sp.y + shoulderSize;
       } else {
-        path.get(0).x[2] = sp.x;
-        path.get(0).y[2] = sp.y - shoulderSize;
+        path.nodes().get(0).x[2] = sp.x;
+        path.nodes().get(0).y[2] = sp.y - shoulderSize;
       }
-      path.get(1).mask = BezierPath.C2_MASK;
-      path.get(1).moveTo(sp.x + shoulderSize, (sp.y + ep.y) / 2);
-      path.get(1).x[2] = sp.x + shoulderSize;
-      path.get(1).y[2] = ep.y - shoulderSize;
-      path.get(2).mask = BezierPath.C1_MASK;
-      path.get(2).moveTo((sp.x + ep.x) / 2, ep.y - shoulderSize);
-      path.get(2).x[1] = sp.x + shoulderSize;
-      path.get(2).y[1] = ep.y - shoulderSize;
-      path.get(3).mask = BezierPath.C1_MASK;
+      path.nodes().get(1).mask = BezierPath.C2_MASK;
+      path.nodes().get(1).moveTo(sp.x + shoulderSize, (sp.y + ep.y) / 2);
+      path.nodes().get(1).x[2] = sp.x + shoulderSize;
+      path.nodes().get(1).y[2] = ep.y - shoulderSize;
+      path.nodes().get(2).mask = BezierPath.C1_MASK;
+      path.nodes().get(2).moveTo((sp.x + ep.x) / 2, ep.y - shoulderSize);
+      path.nodes().get(2).x[1] = sp.x + shoulderSize;
+      path.nodes().get(2).y[1] = ep.y - shoulderSize;
+      path.nodes().get(3).mask = BezierPath.C1_MASK;
       if ((eoutcode & Geom.OUT_RIGHT) != 0) {
-        path.get(3).x[1] = ep.x + shoulderSize;
-        path.get(3).y[1] = ep.y;
+        path.nodes().get(3).x[1] = ep.x + shoulderSize;
+        path.nodes().get(3).y[1] = ep.y;
       } else if ((eoutcode & Geom.OUT_LEFT) != 0) {
-        path.get(3).x[1] = ep.x - shoulderSize;
-        path.get(3).y[1] = ep.y;
+        path.nodes().get(3).x[1] = ep.x - shoulderSize;
+        path.nodes().get(3).y[1] = ep.y;
       } else if ((eoutcode & Geom.OUT_BOTTOM) != 0) {
-        path.get(3).x[1] = ep.x;
-        path.get(3).y[1] = ep.y + shoulderSize;
+        path.nodes().get(3).x[1] = ep.x;
+        path.nodes().get(3).y[1] = ep.y + shoulderSize;
       } else {
-        path.get(3).x[1] = ep.x;
-        path.get(3).y[1] = ep.y - shoulderSize;
+        path.nodes().get(3).x[1] = ep.x;
+        path.nodes().get(3).y[1] = ep.y - shoulderSize;
       }
     } else {
       Point2D.Double sp = start.findStart(figure);

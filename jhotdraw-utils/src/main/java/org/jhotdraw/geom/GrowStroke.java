@@ -57,7 +57,8 @@ public class GrowStroke extends DoubleStroke {
           bp.moveTo(coords[0], coords[1]);
           break;
         case PathIterator.SEG_LINETO:
-          if (coords[0] != bp.get(bp.size() - 1).x[0] || coords[1] != bp.get(bp.size() - 1).y[0]) {
+          if (coords[0] != bp.nodes().get(bp.size() - 1).x[0]
+              || coords[1] != bp.nodes().get(bp.size() - 1).y[0]) {
             bp.lineTo(coords[0], coords[1]);
           }
           break;

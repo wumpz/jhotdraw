@@ -69,8 +69,8 @@ public class ElbowLiner implements Liner {
       if (eoutcode == 0) {
         eoutcode = Geom.outcode(sb, eb);
       }
-      path.get(0).moveTo(sp);
-      path.get(path.size() - 1).moveTo(ep);
+      path.nodes().get(0).moveTo(sp);
+      path.nodes().get(path.size() - 1).moveTo(ep);
       switch (soutcode) {
         case Geom.OUT_TOP:
           eoutcode = Geom.OUT_LEFT;
@@ -89,38 +89,38 @@ public class ElbowLiner implements Liner {
           soutcode = Geom.OUT_RIGHT;
           break;
       }
-      path.get(1).moveTo(sp.x + shoulderSize, sp.y);
+      path.nodes().get(1).moveTo(sp.x + shoulderSize, sp.y);
       if ((soutcode & Geom.OUT_RIGHT) != 0) {
-        path.get(1).moveTo(sp.x + shoulderSize, sp.y);
+        path.nodes().get(1).moveTo(sp.x + shoulderSize, sp.y);
       } else if ((soutcode & Geom.OUT_LEFT) != 0) {
-        path.get(1).moveTo(sp.x - shoulderSize, sp.y);
+        path.nodes().get(1).moveTo(sp.x - shoulderSize, sp.y);
       } else if ((soutcode & Geom.OUT_BOTTOM) != 0) {
-        path.get(1).moveTo(sp.x, sp.y + shoulderSize);
+        path.nodes().get(1).moveTo(sp.x, sp.y + shoulderSize);
       } else {
-        path.get(1).moveTo(sp.x, sp.y - shoulderSize);
+        path.nodes().get(1).moveTo(sp.x, sp.y - shoulderSize);
       }
       if ((eoutcode & Geom.OUT_RIGHT) != 0) {
-        path.get(3).moveTo(ep.x + shoulderSize, ep.y);
+        path.nodes().get(3).moveTo(ep.x + shoulderSize, ep.y);
       } else if ((eoutcode & Geom.OUT_LEFT) != 0) {
-        path.get(3).moveTo(ep.x - shoulderSize, ep.y);
+        path.nodes().get(3).moveTo(ep.x - shoulderSize, ep.y);
       } else if ((eoutcode & Geom.OUT_BOTTOM) != 0) {
-        path.get(3).moveTo(ep.x, ep.y + shoulderSize);
+        path.nodes().get(3).moveTo(ep.x, ep.y + shoulderSize);
       } else {
-        path.get(3).moveTo(ep.x, ep.y - shoulderSize);
+        path.nodes().get(3).moveTo(ep.x, ep.y - shoulderSize);
       }
       switch (soutcode) {
         case Geom.OUT_RIGHT:
-          path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
+          path.nodes().get(2).moveTo(path.nodes().get(1).x[0], path.nodes().get(3).y[0]);
           break;
         case Geom.OUT_TOP:
-          path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
+          path.nodes().get(2).moveTo(path.nodes().get(1).y[0], path.nodes().get(3).x[0]);
           break;
         case Geom.OUT_LEFT:
-          path.get(2).moveTo(path.get(1).x[0], path.get(3).y[0]);
+          path.nodes().get(2).moveTo(path.nodes().get(1).x[0], path.nodes().get(3).y[0]);
           break;
         case Geom.OUT_BOTTOM:
         default:
-          path.get(2).moveTo(path.get(1).y[0], path.get(3).x[0]);
+          path.nodes().get(2).moveTo(path.nodes().get(1).y[0], path.nodes().get(3).x[0]);
           break;
       }
     } else {
@@ -166,7 +166,7 @@ public class ElbowLiner implements Liner {
       }
     }
     // Ensure all path nodes are straight
-    for (BezierPath.Node node : path) {
+    for (BezierPath.Node node : path.nodes()) {
       node.setMask(BezierPath.C0_MASK);
     }
     path.invalidatePath();

@@ -95,17 +95,17 @@ public class Bezier {
           case 0:
             break;
           case 1:
-            fittedPath.add(new BezierPath.Node(seg.get(0)));
+            fittedPath.add(seg.get(0));
             break;
           case 2:
-            if (fittedPath.isEmpty()) {
-              fittedPath.add(new BezierPath.Node(seg.get(0)));
+            if (fittedPath.size() == 0) {
+              fittedPath.add(seg.get(0));
             }
             fittedPath.lineTo(seg.get(1).x, seg.get(1).y);
             break;
           default:
-            if (fittedPath.isEmpty()) {
-              fittedPath.add(new BezierPath.Node(seg.get(0)));
+            if (fittedPath.size() == 0) {
+              fittedPath.add(seg.get(0));
             }
             /*  Unit tangent vectors at endpoints */
             Point2D.Double tHat1;
@@ -130,7 +130,7 @@ public class Bezier {
    */
   public static BezierPath fitBezierPath(BezierPath digitizedPoints, double error) {
     ArrayList<Point2D.Double> d = new ArrayList<>(digitizedPoints.size());
-    for (BezierPath.Node n : digitizedPoints) {
+    for (BezierPath.Node n : digitizedPoints.nodes()) {
       d.add(new Point2D.Double(n.x[0], n.y[0]));
     }
     return fitBezierPath(d, error);
@@ -447,7 +447,7 @@ public class Bezier {
       BezierPath bezierPath,
       double errorSquared,
       boolean connectsCorners) {
-    BezierPath.Node lastNode = bezierPath.get(bezierPath.size() - 1);
+    BezierPath.Node lastNode = bezierPath.nodes().get(bezierPath.size() - 1);
     double error = Math.sqrt(errorSquared);
     if (connectsCorners
         && Geom.lineContainsPoint(

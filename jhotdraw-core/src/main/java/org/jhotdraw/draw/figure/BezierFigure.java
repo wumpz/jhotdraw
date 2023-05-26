@@ -347,8 +347,8 @@ public class BezierFigure extends AbstractAttributedFigure {
       } else {
         if (cappedPath.size() > 1) {
           if (attr().get(START_DECORATION) != null) {
-            BezierPath.Node p0 = cappedPath.get(0);
-            BezierPath.Node p1 = cappedPath.get(1);
+            BezierPath.Node p0 = cappedPath.nodes().get(0);
+            BezierPath.Node p1 = cappedPath.nodes().get(1);
             Point2D.Double pp;
             if ((p0.getMask() & BezierPath.C2_MASK) != 0) {
               pp = p0.getControlPoint(2);
@@ -363,8 +363,8 @@ public class BezierFigure extends AbstractAttributedFigure {
                 0, 0, Geom.cap(pp, p0.getControlPoint(0), -Math.min(radius, lineLength)));
           }
           if (attr().get(END_DECORATION) != null) {
-            BezierPath.Node p0 = cappedPath.get(cappedPath.size() - 1);
-            BezierPath.Node p1 = cappedPath.get(cappedPath.size() - 2);
+            BezierPath.Node p0 = cappedPath.nodes().get(cappedPath.size() - 1);
+            BezierPath.Node p1 = cappedPath.nodes().get(cappedPath.size() - 2);
             Point2D.Double pp;
             if ((p0.getMask() & BezierPath.C1_MASK) != 0) {
               pp = p0.getControlPoint(1);
@@ -408,7 +408,7 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   /** Gets a control point. */
   public BezierPath.Node getNode(int index) {
-    return (BezierPath.Node) path.get(index).clone();
+    return (BezierPath.Node) path.nodes().get(index).clone();
   }
 
   /**
@@ -416,17 +416,17 @@ public class BezierFigure extends AbstractAttributedFigure {
    * node.
    */
   public Point2D.Double getPoint(int index) {
-    return path.get(index).getControlPoint(0);
+    return path.nodes().get(index).getControlPoint(0);
   }
 
   /** Gets the point coordinate of a control point. */
   public Point2D.Double getPoint(int index, int coord) {
-    return path.get(index).getControlPoint(coord);
+    return path.nodes().get(index).getControlPoint(coord);
   }
 
   /** Sets the point coordinate of control point 0 at the specified node. */
   public void setPoint(int index, Point2D.Double p) {
-    BezierPath.Node node = path.get(index);
+    BezierPath.Node node = path.nodes().get(index);
     double dx = p.x - node.x[0];
     double dy = p.y - node.y[0];
     for (int i = 0; i < node.x.length; i++) {
@@ -438,7 +438,7 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   /** Sets the point coordinate of a control point. */
   public void setPoint(int index, int coord, Point2D.Double p) {
-    BezierPath.Node cp = new BezierPath.Node(path.get(index));
+    BezierPath.Node cp = new BezierPath.Node(path.nodes().get(index));
     cp.setControlPoint(coord, p);
     setNode(index, cp);
   }
@@ -488,7 +488,7 @@ public class BezierFigure extends AbstractAttributedFigure {
   public int findNode(Point2D.Double p) {
     BezierPath tp = path;
     for (int i = 0; i < tp.size(); i++) {
-      BezierPath.Node p2 = tp.get(i);
+      BezierPath.Node p2 = tp.nodes().get(i);
       if (p2.x[0] == p.x && p2.y[0] == p.y) {
         return i;
       }
@@ -596,7 +596,7 @@ public class BezierFigure extends AbstractAttributedFigure {
   }
 
   public Point2D.Double getOutermostPoint() {
-    return path.get(path.indexOfOutermostNode()).getControlPoint(0);
+    return path.nodes().get(path.indexOfOutermostNode()).getControlPoint(0);
   }
 
   /**

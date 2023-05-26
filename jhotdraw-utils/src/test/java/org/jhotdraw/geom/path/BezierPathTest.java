@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
-import org.jhotdraw.geom.path.BezierPath;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,8 +44,8 @@ public class BezierPathTest {
     while (pathIterator.isDone() == false) {
       pathIterator.currentSegment(coords);
       for (int j = 0; j < 3; j++) {
-        assertEquals(coords[0], instance.get(i).getControlPoint(j).x);
-        assertEquals(coords[1], instance.get(i).getControlPoint(j).y);
+        assertEquals(coords[0], instance.nodes().get(i).getControlPoint(j).x);
+        assertEquals(coords[1], instance.nodes().get(i).getControlPoint(j).y);
       }
       i++;
       pathIterator.next();
@@ -65,7 +64,7 @@ public class BezierPathTest {
     assertEquals(toPolygonArray.length, 2);
     for (int i = 0; i < toPolygonArray.length; i++) {
       for (int j = 0; j < 3; j++) {
-        assertEquals(toPolygonArray[i], instance.get(i).getControlPoint(j));
+        assertEquals(toPolygonArray[i], instance.nodes().get(i).getControlPoint(j));
       }
     }
   }
@@ -83,8 +82,8 @@ public class BezierPathTest {
     while (pathIterator.isDone() == false) {
       pathIterator.currentSegment(coords);
       for (int j = 0; j < 3; j++) {
-        assertEquals(coords[0], instance.get(i).getControlPoint(j).x);
-        assertEquals(coords[1], instance.get(i).getControlPoint(j).y);
+        assertEquals(coords[0], instance.nodes().get(i).getControlPoint(j).x);
+        assertEquals(coords[1], instance.nodes().get(i).getControlPoint(j).y);
       }
       i++;
       pathIterator.next();
@@ -104,8 +103,8 @@ public class BezierPathTest {
     while (pathIterator.isDone() == false) {
       pathIterator.currentSegment(coords);
       for (int j = 0; j < 3; j++) {
-        assertEquals(coords[0], instance.get(i).getControlPoint(j).x);
-        assertEquals(coords[1], instance.get(i).getControlPoint(j).y);
+        assertEquals(coords[0], instance.nodes().get(i).getControlPoint(j).x);
+        assertEquals(coords[1], instance.nodes().get(i).getControlPoint(j).y);
       }
       i++;
       pathIterator.next();
