@@ -35,7 +35,7 @@ import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.formatter.FontFormatter;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.io.Base64;
 import org.jhotdraw.io.StreamPosTokenizer;
 import org.jhotdraw.samples.svg.Gradient;

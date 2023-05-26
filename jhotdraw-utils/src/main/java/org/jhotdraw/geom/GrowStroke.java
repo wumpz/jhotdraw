@@ -11,6 +11,7 @@ import java.awt.BasicStroke;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
  * GrowStroke can be used to grow/shrink a figure by a specified line width. This only works with

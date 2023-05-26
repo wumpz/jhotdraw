@@ -15,9 +15,9 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Bezier;
-import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.path.Bezier;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.util.*;
 
 /**

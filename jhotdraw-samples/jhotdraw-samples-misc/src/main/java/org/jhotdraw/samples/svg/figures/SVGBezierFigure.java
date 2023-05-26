@@ -23,8 +23,8 @@ import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**

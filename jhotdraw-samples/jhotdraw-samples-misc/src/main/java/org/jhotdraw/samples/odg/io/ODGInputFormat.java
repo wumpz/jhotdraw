@@ -24,7 +24,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.io.StreamPosTokenizer;
 import org.jhotdraw.samples.odg.figures.ODGBezierFigure;
 import org.jhotdraw.samples.odg.figures.ODGEllipseFigure;

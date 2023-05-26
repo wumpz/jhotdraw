@@ -9,6 +9,7 @@ package org.jhotdraw.geom;
 
 import java.awt.*;
 import java.awt.geom.*;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
  * Draws a double stroke (an outline of an outline). The inner width of a DoubleStroke defines the

@@ -5,12 +5,24 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.geom;
+package org.jhotdraw.geom.path;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
+import java.awt.geom.FlatteningPathIterator;
+import java.awt.geom.IllegalPathStateException;
+import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.Shapes;
 
 /**
  * BezierPath allows the construction of paths consisting of straight lines, quadratic curves and

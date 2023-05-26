@@ -10,10 +10,11 @@ package org.jhotdraw.draw.figure;
 import java.awt.geom.*;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
- * A <em>connection figure</em> connects two figures with a {@link org.jhotdraw.geom.BezierPath}.
+ * A <em>connection figure</em> connects two figures with a {@link
+ * org.jhotdraw.geom.path.BezierPath}.
  *
  * <p>The location of the start and end points of the bezier path is defined by {@link Connector}
  * objects, which are supplied by the connected figures.

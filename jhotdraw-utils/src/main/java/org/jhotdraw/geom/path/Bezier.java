@@ -5,10 +5,11 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.geom;
+package org.jhotdraw.geom.path;
 
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.geom.Geom;
 
 /**
  * Provides algorithms for fitting Bezier curves to a set of digitized points.

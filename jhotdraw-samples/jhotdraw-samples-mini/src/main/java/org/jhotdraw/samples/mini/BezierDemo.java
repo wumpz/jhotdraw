@@ -15,8 +15,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
-import org.jhotdraw.geom.Bezier;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.Bezier;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
  * Demonstration of the curve fitting algorithm of class {@link Bezier}.

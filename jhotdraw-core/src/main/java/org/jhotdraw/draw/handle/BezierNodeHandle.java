@@ -26,7 +26,7 @@ import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 

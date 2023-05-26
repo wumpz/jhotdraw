@@ -5,9 +5,16 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-package org.jhotdraw.geom;
+package org.jhotdraw.geom.path;
 
-import java.awt.geom.*;
+import static java.awt.geom.PathIterator.SEG_CLOSE;
+import static java.awt.geom.PathIterator.SEG_CUBICTO;
+import static java.awt.geom.PathIterator.SEG_LINETO;
+import static java.awt.geom.PathIterator.SEG_MOVETO;
+import static java.awt.geom.PathIterator.SEG_QUADTO;
+
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
 
 /**
  * This class represents the iterator for a BezierPath. It can be used to retrieve all of the

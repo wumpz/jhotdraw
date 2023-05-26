@@ -19,7 +19,7 @@ import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
  * ODGBezierFigure is not an actual ODG element, it is used by ODGPathFigure to represent a single

@@ -44,7 +44,7 @@ import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DefaultDOMFactory;

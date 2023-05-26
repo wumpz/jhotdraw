@@ -19,7 +19,7 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.geom.BezierPath;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
  * A {@link Figure} which draws a continuous bezier path between two points.

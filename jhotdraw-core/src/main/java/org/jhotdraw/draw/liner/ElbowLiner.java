@@ -13,8 +13,8 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
+import org.jhotdraw.geom.path.BezierPath;
 
 /**
  * A {@link Liner} that constrains a connection to orthogonal lines.

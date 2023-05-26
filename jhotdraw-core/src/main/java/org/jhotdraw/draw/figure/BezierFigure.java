@@ -31,9 +31,9 @@ import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.BezierScaleHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
@@ -53,7 +53,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * Component: {@link BezierFigure}; Decorator: {@link org.jhotdraw.draw.decoration.LineDecoration}.
  * <hr>
  *
- * @see org.jhotdraw.geom.BezierPath
+ * @see org.jhotdraw.geom.path.BezierPath
  * @author Werner Randelshofer
  * @version $Id$
  */

@@ -30,13 +30,12 @@ import java.util.Map;
 public class QuadTree<T> implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private HashMap<T, Rectangle2D.Double> outside = new HashMap<>();
-  private QuadNode root;
-  private int maxCapacity = 32;
-  private int minSize = 32;
-  private int maxOutside = 32;
+  private final HashMap<T, Rectangle2D.Double> outside = new HashMap<>();
+  private final QuadNode root;
+  private final int maxCapacity = 32;
+  private final int minSize = 32;
+  private final int maxOutside = 32;
 
-  /** Creates a new instance. */
   public QuadTree() {
     root = new QuadNode(new Rectangle2D.Double(0, 0, 800, 600));
   }
