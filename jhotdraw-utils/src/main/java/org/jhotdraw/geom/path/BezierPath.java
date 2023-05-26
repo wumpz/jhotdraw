@@ -82,7 +82,7 @@ public class BezierPath implements Shape, Serializable, Cloneable {
    *   <li>C2 is used to control the curve going away from C0.
    * </ul>
    */
-  public static class Node implements Cloneable, Serializable {
+  public static final class Node implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
     /** This mask is used to describe which control points in addition to C0 are in effect. */
@@ -647,6 +647,7 @@ public class BezierPath implements Shape, Serializable, Cloneable {
   }
 
   /** Creates a deep copy of the BezierPath. */
+  @Override
   public BezierPath clone() {
     BezierPath that = (BezierPath) new BezierPath();
     for (int i = 0, n = NODES.size(); i < n; i++) {
