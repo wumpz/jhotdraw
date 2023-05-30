@@ -16,12 +16,7 @@ import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * An {@code UndoableEdit} event which can undo a change of a node in a {@link BezierFigure}.
- *
- * @version $Id: BezierNodeEdit.java -1 $
- * @author Werner Randelshofer
- */
+/** An {@code UndoableEdit} event which can undo a change of a node in a {@link BezierFigure}. */
 public class TrackingEdit extends AbstractUndoableEdit {
   private final Figure owner;
   private final Point2D.Double oldValue;

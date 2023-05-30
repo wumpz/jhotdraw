@@ -52,14 +52,14 @@ public class BezierNodeHandle extends AbstractHandle {
     super(owner);
     this.index = index;
     this.transformOwner = transformOwner;
-    transformOwner.addFigureListener(this);
+    transformOwner.addFigureListener(FIGURE_LISTENER);
   }
 
   @Override
   public void dispose() {
     super.dispose();
     if (transformOwner != null) {
-      transformOwner.removeFigureListener(this);
+      transformOwner.removeFigureListener(FIGURE_LISTENER);
       transformOwner = null;
     }
   }

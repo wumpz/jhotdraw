@@ -44,13 +44,13 @@ public class BezierControlPointHandle extends AbstractHandle {
     this.index = index;
     this.controlPointIndex = coord;
     this.transformOwner = transformOwner;
-    transformOwner.addFigureListener(this);
+    transformOwner.addFigureListener(FIGURE_LISTENER);
   }
 
   @Override
   public void dispose() {
     super.dispose();
-    transformOwner.removeFigureListener(this);
+    transformOwner.removeFigureListener(FIGURE_LISTENER);
     transformOwner = null;
   }
 
