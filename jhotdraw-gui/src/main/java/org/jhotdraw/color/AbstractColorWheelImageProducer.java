@@ -15,12 +15,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.ColorModel;
 import java.awt.image.MemoryImageSource;
 
-/**
- * AbstractColorWheelImageProducer.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AbstractColorWheelImageProducer. */
 public abstract class AbstractColorWheelImageProducer extends MemoryImageSource {
 
   protected int[] pixels;

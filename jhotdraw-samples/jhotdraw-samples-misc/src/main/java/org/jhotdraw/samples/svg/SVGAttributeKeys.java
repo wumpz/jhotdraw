@@ -12,12 +12,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * SVGAttributeKeys.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGAttributeKeys. */
 public class SVGAttributeKeys extends AttributeKeys {
 
   private static final ResourceBundleUtil LABELS =

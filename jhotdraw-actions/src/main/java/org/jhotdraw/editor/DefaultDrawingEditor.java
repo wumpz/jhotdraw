@@ -40,9 +40,6 @@ import org.jhotdraw.draw.tool.Tool;
  * A default implementation of {@link DrawingEditor}.
  *
  * <p>XXX - DefaultDrawingEditor should not publicly implement ToolListener.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor {
 

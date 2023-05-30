@@ -18,8 +18,6 @@ import org.jhotdraw.geom.Geom;
  * This abstract class can be extended to implement a {@link Connector}.
  *
  * @see Connector
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AbstractConnector implements Connector {
 

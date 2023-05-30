@@ -13,12 +13,7 @@ import javax.swing.colorchooser.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
 
-/**
- * A HSB color chooser, which displays a hue/saturation color wheel, and a brightness slider.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A HSB color chooser, which displays a hue/saturation color wheel, and a brightness slider. */
 public class ColorWheelChooser extends AbstractColorChooserPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;

@@ -19,9 +19,6 @@ import org.jhotdraw.geom.Geom;
  * elliptic shape, such as {@link org.jhotdraw.draw.EllipseFigure}.
  *
  * <p>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ChopEllipseConnector extends ChopRectangleConnector {
 

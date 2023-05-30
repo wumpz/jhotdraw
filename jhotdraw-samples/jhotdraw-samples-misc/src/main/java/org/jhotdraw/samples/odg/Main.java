@@ -16,9 +16,6 @@ import org.jhotdraw.app.OSXApplication;
  * operating system we run, sets the {@link ODGApplicationModel} and then launches the application.
  * The application then creates {@link ODGView}s and menu bars as specified by the application
  * model.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class Main {
 

@@ -27,12 +27,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
 import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
 import org.jhotdraw.util.*;
 
-/**
- * FigureToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** FigureToolBar. */
 public class FigureToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

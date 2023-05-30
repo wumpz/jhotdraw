@@ -33,9 +33,6 @@ import javax.swing.JMenu;
  * {@code MenuBuilder} is used by {@code Application} for creating menu items. The {@code
  * MenuBuilder} is provided by {@code ApplicationModel}. Abstract Factory: {@link MenuBuilder}<br>
  * Client: {@link Application}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface MenuBuilder {
 

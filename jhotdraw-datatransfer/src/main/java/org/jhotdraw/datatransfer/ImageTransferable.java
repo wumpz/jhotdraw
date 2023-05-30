@@ -13,12 +13,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import org.jhotdraw.util.Images;
 
-/**
- * A Transferable with an Image as its transfer class.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A Transferable with an Image as its transfer class. */
 public class ImageTransferable implements Transferable {
 
   private Image image;

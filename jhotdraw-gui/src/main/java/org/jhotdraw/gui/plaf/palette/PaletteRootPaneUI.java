@@ -12,12 +12,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.BasicRootPaneUI;
 
-/**
- * PaletteRootPaneUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteRootPaneUI. */
 public class PaletteRootPaneUI extends BasicRootPaneUI {
 
   private static RootPaneUI rootPaneUI = new PaletteRootPaneUI();

@@ -19,9 +19,6 @@ import org.jhotdraw.draw.figure.Figure;
 /**
  * FigureAttributeEditorHandler mediates between an AttributeEditor and the currently selected
  * Figure's in a DrawingEditor.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawingAttributeEditorHandler<T> extends AbstractAttributeEditorHandler<T> {
 

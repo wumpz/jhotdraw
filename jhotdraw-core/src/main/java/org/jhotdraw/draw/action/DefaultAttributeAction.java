@@ -20,9 +20,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * DefaultAttributeAction.
  *
  * <p>XXX - should listen to changes in the default attributes of its DrawingEditor.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultAttributeAction extends AbstractSelectedAction {
 

@@ -18,9 +18,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * {@code AttributeAction} applies attribute values on the selected figures of the current {@code
  * DrawingView} of a {@code DrawingEditor}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AttributeAction extends AbstractSelectedAction {
 

@@ -26,12 +26,7 @@ import org.jhotdraw.io.DOMDefaultDrawFigureFactory;
 import org.jhotdraw.samples.net.figures.NodeFigure;
 import org.jhotdraw.xml.*;
 
-/**
- * NetFactory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** NetFactory. */
 public class NetFactory extends DefaultDOMFactory {
 
   private static final Object[][] CLASS_TAGS = {

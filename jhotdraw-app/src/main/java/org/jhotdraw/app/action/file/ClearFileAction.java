@@ -26,9 +26,6 @@ import org.jhotdraw.util.*;
  * opened file. This action goes together with {@link NewWindowAction}, {@link LoadFileAction},
  * {@link LoadDirectoryAction} and {@link CloseFileAction}. This action should not be used together
  * with {@code NewFileAction}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ClearFileAction extends AbstractSaveUnsavedChangesAction {
 

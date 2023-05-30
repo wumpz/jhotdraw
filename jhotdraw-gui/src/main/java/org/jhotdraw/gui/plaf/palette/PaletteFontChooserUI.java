@@ -23,12 +23,7 @@ import org.jhotdraw.gui.fontchooser.FontFaceNode;
 import org.jhotdraw.gui.fontchooser.FontFamilyNode;
 import org.jhotdraw.gui.plaf.FontChooserUI;
 
-/**
- * PaletteFontChooserUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteFontChooserUI. */
 public class PaletteFontChooserUI extends FontChooserUI {
 
   private FontCollectionNode familyListParent;

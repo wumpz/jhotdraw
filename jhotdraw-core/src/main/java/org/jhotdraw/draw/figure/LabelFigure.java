@@ -11,18 +11,12 @@ import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.tool.Tool;
 
-/**
- * A LabelFigure can be used to provide more double clickable area for a TextHolderFigure.
- *
- * <p>FIXME - Move FigureListener into inner class.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
-public class LabelFigure extends TextFigure implements FigureListener {
+/** A LabelFigure can be used to provide more double clickable area for a TextHolderFigure. */
+public class LabelFigure extends TextFigure {
 
   private static final long serialVersionUID = 1L;
   private TextHolderFigure target;
@@ -39,11 +33,11 @@ public class LabelFigure extends TextFigure implements FigureListener {
 
   public void setLabelFor(TextHolderFigure target) {
     if (this.target != null) {
-      this.target.removeFigureListener(this);
+      this.target.removeFigureListener(FIGURE_LISTENER);
     }
     this.target = target;
     if (this.target != null) {
-      this.target.addFigureListener(this);
+      this.target.addFigureListener(FIGURE_LISTENER);
     }
   }
 
@@ -55,6 +49,8 @@ public class LabelFigure extends TextFigure implements FigureListener {
   /**
    * Returns a specialized tool for the given coordinate.
    *
+   * <p>
+   *
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
@@ -62,28 +58,20 @@ public class LabelFigure extends TextFigure implements FigureListener {
     return (target != null && contains(p)) ? new TextEditingTool(target) : null;
   }
 
-  @Override
-  public void areaInvalidated(FigureEvent e) {}
+  private final FigureListener FIGURE_LISTENER =
+      new FigureListenerAdapter() {
 
-  @Override
-  public void attributeChanged(FigureEvent e) {}
+        @Override
+        public void figureRemoved(FigureEvent e) {
+          if (e.getFigure() == target) {
+            target.removeFigureListener(this);
+            target = null;
+          }
+        }
 
-  @Override
-  public void figureAdded(FigureEvent e) {}
-
-  @Override
-  public void figureChanged(FigureEvent e) {}
-
-  @Override
-  public void figureRemoved(FigureEvent e) {
-    if (e.getFigure() == target) {
-      target.removeFigureListener(this);
-      target = null;
-    }
-  }
-
-  @Override
-  public void figureRequestRemove(FigureEvent e) {}
+        @Override
+        public void figureRequestRemove(FigureEvent e) {}
+      };
 
   @Override
   public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
@@ -91,13 +79,10 @@ public class LabelFigure extends TextFigure implements FigureListener {
     if (target != null) {
       Figure newTarget = oldToNew.get(target);
       if (newTarget != null) {
-        target.removeFigureListener(this);
+        target.removeFigureListener(FIGURE_LISTENER);
         target = (TextHolderFigure) newTarget;
-        newTarget.addFigureListener(this);
+        newTarget.addFigureListener(FIGURE_LISTENER);
       }
     }
   }
-
-  @Override
-  public void figureHandlesChanged(FigureEvent e) {}
 }

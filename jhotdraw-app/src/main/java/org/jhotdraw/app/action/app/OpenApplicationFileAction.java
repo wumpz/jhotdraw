@@ -49,9 +49,6 @@ import org.jhotdraw.util.*;
  * {@code OpenApplicationFileAction} supplies data for this feature by calling {@link
  * Application#addRecentURI} when it successfully loaded a file. See {@link org.jhotdraw.app} for a
  * description of the feature.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class OpenApplicationFileAction extends AbstractApplicationAction {
 

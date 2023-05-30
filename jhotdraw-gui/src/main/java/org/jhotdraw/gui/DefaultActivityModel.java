@@ -17,12 +17,7 @@ import javax.swing.DefaultBoundedRangeModel;
 import org.jhotdraw.api.gui.ActivityModel;
 import org.jhotdraw.beans.WeakPropertyChangeListener;
 
-/**
- * Default implementation of {@link ActivityModel}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Default implementation of {@link ActivityModel}. */
 public class DefaultActivityModel extends DefaultBoundedRangeModel implements ActivityModel {
 
   private static final long serialVersionUID = 1L;

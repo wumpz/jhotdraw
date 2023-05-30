@@ -24,9 +24,6 @@ import org.jhotdraw.util.*;
  * CombinePathsAction.
  *
  * <p>FIXME - Transforms are lost during Undo/Redo.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CombineAction extends AbstractSelectedAction {
 

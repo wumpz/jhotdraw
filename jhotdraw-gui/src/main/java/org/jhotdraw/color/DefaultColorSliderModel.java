@@ -17,12 +17,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/**
- * DefaultColorSliderModel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DefaultColorSliderModel. */
 public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
   private static final long serialVersionUID = 1L;

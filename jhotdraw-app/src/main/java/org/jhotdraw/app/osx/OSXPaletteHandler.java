@@ -16,9 +16,6 @@ import org.jhotdraw.app.OSXApplication;
 /**
  * Hides all registered floating palettes, if none of the registered view windows have focus
  * anymore.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class OSXPaletteHandler {
 

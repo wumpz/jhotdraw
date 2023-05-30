@@ -19,9 +19,6 @@ import org.jhotdraw.draw.tool.SelectionTool;
  *
  * <p>Holds a {@code WeakReference} on the component. Automatically disposes itself if the component
  * no longer exists.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SelectionComponentDisplayer
     implements PropertyChangeListener, FigureSelectionListener {

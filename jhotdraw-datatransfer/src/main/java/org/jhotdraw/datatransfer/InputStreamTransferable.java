@@ -10,12 +10,7 @@ package org.jhotdraw.datatransfer;
 import java.awt.datatransfer.*;
 import java.io.*;
 
-/**
- * A Transferable with an InputStream as its transfer class.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A Transferable with an InputStream as its transfer class. */
 public class InputStreamTransferable extends AbstractTransferable {
 
   private byte[] data;

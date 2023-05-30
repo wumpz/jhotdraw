@@ -18,12 +18,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Provides utility methods for computing the convex hull from a set of points.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Provides utility methods for computing the convex hull from a set of points. */
 public class ConvexHull {
 
   /**

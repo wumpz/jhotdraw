@@ -34,12 +34,7 @@ import org.jhotdraw.samples.pert.figures.TaskFigure;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 
-/**
- * PertPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PertPanel. */
 public class PertPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;

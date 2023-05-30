@@ -39,9 +39,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * doIt} is invoked immediately. If the user chooses to cancel, the action is aborted. If the user
  * chooses to save the changes, the view is saved, and {@code doIt} is only invoked after the view
  * was successfully saved.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
 

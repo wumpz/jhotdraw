@@ -35,9 +35,6 @@ import org.jhotdraw.draw.Drawing;
  * <p><em>Strategy</em><br>
  * {@code InputFormat} encapsulates a strategy for reading drawings from input streams.<br>
  * Strategy: {@link InputFormat}; Context: {@link Drawing}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface InputFormat {
 

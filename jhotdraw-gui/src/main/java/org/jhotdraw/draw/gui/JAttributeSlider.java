@@ -13,12 +13,7 @@ import static org.jhotdraw.api.gui.AttributeEditor.MULTIPLE_VALUES_PROPERTY;
 import javax.swing.*;
 import org.jhotdraw.api.gui.AttributeEditor;
 
-/**
- * A JSlider that can be used to edit a double attribute of a Figure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A JSlider that can be used to edit a double attribute of a Figure. */
 public class JAttributeSlider extends JSlider implements AttributeEditor<Double> {
 
   private static final long serialVersionUID = 1L;

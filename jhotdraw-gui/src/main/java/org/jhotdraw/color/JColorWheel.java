@@ -20,9 +20,6 @@ import javax.swing.event.*;
  *
  * <p>The {@code JColorWheel} should be used together with a color slider for the remaining color
  * component(s) of the color system.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JColorWheel extends JPanel {
 

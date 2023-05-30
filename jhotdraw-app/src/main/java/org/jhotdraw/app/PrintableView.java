@@ -20,9 +20,6 @@ import org.jhotdraw.api.app.View;
  * inside of the JHotDraw framework for document oriented applications.<br>
  * Contract: {@link PrintableView}.<br>
  * Client: {@link org.jhotdraw.app.action.file.PrintFileAction}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface PrintableView extends View {
 

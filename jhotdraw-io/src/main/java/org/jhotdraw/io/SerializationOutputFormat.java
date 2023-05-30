@@ -31,9 +31,6 @@ import org.jhotdraw.draw.io.OutputFormat;
 /**
  * {@code SerializationInputOutputFormat} uses Java Serialization for reading and and writing {@code
  * Drawing} objects.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SerializationOutputFormat implements OutputFormat {
 

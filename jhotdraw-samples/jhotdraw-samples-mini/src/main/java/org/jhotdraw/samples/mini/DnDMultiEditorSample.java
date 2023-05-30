@@ -21,12 +21,7 @@ import org.jhotdraw.io.SerializationInputFormat;
 import org.jhotdraw.io.SerializationOutputFormat;
 import org.jhotdraw.util.*;
 
-/**
- * Example showing how to create a drawing editor which acts on four drawing views.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Example showing how to create a drawing editor which acts on four drawing views. */
 public class DnDMultiEditorSample {
 
   public static void main(String[] args) {

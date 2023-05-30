@@ -25,9 +25,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * The interfaces and classes listed below define a framework for progress management.<br>
  * Contract: {@link ActivityManager}, {@link ActivityModel}, {@link JActivityWindow}, {@link
  * JActivityIndicator}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JActivityView extends javax.swing.JPanel {
 

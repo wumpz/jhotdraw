@@ -7,21 +7,23 @@
  */
 package org.jhotdraw.draw.layouter;
 
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import org.jhotdraw.draw.figure.CompositeFigure;
 
 /**
  * A Layouter encapsulates a strategy for laying out the child figures of a CompositeFigure.
  *
+ * <p>
+ *
  * <p><hr> <b>Design Patterns</b>
+ *
+ * <p>
  *
  * <p><em>Strategy</em><br>
  * Composite figures can be laid out using different layout algorithms which are implemented by
  * layouters.<br>
  * Context: {@link CompositeFigure}; Strategy: {@link Layouter}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Layouter {
 

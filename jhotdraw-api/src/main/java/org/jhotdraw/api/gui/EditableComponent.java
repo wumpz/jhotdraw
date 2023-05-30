@@ -25,9 +25,6 @@ import java.beans.PropertyChangeListener;
  * org.jhotdraw.app.action.edit.DeleteAction}, {@link org.jhotdraw.app.action.edit.DuplicateAction},
  * {@link org.jhotdraw.app.action.edit.SelectAllAction}, {@link
  * org.jhotdraw.app.action.edit.ClearSelectionAction}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface EditableComponent {
 

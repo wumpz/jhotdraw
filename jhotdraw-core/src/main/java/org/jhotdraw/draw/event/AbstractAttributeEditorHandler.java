@@ -39,9 +39,6 @@ import org.jhotdraw.draw.figure.Figure;
  * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer: {@link FigureSelectionListener};
  * Concrete-Observer: {@link AbstractAttributeEditorHandler}, {@link SelectionComponentDisplayer},
  * {@link SelectionComponentRepainter}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
 

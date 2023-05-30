@@ -28,9 +28,6 @@ import org.jhotdraw.draw.figure.Figure;
  * <p>Drag and Drop is about information moving, not images or objects. Its about moving a figure to
  * another application and that application understanding both its shape, color, attributes, and
  * everything about it - not necessarily how it looks.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DnDTracker extends AbstractTool implements DragTracker {
 

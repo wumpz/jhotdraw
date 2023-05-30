@@ -11,12 +11,7 @@ import java.awt.geom.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 
-/**
- * SetBoundsEdit.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SetBoundsEdit. */
 public class SetBoundsEdit extends AbstractUndoableEdit {
 
   private static final long serialVersionUID = 1L;

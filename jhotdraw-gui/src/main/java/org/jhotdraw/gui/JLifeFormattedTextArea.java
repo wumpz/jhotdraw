@@ -14,12 +14,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
 
-/**
- * JLifeFormattedTextArea.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** JLifeFormattedTextArea. */
 public class JLifeFormattedTextArea extends JTextArea {
 
   private static final long serialVersionUID = 1L;

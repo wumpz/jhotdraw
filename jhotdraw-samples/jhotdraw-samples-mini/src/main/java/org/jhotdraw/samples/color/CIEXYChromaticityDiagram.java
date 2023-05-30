@@ -15,12 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.jhotdraw.color.CIEXYChromaticityDiagramImageProducer;
 
-/**
- * CIEXYChromaticityDiagram.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** CIEXYChromaticityDiagram. */
 public class CIEXYChromaticityDiagram extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

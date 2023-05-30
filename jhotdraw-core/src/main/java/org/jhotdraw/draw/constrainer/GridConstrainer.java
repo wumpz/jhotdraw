@@ -12,12 +12,7 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * Constrains a point such that it falls on a grid.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Constrains a point such that it falls on a grid. */
 public class GridConstrainer extends AbstractConstrainer {
 
   private static final long serialVersionUID = 1L;

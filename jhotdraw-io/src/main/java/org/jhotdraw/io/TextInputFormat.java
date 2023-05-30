@@ -40,9 +40,6 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * assigning an image to it, which was read from data input. That's the reason why {@code Figure}
  * extends the {@code Cloneable} interface. <br>
  * Prototype: {@link TextHolderFigure}; Client: {@link org.jhotdraw.io.TextInputFormat}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TextInputFormat implements InputFormat {
 

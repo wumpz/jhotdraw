@@ -16,12 +16,7 @@ import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.util.*;
 
-/**
- * ArrangeToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ArrangeToolBar. */
 public class ArrangeToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

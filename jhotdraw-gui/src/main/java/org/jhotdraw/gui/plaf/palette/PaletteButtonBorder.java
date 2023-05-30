@@ -18,12 +18,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
 
-/**
- * PaletteButtonBorder.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteButtonBorder. */
 public class PaletteButtonBorder implements Border, UIResource {
 
   private static final float[] ENABLED_STOPS = new float[] {0f, 0.35f, 0.4f, 1f};

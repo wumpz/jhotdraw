@@ -14,12 +14,9 @@ import javax.swing.event.*;
 
 /**
  * This input stream implements the BoundedRangeModel and allows the observation of the input
- * reading process.
- *
- * @author Werner Randelshofer
- * @version $Id$ <br>
- *     history 1.0.1 02.05.1999 #setMaximum overrides the size information from the file. <br>
- *     history 1.0 20.03.1999 Derived from javax.swing.ProgressMonitorInputStream.
+ * reading process. <br>
+ * history 1.0.1 02.05.1999 #setMaximum overrides the size information from the file. <br>
+ * history 1.0 20.03.1999 Derived from javax.swing.ProgressMonitorInputStream.
  */
 public class BoundedRangeInputStream extends FilterInputStream implements BoundedRangeModel {
 

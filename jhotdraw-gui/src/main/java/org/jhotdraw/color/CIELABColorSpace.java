@@ -28,9 +28,6 @@ import java.awt.color.ColorSpace;
  * <p>The above description has been derived from <a
  * href="http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf">
  * http://www.optelvision.com/documents/optel-vision-s-explanation-on-cielab-color-space.pdf </a>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CIELABColorSpace extends AbstractNamedColorSpace {
 

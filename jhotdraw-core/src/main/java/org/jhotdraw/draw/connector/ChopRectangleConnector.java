@@ -20,8 +20,6 @@ import org.jhotdraw.geom.Geom;
  * rectangular shape, such as {@link org.jhotdraw.draw.RectangleFigure}.
  *
  * @see Connector
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ChopRectangleConnector extends AbstractConnector {
 

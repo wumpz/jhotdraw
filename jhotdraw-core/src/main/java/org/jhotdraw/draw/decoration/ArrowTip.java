@@ -21,9 +21,6 @@ import org.jhotdraw.draw.figure.Figure;
  *   <li>inner radius - the distance from the tip of the arrow to the point where its end meets the
  *       line.
  * </ul>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ArrowTip extends AbstractLineDecoration {
 

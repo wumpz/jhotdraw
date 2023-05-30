@@ -20,9 +20,6 @@ import org.jhotdraw.util.Images;
 /**
  * A UI delegate for color sliders. The track of the slider visualizes how changing the value of the
  * slider affects the color.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ColorSliderUI extends BasicSliderUI {
 

@@ -21,9 +21,6 @@ import java.awt.datatransfer.Transferable;
  * <p><em>Proxy</em><br>
  * {@code JNLPClipboard} acts as a proxy to a JNLP {@code ClipboardService} object.<br>
  * Proxy: {@link JNLPClipboard}; Target: {@code javax.jnlp.ClipboardService}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JNLPClipboard extends AbstractClipboard {
 

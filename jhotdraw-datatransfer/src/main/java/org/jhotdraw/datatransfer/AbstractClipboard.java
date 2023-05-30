@@ -15,9 +15,6 @@ import java.awt.datatransfer.Transferable;
 /**
  * {@code AbstractClipboard} is a wrapper for the system clipboard which can be either the Java AWT
  * Clipboard, the javax.jnlp.AbstractClipboard or native JNI code.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractClipboard extends Clipboard {
 

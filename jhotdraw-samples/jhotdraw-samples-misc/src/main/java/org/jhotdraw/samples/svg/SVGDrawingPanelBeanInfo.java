@@ -9,12 +9,7 @@ package org.jhotdraw.samples.svg;
 
 import java.beans.*;
 
-/**
- * The BeanInfo for {@link SVGDrawingPanel}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** The BeanInfo for {@link SVGDrawingPanel}. */
 public class SVGDrawingPanelBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

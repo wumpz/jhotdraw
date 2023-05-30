@@ -15,12 +15,7 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.util.*;
 
-/**
- * Minimizes the Frame of the current view.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Minimizes the Frame of the current view. */
 public class MinimizeWindowAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;

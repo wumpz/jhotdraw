@@ -24,8 +24,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * The EditCanvasPanel can be used to edit the attributes of a Drawing.
  *
  * @see org.jhotdraw.draw.Drawing
- * @author Werner Randelshofer
- * @version $Id$
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class EditCanvasPanel extends javax.swing.JPanel {

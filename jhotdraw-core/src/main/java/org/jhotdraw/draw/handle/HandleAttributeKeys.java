@@ -14,9 +14,6 @@ import org.jhotdraw.draw.*;
  *
  * <p>If you want different attribute values for your own editor, put the desired values using
  * {@link DrawingEditor#setHandleAttribute(org.jhotdraw.draw.AttributeKey, java.lang.Object)}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class HandleAttributeKeys {
 

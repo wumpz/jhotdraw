@@ -11,12 +11,7 @@ package org.jhotdraw.color;
 
 import java.awt.color.ColorSpace;
 
-/**
- * {@code AbstractNamedColorSpace}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** {@code AbstractNamedColorSpace}. */
 public abstract class AbstractNamedColorSpace extends ColorSpace implements NamedColorSpace {
 
   private static final long serialVersionUID = 1L;

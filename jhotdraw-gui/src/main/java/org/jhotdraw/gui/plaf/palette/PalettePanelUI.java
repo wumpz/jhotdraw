@@ -12,12 +12,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-/**
- * PalettePanelUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PalettePanelUI. */
 public class PalettePanelUI extends BasicPanelUI {
 
   // Shared UI object

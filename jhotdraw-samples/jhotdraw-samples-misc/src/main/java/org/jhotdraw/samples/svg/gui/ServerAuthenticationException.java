@@ -14,9 +14,6 @@ import java.io.*;
  *
  * <p>This exception is used for communication with PmWiki. PmWiki does not return an HTTP status
  * code, when the user failed to authenticate, instead it opens a page with a password form.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ServerAuthenticationException extends IOException {
 

@@ -20,12 +20,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
 
-/**
- * A ColorChooser with HSB sliders.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A ColorChooser with HSB sliders. */
 public class PaletteHSBChooser extends AbstractColorChooserPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;

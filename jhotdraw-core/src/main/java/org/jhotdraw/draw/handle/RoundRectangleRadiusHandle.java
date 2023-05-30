@@ -17,12 +17,7 @@ import org.jhotdraw.geom.Geom;
 import org.jhotdraw.undo.PropertyChangeEdit;
 import org.jhotdraw.util.*;
 
-/**
- * A {@link Handle} to manipulate the corner radius of a {@link RoundRectangleFigure}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Handle} to manipulate the corner radius of a {@link RoundRectangleFigure}. */
 public class RoundRectangleRadiusHandle extends AbstractHandle {
 
   private static final int OFFSET = 6;

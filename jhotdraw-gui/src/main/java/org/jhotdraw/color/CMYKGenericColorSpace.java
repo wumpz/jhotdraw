@@ -12,12 +12,7 @@ import java.awt.color.ICC_ColorSpace;
 import java.awt.color.ICC_Profile;
 import java.io.IOException;
 
-/**
- * A {@code ColorSpace} for CMYK color components using a generic CMYK profile.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@code ColorSpace} for CMYK color components using a generic CMYK profile. */
 public class CMYKGenericColorSpace extends ICC_ColorSpace {
 
   private static final long serialVersionUID = 1L;

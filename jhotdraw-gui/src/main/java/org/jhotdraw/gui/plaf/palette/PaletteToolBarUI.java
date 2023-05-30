@@ -24,9 +24,6 @@ import javax.swing.plaf.*;
  * their own floating window.
  *
  * <p>The JToolBar starts dragging only, if the drag starts over the insets of its border.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 

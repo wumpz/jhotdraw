@@ -11,12 +11,7 @@ package org.jhotdraw.datatransfer;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.Transferable;
 
-/**
- * OSXClipboard.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** OSXClipboard. */
 public class OSXClipboard extends AWTClipboard {
 
   public OSXClipboard(Clipboard target) {

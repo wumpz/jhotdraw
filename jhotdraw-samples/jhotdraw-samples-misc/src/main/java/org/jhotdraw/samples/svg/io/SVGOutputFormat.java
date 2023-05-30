@@ -53,12 +53,7 @@ import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/**
- * An output format for storing drawings as Scalable Vector Graphics SVG Tiny 1.2.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** An output format for storing drawings as Scalable Vector Graphics SVG Tiny 1.2. */
 public class SVGOutputFormat implements OutputFormat {
 
   /** This is a counter used to create the next unique identification. */

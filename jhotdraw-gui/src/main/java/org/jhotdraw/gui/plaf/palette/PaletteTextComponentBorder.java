@@ -18,12 +18,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
 
-/**
- * PaletteTextComponentBorder.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteTextComponentBorder. */
 public class PaletteTextComponentBorder implements Border, UIResource {
 
   private static final float[] ENABLED_STOPS = new float[] {0f, 0.2f};

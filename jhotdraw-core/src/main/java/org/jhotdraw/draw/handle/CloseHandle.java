@@ -12,12 +12,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
 
-/**
- * A {@link Handle} which requests to remove its owning figure when clicked.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Handle} which requests to remove its owning figure when clicked. */
 public class CloseHandle extends LocatorHandle {
 
   private boolean pressed;

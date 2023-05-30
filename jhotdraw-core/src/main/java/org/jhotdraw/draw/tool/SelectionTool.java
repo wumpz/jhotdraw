@@ -38,9 +38,6 @@ import org.jhotdraw.draw.handle.Handle;
  * {@code DragTracker} of a {@code SelectionTool}. In turn {@code DragTracker} invokes "track"
  * methods on a {@code Handle} which in turn changes an aspect of a figure.<br>
  * Client: {@link SelectionTool}; Handler: {@link DragTracker}, {@link Handle}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SelectionTool extends AbstractTool {
 

@@ -15,12 +15,7 @@ import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * PickAttributesAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PickAttributesAction. */
 public class PickAttributesAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

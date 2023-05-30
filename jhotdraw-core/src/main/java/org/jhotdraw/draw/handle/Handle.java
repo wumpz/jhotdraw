@@ -51,9 +51,6 @@ import org.jhotdraw.draw.figure.Figure;
  * methods on a {@code Handle} which in turn changes an aspect of a figure.<br>
  * Client: {@link org.jhotdraw.draw.tool.SelectionTool}; Handler: {@link
  * org.jhotdraw.draw.tool.DragTracker}, {@link Handle}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Handle extends KeyListener {
 

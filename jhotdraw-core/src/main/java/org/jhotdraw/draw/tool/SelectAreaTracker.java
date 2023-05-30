@@ -18,8 +18,5 @@ package org.jhotdraw.draw.tool;
  * The different behavior states of the selection tool are implemented by trackers.<br>
  * Context: {@link SelectionTool}; State: {@link DragTracker}, {@link HandleTracker}, {@link
  * SelectAreaTracker}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface SelectAreaTracker extends Tool {}

@@ -21,9 +21,6 @@ import org.jhotdraw.geom.Geom;
 /**
  * Example showing how to connect two rectangles with a labeled connection, that has a labels at
  * both ends.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LabeledLineConnectionFigureSample {
 

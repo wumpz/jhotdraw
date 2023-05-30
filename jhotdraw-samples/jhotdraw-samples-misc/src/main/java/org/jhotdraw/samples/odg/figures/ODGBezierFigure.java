@@ -24,9 +24,6 @@ import org.jhotdraw.geom.path.BezierPath;
 /**
  * ODGBezierFigure is not an actual ODG element, it is used by ODGPathFigure to represent a single
  * BezierPath segment within an ODG path.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGBezierFigure extends BezierFigure {
 

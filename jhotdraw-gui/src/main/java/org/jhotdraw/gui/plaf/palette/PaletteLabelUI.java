@@ -13,12 +13,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-/**
- * QuaquaLabelUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** QuaquaLabelUI. */
 public class PaletteLabelUI extends BasicLabelUI {
 
   // CHECKSTYLE:OFF

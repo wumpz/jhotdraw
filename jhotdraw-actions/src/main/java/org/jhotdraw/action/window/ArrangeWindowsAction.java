@@ -23,9 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * ApplicationModel} in method {@link org.jhotdraw.app.ApplicationModel#initApplication}.
  *
  * <p>FIXME - Register as PropertyChangeListener on Arrangeable.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ArrangeWindowsAction extends AbstractAction {
 

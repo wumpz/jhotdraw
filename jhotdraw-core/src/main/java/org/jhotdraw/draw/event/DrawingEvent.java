@@ -23,9 +23,6 @@ import org.jhotdraw.draw.figure.Figure;
  * observes area invalidations of its drawing object. Subject: {@link Figure}; Observer: {@link
  * FigureListener}; Event: {@link FigureEvent}; Concrete Observer: {@link
  * org.jhotdraw.draw.CompositeFigure}, {@link DrawingView}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawingEvent extends EventObject {
 

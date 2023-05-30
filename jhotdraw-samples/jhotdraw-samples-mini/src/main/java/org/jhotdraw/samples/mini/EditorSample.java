@@ -21,9 +21,6 @@ import org.jhotdraw.geom.Geom;
 /**
  * Example showing how to create an editor that can edit figures on a drawing using the
  * DelegationSelectionTool.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class EditorSample {
 

@@ -16,12 +16,7 @@ import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.geom.Geom;
 
-/**
- * Example showing how to connect two text areas with an elbow connection.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Example showing how to connect two text areas with an elbow connection. */
 public class ConnectingFiguresSample {
 
   public static void main(String[] args) {

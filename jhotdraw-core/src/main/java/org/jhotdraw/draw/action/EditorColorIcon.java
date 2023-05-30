@@ -16,9 +16,6 @@ import org.jhotdraw.draw.*;
  * DrawingEditor onto the icon.
  *
  * <p>The behavior for choosing the drawn color matches with {@link EditorColorChooserAction }.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class EditorColorIcon extends javax.swing.ImageIcon {
 

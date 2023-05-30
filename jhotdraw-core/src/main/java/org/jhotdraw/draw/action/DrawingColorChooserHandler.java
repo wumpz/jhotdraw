@@ -13,12 +13,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 
-/**
- * DrawingColorChooserHandler.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DrawingColorChooserHandler. */
 public class DrawingColorChooserHandler extends AbstractDrawingViewAction
     implements ChangeListener {
 

@@ -10,12 +10,7 @@ package org.jhotdraw.samples.teddy.text;
 import java.awt.*;
 import javax.swing.text.*;
 
-/**
- * NumberedParagraphView.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** NumberedParagraphView. */
 public class NumberedParagraphView extends ParagraphView {
 
   public static final short NUMBERS_WIDTH = 30;

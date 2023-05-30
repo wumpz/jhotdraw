@@ -54,9 +54,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * When the feature is disabled, {@code ExportFileAction} prevents exporting to an URI which is
  * opened in another view.<br>
  * See {@link org.jhotdraw.app} for a description of the feature.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ExportFileAction extends AbstractViewAction {
 

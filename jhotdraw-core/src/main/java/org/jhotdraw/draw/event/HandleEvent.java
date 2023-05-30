@@ -22,9 +22,6 @@ import org.jhotdraw.draw.handle.Handle;
  * observes area invalidations and remove requests of handles.<br>
  * Subject: {@link Handle}; Observer: {@link HandleListener}; Event: {@link HandleEvent}; Concrete
  * Observer: {@link DrawingView}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class HandleEvent extends EventObject {
 

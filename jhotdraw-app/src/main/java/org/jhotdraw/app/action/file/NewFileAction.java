@@ -24,9 +24,6 @@ import org.jhotdraw.util.*;
  * <p>This action is designed for applications which automatically create a new view for each opened
  * file. This action goes together with {@link OpenFileAction} and {@link CloseFileAction}. It
  * should not be used together with {@link NewWindowAction}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class NewFileAction extends AbstractApplicationAction {
 

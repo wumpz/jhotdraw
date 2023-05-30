@@ -16,12 +16,7 @@ import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.util.*;
 
-/**
- * AlignToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AlignToolBar. */
 public class AlignToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

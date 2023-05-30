@@ -9,12 +9,7 @@ package org.jhotdraw.gui;
 
 import java.beans.*;
 
-/**
- * BeanInfo for JPopupButton.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for JPopupButton. */
 public class JPopupButtonBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

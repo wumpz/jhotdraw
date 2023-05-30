@@ -11,12 +11,7 @@ import java.awt.geom.*;
 import java.io.Serializable;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * This abstract class can be extended to implement a {@link Locator}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** This abstract class can be extended to implement a {@link Locator}. */
 public abstract class AbstractLocator implements Locator, Serializable {
 
   private static final long serialVersionUID = 1L;

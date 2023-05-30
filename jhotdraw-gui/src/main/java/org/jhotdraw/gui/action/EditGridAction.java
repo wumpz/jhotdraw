@@ -23,9 +23,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  *
  * <p>XXX - We shouldn't have a dependency to the application framework from within the drawing
  * framework.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class EditGridAction extends AbstractDrawingViewAction {
 

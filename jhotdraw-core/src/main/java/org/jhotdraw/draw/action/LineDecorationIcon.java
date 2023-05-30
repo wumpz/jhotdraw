@@ -15,12 +15,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.figure.LineFigure;
 
-/**
- * LineDecorationIcon.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** LineDecorationIcon. */
 public class LineDecorationIcon implements Icon {
 
   private LineFigure lineFigure;

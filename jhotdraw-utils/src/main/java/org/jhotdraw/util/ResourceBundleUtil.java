@@ -48,9 +48,6 @@ import javax.swing.*;
  *       ctrl, meta, alt, altGraph by properties which start with {@code accelerator.}. For example,
  *       shift is replaced by {@code accelerator.shift}.
  * </ul>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ResourceBundleUtil implements Serializable {
 

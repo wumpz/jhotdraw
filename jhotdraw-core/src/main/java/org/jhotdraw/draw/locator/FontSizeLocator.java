@@ -16,9 +16,6 @@ import org.jhotdraw.draw.figure.TextHolderFigure;
 /**
  * {@code FontSizeLocator} is used by {@link org.jhotdraw.draw.handle.FontSizeHandle} to locate its
  * position on the drawing.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class FontSizeLocator implements Locator {
 

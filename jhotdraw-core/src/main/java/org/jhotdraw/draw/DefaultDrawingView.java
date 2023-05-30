@@ -71,9 +71,6 @@ import org.jhotdraw.util.ReversedList;
  *
  * <p>FIXME - Implement clone Method. FIXME - Use double buffering for the drawing to improve
  * performance.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultDrawingView extends JComponent implements DrawingView, EditableComponent {
 

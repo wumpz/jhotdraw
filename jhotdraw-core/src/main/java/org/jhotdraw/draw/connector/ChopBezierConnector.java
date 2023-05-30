@@ -17,9 +17,6 @@ import org.jhotdraw.draw.figure.Figure;
  * <p>
  *
  * <p>XXX - This connector does not take the stroke width of the polygon into account.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ChopBezierConnector extends ChopRectangleConnector {
 

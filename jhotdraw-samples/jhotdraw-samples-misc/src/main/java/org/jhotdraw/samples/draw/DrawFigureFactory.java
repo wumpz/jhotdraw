@@ -31,12 +31,7 @@ import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.xml.DefaultDOMFactory;
 
-/**
- * DrawFigureFactory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DrawFigureFactory. */
 @Deprecated
 public class DrawFigureFactory extends DefaultDOMFactory {
 

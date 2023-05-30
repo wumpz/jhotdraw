@@ -27,12 +27,7 @@ import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 
-/**
- * SVGRect.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGRect. */
 public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;

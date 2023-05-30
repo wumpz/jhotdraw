@@ -30,9 +30,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * SVGBezierFigure is not an actual SVG element, it is used by SVGPathFigure to represent a single
  * BezierPath segment within an SVG path.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SVGBezierFigure extends BezierFigure {
 

@@ -13,9 +13,6 @@ import java.awt.color.ColorSpace;
 /**
  * A HSV color space with physiologic opposites in the hue color wheel: red is opposite green and
  * yellow is opposite blue.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class HSVPhysiologicColorSpace extends AbstractNamedColorSpace {
 

@@ -23,9 +23,6 @@ import java.util.Map;
  * subdivides the space covered by the rectangle of its parent node into four smaller rectangles
  * covering the upper left, upper right, lower left and lower right quadrant of the parent
  * rectangle.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class QuadTree<T> implements Serializable {
 

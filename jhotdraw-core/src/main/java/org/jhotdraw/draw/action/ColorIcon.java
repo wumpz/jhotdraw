@@ -12,12 +12,7 @@ import java.awt.image.BufferedImage;
 import org.jhotdraw.util.Images;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * ColorIcon.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ColorIcon. */
 public class ColorIcon implements javax.swing.Icon {
 
   private Color fillColor;

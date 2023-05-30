@@ -39,12 +39,7 @@ import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 
-/**
- * ODGDrawingPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGDrawingPanel. */
 public class ODGDrawingPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;

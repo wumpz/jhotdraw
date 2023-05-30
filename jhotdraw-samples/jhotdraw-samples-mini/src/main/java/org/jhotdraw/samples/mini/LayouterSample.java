@@ -19,9 +19,6 @@ import org.jhotdraw.editor.DefaultDrawingEditor;
 /**
  * Example showing how to layout two editable text figures and a line figure within a graphical
  * composite figure.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LayouterSample {
 

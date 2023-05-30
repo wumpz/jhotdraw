@@ -20,9 +20,6 @@ import javax.swing.event.ChangeListener;
 /**
  * {@code PreferencesUtil} provides utility methods for {@code java.util.prefs.Preferences}, and can
  * be used as a proxy when the system preferences are not available due to security restrictions.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class PreferencesUtil extends Preferences {
 

@@ -4,10 +4,5 @@
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
-/**
- * Provides abstract actions for document oriented applications.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Provides abstract actions for document oriented applications. */
 package org.jhotdraw.action;

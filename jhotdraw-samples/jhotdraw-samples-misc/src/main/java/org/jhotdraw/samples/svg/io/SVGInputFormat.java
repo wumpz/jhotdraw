@@ -57,9 +57,6 @@ import org.xml.sax.SAXException;
  * Name: Abstract Factory.<br>
  * Role: Client.<br>
  * Partners: {@link SVGFigureFactory} as Abstract Factory.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SVGInputFormat implements InputFormat {
 

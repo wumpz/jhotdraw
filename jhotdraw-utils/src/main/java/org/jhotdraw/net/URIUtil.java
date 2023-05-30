@@ -11,12 +11,7 @@ package org.jhotdraw.net;
 import java.io.File;
 import java.net.URI;
 
-/**
- * URIUtil.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** URIUtil. */
 public class URIUtil {
 
   /** Prevent instance creation. */

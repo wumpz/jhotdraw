@@ -28,12 +28,7 @@ import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 
-/**
- * DefaultSVGFigureFactory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DefaultSVGFigureFactory. */
 public class DefaultSVGFigureFactory implements SVGFigureFactory {
 
   /** Creates a new instance. */

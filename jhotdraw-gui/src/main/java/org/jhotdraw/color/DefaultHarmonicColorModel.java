@@ -14,12 +14,7 @@ import java.beans.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-/**
- * DefaultHarmonicColorModel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DefaultHarmonicColorModel. */
 public class DefaultHarmonicColorModel extends AbstractListModel
     implements HarmonicColorModel, Cloneable {
 

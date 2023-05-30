@@ -20,9 +20,6 @@ import java.awt.datatransfer.Transferable;
  * <p><em>Proxy</em><br>
  * {@code AWTClipboard} acts as a proxy to an AWT {@code Clipboard} object.<br>
  * Proxy: {@link AWTClipboard}; Target: {@code java.awt.datatransfer.Clipboard}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AWTClipboard extends AbstractClipboard {
 

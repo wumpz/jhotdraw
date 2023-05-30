@@ -47,8 +47,6 @@ import org.jhotdraw.draw.handle.Handle;
  * as Context.
  *
  * @see SelectionTool
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultHandleTracker extends AbstractTool implements HandleTracker {
 

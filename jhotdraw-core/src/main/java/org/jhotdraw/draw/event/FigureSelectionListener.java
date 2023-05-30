@@ -18,9 +18,6 @@ package org.jhotdraw.draw.event;
  * selected figures.<br>
  * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer: {@link FigureSelectionListener}; Event:
  * {@link FigureSelectionEvent}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface FigureSelectionListener extends java.util.EventListener {
 

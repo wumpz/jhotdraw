@@ -28,9 +28,6 @@ import java.io.*;
  * assigning an image to it, which was read from data input. That's the reason why {@code Figure}
  * extends the {@code Cloneable} interface. <br>
  * Prototype: {@link ImageHolderFigure}; Client: {@link org.jhotdraw.draw.io.ImageInputFormat}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface ImageHolderFigure extends Figure {
 

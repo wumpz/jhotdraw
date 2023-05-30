@@ -10,12 +10,7 @@ package org.jhotdraw.draw.figure;
 import java.awt.geom.*;
 import org.jhotdraw.geom.Geom;
 
-/**
- * A {@link org.jhotdraw.draw.figure.Figure} which groups a collection of figures.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link org.jhotdraw.draw.figure.Figure} which groups a collection of figures. */
 public class GroupFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;

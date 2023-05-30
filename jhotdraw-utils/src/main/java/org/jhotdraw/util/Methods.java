@@ -9,12 +9,7 @@ package org.jhotdraw.util;
 
 import java.lang.reflect.*;
 
-/**
- * Methods contains convenience methods for method invocations using java.lang.reflect.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Methods contains convenience methods for method invocations using java.lang.reflect. */
 @SuppressWarnings("unchecked")
 public class Methods {
 

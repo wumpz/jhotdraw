@@ -35,12 +35,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
 import org.jhotdraw.text.ColorFormatter;
 import org.jhotdraw.util.*;
 
-/**
- * CanvasToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** CanvasToolBar. */
 public class CanvasToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

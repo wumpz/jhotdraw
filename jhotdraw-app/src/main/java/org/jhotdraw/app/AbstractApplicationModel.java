@@ -17,12 +17,7 @@ import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.gui.JFileURIChooser;
 
-/**
- * This abstract class can be extended to implement an {@link ApplicationModel}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** This abstract class can be extended to implement an {@link ApplicationModel}. */
 public abstract class AbstractApplicationModel extends AbstractBean implements ApplicationModel {
 
   private static final long serialVersionUID = 1L;

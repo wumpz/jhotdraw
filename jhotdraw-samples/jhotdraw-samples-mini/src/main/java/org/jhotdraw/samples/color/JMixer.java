@@ -25,9 +25,6 @@ import org.jhotdraw.color.SimpleHarmonicRule;
  * JMixer.
  *
  * <p>FIXME - This is an experimental class. Do not use it.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JMixer extends javax.swing.JPanel {
 

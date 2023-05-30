@@ -13,12 +13,7 @@ import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 
-/**
- * Shapes.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Shapes. */
 public class Shapes {
 
   /** Creates a new instance. */

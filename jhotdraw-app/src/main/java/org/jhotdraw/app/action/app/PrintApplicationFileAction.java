@@ -33,9 +33,6 @@ import org.jhotdraw.util.*;
  * must implement the {@link PrintableView} interface.
  *
  * <p>You should also create a {@link PrintFileAction} when you create this action.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class PrintApplicationFileAction extends PrintFileAction {
 

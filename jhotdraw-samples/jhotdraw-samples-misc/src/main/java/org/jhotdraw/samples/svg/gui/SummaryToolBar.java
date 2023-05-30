@@ -11,12 +11,7 @@ import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.util.*;
 
-/**
- * SummaryToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SummaryToolBar. */
 public class SummaryToolBar extends JToolBar {
 
   private static final long serialVersionUID = 1L;

@@ -9,12 +9,7 @@ package org.jhotdraw.gui.plaf.palette;
 import java.awt.*;
 import javax.swing.plaf.LabelUI;
 
-/**
- * PaletteFontChooserPreviewPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteFontChooserPreviewPanel. */
 public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

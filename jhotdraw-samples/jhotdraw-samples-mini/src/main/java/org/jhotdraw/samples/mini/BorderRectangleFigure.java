@@ -17,8 +17,6 @@ import org.jhotdraw.draw.figure.RectangleFigure;
  * BorderRectangle2D.DoubleFigure.
  *
  * @deprecated This class should be in one of the samples package
- * @author Werner Randelshofer
- * @version $Id$
  */
 @Deprecated
 public class BorderRectangleFigure extends RectangleFigure {

@@ -12,12 +12,7 @@ import javax.swing.*;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.gui.JSheet;
 
-/**
- * SheetEvent.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SheetEvent. */
 public class SheetEvent extends EventObject {
 
   private static final long serialVersionUID = 1L;

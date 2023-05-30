@@ -16,9 +16,6 @@ import org.jhotdraw.geom.Geom;
 /**
  * Example showing the minimal amount of code needed to implement a {@code Figure} by extending
  * {@code AbstractAttributedFigure}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class StraightLineFigure extends AbstractAttributedFigure {
 

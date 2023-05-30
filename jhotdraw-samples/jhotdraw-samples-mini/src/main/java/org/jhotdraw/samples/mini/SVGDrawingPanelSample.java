@@ -28,9 +28,6 @@ import org.jhotdraw.draw.io.OutputFormat;
  * application that does not make use of the JHotDraw application framework.
  *
  * <p>In this case, the application consists of a JFrame with a File menu.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SVGDrawingPanelSample extends javax.swing.JFrame {
 

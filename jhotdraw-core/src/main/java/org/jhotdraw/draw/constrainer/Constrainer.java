@@ -28,9 +28,6 @@ import org.jhotdraw.draw.figure.Figure;
  * <p><em>Strategy</em><br>
  * Editing can be constrained by a constrainer which is associated to a drawing view.<br>
  * Context: {@link DrawingView}; Strategy: {@link Constrainer}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Constrainer {
 

@@ -18,9 +18,6 @@ import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 /**
  * The ColorSlidersChooser contains four individual color slider pages: gray slider, RGB sliders,
  * CMYK sliders, and HTML sliders.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class PaletteColorSlidersChooser extends AbstractColorChooserPanel implements UIResource {
 

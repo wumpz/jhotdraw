@@ -25,9 +25,6 @@ import org.jhotdraw.util.*;
  *
  * <p>To creation of the BezierFigure can be finished by adding a segment which closes the path, or
  * by double clicking on the drawing area, or by selecting a different tool in the DrawingEditor.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BezierTool extends AbstractTool {
 

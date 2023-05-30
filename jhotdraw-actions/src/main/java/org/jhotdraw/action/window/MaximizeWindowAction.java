@@ -15,12 +15,7 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.util.*;
 
-/**
- * Maximizes the window of the active view.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Maximizes the window of the active view. */
 public class MaximizeWindowAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;

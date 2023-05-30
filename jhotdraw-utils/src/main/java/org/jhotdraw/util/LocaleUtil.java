@@ -12,9 +12,6 @@ import java.util.*;
 /**
  * LocaleUtil provides a setDefault()/getDefault() wrapper to java.util.Locale in order to overcome
  * the security restriction preventing Applets from using their own locale.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LocaleUtil {
 

@@ -21,12 +21,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 
-/**
- * ODGGroupFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGGroupFigure. */
 public class ODGGroupFigure extends GroupFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;

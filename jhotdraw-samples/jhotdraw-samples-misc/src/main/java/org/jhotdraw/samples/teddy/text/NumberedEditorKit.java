@@ -21,9 +21,6 @@ import javax.swing.text.*;
  * JEditorPane edit = new JEditorPane();
  * edit.setEditorKit(new NumberedEditorKit());
  * </pre>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class NumberedEditorKit extends StyledEditorKit {
 

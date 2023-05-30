@@ -28,9 +28,6 @@ import org.jhotdraw.geom.Geom;
  *
  * <p>This figure creates a {@link RoundRectangleRadiusHandle} which allows to interactively change
  * the corner radius.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class RoundRectangleFigure extends AbstractAttributedFigure {
 

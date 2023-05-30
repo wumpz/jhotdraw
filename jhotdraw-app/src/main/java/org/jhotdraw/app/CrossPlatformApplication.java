@@ -14,12 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * {@code CrossPlatformApplication}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** {@code CrossPlatformApplication}. */
 public class CrossPlatformApplication extends SDIApplication {
 
   private static final long serialVersionUID = 1L;

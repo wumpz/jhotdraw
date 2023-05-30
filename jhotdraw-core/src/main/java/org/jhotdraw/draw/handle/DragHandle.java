@@ -27,9 +27,6 @@ import org.jhotdraw.draw.figure.Figure;
  * figure specific drag behavior. A {@code CompositeFigure} can create {@code DragHandle}s for all
  * its child figures, to support dragging of child figures without having to decompose the
  * CompositeFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DragHandle extends AbstractHandle {
 

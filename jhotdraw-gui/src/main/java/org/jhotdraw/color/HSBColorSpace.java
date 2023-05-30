@@ -14,9 +14,6 @@ import java.awt.color.ColorSpace;
 /**
  * A HSB color space with additive complements in the hue color wheel: red is opposite cyan, magenta
  * is opposite green, blue is opposite yellow.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class HSBColorSpace extends AbstractNamedColorSpace {
 

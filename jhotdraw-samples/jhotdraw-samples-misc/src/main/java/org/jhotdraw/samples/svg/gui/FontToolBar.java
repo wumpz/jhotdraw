@@ -37,12 +37,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
 import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
 import org.jhotdraw.util.*;
 
-/**
- * StrokeToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** StrokeToolBar. */
 public class FontToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

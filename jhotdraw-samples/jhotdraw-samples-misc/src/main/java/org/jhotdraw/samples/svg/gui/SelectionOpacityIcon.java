@@ -15,9 +15,6 @@ import org.jhotdraw.draw.figure.Figure;
 /**
  * {@code SelectionOpacityIcon} visualizes an opacity attribute of the selected {@code Figure}(s) in
  * the active {@code DrawingView} of a {@code DrawingEditor}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SelectionOpacityIcon extends javax.swing.ImageIcon {
 

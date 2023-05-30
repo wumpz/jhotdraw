@@ -9,12 +9,7 @@ package org.jhotdraw.samples.svg.gui;
 
 import java.beans.*;
 
-/**
- * BeanInfo for PaintToolPane.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for PaintToolPane. */
 public class FillToolBarBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

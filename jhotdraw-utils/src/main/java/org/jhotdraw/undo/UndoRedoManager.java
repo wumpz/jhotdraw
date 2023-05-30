@@ -15,12 +15,7 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.util.*;
 
-/**
- * Same as javax.swing.UndoManager but provides actions for undo and redo operations.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Same as javax.swing.UndoManager but provides actions for undo and redo operations. */
 public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManager {
 
   private static final long serialVersionUID = 1L;

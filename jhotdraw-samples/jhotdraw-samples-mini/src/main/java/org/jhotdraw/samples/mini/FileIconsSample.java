@@ -26,12 +26,7 @@ import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Insets2D;
 
-/**
- * Example showing how to lay out composite figures.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Example showing how to lay out composite figures. */
 public class FileIconsSample {
 
   public static void main(String[] args) {

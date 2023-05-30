@@ -10,12 +10,7 @@ import java.util.*;
 import javax.swing.event.*;
 import javax.swing.tree.*;
 
-/**
- * AbstractFontChooserModel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AbstractFontChooserModel. */
 public abstract class AbstractFontChooserModel implements FontChooserModel {
 
   /** Listeners. */

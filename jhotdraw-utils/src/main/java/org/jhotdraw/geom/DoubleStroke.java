@@ -15,9 +15,6 @@ import org.jhotdraw.geom.path.BezierPath;
  * Draws a double stroke (an outline of an outline). The inner width of a DoubleStroke defines the
  * distance between the two outlines being drawn. The outline width of a DoubleStroke defines the
  * thickness of the outline.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DoubleStroke implements Stroke {
 

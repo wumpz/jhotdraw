@@ -10,12 +10,7 @@ package org.jhotdraw.draw.action;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * SelectSameAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SelectSameAction. */
 public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

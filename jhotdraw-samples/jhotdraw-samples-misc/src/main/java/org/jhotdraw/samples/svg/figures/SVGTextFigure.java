@@ -37,13 +37,10 @@ import org.jhotdraw.samples.svg.SVGAttributeKeys;
  * SVGText.
  *
  * <p>XXX - At least on Mac OS X - Always draw text using TextLayout.getOutline(), because outline
- * layout does not match with TextLayout.draw() output. Cache outline to improve performance.
- *
- * @author Werner Randelshofer
- * @version $Id$ <br>
- *     2.1 2007-05-13 Fixed transformation issues. <br>
- *     2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. <br>
- *     1.0 July 8, 2006 Created.
+ * layout does not match with TextLayout.draw() output. Cache outline to improve performance. <br>
+ * 2.1 2007-05-13 Fixed transformation issues. <br>
+ * 2.0 2007-04-14 Adapted for new AttributeKeys.TRANSFORM support. <br>
+ * 1.0 July 8, 2006 Created.
  */
 public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigure, SVGFigure {
 

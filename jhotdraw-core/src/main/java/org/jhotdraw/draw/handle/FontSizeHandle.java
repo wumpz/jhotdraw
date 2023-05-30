@@ -18,12 +18,7 @@ import org.jhotdraw.draw.locator.FontSizeLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * A {@link Handle} which can be used to change the font size of a {@link TextHolderFigure}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Handle} which can be used to change the font size of a {@link TextHolderFigure}. */
 public class FontSizeHandle extends LocatorHandle {
 
   private float oldSize;

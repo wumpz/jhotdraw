@@ -12,12 +12,7 @@ import javax.swing.*;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.gui.plaf.palette.PaletteToolBarUI;
 
-/**
- * A ToolBar with disclosure functionality.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A ToolBar with disclosure functionality. */
 public class JDisclosureToolBar extends JToolBar {
 
   private static final long serialVersionUID = 1L;

@@ -12,12 +12,7 @@ package org.jhotdraw.samples.teddy.text;
 
 import javax.swing.text.*;
 
-/**
- * NumberedViewFactory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** NumberedViewFactory. */
 public class NumberedViewFactory implements ViewFactory {
 
   private boolean isLineNumbersVisible;

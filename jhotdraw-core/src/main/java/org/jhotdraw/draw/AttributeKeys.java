@@ -24,9 +24,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p>If you are developing an applications that uses a different put or an extended put of
  * attributes, it is recommended to create a new AttributeKeys class, and to define all needed
  * AttributeKeys as static variables in there.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AttributeKeys {
 

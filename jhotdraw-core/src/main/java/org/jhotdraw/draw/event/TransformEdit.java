@@ -27,9 +27,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  *
  * <p>If a lossy transforms is performed, such as rotation, scaling or shearing, then undos should
  * be performed with {@link TransformRestoreEdit} instead.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TransformEdit extends AbstractUndoableEdit {
 

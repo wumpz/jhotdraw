@@ -34,9 +34,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  *
  * <p>See {@link org.jhotdraw.api.app.View} interface on how this view interacts with an
  * application.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TeddyView extends AbstractView {
 

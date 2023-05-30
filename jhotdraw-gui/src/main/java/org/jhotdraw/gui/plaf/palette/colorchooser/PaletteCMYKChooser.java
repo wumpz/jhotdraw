@@ -22,12 +22,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
 
-/**
- * A color chooser with CMYK color sliders.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A color chooser with CMYK color sliders. */
 public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;

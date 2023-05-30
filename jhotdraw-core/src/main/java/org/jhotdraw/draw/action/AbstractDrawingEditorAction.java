@@ -27,9 +27,6 @@ import org.jhotdraw.draw.DrawingView;
  * <p>{@code AbstractDrawingEditorAction} listens using a {@link WeakPropertyChangeListener} on the
  * {@code DrawingEditor} and thus may become garbage collected if it is not referenced by any other
  * object.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractDrawingEditorAction extends AbstractAction {
 

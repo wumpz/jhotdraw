@@ -19,9 +19,6 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * path.
  *
  * <p>XXX - The angle should be perpendicular to the path.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BezierLabelLocator implements Locator {
 

@@ -31,12 +31,7 @@ import org.jhotdraw.samples.svg.figures.SVGGroupFigure;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 
-/**
- * ActionsToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ActionsToolBar. */
 public class ActionsToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

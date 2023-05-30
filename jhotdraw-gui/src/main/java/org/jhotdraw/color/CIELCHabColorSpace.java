@@ -25,9 +25,6 @@ import java.awt.color.ColorSpace;
  * a = C * cos(H)
  * b = C * sin(H)
  * </pre>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CIELCHabColorSpace extends AbstractNamedColorSpace {
 

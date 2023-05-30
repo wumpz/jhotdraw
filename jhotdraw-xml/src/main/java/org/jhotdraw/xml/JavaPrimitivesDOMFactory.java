@@ -54,9 +54,6 @@ import java.util.regex.Matcher;
  *
  * <p>You can implement a mapping by overriding the methods {@code getName}, {@code create}, {@code
  * getEnumName} and {@code getEnumValue}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JavaPrimitivesDOMFactory implements DOMFactory {
 

@@ -23,9 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * A set of utility methods to create Handles which transform a Figure by using its <code>transform
  * </code> method.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TransformHandleKit {
 

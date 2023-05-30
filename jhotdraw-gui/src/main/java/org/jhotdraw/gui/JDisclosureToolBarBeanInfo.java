@@ -9,12 +9,7 @@ package org.jhotdraw.gui;
 
 import java.beans.*;
 
-/**
- * BeanInfo for JDisclosureButton.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for JDisclosureButton. */
 public class JDisclosureToolBarBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

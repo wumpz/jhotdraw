@@ -11,12 +11,7 @@ import java.awt.Rectangle;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 
-/**
- * ZoomAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ZoomAction. */
 public class ZoomAction extends AbstractDrawingViewAction {
 
   private static final long serialVersionUID = 1L;

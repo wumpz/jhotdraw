@@ -48,9 +48,6 @@ import org.jhotdraw.util.*;
  * Provides meta-data and factory methods for an application.
  *
  * <p>See {@link ApplicationModel} on how this class interacts with an application.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGApplicationModel extends DefaultApplicationModel {
 

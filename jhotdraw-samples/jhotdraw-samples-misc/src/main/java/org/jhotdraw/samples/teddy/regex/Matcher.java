@@ -12,9 +12,6 @@ import javax.swing.text.*;
 /**
  * Searches for an occurence of a case (in)sensitive text on a document. This is a rather slow
  * implementation that does not use advanced techniques such as Boyer-Moore.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class Matcher {
 

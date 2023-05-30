@@ -8,10 +8,5 @@ package org.jhotdraw.gui.plaf;
 
 import javax.swing.plaf.ComponentUI;
 
-/**
- * FontChooserUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** FontChooserUI. */
 public class FontChooserUI extends ComponentUI {}

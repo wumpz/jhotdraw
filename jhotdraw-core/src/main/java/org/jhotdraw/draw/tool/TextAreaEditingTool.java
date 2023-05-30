@@ -41,8 +41,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@link TextEditingTool}, {@link TextAreaEditingTool}, {@link FloatingTextField}, {@link
  * FloatingTextArea}. <hr>
  *
- * @author Werner Randelshofer
- * @version $Id$
  * @see TextHolderFigure
  * @see FloatingTextArea
  */

@@ -15,12 +15,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicListUI;
 
-/**
- * PaletteListUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteListUI. */
 public class PaletteListUI extends BasicListUI {
 
   /**

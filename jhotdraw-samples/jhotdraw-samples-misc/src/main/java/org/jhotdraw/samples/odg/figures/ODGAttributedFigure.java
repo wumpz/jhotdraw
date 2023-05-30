@@ -22,12 +22,7 @@ import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.ODGConstants;
 import org.jhotdraw.util.*;
 
-/**
- * ODGAttributedFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGAttributedFigure. */
 public abstract class ODGAttributedFigure extends AbstractAttributedFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;

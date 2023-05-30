@@ -10,12 +10,7 @@ package org.jhotdraw.samples.svg.figures;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * SVGFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGFigure. */
 public interface SVGFigure extends Figure {
 
   /**

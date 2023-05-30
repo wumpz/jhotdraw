@@ -24,12 +24,7 @@ import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 
-/**
- * SVGEllipse represents a SVG ellipse and a SVG circle element.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGEllipse represents a SVG ellipse and a SVG circle element. */
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;

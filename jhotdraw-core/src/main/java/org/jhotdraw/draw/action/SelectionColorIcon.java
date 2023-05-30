@@ -16,9 +16,6 @@ import org.jhotdraw.draw.*;
  * drawing view. If now figures are selcted, the specified color is taken from the DrawingEditor.
  *
  * <p>The behavior for choosing the drawn color matches with {@link SelectionColorChooserAction }.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SelectionColorIcon extends javax.swing.ImageIcon {
 

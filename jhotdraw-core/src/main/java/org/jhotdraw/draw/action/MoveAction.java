@@ -15,12 +15,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * Moves the selected figures by one unit.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Moves the selected figures by one unit. */
 public abstract class MoveAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

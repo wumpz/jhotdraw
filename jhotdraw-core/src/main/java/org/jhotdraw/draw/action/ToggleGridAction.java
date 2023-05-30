@@ -11,12 +11,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ActionUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * Toggles the grid of the current view.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Toggles the grid of the current view. */
 public class ToggleGridAction extends AbstractDrawingViewAction {
 
   private static final long serialVersionUID = 1L;

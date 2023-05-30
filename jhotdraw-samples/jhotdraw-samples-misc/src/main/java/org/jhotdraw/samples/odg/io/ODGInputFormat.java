@@ -42,9 +42,6 @@ import org.xml.sax.SAXException;
 /**
  * ODGInputFormat. This format is aimed to comply to the Open Document Version 1.1 Drawing format.
  * http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGInputFormat implements InputFormat {
 

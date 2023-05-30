@@ -16,12 +16,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.path.BezierPath;
 
-/**
- * SlantedLiner.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SlantedLiner. */
 public class SlantedLiner implements Liner {
 
   private double slantSize;

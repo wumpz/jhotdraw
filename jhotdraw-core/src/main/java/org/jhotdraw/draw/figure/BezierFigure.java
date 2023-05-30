@@ -54,8 +54,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <hr>
  *
  * @see org.jhotdraw.geom.path.BezierPath
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BezierFigure extends AbstractAttributedFigure {
 

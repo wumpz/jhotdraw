@@ -17,12 +17,7 @@ import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * The LinkHandle indicates when a figure has a link.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** The LinkHandle indicates when a figure has a link. */
 public class LinkHandle extends AbstractHandle {
 
   /** Creates a new instance. */

@@ -75,8 +75,5 @@
  * returns true.<br>
  * The list of open URI's can be retrieved via {@link org.jhotdraw.app.Application#getViews} and
  * then calling {@link org.jhotdraw.app.View#getURI}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 package org.jhotdraw.api.app;

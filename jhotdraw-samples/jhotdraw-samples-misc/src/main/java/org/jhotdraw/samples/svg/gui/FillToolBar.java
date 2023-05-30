@@ -34,12 +34,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
 import org.jhotdraw.text.ColorFormatter;
 import org.jhotdraw.util.*;
 
-/**
- * FillToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** FillToolBar. */
 public class FillToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

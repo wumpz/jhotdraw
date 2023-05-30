@@ -24,9 +24,6 @@ import org.jhotdraw.util.*;
 /**
  * Example showing how to create a drawing editor with a creation tool for figures with pre-defined
  * attribute values: the example editor creates green rectangles.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CreationToolSample {
 

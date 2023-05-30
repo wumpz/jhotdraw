@@ -18,9 +18,6 @@ import java.util.List;
  *
  * <p>The handling of numeric data is also different: a single dot '.' and minus dot '-.' are not
  * treated as numbers.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
 

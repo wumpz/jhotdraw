@@ -156,9 +156,6 @@ import org.jhotdraw.util.prefs.*;
  * The menus provided by the {@code ApplicationModel} are inserted between the file menu and the
  * window menu. In case the application model supplies a menu with the title "Help", it is inserted
  * after the window menu.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class OSXApplication extends AbstractApplication {
 

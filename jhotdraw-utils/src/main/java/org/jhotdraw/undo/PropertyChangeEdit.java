@@ -14,12 +14,7 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoableEdit;
 
-/**
- * An {@code UndoableEdit} event which can undo a change of a JavaBeans property.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** An {@code UndoableEdit} event which can undo a change of a JavaBeans property. */
 public class PropertyChangeEdit extends AbstractUndoableEdit {
 
   private static final long serialVersionUID = 1L;

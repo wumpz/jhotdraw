@@ -8,12 +8,7 @@ package org.jhotdraw.color;
 
 import java.awt.Color;
 
-/**
- * HarmonicRule.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** HarmonicRule. */
 public interface HarmonicRule {
 
   public void setBaseIndex();

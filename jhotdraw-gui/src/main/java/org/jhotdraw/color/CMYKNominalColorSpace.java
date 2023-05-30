@@ -16,9 +16,6 @@ import java.awt.color.ColorSpace;
  *
  * <p>This model may not be very useful. It assumes that the color components perfectly absorb the
  * desired wavelenghts.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CMYKNominalColorSpace extends AbstractNamedColorSpace {
 

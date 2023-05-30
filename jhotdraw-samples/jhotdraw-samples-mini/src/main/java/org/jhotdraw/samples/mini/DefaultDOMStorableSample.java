@@ -18,9 +18,6 @@ import org.jhotdraw.xml.*;
 /**
  * {@code QuickAndDirtyDOMStorableSample} serializes a DOMStorable MyObject into a String using the
  * DefaultDOMFactory and then deserializes it from the String.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultDOMStorableSample {
 

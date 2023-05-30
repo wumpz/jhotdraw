@@ -11,9 +11,6 @@ import java.io.Serializable;
 
 /**
  * A layout which lays out components horizontally or vertically according to their preferred size.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ToolBarLayout implements LayoutManager2, Serializable {
 

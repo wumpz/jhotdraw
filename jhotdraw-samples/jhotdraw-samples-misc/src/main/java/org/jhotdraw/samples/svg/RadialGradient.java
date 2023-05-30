@@ -13,12 +13,7 @@ import java.util.Arrays;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * Represents an SVG RadialGradient.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Represents an SVG RadialGradient. */
 public class RadialGradient implements Gradient {
 
   private double cx;

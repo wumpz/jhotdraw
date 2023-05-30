@@ -28,9 +28,6 @@ import org.jhotdraw.geom.Insets2D;
  *
  * <p>If COMPOSITE_ALIGNMENT is not set on the composite figure, the layout assigns the same width
  * to all figures.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class VerticalLayouter extends AbstractLayouter {
 

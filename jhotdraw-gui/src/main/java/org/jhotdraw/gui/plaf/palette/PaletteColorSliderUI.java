@@ -14,12 +14,7 @@ import javax.swing.JSlider;
 import javax.swing.plaf.ComponentUI;
 import org.jhotdraw.color.ColorSliderUI;
 
-/**
- * PaletteColorSliderUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteColorSliderUI. */
 public class PaletteColorSliderUI extends ColorSliderUI {
 
   /** Creates a new instance. */

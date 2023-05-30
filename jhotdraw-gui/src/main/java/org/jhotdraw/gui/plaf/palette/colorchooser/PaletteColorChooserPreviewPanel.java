@@ -12,12 +12,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 
-/**
- * PaletteColorChooserPreviewPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteColorChooserPreviewPanel. */
 public class PaletteColorChooserPreviewPanel extends JPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;

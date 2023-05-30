@@ -21,12 +21,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 
-/**
- * SVGGroupFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGGroupFigure. */
 public class SVGGroupFigure extends GroupFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;

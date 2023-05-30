@@ -14,12 +14,7 @@ import org.jhotdraw.draw.connector.ChopEllipseConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.geom.Geom;
 
-/**
- * A {@link Figure} with an elliptic shape.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Figure} with an elliptic shape. */
 public class EllipseFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;

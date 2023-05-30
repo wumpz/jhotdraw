@@ -16,12 +16,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 
-/**
- * This abstract class can be extended to implement a {@link LineDecoration}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** This abstract class can be extended to implement a {@link LineDecoration}. */
 public abstract class AbstractLineDecoration implements LineDecoration {
 
   private static final long serialVersionUID = 1L;

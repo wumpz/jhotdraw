@@ -26,9 +26,6 @@ import org.jhotdraw.draw.figure.Figure;
  * The start and end point of a {@code BezierFigure} can be decorated with a line decoration.<br>
  * Component: {@link org.jhotdraw.draw.BezierFigure}; Decorator: {@link
  * org.jhotdraw.draw.decoration.LineDecoration}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface LineDecoration extends Cloneable, Serializable {
 

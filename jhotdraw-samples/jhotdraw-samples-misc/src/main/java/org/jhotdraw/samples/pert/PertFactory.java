@@ -22,12 +22,7 @@ import org.jhotdraw.samples.pert.figures.SeparatorLineFigure;
 import org.jhotdraw.samples.pert.figures.TaskFigure;
 import org.jhotdraw.xml.*;
 
-/**
- * PertFactory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PertFactory. */
 public class PertFactory extends DefaultDOMFactory {
 
   private static final Object[][] CLASS_TAGS = {

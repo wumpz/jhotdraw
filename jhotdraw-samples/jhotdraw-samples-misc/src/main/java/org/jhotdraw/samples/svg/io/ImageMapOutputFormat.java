@@ -48,9 +48,6 @@ import org.w3c.dom.NodeList;
 /**
  * ImageMapOutputFormat exports a SVG drawing as an HTML 4.01 <code>MAP</code> element. For more
  * information see: http://www.w3.org/TR/html401/struct/objects.html#h-13.6.2
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ImageMapOutputFormat implements OutputFormat {
 

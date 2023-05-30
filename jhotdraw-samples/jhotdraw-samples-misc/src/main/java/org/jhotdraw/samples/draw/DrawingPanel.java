@@ -47,12 +47,7 @@ import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 
-/**
- * DrawingPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DrawingPanel. */
 public class DrawingPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;

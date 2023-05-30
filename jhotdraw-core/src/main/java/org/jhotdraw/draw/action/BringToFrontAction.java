@@ -19,12 +19,7 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * ToFrontAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ToFrontAction. */
 public class BringToFrontAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

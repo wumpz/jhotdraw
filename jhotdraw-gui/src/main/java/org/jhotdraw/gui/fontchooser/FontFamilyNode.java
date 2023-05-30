@@ -11,12 +11,7 @@ import java.util.*;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-/**
- * A FontFamilyNode is a MutableTreeNode which only allows FontFaceNode as child nodes.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A FontFamilyNode is a MutableTreeNode which only allows FontFaceNode as child nodes. */
 public class FontFamilyNode implements MutableTreeNode, Comparable<FontFamilyNode>, Cloneable {
 
   private FontCollectionNode parent;

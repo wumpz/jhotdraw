@@ -23,9 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * the name of a compatible JTextComponent action is specified, the toggler checks if the current
  * permant focus owner is a JTextComponent, and if it is, it will apply the text action to the
  * JTextComponent.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AttributeToggler<T> extends AbstractAction {
 

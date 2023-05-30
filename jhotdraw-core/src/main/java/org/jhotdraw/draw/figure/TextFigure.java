@@ -39,9 +39,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  *
  * <p>A DrawingEditor should provide the {@link org.jhotdraw.draw.tool.TextCreationTool} to create a
  * {@code TextFigure}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TextFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
 

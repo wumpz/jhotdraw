@@ -10,12 +10,7 @@ package org.jhotdraw.xml;
 import java.awt.datatransfer.*;
 import java.io.*;
 
-/**
- * XMLTransferable for transfering XML documents over the clipboard and with drag and drop.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** XMLTransferable for transfering XML documents over the clipboard and with drag and drop. */
 public class XMLTransferable
     implements java.awt.datatransfer.Transferable, java.awt.datatransfer.ClipboardOwner {
 

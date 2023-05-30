@@ -26,9 +26,6 @@ import org.xml.sax.SAXException;
 /**
  * ODGStylesReader reads an ODG &lt;document-styles&gt; element, and creates a map of AttributeKey's
  * and values.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGStylesReader {
   private static class Style extends HashMap<AttributeKey<?>, Object> {

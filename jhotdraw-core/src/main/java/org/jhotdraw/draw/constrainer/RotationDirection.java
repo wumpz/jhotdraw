@@ -13,8 +13,6 @@ package org.jhotdraw.draw.constrainer;
  * figures on a drawing.
  *
  * @see Constrainer
- * @author Werner Randelshofer
- * @version $Id$
  */
 public enum RotationDirection {
   CLOCKWISE,

@@ -6,12 +6,7 @@
  */
 package org.jhotdraw.color;
 
-/**
- * AbstractHarmonicRule.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AbstractHarmonicRule. */
 public abstract class AbstractHarmonicRule implements HarmonicRule {
 
   protected int baseIndex;

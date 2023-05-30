@@ -14,8 +14,6 @@ import java.awt.image.*;
  * ColorTrackImageProducer creates the image for the track of a color slider.
  *
  * @see ColorSliderUI
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ColorTrackImageProducer extends MemoryImageSource {
 

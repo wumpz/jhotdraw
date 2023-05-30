@@ -35,9 +35,6 @@ import org.jhotdraw.draw.figure.ImageHolderFigure;
  * The {@code ImageTool} creates new figures by cloning a prototype {@code ImageHolderFigure}
  * object.<br>
  * Prototype: {@link ImageHolderFigure}; Client: {@link ImageTool}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ImageTool extends CreationTool {
 

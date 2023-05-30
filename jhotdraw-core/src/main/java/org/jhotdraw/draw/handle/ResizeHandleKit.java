@@ -23,9 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * A set of utility methods to create handles which resize a Figure by using its <code>setBounds
  * </code> method, if the Figure is transformable.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ResizeHandleKit {
 

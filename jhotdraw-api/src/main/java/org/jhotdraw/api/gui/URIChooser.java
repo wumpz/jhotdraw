@@ -15,12 +15,7 @@ import java.net.URI;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
-/**
- * {@code URIChooser} provides a mechanism for the user to choose a URI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** {@code URIChooser} provides a mechanism for the user to choose a URI. */
 public interface URIChooser {
 
   // ************************

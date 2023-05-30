@@ -24,12 +24,7 @@ import org.jhotdraw.gui.fontchooser.FontFamilyNode;
 import org.jhotdraw.gui.plaf.FontChooserUI;
 import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
 
-/**
- * Font chooser dialog.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Font chooser dialog. */
 public class JFontChooser extends JComponent {
 
   private static final long serialVersionUID = 1L;

@@ -21,9 +21,6 @@ import org.jhotdraw.draw.figure.Figure;
  * Changes in the composition of a composite figure can be observed.<br>
  * Subject: {@link CompositeFigure}; Observer: {@link CompositeFigureListener}; Event: {@link
  * CompositeFigureEvent}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CompositeFigureEvent extends EventObject {
 

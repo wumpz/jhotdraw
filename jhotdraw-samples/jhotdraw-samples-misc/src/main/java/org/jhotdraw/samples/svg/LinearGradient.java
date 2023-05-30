@@ -13,12 +13,7 @@ import java.util.Arrays;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * Represents an SVG LinearGradient.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Represents an SVG LinearGradient. */
 public class LinearGradient implements Gradient {
 
   private double x1;

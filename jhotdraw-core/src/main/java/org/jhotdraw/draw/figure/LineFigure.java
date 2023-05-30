@@ -21,12 +21,7 @@ import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.path.BezierPath;
 
-/**
- * A {@link Figure} which draws a continuous bezier path between two points.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Figure} which draws a continuous bezier path between two points. */
 public class LineFigure extends BezierFigure {
 
   private static final long serialVersionUID = 1L;

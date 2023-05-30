@@ -94,9 +94,6 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * <p><em>Strategy</em><br>
  * {@code Locator} encapsulates a strategy for locating a point on a {@code Figure}.<br>
  * Strategy: {@link org.jhotdraw.draw.locator.Locator}; Context: {@link Figure}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Figure extends Cloneable, Serializable {
 

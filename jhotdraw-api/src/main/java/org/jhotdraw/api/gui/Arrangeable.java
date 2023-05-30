@@ -9,12 +9,7 @@ package org.jhotdraw.api.gui;
 
 import java.beans.*;
 
-/**
- * Arrangeable.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Arrangeable. */
 public interface Arrangeable {
 
   enum Arrangement {

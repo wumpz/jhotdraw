@@ -10,12 +10,7 @@ import java.lang.reflect.*;
 import javax.swing.*;
 import javax.swing.plaf.*;
 
-/**
- * QuaquaLazyActionMap.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** QuaquaLazyActionMap. */
 public class PaletteLazyActionMap extends ActionMapUIResource {
 
   private static final long serialVersionUID = 1L;

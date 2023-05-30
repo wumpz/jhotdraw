@@ -40,12 +40,7 @@ import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 import org.jhotdraw.util.*;
 
-/**
- * DrawToolsPane.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DrawToolsPane. */
 public class ToolsToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

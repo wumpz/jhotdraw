@@ -24,9 +24,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /**
  * This abstract class can be extended to implement a {@link Handle} which can rotate a {@link
  * Figure}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
 

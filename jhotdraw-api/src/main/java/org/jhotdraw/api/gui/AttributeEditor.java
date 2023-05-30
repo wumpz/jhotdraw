@@ -16,9 +16,6 @@ import javax.swing.*;
  *
  * <p>The {@code AttributeEditor} can be attached to a single {@code DrawingView} or to the whole
  * {@code DrawingEditor} by means of an {@code AttributeFieldHandler}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface AttributeEditor<T> {
 

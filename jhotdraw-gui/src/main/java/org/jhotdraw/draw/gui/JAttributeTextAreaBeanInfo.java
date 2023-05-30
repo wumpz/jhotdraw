@@ -9,12 +9,7 @@ package org.jhotdraw.draw.gui;
 
 import java.beans.*;
 
-/**
- * BeanInfo for JAttributeTextArea.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for JAttributeTextArea. */
 public class JAttributeTextAreaBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

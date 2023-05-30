@@ -11,12 +11,7 @@ import java.awt.color.ColorSpace;
 import java.beans.PropertyChangeListener;
 import javax.swing.ListModel;
 
-/**
- * HarmonicColorModel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** HarmonicColorModel. */
 public interface HarmonicColorModel extends ListModel {
 
   public static final String COLOR_SPACE_PROPERTY = "colorSpace";

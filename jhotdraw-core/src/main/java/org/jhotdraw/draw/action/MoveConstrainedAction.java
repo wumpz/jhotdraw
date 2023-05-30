@@ -21,12 +21,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * Moves the selected figures by one constrained unit.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Moves the selected figures by one constrained unit. */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

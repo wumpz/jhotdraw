@@ -25,9 +25,6 @@ import org.jhotdraw.api.app.View;
  *
  * <p>This action is automatically created by {@code DefaultOSXApplication} and put into the {@code
  * ApplicationModel} before {@link org.jhotdraw.app.ApplicationModel#initApplication} is called.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ReOpenApplicationAction extends AbstractApplicationAction {
 

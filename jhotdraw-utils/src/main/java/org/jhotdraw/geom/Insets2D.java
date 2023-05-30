@@ -13,8 +13,7 @@ import java.io.Serializable;
 /**
  * Insets2D.
  *
- * @author Werner Randelshofer
- * @version $Id$ expectations of people used to the java.awt.geom.xxx2D.Double/xxx2D.Float idioms.
+ * <p>expectations of people used to the java.awt.geom.xxx2D.Double/xxx2D.Float idioms.
  */
 public abstract class Insets2D implements Cloneable, Serializable {
 

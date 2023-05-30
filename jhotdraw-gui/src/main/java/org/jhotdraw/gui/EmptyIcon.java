@@ -10,12 +10,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import javax.swing.Icon;
 
-/**
- * EmptyIcon.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** EmptyIcon. */
 public class EmptyIcon implements Icon {
 
   private int width;

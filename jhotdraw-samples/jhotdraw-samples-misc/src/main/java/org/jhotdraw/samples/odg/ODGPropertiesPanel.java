@@ -20,9 +20,6 @@ import org.jhotdraw.util.*;
 
 /**
  * The ODGPropertiesPanel allows to edit properties (attributes and other things) of a ODGFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 @SuppressWarnings("rawtypes")
 public class ODGPropertiesPanel extends javax.swing.JPanel {

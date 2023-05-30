@@ -16,9 +16,6 @@ import org.jhotdraw.geom.Insets2D;
 /**
  * This abstract class can be extended to implement a {@link DecoratedFigure} which has an attribute
  * set.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractAttributedDecoratedFigure extends AbstractAttributedFigure
     implements DecoratedFigure {

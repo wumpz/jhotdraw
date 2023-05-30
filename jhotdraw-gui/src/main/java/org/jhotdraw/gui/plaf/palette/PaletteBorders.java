@@ -6,10 +6,5 @@
  */
 package org.jhotdraw.gui.plaf.palette;
 
-/**
- * PaletteBorders.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteBorders. */
 public class PaletteBorders {}

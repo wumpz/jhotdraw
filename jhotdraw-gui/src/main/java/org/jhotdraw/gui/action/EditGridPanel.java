@@ -17,8 +17,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * The EditGridPanel can be used to edit the properties of a GridConstrainer.
  *
  * @see org.jhotdraw.draw.GridConstrainer
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class EditGridPanel extends javax.swing.JPanel {
 

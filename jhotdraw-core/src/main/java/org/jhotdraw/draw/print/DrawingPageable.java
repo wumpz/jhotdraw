@@ -31,8 +31,6 @@ import org.jhotdraw.draw.figure.Figure;
  * }
  * </pre>
  *
- * @author Werner Randelshofer
- * @version $Id$
  * @see org.jhotdraw.app.action.file.PrintFileAction
  */
 public class DrawingPageable implements Pageable {

@@ -9,12 +9,7 @@ package org.jhotdraw.gui.event;
 
 import java.util.*;
 
-/**
- * SheetListener.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SheetListener. */
 public interface SheetListener extends EventListener {
 
   /**

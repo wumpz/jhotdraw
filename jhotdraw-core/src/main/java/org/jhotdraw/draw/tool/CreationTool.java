@@ -46,9 +46,6 @@ import org.jhotdraw.util.*;
  * The creation tool creates new figures by cloning a prototype figure object. That's the reason why
  * {@code Figure} extends the {@code Cloneable} interface. <br>
  * Prototype: {@link Figure}; Client: {@link CreationTool}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CreationTool extends AbstractTool {
 

@@ -18,9 +18,6 @@ import org.jhotdraw.geom.Geom;
  *
  * <p>The location of the connection point is computed once, when the user connects the figure.
  * Moving the figure around will not change the location.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class StickyRectangleConnector extends ChopRectangleConnector {
 

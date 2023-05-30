@@ -7,12 +7,7 @@
  */
 package org.jhotdraw.samples.teddy.regex;
 
-/**
- * Typesafe enum of Syntaxes for the Parser.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Typesafe enum of Syntaxes for the Parser. */
 public enum MatchType {
   CONTAINS,
   STARTS_WITH,

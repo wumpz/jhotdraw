@@ -55,9 +55,6 @@ import java.lang.reflect.*;
  *     );
  *     button.addMouseListener(mouseListener);
  * </pre>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class GenericListener {
 

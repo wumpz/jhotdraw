@@ -26,9 +26,6 @@ import org.w3c.dom.Element;
  * </ul>
  *
  * This class supports net.n3.nanoxml as well as org.w3c.dom.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CSSRule {
 

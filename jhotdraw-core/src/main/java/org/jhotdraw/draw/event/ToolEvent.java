@@ -20,9 +20,6 @@ import org.jhotdraw.draw.tool.Tool;
  * observes area invalidations of tools and repaints its active drawing view accordingly.<br>
  * Subject: {@link Tool}; Observer: {@link ToolListener}; Event: {@link ToolEvent}; Concrete
  * Observer: {@link DrawingEditor}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ToolEvent extends EventObject {
 

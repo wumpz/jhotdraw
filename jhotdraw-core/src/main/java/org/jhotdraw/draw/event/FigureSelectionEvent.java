@@ -21,9 +21,6 @@ import org.jhotdraw.draw.figure.Figure;
  * selected figures.<br>
  * Subject: {@link org.jhotdraw.draw.DrawingView}; Observer: {@link FigureSelectionListener}; Event:
  * {@link FigureSelectionEvent}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class FigureSelectionEvent extends java.util.EventObject {
 

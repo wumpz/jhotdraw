@@ -21,12 +21,7 @@ import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.*;
 
-/**
- * A {@link Handle} which allows to interactively change a control point of a bezier path.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Handle} which allows to interactively change a control point of a bezier path. */
 public class BezierControlPointHandle extends AbstractHandle {
 
   protected int index, controlPointIndex;

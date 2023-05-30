@@ -23,9 +23,6 @@ import org.jhotdraw.util.*;
  *
  * <p>This action is automatically created by the application and put into the {@code
  * ApplicationModel} before {@link ApplicationModel#initApplication} is called.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AboutAction extends AbstractApplicationAction {
 

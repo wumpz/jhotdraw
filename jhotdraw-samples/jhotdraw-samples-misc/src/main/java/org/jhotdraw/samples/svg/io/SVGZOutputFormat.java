@@ -12,12 +12,7 @@ import java.util.zip.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.*;
 
-/**
- * SVGZOutputFormat.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGZOutputFormat. */
 public class SVGZOutputFormat extends SVGOutputFormat {
 
   /** Creates a new instance. */

@@ -14,9 +14,6 @@ import org.jhotdraw.geom.Insets2D;
 /**
  * This abstract class can be extended to implement a {@link Layouter} which has its own attribute
  * set.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractLayouter implements Layouter {
 

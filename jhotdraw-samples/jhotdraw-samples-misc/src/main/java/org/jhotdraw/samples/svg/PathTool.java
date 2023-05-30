@@ -14,12 +14,7 @@ import org.jhotdraw.draw.tool.BezierTool;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 
-/**
- * Tool to scribble a SVGPath
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Tool to scribble a SVGPath */
 public class PathTool extends BezierTool {
 
   private static final long serialVersionUID = 1L;

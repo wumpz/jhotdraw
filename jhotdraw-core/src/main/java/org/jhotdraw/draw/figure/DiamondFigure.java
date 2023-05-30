@@ -19,9 +19,6 @@ import org.jhotdraw.geom.Geom;
  * A {@link Figure} with a diamond shape.
  *
  * <p>The diamond vertices are located at the midpoints of its enclosing rectangle.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DiamondFigure extends AbstractAttributedFigure {
 

@@ -29,12 +29,7 @@ import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import org.jhotdraw.util.*;
 
-/**
- * SVGImage.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGImage. */
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
 
   private static final long serialVersionUID = 1L;

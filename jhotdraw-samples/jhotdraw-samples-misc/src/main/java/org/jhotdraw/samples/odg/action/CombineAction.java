@@ -15,12 +15,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
 import org.jhotdraw.util.*;
 
-/**
- * CombinePathsAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** CombinePathsAction. */
 public class CombineAction extends GroupAction {
 
   private static final long serialVersionUID = 1L;

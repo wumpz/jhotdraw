@@ -19,9 +19,6 @@ import java.util.*;
  * observes area invalidations of tools and repaints its active drawing view accordingly.<br>
  * Subject: {@link org.jhotdraw.draw.tool.Tool}; Observer: {@link ToolListener}; Event: {@link
  * ToolEvent}; Concrete Observer: {@link org.jhotdraw.draw.DrawingEditor}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface ToolListener extends EventListener {
 

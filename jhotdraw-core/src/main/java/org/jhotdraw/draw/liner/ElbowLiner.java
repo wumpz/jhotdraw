@@ -16,12 +16,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.path.BezierPath;
 
-/**
- * A {@link Liner} that constrains a connection to orthogonal lines.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Liner} that constrains a connection to orthogonal lines. */
 public class ElbowLiner implements Liner {
 
   private double shoulderSize;

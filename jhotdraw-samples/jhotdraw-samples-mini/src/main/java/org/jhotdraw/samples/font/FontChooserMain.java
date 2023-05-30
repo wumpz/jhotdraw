@@ -10,12 +10,7 @@ package org.jhotdraw.samples.font;
 import javax.swing.*;
 import org.jhotdraw.gui.JFontChooser;
 
-/**
- * FontChooserMain.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** FontChooserMain. */
 public class FontChooserMain extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

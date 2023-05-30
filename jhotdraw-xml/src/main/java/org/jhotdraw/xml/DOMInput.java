@@ -23,9 +23,6 @@ import java.io.IOException;
  * {@code DOMFactory} is used by {@code DOMInput} and {@code DOMOutput} for reading and writing
  * objects. Client: {@link DOMInput}, {@link DOMOutput}.<br>
  * Strategy: {@link DOMFactory}.<br>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface DOMInput {
 

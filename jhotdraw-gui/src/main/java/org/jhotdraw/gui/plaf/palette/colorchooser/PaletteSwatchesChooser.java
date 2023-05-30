@@ -24,12 +24,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * PaletteSwatchesChooser.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteSwatchesChooser. */
 public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
 
   private static final long serialVersionUID = 1L;

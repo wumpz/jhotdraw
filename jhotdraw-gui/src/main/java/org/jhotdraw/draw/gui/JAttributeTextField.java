@@ -15,12 +15,7 @@ import org.jhotdraw.api.gui.AttributeEditor;
 import org.jhotdraw.gui.JLifeFormattedTextField;
 import org.jhotdraw.util.*;
 
-/**
- * An entry field that can be used to edit an attribute of a {@code Figure}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** An entry field that can be used to edit an attribute of a {@code Figure}. */
 public class JAttributeTextField<T> extends JLifeFormattedTextField implements AttributeEditor<T> {
 
   private static final long serialVersionUID = 1L;

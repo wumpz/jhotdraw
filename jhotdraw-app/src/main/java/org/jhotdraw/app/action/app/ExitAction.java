@@ -39,9 +39,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  *
  * <p>This action is automatically created by the application and put into the {@code
  * ApplicationModel} before {@link org.jhotdraw.app.ApplicationModel#initApplication} is called.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ExitAction extends AbstractApplicationAction {
 

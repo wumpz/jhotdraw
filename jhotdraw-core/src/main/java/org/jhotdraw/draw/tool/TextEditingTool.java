@@ -35,9 +35,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * object.<br>
  * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool}, {@link
  * TextAreaCreationTool}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TextEditingTool extends AbstractTool implements ActionListener {
 

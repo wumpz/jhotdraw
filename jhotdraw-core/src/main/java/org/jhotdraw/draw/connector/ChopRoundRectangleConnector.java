@@ -20,9 +20,6 @@ import org.jhotdraw.geom.Geom;
  * RoundRectangleFigure}.
  *
  * <p>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ChopRoundRectangleConnector extends ChopRectangleConnector {
 

@@ -44,9 +44,6 @@ import org.jhotdraw.geom.Insets2D;
  * Composite figures can be laid out using different layout algorithms which are implemented by
  * layouters.<br>
  * Context: {@link CompositeFigure}; Strategy: {@link Layouter}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface CompositeFigure extends Figure {
 

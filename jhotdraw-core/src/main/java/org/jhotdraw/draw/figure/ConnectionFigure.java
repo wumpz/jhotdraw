@@ -43,9 +43,6 @@ import org.jhotdraw.geom.path.BezierPath;
  * The location of the start and end points of a connection figure are determined by {@code
  * Connector}s which are owned by the connected figures.<br>
  * Context: {@link Figure}, {@link ConnectionFigure}; Strategy: {@link Connector}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface ConnectionFigure extends Figure {
 

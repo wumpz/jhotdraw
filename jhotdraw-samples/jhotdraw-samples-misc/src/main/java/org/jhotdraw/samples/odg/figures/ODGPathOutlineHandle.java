@@ -15,9 +15,6 @@ import org.jhotdraw.draw.handle.AbstractHandle;
 /**
  * A non-interactive {@link org.jhotdraw.draw.handle.Handle} which draws the outline of a {@link
  * ODGPathFigure} to make adjustments easier.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGPathOutlineHandle extends AbstractHandle {
 

@@ -30,12 +30,7 @@ import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * This abstract class can be extended to implement a {@link Handle}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** This abstract class can be extended to implement a {@link Handle}. */
 public abstract class AbstractHandle implements Handle {
 
   protected final FigureListener FIGURE_LISTENER =

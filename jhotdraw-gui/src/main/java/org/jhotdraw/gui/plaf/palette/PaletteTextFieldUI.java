@@ -13,12 +13,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
 
-/**
- * PaletteTextFieldUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteTextFieldUI. */
 public class PaletteTextFieldUI extends BasicTextFieldUI {
 
   /**

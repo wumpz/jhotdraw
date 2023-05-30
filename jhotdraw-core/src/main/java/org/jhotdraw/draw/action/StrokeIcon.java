@@ -9,12 +9,7 @@ package org.jhotdraw.draw.action;
 
 import java.awt.*;
 
-/**
- * StrokeIcon.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** StrokeIcon. */
 public class StrokeIcon implements javax.swing.Icon {
 
   private Stroke stroke;

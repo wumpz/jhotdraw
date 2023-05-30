@@ -17,9 +17,6 @@ import org.jhotdraw.draw.DrawingView;
 /**
  * Calls repaint on components, which show attributes of a drawing object on the current view of the
  * editor.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawingComponentRepainter extends DrawingListenerAdapter
     implements PropertyChangeListener, Disposable {

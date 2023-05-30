@@ -16,9 +16,6 @@ import org.jhotdraw.draw.figure.Figure;
 /**
  * A non-interactive {@link Handle} which draws the bounds of a {@link Figure} to make adjustments
  * easier.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BoundsOutlineHandle extends AbstractHandle {
 

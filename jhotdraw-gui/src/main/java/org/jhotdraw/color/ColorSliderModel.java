@@ -17,9 +17,6 @@ import javax.swing.event.ChangeListener;
  *
  * <p>Colors are represented as arrays of color components represented as BoundedRangeModel's. Each
  * BoundedRangeModel can be visualized using a JSlider having a ColorSliderUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface ColorSliderModel {
 

@@ -14,9 +14,6 @@ import java.awt.color.ColorSpace;
 /**
  * {@code CompositeColor} is identical to {@code java.awt.Color} with the exception that it allows
  * to construct an instance with color components outside of the range of 0 and 1.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CompositeColor extends Color {
 

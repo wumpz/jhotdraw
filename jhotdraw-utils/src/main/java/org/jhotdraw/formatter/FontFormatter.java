@@ -20,9 +20,6 @@ import javax.swing.text.DefaultFormatterFactory;
  * in an entry field.
  *
  * <p>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class FontFormatter extends DefaultFormatter {
 

@@ -9,12 +9,7 @@ package org.jhotdraw.gui;
 
 import java.beans.*;
 
-/**
- * BeanInfo for JLifeFormattedTextArea.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for JLifeFormattedTextArea. */
 public class JLifeFormattedTexAreaBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

@@ -9,12 +9,7 @@ package org.jhotdraw.samples.odg;
 
 import java.beans.*;
 
-/**
- * BeanInfo for SVGPropertiespanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for SVGPropertiespanel. */
 public class ODGPropertiesPanelBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

@@ -17,12 +17,7 @@ import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
-/**
- * This abstract class can be extended to implement a {@link View}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** This abstract class can be extended to implement a {@link View}. */
 public abstract class AbstractView extends JPanel implements View {
 
   private static final long serialVersionUID = 1L;

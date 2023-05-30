@@ -16,8 +16,6 @@ import org.jhotdraw.draw.locator.Locator;
  * A LocatorHandle implements a Handle by delegating the location requests to a Locator object.
  *
  * @see Locator
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class LocatorHandle extends AbstractHandle {
 

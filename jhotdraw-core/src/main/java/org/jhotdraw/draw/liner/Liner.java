@@ -22,9 +22,6 @@ import org.jhotdraw.geom.path.BezierPath;
  * The control points of the bezier path of a connection figure can be laid out using different
  * layout algorithms which are implemented by liners.<br>
  * Context: {@link ConnectionFigure}; Strategy: {@link Liner}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Liner extends Cloneable {
 

@@ -18,9 +18,6 @@ import org.jhotdraw.util.*;
  * <p>The MessagePanel covers the whole content pane of the DrawingApplet. The DrawingApplet
  * registers with the DrawingComponent as an ActionListener to receive "save" and "cancel" action
  * commands.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class MessagePanel extends javax.swing.JPanel {
 

@@ -11,12 +11,7 @@ package org.jhotdraw.datatransfer;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 
-/**
- * {@code ClipboardUtil} provides utility methods for the Java Clipboard API.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** {@code ClipboardUtil} provides utility methods for the Java Clipboard API. */
 public class ClipboardUtil {
 
   /** Holds the clipboard service instance. */

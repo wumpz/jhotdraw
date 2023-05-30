@@ -74,9 +74,6 @@ import org.jhotdraw.draw.io.OutputFormat;
  * {@code org.jhotdraw.draw.io.InputFormat} encapsulates a strategy for reading drawings from input
  * streams.<br>
  * Strategy: {@link org.jhotdraw.draw.io.InputFormat}; Context: {@link Drawing}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Drawing {
 

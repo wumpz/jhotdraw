@@ -23,9 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * opened file. This action goes together with {@code ClearFileAction}, {@code NewWindowAction},
  * {@code LoadFileAction}, {@code LoadDirectoryAction} and {@code CloseFileAction}. This action
  * should not be used together with {@code OpenDirectoryAction}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LoadDirectoryAction extends LoadFileAction {
 

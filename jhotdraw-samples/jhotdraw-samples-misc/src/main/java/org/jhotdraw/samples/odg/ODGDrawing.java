@@ -15,9 +15,6 @@ import org.jhotdraw.draw.*;
  * <p>XXX - This class is going away in future versions: We don't need to subclass QuadTreeDrawing
  * for ODG since we can represent all ODG-specific AttributeKey's instead of using JavaBeans
  * properties.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGDrawing extends QuadTreeDrawing {
 

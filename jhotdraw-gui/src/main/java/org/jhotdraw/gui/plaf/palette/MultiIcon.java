@@ -14,9 +14,6 @@ import org.jhotdraw.util.Images;
 /**
  * An icon which paints one out of multiple icons depending on the state of the component. MultiIcon
  * can lazily create the icons from a tiled image.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class MultiIcon implements Icon {
 

@@ -16,12 +16,7 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.util.*;
 
-/**
- * Requests focus for a Frame.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Requests focus for a Frame. */
 public class FocusWindowAction extends AbstractAction {
 
   private static final long serialVersionUID = 1L;

@@ -11,17 +11,12 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * A {@link Locator} which locates a node on the bezier path of a BezierFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Locator} which locates a node on the bezier path of a BezierFigure. */
 public class BezierPointLocator extends AbstractLocator {
 
   private static final long serialVersionUID = 1L;
-  private int index;
-  private int coord;
+  private final int index;
+  private final int coord;
 
   public BezierPointLocator(int index) {
     this.index = index;

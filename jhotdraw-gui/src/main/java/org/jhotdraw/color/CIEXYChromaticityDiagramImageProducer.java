@@ -25,9 +25,6 @@ import java.util.Arrays;
  * <p>x = X / (X + Y + Z), y = Y / (X + Y + Z), z = 1 - x - y. The equations can be rewritten as:
  *
  * <p>X = (x*(Y+Z)/(1-x), Y = (y*(X+Z)/(1-y).
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
 

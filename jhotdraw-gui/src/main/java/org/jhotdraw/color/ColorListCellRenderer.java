@@ -9,12 +9,7 @@ package org.jhotdraw.color;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * ColorListCellRenderer.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ColorListCellRenderer. */
 public class ColorListCellRenderer extends DefaultListCellRenderer {
 
   private static final long serialVersionUID = 1L;

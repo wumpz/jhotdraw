@@ -31,9 +31,6 @@ import org.jhotdraw.draw.figure.Figure;
  * <p><em>Strategy</em><br>
  * {@code OutputFormat} encapsulates a strategy for writing drawings to output streams.<br>
  * Strategy: {@link OutputFormat}; Context: {@link Drawing}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface OutputFormat {
 

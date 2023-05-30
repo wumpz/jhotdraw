@@ -79,9 +79,6 @@ import java.lang.reflect.*;
  * <p>This class has been derived from <a
  * href="http://developer.apple.com/mac/library/samplecode/OSXAdapter/listing3.html" >OSXAdapter 2.0
  * © Apple Inc., All Rights Rserved</a>.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class OSXAdapter implements InvocationHandler {
 

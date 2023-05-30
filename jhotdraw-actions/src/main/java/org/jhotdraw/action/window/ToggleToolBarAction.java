@@ -12,12 +12,7 @@ import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.util.ActionUtil;
 
-/**
- * ToggleToolBarAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ToggleToolBarAction. */
 public class ToggleToolBarAction extends AbstractAction {
 
   private static final long serialVersionUID = 1L;

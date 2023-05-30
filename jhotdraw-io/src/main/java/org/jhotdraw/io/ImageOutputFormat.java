@@ -26,9 +26,6 @@ import org.jhotdraw.draw.io.OutputFormat;
 /**
  * An output format for exporting drawings using one of the image formats supported by
  * javax.imageio.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ImageOutputFormat implements OutputFormat {
 

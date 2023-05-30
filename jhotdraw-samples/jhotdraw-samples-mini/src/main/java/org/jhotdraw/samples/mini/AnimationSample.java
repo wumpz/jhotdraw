@@ -17,12 +17,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.EllipseFigure;
 
-/**
- * AnimationSample displays a rotating ellipse figure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AnimationSample displays a rotating ellipse figure. */
 public class AnimationSample extends javax.swing.JFrame {
 
   private static final long serialVersionUID = 1L;

@@ -54,12 +54,7 @@ import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
-/**
- * JSVGDrawingAppletPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** JSVGDrawingAppletPanel. */
 public class SVGDrawingPanel extends JPanel implements Disposable {
 
   private static final long serialVersionUID = 1L;

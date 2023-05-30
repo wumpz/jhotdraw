@@ -16,12 +16,7 @@ import javax.swing.border.Border;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-/**
- * A LookAndFeel for components in the palette windows of a drawing editor.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A LookAndFeel for components in the palette windows of a drawing editor. */
 public class PaletteLookAndFeel extends BasicLookAndFeel {
 
   private static final long serialVersionUID = 1L;

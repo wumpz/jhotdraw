@@ -12,12 +12,7 @@ import java.util.Enumeration;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-/**
- * A FontFaceNode is a MutableTreeNode which does not allow children.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A FontFaceNode is a MutableTreeNode which does not allow children. */
 public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, Cloneable {
 
   private FontFamilyNode parent;

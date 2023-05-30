@@ -16,9 +16,6 @@ import org.jhotdraw.undo.CompositeEdit;
 /**
  * A {@link CompositeEdit} which invokes {@code figure.willChange} and {@code figure.changed} when
  * undoing or redoing a change.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CompositeFigureEdit extends CompositeEdit {
 

@@ -17,12 +17,7 @@ import org.jhotdraw.color.JColorWheel;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 
-/**
- * A HSB color chooser, which displays a hue/saturation color wheel, and a brightness slider.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A HSB color chooser, which displays a hue/saturation color wheel, and a brightness slider. */
 public class PaletteColorWheelChooser extends AbstractColorChooserPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;

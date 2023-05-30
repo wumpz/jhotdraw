@@ -36,12 +36,7 @@ import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import org.jhotdraw.util.*;
 
-/**
- * SVGPath is a composite Figure which contains one or more SVGBezierFigures as its children.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGPath is a composite Figure which contains one or more SVGBezierFigures as its children. */
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;

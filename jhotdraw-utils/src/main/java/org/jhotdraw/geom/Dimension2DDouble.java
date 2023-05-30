@@ -9,12 +9,7 @@ package org.jhotdraw.geom;
 
 import java.awt.geom.*;
 
-/**
- * Dimension2DDouble.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Dimension2DDouble. */
 public class Dimension2DDouble extends Dimension2D implements java.io.Serializable {
 
   private static final long serialVersionUID = 1L;

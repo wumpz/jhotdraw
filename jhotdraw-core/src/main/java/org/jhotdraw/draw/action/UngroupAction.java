@@ -12,12 +12,7 @@ import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.GroupFigure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * UngroupAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** UngroupAction. */
 public class UngroupAction extends GroupAction {
 
   private static final long serialVersionUID = 1L;

@@ -20,9 +20,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  *
  * <p>The behavior for choosing the initial color of the JColorChooser matches with {@link
  * DrawingColorIcon }.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawingColorChooserAction extends EditorColorChooserAction {
 

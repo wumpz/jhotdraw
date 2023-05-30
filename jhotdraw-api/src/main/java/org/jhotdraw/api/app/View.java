@@ -59,9 +59,6 @@ import org.jhotdraw.api.gui.URIChooser;
  * org.jhotddraw.app.action package define the contracts of a framework for document oriented
  * applications:<br>
  * Contract: {@link Application}, {@link ApplicationModel}, {@link View}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface View extends Disposable {
 

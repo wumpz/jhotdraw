@@ -13,12 +13,7 @@ import javax.swing.colorchooser.*;
 import javax.swing.plaf.TabbedPaneUI;
 import org.jhotdraw.gui.plaf.palette.PaletteTabbedPaneUI;
 
-/**
- * The main panel of the color chooser UI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** The main panel of the color chooser UI. */
 public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

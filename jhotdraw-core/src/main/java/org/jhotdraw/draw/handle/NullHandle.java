@@ -16,9 +16,6 @@ import org.jhotdraw.draw.locator.RelativeLocator;
 /**
  * A handle that doesn't change the owned figure. Its only purpose is to show feedback that a figure
  * is selected.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class NullHandle extends LocatorHandle {
 

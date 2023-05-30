@@ -30,9 +30,6 @@ import org.jhotdraw.geom.Geom;
  *
  * <p>In order to prevent editing of the stroke type by the user, the SmartConnectionFigure disables
  * the stroke type attribute. Unless it needs to be changed by the SmartConnectionFigure by itself.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SmartConnectionFigureSample {
 

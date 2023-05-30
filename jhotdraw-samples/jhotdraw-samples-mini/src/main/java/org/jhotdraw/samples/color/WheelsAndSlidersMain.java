@@ -26,12 +26,7 @@ import org.jhotdraw.color.HSVColorSpace;
 import org.jhotdraw.color.HSVPhysiologicColorSpace;
 import org.jhotdraw.color.JColorWheel;
 
-/**
- * A demo of color wheels and color sliders using all kinds of color systems.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A demo of color wheels and color sliders using all kinds of color systems. */
 public class WheelsAndSlidersMain extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

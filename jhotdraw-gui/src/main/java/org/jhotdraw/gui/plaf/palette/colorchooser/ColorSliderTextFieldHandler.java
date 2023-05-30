@@ -14,9 +14,6 @@ import org.jhotdraw.color.ColorSliderModel;
 /**
  * This handler adjusts the value of a component in the color slider model, when the user enters
  * text into the text field.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ColorSliderTextFieldHandler implements DocumentListener, ChangeListener {
 

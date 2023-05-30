@@ -25,9 +25,6 @@ import javax.swing.SwingUtilities;
  *
  * <p>Unlike {@code JPopupMenu}, the popup will stay open if the {@code JComponent} opens a popup
  * menu of its own.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JComponentPopup extends JPopupMenu {
 

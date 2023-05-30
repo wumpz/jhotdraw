@@ -15,9 +15,6 @@ import org.jhotdraw.api.app.View;
  * {@code AppletApplication} handles the lifecycle of a single {@link View} inside of a Java Applet.
  *
  * <p>FIXME - To be implemented.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AppletApplication extends AbstractApplication {
 

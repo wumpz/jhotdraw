@@ -63,9 +63,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * {@code OpenFileAction} supplies data for this feature by calling {@link Application#addRecentURI}
  * when it successfully opened a file. See {@link org.jhotdraw.app} for a description of the
  * feature.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class OpenFileAction extends AbstractApplicationAction {
 

@@ -10,9 +10,6 @@ package org.jhotdraw.draw.event;
 /**
  * An abstract adapter class for receiving {@link FigureEvent}s. This class exists as a convenience
  * for creating {@link FigureListener} objects.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class FigureListenerAdapter implements FigureListener {
 

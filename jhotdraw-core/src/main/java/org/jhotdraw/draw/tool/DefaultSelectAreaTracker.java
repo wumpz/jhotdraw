@@ -45,8 +45,6 @@ import org.jhotdraw.draw.handle.Handle;
  * as State.
  *
  * @see SelectionTool
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
 

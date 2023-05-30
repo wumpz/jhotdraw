@@ -10,12 +10,7 @@ package org.jhotdraw.gui.plaf.palette;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * PaletteMenuItemUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteMenuItemUI. */
 public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
 
   /** Creates a new instance. */

@@ -27,9 +27,6 @@ import java.io.*;
  * {@code DOMFactory} can delegate reading and writing to objects which implement the {@code
  * DOMStorable} interface. Client: {@link DOMFactory}.<br>
  * Strategy: {@link DOMStorable}.<br>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface DOMStorable {
 

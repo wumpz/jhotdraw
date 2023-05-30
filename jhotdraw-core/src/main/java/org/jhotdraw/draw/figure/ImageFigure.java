@@ -35,12 +35,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.*;
 
-/**
- * A default implementation of {@link ImageHolderFigure} which can hold a buffered image.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A default implementation of {@link ImageHolderFigure} which can hold a buffered image. */
 public class ImageFigure extends AbstractAttributedDecoratedFigure implements ImageHolderFigure {
 
   private static final long serialVersionUID = 1L;

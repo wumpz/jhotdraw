@@ -17,9 +17,6 @@ import java.util.Arrays;
  * Represents an ODG Enhanced Path.
  *
  * <p>The coordinates of a EnhancedPath.Segment can reference a formula or a modifier.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class EnhancedPath extends ArrayList<EnhancedPath.Segment> implements Shape {
 

@@ -14,12 +14,7 @@ import java.util.Enumeration;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-/**
- * A FontCollectionNode is a MutableTreeNode which only allows FontFamilyNode as child nodes.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A FontCollectionNode is a MutableTreeNode which only allows FontFamilyNode as child nodes. */
 public class FontCollectionNode
     implements MutableTreeNode, Comparable<FontCollectionNode>, Cloneable {
 

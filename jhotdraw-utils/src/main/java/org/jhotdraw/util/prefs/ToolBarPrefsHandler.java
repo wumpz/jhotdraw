@@ -14,12 +14,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.basic.*;
 
-/**
- * ToolBarPrefsHandler.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ToolBarPrefsHandler. */
 public class ToolBarPrefsHandler implements ComponentListener, AncestorListener {
 
   private JToolBar toolbar;

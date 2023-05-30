@@ -20,9 +20,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p>The descriptions of the attributes have been taken from the Open Document Specification
  * version 1.1. <a href="http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf">
  * http://docs.oasis-open.org/office/v1.1/OS/OpenDocument-v1.1.pdf</a>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ODGAttributeKeys extends AttributeKeys {
 

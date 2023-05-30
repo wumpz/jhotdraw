@@ -11,12 +11,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * SplitPathsAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SplitPathsAction. */
 public class SplitAction extends CombineAction {
 
   private static final long serialVersionUID = 1L;

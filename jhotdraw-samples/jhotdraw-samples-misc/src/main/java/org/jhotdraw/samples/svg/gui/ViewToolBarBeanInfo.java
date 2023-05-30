@@ -9,12 +9,7 @@ package org.jhotdraw.samples.svg.gui;
 
 import java.beans.*;
 
-/**
- * BeanInfo for ViewToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BeanInfo for ViewToolBar. */
 public class ViewToolBarBeanInfo extends SimpleBeanInfo {
   // Bean descriptor information will be obtained from introspection.//GEN-FIRST:BeanDescriptor
   private static BeanDescriptor beanDescriptor = null;

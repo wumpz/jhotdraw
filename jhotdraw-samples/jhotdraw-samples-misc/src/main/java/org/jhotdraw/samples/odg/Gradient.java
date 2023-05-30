@@ -12,12 +12,7 @@ import java.awt.geom.AffineTransform;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * Represents an SVG Gradient.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Represents an SVG Gradient. */
 public interface Gradient extends Cloneable {
 
   public Paint getPaint(Figure f, double opacity);

@@ -30,9 +30,6 @@ import org.jhotdraw.geom.path.BezierPath;
  *
  * <p>This figure creates a {@link OrientationHandle} which allows to interactively change the
  * orientation of the triangle.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TriangleFigure extends AbstractAttributedFigure {
 

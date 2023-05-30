@@ -21,12 +21,7 @@ import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import org.jhotdraw.util.*;
 
-/**
- * SVGAttributedFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGAttributedFigure. */
 public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;

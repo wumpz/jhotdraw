@@ -27,9 +27,6 @@ import org.jhotdraw.util.*;
  * NewWindowAction}, {@link OpenFileAction}, {@link OpenDirectoryAction}.
  *
  * <p>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CloseFileAction extends AbstractSaveUnsavedChangesAction {
 

@@ -44,9 +44,6 @@ import org.jhotdraw.util.ReversedList;
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}.
  * AbstractCompositeFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractAttributedCompositeFigure extends AbstractAttributedFigure
     implements CompositeFigure {

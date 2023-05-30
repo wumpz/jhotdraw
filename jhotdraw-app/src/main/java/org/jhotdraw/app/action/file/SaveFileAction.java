@@ -47,9 +47,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p><em>Open last URI on launch</em><br>
  * {@code SaveFileAction} supplies data for this feature by calling {@link Application#addRecentURI}
  * when it successfully saved a file. See {@link org.jhotdraw.app} for a description of the feature.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SaveFileAction extends AbstractViewAction {
 

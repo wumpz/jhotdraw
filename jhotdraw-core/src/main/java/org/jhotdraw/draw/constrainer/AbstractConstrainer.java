@@ -11,12 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-/**
- * This abstract class can be extended to implement a {@link Constrainer}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** This abstract class can be extended to implement a {@link Constrainer}. */
 public abstract class AbstractConstrainer implements Constrainer {
 
   private static final long serialVersionUID = 1L;

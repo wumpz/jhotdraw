@@ -14,12 +14,7 @@ import javax.swing.JSlider;
 import org.jhotdraw.color.DefaultColorSliderModel;
 import org.jhotdraw.gui.plaf.palette.PaletteColorSliderUI;
 
-/**
- * PaletteColorSliderModel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteColorSliderModel. */
 public class PaletteColorSliderModel extends DefaultColorSliderModel {
 
   private static final long serialVersionUID = 1L;

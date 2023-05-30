@@ -21,12 +21,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.GroupFigure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * GroupAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** GroupAction. */
 public class GroupAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

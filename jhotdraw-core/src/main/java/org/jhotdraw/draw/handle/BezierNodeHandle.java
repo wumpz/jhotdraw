@@ -30,12 +30,7 @@ import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * A {@link Handle} which allows to interactively change a node of a bezier path.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Handle} which allows to interactively change a node of a bezier path. */
 public class BezierNodeHandle extends AbstractHandle {
 
   protected int index;

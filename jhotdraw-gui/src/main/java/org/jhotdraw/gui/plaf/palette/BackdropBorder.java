@@ -11,12 +11,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import javax.swing.border.Border;
 
-/**
- * BackdropBorder.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** BackdropBorder. */
 public class BackdropBorder implements Border {
 
   private Border backgroundBorder;

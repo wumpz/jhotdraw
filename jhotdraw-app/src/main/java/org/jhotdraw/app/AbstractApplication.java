@@ -58,9 +58,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  * The following methods participate in this feature:<br>
  * Data suppliers {@link #getViews}. See {@link org.jhotdraw.app} for a list of participating
  * classes.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractApplication extends AbstractBean implements Application {
 

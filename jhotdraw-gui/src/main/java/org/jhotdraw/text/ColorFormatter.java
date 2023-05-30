@@ -65,9 +65,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  *
  * <p>FIXME - This class does too much work. It should be split up into individual classes for each
  * of the supported formats.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ColorFormatter extends DefaultFormatter {
 

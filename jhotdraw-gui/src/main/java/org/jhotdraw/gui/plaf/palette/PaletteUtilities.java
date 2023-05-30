@@ -10,12 +10,7 @@ import java.awt.*;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
-/**
- * PaletteUtilities.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteUtilities. */
 public class PaletteUtilities extends BasicGraphicsUtils {
 
   public static final Object beginGraphics(Graphics2D graphics2d) {

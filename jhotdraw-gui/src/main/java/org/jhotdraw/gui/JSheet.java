@@ -33,9 +33,6 @@ import org.jhotdraw.util.*;
  * <p>Caveats: We are using an unsupported API call to make the JSheet translucent. This API may go
  * away in future versions of the Macintosh Runtime for Java. In such a case, we (hopefully) just
  * end up with a non-opaque sheet.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JSheet extends JDialog {
 

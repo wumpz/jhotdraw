@@ -14,12 +14,7 @@ import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Insets2D;
 
-/**
- * A locator that specfies a point that is relative to the bounds of a figure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A locator that specfies a point that is relative to the bounds of a figure. */
 public class RelativeLocator extends AbstractLocator {
 
   private static final long serialVersionUID = 1L;

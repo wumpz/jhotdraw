@@ -21,9 +21,6 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
  *
  * <p>A property name can be specified. When the specified property changes or when the current view
  * changes, method updateView is invoked.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractViewAction extends AbstractAction {
 

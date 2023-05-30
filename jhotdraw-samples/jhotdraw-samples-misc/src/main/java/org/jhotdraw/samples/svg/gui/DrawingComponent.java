@@ -18,9 +18,6 @@ import org.jhotdraw.draw.*;
  * provide the user interface elements for saving the drawing and canceling the applet on its own.
  * The DrawingApplet registers with the DrawingComponent as an ActionListener to receive "save" and
  * "cancel" action commands.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface DrawingComponent {
 

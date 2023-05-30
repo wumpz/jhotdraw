@@ -39,9 +39,6 @@ import org.jhotdraw.util.ReversedList;
  * LocatorLayouter.LAYOUT_LOCATOR.set(label, new BezierLabelLocator(0, -Math.PI / 4, 8));
  * lcf.add(label);
  * </pre>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LabeledLineConnectionFigure extends LineConnectionFigure implements CompositeFigure {
 

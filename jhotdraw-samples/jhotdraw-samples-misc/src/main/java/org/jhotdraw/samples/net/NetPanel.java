@@ -32,12 +32,7 @@ import org.jhotdraw.samples.net.figures.NodeFigure;
 import org.jhotdraw.undo.UndoRedoManager;
 import org.jhotdraw.util.*;
 
-/**
- * NetPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** NetPanel. */
 public class NetPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;

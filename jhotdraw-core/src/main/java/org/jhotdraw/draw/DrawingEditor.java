@@ -65,9 +65,6 @@ import org.jhotdraw.draw.tool.Tool;
  * DrawingEditor}.<br>
  * Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy}; Client: {@link
  * org.jhotdraw.draw.tool.AbstractTool}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface DrawingEditor {
 

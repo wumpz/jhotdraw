@@ -20,9 +20,6 @@ import org.jhotdraw.api.app.Application;
  * <p>This action is designed for applications which do not automatically create a new view for each
  * opened file. This action goes together with {@link ClearFileAction}, {@link LoadFileAction} and
  * {@link CloseFileAction}. It should not be used together with {@link NewFileAction}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class NewWindowAction extends NewFileAction {
 

@@ -22,12 +22,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.undo.PropertyChangeEdit;
 import org.jhotdraw.util.*;
 
-/**
- * A Handle to manipulate the radius of a round lead rectangle.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A Handle to manipulate the radius of a round lead rectangle. */
 public class SVGRectRadiusHandle extends AbstractHandle {
 
   private static final int OFFSET = 6;

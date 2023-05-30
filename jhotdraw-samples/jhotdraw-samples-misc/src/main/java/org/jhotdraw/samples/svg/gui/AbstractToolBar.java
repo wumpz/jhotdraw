@@ -18,12 +18,7 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.gui.JDisclosureToolBar;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
-/**
- * AbstractToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AbstractToolBar. */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {
 
   private static final long serialVersionUID = 1L;

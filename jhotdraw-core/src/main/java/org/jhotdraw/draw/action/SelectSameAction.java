@@ -12,12 +12,7 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * SelectSameAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SelectSameAction. */
 public class SelectSameAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

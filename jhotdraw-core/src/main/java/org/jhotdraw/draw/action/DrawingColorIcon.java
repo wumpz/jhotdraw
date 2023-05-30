@@ -16,9 +16,6 @@ import org.jhotdraw.draw.*;
  * view.
  *
  * <p>The behavior for choosing the drawn color matches with {@link DrawingColorChooserAction }.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawingColorIcon extends javax.swing.ImageIcon {
 

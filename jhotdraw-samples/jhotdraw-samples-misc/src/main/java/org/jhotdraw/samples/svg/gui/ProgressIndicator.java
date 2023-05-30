@@ -10,12 +10,7 @@ package org.jhotdraw.samples.svg.gui;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * ProgressIndicator.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ProgressIndicator. */
 public class ProgressIndicator extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

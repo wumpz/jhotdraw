@@ -19,12 +19,7 @@ import javax.swing.plaf.*;
 import org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorChooserMainPanel;
 import org.jhotdraw.gui.plaf.palette.colorchooser.PaletteColorChooserPreviewPanel;
 
-/**
- * PaletteColorChooserUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteColorChooserUI. */
 public class PaletteColorChooserUI extends ColorChooserUI {
 
   protected PaletteColorChooserMainPanel mainPanel;

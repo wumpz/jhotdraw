@@ -20,9 +20,6 @@ import org.jhotdraw.util.*;
  *
  * <p>The transform restore data may consume a lot of memory. Undos of lossless transforms, such as
  * translations of a figure, should use {@link TransformEdit}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class TransformRestoreEdit extends AbstractUndoableEdit {
 

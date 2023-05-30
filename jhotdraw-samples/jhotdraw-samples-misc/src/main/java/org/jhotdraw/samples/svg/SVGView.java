@@ -34,9 +34,6 @@ import org.jhotdraw.util.*;
  * Provides a view on a SVG drawing.
  *
  * <p>See {@link View} interface on how this view interacts with an application.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SVGView extends AbstractView {
 

@@ -17,9 +17,6 @@ import org.jhotdraw.draw.handle.HandleAttributeKeys;
 /**
  * A non-interactive {@link org.jhotdraw.draw.handle.Handle} which draws the outline of a {@link
  * SVGPathFigure} to make editing easier.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SVGPathOutlineHandle extends AbstractHandle {
 

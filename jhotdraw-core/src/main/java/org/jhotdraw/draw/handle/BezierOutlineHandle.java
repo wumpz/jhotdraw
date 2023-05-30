@@ -15,9 +15,6 @@ import org.jhotdraw.draw.figure.BezierFigure;
 /**
  * A non-interactive {@link Handle} which draws the outline of a {@link BezierFigure} to make
  * adjustments easier.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BezierOutlineHandle extends AbstractHandle {
 

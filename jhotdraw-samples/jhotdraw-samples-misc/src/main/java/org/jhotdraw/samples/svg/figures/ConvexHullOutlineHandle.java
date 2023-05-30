@@ -15,12 +15,7 @@ import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
 import org.jhotdraw.geom.ConvexHull;
 
-/**
- * Draws the outline of the Figure bounds to make adjustment easier.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Draws the outline of the Figure bounds to make adjustment easier. */
 public class ConvexHullOutlineHandle extends AbstractHandle {
 
   private Shape outline;

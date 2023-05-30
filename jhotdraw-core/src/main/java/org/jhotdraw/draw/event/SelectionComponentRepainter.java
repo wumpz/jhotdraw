@@ -17,9 +17,6 @@ import org.jhotdraw.draw.DrawingView;
 /**
  * Calls repaint on components, which show attributes of the drawing editor and of its views based
  * on the current selection.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SelectionComponentRepainter extends DrawingListenerAdapter
     implements PropertyChangeListener, FigureSelectionListener, Disposable {

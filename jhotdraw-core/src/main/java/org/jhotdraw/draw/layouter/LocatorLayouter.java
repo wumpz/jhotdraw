@@ -17,9 +17,6 @@ import org.jhotdraw.geom.Dimension2DDouble;
 /**
  * A layouter which lays out all children of a CompositeFigure according to their LayoutLocator
  * property..
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LocatorLayouter implements Layouter {
 

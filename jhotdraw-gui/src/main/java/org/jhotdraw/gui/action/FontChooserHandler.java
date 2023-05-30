@@ -22,12 +22,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.gui.JFontChooser;
 
-/**
- * FontChooserHandler.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** FontChooserHandler. */
 public class FontChooserHandler extends AbstractSelectedAction implements PropertyChangeListener {
 
   private static final long serialVersionUID = 1L;

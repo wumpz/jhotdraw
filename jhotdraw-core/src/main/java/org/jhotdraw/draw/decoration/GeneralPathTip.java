@@ -9,12 +9,7 @@ package org.jhotdraw.draw.decoration;
 
 import java.awt.geom.*;
 
-/**
- * A {@link LineDecoration} which draws a general path.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link LineDecoration} which draws a general path. */
 public class GeneralPathTip extends AbstractLineDecoration {
 
   private static final long serialVersionUID = 1L;

@@ -39,9 +39,6 @@ import org.jhotdraw.samples.svg.io.SVGZInputFormat;
  *   <li>Press the mouse button and drag the mouse over the DrawingView. This defines the bounds of
  *       the created Figure.
  * </ol>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SVGCreateFromFileTool extends CreationTool {
 

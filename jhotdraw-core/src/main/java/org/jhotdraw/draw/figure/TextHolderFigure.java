@@ -26,9 +26,6 @@ import org.jhotdraw.geom.Insets2D;
  * assigning an image to it, which was read from data input. That's the reason why {@code Figure}
  * extends the {@code Cloneable} interface. <br>
  * Prototype: {@link TextHolderFigure}; Client: {@link org.jhotdraw.draw.io.TextInputFormat}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface TextHolderFigure extends Figure {
 

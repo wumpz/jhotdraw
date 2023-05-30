@@ -23,12 +23,7 @@ import org.jhotdraw.geom.Geom;
 import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 
-/**
- * ODGEllipse represents a ODG ellipse and a ODG circle element.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGEllipse represents a ODG ellipse and a ODG circle element. */
 public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;

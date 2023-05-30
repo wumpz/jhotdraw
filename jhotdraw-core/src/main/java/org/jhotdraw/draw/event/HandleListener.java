@@ -18,9 +18,6 @@ import java.util.*;
  * observes area invalidations and remove requests of handles.<br>
  * Subject: {@link org.jhotdraw.draw.handle.Handle}; Observer: {@link HandleListener}; Event: {@link
  * HandleEvent}; Concrete Observer: {@link org.jhotdraw.draw.DrawingView}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface HandleListener extends EventListener {
 

@@ -10,12 +10,7 @@ package org.jhotdraw.samples.teddy;
 import javax.swing.*;
 import javax.swing.text.*;
 
-/**
- * A happy marriage between JTextArea and JEditorPane.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A happy marriage between JTextArea and JEditorPane. */
 public class JEditorArea extends JEditorPane {
 
   private static final long serialVersionUID = 1L;

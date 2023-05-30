@@ -14,12 +14,7 @@ import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
 
-/**
- * PaletteFormattedTextFieldUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteFormattedTextFieldUI. */
 public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
 
   private Color errorIndicatorForeground;

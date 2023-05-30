@@ -20,9 +20,6 @@ import java.util.*;
  * observes area invalidations of its drawing object. Subject: {@link org.jhotdraw.draw.Figure};
  * Observer: {@link FigureListener}; Event: {@link FigureEvent}; Concrete Observer: {@link
  * org.jhotdraw.draw.CompositeFigure}, {@link org.jhotdraw.draw.DrawingView}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface FigureListener extends EventListener {
 

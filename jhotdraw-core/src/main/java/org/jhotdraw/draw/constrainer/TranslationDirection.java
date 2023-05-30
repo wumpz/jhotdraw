@@ -17,8 +17,6 @@ import java.awt.geom.Point2D;
  * figures on a drawing.
  *
  * @see Constrainer
- * @author Werner Randelshofer
- * @version $Id$
  */
 public enum TranslationDirection {
   NORTH,

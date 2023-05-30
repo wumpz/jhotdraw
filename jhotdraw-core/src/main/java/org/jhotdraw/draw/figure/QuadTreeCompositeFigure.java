@@ -25,12 +25,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.QuadTree;
 import org.jhotdraw.util.ReversedList;
 
-/**
- * QuadTreeCompositeFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** QuadTreeCompositeFigure. */
 public abstract class QuadTreeCompositeFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;

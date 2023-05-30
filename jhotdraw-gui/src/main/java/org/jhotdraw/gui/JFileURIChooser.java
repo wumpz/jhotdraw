@@ -14,12 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import org.jhotdraw.api.gui.URIChooser;
 
-/**
- * JFileURIChooser.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** JFileURIChooser. */
 public class JFileURIChooser extends JFileChooser implements URIChooser {
 
   private static final long serialVersionUID = 1L;

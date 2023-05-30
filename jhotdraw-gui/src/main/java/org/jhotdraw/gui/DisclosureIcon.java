@@ -9,12 +9,7 @@ package org.jhotdraw.gui;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * DisclosureIcon.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** DisclosureIcon. */
 public class DisclosureIcon implements Icon {
 
   /**

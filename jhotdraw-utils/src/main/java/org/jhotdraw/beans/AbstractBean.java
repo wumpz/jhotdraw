@@ -13,9 +13,6 @@ import java.beans.*;
  * This abstract class can be extended to implement a JavaBean.
  *
  * <p>Implements the methods required for adding and removing property change listeners.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AbstractBean extends Object implements java.io.Serializable, Cloneable {
 

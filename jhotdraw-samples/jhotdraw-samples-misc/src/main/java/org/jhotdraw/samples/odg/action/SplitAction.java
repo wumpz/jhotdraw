@@ -15,12 +15,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
 import org.jhotdraw.util.*;
 
-/**
- * SplitPathsAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SplitPathsAction. */
 public class SplitAction extends UngroupAction {
 
   private static final long serialVersionUID = 1L;

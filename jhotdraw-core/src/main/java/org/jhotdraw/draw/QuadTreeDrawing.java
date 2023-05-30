@@ -27,9 +27,6 @@ import org.jhotdraw.util.*;
 /**
  * An implementation of {@link Drawing} which uses a {@link org.jhotdraw.geom.QuadTree} to provide a
  * good responsiveness for drawings which contain many figures.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class QuadTreeDrawing extends AbstractDrawing {
 

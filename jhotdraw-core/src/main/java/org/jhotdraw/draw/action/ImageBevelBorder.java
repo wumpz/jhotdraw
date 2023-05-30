@@ -21,9 +21,6 @@ import javax.swing.border.*;
  * <p>For example, if you provide an image of size 10,10 and a insets of size 2, 2, 4, 4, then the
  * corners of the border are made up of top left: 2,2, top right: 2,4, bottom left: 2,4, bottom
  * right: 4,4 rectangle of the image. The inner area of the image is used to fill the inner area.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ImageBevelBorder implements Border {
 

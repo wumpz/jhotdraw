@@ -16,12 +16,7 @@ import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
 
-/**
- * A horizontal line with a preferred size of 1,1.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A horizontal line with a preferred size of 1,1. */
 public class SeparatorLineFigure extends RectangleFigure {
 
   private static final long serialVersionUID = 1L;

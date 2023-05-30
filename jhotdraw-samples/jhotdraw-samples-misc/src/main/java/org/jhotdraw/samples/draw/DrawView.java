@@ -55,9 +55,6 @@ import org.jhotdraw.util.*;
  *
  * <p>See {@link org.jhotdraw.api.app.View} interface on how this view interacts with an
  * application.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawView extends AbstractView {
 

@@ -9,12 +9,7 @@ package org.jhotdraw.datatransfer;
 
 import java.awt.datatransfer.*;
 
-/**
- * Base class for transferable objects.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Base class for transferable objects. */
 public abstract class AbstractTransferable implements Transferable {
 
   private DataFlavor[] flavors;

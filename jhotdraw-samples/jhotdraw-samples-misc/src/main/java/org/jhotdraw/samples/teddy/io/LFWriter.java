@@ -13,9 +13,6 @@ import java.io.*;
  * A character-output stream that converts line terminators into a configurable line separator
  * sequence. A line is considered to be terminated by any one of a line feed ('\n'), a carriage
  * return ('\r'), or a carriage return followed immediately by a linefeed.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LFWriter extends FilterWriter {
 

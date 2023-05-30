@@ -20,12 +20,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteTextFieldUI;
 
-/**
- * PaletteRGBChooser.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteRGBChooser. */
 public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;

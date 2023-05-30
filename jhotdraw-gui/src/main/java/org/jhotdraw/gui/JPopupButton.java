@@ -15,12 +15,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import org.jhotdraw.gui.plaf.palette.PaletteMenuItemUI;
 
-/**
- * JPopupButton provides a popup menu.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** JPopupButton provides a popup menu. */
 public class JPopupButton extends javax.swing.JButton {
 
   private static final long serialVersionUID = 1L;

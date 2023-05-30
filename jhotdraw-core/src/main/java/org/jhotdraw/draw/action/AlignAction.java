@@ -19,9 +19,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * Aligns the selected figures.
  *
  * <p>XXX - Fire edit events
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AlignAction extends AbstractSelectedAction {
 

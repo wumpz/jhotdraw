@@ -8,12 +8,7 @@ package org.jhotdraw.color;
 
 import java.awt.Color;
 
-/**
- * SimpleHarmonicRule.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SimpleHarmonicRule. */
 public class SimpleHarmonicRule extends AbstractHarmonicRule {
 
   private float difference;

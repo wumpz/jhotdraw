@@ -9,12 +9,7 @@ package org.jhotdraw.util;
 
 import javax.swing.*;
 
-/**
- * Provides constants and static operations on <code>Action</code> objects.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Provides constants and static operations on <code>Action</code> objects. */
 public class ActionUtil {
 
   /** Key for the selected state of an action. The value must be a Boolean. */

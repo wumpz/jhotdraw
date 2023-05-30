@@ -10,12 +10,7 @@ import java.awt.Color;
 import javax.swing.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * PaletteFontChooserSelectionPanel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteFontChooserSelectionPanel. */
 public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
 
   private ResourceBundleUtil labels;

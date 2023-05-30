@@ -28,9 +28,6 @@ import org.jhotdraw.util.prefs.PreferencesUtil;
  *
  * <p>Note: you must explicitly set the view before createDisclosedComponents is called for the
  * first time.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ViewToolBar extends AbstractToolBar {
 

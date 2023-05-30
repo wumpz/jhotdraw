@@ -13,9 +13,6 @@ import java.awt.color.ColorSpace;
 /**
  * Produces the image of a {@link JColorWheel} by interpreting two components of a {@code
  * ColorSpace} as polar coordinates (angle and radius).
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class PolarColorWheelImageProducer extends AbstractColorWheelImageProducer {
 

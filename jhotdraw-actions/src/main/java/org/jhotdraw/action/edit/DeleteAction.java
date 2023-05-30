@@ -39,9 +39,6 @@ import org.jhotdraw.util.*;
  * org.jhotdraw.action.edit.DeleteAction}, {@link org.jhotdraw.action.edit.DuplicateAction}, {@link
  * org.jhotdraw.action.edit.SelectAllAction}, {@link org.jhotdraw.action.edit.ClearSelectionAction}.
  * <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DeleteAction extends TextAction {
 

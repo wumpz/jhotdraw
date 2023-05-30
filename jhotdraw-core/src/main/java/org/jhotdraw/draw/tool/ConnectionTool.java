@@ -42,9 +42,6 @@ import org.jhotdraw.util.*;
  * the connection is handled by a connector object at each connected figure.<br>
  * Contract: {@link org.jhotdraw.draw.Figure}, {@link org.jhotdraw.draw.ConnectionFigure}, {@link
  * org.jhotdraw.draw.connector.Connector}, {@link org.jhotdraw.draw.tool.ConnectionTool}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ConnectionTool extends AbstractTool {
 

@@ -54,9 +54,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * inside of the JHotDraw framework for document oriented applications.<br>
  * Contract: {@link PrintableView}.<br>
  * Client: {@link org.jhotdraw.app.action.file.PrintFileAction}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class PrintFileAction extends AbstractViewAction {
 

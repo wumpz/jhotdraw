@@ -37,12 +37,7 @@ import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 
-/**
- * SVGTextArea.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGTextArea. */
 public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure, TextHolderFigure {
 
   private static final long serialVersionUID = 1L;

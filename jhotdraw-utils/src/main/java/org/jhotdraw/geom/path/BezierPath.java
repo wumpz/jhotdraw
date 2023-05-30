@@ -33,9 +33,6 @@ import org.jhotdraw.geom.Shapes;
  * <p>A BezierPath is defined by its nodes. Each node has three control points: C0, C1, C2. A mask
  * defines which control points are in use. At a node, the path passes through C0. C1 controls the
  * curve going towards C0. C2 controls the curve going away from C0.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BezierPath implements Shape, Serializable, Cloneable {
 

@@ -19,9 +19,6 @@ import org.jhotdraw.draw.figure.Figure;
  *
  * <p>The behavior for choosing the initial color of the JColorChooser matches with {@link
  * SelectionColorIcon }.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class SelectionColorChooserAction extends EditorColorChooserAction {
 

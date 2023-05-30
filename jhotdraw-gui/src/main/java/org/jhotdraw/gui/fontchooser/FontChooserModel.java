@@ -21,9 +21,6 @@ import javax.swing.tree.TreeModel;
  *   <li>A child of a FontCollectionNode must be a FontFamilyNode.
  *   <li>A child of a FontFamilyNode must be a FontTypefaceNode.
  * </ul>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface FontChooserModel extends TreeModel {
 

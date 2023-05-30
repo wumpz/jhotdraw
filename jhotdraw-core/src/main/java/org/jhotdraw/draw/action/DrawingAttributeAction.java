@@ -14,12 +14,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ActionUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * AttributeAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AttributeAction. */
 public class DrawingAttributeAction extends AbstractDrawingViewAction {
 
   private static final long serialVersionUID = 1L;

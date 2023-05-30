@@ -21,9 +21,6 @@ import java.awt.geom.PathIterator;
  * elements in a BezierPath. The {@link BezierPath#getPathIterator} method is used to create a
  * BezierPathIterator for a particular BezierPath. The iterator can be used to iterator the path
  * only once. Subsequent iterations require a new iterator.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class BezierPathIterator implements PathIterator {
 

@@ -26,12 +26,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteLabelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.util.*;
 
-/**
- * LinkToolBar.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** LinkToolBar. */
 public class LinkToolBar extends AbstractToolBar {
 
   private static final long serialVersionUID = 1L;

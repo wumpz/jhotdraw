@@ -30,9 +30,6 @@ import org.jhotdraw.geom.path.BezierPath;
  *
  * <p>The bezier path can be laid out manually using bezier handles provided by this figure, or
  * automatically using a {@link Liner} which can be set using the JavaBeans property {@code liner}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LineConnectionFigure extends LineFigure implements ConnectionFigure {
 

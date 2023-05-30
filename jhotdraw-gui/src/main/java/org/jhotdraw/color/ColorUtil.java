@@ -18,12 +18,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import org.jhotdraw.text.ColorToolTipTextFormatter;
 
-/**
- * A utility class for {@code Color} and {@code ColorSpace} objects.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A utility class for {@code Color} and {@code ColorSpace} objects. */
 public class ColorUtil {
 
   private static ColorToolTipTextFormatter formatter;

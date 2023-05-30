@@ -11,12 +11,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * An {@code UndoableEdit} event which can undo a change of a {@link Figure} attribute.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** An {@code UndoableEdit} event which can undo a change of a {@link Figure} attribute. */
 public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
 
   private static final long serialVersionUID = 1L;

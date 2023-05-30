@@ -16,12 +16,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
 
-/**
- * A handle that changes the location of the owning figure, if the figure is transformable.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A handle that changes the location of the owning figure, if the figure is transformable. */
 public class MoveHandle extends LocatorHandle {
 
   /** The previously handled x and y coordinates. */

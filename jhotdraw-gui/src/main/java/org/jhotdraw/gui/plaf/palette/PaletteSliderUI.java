@@ -12,12 +12,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 
-/**
- * PaletteSliderUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteSliderUI. */
 public class PaletteSliderUI extends BasicSliderUI {
 
   private static final float[] ENABLED_STOPS = new float[] {0f, 0.35f, 0.351f, 1f};

@@ -18,8 +18,6 @@ import org.jhotdraw.draw.locator.Locator;
  *
  * @see Locator
  * @see Connector
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class LocatorConnector extends AbstractConnector {
 

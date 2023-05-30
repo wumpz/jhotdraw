@@ -12,12 +12,7 @@ import java.util.zip.GZIPInputStream;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.*;
 
-/**
- * SVGZInputFormat supports reading of uncompressed and compressed SVG images.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGZInputFormat supports reading of uncompressed and compressed SVG images. */
 public class SVGZInputFormat extends SVGInputFormat {
 
   /** Creates a new instance. */

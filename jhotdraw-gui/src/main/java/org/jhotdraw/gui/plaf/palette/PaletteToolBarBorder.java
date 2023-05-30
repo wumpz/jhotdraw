@@ -12,12 +12,7 @@ import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-/**
- * PaletteToolBarBorder.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteToolBarBorder. */
 public class PaletteToolBarBorder extends AbstractBorder implements SwingConstants {
 
   private static final long serialVersionUID = 1L;

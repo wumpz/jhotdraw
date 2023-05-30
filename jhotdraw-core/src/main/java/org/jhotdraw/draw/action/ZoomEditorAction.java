@@ -11,12 +11,7 @@ import javax.swing.*;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 
-/**
- * Zooms either the current view or all views of a DrawingEditor.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Zooms either the current view or all views of a DrawingEditor. */
 public class ZoomEditorAction extends AbstractDrawingEditorAction {
 
   private static final long serialVersionUID = 1L;

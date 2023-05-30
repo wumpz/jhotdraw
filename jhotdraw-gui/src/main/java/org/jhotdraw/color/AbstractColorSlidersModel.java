@@ -12,12 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.jhotdraw.beans.AbstractBean;
 
-/**
- * AbstractColorSlidersModel.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AbstractColorSlidersModel. */
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {
 
   private static final long serialVersionUID = 1L;

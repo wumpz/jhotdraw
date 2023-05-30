@@ -28,9 +28,6 @@ import java.io.IOException;
  * {@code DOMFactory} can delegate reading and writing to objects which implement the {@code
  * DOMStorable} interface. Client: {@link DOMFactory}.<br>
  * Handler: {@link DOMStorable}.<br>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface DOMFactory {
 

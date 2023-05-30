@@ -15,12 +15,7 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.odg.ODGView;
 import org.jhotdraw.util.*;
 
-/**
- * TogglePropertiesPanelAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** TogglePropertiesPanelAction. */
 public class TogglePropertiesPanelAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;

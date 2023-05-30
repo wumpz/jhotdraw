@@ -127,9 +127,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  *
  * <p>FIXME - All buttons created using the ButtonFactory must automatically become
  * disabled/enabled, when the DrawingEditor is disabled/enabled.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ButtonFactory {
 

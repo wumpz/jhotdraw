@@ -30,9 +30,6 @@ import org.jhotdraw.draw.handle.Handle;
  * To remove the need for null-handling, {@code AbstractTool} makes use of a proxy for {@code
  * DrawingEditor}. Subject: {@link DrawingEditor}; Proxy: {@link DrawingEditorProxy}; Client: {@link
  * AbstractTool}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public abstract class AbstractTool extends AbstractBean implements Tool {
 

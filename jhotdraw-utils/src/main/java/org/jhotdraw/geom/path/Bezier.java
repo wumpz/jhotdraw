@@ -22,9 +22,6 @@ import org.jhotdraw.geom.Geom;
  * Science, University of Washington.
  *
  * <p>http://autotrace.sourceforge.net/Interactive_Curve_Design.ps.gz
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class Bezier {
 

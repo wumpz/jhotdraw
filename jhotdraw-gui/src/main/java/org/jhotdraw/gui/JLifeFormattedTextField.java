@@ -13,12 +13,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.*;
 
-/**
- * A JFormattedTextField which updates its value while the user is editing the field.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A JFormattedTextField which updates its value while the user is editing the field. */
 public class JLifeFormattedTextField extends JFormattedTextField {
 
   private static final long serialVersionUID = 1L;

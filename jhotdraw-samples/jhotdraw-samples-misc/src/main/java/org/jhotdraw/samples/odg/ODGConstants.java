@@ -9,12 +9,7 @@ package org.jhotdraw.samples.odg;
 
 import java.util.*;
 
-/**
- * ODGConstants.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGConstants. */
 public class ODGConstants {
 
   public static final String OFFICE_NAMESPACE = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";

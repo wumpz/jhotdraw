@@ -13,12 +13,7 @@ import java.util.prefs.*;
 import javax.swing.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
-/**
- * CharacterSetAccessory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** CharacterSetAccessory. */
 public class CharacterSetAccessory extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

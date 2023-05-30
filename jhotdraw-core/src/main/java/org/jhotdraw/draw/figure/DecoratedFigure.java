@@ -23,9 +23,6 @@ package org.jhotdraw.draw.figure;
  * org.jhotdraw.draw.locator.RelativeDecoratorLocator}.
  *
  * <p><hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface DecoratedFigure extends Figure {
 

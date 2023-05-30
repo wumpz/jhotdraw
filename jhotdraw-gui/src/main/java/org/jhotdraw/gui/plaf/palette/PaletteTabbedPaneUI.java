@@ -28,12 +28,7 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.text.View;
 
-/**
- * PaletteTabbedPaneUI.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteTabbedPaneUI. */
 public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
 
   private static final float[] ENABLED_STOPS = new float[] {0f, 0.35f, 0.4f, 1f};

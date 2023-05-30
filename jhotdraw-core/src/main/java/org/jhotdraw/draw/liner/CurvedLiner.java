@@ -16,12 +16,7 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.path.BezierPath;
 
-/**
- * A {@link Liner} that constrains a connection to a curved line.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A {@link Liner} that constrains a connection to a curved line. */
 public class CurvedLiner implements Liner {
 
   private double shoulderSize;

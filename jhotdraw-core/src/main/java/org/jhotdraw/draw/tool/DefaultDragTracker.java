@@ -36,8 +36,6 @@ import org.jhotdraw.draw.figure.Figure;
  * HandleTracker} as State.
  *
  * @see SelectionTool
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultDragTracker extends AbstractTool implements DragTracker {
 

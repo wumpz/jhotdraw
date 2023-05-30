@@ -28,12 +28,7 @@ import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 
-/**
- * ODGRect.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGRect. */
 public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;

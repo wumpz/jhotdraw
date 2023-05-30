@@ -16,12 +16,7 @@ import javax.swing.JList;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-/**
- * PaletteListCellRenderer.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** PaletteListCellRenderer. */
 public class PaletteListCellRenderer extends DefaultListCellRenderer {
 
   private static final long serialVersionUID = 1L;

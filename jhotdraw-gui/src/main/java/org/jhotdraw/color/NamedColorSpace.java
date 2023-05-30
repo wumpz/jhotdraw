@@ -8,12 +8,7 @@
  */
 package org.jhotdraw.color;
 
-/**
- * Interface for {@code ColorSpace} classes which have a name.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Interface for {@code ColorSpace} classes which have a name. */
 public interface NamedColorSpace {
 
   public String getName();

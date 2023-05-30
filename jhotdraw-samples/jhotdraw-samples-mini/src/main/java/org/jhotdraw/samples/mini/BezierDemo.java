@@ -18,12 +18,7 @@ import javax.swing.*;
 import org.jhotdraw.geom.path.Bezier;
 import org.jhotdraw.geom.path.BezierPath;
 
-/**
- * Demonstration of the curve fitting algorithm of class {@link Bezier}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Demonstration of the curve fitting algorithm of class {@link Bezier}. */
 public class BezierDemo extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;

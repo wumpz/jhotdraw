@@ -27,12 +27,7 @@ import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.util.*;
 
-/**
- * NodeFigure.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** NodeFigure. */
 public class NodeFigure extends TextFigure {
 
   private static final long serialVersionUID = 1L;

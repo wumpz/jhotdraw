@@ -25,12 +25,7 @@ import org.jhotdraw.samples.svg.io.SVGOutputFormat;
 import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
-/**
- * ViewSourceAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ViewSourceAction. */
 public class ViewSourceAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;

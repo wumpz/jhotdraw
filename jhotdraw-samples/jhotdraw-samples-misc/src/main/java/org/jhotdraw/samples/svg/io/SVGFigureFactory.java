@@ -25,9 +25,6 @@ import org.jhotdraw.samples.svg.Gradient;
  * Name: Abstract Factory.<br>
  * Role: Abstract Factory.<br>
  * Partners: {@link SVGInputFormat} as Client.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface SVGFigureFactory {
 

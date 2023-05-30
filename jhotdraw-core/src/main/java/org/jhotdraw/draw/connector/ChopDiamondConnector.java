@@ -19,9 +19,6 @@ import org.jhotdraw.geom.Geom;
  * diamond shape, such as {@link DiamondFigure}.
  *
  * <p>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class ChopDiamondConnector extends ChopRectangleConnector {
 

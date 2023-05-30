@@ -39,12 +39,7 @@ import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.ODGConstants;
 import org.jhotdraw.util.*;
 
-/**
- * ODGPath is a composite Figure which contains one or more ODGBezierFigures as its children.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ODGPath is a composite Figure which contains one or more ODGBezierFigures as its children. */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;

@@ -73,9 +73,6 @@ import org.jhotdraw.api.gui.URIChooser;
  * MenuBuilder} is provided by {@code ApplicationModel}.<br>
  * Abstract Factory: {@link MenuBuilder}<br>
  * Client: {@link Application}. <hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public interface Application {
 

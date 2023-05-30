@@ -16,12 +16,7 @@ import java.io.Serializable;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 
-/**
- * A utility class for dialogs.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** A utility class for dialogs. */
 public class Dialogs {
 
   /** Prevent instance creation. */

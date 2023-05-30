@@ -15,12 +15,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 
-/**
- * SelectionColorChooserHandler.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SelectionColorChooserHandler. */
 public class SelectionColorChooserHandler extends AbstractSelectedAction implements ChangeListener {
 
   private static final long serialVersionUID = 1L;

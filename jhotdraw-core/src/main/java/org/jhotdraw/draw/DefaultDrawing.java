@@ -32,9 +32,6 @@ import org.jhotdraw.util.ReversedList;
  *
  * <p>FIXME - Maybe we should rename this class to SimpleDrawing or we should get rid of this class
  * altogether.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DefaultDrawing extends AbstractDrawing {
 

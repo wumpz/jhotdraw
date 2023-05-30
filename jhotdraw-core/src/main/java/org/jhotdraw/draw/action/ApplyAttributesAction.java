@@ -16,12 +16,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * ApplyAttributesAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ApplyAttributesAction. */
 public class ApplyAttributesAction extends AbstractSelectedAction {
 
   private static final long serialVersionUID = 1L;

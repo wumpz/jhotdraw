@@ -21,9 +21,6 @@ import org.jhotdraw.draw.figure.Figure;
  * Component: {@link DecoratedFigure}; Strategy: {@link RelativeDecoratorLocator}. <hr>
  *
  * <p><hr>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class RelativeDecoratorLocator extends RelativeLocator {
 

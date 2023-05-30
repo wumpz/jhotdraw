@@ -14,12 +14,7 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.samples.teddy.FindDialog;
 
-/**
- * AbstractFindAction shows the find dialog.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** AbstractFindAction shows the find dialog. */
 public class FindAction extends AbstractFindAction {
 
   private static final long serialVersionUID = 1L;

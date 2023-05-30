@@ -29,9 +29,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * </pre>
  *
  * <p>See {@link AttributeKeys} for a list of useful attribute keys.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class AttributeKey<T> implements Serializable {
 

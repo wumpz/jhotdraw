@@ -19,9 +19,6 @@ import javax.swing.text.DefaultFormatterFactory;
 
 /**
  * {@code ScaledNumberFormatter} is used to format numbers written in the Java programming syntax.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class JavaNumberFormatter extends DefaultFormatter {
 

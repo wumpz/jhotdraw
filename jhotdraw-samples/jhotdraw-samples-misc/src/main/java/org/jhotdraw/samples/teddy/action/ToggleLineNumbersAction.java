@@ -15,12 +15,7 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.teddy.TeddyView;
 import org.jhotdraw.util.*;
 
-/**
- * ToggleLineNumbersAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ToggleLineNumbersAction. */
 public class ToggleLineNumbersAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;

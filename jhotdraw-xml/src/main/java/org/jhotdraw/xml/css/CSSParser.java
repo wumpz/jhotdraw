@@ -65,9 +65,6 @@ import java.util.Map;
  * | DASHMATCH | FUNCTION S* any* ')'
  * | '(' S* any* ')' | '[' S* any* ']' ] S*;
  * </pre>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CSSParser {
 

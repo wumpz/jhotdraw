@@ -14,9 +14,6 @@ import org.jhotdraw.draw.*;
 /**
  * {@code DrawingOpacityIcon} visualizes an opacity attribute of the {@code Drawing} object which is
  * in the active {@code DrawingView} of a {@code DrawingEditor}.
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class DrawingOpacityIcon extends javax.swing.ImageIcon {
 

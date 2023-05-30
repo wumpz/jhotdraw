@@ -11,12 +11,7 @@ import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.util.Images;
 
-/**
- * An Icon with different visuals reflecting the state of the slider on which it draws on.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** An Icon with different visuals reflecting the state of the slider on which it draws on. */
 public class PaletteSliderThumbIcon extends MultiIcon {
 
   private static final int E = 0;

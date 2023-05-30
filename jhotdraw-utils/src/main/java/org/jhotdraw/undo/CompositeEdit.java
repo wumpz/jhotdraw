@@ -27,9 +27,6 @@ import javax.swing.undo.*;
  * // fire CompositeEdit at end of sequence again, to end it.
  * fireUndoableEditEvent(ce);
  * </pre>
- *
- * @author Werner Randelshofer
- * @version $Id$
  */
 public class CompositeEdit extends CompoundEdit {
 

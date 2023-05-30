@@ -12,12 +12,7 @@ import java.awt.image.*;
 import java.net.*;
 import javax.swing.*;
 
-/**
- * Image processing methods.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Image processing methods. */
 public class Images {
 
   /** Prevent instance creation. */
