@@ -85,8 +85,7 @@ public class AttributeKeys {
   }
   /** Fill under stroke. The value of this attribute is a Boolean object. */
   public static final AttributeKey<WindingRule> WINDING_RULE =
-      new AttributeKey<>(
-          "windingRule", WindingRule.class, WindingRule.EVEN_ODD, false, LABELS);
+      new AttributeKey<>("windingRule", WindingRule.class, WindingRule.EVEN_ODD, false, LABELS);
 
   public static enum Underfill {
     /** If FILL_UNDER_STROKE is put to this value, the area under the stroke will not be filled. */
@@ -102,8 +101,7 @@ public class AttributeKeys {
   }
   /** Fill under stroke. The value of this attribute is a Boolean object. */
   public static final AttributeKey<Underfill> FILL_UNDER_STROKE =
-      new AttributeKey<>(
-          "fillUnderStroke", Underfill.class, Underfill.CENTER, false, LABELS);
+      new AttributeKey<>("fillUnderStroke", Underfill.class, Underfill.CENTER, false, LABELS);
   /** Stroke color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> STROKE_COLOR =
       new AttributeKey<>("strokeColor", Color.class, Color.black, true, LABELS);
@@ -216,8 +214,7 @@ public class AttributeKeys {
   }
   /** Text alignment. The value of this attribute is a Alignment enum. */
   public static final AttributeKey<Alignment> TEXT_ALIGNMENT =
-      new AttributeKey<>(
-          "textAlignment", Alignment.class, Alignment.LEADING, false, LABELS);
+      new AttributeKey<>("textAlignment", Alignment.class, Alignment.LEADING, false, LABELS);
   /**
    * The value of this attribute is a Font object, which is used as a prototype to create the font
    * for the text.
@@ -271,8 +268,7 @@ public class AttributeKeys {
    * CompositeFigure.
    */
   public static final AttributeKey<Alignment> COMPOSITE_ALIGNMENT =
-      new AttributeKey<>(
-          "layoutAlignment", Alignment.class, Alignment.BLOCK, false, LABELS);
+      new AttributeKey<>("layoutAlignment", Alignment.class, Alignment.BLOCK, false, LABELS);
   /**
    * The value of this attribute is a Alignment object.
    *
@@ -300,8 +296,7 @@ public class AttributeKeys {
   }
   /** Specifies the orientation of a Figure. */
   public static final AttributeKey<Orientation> ORIENTATION =
-      new AttributeKey<>(
-          "orientation", Orientation.class, Orientation.NORTH, false, LABELS);
+      new AttributeKey<>("orientation", Orientation.class, Orientation.NORTH, false, LABELS);
   /** A put with all attributes defined by this class. */
   public static final Set<AttributeKey<?>> SUPPORTED_ATTRIBUTES;
 
