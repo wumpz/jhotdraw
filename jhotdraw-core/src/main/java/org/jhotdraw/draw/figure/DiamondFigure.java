@@ -30,7 +30,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
    * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have the same length.
    */
   public static final AttributeKey<Boolean> IS_QUADRATIC =
-      new AttributeKey<Boolean>("isQuadratic", Boolean.class, false);
+      new AttributeKey<>("isQuadratic", Boolean.class, false);
   /** The bounds of the diamond figure. */
   private Rectangle2D.Double rectangle;
 

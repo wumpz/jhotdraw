@@ -242,14 +242,14 @@ public class DefaultDrawing extends AbstractDrawing {
   /** Ensures that the children are sorted in z-order sequence from back to front. */
   private void ensureSorted() {
     if (needsSorting) {
-      Collections.sort(children, Comparator.comparing(Figure::getLayer));
+      Collections.sort(CHILDREN, Comparator.comparing(Figure::getLayer));
       needsSorting = false;
     }
   }
 
   @Override
   public int indexOf(Figure figure) {
-    return children.indexOf(figure);
+    return CHILDREN.indexOf(figure);
   }
 
   @Override

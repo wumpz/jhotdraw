@@ -55,7 +55,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
   protected Layouter layouter;
 
-  protected ArrayList<Figure> children = new ArrayList<>();
+  protected List<Figure> children = new ArrayList<>();
   /** Caches the drawing area to improve the performance of method {@link #getDrawingArea}. */
   protected transient Rectangle2D.Double cachedDrawingArea;
   /** Caches the bounds to improve the performance of method {@link #getBounds}. */
@@ -505,7 +505,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public java.util.List<Figure> getChildren() {
+  public List<Figure> getChildren() {
     return Collections.unmodifiableList(children);
   }
 

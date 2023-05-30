@@ -28,7 +28,7 @@ public class LocatorLayouter implements Layouter {
    * compositeFigure.
    */
   public static final AttributeKey<Locator> LAYOUT_LOCATOR =
-      new AttributeKey<Locator>("layoutLocator", Locator.class, null);
+      new AttributeKey<>("layoutLocator", Locator.class, null);
 
   /** Creates a new instance. */
   public LocatorLayouter() {}

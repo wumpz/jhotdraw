@@ -958,7 +958,7 @@ public class BezierPath implements Shape, Serializable, Cloneable {
    * bezier path.
    */
   public void moveTo(double x1, double y1) {
-    if (NODES.size() != 0) {
+    if (!NODES.isEmpty()) {
       throw new IllegalPathStateException("moveTo only allowed when empty");
     }
     Node node = new Node(x1, y1);

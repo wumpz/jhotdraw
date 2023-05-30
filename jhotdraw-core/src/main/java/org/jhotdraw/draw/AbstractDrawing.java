@@ -30,12 +30,6 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
 
-/**
- * This abstract class can be extended to implement a {@link Drawing}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
 public abstract class AbstractDrawing implements Drawing {
 
   private static final Object LOCK = new JPanel().getTreeLock();
@@ -45,14 +39,16 @@ public abstract class AbstractDrawing implements Drawing {
 
   protected transient Rectangle2D.Double cachedDrawingArea;
   protected int changingDepth = 0;
-  protected ArrayList<Figure> children = new ArrayList<>();
+  protected final List<Figure> CHILDREN = new ArrayList<>();
+  protected final List<Figure> UNMODIFIABLE_CHILDREN = Collections.unmodifiableList(CHILDREN);
+
   protected EventHandler eventHandler = new EventHandler();
   protected EventListenerList listenerList = new EventListenerList();
   private Attributes attributes = new Attributes(this::fireDrawingAttributeChanged);
   private transient FontRenderContext fontRenderContext;
   private List<InputFormat> inputFormats = new ArrayList<>();
   private List<OutputFormat> outputFormats = new ArrayList<>();
-  /** Creates a new instance. */
+
   public AbstractDrawing() {
     eventHandler = createEventHandler();
   }
@@ -102,7 +98,7 @@ public abstract class AbstractDrawing implements Drawing {
 
   @Override
   public void basicAdd(int index, Figure figure) {
-    children.add(index, figure);
+    CHILDREN.add(index, figure);
     figure.addFigureListener(eventHandler);
   }
 
@@ -185,17 +181,17 @@ public abstract class AbstractDrawing implements Drawing {
 
   @Override
   public Figure getChild(int index) {
-    return children.get(index);
+    return CHILDREN.get(index);
   }
 
   @Override
   public int getChildCount() {
-    return children.size();
+    return CHILDREN.size();
   }
 
   @Override
-  public java.util.List<Figure> getChildren() {
-    return Collections.unmodifiableList(children);
+  public List<Figure> getChildren() {
+    return UNMODIFIABLE_CHILDREN;
   }
 
   @Override
@@ -209,7 +205,7 @@ public abstract class AbstractDrawing implements Drawing {
       if (getChildCount() == 0) {
         cachedDrawingArea = new Rectangle2D.Double();
       } else {
-        for (Figure f : children) {
+        for (Figure f : CHILDREN) {
           if (cachedDrawingArea == null) {
             cachedDrawingArea = f.getDrawingArea(factor);
           } else {
@@ -263,7 +259,7 @@ public abstract class AbstractDrawing implements Drawing {
 
   @Override
   public boolean remove(Figure figure) {
-    int index = children.indexOf(figure);
+    int index = CHILDREN.indexOf(figure);
     if (index == -1) {
       return false;
     } else {
@@ -317,7 +313,7 @@ public abstract class AbstractDrawing implements Drawing {
   }
 
   protected int basicRemove(Figure child) {
-    int index = children.indexOf(child);
+    int index = CHILDREN.indexOf(child);
     if (index != -1) {
       basicRemoveChild(index);
     }
@@ -325,7 +321,7 @@ public abstract class AbstractDrawing implements Drawing {
   }
 
   protected Figure basicRemoveChild(int index) {
-    Figure figure = children.remove(index);
+    Figure figure = CHILDREN.remove(index);
     figure.removeFigureListener(eventHandler);
     invalidate();
     return figure;

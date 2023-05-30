@@ -99,7 +99,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
    * Holds the selected figures in an ordered put. The ordering reflects the sequence that was used
    * to select the figures.
    */
-  private final Set<Figure> selectedFigures = new LinkedHashSet<>();
+  private final Set<Figure> SELECTED_FIGURES = new LinkedHashSet<>();
+
+  private final Set<Figure> UNMODIFIABLE_SELECTED_FIGURES =
+      Collections.unmodifiableSet(SELECTED_FIGURES);
 
   private final List<Handle> selectionHandles = new ArrayList<>();
   private boolean isConstrainerVisible = false;
@@ -203,7 +206,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
 
   @Override
   public boolean isSelectionEmpty() {
-    return selectedFigures.isEmpty();
+    return SELECTED_FIGURES.isEmpty();
   }
 
   protected class EventHandler implements DrawingListener, HandleListener, FocusListener {
@@ -516,10 +519,10 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   /** Adds a figure to the current selection. */
   @Override
   public void addToSelection(Figure figure) {
-    Set<Figure> oldSelection = new HashSet<>(selectedFigures);
-    if (selectedFigures.add(figure)) {
+    Set<Figure> oldSelection = new HashSet<>(SELECTED_FIGURES);
+    if (SELECTED_FIGURES.add(figure)) {
       figure.addFigureListener(handleInvalidator);
-      Set<Figure> newSelection = new HashSet<>(selectedFigures);
+      Set<Figure> newSelection = new HashSet<>(SELECTED_FIGURES);
       Rectangle invalidatedArea = null;
       if (handlesAreValid && getEditor() != null) {
         for (Handle h : figure.createHandles(detailLevel)) {
@@ -543,12 +546,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   /** Adds a collection of figures to the current selection. */
   @Override
   public void addToSelection(Collection<Figure> figures) {
-    Set<Figure> oldSelection = new HashSet<>(selectedFigures);
-    Set<Figure> newSelection = new HashSet<>(selectedFigures);
+    Set<Figure> oldSelection = new HashSet<>(SELECTED_FIGURES);
+    Set<Figure> newSelection = new HashSet<>(SELECTED_FIGURES);
     boolean selectionChanged = false;
     Rectangle invalidatedArea = null;
     for (Figure figure : figures) {
-      if (selectedFigures.add(figure)) {
+      if (SELECTED_FIGURES.add(figure)) {
         selectionChanged = true;
         newSelection.add(figure);
         figure.addFigureListener(handleInvalidator);
@@ -577,9 +580,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   /** Removes a figure from the selection. */
   @Override
   public void removeFromSelection(Figure figure) {
-    Set<Figure> oldSelection = new HashSet<>(selectedFigures);
-    if (selectedFigures.remove(figure)) {
-      Set<Figure> newSelection = new HashSet<>(selectedFigures);
+    Set<Figure> oldSelection = new HashSet<>(SELECTED_FIGURES);
+    if (SELECTED_FIGURES.remove(figure)) {
+      Set<Figure> newSelection = new HashSet<>(SELECTED_FIGURES);
       invalidateHandles();
       figure.removeFigureListener(handleInvalidator);
       fireSelectionChanged(oldSelection, newSelection);
@@ -593,7 +596,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
    */
   @Override
   public void toggleSelection(Figure figure) {
-    if (selectedFigures.contains(figure)) {
+    if (SELECTED_FIGURES.contains(figure)) {
       removeFromSelection(figure);
     } else {
       addToSelection(figure);
@@ -603,14 +606,14 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   /** Selects all selectable figures. */
   @Override
   public void selectAll() {
-    Set<Figure> oldSelection = new HashSet<>(selectedFigures);
-    selectedFigures.clear();
+    Set<Figure> oldSelection = new HashSet<>(SELECTED_FIGURES);
+    SELECTED_FIGURES.clear();
     for (Figure figure : drawing.getChildren()) {
       if (figure.isSelectable()) {
-        selectedFigures.add(figure);
+        SELECTED_FIGURES.add(figure);
       }
     }
-    Set<Figure> newSelection = new HashSet<>(selectedFigures);
+    Set<Figure> newSelection = new HashSet<>(SELECTED_FIGURES);
     invalidateHandles();
     fireSelectionChanged(oldSelection, newSelection);
     repaint();
@@ -620,9 +623,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   @Override
   public void clearSelection() {
     if (getSelectionCount() > 0) {
-      Set<Figure> oldSelection = new HashSet<>(selectedFigures);
-      selectedFigures.clear();
-      Set<Figure> newSelection = new HashSet<>(selectedFigures);
+      Set<Figure> oldSelection = new HashSet<>(SELECTED_FIGURES);
+      SELECTED_FIGURES.clear();
+      Set<Figure> newSelection = new HashSet<>(SELECTED_FIGURES);
       invalidateHandles();
       fireSelectionChanged(oldSelection, newSelection);
     }
@@ -631,21 +634,18 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   /** Test whether a given figure is selected. */
   @Override
   public boolean isFigureSelected(Figure checkFigure) {
-    return selectedFigures.contains(checkFigure);
+    return SELECTED_FIGURES.contains(checkFigure);
   }
 
-  /**
-   * Gets the current selection as a FigureSelection. A FigureSelection can be cut, copied, pasted.
-   */
   @Override
   public Set<Figure> getSelectedFigures() {
-    return Collections.unmodifiableSet(selectedFigures);
+    return UNMODIFIABLE_SELECTED_FIGURES;
   }
 
   /** Gets the number of selected figures. */
   @Override
   public int getSelectionCount() {
-    return selectedFigures.size();
+    return SELECTED_FIGURES.size();
   }
 
   /** Gets the currently active selection handles. */

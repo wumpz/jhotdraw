@@ -39,7 +39,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   @Override
   public int indexOf(Figure figure) {
-    return children.indexOf(figure);
+    return CHILDREN.indexOf(figure);
   }
 
   @Override
@@ -64,7 +64,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     if (clipBounds != null) {
       draw(g, sort(quadTree.findIntersects(clipBounds)));
     } else {
-      draw(g, children);
+      draw(g, CHILDREN);
     }
   }
 
@@ -90,7 +90,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   @Override
   public List<Figure> getChildren() {
-    return Collections.unmodifiableList(children);
+    return UNMODIFIABLE_CHILDREN;
   }
 
   @Override
@@ -108,7 +108,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   public List<Figure> getFiguresFrontToBack() {
     ensureSorted();
-    return new ReversedList<>(children);
+    return new ReversedList<>(CHILDREN);
   }
 
   protected List<Figure> getFiguresFrontToBack(Collection<Figure> smallCollection) {
@@ -222,7 +222,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
     List<Figure> contained = new ArrayList<>();
-    for (Figure f : children) {
+    for (Figure f : CHILDREN) {
       Rectangle2D.Double r = f.getBounds();
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
@@ -240,8 +240,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   @Override
   public void bringToFront(Figure figure) {
-    if (children.remove(figure)) {
-      children.add(figure);
+    if (CHILDREN.remove(figure)) {
+      CHILDREN.add(figure);
       needsSorting = true;
       fireDrawingChanged(figure.getDrawingArea());
     }
@@ -249,8 +249,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
   @Override
   public void sendToBack(Figure figure) {
-    if (children.remove(figure)) {
-      children.add(0, figure);
+    if (CHILDREN.remove(figure)) {
+      CHILDREN.add(0, figure);
       needsSorting = true;
       fireDrawingChanged(figure.getDrawingArea());
     }
@@ -264,7 +264,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   /** Ensures that the children are sorted in z-order sequence. */
   private void ensureSorted() {
     if (needsSorting) {
-      Collections.sort(children, Comparator.comparing(Figure::getLayer));
+      Collections.sort(CHILDREN, Comparator.comparing(Figure::getLayer));
       needsSorting = false;
     }
   }

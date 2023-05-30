@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -35,19 +34,12 @@ import org.jhotdraw.util.ReversedList;
 public abstract class QuadTreeCompositeFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;
-  private QuadTree<Figure> quadTree = new QuadTree<>();
+  private final QuadTree<Figure> quadTree = new QuadTree<>();
   private boolean needsSorting = false;
-  private FigureHandler figureHandler;
+  private final FigureHandler figureHandler = new FigureHandler();
   private Dimension2DDouble canvasSize;
 
-  /** Creates a new instance. */
-  public QuadTreeCompositeFigure() {
-    figureHandler = createFigureHandler();
-  }
-
-  protected FigureHandler createFigureHandler() {
-    return new FigureHandler();
-  }
+  public QuadTreeCompositeFigure() {}
 
   @Override
   public int indexOf(Figure figure) {
@@ -102,9 +94,9 @@ public abstract class QuadTreeCompositeFigure extends AbstractAttributedComposit
     }
   }
 
-  public java.util.List<Figure> getFigures(Rectangle2D.Double bounds) {
-    return new LinkedList<>(quadTree.findInside(bounds));
-  }
+  //  public Collection<Figure> getFigures(Rectangle2D.Double bounds) {
+  //    return new ArrayList<>(quadTree.findInside(bounds));
+  //  }
 
   @Override
   public java.util.List<Figure> getChildren() {
@@ -225,7 +217,7 @@ public abstract class QuadTreeCompositeFigure extends AbstractAttributedComposit
     }
   }
 
-  public java.util.List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
+  public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
     List<Figure> contained = new ArrayList<>();
     for (Figure f : children) {
       Rectangle2D r = f.getBounds();
