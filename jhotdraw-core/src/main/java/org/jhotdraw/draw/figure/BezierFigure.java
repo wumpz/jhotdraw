@@ -434,9 +434,9 @@ public class BezierFigure extends AbstractAttributedFigure {
   }
 
   /** Sets the point coordinate of a control point. */
-  public void setPoint(int index, int coord, Point2D.Double p) {
+  public void setPoint(int index, int ctrlPntIndex, Point2D.Double p) {
     BezierPath.Node cp = new BezierPath.Node(path.nodes().get(index));
-    cp.setControlPoint(coord, p);
+    cp.setControlPoint(ctrlPntIndex, p);
     setNode(index, cp);
   }
 
@@ -502,7 +502,7 @@ public class BezierFigure extends AbstractAttributedFigure {
    * @return the index of the segment or -1 if no segment was hit.
    */
   public int findSegment(Point2D.Double find, double tolerance) {
-    return getBezierPath().findSegment(find, tolerance);
+    return path.findSegment(find, tolerance);
   }
 
   /**

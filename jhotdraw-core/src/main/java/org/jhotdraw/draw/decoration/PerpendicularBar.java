@@ -46,14 +46,4 @@ public class PerpendicularBar extends AbstractLineDecoration {
   protected double getDecoratorPathRadius(Figure f) {
     return 0.5;
   }
-
-  //  @Override
-  //  public void read(DOMInput in) {
-  //    height = in.getAttribute("height", 10);
-  //  }
-  //
-  //  @Override
-  //  public void write(DOMOutput out) {
-  //    out.addAttribute("height", height);
-  //  }
 }

@@ -81,25 +81,4 @@ public class CompositeLineDecoration implements LineDecoration {
     }
     return radius;
   }
-
-  //  @Override
-  //  public void read(DOMInput in) throws IOException {
-  //    for (int i = in.getElementCount("decoration") - 1; i >= 0; i--) {
-  //      in.openElement("decoration", i);
-  //      Object value = in.readObject();
-  //      if (value instanceof LineDecoration) {
-  //        addDecoration((LineDecoration) value);
-  //      }
-  //      in.closeElement();
-  //    }
-  //  }
-  //
-  //  @Override
-  //  public void write(DOMOutput out) throws IOException {
-  //    for (LineDecoration decoration : decorations) {
-  //      out.openElement("decoration");
-  //      out.writeObject(decoration);
-  //      out.closeElement();
-  //    }
-  //  }
 }

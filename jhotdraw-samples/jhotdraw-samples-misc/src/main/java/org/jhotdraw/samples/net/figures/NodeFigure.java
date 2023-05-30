@@ -48,7 +48,7 @@ public class NodeFigure extends TextFigure {
   }
 
   private void createConnectors() {
-    connectors = new LinkedList<Connector>();
+    connectors = new LinkedList<>();
     connectors.add(new LocatorConnector(this, RelativeLocator.north()));
     connectors.add(new LocatorConnector(this, RelativeLocator.east()));
     connectors.add(new LocatorConnector(this, RelativeLocator.west()));
