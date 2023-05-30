@@ -27,7 +27,6 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
   private static final long serialVersionUID = 1L;
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
 
-  /** Creates a new instance. */
   public SVGGroupFigure() {
     SVGAttributeKeys.setDefaults(this);
   }

@@ -21,12 +21,10 @@ public class ZoomEditorAction extends AbstractDrawingEditorAction {
   private String label;
   private boolean updateAllViews;
 
-  /** Creates a new instance. */
   public ZoomEditorAction(DrawingEditor editor, double scaleFactor, AbstractButton button) {
     this(editor, scaleFactor, button, true);
   }
 
-  /** Creates a new instance. */
   public ZoomEditorAction(
       DrawingEditor editor, double scaleFactor, AbstractButton button, boolean updateAllViews) {
     super(editor);

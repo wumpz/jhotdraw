@@ -29,7 +29,6 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
   protected int angularQuantization = 12;
   protected int radialQuantization = 5;
 
-  /** Creates a new instance. */
   public QuantizingColorWheelImageProducer(ColorSpace sys, int w, int h) {
     super(sys, w, h);
   }

@@ -22,12 +22,10 @@ public class PathTool extends BezierTool {
   /** The path prototype for new figures. */
   private SVGPathFigure pathPrototype;
 
-  /** Creates a new instance. */
   public PathTool(SVGPathFigure pathPrototype, SVGBezierFigure bezierPrototype) {
     this(pathPrototype, bezierPrototype, null);
   }
 
-  /** Creates a new instance. */
   public PathTool(
       SVGPathFigure pathPrototype,
       SVGBezierFigure bezierPrototype,

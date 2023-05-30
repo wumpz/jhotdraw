@@ -63,7 +63,6 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
   /** The hover Figure is the figure, over which the mouse is currently hovering. */
   private Figure hoverFigure = null;
 
-  /** Creates a new instance. */
   public DefaultSelectAreaTracker() {}
 
   @Override

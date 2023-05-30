@@ -44,7 +44,6 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
   private Forwarder forwarder;
 
-  /** Creates a new instance. */
   public DrawingEditorProxy() {
     forwarder = new Forwarder();
   }

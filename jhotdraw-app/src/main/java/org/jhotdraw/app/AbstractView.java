@@ -45,7 +45,6 @@ public abstract class AbstractView extends JPanel implements View {
    */
   protected URI uri;
 
-  /** Creates a new instance. */
   public AbstractView() {
     preferences = PreferencesUtil.userNodeForPackage(getClass());
   }

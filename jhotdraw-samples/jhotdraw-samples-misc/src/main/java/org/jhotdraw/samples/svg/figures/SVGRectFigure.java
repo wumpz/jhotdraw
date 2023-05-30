@@ -56,7 +56,6 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 
-  /** Creates a new instance. */
   public SVGRectFigure() {
     this(0, 0, 0, 0);
   }

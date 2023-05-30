@@ -30,7 +30,6 @@ public class ODGBezierFigure extends BezierFigure {
   private static final long serialVersionUID = 1L;
   private transient Rectangle2D.Double cachedDrawingArea;
 
-  /** Creates a new instance. */
   public ODGBezierFigure() {
     this(false);
   }

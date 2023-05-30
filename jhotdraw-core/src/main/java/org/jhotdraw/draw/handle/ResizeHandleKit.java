@@ -26,7 +26,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class ResizeHandleKit {
 
-  /** Creates a new instance. */
   public ResizeHandleKit() {}
 
   /** Creates handles for each corner of a figure and adds them to the provided collection. */

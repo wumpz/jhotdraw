@@ -27,7 +27,6 @@ public class ODGRectRadiusHandle extends AbstractHandle {
   private Dimension2DDouble originalArc2D;
   CompositeEdit edit;
 
-  /** Creates a new instance. */
   public ODGRectRadiusHandle(Figure owner) {
     super(owner);
   }

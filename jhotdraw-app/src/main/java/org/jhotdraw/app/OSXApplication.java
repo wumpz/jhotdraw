@@ -166,7 +166,6 @@ public class OSXApplication extends AbstractApplication {
   /** The "invisible" frame is used to hold the frameless menu bar on Mac OS X. */
   private JFrame invisibleFrame;
 
-  /** Creates a new instance. */
   public OSXApplication() {}
 
   @Override

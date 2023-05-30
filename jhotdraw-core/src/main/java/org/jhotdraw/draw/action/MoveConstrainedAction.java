@@ -27,7 +27,6 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
   private static final long serialVersionUID = 1L;
   private TranslationDirection dir;
 
-  /** Creates a new instance. */
   public MoveConstrainedAction(DrawingEditor editor, TranslationDirection dir) {
     super(editor);
     this.dir = dir;

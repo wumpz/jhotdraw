@@ -33,7 +33,6 @@ public class ArrangeWindowsAction extends AbstractAction {
   private Arrangeable arrangeable;
   private Arrangeable.Arrangement arrangement;
 
-  /** Creates a new instance. */
   public ArrangeWindowsAction(Arrangeable arrangeable, Arrangeable.Arrangement arrangement) {
     this.arrangeable = arrangeable;
     this.arrangement = arrangement;

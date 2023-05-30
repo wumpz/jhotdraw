@@ -23,7 +23,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public class TextOverflowHandle extends AbstractHandle {
 
-  /** Creates a new instance. */
   public TextOverflowHandle(TextHolderFigure owner) {
     super(owner);
   }

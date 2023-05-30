@@ -19,7 +19,6 @@ public class SplitAction extends CombineAction {
   private ResourceBundleUtil labels =
       ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-  /** Creates a new instance. */
   public SplitAction(DrawingEditor editor) {
     super(editor, new SVGPathFigure(), false);
     labels.configureAction(this, ID);

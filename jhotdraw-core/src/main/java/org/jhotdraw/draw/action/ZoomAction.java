@@ -19,13 +19,11 @@ public class ZoomAction extends AbstractDrawingViewAction {
   private AbstractButton button;
   private String label;
 
-  /** Creates a new instance. */
   public ZoomAction(DrawingEditor editor, double scaleFactor, AbstractButton button) {
     this((DrawingView) null, scaleFactor, button);
     setEditor(editor);
   }
 
-  /** Creates a new instance. */
   public ZoomAction(DrawingView view, double scaleFactor, AbstractButton button) {
     super(view);
     this.scaleFactor = scaleFactor;

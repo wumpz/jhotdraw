@@ -15,7 +15,6 @@ import org.jhotdraw.draw.*;
 /** SVGZOutputFormat. */
 public class SVGZOutputFormat extends SVGOutputFormat {
 
-  /** Creates a new instance. */
   public SVGZOutputFormat() {}
 
   @Override

@@ -39,7 +39,6 @@ public class CombineAction extends AbstractSelectedAction {
   private ResourceBundleUtil labels =
       ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
 
-  /** Creates a new instance. */
   public CombineAction(DrawingEditor editor) {
     this(editor, new SVGPathFigure(true), true);
   }

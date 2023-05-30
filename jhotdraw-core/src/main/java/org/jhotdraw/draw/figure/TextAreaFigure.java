@@ -74,7 +74,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   /** This is a cached value to improve the performance of method isTextOverflow(); */
   private Boolean isTextOverflow;
 
-  /** Creates a new instance. */
   public TextAreaFigure() {
     this(
         ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")

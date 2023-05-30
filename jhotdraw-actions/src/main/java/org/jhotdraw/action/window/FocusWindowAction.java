@@ -24,7 +24,6 @@ public class FocusWindowAction extends AbstractAction {
   private View view;
   private PropertyChangeListener ppc;
 
-  /** Creates a new instance. */
   public FocusWindowAction(View view) {
     this.view = view;
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");

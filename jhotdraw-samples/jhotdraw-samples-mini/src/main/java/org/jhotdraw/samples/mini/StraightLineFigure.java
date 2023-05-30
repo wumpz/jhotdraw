@@ -22,7 +22,6 @@ public class StraightLineFigure extends AbstractAttributedFigure {
   private static final long serialVersionUID = 1L;
   private Line2D.Double line;
 
-  /** Creates a new instance. */
   public StraightLineFigure() {
     line = new Line2D.Double();
   }

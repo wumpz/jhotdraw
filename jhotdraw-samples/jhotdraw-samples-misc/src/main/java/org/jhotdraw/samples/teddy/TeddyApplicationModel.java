@@ -32,7 +32,6 @@ public class TeddyApplicationModel extends DefaultApplicationModel {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public TeddyApplicationModel() {}
 
   @Override

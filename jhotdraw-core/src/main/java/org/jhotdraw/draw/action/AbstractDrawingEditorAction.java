@@ -46,7 +46,6 @@ public abstract class AbstractDrawingEditorAction extends AbstractAction {
 
   private EventHandler eventHandler = new EventHandler();
 
-  /** Creates a new instance. */
   public AbstractDrawingEditorAction(DrawingEditor editor) {
     setEditor(editor);
   }

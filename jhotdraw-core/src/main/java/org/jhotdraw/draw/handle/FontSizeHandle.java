@@ -25,7 +25,6 @@ public class FontSizeHandle extends LocatorHandle {
   private float newSize;
   private Object restoreData;
 
-  /** Creates a new instance. */
   public FontSizeHandle(TextHolderFigure owner) {
     super(owner, new FontSizeLocator());
   }

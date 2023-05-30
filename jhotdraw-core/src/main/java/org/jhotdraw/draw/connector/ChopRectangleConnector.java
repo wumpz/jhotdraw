@@ -25,7 +25,6 @@ public class ChopRectangleConnector extends AbstractConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. Only used for storable. */
   public ChopRectangleConnector() {}
 
   public ChopRectangleConnector(Figure owner) {

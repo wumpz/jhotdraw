@@ -26,7 +26,6 @@ public class TogglePaletteAction extends AbstractAction {
   private OSXApplication app;
   private WindowListener windowHandler;
 
-  /** Creates a new instance. */
   public TogglePaletteAction(OSXApplication app, Window palette, String label) {
     super(label);
     this.app = app;

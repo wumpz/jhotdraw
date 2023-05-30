@@ -31,7 +31,6 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
   /** This is used to perform faster drawing and hit testing. */
   private transient Shape cachedTransformedShape;
 
-  /** Creates a new instance. */
   public ODGEllipseFigure() {
     this(0, 0, 0, 0);
   }

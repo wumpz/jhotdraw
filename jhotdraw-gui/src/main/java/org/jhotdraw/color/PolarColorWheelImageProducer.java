@@ -23,7 +23,6 @@ public class PolarColorWheelImageProducer extends AbstractColorWheelImageProduce
   /** Lookup table for alphas. The alpha value is used for antialiasing the color wheel. */
   protected int[] alphas;
 
-  /** Creates a new instance. */
   public PolarColorWheelImageProducer(ColorSpace sys, int w, int h) {
     super(sys, w, h);
   }

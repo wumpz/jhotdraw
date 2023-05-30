@@ -17,7 +17,6 @@ public class ToggleGridAction extends AbstractDrawingViewAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "view.toggleGrid";
 
-  /** Creates a new instance. */
   public ToggleGridAction(DrawingEditor editor) {
     super(editor);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

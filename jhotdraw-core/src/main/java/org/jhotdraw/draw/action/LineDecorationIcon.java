@@ -20,7 +20,6 @@ public class LineDecorationIcon implements Icon {
 
   private LineFigure lineFigure;
 
-  /** Creates a new instance. */
   public LineDecorationIcon(LineDecoration decoration, boolean isStartDecoration) {
     lineFigure = new LineFigure();
     lineFigure.setBounds(new Point2D.Double(2, 8), new Point2D.Double(23, 8));

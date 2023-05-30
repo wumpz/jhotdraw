@@ -21,7 +21,6 @@ public abstract class MoveAction extends AbstractSelectedAction {
   private static final long serialVersionUID = 1L;
   private int dx, dy;
 
-  /** Creates a new instance. */
   public MoveAction(DrawingEditor editor, int dx, int dy) {
     super(editor);
     this.dx = dx;

@@ -46,7 +46,6 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
   /** This cachedPath is used for drawing. */
   private transient Path2D.Double cachedPath;
 
-  /** Creates a new instance. */
   public ODGPathFigure() {
     add(new ODGBezierFigure());
     ODGAttributeKeys.setDefaults(this);

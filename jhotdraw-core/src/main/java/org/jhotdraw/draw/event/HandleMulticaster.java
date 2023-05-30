@@ -19,13 +19,11 @@ public class HandleMulticaster {
 
   private List<Handle> handles;
 
-  /** Creates a new instance. */
   public HandleMulticaster(Handle handle) {
     this.handles = new ArrayList<>();
     this.handles.add(handle);
   }
 
-  /** Creates a new instance. */
   public HandleMulticaster(Collection<Handle> handles) {
     this.handles = new ArrayList<>(handles);
   }

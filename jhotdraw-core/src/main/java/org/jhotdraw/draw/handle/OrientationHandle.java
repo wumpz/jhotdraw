@@ -30,7 +30,6 @@ public class OrientationHandle extends AbstractHandle {
   private AttributeKeys.Orientation oldValue;
   private AttributeKeys.Orientation newValue;
 
-  /** Creates a new instance. */
   public OrientationHandle(TriangleFigure owner) {
     super(owner);
   }

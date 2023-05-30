@@ -27,7 +27,6 @@ public class RadialGradient implements Gradient {
   private AffineTransform transform;
   private double[] stopOpacities;
 
-  /** Creates a new instance. */
   public RadialGradient() {}
 
   public RadialGradient(

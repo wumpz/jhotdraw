@@ -14,7 +14,6 @@ public class StrokeIcon implements javax.swing.Icon {
 
   private Stroke stroke;
 
-  /** Creates a new instance. */
   public StrokeIcon(Stroke stroke) {
     this.stroke = stroke;
   }

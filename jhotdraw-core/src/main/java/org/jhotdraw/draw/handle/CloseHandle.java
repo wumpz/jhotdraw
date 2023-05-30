@@ -17,12 +17,10 @@ public class CloseHandle extends LocatorHandle {
 
   private boolean pressed;
 
-  /** Creates a new instance. */
   public CloseHandle(Figure owner) {
     this(owner, new RelativeLocator(1.0, 0.0));
   }
 
-  /** Creates a new instance. */
   public CloseHandle(Figure owner, Locator locator) {
     super(owner, locator);
   }

@@ -17,7 +17,6 @@ import org.jhotdraw.color.ColorSliderUI;
 /** PaletteColorSliderUI. */
 public class PaletteColorSliderUI extends ColorSliderUI {
 
-  /** Creates a new instance. */
   public PaletteColorSliderUI(JSlider b) {
     super(b);
   }

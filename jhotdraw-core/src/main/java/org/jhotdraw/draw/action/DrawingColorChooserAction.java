@@ -25,17 +25,14 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
     this(editor, key, null, null);
   }
 
-  /** Creates a new instance. */
   public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
     this(editor, key, null, icon);
   }
 
-  /** Creates a new instance. */
   public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
     this(editor, key, name, null);
   }

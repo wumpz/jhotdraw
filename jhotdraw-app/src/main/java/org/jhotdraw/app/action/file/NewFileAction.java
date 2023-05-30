@@ -30,7 +30,6 @@ public class NewFileAction extends AbstractApplicationAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "file.new";
 
-  /** Creates a new instance. */
   public NewFileAction(Application app) {
     this(app, ID);
   }

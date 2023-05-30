@@ -45,7 +45,6 @@ public class ConnectorHandle extends AbstractHandle {
   /** All connectors of the connectable Figure. */
   protected Collection<Connector> connectors = Collections.emptyList();
 
-  /** Creates a new instance. */
   public ConnectorHandle(Connector connector, ConnectionFigure prototype) {
     super(connector.getOwner());
     this.connector = connector;

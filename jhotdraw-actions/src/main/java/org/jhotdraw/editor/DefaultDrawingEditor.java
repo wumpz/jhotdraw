@@ -97,7 +97,6 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
         }
       };
 
-  /** Creates a new instance. */
   public DefaultDrawingEditor() {
     toolHandler = new ToolHandler();
     setDefaultAttribute(FILL_COLOR, Color.white);

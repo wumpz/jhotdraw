@@ -22,7 +22,6 @@ public class ChopBezierConnector extends ChopRectangleConnector {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public ChopBezierConnector() {}
 
   public ChopBezierConnector(BezierFigure owner) {

@@ -28,7 +28,6 @@ public class TransformRestoreEdit extends AbstractUndoableEdit {
   private Object oldTransformRestoreData;
   private Object newTransformRestoreData;
 
-  /** Creates a new instance. */
   public TransformRestoreEdit(
       Figure owner, Object oldTransformRestoreData, Object newTransformRestoreData) {
     this.owner = owner;

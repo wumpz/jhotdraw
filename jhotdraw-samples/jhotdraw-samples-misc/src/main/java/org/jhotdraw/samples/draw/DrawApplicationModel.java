@@ -59,7 +59,6 @@ public class DrawApplicationModel extends DefaultApplicationModel {
   /** This editor is shared by all views. */
   private DefaultDrawingEditor sharedEditor;
 
-  /** Creates a new instance. */
   public DrawApplicationModel() {}
 
   public DefaultDrawingEditor getSharedEditor() {

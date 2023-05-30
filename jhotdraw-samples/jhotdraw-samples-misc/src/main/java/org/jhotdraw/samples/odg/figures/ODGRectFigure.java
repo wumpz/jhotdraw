@@ -38,7 +38,6 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 
-  /** Creates a new instance. */
   public ODGRectFigure() {
     this(0, 0, 0, 0);
   }

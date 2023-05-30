@@ -13,7 +13,6 @@ import javax.swing.*;
 /** PaletteMenuItemUI. */
 public class PaletteMenuItemUI extends javax.swing.plaf.basic.BasicMenuItemUI {
 
-  /** Creates a new instance. */
   public PaletteMenuItemUI() {}
 
   @Override

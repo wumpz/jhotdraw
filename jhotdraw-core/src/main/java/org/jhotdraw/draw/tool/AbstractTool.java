@@ -55,7 +55,6 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   /** The action map of the tool. */
   private ActionMap actionMap;
 
-  /** Creates a new instance. */
   public AbstractTool() {
     editorProxy = new DrawingEditorProxy();
     setInputMap(createInputMap());

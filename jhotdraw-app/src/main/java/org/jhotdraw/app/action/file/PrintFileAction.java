@@ -60,7 +60,6 @@ public class PrintFileAction extends AbstractViewAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "file.print";
 
-  /** Creates a new instance. */
   public PrintFileAction(Application app, View view) {
     super(app, view);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

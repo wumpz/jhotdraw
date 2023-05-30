@@ -39,7 +39,6 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         }
       };
 
-  /** Creates a new instance. */
   public ToggleViewPropertyAction(Application app, View view, String propertyName) {
     this(app, view, propertyName, Boolean.TYPE, true, false);
   }

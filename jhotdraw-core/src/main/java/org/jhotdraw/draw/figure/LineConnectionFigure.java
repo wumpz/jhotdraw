@@ -79,7 +79,6 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
   }
   ;
 
-  /** Creates a new instance. */
   public LineConnectionFigure() {}
 
   // DRAWING

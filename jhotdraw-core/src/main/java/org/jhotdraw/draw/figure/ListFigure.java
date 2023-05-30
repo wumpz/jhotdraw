@@ -15,7 +15,6 @@ public class ListFigure extends GraphicalCompositeFigure {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public ListFigure() {
     this(null);
   }

@@ -21,7 +21,6 @@ public class MaximizeWindowAction extends AbstractViewAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "window.maximize";
 
-  /** Creates a new instance. */
   public MaximizeWindowAction(Application app, View view) {
     super(app, view);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");

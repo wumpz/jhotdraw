@@ -27,7 +27,6 @@ public class LocatorLayouter implements Layouter {
   public static final AttributeKey<Locator> LAYOUT_LOCATOR =
       new AttributeKey<>("layoutLocator", Locator.class, null);
 
-  /** Creates a new instance. */
   public LocatorLayouter() {}
 
   @Override

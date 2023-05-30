@@ -27,7 +27,6 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
   private AttributeKey<?>[] keys;
   private Map<AttributeKey<?>, Object> fixedAttributes;
 
-  /** Creates a new instance. */
   public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key) {
     this(editor, key, null, null);
   }
@@ -41,12 +40,10 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     this(editor, keys, null, null);
   }
 
-  /** Creates a new instance. */
   public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, Icon icon) {
     this(editor, key, null, icon);
   }
 
-  /** Creates a new instance. */
   public DefaultAttributeAction(DrawingEditor editor, AttributeKey<?> key, String name) {
     this(editor, key, name, null);
   }

@@ -180,7 +180,6 @@ public class MDIApplication extends AbstractApplication {
   private Preferences prefs;
   private LinkedList<Action> toolBarActions;
 
-  /** Creates a new instance. */
   public MDIApplication() {}
 
   @Override

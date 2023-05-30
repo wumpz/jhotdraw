@@ -26,12 +26,10 @@ public class SVGPathOutlineHandle extends AbstractHandle {
    */
   private boolean isHoverHandle = false;
 
-  /** Creates a new instance. */
   public SVGPathOutlineHandle(SVGPathFigure owner) {
     this(owner, false);
   }
 
-  /** Creates a new instance. */
   public SVGPathOutlineHandle(SVGPathFigure owner, boolean isHoverHandle) {
     super(owner);
     this.isHoverHandle = isHoverHandle;

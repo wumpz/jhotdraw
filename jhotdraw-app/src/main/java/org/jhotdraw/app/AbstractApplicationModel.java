@@ -34,7 +34,6 @@ public abstract class AbstractApplicationModel extends AbstractBean implements A
   public static final String VIEW_CLASS_NAME_PROPERTY = "viewClassName";
   public static final String VIEW_CLASS_PROPERTY = "viewClass";
 
-  /** Creates a new instance. */
   public AbstractApplicationModel() {}
 
   public void setName(String newValue) {

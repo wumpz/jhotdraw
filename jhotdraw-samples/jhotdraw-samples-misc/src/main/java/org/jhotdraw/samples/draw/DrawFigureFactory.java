@@ -69,7 +69,6 @@ public class DrawFigureFactory extends DefaultDOMFactory {
     {AttributeKeys.Orientation.class, "orientation"}
   };
 
-  /** Creates a new instance. */
   public DrawFigureFactory() {
     for (Object[] o : CLASS_TAGS) {
       register((String) o[1], (Class) o[0]);

@@ -49,14 +49,12 @@ public class SVGCreateFromFileTool extends CreationTool {
   protected ImageHolderFigure imagePrototype;
   protected boolean useFileDialog;
 
-  /** Creates a new instance. */
   public SVGCreateFromFileTool(ImageHolderFigure imagePrototype, CompositeFigure groupPrototype) {
     super(imagePrototype);
     this.groupPrototype = groupPrototype;
     this.imagePrototype = imagePrototype;
   }
 
-  /** Creates a new instance. */
   public SVGCreateFromFileTool(
       ImageHolderFigure imagePrototype,
       CompositeFigure groupPrototype,

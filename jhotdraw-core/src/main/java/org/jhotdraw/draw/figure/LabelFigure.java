@@ -21,7 +21,6 @@ public class LabelFigure extends TextFigure {
   private static final long serialVersionUID = 1L;
   private TextHolderFigure target;
 
-  /** Creates a new instance. */
   public LabelFigure() {
     this("Label");
   }

@@ -17,7 +17,6 @@ public class LocaleUtil {
 
   private static Locale defaultLocale;
 
-  /** Creates a new instance. */
   public LocaleUtil() {}
 
   public static void setDefault(Locale newValue) {

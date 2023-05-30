@@ -45,7 +45,6 @@ public class NetFactory extends DefaultDOMFactory {
 
   private static final Object[][] ENUM_TAGS = {{AttributeKeys.StrokeType.class, "strokeType"}};
 
-  /** Creates a new instance. */
   public NetFactory() {
     register("Net", DefaultDrawing.class, null, null); // do not allow processing
     register("node", NodeFigure.class, NetFactory::readNode, NetFactory::writeNode);

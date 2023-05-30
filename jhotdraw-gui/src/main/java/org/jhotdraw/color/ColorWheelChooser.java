@@ -21,7 +21,6 @@ public class ColorWheelChooser extends AbstractColorChooserPanel implements UIRe
   private ColorSliderModel ccModel = new DefaultColorSliderModel(HSBColorSpace.getInstance());
   private int updatingChooser;
 
-  /** Creates a new instance. */
   public ColorWheelChooser() {
     initComponents();
     int textSliderGap = UIManager.getInt("ColorChooser.textSliderGap");

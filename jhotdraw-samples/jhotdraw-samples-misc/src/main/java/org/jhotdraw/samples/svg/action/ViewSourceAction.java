@@ -33,7 +33,6 @@ public class ViewSourceAction extends AbstractViewAction {
   /** We store the dialog as a client property in the view. */
   private static final String DIALOG_CLIENT_PROPERTY = "view.viewSource.dialog";
 
-  /** Creates a new instance. */
   public ViewSourceAction(Application app, View view) {
     super(app, view);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");

@@ -57,7 +57,6 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
   private JFileChooser fileChooser;
   private int entries;
 
-  /** Creates a new instance. */
   public OpenApplicationFileAction(Application app) {
     super(app);
     putValue(Action.NAME, "OSX Open File");

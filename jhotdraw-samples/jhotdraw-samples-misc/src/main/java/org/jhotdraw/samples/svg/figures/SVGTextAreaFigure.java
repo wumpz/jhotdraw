@@ -53,7 +53,6 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
 
   private transient Shape cachedTextShape;
 
-  /** Creates a new instance. */
   public SVGTextAreaFigure() {
     this("Text");
   }

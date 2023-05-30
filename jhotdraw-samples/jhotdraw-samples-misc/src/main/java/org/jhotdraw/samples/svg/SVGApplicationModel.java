@@ -57,7 +57,6 @@ public class SVGApplicationModel extends DefaultApplicationModel {
   /** This editor is shared by all views. */
   private DefaultDrawingEditor sharedEditor;
 
-  /** Creates a new instance. */
   public SVGApplicationModel() {
     gridConstrainer = new GridConstrainer(12, 12);
   }

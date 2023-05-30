@@ -126,7 +126,6 @@ public class SVGInputFormat implements InputFormat {
   /** Holds the document that is currently being read. */
   private Element document;
 
-  /** Creates a new instance. */
   public SVGInputFormat() {
     this(new DefaultSVGFigureFactory());
   }

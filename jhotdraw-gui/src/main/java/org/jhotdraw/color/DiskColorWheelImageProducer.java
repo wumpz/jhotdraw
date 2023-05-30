@@ -32,12 +32,10 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
 
   private boolean flipX, flipY;
 
-  /** Creates a new instance. */
   public DiskColorWheelImageProducer(ColorSpace sys, int w, int h) {
     this(sys, w, h, false, false);
   }
 
-  /** Creates a new instance. */
   public DiskColorWheelImageProducer(ColorSpace sys, int w, int h, boolean flipX, boolean flipY) {
     super(sys, w, h);
     this.flipX = flipX;

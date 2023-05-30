@@ -24,7 +24,6 @@ public class BezierOutlineHandle extends AbstractHandle {
    */
   private boolean isHoverHandle = false;
 
-  /** Creates a new instance. */
   public BezierOutlineHandle(BezierFigure owner) {
     this(owner, false);
   }

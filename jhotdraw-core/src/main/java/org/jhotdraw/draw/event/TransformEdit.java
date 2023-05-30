@@ -34,7 +34,6 @@ public class TransformEdit extends AbstractUndoableEdit {
   private Collection<Figure> figures;
   private AffineTransform tx;
 
-  /** Creates a new instance. */
   public TransformEdit(Figure figure, AffineTransform tx) {
     figures = new ArrayList<>();
     figures.add(figure);

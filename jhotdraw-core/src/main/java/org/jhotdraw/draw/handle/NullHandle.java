@@ -19,7 +19,6 @@ import org.jhotdraw.draw.locator.RelativeLocator;
  */
 public class NullHandle extends LocatorHandle {
 
-  /** Creates a new instance. */
   public NullHandle(Figure owner, Locator locator) {
     super(owner, locator);
   }

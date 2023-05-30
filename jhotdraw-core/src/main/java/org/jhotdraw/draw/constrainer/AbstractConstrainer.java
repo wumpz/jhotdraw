@@ -23,7 +23,6 @@ public abstract class AbstractConstrainer implements Constrainer {
    */
   protected transient ChangeEvent changeEvent = null;
 
-  /** Creates a new instance. */
   public AbstractConstrainer() {}
 
   /** Adds a <code>ChangeListener</code>. */

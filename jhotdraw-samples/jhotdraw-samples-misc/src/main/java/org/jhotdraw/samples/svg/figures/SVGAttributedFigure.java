@@ -26,7 +26,6 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public SVGAttributedFigure() {}
 
   @Override

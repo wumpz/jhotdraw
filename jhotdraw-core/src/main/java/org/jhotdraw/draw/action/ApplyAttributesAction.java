@@ -23,7 +23,6 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
   private Set<AttributeKey<?>> excludedAttributes =
       new HashSet<>(Arrays.asList(new AttributeKey<?>[] {TRANSFORM, TEXT}));
 
-  /** Creates a new instance. */
   public ApplyAttributesAction(DrawingEditor editor) {
     super(editor);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

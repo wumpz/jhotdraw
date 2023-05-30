@@ -33,7 +33,6 @@ public class CloseFileAction extends AbstractSaveUnsavedChangesAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "file.close";
 
-  /** Creates a new instance. */
   public CloseFileAction(Application app, View view) {
     super(app, view);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

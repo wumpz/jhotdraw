@@ -33,7 +33,6 @@ public class DragHandle extends AbstractHandle {
   /** The previously handled x and y coordinates. */
   private Point2D.Double oldPoint;
 
-  /** Creates a new instance. */
   public DragHandle(Figure owner) {
     super(owner);
   }

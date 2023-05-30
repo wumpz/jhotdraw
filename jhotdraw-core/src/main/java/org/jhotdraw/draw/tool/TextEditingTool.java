@@ -42,7 +42,6 @@ public class TextEditingTool extends AbstractTool implements ActionListener {
   private FloatingTextField textField;
   private TextHolderFigure typingTarget;
 
-  /** Creates a new instance. */
   public TextEditingTool(TextHolderFigure typingTarget) {
     this.typingTarget = typingTarget;
   }

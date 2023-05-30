@@ -21,7 +21,6 @@ public class SeparatorLineFigure extends RectangleFigure {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public SeparatorLineFigure() {}
 
   @Override

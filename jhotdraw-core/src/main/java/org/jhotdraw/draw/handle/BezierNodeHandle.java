@@ -38,7 +38,6 @@ public class BezierNodeHandle extends AbstractHandle {
   private BezierPath.Node oldNode;
   private Figure transformOwner;
 
-  /** Creates a new instance. */
   public BezierNodeHandle(BezierFigure owner, int index) {
     this(owner, index, owner);
   }

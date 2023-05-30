@@ -19,7 +19,6 @@ public class SetBoundsEdit extends AbstractUndoableEdit {
   private Point2D.Double oldAnchor, oldLead;
   private Point2D.Double newAnchor, newLead;
 
-  /** Creates a new instance. */
   public SetBoundsEdit(
       AbstractAttributedFigure owner,
       Point2D.Double oldAnchor,

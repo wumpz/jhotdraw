@@ -23,7 +23,6 @@ import org.jhotdraw.app.SDIApplication;
  */
 public class Main {
 
-  /** Creates a new instance. */
   public static void main(String[] args) {
     Application app;
     String os = System.getProperty("os.name").toLowerCase();

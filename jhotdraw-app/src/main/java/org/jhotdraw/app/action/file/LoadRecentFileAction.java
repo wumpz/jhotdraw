@@ -58,7 +58,6 @@ public class LoadRecentFileAction extends AbstractSaveUnsavedChangesAction {
   public static final String ID = "file.loadRecent";
   private URI uri;
 
-  /** Creates a new instance. */
   public LoadRecentFileAction(Application app, View view, URI uri) {
     super(app, view);
     this.uri = uri;

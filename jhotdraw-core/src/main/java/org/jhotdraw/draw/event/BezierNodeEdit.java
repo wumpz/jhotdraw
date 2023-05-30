@@ -29,7 +29,6 @@ public class BezierNodeEdit extends AbstractUndoableEdit {
   private BezierPath.Node oldValue;
   private BezierPath.Node newValue;
 
-  /** Creates a new instance. */
   public BezierNodeEdit(
       BezierFigure owner, int index, BezierPath.Node oldValue, BezierPath.Node newValue) {
     this.owner = owner;

@@ -24,7 +24,6 @@ import org.jhotdraw.geom.Geom;
  */
 public class LabeledLineConnectionFigureSample {
 
-  /** Creates a new instance. */
   public LabeledLineConnectionFigureSample() {}
 
   public static void main(String[] args) {

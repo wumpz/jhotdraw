@@ -24,7 +24,6 @@ public class StickyRectangleConnector extends ChopRectangleConnector {
   private static final long serialVersionUID = 1L;
   private float angle;
 
-  /** Creates a new instance. Only used for storable. */
   public StickyRectangleConnector() {}
 
   public StickyRectangleConnector(Figure owner) {

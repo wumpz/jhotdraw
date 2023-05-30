@@ -20,7 +20,6 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
   private static final Preferences PREFS = PreferencesUtil.userNodeForPackage(TeddyView.class);
   private static Object[] availableCharSets;
 
-  /** Creates a new instance. */
   public CharacterSetAccessory() {
     if ("aqua".equals(UIManager.getLookAndFeel().getID().toLowerCase())) {
       initComponents();

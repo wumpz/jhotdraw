@@ -23,7 +23,6 @@ public class CombineAction extends GroupAction {
   private ResourceBundleUtil labels =
       ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
 
-  /** Creates a new instance. */
   public CombineAction(DrawingEditor editor) {
     super(editor, new ODGPathFigure());
     labels.configureAction(this, ID);

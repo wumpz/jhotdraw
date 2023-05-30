@@ -87,7 +87,6 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
   /** The hover Figure is the figure, over which the mouse is currently hovering. */
   private Figure hoverFigure = null;
 
-  /** Creates a new instance. */
   public DefaultHandleTracker(Handle handle) {
     masterHandle = handle;
     multicaster = new HandleMulticaster(handle);

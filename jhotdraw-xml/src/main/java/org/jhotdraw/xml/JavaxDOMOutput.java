@@ -33,7 +33,6 @@ public class JavaxDOMOutput implements DOMOutput {
   /** The factory used to create objects. */
   private DOMFactory factory;
 
-  /** Creates a new instance. */
   public JavaxDOMOutput(DOMFactory factory) throws IOException {
     this.factory = factory;
     reset();

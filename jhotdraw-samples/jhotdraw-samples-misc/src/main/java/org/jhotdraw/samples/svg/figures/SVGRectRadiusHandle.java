@@ -28,7 +28,6 @@ public class SVGRectRadiusHandle extends AbstractHandle {
   private static final int OFFSET = 6;
   private Dimension2DDouble originalArc2D;
 
-  /** Creates a new instance. */
   public SVGRectRadiusHandle(Figure owner) {
     super(owner);
   }

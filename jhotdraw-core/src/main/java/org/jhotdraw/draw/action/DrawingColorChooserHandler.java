@@ -24,7 +24,7 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
   protected int isUpdating;
 
   // protected Map<AttributeKey, Object> attributes;
-  /** Creates a new instance. */
+
   public DrawingColorChooserHandler(
       DrawingEditor editor,
       AttributeKey<Color> key,

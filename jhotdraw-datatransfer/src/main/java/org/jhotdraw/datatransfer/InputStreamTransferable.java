@@ -15,7 +15,6 @@ public class InputStreamTransferable extends AbstractTransferable {
 
   private byte[] data;
 
-  /** Creates a new instance. */
   public InputStreamTransferable(DataFlavor flavor, byte[] data) {
     this(new DataFlavor[] {flavor}, data);
   }

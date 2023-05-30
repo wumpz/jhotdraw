@@ -93,7 +93,6 @@ public class SVGOutputFormat implements OutputFormat {
    */
   private static final boolean IS_FLOAT_PRECISION = true;
 
-  /** Creates a new instance. */
   public SVGOutputFormat() {}
 
   public javax.swing.filechooser.FileFilter getFileFilter() {

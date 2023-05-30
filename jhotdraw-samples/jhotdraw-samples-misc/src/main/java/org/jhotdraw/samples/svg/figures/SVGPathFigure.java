@@ -46,7 +46,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 
-  /** Creates a new instance. */
   public SVGPathFigure() {
     add(new SVGBezierFigure());
     SVGAttributeKeys.setDefaults(this);

@@ -63,7 +63,6 @@ public class ODGStylesReader {
    */
   private HashMap<String, Style> automaticStyles;
 
-  /** Creates a new instance. */
   public ODGStylesReader() {
     reset();
   }

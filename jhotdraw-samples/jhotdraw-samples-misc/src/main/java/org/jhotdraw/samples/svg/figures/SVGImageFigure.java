@@ -44,7 +44,6 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
   /** The buffered image. This can be null, if we haven't yet parsed the imageData. */
   private BufferedImage bufferedImage;
 
-  /** Creates a new instance. */
   public SVGImageFigure() {
     this(0, 0, 0, 0);
   }

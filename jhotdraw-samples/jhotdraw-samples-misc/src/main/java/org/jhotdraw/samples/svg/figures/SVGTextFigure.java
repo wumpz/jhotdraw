@@ -54,7 +54,6 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   private transient Rectangle2D.Double cachedBounds;
   private transient Rectangle2D.Double cachedDrawingArea;
 
-  /** Creates a new instance. */
   public SVGTextFigure() {
     this("Text");
   }

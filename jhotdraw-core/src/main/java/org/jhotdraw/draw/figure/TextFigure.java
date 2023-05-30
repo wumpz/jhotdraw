@@ -48,7 +48,6 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   // cache of the TextFigure's layout
   protected transient TextLayout textLayout;
 
-  /** Creates a new instance. */
   public TextFigure() {
     this(
         ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")

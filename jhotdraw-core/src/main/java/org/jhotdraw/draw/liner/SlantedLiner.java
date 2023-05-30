@@ -21,7 +21,6 @@ public class SlantedLiner implements Liner {
 
   private double slantSize;
 
-  /** Creates a new instance. */
   public SlantedLiner() {
     this(20);
   }

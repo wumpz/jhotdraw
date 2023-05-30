@@ -38,7 +38,6 @@ public class DefaultDrawing extends AbstractDrawing {
   private static final long serialVersionUID = 1L;
   private boolean needsSorting = false;
 
-  /** Creates a new instance. */
   public DefaultDrawing() {}
 
   @Override

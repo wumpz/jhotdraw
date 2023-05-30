@@ -24,18 +24,14 @@ public class AttributeAction extends AbstractSelectedAction {
   private static final long serialVersionUID = 1L;
   protected Map<AttributeKey<?>, Object> attributes;
 
-  /** Creates a new instance. */
-  /** Creates a new instance. */
   public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value) {
     this(editor, key, value, null, null);
   }
 
-  /** Creates a new instance. */
   public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, Icon icon) {
     this(editor, key, value, null, icon);
   }
 
-  /** Creates a new instance. */
   public <T> AttributeAction(DrawingEditor editor, AttributeKey<T> key, T value, String name) {
     this(editor, key, value, name, null);
   }

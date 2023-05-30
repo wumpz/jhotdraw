@@ -21,7 +21,6 @@ public class ODGPathOutlineHandle extends AbstractHandle {
   private static final Color HANDLE_FILL_COLOR = new Color(0x00a8ff);
   private static final Color HANDLE_STROKE_COLOR = Color.WHITE;
 
-  /** Creates a new instance. */
   public ODGPathOutlineHandle(ODGPathFigure owner) {
     super(owner);
   }

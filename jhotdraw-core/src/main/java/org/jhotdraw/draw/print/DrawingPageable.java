@@ -39,7 +39,6 @@ public class DrawingPageable implements Pageable {
   private PageFormat pageFormat;
   private boolean isAutorotate = false;
 
-  /** Creates a new instance. */
   public DrawingPageable(Drawing drawing) {
     this.drawing = drawing;
     Paper paper = new Paper();

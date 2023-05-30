@@ -58,7 +58,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class BezierFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
-  /** The BezierPath. */
+
   protected BezierPath path;
   /**
    * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
@@ -84,7 +84,6 @@ public class BezierFigure extends AbstractAttributedFigure {
   public BezierFigure(boolean isClosed) {
     path = new BezierPath();
     attr().set(PATH_CLOSED, isClosed);
-    // path.setClosed(isClosed);
   }
 
   // DRAWING

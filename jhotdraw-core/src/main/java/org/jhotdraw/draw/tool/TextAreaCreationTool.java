@@ -73,7 +73,6 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
   /** Rubberband color of the tool. When this is null, the tool does not draw a rubberband. */
   private Color rubberbandColor = null;
 
-  /** Creates a new instance. */
   public TextAreaCreationTool(TextHolderFigure prototype) {
     super(prototype);
   }

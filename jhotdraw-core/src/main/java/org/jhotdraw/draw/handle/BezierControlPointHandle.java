@@ -29,7 +29,6 @@ public class BezierControlPointHandle extends AbstractHandle {
   private Figure transformOwner;
   private BezierPath.Node oldNode;
 
-  /** Creates a new instance. */
   public BezierControlPointHandle(BezierFigure owner, int index, int coord) {
     this(owner, index, coord, owner);
   }

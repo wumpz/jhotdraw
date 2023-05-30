@@ -21,7 +21,6 @@ public class ColorIcon implements javax.swing.Icon {
   private int height;
   private String name;
 
-  /** Creates a new instance. */
   public ColorIcon(int rgb) {
     this(new Color(rgb));
   }

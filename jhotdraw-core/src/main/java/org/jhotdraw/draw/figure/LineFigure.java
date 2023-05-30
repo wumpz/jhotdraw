@@ -26,7 +26,6 @@ public class LineFigure extends BezierFigure {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public LineFigure() {
     addNode(new BezierPath.Node(new Point2D.Double(0, 0)));
     addNode(new BezierPath.Node(new Point2D.Double(0, 0)));

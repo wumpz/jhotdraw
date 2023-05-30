@@ -14,12 +14,10 @@ public abstract class AbstractTransferable implements Transferable {
 
   private DataFlavor[] flavors;
 
-  /** Creates a new instance. */
   public AbstractTransferable(DataFlavor flavor) {
     this.flavors = new DataFlavor[] {flavor};
   }
 
-  /** Creates a new instance. */
   public AbstractTransferable(DataFlavor[] flavors) {
     this.flavors = flavors.clone();
   }

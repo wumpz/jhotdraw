@@ -236,7 +236,6 @@ public class PreferencesUtil extends Preferences {
     throw new UnsupportedOperationException("Not yet implemented");
   }
 
-  /** Creates a new instance. */
   private PreferencesUtil() {}
 
   /**

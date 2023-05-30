@@ -62,12 +62,10 @@ public class DelegationSelectionTool extends SelectionTool {
   /** This variable is set to true, if a mouse pressed event is a popup trigger. */
   private boolean isMousePressedPopupTrigger;
 
-  /** Creates a new instance. */
   public DelegationSelectionTool() {
     this(new ArrayList<Action>(), new ArrayList<Action>());
   }
 
-  /** Creates a new instance. */
   public DelegationSelectionTool(
       Collection<Action> drawingActions, Collection<Action> selectionActions) {
     this.drawingActions = drawingActions;

@@ -73,7 +73,6 @@ public class ConnectionTool extends AbstractTool {
    */
   private boolean isToolDoneAfterCreation = true;
 
-  /** Creates a new instance. */
   public ConnectionTool(ConnectionFigure prototype) {
     this(prototype, null, null);
   }

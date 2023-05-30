@@ -93,7 +93,6 @@ public class SelectionTool extends AbstractTool {
    */
   private boolean isSelectBehindEnabled = true;
 
-  /** Creates a new instance. */
   public SelectionTool() {
     tracker = getSelectAreaTracker();
     trackerHandler = new TrackerHandler();

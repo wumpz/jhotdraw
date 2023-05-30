@@ -33,7 +33,6 @@ public class GroupAction extends AbstractSelectedAction {
    */
   private boolean isGroupingAction;
 
-  /** Creates a new instance. */
   public GroupAction(DrawingEditor editor) {
     this(editor, new GroupFigure(), true);
   }

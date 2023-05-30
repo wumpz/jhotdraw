@@ -25,7 +25,6 @@ public class DependencyFigure extends LineConnectionFigure {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public DependencyFigure() {
     attr().set(STROKE_COLOR, new Color(0x000099));
     attr().set(STROKE_WIDTH, 1d);

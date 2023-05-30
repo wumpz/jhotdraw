@@ -19,7 +19,6 @@ public abstract class Insets2D implements Cloneable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   protected Insets2D() {}
 
   /**

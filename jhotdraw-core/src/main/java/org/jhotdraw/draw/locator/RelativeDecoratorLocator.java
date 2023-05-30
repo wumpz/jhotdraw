@@ -29,7 +29,6 @@ public class RelativeDecoratorLocator extends RelativeLocator {
 
   public RelativeDecoratorLocator() {}
 
-  /** Creates a new instance. */
   public RelativeDecoratorLocator(double relativeX, double relativeY) {
     super(relativeX, relativeY);
   }

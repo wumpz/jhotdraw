@@ -19,7 +19,6 @@ import org.jhotdraw.draw.figure.TextHolderFigure;
  */
 public class FontSizeLocator implements Locator {
 
-  /** Creates a new instance. */
   public FontSizeLocator() {}
 
   /**

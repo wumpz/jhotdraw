@@ -15,7 +15,6 @@ public class GroupFigure extends AbstractAttributedCompositeFigure {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public GroupFigure() {
     setConnectable(false);
   }

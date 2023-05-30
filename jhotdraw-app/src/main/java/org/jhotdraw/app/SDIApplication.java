@@ -137,7 +137,6 @@ public class SDIApplication extends AbstractApplication {
   private static final long serialVersionUID = 1L;
   private Preferences prefs;
 
-  /** Creates a new instance. */
   public SDIApplication() {}
 
   @Override

@@ -27,7 +27,6 @@ public class ODGGroupFigure extends GroupFigure implements ODGFigure {
   private static final long serialVersionUID = 1L;
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<AttributeKey<?>, Object>();
 
-  /** Creates a new instance. */
   public ODGGroupFigure() {
     ODGAttributeKeys.setDefaults(this);
   }

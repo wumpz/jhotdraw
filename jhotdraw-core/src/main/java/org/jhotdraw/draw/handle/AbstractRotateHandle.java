@@ -34,7 +34,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
   private double startTheta;
   private double startLength;
 
-  /** Creates a new instance. */
   public AbstractRotateHandle(Figure owner) {
     super(owner);
   }

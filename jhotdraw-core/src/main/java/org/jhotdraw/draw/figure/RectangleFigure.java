@@ -18,7 +18,6 @@ public class RectangleFigure extends AbstractAttributedFigure {
   private static final long serialVersionUID = 1L;
   protected Rectangle2D.Double rectangle;
 
-  /** Creates a new instance. */
   public RectangleFigure() {
     this(0, 0, 0, 0);
   }

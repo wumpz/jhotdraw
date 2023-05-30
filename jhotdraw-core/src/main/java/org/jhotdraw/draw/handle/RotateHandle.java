@@ -18,7 +18,6 @@ import org.jhotdraw.draw.figure.Figure;
  */
 public class RotateHandle extends AbstractRotateHandle {
 
-  /** Creates a new instance. */
   public RotateHandle(Figure owner) {
     super(owner);
   }

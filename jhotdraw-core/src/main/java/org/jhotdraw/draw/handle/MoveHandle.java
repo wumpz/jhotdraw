@@ -22,7 +22,6 @@ public class MoveHandle extends LocatorHandle {
   /** The previously handled x and y coordinates. */
   private Point2D.Double oldPoint;
 
-  /** Creates a new instance. */
   public MoveHandle(Figure owner, Locator locator) {
     super(owner, locator);
   }

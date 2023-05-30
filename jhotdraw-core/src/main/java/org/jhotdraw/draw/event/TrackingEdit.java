@@ -23,7 +23,6 @@ public class TrackingEdit extends AbstractUndoableEdit {
   private Point2D.Double newValue;
   private final Consumer<Point2D.Double> writeLocation;
 
-  /** Creates a new instance. */
   public TrackingEdit(
       Figure owner,
       Consumer<Point2D.Double> writeLocation,

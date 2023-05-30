@@ -40,7 +40,6 @@ public class PertFactory extends DefaultDOMFactory {
     {ArrowTip.class, "arrowTip"}
   };
 
-  /** Creates a new instance. */
   public PertFactory() {
     register("Net", DefaultDrawing.class, null, null); // do not allow processing
     register(

@@ -15,7 +15,6 @@ import org.jhotdraw.draw.*;
 /** SVGZInputFormat supports reading of uncompressed and compressed SVG images. */
 public class SVGZInputFormat extends SVGInputFormat {
 
-  /** Creates a new instance. */
   public SVGZInputFormat() {}
 
   @Override

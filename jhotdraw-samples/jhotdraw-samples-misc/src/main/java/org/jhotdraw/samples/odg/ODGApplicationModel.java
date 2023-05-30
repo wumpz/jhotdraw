@@ -56,7 +56,6 @@ public class ODGApplicationModel extends DefaultApplicationModel {
   /** This editor is shared by all views. */
   private DefaultDrawingEditor sharedEditor;
 
-  /** Creates a new instance. */
   public ODGApplicationModel() {
     setViewClass(ODGView.class);
   }

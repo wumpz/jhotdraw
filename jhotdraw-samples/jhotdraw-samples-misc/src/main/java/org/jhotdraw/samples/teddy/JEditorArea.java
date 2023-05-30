@@ -16,7 +16,6 @@ public class JEditorArea extends JEditorPane {
   private static final long serialVersionUID = 1L;
   private boolean wrap;
 
-  /** Creates a new instance. */
   public JEditorArea() {
     setEditorKit(new StyledEditorKit());
     initComponents();

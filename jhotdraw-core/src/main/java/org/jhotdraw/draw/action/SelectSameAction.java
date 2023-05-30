@@ -18,7 +18,6 @@ public class SelectSameAction extends AbstractSelectedAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "edit.selectSame";
 
-  /** Creates a new instance. */
   public SelectSameAction(DrawingEditor editor) {
     super(editor);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");

@@ -73,7 +73,6 @@ public class PertApplicationModel extends DefaultApplicationModel {
 
   private HashMap<String, Action> actions;
 
-  /** Creates a new instance. */
   public PertApplicationModel() {}
 
   @Override

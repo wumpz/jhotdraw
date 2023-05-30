@@ -21,7 +21,6 @@ public class FindAction extends AbstractFindAction {
   public static final String ID = AbstractFindAction.ID;
   private FindDialog findDialog;
 
-  /** Creates a new instance. */
   public FindAction(Application app, View v) {
     super(app, v);
   }

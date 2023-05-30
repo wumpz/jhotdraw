@@ -32,7 +32,6 @@ public class EditCanvasAction extends AbstractDrawingViewAction {
   private PropertyChangeListener propertyChangeHandler;
   private Application app;
 
-  /** Creates a new instance. */
   public EditCanvasAction(Application app, DrawingEditor editor) {
     super(editor);
     this.app = app;

@@ -21,7 +21,6 @@ public class ElbowLiner implements Liner {
 
   private double shoulderSize;
 
-  /** Creates a new instance. */
   public ElbowLiner() {
     this(20);
   }

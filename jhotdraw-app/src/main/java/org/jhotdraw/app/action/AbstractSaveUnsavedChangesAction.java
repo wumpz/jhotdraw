@@ -45,7 +45,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
   private static final long serialVersionUID = 1L;
   private Component oldFocusOwner;
 
-  /** Creates a new instance. */
   public AbstractSaveUnsavedChangesAction(Application app, View view) {
     super(app, view);
   }

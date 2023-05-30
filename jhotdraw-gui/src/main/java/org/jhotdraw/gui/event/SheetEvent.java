@@ -21,12 +21,10 @@ public class SheetEvent extends EventObject {
   private Object value;
   private Object inputValue;
 
-  /** Creates a new instance. */
   public SheetEvent(JSheet source) {
     super(source);
   }
 
-  /** Creates a new instance. */
   public SheetEvent(JSheet source, JFileChooser fileChooser, int option, Object value) {
     super(source);
     this.pane = fileChooser;
@@ -34,7 +32,6 @@ public class SheetEvent extends EventObject {
     this.value = value;
   }
 
-  /** Creates a new instance. */
   public SheetEvent(JSheet source, URIChooser chooser, int option, Object value) {
     super(source);
     this.pane = chooser;
@@ -42,7 +39,6 @@ public class SheetEvent extends EventObject {
     this.value = value;
   }
 
-  /** Creates a new instance. */
   public SheetEvent(
       JSheet source, JOptionPane optionPane, int option, Object value, Object inputValue) {
     super(source);

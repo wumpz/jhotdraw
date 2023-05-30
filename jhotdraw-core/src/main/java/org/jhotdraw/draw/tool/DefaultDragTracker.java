@@ -64,7 +64,6 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
   private boolean isDragging;
   private HashSet<Figure> transformedFigures;
 
-  /** Creates a new instance. */
   public DefaultDragTracker(Figure figure) {
     anchorFigure = figure;
   }

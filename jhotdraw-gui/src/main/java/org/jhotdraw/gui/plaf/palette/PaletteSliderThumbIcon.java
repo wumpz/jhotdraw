@@ -49,7 +49,6 @@ public class PaletteSliderThumbIcon extends MultiIcon {
     super(icons);
   }
 
-  /** Creates a new instance. The icon representations are created lazily from the image. */
   public PaletteSliderThumbIcon(Image tiledImage, int tileCount, boolean isTiledHorizontaly) {
     super(tiledImage, tileCount, isTiledHorizontaly);
   }

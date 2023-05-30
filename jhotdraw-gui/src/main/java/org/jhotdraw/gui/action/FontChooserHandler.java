@@ -32,7 +32,7 @@ public class FontChooserHandler extends AbstractSelectedAction implements Proper
   protected int isUpdating;
 
   // protected Map<AttributeKey, Object> attributes;
-  /** Creates a new instance. */
+
   public FontChooserHandler(
       DrawingEditor editor,
       AttributeKey<Font> key,

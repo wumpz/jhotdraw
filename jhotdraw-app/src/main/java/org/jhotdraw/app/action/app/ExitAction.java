@@ -47,7 +47,6 @@ public class ExitAction extends AbstractApplicationAction {
   private Component oldFocusOwner;
   private View unsavedView;
 
-  /** Creates a new instance. */
   public ExitAction(Application app) {
     super(app);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

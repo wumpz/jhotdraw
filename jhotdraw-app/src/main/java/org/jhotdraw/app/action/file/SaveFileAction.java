@@ -55,12 +55,10 @@ public class SaveFileAction extends AbstractViewAction {
   private boolean saveAs;
   private Component oldFocusOwner;
 
-  /** Creates a new instance. */
   public SaveFileAction(Application app, View view) {
     this(app, view, false);
   }
 
-  /** Creates a new instance. */
   public SaveFileAction(Application app, View view, boolean saveAs) {
     super(app, view);
     this.saveAs = saveAs;

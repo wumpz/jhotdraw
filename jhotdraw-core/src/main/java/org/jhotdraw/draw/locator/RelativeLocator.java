@@ -31,12 +31,10 @@ public class RelativeLocator extends AbstractLocator {
   /** If this is set to true, if the locator is transforming with the figure. */
   protected boolean isTransform;
 
-  /** Creates a new instance. */
   public RelativeLocator() {
     this(0, 0, false);
   }
 
-  /** Creates a new instance. */
   public RelativeLocator(double relativeX, double relativeY) {
     this(relativeX, relativeY, false);
   }

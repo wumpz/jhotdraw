@@ -25,7 +25,6 @@ public class PaletteColorWheelChooser extends AbstractColorChooserPanel implemen
   private PaletteColorSliderModel ccModel = new PaletteColorSliderModel(new HSVColorSpace());
   private int updatingChooser;
 
-  /** Creates a new instance. */
   public PaletteColorWheelChooser() {}
 
   /**

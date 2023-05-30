@@ -37,7 +37,6 @@ public class NodeFigure extends TextFigure {
   private static LocatorConnector east;
   private static LocatorConnector west;
 
-  /** Creates a new instance. */
   public NodeFigure() {
     RectangleFigure rf = new RectangleFigure();
     setDecorator(rf);

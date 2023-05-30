@@ -32,7 +32,6 @@ public class BezierScaleHandle extends AbstractHandle {
   private double startTheta;
   private double startLength;
 
-  /** Creates a new instance. */
   public BezierScaleHandle(BezierFigure owner) {
     super(owner);
   }

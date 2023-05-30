@@ -84,7 +84,6 @@ public class JColorWheel extends JPanel {
 
   private ModelHandler modelHandler;
 
-  /** Creates a new instance. */
   public JColorWheel() {
     this(HSBColorSpace.getInstance());
   }

@@ -19,7 +19,6 @@ public class ToggleToolBarAction extends AbstractAction {
   private JToolBar toolBar;
   private PropertyChangeListener propertyHandler;
 
-  /** Creates a new instance. */
   public ToggleToolBarAction(JToolBar toolBar, String label) {
     super(label);
     propertyHandler =

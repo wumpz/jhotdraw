@@ -32,7 +32,6 @@ public class ColorSliderUI extends BasicSliderUI {
   private static final Dimension MINIMUM_HORIZONTAL_SIZE = new Dimension(16, 4);
   private static final Dimension MINIMUM_VERTICAL_SIZE = new Dimension(4, 16);
 
-  /** Creates a new instance. */
   public ColorSliderUI(JSlider b) {
     super(b);
   }

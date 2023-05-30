@@ -27,7 +27,6 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public ODGAttributedFigure() {}
 
   @Override

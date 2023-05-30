@@ -78,7 +78,6 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
   private URIChooser importChooser;
   private URIChooser exportChooser;
 
-  /** Creates a new instance. */
   public AbstractApplication() {}
 
   /** Initializes the application after it has been configured. */

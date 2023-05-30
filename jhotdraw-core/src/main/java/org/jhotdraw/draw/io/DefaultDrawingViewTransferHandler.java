@@ -77,7 +77,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
    */
   private HashSet<Figure> exportedFigures;
 
-  /** Creates a new instance. */
   public DefaultDrawingViewTransferHandler() {}
 
   @Override

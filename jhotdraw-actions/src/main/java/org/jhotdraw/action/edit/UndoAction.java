@@ -47,7 +47,6 @@ public class UndoAction extends AbstractViewAction {
         }
       };
 
-  /** Creates a new instance. */
   public UndoAction(Application app, View view) {
     super(app, view);
     labels.configureAction(this, ID);

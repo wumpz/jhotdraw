@@ -71,7 +71,6 @@ public class NetApplicationModel extends DefaultApplicationModel {
 
   private HashMap<String, Action> actions;
 
-  /** Creates a new instance. */
   public NetApplicationModel() {}
 
   @Override

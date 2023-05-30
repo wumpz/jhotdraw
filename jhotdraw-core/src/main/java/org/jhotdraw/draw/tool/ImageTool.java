@@ -43,12 +43,10 @@ public class ImageTool extends CreationTool {
   protected JFileChooser fileChooser;
   protected boolean useFileDialog;
 
-  /** Creates a new instance. */
   public ImageTool(ImageHolderFigure prototype) {
     super(prototype);
   }
 
-  /** Creates a new instance. */
   public ImageTool(ImageHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
     super(prototype, attributes);
   }

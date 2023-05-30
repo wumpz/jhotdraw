@@ -62,7 +62,6 @@ public class ExportFileAction extends AbstractViewAction {
   private Component oldFocusOwner;
   private boolean proposeFileName;
 
-  /** Creates a new instance. */
   public ExportFileAction(Application app, View view) {
     this(app, view, false);
   }

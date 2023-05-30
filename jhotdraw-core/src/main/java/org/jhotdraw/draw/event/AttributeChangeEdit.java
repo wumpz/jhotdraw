@@ -20,7 +20,6 @@ public class AttributeChangeEdit<T> extends AbstractUndoableEdit {
   private T oldValue;
   private T newValue;
 
-  /** Creates a new instance. */
   public AttributeChangeEdit(Figure owner, AttributeKey<T> name, T oldValue, T newValue) {
     this.owner = owner;
     this.name = name;

@@ -21,7 +21,6 @@ public class CurvedLiner implements Liner {
 
   private double shoulderSize;
 
-  /** Creates a new instance. */
   public CurvedLiner() {
     this(20);
   }

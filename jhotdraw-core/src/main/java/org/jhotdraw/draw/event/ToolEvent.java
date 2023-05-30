@@ -27,7 +27,6 @@ public class ToolEvent extends EventObject {
   private Rectangle invalidatedArea;
   private DrawingView view;
 
-  /** Creates a new instance. */
   public ToolEvent(Tool src, DrawingView view, Rectangle invalidatedArea) {
     super(src);
     this.view = view;

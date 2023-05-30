@@ -22,7 +22,6 @@ public class ODGDrawing extends QuadTreeDrawing {
   private String title;
   private String description;
 
-  /** Creates a new instance. */
   public ODGDrawing() {}
 
   public void setTitle(String newValue) {

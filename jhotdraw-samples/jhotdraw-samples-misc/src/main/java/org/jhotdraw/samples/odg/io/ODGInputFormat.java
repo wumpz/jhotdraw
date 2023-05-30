@@ -52,7 +52,6 @@ public class ODGInputFormat implements InputFormat {
 
   private ODGStylesReader styles;
 
-  /** Creates a new instance. */
   public ODGInputFormat() {}
 
   @Override

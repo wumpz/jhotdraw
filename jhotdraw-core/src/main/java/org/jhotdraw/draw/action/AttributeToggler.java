@@ -33,7 +33,6 @@ public class AttributeToggler<T> extends AbstractAction {
   private T value2;
   private Action compatibleTextAction;
 
-  /** Creates a new instance. */
   public AttributeToggler(DrawingEditor editor, AttributeKey<T> key, T value1, T value2) {
     this(editor, key, value1, value2, null);
   }

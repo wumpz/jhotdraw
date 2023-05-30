@@ -33,7 +33,6 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
   @SuppressWarnings("rawtypes")
   private static final HashMap<String, Set<Enum>> VALUE_TO_ENUM = new HashMap<String, Set<Enum>>();
 
-  /** Creates a new instance. */
   public DefaultDOMFactory() {}
 
   /** register a dom tag processor */

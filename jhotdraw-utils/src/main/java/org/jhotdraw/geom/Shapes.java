@@ -16,7 +16,6 @@ import java.awt.geom.Point2D;
 /** Shapes. */
 public class Shapes {
 
-  /** Creates a new instance. */
   private Shapes() {}
 
   /**

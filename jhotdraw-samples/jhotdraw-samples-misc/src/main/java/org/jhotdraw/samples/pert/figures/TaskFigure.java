@@ -73,7 +73,6 @@ public class TaskFigure extends GraphicalCompositeFigure {
     }
   }
 
-  /** Creates a new instance. */
   public TaskFigure() {
     super(new RectangleFigure());
     setLayouter(new VerticalLayouter());

@@ -23,7 +23,6 @@ public class ToggleLineWrapAction extends AbstractViewAction {
   private ResourceBundleUtil labels =
       ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
 
-  /** Creates a new instance. */
   public ToggleLineWrapAction(Application app, View view) {
     super(app, view);
     labels.configureAction(this, ID);

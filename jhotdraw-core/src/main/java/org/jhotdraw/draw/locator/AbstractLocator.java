@@ -16,7 +16,6 @@ public abstract class AbstractLocator implements Locator, Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public AbstractLocator() {}
 
   @Override

@@ -101,7 +101,6 @@ public class TeddyView extends AbstractView {
   /** The Matcher used to perform find operation. */
   private Matcher matcher;
 
-  /** Creates a new instance. */
   public TeddyView() {
     prefs = PreferencesUtil.userNodeForPackage(TeddyView.class);
     initComponents();

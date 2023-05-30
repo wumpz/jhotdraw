@@ -23,7 +23,6 @@ public class ToggleVisibleAction extends AbstractAction {
   private static final long serialVersionUID = 1L;
   private Component component;
 
-  /** Creates a new instance. */
   public ToggleVisibleAction(Component c, String name) {
     this.component = c;
     putValue(Action.NAME, name);

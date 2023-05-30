@@ -38,7 +38,6 @@ public class ViewPropertyAction extends AbstractViewAction {
         }
       };
 
-  /** Creates a new instance. */
   public ViewPropertyAction(Application app, View view, String propertyName, Object propertyValue) {
     this(app, view, propertyName, propertyValue.getClass(), propertyValue);
   }

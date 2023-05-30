@@ -48,7 +48,6 @@ public class OSXPaletteHandler {
         }
       };
 
-  /** Creates a new instance. */
   public OSXPaletteHandler(OSXApplication app) {
     this.app = app;
     timer =

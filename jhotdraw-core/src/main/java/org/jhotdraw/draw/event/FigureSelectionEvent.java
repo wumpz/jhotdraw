@@ -28,7 +28,6 @@ public class FigureSelectionEvent extends java.util.EventObject {
   private Set<Figure> oldValue;
   private Set<Figure> newValue;
 
-  /** Creates a new instance. */
   public FigureSelectionEvent(DrawingView source, Set<Figure> oldValue, Set<Figure> newValue) {
     super(source);
     this.oldValue = oldValue;

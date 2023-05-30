@@ -41,7 +41,6 @@ public class PrintApplicationFileAction extends PrintFileAction {
   private JFileChooser fileChooser;
   private int entries;
 
-  /** Creates a new instance. */
   public PrintApplicationFileAction(Application app) {
     super(app, null);
     putValue(Action.NAME, "OSX Print File");

@@ -57,7 +57,6 @@ public abstract class MultiIcon implements Icon {
     generateMissingIcons();
   }
 
-  /** Creates a new instance. The icon representations are created lazily from the tiled image. */
   public MultiIcon(Image tiledImage, int tileCount, boolean isTiledHorizontaly) {
     this.tiledImage = tiledImage;
     this.tileCount = tileCount;

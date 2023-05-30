@@ -37,7 +37,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
   /** The bounds of the triangle figure. */
   private Rectangle2D.Double rectangle;
 
-  /** Creates a new instance. */
   public TriangleFigure() {
     this(0, 0, 0, 0);
   }

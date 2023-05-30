@@ -48,7 +48,6 @@ public class BezierTool extends AbstractTool {
 
   private final boolean calculateFittedCurveAfterCreation;
 
-  /** Creates a new instance. */
   public BezierTool(BezierFigure prototype) {
     this(prototype, null);
   }
@@ -57,7 +56,6 @@ public class BezierTool extends AbstractTool {
     this(prototype, null, null, calculateFittedCurveAfterCreation);
   }
 
-  /** Creates a new instance. */
   public BezierTool(BezierFigure prototype, Map<AttributeKey<?>, Object> attributes) {
     this(prototype, attributes, null);
   }

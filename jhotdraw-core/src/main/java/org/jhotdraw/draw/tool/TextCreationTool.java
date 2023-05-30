@@ -55,12 +55,10 @@ public class TextCreationTool extends CreationTool implements ActionListener {
   private FloatingTextField textField;
   private TextHolderFigure typingTarget;
 
-  /** Creates a new instance. */
   public TextCreationTool(TextHolderFigure prototype) {
     super(prototype);
   }
 
-  /** Creates a new instance. */
   public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
     super(prototype, attributes);
   }

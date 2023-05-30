@@ -27,7 +27,6 @@ public class OpenApplicationAction extends AbstractApplicationAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "application.openApplication";
 
-  /** Creates a new instance. */
   public OpenApplicationAction(Application app) {
     super(app);
     putValue(Action.NAME, "OSX Open Application");

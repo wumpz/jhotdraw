@@ -27,7 +27,6 @@ public class LinearGradient implements Gradient {
   private AffineTransform transform;
   private int spreadMethod;
 
-  /** Creates a new instance. */
   public LinearGradient() {}
 
   public LinearGradient(

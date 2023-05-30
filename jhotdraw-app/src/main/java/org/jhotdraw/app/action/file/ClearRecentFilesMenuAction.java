@@ -30,7 +30,6 @@ public class ClearRecentFilesMenuAction extends AbstractApplicationAction {
   public static final String ID = "file.clearRecentFiles";
   private PropertyChangeListener applicationListener;
 
-  /** Creates a new instance. */
   public ClearRecentFilesMenuAction(Application app) {
     super(app);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

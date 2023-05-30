@@ -31,7 +31,6 @@ public class ReOpenApplicationAction extends AbstractApplicationAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "application.reOpen";
 
-  /** Creates a new instance. */
   public ReOpenApplicationAction(Application app) {
     super(app);
     putValue(Action.NAME, "OSX ReOpen Application");

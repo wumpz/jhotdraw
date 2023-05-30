@@ -28,7 +28,6 @@ public class HandleEvent extends EventObject {
   private Rectangle invalidatedArea;
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public HandleEvent(Handle src, Rectangle invalidatedArea) {
     super(src);
     this.invalidatedArea = invalidatedArea;

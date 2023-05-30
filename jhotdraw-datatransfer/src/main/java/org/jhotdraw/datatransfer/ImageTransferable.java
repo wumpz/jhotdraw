@@ -29,7 +29,6 @@ public class ImageTransferable implements Transferable {
     }
   }
 
-  /** Creates a new instance. */
   public ImageTransferable(Image image) {
     this.image = image;
   }

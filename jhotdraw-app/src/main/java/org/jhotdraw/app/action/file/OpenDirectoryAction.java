@@ -31,7 +31,6 @@ public class OpenDirectoryAction extends OpenFileAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "file.openDirectory";
 
-  /** Creates a new instance. */
   public OpenDirectoryAction(Application app) {
     super(app);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");

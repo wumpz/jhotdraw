@@ -23,7 +23,6 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
   private static final int OFFSET = 6;
   private Point originalArc;
 
-  /** Creates a new instance. */
   public RoundRectangleRadiusHandle(Figure owner) {
     super(owner);
   }

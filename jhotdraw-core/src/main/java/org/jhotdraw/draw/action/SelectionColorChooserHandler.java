@@ -25,7 +25,7 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction impleme
   protected int isUpdating;
 
   // protected Map<AttributeKey, Object> attributes;
-  /** Creates a new instance. */
+
   public SelectionColorChooserHandler(
       DrawingEditor editor,
       AttributeKey<Color> key,

@@ -19,7 +19,6 @@ import org.jhotdraw.app.OSXApplication;
  */
 public class Main {
 
-  /** Creates a new instance. */
   public Main() {}
 
   /**

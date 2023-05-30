@@ -40,7 +40,6 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
   protected RoundRectangle2D.Double roundrect;
   public static final double DEFAULT_ARC = 20;
 
-  /** Creates a new instance. */
   public RoundRectangleFigure() {
     this(0, 0, 0, 0);
   }

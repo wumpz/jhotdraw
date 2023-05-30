@@ -87,7 +87,6 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   }
   ;
 
-  /** Creates a new instance. */
   public LabeledLineConnectionFigure() {}
 
   // DRAWING

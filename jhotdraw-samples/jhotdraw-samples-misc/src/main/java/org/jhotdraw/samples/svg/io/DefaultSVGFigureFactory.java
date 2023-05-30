@@ -31,7 +31,6 @@ import org.jhotdraw.samples.svg.figures.SVGTextFigure;
 /** DefaultSVGFigureFactory. */
 public class DefaultSVGFigureFactory implements SVGFigureFactory {
 
-  /** Creates a new instance. */
   public DefaultSVGFigureFactory() {}
 
   @Override

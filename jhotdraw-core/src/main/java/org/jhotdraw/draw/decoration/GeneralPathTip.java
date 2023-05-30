@@ -16,7 +16,6 @@ public class GeneralPathTip extends AbstractLineDecoration {
   private Path2D.Double path;
   double decorationRadius;
 
-  /** Creates a new instance. */
   public GeneralPathTip(Path2D.Double path, double decorationRadius) {
     this(path, decorationRadius, false, true, false);
   }

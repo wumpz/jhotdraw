@@ -50,7 +50,6 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
   public static final String ID = "file.openRecent";
   private URI uri;
 
-  /** Creates a new instance. */
   public OpenRecentFileAction(Application app, URI uri) {
     super(app);
     this.uri = uri;

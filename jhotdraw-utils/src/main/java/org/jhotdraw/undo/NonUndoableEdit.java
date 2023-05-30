@@ -14,7 +14,6 @@ public class NonUndoableEdit extends AbstractUndoableEdit {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public NonUndoableEdit() {}
 
   @Override

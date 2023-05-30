@@ -23,7 +23,6 @@ public class SplitAction extends UngroupAction {
   private ResourceBundleUtil labels =
       ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
 
-  /** Creates a new instance. */
   public SplitAction(DrawingEditor editor) {
     super(editor, new ODGPathFigure());
     labels.configureAction(this, ID);

@@ -46,7 +46,6 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
   /** The buffered image. This can be null, if we haven't yet parsed the imageData. */
   private transient BufferedImage bufferedImage;
 
-  /** Creates a new instance. */
   public ImageFigure() {
     this(0, 0, 0, 0);
   }

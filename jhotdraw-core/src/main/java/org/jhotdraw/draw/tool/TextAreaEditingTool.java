@@ -50,7 +50,6 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
   private FloatingTextArea textArea;
   private TextHolderFigure typingTarget;
 
-  /** Creates a new instance. */
   public TextAreaEditingTool(TextHolderFigure typingTarget) {
     this.typingTarget = typingTarget;
   }

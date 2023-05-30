@@ -33,7 +33,6 @@ public class EditGridAction extends AbstractDrawingViewAction {
   private PropertyChangeListener propertyChangeHandler;
   private Application app;
 
-  /** Creates a new instance. */
   public EditGridAction(Application app, DrawingEditor editor) {
     super(editor);
     this.app = app;

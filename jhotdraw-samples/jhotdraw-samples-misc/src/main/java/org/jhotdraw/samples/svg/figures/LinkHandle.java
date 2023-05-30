@@ -20,7 +20,6 @@ import org.jhotdraw.util.ResourceBundleUtil;
 /** The LinkHandle indicates when a figure has a link. */
 public class LinkHandle extends AbstractHandle {
 
-  /** Creates a new instance. */
   public LinkHandle(Figure owner) {
     super(owner);
   }

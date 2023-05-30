@@ -20,7 +20,6 @@ public class TogglePropertiesPanelAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;
 
-  /** Creates a new instance. */
   public TogglePropertiesPanelAction(Application app, View view) {
     super(app, view);
     setPropertyName("propertiesPanelVisible");

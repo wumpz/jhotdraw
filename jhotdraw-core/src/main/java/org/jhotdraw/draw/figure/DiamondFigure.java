@@ -31,7 +31,6 @@ public class DiamondFigure extends AbstractAttributedFigure {
   /** The bounds of the diamond figure. */
   private Rectangle2D.Double rectangle;
 
-  /** Creates a new instance. */
   public DiamondFigure() {
     this(0, 0, 0, 0);
   }

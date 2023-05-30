@@ -26,7 +26,6 @@ public class ColorTrackImageProducer extends MemoryImageSource {
   private int componentIndex = 0;
   private boolean isHorizontal;
 
-  /** Creates a new instance. */
   public ColorTrackImageProducer(int w, int h, int trackBuffer, boolean isHorizontal) {
     super(w, h, null, 0, w);
     pixels = new int[w * h];
