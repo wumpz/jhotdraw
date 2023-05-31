@@ -40,11 +40,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
     ellipse = new Ellipse2D.Double(x, y, width, height);
   }
 
-  // DRAWING
-  // SHAPE AND BOUNDS
-  // ATTRIBUTES
-  // EDITING
-  // CONNECTING
+  
   @Override
   public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
     return new ChopEllipseConnector(this);
@@ -55,9 +51,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
     return new ChopEllipseConnector(this);
   }
 
-  // COMPOSITE FIGURES
-  // CLONING
-  // EVENT HANDLING
   @Override
   public Rectangle2D.Double getBounds() {
     return (Rectangle2D.Double) ellipse.getBounds2D();

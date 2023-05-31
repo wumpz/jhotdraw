@@ -12,7 +12,6 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.geom.Geom;
 
-/** A {@link Figure} with a rectangular shape. */
 public class RectangleFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
@@ -26,8 +25,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     rectangle = new Rectangle2D.Double(x, y, width, height);
   }
 
-  // DRAWING
-  @Override
+    @Override
   protected void drawFill(Graphics2D g) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     double grow =
@@ -45,8 +43,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     g.draw(r);
   }
 
-  // SHAPE AND BOUNDS
-  @Override
+    @Override
   public Rectangle2D.Double getBounds() {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
@@ -60,8 +57,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     return r;
   }
 
-  /** Checks if a Point2D.Double is inside the figure. */
-  @Override
+    @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) + 1d;
@@ -77,11 +73,6 @@ public class RectangleFigure extends AbstractAttributedFigure {
     rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
   }
 
-  /**
-   * Moves the Figure to a new location.
-   *
-   * @param tx the transformation matrix.
-   */
   @Override
   public void transform(AffineTransform tx) {
     Point2D.Double anchor = getStartPoint();
@@ -106,5 +97,4 @@ public class RectangleFigure extends AbstractAttributedFigure {
     that.rectangle = (Rectangle2D.Double) this.rectangle.clone();
     return that;
   }
-  // EVENT HANDLING
 }

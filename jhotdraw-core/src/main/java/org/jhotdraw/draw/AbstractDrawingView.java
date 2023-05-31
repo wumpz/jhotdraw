@@ -85,8 +85,6 @@ import org.jhotdraw.util.ReversedList;
 /**
  * Implementation of DrawingView using no JComponent as a backend. The displaying container comes
  * with a delegator class. Therefore we have a Swing independend implementaion.
- *
- * @author tw
  */
 public abstract class AbstractDrawingView implements DrawingView, EditableComponent {
 
@@ -112,15 +110,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   private Handle activeHandle;
   private final List<Handle> secondaryHandles = new ArrayList<>();
   private boolean handlesAreValid = true;
-  // TODO replace with AffineTransform to support rotation and more complex transformations from
-  // document to view
-  // private double scaleFactor = 1;
-  // private Point translation = new Point(0, 0);
   private int detailLevel;
   private DrawingEditor editor;
   private JLabel emptyDrawingLabel;
   private boolean paintBackground = true;
   protected BufferedImage backgroundTile;
+  
   private final FigureListener handleInvalidator =
       new FigureListenerAdapter() {
         @Override
@@ -162,7 +157,6 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
   }
 
-  /** Draws the background of the drawing view. */
   protected void drawBackground(Graphics2D g) {
     if (drawing == null) {
       // there is no drawing and thus no canvas
@@ -878,11 +872,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
    */
   @Override
   public Rectangle2D.Double viewToDrawing(Rectangle r) {
-    Point2D.Double pnt = viewToDrawing(new Point(r.x, r.y));
-    Rectangle2D.Double rect = new Rectangle2D.Double(pnt.x, pnt.y, 1, 1);
-    rect.add(viewToDrawing(new Point((int) r.getMaxX(), (int) r.getMinY())));
+    Point2D.Double pnt = viewToDrawing(new Point((int)r.getMinX(), (int)r.getMinY()));
+    Rectangle2D.Double rect = new Rectangle2D.Double(pnt.x, pnt.y, 0, 0);
     rect.add(viewToDrawing(new Point((int) r.getMaxX(), (int) r.getMaxY())));
-    rect.add(viewToDrawing(new Point((int) r.getMinX(), (int) r.getMaxY())));
     return rect;
   }
 

@@ -86,11 +86,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     attr().set(PATH_CLOSED, isClosed);
   }
 
-  // DRAWING
-  // SHAPE AND BOUNDS
-  // ATTRIBUTES
-  // EDITING
-  // CONNECTING
+  
   /**
    * Returns the Figures connector for the specified location. By default a {@link
    * ChopBezierConnector} is returned.
