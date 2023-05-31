@@ -54,27 +54,16 @@ public class TriangleFigure extends AbstractAttributedFigure {
     attr().set(ORIENTATION, direction);
   }
 
-  /**
-   * Returns the Figures connector for the specified location. By default a {@link
-   * org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.
-   */
   @Override
   public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
     return new ChopTriangleConnector(this);
   }
 
-  /**
-   * Returns a compatible connector. By default a {@link
-   * org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.
-   */
   @Override
   public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
     return new ChopTriangleConnector(this);
   }
 
-  // COMPOSITE FIGURES
-  // CLONING
-  // EVENT HANDLING
   @Override
   public Rectangle2D.Double getBounds() {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
@@ -174,7 +163,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     return triangle;
   }
 
-  /** Checks if a Point2D.Double is inside the figure. */
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
     Shape triangle = getBezierPath();
@@ -244,11 +232,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     return Geom.chop(triangle, p);
   }
 
-  /**
-   * Moves the Figure to a new location.
-   *
-   * @param tx the transformation matrix.
-   */
   @Override
   public void transform(AffineTransform tx) {
     Point2D.Double anchor = getStartPoint();

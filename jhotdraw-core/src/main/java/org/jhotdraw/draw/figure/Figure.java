@@ -107,12 +107,6 @@ public interface Figure extends Cloneable, Serializable {
   /** The name of the "transformable" property. */
   public static final String TRANSFORMABLE_PROPERTY = "transformable";
 
-  // DRAWING
-  /**
-   * Draws the figure.
-   *
-   * @param g The Graphics2D to draw to.
-   */
   public void draw(Graphics2D g);
 
   /**
@@ -131,7 +125,6 @@ public interface Figure extends Cloneable, Serializable {
    */
   public boolean isVisible();
 
-  // BOUNDS
   /**
    * Sets the logical and untransformed bounds of the figure.
    *
@@ -249,63 +242,8 @@ public interface Figure extends Cloneable, Serializable {
    */
   public void transform(AffineTransform tx);
 
-  // ATTRIBUTES
-
   public Attributes attr();
-  //  /**
-  //   * Sets an attribute on the figure and calls {@code attributeChanged} on all registered {@code
-  //   * FigureListener}s if the attribute value has changed.
-  //   *
-  //   * <p>For efficiency reasons, the drawing is not automatically repainted. If you want the
-  // drawing
-  //   * to be repainted when the attribute is changed, you can either use {@code key.set(figure,
-  //   * value); } or
-  //   *
-  //   * <pre>
-  //   * figure.willChange();
-  //   * figure.set(...);
-  //   * figure.changed();
-  //   * </pre>
-  //   *
-  //   * @see AttributeKey#set
-  //   */
-  //  public <T> void set(AttributeKey<T> key, T value);
-  //
-  //  /**
-  //   * Gets an attribute from the Figure.
-  //   *
-  //   * @see AttributeKey#get
-  //   * @return Returns the attribute value. If the Figure does not have an attribute with the
-  //   *     specified key, returns key.getDefaultValue().
-  //   */
-  //  public <T> T get(AttributeKey<T> key);
-  //
-  //  /**
-  //   * Returns a view to all attributes of this figure. By convention, an unmodifiable map is
-  //   * returned.
-  //   */
-  //  public Map<AttributeKey<?>, Object> getAttributes();
-  //
-  //  /**
-  //   * Is this attribute enabled for this figure to be processed.
-  //   *
-  //   * @param key
-  //   * @return
-  //   */
-  //  public default boolean isAttributeEnabled(AttributeKey<?> key) {
-  //    return true;
-  //  }
-  //
-  //  /**
-  //   * Gets data which can be used to restore the attributes of the figure after a set has been
-  //   * applied to it.
-  //   */
-  //  public Object getAttributesRestoreData();
-  //
-  //  /** Restores the attributes of the figure to a previously stored state. */
-  //  public void restoreAttributesTo(Object restoreData);
-
-  // EDITING
+  
   /**
    * Returns true, if the user may select this figure. If this operation returns false, Tool's
    * should not select this figure on behalf of the user.
@@ -371,7 +309,6 @@ public interface Figure extends Cloneable, Serializable {
   /** Returns a tooltip for the specified location on the figure. */
   public String getToolTipText(Point2D.Double p);
 
-  // CONNECTING
   /** Returns true if this Figure can be connected to a {@link ConnectionFigure}. */
   public boolean isConnectable();
 
@@ -403,7 +340,6 @@ public interface Figure extends Cloneable, Serializable {
    */
   public Collection<Connector> getConnectors(ConnectionFigure prototype);
 
-  // COMPOSITE FIGURES
   /** Checks whether the given figure is contained in this figure. A figure includes itself. */
   public boolean includes(Figure figure);
 
@@ -438,7 +374,6 @@ public interface Figure extends Cloneable, Serializable {
    */
   public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap);
 
-  // EVENT HANDLING
   /**
    * Informs a figure, that it has been added to a drawing. The figure must inform all
    * FigureListeners that it has been added.
@@ -475,7 +410,6 @@ public interface Figure extends Cloneable, Serializable {
    */
   public void changed();
 
-  /** Fires a <code>FigureListener.figureRequestRemove</code> event. */
   public void requestRemove();
 
   /**
@@ -488,35 +422,9 @@ public interface Figure extends Cloneable, Serializable {
    */
   public boolean handleDrop(Point2D.Double p, Collection<Figure> droppedFigures, DrawingView view);
 
-  /**
-   * Handles a mouse click.
-   *
-   * @param p The location of the mouse event.
-   * @param evt The mouse event.
-   * @param view The drawing view which is the source of the mouse event.
-   * @return Returns true, if the event was consumed.
-   */
   public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view);
 
-  /** Adds a listener for FigureEvent's. */
   public void addFigureListener(FigureListener l);
 
-  /** Removes a listener for FigureEvent's. */
   public void removeFigureListener(FigureListener l);
-
-  //  /**
-  //   * Adds a {@code PropertyChangeListener} which can optionally be wrapped into a {@code
-  //   * WeakPropertyChangeListener}.
-  //   *
-  //   * @param listener
-  //   */
-  //  public void addPropertyChangeListener(PropertyChangeListener listener);
-  //
-  //  /**
-  //   * Removes a {@code PropertyChangeListener}. If the listener was added wrapped into a {@code
-  //   * WeakPropertyChangeListener}, the {@code WeakPropertyChangeListener} is removed.
-  //   *
-  //   * @param listener
-  //   */
-  //  public void removePropertyChangeListener(PropertyChangeListener listener);
 }
