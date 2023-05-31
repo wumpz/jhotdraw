@@ -25,7 +25,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     rectangle = new Rectangle2D.Double(x, y, width, height);
   }
 
-    @Override
+  @Override
   protected void drawFill(Graphics2D g) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     double grow =
@@ -43,7 +43,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     g.draw(r);
   }
 
-    @Override
+  @Override
   public Rectangle2D.Double getBounds() {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
@@ -57,7 +57,7 @@ public class RectangleFigure extends AbstractAttributedFigure {
     return r;
   }
 
-    @Override
+  @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) + 1d;

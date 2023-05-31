@@ -115,7 +115,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   private JLabel emptyDrawingLabel;
   private boolean paintBackground = true;
   protected BufferedImage backgroundTile;
-  
+
   private final FigureListener handleInvalidator =
       new FigureListenerAdapter() {
         @Override
@@ -872,7 +872,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
    */
   @Override
   public Rectangle2D.Double viewToDrawing(Rectangle r) {
-    Point2D.Double pnt = viewToDrawing(new Point((int)r.getMinX(), (int)r.getMinY()));
+    Point2D.Double pnt = viewToDrawing(new Point((int) r.getMinX(), (int) r.getMinY()));
     Rectangle2D.Double rect = new Rectangle2D.Double(pnt.x, pnt.y, 0, 0);
     rect.add(viewToDrawing(new Point((int) r.getMaxX(), (int) r.getMaxY())));
     return rect;

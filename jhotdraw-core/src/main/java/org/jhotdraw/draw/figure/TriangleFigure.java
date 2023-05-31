@@ -54,7 +54,6 @@ public class TriangleFigure extends AbstractAttributedFigure {
     attr().set(ORIENTATION, direction);
   }
 
-  
   /**
    * Returns the Figures connector for the specified location. By default a {@link
    * org.jhotdraw.draw.connector.ChopTriangleConnector} is returned.

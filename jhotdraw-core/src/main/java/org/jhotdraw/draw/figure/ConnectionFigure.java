@@ -46,7 +46,6 @@ import org.jhotdraw.geom.path.BezierPath;
  */
 public interface ConnectionFigure extends Figure {
 
-  
   /**
    * Sets the start {@code Connector} of the connection. Set this to null to disconnect the start
    * connection.

@@ -40,7 +40,6 @@ public class EllipseFigure extends AbstractAttributedFigure {
     ellipse = new Ellipse2D.Double(x, y, width, height);
   }
 
-  
   @Override
   public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
     return new ChopEllipseConnector(this);
