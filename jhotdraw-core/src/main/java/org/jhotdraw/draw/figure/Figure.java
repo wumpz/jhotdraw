@@ -243,7 +243,7 @@ public interface Figure extends Cloneable, Serializable {
   public void transform(AffineTransform tx);
 
   public Attributes attr();
-  
+
   /**
    * Returns true, if the user may select this figure. If this operation returns false, Tool's
    * should not select this figure on behalf of the user.
