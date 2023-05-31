@@ -7,6 +7,7 @@
 > **ATTENTION**: Due to the refactoring in 10.0-SNAPSHOT this version breaks API of JHotdraw. Some adaptions are needed, e.g.: attributes now using `attr()`, ...
 
 * heavy restructuring of classes and interfaces and cleanup
+  * removed FigureListener from some Figures and Handles
   * complete attribute handling of Figure moved in class Attributes, access over **attr()**
   * Drawing has no dependency to CompositeFigure anymore and implementations do not use 
    AbstractCompositeFigure implementations
