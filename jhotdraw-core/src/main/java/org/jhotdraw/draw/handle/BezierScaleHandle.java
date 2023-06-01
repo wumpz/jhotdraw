@@ -50,29 +50,11 @@ public class BezierScaleHandle extends AbstractHandle {
         getEditor().getHandleAttribute(HandleAttributeKeys.SCALE_HANDLE_STROKE_COLOR));
   }
 
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
-  }
-
-  public Point getLocation() {
-    if (location == null) {
-      return
-      /*location =*/ view.drawingToView(getOrigin());
-    }
-    return location;
-  }
-
   private BezierFigure getBezierFigure() {
     return (BezierFigure) getOwner();
   }
 
-  private Point2D.Double getOrigin() {
+  protected Point2D.Double getDrawingLocation() {
     // find a nice place to put handle
     // Need to pick a place that will not overlap with point handle
     // and is internal to polygon

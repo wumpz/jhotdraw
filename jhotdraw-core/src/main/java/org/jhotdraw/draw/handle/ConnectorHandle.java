@@ -55,7 +55,7 @@ public class ConnectorHandle extends AbstractHandle {
     return connector.getAnchor();
   }
 
-  public Point getLocation() {
+  public Point getScreenLocation() {
     return view.drawingToView(connector.getAnchor());
   }
 
@@ -225,16 +225,6 @@ public class ConnectorHandle extends AbstractHandle {
       return target;
     }
     return null;
-  }
-
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
   }
 
   @Override

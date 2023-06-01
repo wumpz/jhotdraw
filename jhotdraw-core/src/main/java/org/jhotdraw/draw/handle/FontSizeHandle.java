@@ -48,16 +48,6 @@ public class FontSizeHandle extends LocatorHandle {
   }
 
   @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
-  }
-
-  @Override
   public void trackStart(Point anchor, int modifiersEx) {
     TextHolderFigure textOwner = (TextHolderFigure) getOwner();
     oldSize = newSize = textOwner.getFontSize();

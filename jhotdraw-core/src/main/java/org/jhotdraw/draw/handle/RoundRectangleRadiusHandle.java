@@ -44,16 +44,6 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     }
   }
 
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(locate());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
-  }
-
   private Point locate() {
     RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
     Rectangle r = view.drawingToView(owner.getBounds());

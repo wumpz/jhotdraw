@@ -29,7 +29,7 @@ public class RotateHandle extends AbstractRotateHandle {
   }
 
   @Override
-  protected Point2D.Double getOrigin() {
+  protected Point2D.Double getDrawingLocation() {
     // This handle is placed above the figure.
     // We move it up by a handlesizes, so that it won't overlap with
     // the handles from TransformHandleKit.

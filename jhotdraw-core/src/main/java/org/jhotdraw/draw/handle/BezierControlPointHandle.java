@@ -56,15 +56,16 @@ public class BezierControlPointHandle extends AbstractHandle {
     return transformOwner;
   }
 
-  protected Point getLocation() {
+  @Override
+  protected Point2D.Double getDrawingLocation() {
     if (getBezierFigure().getNodeCount() > index) {
       Point2D.Double p = getBezierFigure().getPoint(index, controlPointIndex);
       if (getTransformOwner().attr().get(TRANSFORM) != null) {
         getTransformOwner().attr().get(TRANSFORM).transform(p, p);
       }
-      return view.drawingToView(p);
+      return p;
     } else {
-      return new Point(10, 10);
+      return null;
     }
   }
 
@@ -138,16 +139,6 @@ public class BezierControlPointHandle extends AbstractHandle {
         drawCircle(g, handleFillColor, handleStrokeColor);
       }
     }
-  }
-
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
   }
 
   @Override

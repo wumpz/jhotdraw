@@ -39,7 +39,7 @@ public class OrientationHandle extends AbstractHandle {
     return false;
   }
 
-  private Point2D.Double getLocation() {
+  protected Point2D.Double getDrawingLocation() {
     Figure owner = getOwner();
     Rectangle2D.Double r = owner.getBounds();
     Point2D.Double p;
@@ -72,17 +72,6 @@ public class OrientationHandle extends AbstractHandle {
         break;
     }
     return p;
-  }
-
-  @Override
-  protected Rectangle basicGetBounds() {
-    Point p = view.drawingToView(getLocation());
-    Rectangle r = new Rectangle(p);
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
   }
 
   @Override

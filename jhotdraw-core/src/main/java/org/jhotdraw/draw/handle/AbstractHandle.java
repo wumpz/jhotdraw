@@ -15,8 +15,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import javax.swing.event.EventListenerList;
@@ -93,6 +95,7 @@ public abstract class AbstractHandle implements Handle {
         getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_FILL_COLOR),
         getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_STROKE_COLOR));
   }
+
   /** Gets and caches actual handles bounds. The computation itself is done in basicGetBounds. */
   @Override
   public final Rectangle getBounds() {
@@ -101,7 +104,7 @@ public abstract class AbstractHandle implements Handle {
     }
     return new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
   }
-  /** Returns a cursor for the handle. */
+
   @Override
   public Cursor getCursor() {
     return Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR);
@@ -177,7 +180,26 @@ public abstract class AbstractHandle implements Handle {
     invalidate();
   }
 
-  protected abstract Rectangle basicGetBounds();
+  protected Rectangle basicGetBounds() {
+    Rectangle r = new Rectangle(getScreenLocation());
+    int h = getHandlesize();
+    r.x -= h / 2;
+    r.y -= h / 2;
+    r.width = r.height = h;
+    return r;
+  }
+
+  protected void setDrawingLocation(Point2D.Double p) {}
+
+  protected Point2D.Double getDrawingLocation() {
+    return null;
+  }
+
+  protected Point getScreenLocation() {
+    return Optional.ofNullable(getDrawingLocation())
+        .map(pnt -> view.drawingToView(pnt))
+        .orElseGet(() -> new Point(10, 10));
+  }
 
   protected void drawCircle(Graphics2D g, Color fill, Color stroke) {
     Rectangle r = getBounds();

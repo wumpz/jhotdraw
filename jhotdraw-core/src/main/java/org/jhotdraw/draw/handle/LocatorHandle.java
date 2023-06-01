@@ -27,21 +27,8 @@ public abstract class LocatorHandle extends AbstractHandle {
     locator = l;
   }
 
-  public Point2D.Double getLocationOnDrawing() {
-    return locator.locate(getOwner());
-  }
-
-  public Point getLocation() {
-    return view.drawingToView(locator.locate(getOwner()));
-  }
-
   @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
+  public Point2D.Double getDrawingLocation() {
+    return locator.locate(getOwner());
   }
 }

@@ -100,30 +100,21 @@ public class BezierNodeHandle extends AbstractHandle {
     return (BezierFigure) super.getOwner();
   }
 
-  protected Point getLocation() {
+  @Override
+  protected Point2D.Double getDrawingLocation() {
     if (getOwner().getNodeCount() > index) {
       Point2D.Double p = getOwner().getPoint(index, 0);
       if (getTransformOwner().attr().get(TRANSFORM) != null) {
         getTransformOwner().attr().get(TRANSFORM).transform(p, p);
       }
-      return view.drawingToView(p);
+      return p;
     } else {
-      return new Point(10, 10);
+      return null;
     }
   }
 
   protected BezierPath.Node getBezierNode() {
     return getOwner().getNodeCount() > index ? getOwner().getNode(index) : null;
-  }
-
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
   }
 
   protected Figure getTransformOwner() {

@@ -170,7 +170,7 @@ public class TransformHandleKit {
     }
 
     protected void drawArc(Graphics2D g) {
-      Point p = getLocation();
+      Point p = getScreenLocation();
       g.drawArc(p.x, p.y, 6, 6, 0, 180);
     }
 
@@ -194,7 +194,7 @@ public class TransformHandleKit {
         return;
       }
       geometry = getOwner().getTransformRestoreData();
-      Point location = getLocation();
+      Point location = getScreenLocation();
       dx = -anchor.x + location.x;
       dy = -anchor.y + location.y;
     }

@@ -9,7 +9,6 @@ package org.jhotdraw.draw.handle;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -72,12 +71,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
   /** Connect the connection with the given figure. */
   protected abstract void connect(Connector c);
 
-  /** Sets the location of the connectableConnector point. */
-  protected abstract void setLocation(Point2D.Double p);
-
-  /** Returns the start point of the connection. */
-  protected abstract Point2D.Double getLocation();
-
   /** Gets the side of the connection that is unaffected by the change. */
   protected Connector getSource() {
     if (getTarget() == getOwner().getStartConnector()) {
@@ -112,7 +105,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
       }
     }
     getOwner().willChange();
-    setLocation(p);
+    setDrawingLocation(p);
     getOwner().changed();
     repaintConnectors();
   }
@@ -154,7 +147,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     if (target == null) {
       target = savedTarget;
     }
-    setLocation(p);
+    setDrawingLocation(p);
     if (target != savedTarget) {
       disconnect();
       connect(target);
@@ -224,18 +217,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
 
   protected void setPotentialTarget(Connector newTarget) {
     this.connectableConnector = newTarget;
-  }
-
-  @Override
-  protected Rectangle basicGetBounds() {
-    // if (connection.getPointCount() == 0) return new Rectangle(0, 0, getHandlesize(),
-    // getHandlesize());
-    Point center = view.drawingToView(getLocation());
-    return new Rectangle(
-        center.x - getHandlesize() / 2,
-        center.y - getHandlesize() / 2,
-        getHandlesize(),
-        getHandlesize());
   }
 
   protected BezierFigure getBezierFigure() {

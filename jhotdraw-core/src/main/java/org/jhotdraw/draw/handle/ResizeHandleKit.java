@@ -151,7 +151,7 @@ public class ResizeHandleKit {
         return;
       }
       geometry = getOwner().getTransformRestoreData();
-      Point location = getLocation();
+      Point location = getScreenLocation();
       sx = -anchor.x + location.x;
       sy = -anchor.y + location.y;
       sb = getOwner().getBounds();

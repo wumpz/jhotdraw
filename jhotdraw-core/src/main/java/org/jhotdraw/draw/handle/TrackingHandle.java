@@ -59,26 +59,17 @@ public class TrackingHandle extends AbstractHandle {
         getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_STROKE_COLOR));
   }
 
-  protected Point getLocation() {
+  @Override
+  protected Point2D.Double getDrawingLocation() {
     Point2D.Double location = readLocation.get();
     if (location != null) {
       if (getOwner().attr().get(TRANSFORM) != null) {
         getOwner().attr().get(TRANSFORM).transform(location, location);
       }
-      return view.drawingToView(location);
+      return location;
     } else {
-      return new Point(10, 10);
+      return null;
     }
-  }
-
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
   }
 
   private Point2D.Double oldPoint = null;

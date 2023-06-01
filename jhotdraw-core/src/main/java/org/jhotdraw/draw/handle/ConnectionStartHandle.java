@@ -44,7 +44,7 @@ public class ConnectionStartHandle extends AbstractConnectionHandle {
 
   /** Sets the start point of the connection. */
   @Override
-  protected void setLocation(Point2D.Double p) {
+  protected void setDrawingLocation(Point2D.Double p) {
     getOwner().willChange();
     getOwner().setStartPoint(p);
     getOwner().changed();
@@ -52,7 +52,7 @@ public class ConnectionStartHandle extends AbstractConnectionHandle {
 
   /** Returns the start point of the connection. */
   @Override
-  protected Point2D.Double getLocation() {
+  protected Point2D.Double getDrawingLocation() {
     return getOwner().getStartPoint();
   }
 

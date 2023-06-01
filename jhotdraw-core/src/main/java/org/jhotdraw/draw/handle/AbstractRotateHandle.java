@@ -10,7 +10,6 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -65,23 +64,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     }
   }
 
-  @Override
-  protected Rectangle basicGetBounds() {
-    Rectangle r = new Rectangle(getLocation());
-    int h = getHandlesize();
-    r.x -= h / 2;
-    r.y -= h / 2;
-    r.width = r.height = h;
-    return r;
-  }
-
-  public Point getLocation() {
-    if (location == null) {
-      return view.drawingToView(getOrigin());
-    }
-    return location;
-  }
-
   protected Rectangle2D.Double getTransformedBounds() {
     Figure owner = getOwner();
     Rectangle2D.Double bounds = owner.getBounds();
@@ -102,8 +84,6 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
   protected double getStartTheta() {
     return startTheta;
   }
-
-  protected abstract Point2D.Double getOrigin();
 
   protected abstract Point2D.Double getCenter();
 
