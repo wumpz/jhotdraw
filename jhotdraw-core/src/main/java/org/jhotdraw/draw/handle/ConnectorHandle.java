@@ -55,6 +55,7 @@ public class ConnectorHandle extends AbstractHandle {
     return connector.getAnchor();
   }
 
+  @Override
   public Point getScreenLocation() {
     return view.drawingToView(connector.getAnchor());
   }

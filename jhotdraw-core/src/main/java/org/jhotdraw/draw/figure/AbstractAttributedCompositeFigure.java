@@ -662,6 +662,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
           this::fireAttributeChanged,
           Attributes.attrSupplier(() -> AbstractAttributedCompositeFigure.this.getChildren()));
 
+  @Override
   public Attributes attr() {
     return attributes;
   }
@@ -707,6 +708,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     return AttributeKeys.getStroke(this, 1.0);
   }
 
+  @Override
   public double getStrokeMiterLimitFactor() {
     Number value = (Number) attr().get(AttributeKeys.STROKE_MITER_LIMIT);
     return (value != null) ? value.doubleValue() : 10f;

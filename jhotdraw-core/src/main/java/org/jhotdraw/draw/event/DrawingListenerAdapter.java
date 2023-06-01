@@ -23,11 +23,15 @@ package org.jhotdraw.draw.event;
  * @author tw
  */
 public class DrawingListenerAdapter implements DrawingListener {
+  @Override
   public void figureAdded(DrawingEvent e) {}
 
+  @Override
   public void figureRemoved(DrawingEvent e) {}
 
+  @Override
   public void drawingChanged(DrawingEvent e) {}
 
+  @Override
   public void drawingAttributeChanged(DrawingEvent e) {}
 }

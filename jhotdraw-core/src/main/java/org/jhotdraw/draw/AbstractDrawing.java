@@ -92,6 +92,7 @@ public abstract class AbstractDrawing implements Drawing {
     listenerList.add(UndoableEditListener.class, l);
   }
 
+  @Override
   public Attributes attr() {
     return attributes;
   }

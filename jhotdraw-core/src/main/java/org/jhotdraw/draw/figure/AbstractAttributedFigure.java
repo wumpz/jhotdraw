@@ -63,6 +63,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   private Attributes attributes = new Attributes(this::fireAttributeChanged);
 
+  @Override
   public Attributes attr() {
     return attributes;
   }

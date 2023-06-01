@@ -39,6 +39,7 @@ public class OrientationHandle extends AbstractHandle {
     return false;
   }
 
+  @Override
   protected Point2D.Double getDrawingLocation() {
     Figure owner = getOwner();
     Rectangle2D.Double r = owner.getBounds();

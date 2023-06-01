@@ -54,6 +54,7 @@ public class BezierScaleHandle extends AbstractHandle {
     return (BezierFigure) getOwner();
   }
 
+  @Override
   protected Point2D.Double getDrawingLocation() {
     // find a nice place to put handle
     // Need to pick a place that will not overlap with point handle
