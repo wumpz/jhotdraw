@@ -28,15 +28,6 @@ public class NullHandle extends LocatorHandle {
     return Cursor.getDefaultCursor();
   }
 
-  @Override
-  public void trackStart(Point anchor, int modifiersEx) {}
-
-  @Override
-  public void trackStep(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
-  public void trackEnd(Point anchor, Point lead, int modifiersEx) {}
-
   /** Creates handles for each lead of a figure and adds them to the provided collection. */
   public static void addLeadHandles(Figure f, Collection<Handle> handles) {
     handles.add(new NullHandle(f, new RelativeLocator(0f, 0f)));

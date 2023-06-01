@@ -123,15 +123,6 @@ public class BoundsOutlineHandle extends AbstractHandle {
   }
 
   @Override
-  public void trackStart(Point anchor, int modifiersEx) {}
-
-  @Override
-  public void trackStep(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
-  public void trackEnd(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
   public void draw(Graphics2D g) {
     Shape bounds = getOwner().getBounds();
     if (getOwner().attr().get(TRANSFORM) != null) {

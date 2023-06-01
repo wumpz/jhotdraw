@@ -49,15 +49,6 @@ public class BezierOutlineHandle extends AbstractHandle {
   }
 
   @Override
-  public void trackStart(Point anchor, int modifiersEx) {}
-
-  @Override
-  public void trackStep(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
-  public void trackEnd(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
   public void draw(Graphics2D g) {
     BezierFigure owner = getOwner();
     Shape bounds = owner.getBezierPath();

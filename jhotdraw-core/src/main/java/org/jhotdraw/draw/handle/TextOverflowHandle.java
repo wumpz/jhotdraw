@@ -69,15 +69,6 @@ public class TextOverflowHandle extends AbstractHandle {
   }
 
   @Override
-  public void trackStart(Point anchor, int modifiersEx) {}
-
-  @Override
-  public void trackStep(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
-  public void trackEnd(Point anchor, Point lead, int modifiersEx) {}
-
-  @Override
   public String getToolTipText(Point p) {
     return (getOwner().isTextOverflow())
         ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")

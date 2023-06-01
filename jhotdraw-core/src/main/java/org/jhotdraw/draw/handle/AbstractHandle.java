@@ -176,6 +176,15 @@ public abstract class AbstractHandle implements Handle {
   public void trackDoubleClick(Point p, int modifiersEx) {}
 
   @Override
+  public void trackStart(Point anchor, int modifiersEx) {}
+
+  @Override
+  public void trackStep(Point anchor, Point lead, int modifiersEx) {}
+
+  @Override
+  public void trackEnd(Point anchor, Point lead, int modifiersEx) {}
+
+  @Override
   public void viewTransformChanged() {
     invalidate();
   }
