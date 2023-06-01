@@ -29,11 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * Path storage as a List of Nodes. This is simply a decorator around a real Path2D.Double.
- *
- * @author tw
- */
+/** Path storage as a List of Nodes. This is simply a decorator around a real Path2D.Double. */
 public class MutablePath2D implements Shape {
 
   protected final List<Node> nodes = new ArrayList<>();
@@ -41,6 +37,10 @@ public class MutablePath2D implements Shape {
   private Path2D.Double pathCache = null;
 
   private int windingRule = PathIterator.WIND_NON_ZERO;
+
+  public int size() {
+    return nodes.size();
+  }
 
   @Override
   public boolean contains(double x, double y) {
@@ -105,15 +105,19 @@ public class MutablePath2D implements Shape {
     }
     invalidatePathCache();
   }
-  
+
   public void changeNode(int idx, Consumer<Node> change) {
     change.accept(nodes.get(idx));
     invalidatePathCache();
   }
-  
+
   public void removeNode(int idx) {
     nodes.remove(idx);
     invalidatePathCache();
+  }
+
+  public Point2D.Double getNodePoint(int idx) {
+    return nodes.get(idx).getPoint();
   }
 
   public Path2D.Double toPath2D() {
@@ -125,6 +129,7 @@ public class MutablePath2D implements Shape {
       switch (node.pointType) {
         case PathIterator.SEG_MOVETO -> path.moveTo(node.values[0], node.values[1]);
         case PathIterator.SEG_LINETO -> path.lineTo(node.values[0], node.values[1]);
+        case PathIterator.SEG_CLOSE -> path.closePath();
       }
     }
     pathCache = path;
@@ -152,7 +157,7 @@ public class MutablePath2D implements Shape {
       values[1] = y;
       return this;
     }
-    
+
     public Point2D.Double getPoint() {
       return new Point2D.Double(values[0], values[1]);
     }

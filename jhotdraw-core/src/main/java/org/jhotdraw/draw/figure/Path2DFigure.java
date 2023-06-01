@@ -7,26 +7,33 @@
  */
 package org.jhotdraw.draw.figure;
 
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+
+import java.awt.Graphics2D;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
-import javax.swing.undo.*;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.TrackingHandle;
+import org.jhotdraw.geom.GrowStroke;
+import org.jhotdraw.geom.path.MutablePath2D;
 
-public abstract class Path2DFigure extends AbstractAttributedFigure {
+public class Path2DFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
-  private final Path2D.Double path = new Path2D.Double();
+  private final MutablePath2D path = new MutablePath2D();
 
   public Path2DFigure() {
     setConnectable(false);
   }
 
-  // DRAWING
-  // SHAPE AND BOUNDS
-  // ATTRIBUTES
-  // EDITING
+  @Override
+  public boolean contains(Point2D.Double p, double scaleDenominator) {
+    return path.contains(p);
+  }
+
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
     if (detailLevel == -1 || detailLevel == 0) {
@@ -35,23 +42,30 @@ public abstract class Path2DFigure extends AbstractAttributedFigure {
       List<Handle> handles = new ArrayList<>();
       switch (detailLevel) {
         case 1:
-          PathIterator pathIterator = path.getPathIterator(null);
-          //          while (!pathIterator.isDone()) {
-          //            switch (pathIterator.
-          //            handles.add(new )
-          //          }
-
+          for (int i = 0; i < path.size(); i++) {
+            int idx = i;
+            handles.add(
+                new TrackingHandle(
+                    this,
+                    () -> path.getNodePoint(idx),
+                    p -> path.changeNode(idx, node -> node.withPoint(p.x, p.y))));
+          }
           break;
       }
       return handles;
     }
   }
-  // CONNECTING
-  // COMPOSITE FIGURES
-  // CLONING
-  // EVENT HANDLING
 
-  /** Handles a mouse click. */
+  @Override
+  public Rectangle2D.Double getBounds() {
+    return (Rectangle2D.Double)path.getBounds2D();
+  }
+
+  @Override
+  public Object getTransformRestoreData() {
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  }
+
   @Override
   public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
     //    if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 0) {
@@ -84,5 +98,36 @@ public abstract class Path2DFigure extends AbstractAttributedFigure {
     //      }
     //    }
     return false;
+  }
+
+  @Override
+  public void restoreTransformTo(Object restoreData) {
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  }
+
+  @Override
+  public void transform(AffineTransform tx) {
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  }
+
+  @Override
+  protected void drawStroke(Graphics2D g) {
+    // if (isClosed()) {
+    double grow =
+        AttributeKeys.getPerpendicularDrawGrowth(this, AttributeKeys.getScaleFactorFromGraphics(g));
+    if (grow == 0d) {
+      g.draw(path);
+    } else {
+      GrowStroke gs =
+          new GrowStroke(
+              grow,
+              AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
+                  * attr().get(STROKE_MITER_LIMIT));
+      g.draw(gs.createStrokedShape(path));
+    }
+    //    } else {
+    //      g.draw(getCappedPath());
+    //    }
+    //    drawCaps(g);
   }
 }

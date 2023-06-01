@@ -34,6 +34,11 @@ public class TrackingHandle extends AbstractHandle {
   private CompositeEdit edit;
 
   public TrackingHandle(
+      Figure owner, Supplier<Point2D.Double> readLocation, Consumer<Point2D.Double> writeLocation) {
+    this(owner, readLocation, writeLocation, null, null);
+  }
+
+  public TrackingHandle(
       Figure owner,
       Supplier<Point2D.Double> readLocation,
       Consumer<Point2D.Double> writeLocation,

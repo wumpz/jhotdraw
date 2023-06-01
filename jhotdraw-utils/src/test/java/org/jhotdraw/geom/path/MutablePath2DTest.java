@@ -18,45 +18,49 @@
  */
 package org.jhotdraw.geom.path;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 /**
- *
  * @author tw
  */
 public class MutablePath2DTest {
-  
+
   @Test
   void testEmptyPath() {
     MutablePath2D path = new MutablePath2D();
-    
+
     Path2D.Double toPath2D = path.toPath2D();
-    assertThat(toPath2D.getBounds2D()).extracting(b -> b.toString()).isEqualTo("java.awt.geom.Rectangle2D$Double[x=0.0,y=0.0,w=0.0,h=0.0]");
+    assertThat(toPath2D.getBounds2D())
+        .extracting(b -> b.toString())
+        .isEqualTo("java.awt.geom.Rectangle2D$Double[x=0.0,y=0.0,w=0.0,h=0.0]");
   }
-  
+
   @Test
   void testSimpleLineBounds() {
     MutablePath2D path = new MutablePath2D();
     path.moveTo(10, 20);
-    path.lineTo(30,50);
-    path.lineTo(40,70);
-    
-    assertThat(path.getBounds2D()).extracting(b -> b.toString()).isEqualTo("java.awt.geom.Rectangle2D$Double[x=10.0,y=20.0,w=30.0,h=50.0]");
+    path.lineTo(30, 50);
+    path.lineTo(40, 70);
+
+    assertThat(path.getBounds2D())
+        .extracting(b -> b.toString())
+        .isEqualTo("java.awt.geom.Rectangle2D$Double[x=10.0,y=20.0,w=30.0,h=50.0]");
   }
-  
+
   @Test
   void testSimpleLine() {
     MutablePath2D path = new MutablePath2D();
     path.moveTo(10, 20);
-    path.lineTo(30,50);
-    path.lineTo(40,70);
+    path.lineTo(30, 50);
+    path.lineTo(40, 70);
     String coordsTxt = "";
     PathIterator pathIterator = path.getPathIterator(null);
     double coords[] = new double[6];
-    
+
     while (!pathIterator.isDone()) {
       int type = pathIterator.currentSegment(coords);
       if (type == PathIterator.SEG_MOVETO) {
@@ -65,20 +69,20 @@ public class MutablePath2DTest {
       coordsTxt += "(" + coords[0] + "," + coords[1] + ")";
       pathIterator.next();
     }
-    
+
     assertThat(coordsTxt).isEqualTo("*(10.0,20.0)(30.0,50.0)(40.0,70.0)");
   }
-  
+
   @Test
   void testSimpleLineWithNodeChange() {
     MutablePath2D path = new MutablePath2D();
     path.moveTo(10, 20);
-    path.lineTo(30,50);
-    path.lineTo(40,70);
+    path.lineTo(30, 50);
+    path.lineTo(40, 70);
     String coordsTxt = "";
     PathIterator pathIterator = path.getPathIterator(null);
     double coords[] = new double[6];
-    
+
     while (!pathIterator.isDone()) {
       int type = pathIterator.currentSegment(coords);
       if (type == PathIterator.SEG_MOVETO) {
@@ -87,14 +91,14 @@ public class MutablePath2DTest {
       coordsTxt += "(" + coords[0] + "," + coords[1] + ")";
       pathIterator.next();
     }
-    
+
     assertThat(coordsTxt).isEqualTo("*(10.0,20.0)(30.0,50.0)(40.0,70.0)");
-    
+
     path.changeNode(1, n -> n.withPoint(100, 30));
-    
+
     coordsTxt = "";
     pathIterator = path.getPathIterator(null);
-    
+
     while (!pathIterator.isDone()) {
       int type = pathIterator.currentSegment(coords);
       if (type == PathIterator.SEG_MOVETO) {
@@ -103,9 +107,7 @@ public class MutablePath2DTest {
       coordsTxt += "(" + coords[0] + "," + coords[1] + ")";
       pathIterator.next();
     }
-    
+
     assertThat(coordsTxt).isEqualTo("*(10.0,20.0)(100.0,30.0)(40.0,70.0)");
   }
 }
- 
-
