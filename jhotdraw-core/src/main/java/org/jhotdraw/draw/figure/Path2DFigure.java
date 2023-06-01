@@ -58,12 +58,13 @@ public class Path2DFigure extends AbstractAttributedFigure {
 
   @Override
   public Rectangle2D.Double getBounds() {
-    return (Rectangle2D.Double)path.getBounds2D();
+    return (Rectangle2D.Double) path.getBounds2D();
   }
 
   @Override
   public Object getTransformRestoreData() {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from
+    // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
   }
 
   @Override
@@ -102,12 +103,14 @@ public class Path2DFigure extends AbstractAttributedFigure {
 
   @Override
   public void restoreTransformTo(Object restoreData) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from
+    // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
   }
 
   @Override
   public void transform(AffineTransform tx) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from
+    // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
   }
 
   @Override

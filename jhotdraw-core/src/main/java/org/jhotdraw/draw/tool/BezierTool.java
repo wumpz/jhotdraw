@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.tool;
 
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -30,7 +29,6 @@ import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.path.Bezier;
 import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 
 /**
  * A {@link Tool} which allows to create a new {@link BezierFigure} by drawing its path.

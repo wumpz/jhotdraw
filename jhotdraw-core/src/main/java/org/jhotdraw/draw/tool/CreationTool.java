@@ -7,7 +7,6 @@
  */
 package org.jhotdraw.draw.tool;
 
-
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -26,7 +25,6 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
-
 
 /**
  * A {@link Tool} to create a new figure by drawing its bounds. The figure to be created is
