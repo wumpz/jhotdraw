@@ -198,8 +198,6 @@ public abstract class AbstractHandle implements Handle {
     return r;
   }
 
-  protected void setDrawingLocation(Point2D.Double p) {}
-
   protected Point2D.Double getDrawingLocation() {
     return null;
   }

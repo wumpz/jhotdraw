@@ -20,9 +20,6 @@ import org.jhotdraw.geom.Geom;
 /**
  * A {@link Handle} to change the value of the figure attribute {@link
  * org.jhotdraw.draw.AttributeKeys#ORIENTATION}.
- *
- * @author Werner Randelshofer. Original code by Doug Lea (dl at gee, Sun Mar 2 19:15:28 1997)
- * @version $Id$
  */
 public class OrientationHandle extends AbstractHandle {
 

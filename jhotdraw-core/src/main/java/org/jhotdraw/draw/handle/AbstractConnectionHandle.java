@@ -36,9 +36,9 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public abstract class AbstractConnectionHandle extends AbstractHandle {
 
   private Connector savedTarget;
-  private Connector connectableConnector;
+  // private Connector connectableConnector;
   private Figure connectableFigure;
-  private Point start;
+  // private Point start;
   /**
    * We temporarily remove the Liner from the connection figure, while the handle is being moved. We
    * store the Liner here, and add it back when the user has finished the interaction.
@@ -83,7 +83,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
   @Override
   public void trackStart(Point anchor, int modifiersEx) {
     savedTarget = getTarget();
-    start = anchor;
+    // start = anchor;
     savedLiner = getOwner().getLiner();
     getOwner().setLiner(null);
     // disconnect();
@@ -154,7 +154,7 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
     }
     getOwner().setLiner(savedLiner);
     getOwner().updateConnection();
-    connectableConnector = null;
+    // connectableConnector = null;
     connectors = Collections.emptyList();
   }
 
@@ -179,6 +179,8 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
   protected Connector findConnector(Point2D.Double p, Figure f, ConnectionFigure prototype) {
     return f.findConnector(p, prototype);
   }
+
+  protected void setDrawingLocation(Point2D.Double p) {}
 
   /** Draws this handle. */
   @Override
@@ -213,10 +215,6 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
       }
     }
     return null;
-  }
-
-  protected void setPotentialTarget(Connector newTarget) {
-    this.connectableConnector = newTarget;
   }
 
   protected BezierFigure getBezierFigure() {
