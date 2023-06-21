@@ -16,22 +16,20 @@ import java.util.*;
  */
 public class ReversedList<T> extends AbstractList<T> {
 
-    private List<T> target;
+  private List<T> target;
 
-    /**
-     * Creates a new instance of ReversedList
-     */
-    public ReversedList(List<T> target) {
-        this.target = target;
-    }
+  /** Creates a new instance of ReversedList */
+  public ReversedList(List<T> target) {
+    this.target = target;
+  }
 
-    @Override
-    public T get(int index) {
-        return target.get(target.size() - 1 - index);
-    }
+  @Override
+  public T get(int index) {
+    return target.get(target.size() - 1 - index);
+  }
 
-    @Override
-    public int size() {
-        return target.size();
-    }
+  @Override
+  public int size() {
+    return target.size();
+  }
 }

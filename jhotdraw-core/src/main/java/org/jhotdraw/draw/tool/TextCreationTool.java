@@ -7,208 +7,194 @@
  */
 package org.jhotdraw.draw.tool;
 
-import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.draw.figure.TextHolderFigure;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.text.*;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * A tool to create figures which implement the {@code TextHolderFigure}
- * interface, such as {@code TextFigure}. The figure to be created is specified
- * by a prototype.
- * <p>
- * To create a figure using this tool, the user does the following mouse
- * gestures on a DrawingView:
+ * A tool to create figures which implement the {@code TextHolderFigure} interface, such as {@code
+ * TextFigure}. The figure to be created is specified by a prototype.
+ *
+ * <p>To create a figure using this tool, the user does the following mouse gestures on a
+ * DrawingView:
+ *
  * <ol>
- * <li>Press the mouse button over an area on the DrawingView on which there
- * isn't a text figure present. This defines the location of the figure.</li>
+ *   <li>Press the mouse button over an area on the DrawingView on which there isn't a text figure
+ *       present. This defines the location of the figure.
  * </ol>
- * When the user has performed this mouse gesture, the TextCreationTool overlays
- * a text field over the drawing where the user can enter the text for the Figure.
  *
- * <hr>
- * <b>Design Patterns</b>
+ * When the user has performed this mouse gesture, the TextCreationTool overlays a text field over
+ * the drawing where the user can enter the text for the Figure.
  *
- * <p>
- * <em>Framework</em><br>
- * The text creation and editing tools and the {@code TextHolderFigure}
- * interface define together the contracts of a smaller framework inside of the
- * JHotDraw framework for structured drawing editors.<br>
- * Contract: {@link TextHolderFigure}, {@link TextCreationTool},
- * {@link TextAreaCreationTool}, {@link TextEditingTool},
- * {@link TextAreaEditingTool}, {@link FloatingTextField},
- * {@link FloatingTextArea}.
+ * <p><hr> <b>Design Patterns</b>
  *
- * <p>
- * <em>Prototype</em><br>
- * The text creation tools create new figures by cloning a prototype
- * {@code TextHolderFigure} object.<br>
- * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool},
- * {@link TextAreaCreationTool}.
- * <hr>
+ * <p><em>Framework</em><br>
+ * The text creation and editing tools and the {@code TextHolderFigure} interface define together
+ * the contracts of a smaller framework inside of the JHotDraw framework for structured drawing
+ * editors.<br>
+ * Contract: {@link TextHolderFigure}, {@link TextCreationTool}, {@link TextAreaCreationTool},
+ * {@link TextEditingTool}, {@link TextAreaEditingTool}, {@link FloatingTextField}, {@link
+ * FloatingTextArea}.
  *
- * @author Werner Randelshofer
- * @version $Id$
+ * <p><em>Prototype</em><br>
+ * The text creation tools create new figures by cloning a prototype {@code TextHolderFigure}
+ * object.<br>
+ * Prototype: {@link TextHolderFigure}; Client: {@link TextCreationTool}, {@link
+ * TextAreaCreationTool}. <hr>
  */
 public class TextCreationTool extends CreationTool implements ActionListener {
 
-    private static final long serialVersionUID = 1L;
-    private FloatingTextField textField;
-    private TextHolderFigure typingTarget;
+  private static final long serialVersionUID = 1L;
+  private FloatingTextField textField;
+  private TextHolderFigure typingTarget;
 
-    /**
-     * Creates a new instance.
-     */
-    public TextCreationTool(TextHolderFigure prototype) {
-        super(prototype);
+  public TextCreationTool(TextHolderFigure prototype) {
+    super(prototype);
+  }
+
+  public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
+    super(prototype, attributes);
+  }
+
+  @Override
+  public void deactivate(DrawingEditor editor) {
+    endEdit();
+    super.deactivate(editor);
+  }
+
+  /** Creates a new figure at the location where the mouse was pressed. */
+  @Override
+  public void mousePressed(MouseEvent e) {
+    // Note: The search sequence used here, must be
+    // consistent with the search sequence used by the
+    // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
+    if (typingTarget != null) {
+      endEdit();
+      if (isToolDoneAfterCreation()) {
+        fireToolDone();
+      }
+    } else {
+      super.mousePressed(e);
+      // update view so the created figure is drawn before the floating text
+      // figure is overlaid.
+      TextHolderFigure textHolder = (TextHolderFigure) getCreatedFigure();
+      getView().clearSelection();
+      getView().addToSelection(textHolder);
+      beginEdit(textHolder);
+      updateCursor(getView(), e.getPoint());
     }
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public TextCreationTool(TextHolderFigure prototype, Map<AttributeKey<?>, Object> attributes) {
-        super(prototype, attributes);
+  @Override
+  public void mouseDragged(java.awt.event.MouseEvent e) {}
+
+  protected void beginEdit(TextHolderFigure textHolder) {
+    if (textField == null) {
+      textField = new FloatingTextField();
+      textField.addActionListener(this);
     }
-
-    @Override
-    public void deactivate(DrawingEditor editor) {
-        endEdit();
-        super.deactivate(editor);
+    if (textHolder != typingTarget && typingTarget != null) {
+      endEdit();
     }
+    textField.createOverlay(getView(), textHolder);
+    textField.requestFocus();
+    typingTarget = textHolder;
+  }
 
-    /**
-     * Creates a new figure at the location where the mouse was pressed.
-     */
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // Note: The search sequence used here, must be
-        // consistent with the search sequence used by the
-        // HandleTracker, SelectAreaTracker, DelegationSelectionTool, SelectionTool.
-        if (typingTarget != null) {
-            endEdit();
-            if (isToolDoneAfterCreation()) {
-                fireToolDone();
-            }
+  @Override
+  public void mouseReleased(MouseEvent evt) {}
+
+  protected void endEdit() {
+    if (typingTarget != null) {
+      typingTarget.willChange();
+      final TextHolderFigure editedFigure = typingTarget;
+      final String oldText = typingTarget.getText();
+      final String newText = textField.getText();
+      if (newText.length() > 0) {
+        typingTarget.setText(newText);
+      } else {
+        if (createdFigure != null) {
+          getDrawing().remove(getAddedFigure());
+          // XXX - Fire undoable edit here!!
         } else {
-            super.mousePressed(e);
-            // update view so the created figure is drawn before the floating text
-            // figure is overlaid.
-            TextHolderFigure textHolder = (TextHolderFigure) getCreatedFigure();
-            getView().clearSelection();
-            getView().addToSelection(textHolder);
-            beginEdit(textHolder);
-            updateCursor(getView(), e.getPoint());
+          typingTarget.setText("");
+          typingTarget.changed();
         }
-    }
+      }
+      UndoableEdit edit =
+          new AbstractUndoableEdit() {
+            private static final long serialVersionUID = 1L;
 
-    @Override
-    public void mouseDragged(java.awt.event.MouseEvent e) {
-    }
-
-    protected void beginEdit(TextHolderFigure textHolder) {
-        if (textField == null) {
-            textField = new FloatingTextField();
-            textField.addActionListener(this);
-        }
-        if (textHolder != typingTarget && typingTarget != null) {
-            endEdit();
-        }
-        textField.createOverlay(getView(), textHolder);
-        textField.requestFocus();
-        typingTarget = textHolder;
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent evt) {
-    }
-
-    protected void endEdit() {
-        if (typingTarget != null) {
-            typingTarget.willChange();
-            final TextHolderFigure editedFigure = typingTarget;
-            final String oldText = typingTarget.getText();
-            final String newText = textField.getText();
-            if (newText.length() > 0) {
-                typingTarget.setText(newText);
-            } else {
-                if (createdFigure != null) {
-                    getDrawing().remove(getAddedFigure());
-                    // XXX - Fire undoable edit here!!
-                } else {
-                    typingTarget.setText("");
-                    typingTarget.changed();
-                }
+            @Override
+            public String getPresentationName() {
+              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+              return labels.getString("attribute.text.text");
             }
-            UndoableEdit edit = new AbstractUndoableEdit() {
-                private static final long serialVersionUID = 1L;
 
-                @Override
-                public String getPresentationName() {
-                    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                    return labels.getString("attribute.text.text");
-                }
+            @Override
+            public void undo() {
+              super.undo();
+              editedFigure.willChange();
+              editedFigure.setText(oldText);
+              editedFigure.changed();
+            }
 
-                @Override
-                public void undo() {
-                    super.undo();
-                    editedFigure.willChange();
-                    editedFigure.setText(oldText);
-                    editedFigure.changed();
-                }
-
-                @Override
-                public void redo() {
-                    super.redo();
-                    editedFigure.willChange();
-                    editedFigure.setText(newText);
-                    editedFigure.changed();
-                }
-            };
-            getDrawing().fireUndoableEditHappened(edit);
-            typingTarget.changed();
-            typingTarget = null;
-            textField.endOverlay();
-        }
-        //         view().checkDamage();
+            @Override
+            public void redo() {
+              super.redo();
+              editedFigure.willChange();
+              editedFigure.setText(newText);
+              editedFigure.changed();
+            }
+          };
+      getDrawing().fireUndoableEditHappened(edit);
+      typingTarget.changed();
+      typingTarget = null;
+      textField.endOverlay();
     }
+    //         view().checkDamage();
+  }
 
-    @Override
-    public void keyReleased(KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE || isToolDoneAfterCreation()) {
-            fireToolDone();
-        }
+  @Override
+  public void keyReleased(KeyEvent evt) {
+    if (evt.getKeyCode() == KeyEvent.VK_ESCAPE || isToolDoneAfterCreation()) {
+      fireToolDone();
     }
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        endEdit();
-        if (isToolDoneAfterCreation()) {
-            fireToolDone();
-        }
+  @Override
+  public void actionPerformed(ActionEvent event) {
+    endEdit();
+    if (isToolDoneAfterCreation()) {
+      fireToolDone();
     }
+  }
 
-    @Override
-    protected void creationFinished(Figure createdFigure) {
-        beginEdit((TextHolderFigure) createdFigure);
-        updateCursor(getView(), new Point(0, 0));
-    }
+  @Override
+  protected void creationFinished(Figure createdFigure) {
+    beginEdit((TextHolderFigure) createdFigure);
+    updateCursor(getView(), new Point(0, 0));
+  }
 
-    public boolean isEditing() {
-        return typingTarget != null;
-    }
+  public boolean isEditing() {
+    return typingTarget != null;
+  }
 
-    @Override
-    public void updateCursor(DrawingView view, Point p) {
-        if (view.isEnabled()) {
-            view.setCursor(Cursor.getPredefinedCursor(isEditing() ? Cursor.DEFAULT_CURSOR : Cursor.CROSSHAIR_CURSOR));
-        } else {
-            view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        }
+  @Override
+  public void updateCursor(DrawingView view, Point p) {
+    if (view.isEnabled()) {
+      view.setCursor(
+          Cursor.getPredefinedCursor(
+              isEditing() ? Cursor.DEFAULT_CURSOR : Cursor.CROSSHAIR_CURSOR));
+    } else {
+      view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }
+  }
 }

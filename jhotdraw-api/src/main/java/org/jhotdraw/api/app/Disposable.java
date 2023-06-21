@@ -7,15 +7,8 @@
  * accompanying license terms.
  */
 package org.jhotdraw.api.app;
-/**
- * Interface for objects which explicitly must be disposed to free resources.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Interface for objects which explicitly must be disposed to free resources. */
 public interface Disposable {
-    /** Disposes of all resources held by this object so that they can be
-     * garbage collected.
-     */
-    public void dispose();
+  /** Disposes of all resources held by this object so that they can be garbage collected. */
+  public void dispose();
 }

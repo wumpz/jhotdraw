@@ -8,34 +8,29 @@
  */
 package org.jhotdraw.gui;
 
-import org.jhotdraw.api.gui.URIChooser;
 import java.io.File;
 import java.net.URI;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import org.jhotdraw.api.gui.URIChooser;
 
-/**
- * JFileURIChooser.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** JFileURIChooser. */
 public class JFileURIChooser extends JFileChooser implements URIChooser {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Override
-    public void setSelectedURI(URI uri) {
-        setSelectedFile(uri == null ? null : new File(uri));
-    }
+  @Override
+  public void setSelectedURI(URI uri) {
+    setSelectedFile(uri == null ? null : new File(uri));
+  }
 
-    @Override
-    public URI getSelectedURI() {
-        return getSelectedFile() == null ? null : getSelectedFile().toURI();
-    }
+  @Override
+  public URI getSelectedURI() {
+    return getSelectedFile() == null ? null : getSelectedFile().toURI();
+  }
 
-    @Override
-    public JComponent getComponent() {
-        return this;
-    }
+  @Override
+  public JComponent getComponent() {
+    return this;
+  }
 }

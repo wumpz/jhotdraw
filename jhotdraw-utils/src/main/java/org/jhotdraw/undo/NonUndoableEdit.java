@@ -9,29 +9,20 @@ package org.jhotdraw.undo;
 
 import javax.swing.undo.*;
 
-/**
- * NonUndoableEdit.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** NonUndoableEdit. */
 public class NonUndoableEdit extends AbstractUndoableEdit {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public NonUndoableEdit() {
-    }
+  public NonUndoableEdit() {}
 
-    @Override
-    public boolean canUndo() {
-        return false;
-    }
+  @Override
+  public boolean canUndo() {
+    return false;
+  }
 
-    @Override
-    public boolean canRedo() {
-        return false;
-    }
+  @Override
+  public boolean canRedo() {
+    return false;
+  }
 }

@@ -15,42 +15,33 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.teddy.TeddyView;
 import org.jhotdraw.util.*;
 
-/**
- * ToggleLineNumbersAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ToggleLineNumbersAction. */
 public class ToggleLineNumbersAction extends AbstractViewAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "view.toggleLineNumbers";
-    private ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "view.toggleLineNumbers";
+  private ResourceBundleUtil labels =
+      ResourceBundleUtil.getBundle("org.jhotdraw.samples.teddy.Labels");
 
-    /**
-     * Creates a new instance.
-     */
-    public ToggleLineNumbersAction(Application app, View view) {
-        super(app, view);
-        labels.configureAction(this, ID);
-        setPropertyName("lineNumbersVisible");
-    }
+  public ToggleLineNumbersAction(Application app, View view) {
+    super(app, view);
+    labels.configureAction(this, ID);
+    setPropertyName("lineNumbersVisible");
+  }
 
-    @Override
-    public TeddyView getActiveView() {
-        return (TeddyView) super.getActiveView();
-    }
+  @Override
+  public TeddyView getActiveView() {
+    return (TeddyView) super.getActiveView();
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        getActiveView().setLineNumbersVisible(!getActiveView().isLineNumbersVisible());
-    }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    getActiveView().setLineNumbersVisible(!getActiveView().isLineNumbersVisible());
+  }
 
-    @Override
-    protected void updateView() {
-        putValue(
-                Action.SELECTED_KEY,
-                getActiveView() != null && getActiveView().isLineNumbersVisible()
-        );
-    }
+  @Override
+  protected void updateView() {
+    putValue(
+        Action.SELECTED_KEY, getActiveView() != null && getActiveView().isLineNumbersVisible());
+  }
 }

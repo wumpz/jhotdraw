@@ -7,11 +7,5 @@
  */
 package org.jhotdraw.samples.odg.io;
 
-/**
- * ODGFigureFactory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
-public interface ODGFigureFactory {
-}
+/** ODGFigureFactory. */
+public interface ODGFigureFactory {}

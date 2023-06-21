@@ -9,108 +9,79 @@ package org.jhotdraw.gui.event;
 
 import java.util.*;
 import javax.swing.*;
-import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.api.gui.URIChooser;
+import org.jhotdraw.gui.JSheet;
 
-/**
- * SheetEvent.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SheetEvent. */
 public class SheetEvent extends EventObject {
 
-    private static final long serialVersionUID = 1L;
-    private Object pane;
-    private int option;
-    private Object value;
-    private Object inputValue;
+  private static final long serialVersionUID = 1L;
+  private Object pane;
+  private int option;
+  private Object value;
+  private Object inputValue;
 
-    /**
-     * Creates a new instance.
-     */
-    public SheetEvent(JSheet source) {
-        super(source);
-    }
+  public SheetEvent(JSheet source) {
+    super(source);
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public SheetEvent(JSheet source, JFileChooser fileChooser, int option, Object value) {
-        super(source);
-        this.pane = fileChooser;
-        this.option = option;
-        this.value = value;
-    }
+  public SheetEvent(JSheet source, JFileChooser fileChooser, int option, Object value) {
+    super(source);
+    this.pane = fileChooser;
+    this.option = option;
+    this.value = value;
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public SheetEvent(JSheet source, URIChooser chooser, int option, Object value) {
-        super(source);
-        this.pane = chooser;
-        this.option = option;
-        this.value = value;
-    }
+  public SheetEvent(JSheet source, URIChooser chooser, int option, Object value) {
+    super(source);
+    this.pane = chooser;
+    this.option = option;
+    this.value = value;
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public SheetEvent(JSheet source, JOptionPane optionPane, int option, Object value, Object inputValue) {
-        super(source);
-        this.pane = optionPane;
-        this.option = option;
-        this.value = value;
-        this.inputValue = inputValue;
-    }
+  public SheetEvent(
+      JSheet source, JOptionPane optionPane, int option, Object value, Object inputValue) {
+    super(source);
+    this.pane = optionPane;
+    this.option = option;
+    this.value = value;
+    this.inputValue = inputValue;
+  }
 
-    /**
-     * Returns the pane on the sheet. This is either a JFileChooser, a URIChooser or a
-     * JOptionPane.
-     */
-    public Object getPane() {
-        return pane;
-    }
+  /**
+   * Returns the pane on the sheet. This is either a JFileChooser, a URIChooser or a JOptionPane.
+   */
+  public Object getPane() {
+    return pane;
+  }
 
-    /**
-     * Returns the JFileChooser pane on the sheet.
-     */
-    public JFileChooser getFileChooser() {
-        return (JFileChooser) pane;
-    }
+  /** Returns the JFileChooser pane on the sheet. */
+  public JFileChooser getFileChooser() {
+    return (JFileChooser) pane;
+  }
 
-    /**
-     * Returns the URIChooser pane on the sheet.
-     */
-    public URIChooser getChooser() {
-        return (URIChooser) pane;
-    }
+  /** Returns the URIChooser pane on the sheet. */
+  public URIChooser getChooser() {
+    return (URIChooser) pane;
+  }
 
-    /**
-     * Returns the JOptionPane pane on the sheet.
-     */
-    public JOptionPane getOptionPane() {
-        return (JOptionPane) pane;
-    }
+  /** Returns the JOptionPane pane on the sheet. */
+  public JOptionPane getOptionPane() {
+    return (JOptionPane) pane;
+  }
 
-    /**
-     * Returns the option that the JFileChooser or JOptionPane returned.
-     */
-    public int getOption() {
-        return option;
-    }
+  /** Returns the option that the JFileChooser or JOptionPane returned. */
+  public int getOption() {
+    return option;
+  }
 
-    /**
-     * Returns the value that the JFileChooser or JOptionPane returned.
-     */
-    public Object getValue() {
-        return value;
-    }
+  /** Returns the value that the JFileChooser or JOptionPane returned. */
+  public Object getValue() {
+    return value;
+  }
 
-    /**
-     * Returns the input value that the JOptionPane returned, if it wants input.
-     */
-    public Object getInputValue() {
-        return inputValue;
-    }
+  /** Returns the input value that the JOptionPane returned, if it wants input. */
+  public Object getInputValue() {
+    return inputValue;
+  }
 }

@@ -13,177 +13,131 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 /**
- * Describes the progress of a activity. An activity is typically
- * a long running background task which has been directly initiated or
- * scheduled by the user.
- * <p>
- * Every progress model should add itself to the {@link ActivityManager}
- * after it has been created.
- * </p>
- * <hr>
- * <b>Design Patterns</b>
+ * Describes the progress of a activity. An activity is typically a long running background task
+ * which has been directly initiated or scheduled by the user.
  *
- * <p>
- * <em>Framework</em><br>
- * The interfaces and classes listed below define a framework for progress
- * management.<br>
- * Contract: {@link ActivityManager}, {@link ActivityModel},
- * {@link JActivityWindow}, {@link JActivityIndicator}.
+ * <p>Every progress model should add itself to the {@link ActivityManager} after it has been
+ * created. <hr> <b>Design Patterns</b>
  *
- * @author Werner Randelshofer
- * @version $Id$
+ * <p><em>Framework</em><br>
+ * The interfaces and classes listed below define a framework for progress management.<br>
+ * Contract: {@link ActivityManager}, {@link ActivityModel}, {@link JActivityWindow}, {@link
+ * JActivityIndicator}.
  */
 public interface ActivityModel extends BoundedRangeModel {
 
-    public static final String INDETERMINATE_PROPERTY = "indeterminate";
-    public static final String NOTE_PROPERTY = "note";
-    public static final String WARNING_PROPERTY = "warning";
-    public static final String ERROR_PROPERTY = "error";
-    public static final String CANCELABLE_PROPERTY = "cancelable";
-    public static final String CANCELED_PROPERTY = "canceled";
-    public static final String CLOSED_PROPERTY = "closed";
+  public static final String INDETERMINATE_PROPERTY = "indeterminate";
+  public static final String NOTE_PROPERTY = "note";
+  public static final String WARNING_PROPERTY = "warning";
+  public static final String ERROR_PROPERTY = "error";
+  public static final String CANCELABLE_PROPERTY = "cancelable";
+  public static final String CANCELED_PROPERTY = "canceled";
+  public static final String CLOSED_PROPERTY = "closed";
 
-    /**
-     * Gets the owner of the progress model. This is typically a {@link org.jhotdraw.api.app.View}
-     * or a {@link org.jhotdraw.api.app.Application}.
-     */
-    public Object getOwner();
+  /**
+   * Gets the owner of the progress model. This is typically a {@link org.jhotdraw.api.app.View} or
+   * a {@link org.jhotdraw.api.app.Application}.
+   */
+  public Object getOwner();
 
-    /**
-     * Set cancelable to false if the operation can not be canceled.
-     */
-    public void setCancelable(boolean b);
+  /** Set cancelable to false if the operation can not be canceled. */
+  public void setCancelable(boolean b);
 
-    /**
-     * Returns true if the operation can be canceled.
-     */
-    public boolean isCancelable();
+  /** Returns true if the operation can be canceled. */
+  public boolean isCancelable();
 
-    /**
-     * The specified Runnable is executed when the user presses
-     * the cancel button.
-     */
-    public void setDoCancel(Runnable doCancel);
+  /** The specified Runnable is executed when the user presses the cancel button. */
+  public void setDoCancel(Runnable doCancel);
 
-    /**
-     * Sets the progress observer to indeterminate.
-     */
-    public void setIndeterminate(boolean newValue);
+  /** Sets the progress observer to indeterminate. */
+  public void setIndeterminate(boolean newValue);
 
-    /**
-     * Returns true if the progress observer is set to indeterminate.
-     */
-    public boolean isIndeterminate();
+  /** Returns true if the progress observer is set to indeterminate. */
+  public boolean isIndeterminate();
 
-    /**
-     * Indicate that the operation is closed.
-     * If the progress model added itself to the {@code ActivityManager}
-     * it MUST remove itself now.
-     */
-    public void close();
+  /**
+   * Indicate that the operation is closed. If the progress model added itself to the {@code
+   * ActivityManager} it MUST remove itself now.
+   */
+  public void close();
 
-    /**
-     * Returns true if the operation is completed.
-     */
-    public boolean isClosed();
+  /** Returns true if the operation is completed. */
+  public boolean isClosed();
 
-    /**
-     * Cancels the operation.
-     * This method must be invoked from the user event dispatch thread.
-     */
-    public void cancel();
+  /** Cancels the operation. This method must be invoked from the user event dispatch thread. */
+  public void cancel();
 
-    /**
-     * Returns true if the user has hit the Cancel button in the progress dialog.
-     */
-    public boolean isCanceled();
+  /** Returns true if the user has hit the Cancel button in the progress dialog. */
+  public boolean isCanceled();
 
-    /**
-     * Specifies the additional note that is displayed along with the
-     * progress message. Used, for example, to show which file
-     * is currently being copied during a multiple-file copy.
-     * <p>
-     * Only set a note if you have something important to tell.
-     * Setting a note is a time consuming operation because the GUI components
-     * ensure that the note is displayed on the screen before they let the
-     * activity model continue.
-     *
-     * @param note a String specifying the note to display
-     * @see #getNote
-     */
-    public void setNote(String note);
+  /**
+   * Specifies the additional note that is displayed along with the progress message. Used, for
+   * example, to show which file is currently being copied during a multiple-file copy.
+   *
+   * <p>Only set a note if you have something important to tell. Setting a note is a time consuming
+   * operation because the GUI components ensure that the note is displayed on the screen before
+   * they let the activity model continue.
+   *
+   * @param note a String specifying the note to display
+   * @see #getNote
+   */
+  public void setNote(String note);
 
-    /**
-     * Sets a formatted note.
-     * <p>
-     * Only set a note if you have something important to tell.
-     * Setting a note is a time consuming operation because the GUI components
-     * ensure that the note is displayed on the screen before they let the
-     * activity model continue.
-     */
-    public void printf(String format, Object... args);
+  /**
+   * Sets a formatted note.
+   *
+   * <p>Only set a note if you have something important to tell. Setting a note is a time consuming
+   * operation because the GUI components ensure that the note is displayed on the screen before
+   * they let the activity model continue.
+   */
+  public void printf(String format, Object... args);
 
-    /**
-     * Specifies the additional note that is displayed along with the
-     * progress message.
-     *
-     * @return a String specifying the note to display
-     * @see #setNote
-     */
-    public String getNote();
+  /**
+   * Specifies the additional note that is displayed along with the progress message.
+   *
+   * @return a String specifying the note to display
+   * @see #setNote
+   */
+  public String getNote();
 
-    /**
-     * Specifies the additional warning message that is displayed along with the
-     * progress message. Used, for example, to show which files couldn't
-     * be copied during a multiple-file copy.
-     *
-     * @param message a String specifying the message to display, or null
-     * if there is no warning.
-     * @see #getWarning
-     */
-    public void setWarning(String message);
+  /**
+   * Specifies the additional warning message that is displayed along with the progress message.
+   * Used, for example, to show which files couldn't be copied during a multiple-file copy.
+   *
+   * @param message a String specifying the message to display, or null if there is no warning.
+   * @see #getWarning
+   */
+  public void setWarning(String message);
 
-    /**
-     * Specifies the warning message that is displayed along with the
-     * progress message.
-     *
-     * @return a String specifying the message to display, or null if
-     * there is no warning.
-     */
-    public String getWarning();
+  /**
+   * Specifies the warning message that is displayed along with the progress message.
+   *
+   * @return a String specifying the message to display, or null if there is no warning.
+   */
+  public String getWarning();
 
-    /**
-     * Specifies the additional error message that is displayed along with the
-     * progress message. Used, for example, to show which files couldn't
-     * be copied during a multiple-file copy..
-     *
-     * @param message a String specifying the message to display, or null
-     * if there is no error.
-     * @see #getWarning
-     */
-    public void setError(String message);
+  /**
+   * Specifies the additional error message that is displayed along with the progress message. Used,
+   * for example, to show which files couldn't be copied during a multiple-file copy..
+   *
+   * @param message a String specifying the message to display, or null if there is no error.
+   * @see #getWarning
+   */
+  public void setError(String message);
 
-    /**
-     * Specifies the error message that is displayed along with the
-     * progress message.
-     *
-     * @return a String specifying the message to display, or null if
-     * there is no error.
-     */
-    public String getError();
+  /**
+   * Specifies the error message that is displayed along with the progress message.
+   *
+   * @return a String specifying the message to display, or null if there is no error.
+   */
+  public String getError();
 
-    /**
-     * Adds a property change listener.
-     */
-    public void addPropertyChangeListener(PropertyChangeListener listener);
+  /** Adds a property change listener. */
+  public void addPropertyChangeListener(PropertyChangeListener listener);
 
-    /**
-     * Removes a property change listener.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener listener);
+  /** Removes a property change listener. */
+  public void removePropertyChangeListener(PropertyChangeListener listener);
 
-    /**
-     * Returns the title of the progress model.
-     */
-    public String getTitle();
+  /** Returns the title of the progress model. */
+  public String getTitle();
 }

@@ -7,9 +7,8 @@
  */
 package org.jhotdraw.draw.handle;
 
-import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * A Handle to rotate a Figure.
@@ -19,27 +18,24 @@ import org.jhotdraw.draw.*;
  */
 public class RotateHandle extends AbstractRotateHandle {
 
-    /**
-     * Creates a new instance.
-     */
-    public RotateHandle(Figure owner) {
-        super(owner);
-    }
+  public RotateHandle(Figure owner) {
+    super(owner);
+  }
 
-    @Override
-    protected Point2D.Double getCenter() {
-        Rectangle2D.Double bounds = getTransformedBounds();
-        return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
-    }
+  @Override
+  protected Point2D.Double getCenter() {
+    Rectangle2D.Double bounds = getTransformedBounds();
+    return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
+  }
 
-    @Override
-    protected Point2D.Double getOrigin() {
-        // This handle is placed above the figure.
-        // We move it up by a handlesizes, so that it won't overlap with
-        // the handles from TransformHandleKit.
-        Rectangle2D.Double bounds = getTransformedBounds();
-        Point2D.Double origin = new Point2D.Double(bounds.getCenterX(),
-                bounds.y - getHandlesize() / view.getScaleFactor());
-        return origin;
-    }
+  @Override
+  protected Point2D.Double getDrawingLocation() {
+    // This handle is placed above the figure.
+    // We move it up by a handlesizes, so that it won't overlap with
+    // the handles from TransformHandleKit.
+    Rectangle2D.Double bounds = getTransformedBounds();
+    Point2D.Double origin =
+        new Point2D.Double(bounds.getCenterX(), bounds.y - getHandlesize() / view.getScaleFactor());
+    return origin;
+  }
 }

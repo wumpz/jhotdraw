@@ -17,29 +17,37 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.figure.Figure;
 
 /**
- * FigureAttributeEditorHandler mediates between an AttributeEditor and the
- * currently selected Figure's in a DrawingEditor.
- *
- * @author Werner Randelshofer
- * @version $Id$
+ * FigureAttributeEditorHandler mediates between an AttributeEditor and the currently selected
+ * Figure's in a DrawingEditor.
  */
 public class FigureAttributeEditorHandler<T> extends AbstractAttributeEditorHandler<T> {
 
-    public FigureAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
-        super(key, attributeEditor, drawingEditor);
-    }
+  public FigureAttributeEditorHandler(
+      AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor) {
+    super(key, attributeEditor, drawingEditor);
+  }
 
-    public FigureAttributeEditorHandler(AttributeKey<T> key, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
-        super(key, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
-    }
+  public FigureAttributeEditorHandler(
+      AttributeKey<T> key,
+      AttributeEditor<T> attributeEditor,
+      DrawingEditor drawingEditor,
+      boolean updateDrawingEditorDefaults) {
+    super(key, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
+  }
 
-    public FigureAttributeEditorHandler(AttributeKey<T> key, Map<AttributeKey<?>, Object> defaultAttributes, AttributeEditor<T> attributeEditor, DrawingEditor drawingEditor, boolean updateDrawingEditorDefaults) {
-        super(key, defaultAttributes, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
-    }
+  public FigureAttributeEditorHandler(
+      AttributeKey<T> key,
+      Map<AttributeKey<?>, Object> defaultAttributes,
+      AttributeEditor<T> attributeEditor,
+      DrawingEditor drawingEditor,
+      boolean updateDrawingEditorDefaults) {
+    super(key, defaultAttributes, attributeEditor, drawingEditor, updateDrawingEditorDefaults);
+  }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    protected Set<Figure> getEditedFigures() {
-        return (Set<Figure>) ((activeView == null) ? Collections.emptySet() : activeView.getSelectedFigures());
-    }
+  @Override
+  @SuppressWarnings("unchecked")
+  protected Set<Figure> getEditedFigures() {
+    return (Set<Figure>)
+        ((activeView == null) ? Collections.emptySet() : activeView.getSelectedFigures());
+  }
 }

@@ -11,102 +11,77 @@ import java.awt.geom.*;
 import java.util.*;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.tool.Tool;
 
-/**
- * A LabelFigure can be used to provide more double clickable area for a
- * TextHolderFigure.
- *
- * FIXME - Move FigureListener into inner class.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
-public class LabelFigure extends TextFigure implements FigureListener {
+/** A LabelFigure can be used to provide more double clickable area for a TextHolderFigure. */
+public class LabelFigure extends TextFigure {
 
-    private static final long serialVersionUID = 1L;
-    private TextHolderFigure target;
+  private static final long serialVersionUID = 1L;
+  private TextHolderFigure target;
 
-    /**
-     * Creates a new instance.
-     */
-    public LabelFigure() {
-        this("Label");
+  public LabelFigure() {
+    this("Label");
+  }
+
+  public LabelFigure(String text) {
+    setText(text);
+    setEditable(false);
+  }
+
+  public void setLabelFor(TextHolderFigure target) {
+    if (this.target != null) {
+      this.target.removeFigureListener(FIGURE_LISTENER);
     }
-
-    public LabelFigure(String text) {
-        setText(text);
-        setEditable(false);
+    this.target = target;
+    if (this.target != null) {
+      this.target.addFigureListener(FIGURE_LISTENER);
     }
+  }
 
-    public void setLabelFor(TextHolderFigure target) {
-        if (this.target != null) {
-            this.target.removeFigureListener(this);
-        }
-        this.target = target;
-        if (this.target != null) {
-            this.target.addFigureListener(this);
-        }
-    }
+  @Override
+  public TextHolderFigure getLabelFor() {
+    return (target == null) ? this : target;
+  }
 
-    @Override
-    public TextHolderFigure getLabelFor() {
-        return (target == null) ? this : target;
-    }
+  /**
+   * Returns a specialized tool for the given coordinate.
+   *
+   * <p>
+   *
+   * <p>Returns null, if no specialized tool is available.
+   */
+  @Override
+  public Tool getTool(Point2D.Double p) {
+    return (target != null && contains(p)) ? new TextEditingTool(target) : null;
+  }
 
-    /**
-     * Returns a specialized tool for the given coordinate.
-     * <p>
-     * Returns null, if no specialized tool is available.
-     */
-    @Override
-    public Tool getTool(Point2D.Double p) {
-        return (target != null && contains(p)) ? new TextEditingTool(target) : null;
-    }
+  private final FigureListener FIGURE_LISTENER =
+      new FigureListenerAdapter() {
 
-    @Override
-    public void areaInvalidated(FigureEvent e) {
-    }
-
-    @Override
-    public void attributeChanged(FigureEvent e) {
-    }
-
-    @Override
-    public void figureAdded(FigureEvent e) {
-    }
-
-    @Override
-    public void figureChanged(FigureEvent e) {
-    }
-
-    @Override
-    public void figureRemoved(FigureEvent e) {
-        if (e.getFigure() == target) {
+        @Override
+        public void figureRemoved(FigureEvent e) {
+          if (e.getFigure() == target) {
             target.removeFigureListener(this);
             target = null;
+          }
         }
-    }
 
-    @Override
-    public void figureRequestRemove(FigureEvent e) {
-    }
+        @Override
+        public void figureRequestRemove(FigureEvent e) {}
+      };
 
-    @Override
-    public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
-        super.remap(oldToNew, disconnectIfNotInMap);
-        if (target != null) {
-            Figure newTarget = oldToNew.get(target);
-            if (newTarget != null) {
-                target.removeFigureListener(this);
-                target = (TextHolderFigure) newTarget;
-                newTarget.addFigureListener(this);
-            }
-        }
+  @Override
+  public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {
+    super.remap(oldToNew, disconnectIfNotInMap);
+    if (target != null) {
+      Figure newTarget = oldToNew.get(target);
+      if (newTarget != null) {
+        target.removeFigureListener(FIGURE_LISTENER);
+        target = (TextHolderFigure) newTarget;
+        newTarget.addFigureListener(FIGURE_LISTENER);
+      }
     }
-
-    @Override
-    public void figureHandlesChanged(FigureEvent e) {
-    }
+  }
 }

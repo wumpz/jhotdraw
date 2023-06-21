@@ -12,34 +12,25 @@ import java.util.zip.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.draw.*;
 
-/**
- * SVGZOutputFormat.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** SVGZOutputFormat. */
 public class SVGZOutputFormat extends SVGOutputFormat {
 
-    /**
-     * Creates a new instance.
-     */
-    public SVGZOutputFormat() {
-    }
+  public SVGZOutputFormat() {}
 
-    @Override
-    public String getFileExtension() {
-        return "svgz";
-    }
+  @Override
+  public String getFileExtension() {
+    return "svgz";
+  }
 
-    @Override
-    public javax.swing.filechooser.FileFilter getFileFilter() {
-        return new FileNameExtensionFilter("Compressed Scalable Vector Graphics (SVGZ)", "svgz");
-    }
+  @Override
+  public javax.swing.filechooser.FileFilter getFileFilter() {
+    return new FileNameExtensionFilter("Compressed Scalable Vector Graphics (SVGZ)", "svgz");
+  }
 
-    @Override
-    public void write(OutputStream out, Drawing drawing) throws IOException {
-        GZIPOutputStream gout = new GZIPOutputStream(out);
-        super.write(gout, drawing, drawing.getChildren());
-        gout.finish();
-    }
+  @Override
+  public void write(OutputStream out, Drawing drawing) throws IOException {
+    GZIPOutputStream gout = new GZIPOutputStream(out);
+    super.write(gout, drawing, drawing.getChildren());
+    gout.finish();
+  }
 }

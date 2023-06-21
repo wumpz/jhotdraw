@@ -12,61 +12,54 @@ import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.util.ActionUtil;
 
-/**
- * ToggleToolBarAction.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** ToggleToolBarAction. */
 public class ToggleToolBarAction extends AbstractAction {
 
-    private static final long serialVersionUID = 1L;
-    private JToolBar toolBar;
-    private PropertyChangeListener propertyHandler;
+  private static final long serialVersionUID = 1L;
+  private JToolBar toolBar;
+  private PropertyChangeListener propertyHandler;
 
-    /**
-     * Creates a new instance.
-     */
-    public ToggleToolBarAction(JToolBar toolBar, String label) {
-        super(label);
-        propertyHandler = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                String name = evt.getPropertyName();
-                if ("visible".equals(name)) {
-                    putValue(ActionUtil.SELECTED_KEY, evt.getNewValue());
-                }
+  public ToggleToolBarAction(JToolBar toolBar, String label) {
+    super(label);
+    propertyHandler =
+        new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if ("visible".equals(name)) {
+              putValue(ActionUtil.SELECTED_KEY, evt.getNewValue());
             }
+          }
         };
-        putValue(ActionUtil.SELECTED_KEY, true);
-        setToolBar(toolBar);
-    }
+    putValue(ActionUtil.SELECTED_KEY, true);
+    setToolBar(toolBar);
+  }
 
-    @Override
-    public void putValue(String key, Object newValue) {
-        super.putValue(key, newValue);
-        if (ActionUtil.SELECTED_KEY.equals(key)) {
-            if (toolBar != null) {
-                toolBar.setVisible((Boolean) newValue);
-            }
-        }
+  @Override
+  public void putValue(String key, Object newValue) {
+    super.putValue(key, newValue);
+    if (ActionUtil.SELECTED_KEY.equals(key)) {
+      if (toolBar != null) {
+        toolBar.setVisible((Boolean) newValue);
+      }
     }
+  }
 
-    public void setToolBar(JToolBar newValue) {
-        if (toolBar != null) {
-            toolBar.removePropertyChangeListener(propertyHandler);
-        }
-        toolBar = newValue;
-        if (toolBar != null) {
-            toolBar.addPropertyChangeListener(propertyHandler);
-            putValue(ActionUtil.SELECTED_KEY, toolBar.isVisible());
-        }
+  public void setToolBar(JToolBar newValue) {
+    if (toolBar != null) {
+      toolBar.removePropertyChangeListener(propertyHandler);
     }
+    toolBar = newValue;
+    if (toolBar != null) {
+      toolBar.addPropertyChangeListener(propertyHandler);
+      putValue(ActionUtil.SELECTED_KEY, toolBar.isVisible());
+    }
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (toolBar != null) {
-            putValue(ActionUtil.SELECTED_KEY, !toolBar.isVisible());
-        }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (toolBar != null) {
+      putValue(ActionUtil.SELECTED_KEY, !toolBar.isVisible());
     }
+  }
 }

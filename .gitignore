@@ -6,3 +6,6 @@ target
 *.class
 nb-configuration.xml
 *.*~
+/jhotdraw-io/nbproject/
+/jhotdraw-core/nbproject/
+/jhotdraw-utils/nbproject/

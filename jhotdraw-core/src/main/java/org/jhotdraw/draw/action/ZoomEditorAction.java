@@ -11,52 +11,42 @@ import javax.swing.*;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 
-/**
- * Zooms either the current view or all views of a DrawingEditor.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Zooms either the current view or all views of a DrawingEditor. */
 public class ZoomEditorAction extends AbstractDrawingEditorAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "zoomEditor";
-    private double scaleFactor;
-    private AbstractButton button;
-    private String label;
-    private boolean updateAllViews;
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "zoomEditor";
+  private double scaleFactor;
+  private AbstractButton button;
+  private String label;
+  private boolean updateAllViews;
 
-    /**
-     * Creates a new instance.
-     */
-    public ZoomEditorAction(DrawingEditor editor, double scaleFactor, AbstractButton button) {
-        this(editor, scaleFactor, button, true);
-    }
+  public ZoomEditorAction(DrawingEditor editor, double scaleFactor, AbstractButton button) {
+    this(editor, scaleFactor, button, true);
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public ZoomEditorAction(DrawingEditor editor, double scaleFactor, AbstractButton button, boolean updateAllViews) {
-        super(editor);
-        this.scaleFactor = scaleFactor;
-        this.button = button;
-        this.updateAllViews = updateAllViews;
-        label = (int) (scaleFactor * 100) + " %";
-        putValue(Action.DEFAULT, label);
-        putValue(Action.NAME, label);
-    }
+  public ZoomEditorAction(
+      DrawingEditor editor, double scaleFactor, AbstractButton button, boolean updateAllViews) {
+    super(editor);
+    this.scaleFactor = scaleFactor;
+    this.button = button;
+    this.updateAllViews = updateAllViews;
+    label = (int) (scaleFactor * 100) + " %";
+    putValue(Action.DEFAULT, label);
+    putValue(Action.NAME, label);
+  }
 
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        if (button != null) {
-            button.setText(label);
-        }
-        if (updateAllViews) {
-            for (DrawingView v : getEditor().getDrawingViews()) {
-                v.setScaleFactor(scaleFactor);
-            }
-        } else {
-            getView().setScaleFactor(scaleFactor);
-        }
+  @Override
+  public void actionPerformed(java.awt.event.ActionEvent e) {
+    if (button != null) {
+      button.setText(label);
     }
+    if (updateAllViews) {
+      for (DrawingView v : getEditor().getDrawingViews()) {
+        v.setScaleFactor(scaleFactor);
+      }
+    } else {
+      getView().setScaleFactor(scaleFactor);
+    }
+  }
 }

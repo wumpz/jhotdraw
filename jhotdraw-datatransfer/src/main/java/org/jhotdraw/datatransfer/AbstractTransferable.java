@@ -9,42 +9,31 @@ package org.jhotdraw.datatransfer;
 
 import java.awt.datatransfer.*;
 
-/**
- * Base class for transferable objects.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Base class for transferable objects. */
 public abstract class AbstractTransferable implements Transferable {
 
-    private DataFlavor[] flavors;
+  private DataFlavor[] flavors;
 
-    /**
-     * Creates a new instance.
-     */
-    public AbstractTransferable(DataFlavor flavor) {
-        this.flavors = new DataFlavor[]{flavor};
-    }
+  public AbstractTransferable(DataFlavor flavor) {
+    this.flavors = new DataFlavor[] {flavor};
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public AbstractTransferable(DataFlavor[] flavors) {
-        this.flavors = flavors.clone();
-    }
+  public AbstractTransferable(DataFlavor[] flavors) {
+    this.flavors = flavors.clone();
+  }
 
-    @Override
-    public DataFlavor[] getTransferDataFlavors() {
-        return flavors.clone();
-    }
+  @Override
+  public DataFlavor[] getTransferDataFlavors() {
+    return flavors.clone();
+  }
 
-    @Override
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        for (DataFlavor f : flavors) {
-            if (f.equals(flavor)) {
-                return true;
-            }
-        }
-        return false;
+  @Override
+  public boolean isDataFlavorSupported(DataFlavor flavor) {
+    for (DataFlavor f : flavors) {
+      if (f.equals(flavor)) {
+        return true;
+      }
     }
+    return false;
+  }
 }

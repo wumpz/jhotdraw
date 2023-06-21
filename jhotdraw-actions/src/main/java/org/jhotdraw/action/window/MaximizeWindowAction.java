@@ -15,39 +15,29 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.util.*;
 
-/**
- * Maximizes the window of the active view.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Maximizes the window of the active view. */
 public class MaximizeWindowAction extends AbstractViewAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "window.maximize";
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "window.maximize";
 
-    /**
-     * Creates a new instance.
-     */
-    public MaximizeWindowAction(Application app, View view) {
-        super(app, view);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
-        labels.configureAction(this, ID);
-    }
+  public MaximizeWindowAction(Application app, View view) {
+    super(app, view);
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
+    labels.configureAction(this, ID);
+  }
 
-    private JFrame getFrame() {
-        return (JFrame) SwingUtilities.getWindowAncestor(
-                getActiveView().getComponent()
-        );
-    }
+  private JFrame getFrame() {
+    return (JFrame) SwingUtilities.getWindowAncestor(getActiveView().getComponent());
+  }
 
-    @Override
-    public void actionPerformed(ActionEvent evt) {
-        JFrame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(frame.getExtendedState() ^ Frame.MAXIMIZED_BOTH);
-        } else {
-            Toolkit.getDefaultToolkit().beep();
-        }
+  @Override
+  public void actionPerformed(ActionEvent evt) {
+    JFrame frame = getFrame();
+    if (frame != null) {
+      frame.setExtendedState(frame.getExtendedState() ^ Frame.MAXIMIZED_BOTH);
+    } else {
+      Toolkit.getDefaultToolkit().beep();
     }
+  }
 }

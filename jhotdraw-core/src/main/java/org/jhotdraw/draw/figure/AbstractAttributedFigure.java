@@ -7,286 +7,558 @@
  */
 package org.jhotdraw.draw.figure;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.io.*;
-import java.util.*;
+import static org.jhotdraw.draw.AttributeKeys.*;
+
+import java.awt.BasicStroke;
+import java.awt.Cursor;
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import javax.swing.Action;
+import javax.swing.event.EventListenerList;
+import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
-import static org.jhotdraw.draw.AttributeKeys.*;
+import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.connector.ChopRectangleConnector;
+import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.event.FigureListener;
+import org.jhotdraw.draw.event.SetBoundsEdit;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.tool.Tool;
 import org.jhotdraw.geom.Dimension2DDouble;
 import org.jhotdraw.geom.Geom;
-import org.jhotdraw.xml.DOMInput;
-import org.jhotdraw.xml.DOMOutput;
-import org.jhotdraw.xml.DOMStorable;
 
 /**
- * This abstract class can be extended to implement a {@link Figure} which has
- * its own attribute set.
+ * This abstract class can be extended to implement a {@link Figure} which has its own attribute
+ * set.
  *
  * @author Werner Randelshofer
- * @version $Id: AbstractAttributedFigure.java 778 2012-04-13 15:37:19Z rawcoder
- * $
+ * @version $Id: AbstractAttributedFigure.java 778 2012-04-13 15:37:19Z rawcoder $
  */
-public abstract class AbstractAttributedFigure extends AbstractFigure implements DOMStorable {
+public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
-    private static final long serialVersionUID = 1L;
-    /**
-     * Holds the attributes of the figure.
+  private static final long serialVersionUID = 1L;
+  protected EventListenerList listenerList = new EventListenerList();
+  private Drawing drawing;
+  private boolean isSelectable = true;
+  private boolean isRemovable = true;
+  private boolean isVisible = true;
+  private boolean isTransformable = true;
+  private boolean isConnectable = true;
+
+  private Attributes attributes = new Attributes(this::fireAttributeChanged);
+
+  @Override
+  public Attributes attr() {
+    return attributes;
+  }
+
+  /**
+   * This variable is used to prevent endless change loops. We increase its value on each invocation
+   * of willChange() and decrease it on each invocation of changed().
+   */
+  protected int changingDepth = 0;
+
+  @Override
+  public void draw(Graphics2D g) {
+    if (attr().get(FILL_COLOR) != null) {
+      g.setColor(attr().get(FILL_COLOR));
+      drawFill(g);
+    }
+    if (attr().get(STROKE_COLOR) != null && attr().get(STROKE_WIDTH) >= 0d) {
+      g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
+      g.setColor(attr().get(STROKE_COLOR));
+      drawStroke(g);
+    }
+    if (attr().get(TEXT_COLOR) != null) {
+      if (attr().get(TEXT_SHADOW_COLOR) != null && attr().get(TEXT_SHADOW_OFFSET) != null) {
+        Dimension2DDouble d = attr().get(TEXT_SHADOW_OFFSET);
+        g.translate(d.width, d.height);
+        g.setColor(attr().get(TEXT_SHADOW_COLOR));
+        drawText(g);
+        g.translate(-d.width, -d.height);
+      }
+      g.setColor(attr().get(TEXT_COLOR));
+      drawText(g);
+    }
+  }
+
+  public double getStrokeMiterLimitFactor() {
+    Number value = (Number) attr().get(AttributeKeys.STROKE_MITER_LIMIT);
+    return (value != null) ? value.doubleValue() : 10f;
+  }
+
+  @Override
+  public Rectangle2D.Double getDrawingArea() {
+    return getDrawingArea(1.0);
+  }
+
+  @Override
+  public Rectangle2D.Double getDrawingArea(double factor) {
+    double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
+    double width = strokeTotalWidth / 2d;
+    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+      width *= attr().get(STROKE_MITER_LIMIT);
+    } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+      width += strokeTotalWidth * 2;
+    }
+    width++;
+    Rectangle2D.Double r = getBounds();
+    Geom.grow(r, width, width);
+    return r;
+  }
+
+  /**
+   * This method is called by method draw() to draw the fill area of the figure.
+   * AbstractAttributedFigure configures the Graphics2D object with the FILL_COLOR attribute before
+   * calling this method. If the FILL_COLOR attribute is null, this method is not called.
+   */
+  protected void drawFill(java.awt.Graphics2D g) {}
+
+  /**
+   * This method is called by method draw() to draw the lines of the figure . AttributedFigure
+   * configures the Graphics2D object with the STROKE_COLOR attribute before calling this method. If
+   * the STROKE_COLOR attribute is null, this method is not called.
+   */
+  protected void drawStroke(java.awt.Graphics2D g) {}
+
+  /**
+   * This method is called by method draw() to draw the text of the figure .
+   * AbstractAttributedFigure configures the Graphics2D object with the TEXT_COLOR attribute before
+   * calling this method. If the TEXT_COLOR attribute is null, this method is not called.
+   */
+  protected void drawText(java.awt.Graphics2D g) {}
+
+  @Override
+  public AbstractAttributedFigure clone() {
+    AbstractAttributedFigure that;
+    try {
+      that = (AbstractAttributedFigure) super.clone();
+    } catch (CloneNotSupportedException ex) {
+      throw new InternalError("clone failed", ex);
+    }
+    that.attributes = Attributes.from(attributes, that::fireAttributeChanged);
+    that.listenerList = new EventListenerList();
+    that.drawing = null; // Clones need to be explictly added to a drawing
+    return that;
+  }
+
+  @Override
+  public void addFigureListener(FigureListener l) {
+    listenerList.add(FigureListener.class, l);
+  }
+
+  @Override
+  public void removeFigureListener(FigureListener l) {
+    listenerList.remove(FigureListener.class, l);
+  }
+
+  @Override
+  public void addNotify(Drawing d) {
+    this.drawing = d;
+    fireFigureAdded();
+  }
+
+  @Override
+  public void removeNotify(Drawing d) {
+    fireFigureRemoved();
+    this.drawing = null;
+  }
+
+  protected Drawing getDrawing() {
+    return drawing;
+  }
+
+  protected Object getLock() {
+    return (getDrawing() == null) ? this : getDrawing().getLock();
+  }
+
+  /** tool method to process a listener and create its event object lazily. */
+  protected void fireFigureEvent(
+      BiConsumer<FigureListener, FigureEvent> listenerConsumer,
+      Supplier<FigureEvent> eventSupplier) {
+    FigureEvent event = null;
+    if (listenerList.getListenerCount() == 0) {
+      return;
+    }
+    for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
+      if (event == null) {
+        event = eventSupplier.get();
+      }
+      listenerConsumer.accept(listener, event);
+    }
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  public void fireAreaInvalidated() {
+    fireAreaInvalidated(getDrawingArea());
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireAreaInvalidated(Rectangle2D.Double invalidatedArea) {
+    fireFigureEvent(
+        (listener, event) -> listener.areaInvalidated(event),
+        () -> new FigureEvent(this, invalidatedArea));
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireAreaInvalidated(FigureEvent event) {
+    for (FigureListener listener : listenerList.getListeners(FigureListener.class)) {
+      listener.areaInvalidated(event);
+    }
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireFigureRequestRemove() {
+    fireFigureEvent(
+        (listener, event) -> listener.figureRequestRemove(event),
+        () -> new FigureEvent(this, getBounds()));
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireFigureAdded() {
+    fireFigureEvent(
+        (listener, event) -> listener.figureAdded(event), () -> new FigureEvent(this, getBounds()));
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireFigureRemoved() {
+    fireFigureEvent(
+        (listener, event) -> listener.figureRemoved(event),
+        () -> new FigureEvent(this, getBounds()));
+  }
+
+  public void fireFigureChanged() {
+    fireFigureChanged(getDrawingArea());
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireFigureChanged(Rectangle2D.Double changedArea) {
+    fireFigureEvent(
+        (listener, event) -> listener.figureChanged(event),
+        () -> new FigureEvent(this, changedArea));
+  }
+
+  protected void fireFigureChanged(FigureEvent event) {
+    fireFigureEvent((listener, evt) -> listener.figureChanged(evt), () -> event);
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
+    fireFigureEvent(
+        (listener, event) -> listener.attributeChanged(event),
+        () -> new FigureEvent(this, attribute, oldValue, newValue));
+  }
+
+  /** Notify all listenerList that have registered interest for notification on this event type. */
+  protected void fireFigureHandlesChanged() {
+    fireFigureEvent(
+        (listener, event) -> listener.figureHandlesChanged(event),
+        () -> new FigureEvent(this, getDrawingArea()));
+  }
+
+  /**
+   * Notify all UndoableEditListener of the Drawing, to which this Figure has been added to. If this
+   * Figure is not part of a Drawing, the event is lost.
+   */
+  protected void fireUndoableEditHappened(UndoableEdit edit) {
+    if (getDrawing() != null) {
+      getDrawing().fireUndoableEditHappened(edit);
+    }
+  }
+
+  @Override
+  public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {}
+
+  @Override
+  public Collection<Handle> createHandles(int detailLevel) {
+    List<Handle> handles = new ArrayList<>();
+    switch (detailLevel) {
+      case -1:
+        handles.add(new BoundsOutlineHandle(this, false, true));
+        break;
+      case 0:
+        ResizeHandleKit.addResizeHandles(this, handles);
+        break;
+    }
+    return handles;
+  }
+
+  @Override
+  public Cursor getCursor(Point2D.Double p, double scaleDenominator) {
+    if (contains(p, scaleDenominator)) {
+      return Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+    } else {
+      return Cursor.getDefaultCursor();
+    }
+  }
+
+  public final void setBounds(Rectangle2D.Double bounds) {
+    setBounds(
+        new Point2D.Double(bounds.x, bounds.y),
+        new Point2D.Double(bounds.x + bounds.width, bounds.y + bounds.height));
+  }
+
+  @Override
+  public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
+    Point2D.Double oldAnchor = getStartPoint();
+    Point2D.Double oldLead = getEndPoint();
+    if (!oldAnchor.equals(anchor) || !oldLead.equals(lead)) {
+      willChange();
+      setBounds(anchor, lead);
+      changed();
+      fireUndoableEditHappened(new SetBoundsEdit(this, oldAnchor, oldLead, anchor, lead));
+    }
+  }
+
+  /**
+   * Invalidates cached data of the Figure. This method must execute fast, because it can be called
+   * very often.
+   */
+  protected void invalidate() {}
+
+  protected boolean isChanging() {
+    return changingDepth != 0;
+  }
+
+  protected int getChangingDepth() {
+    return changingDepth;
+  }
+
+  @Override
+  public boolean contains(Point2D.Double p) {
+    return contains(p, 1.0);
+  }
+
+  /**
+   * Informs that a figure is about to change something that affects the contents of its display
+   * box.
+   */
+  @Override
+  public void willChange() {
+    if (changingDepth == 0) {
+      fireAreaInvalidated();
+      invalidate();
+    }
+    changingDepth++;
+  }
+
+  protected void validate() {}
+
+  /** Informs that a figure changed the area of its display box. */
+  @Override
+  public void changed() {
+    if (changingDepth == 1) {
+      validate();
+      fireFigureChanged(getDrawingArea());
+    } else if (changingDepth < 1) {
+      throw new IllegalStateException(
+          "changed was called without a prior call to willChange. " + changingDepth);
+    }
+    changingDepth--;
+  }
+
+  /**
+   * Returns the Figures connector for the specified location. By default a ChopBoxConnector is
+   * returned.
+   *
+   * @see ChopRectangleConnector
+   */
+  @Override
+  public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
+    return new ChopRectangleConnector(this);
+  }
+
+  @Override
+  public boolean includes(Figure figure) {
+    return figure == this;
+  }
+
+  @Override
+  public Figure findFigureInside(Point2D.Double p) {
+    return (contains(p)) ? this : null;
+  }
+
+  @Override
+  public Connector findCompatibleConnector(Connector c, boolean isStart) {
+    return new ChopRectangleConnector(this);
+  }
+
+  /**
+   * Returns a collection of actions which are presented to the user in a popup menu.
+   *
+   * <p>The collection may contain null entries. These entries are used interpreted as separators in
+   * the popup menu.
+   */
+  @Override
+  public Collection<Action> getActions(Point2D.Double p) {
+    return Collections.emptyList();
+  }
+
+  /**
+   * Returns a specialized tool for the given coordinate.
+   *
+   * <p>Returns null, if no specialized tool is available.
+   */
+  @Override
+  public Tool getTool(Point2D.Double p) {
+    return null;
+  }
+
+  /** Handles a mouse click. */
+  @Override
+  public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
+    return false;
+  }
+
+  @Override
+  public boolean handleDrop(Point2D.Double p, Collection<Figure> droppedFigures, DrawingView view) {
+    return false;
+  }
+
+  @Override
+  public Point2D.Double getEndPoint() {
+    Rectangle2D.Double r = getBounds();
+    return new Point2D.Double(r.x + r.width, r.y + r.height);
+  }
+
+  @Override
+  public Point2D.Double getStartPoint() {
+    Rectangle2D.Double r = getBounds();
+    return new Point2D.Double(r.x, r.y);
+  }
+
+  /*
+  public Rectangle2D.Double getHitBounds() {
+  return getBounds();
+  }
      */
-    private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
-    /**
-     * Forbidden attributes can't be put by the put() operation. They can only
-     * be changed by put().
-     */
-    private HashSet<AttributeKey<?>> forbiddenAttributes;
+  @Override
+  public Dimension2DDouble getPreferredSize() {
+    Rectangle2D.Double r = getBounds();
+    return new Dimension2DDouble(r.width, r.height);
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public AbstractAttributedFigure() {
+  /**
+   * Checks whether this figure is connectable. By default {@code AbstractFigure} can be connected.
+   */
+  @Override
+  public boolean isConnectable() {
+    return isConnectable;
+  }
+
+  public void setConnectable(boolean newValue) {
+    boolean oldValue = isConnectable;
+    isConnectable = newValue;
+  }
+
+  /**
+   * Checks whether this figure is selectable. By default {@code AbstractFigure} can be selected.
+   */
+  @Override
+  public boolean isSelectable() {
+    return isSelectable;
+  }
+
+  public void setSelectable(boolean newValue) {
+    boolean oldValue = isSelectable;
+    isSelectable = newValue;
+  }
+
+  /** Checks whether this figure is removable. By default {@code AbstractFigure} can be removed. */
+  @Override
+  public boolean isRemovable() {
+    return isRemovable;
+  }
+
+  public void setRemovable(boolean newValue) {
+    boolean oldValue = isRemovable;
+    isRemovable = newValue;
+  }
+
+  /**
+   * Checks whether this figure is transformable. By default {@code AbstractFigure} can be
+   * transformed.
+   */
+  @Override
+  public boolean isTransformable() {
+    return isTransformable;
+  }
+
+  public void setTransformable(boolean newValue) {
+    boolean oldValue = isTransformable;
+    isTransformable = newValue;
+  }
+
+  /** Checks whether this figure is visible. By default {@code AbstractFigure} is visible. */
+  @Override
+  public boolean isVisible() {
+    return isVisible;
+  }
+
+  public void setVisible(boolean newValue) {
+    if (newValue != isVisible) {
+      willChange();
+      isVisible = newValue;
+      changed();
     }
+  }
 
-    public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
-        if (forbiddenAttributes == null) {
-            forbiddenAttributes = new HashSet<>();
-        }
-        if (b) {
-            forbiddenAttributes.remove(key);
-        } else {
-            forbiddenAttributes.add(key);
-        }
+  protected FontRenderContext getFontRenderContext() {
+    FontRenderContext frc = null;
+    if (frc == null) {
+      frc = new FontRenderContext(new AffineTransform(), true, true);
     }
+    return frc;
+  }
 
-    public boolean isAttributeEnabled(AttributeKey<?> key) {
-        return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
-    }
+  @Override
+  public void requestRemove() {
+    fireFigureRequestRemove();
+  }
 
-    @SuppressWarnings("unchecked")
-    public void setAttributes(Map<AttributeKey<?>, Object> map) {
-        for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-            set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-        }
-    }
+  /**
+   * AbstractFigure always returns 0. Override this method if your figure needs to be on a different
+   * layer.
+   */
+  @Override
+  public int getLayer() {
+    return 0;
+  }
 
-    @Override
-    public Map<AttributeKey<?>, Object> getAttributes() {
-        return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
-    }
+  @Override
+  public String getToolTipText(Point2D.Double p) {
+    return null;
+  }
 
-    @Override
-    public Object getAttributesRestoreData() {
-        return getAttributes();
-    }
+  @Override
+  public String toString() {
+    StringBuilder buf = new StringBuilder();
+    buf.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
+    buf.append('@');
+    buf.append(hashCode());
+    return buf.toString();
+  }
 
-    @Override
-    public void restoreAttributesTo(Object restoreData) {
-        attributes.clear();
-        @SuppressWarnings("unchecked")
-        HashMap<AttributeKey<?>, Object> restoreDataHashMap = (HashMap<AttributeKey<?>, Object>) restoreData;
-        setAttributes(restoreDataHashMap);
-    }
-
-    /**
-     * Sets an attribute of the figure. AttributeKey name and semantics are
-     * defined by the class implementing the figure interface.
-     */
-    @Override
-    public <T> void set(AttributeKey<T> key, T newValue) {
-        if (forbiddenAttributes == null
-                || !forbiddenAttributes.contains(key)) {
-            @SuppressWarnings("unchecked")
-            T oldValue = key.put(attributes, newValue);
-            fireAttributeChanged(key, oldValue, newValue);
-        }
-    }
-
-    /**
-     * Gets an attribute from the figure.
-     */
-    @Override
-    public <T> T get(AttributeKey<T> key) {
-        return key.get(attributes);
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-        if (get(FILL_COLOR) != null) {
-            g.setColor(get(FILL_COLOR));
-            drawFill(g);
-        }
-        if (get(STROKE_COLOR) != null && get(STROKE_WIDTH) >= 0d) {
-            g.setStroke(AttributeKeys.getStroke(this, AttributeKeys.getScaleFactorFromGraphics(g)));
-            g.setColor(get(STROKE_COLOR));
-            drawStroke(g);
-        }
-        if (get(TEXT_COLOR) != null) {
-            if (get(TEXT_SHADOW_COLOR) != null
-                    && get(TEXT_SHADOW_OFFSET) != null) {
-                Dimension2DDouble d = get(TEXT_SHADOW_OFFSET);
-                g.translate(d.width, d.height);
-                g.setColor(get(TEXT_SHADOW_COLOR));
-                drawText(g);
-                g.translate(-d.width, -d.height);
-            }
-            g.setColor(get(TEXT_COLOR));
-            drawText(g);
-        }
-    }
-
-    public double getStrokeMiterLimitFactor() {
-        Number value = (Number) get(AttributeKeys.STROKE_MITER_LIMIT);
-        return (value != null) ? value.doubleValue() : 10f;
-    }
-
-    @Override
-    public Rectangle2D.Double getDrawingArea() {
-        return getDrawingArea(1.0);
-    }
-
-    @Override
-    public Rectangle2D.Double getDrawingArea(double factor) {
-        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
-        double width = strokeTotalWidth / 2d;
-        if (get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-            width *= get(STROKE_MITER_LIMIT);
-        } else if (get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
-            width += strokeTotalWidth * 2;
-        }
-        width++;
-        Rectangle2D.Double r = getBounds();
-        Geom.grow(r, width, width);
-        return r;
-    }
-
-    /**
-     * This method is called by method draw() to draw the fill area of the
-     * figure. AbstractAttributedFigure configures the Graphics2D object with
-     * the FILL_COLOR attribute before calling this method. If the FILL_COLOR
-     * attribute is null, this method is not called.
-     */
-    protected abstract void drawFill(java.awt.Graphics2D g);
-
-    /**
-     * This method is called by method draw() to draw the lines of the figure .
-     * AttributedFigure configures the Graphics2D object with the STROKE_COLOR
-     * attribute before calling this method. If the STROKE_COLOR attribute is
-     * null, this method is not called.
-     */
-    protected abstract void drawStroke(java.awt.Graphics2D g);
-
-    /**
-     * This method is called by method draw() to draw the text of the figure .
-     * AbstractAttributedFigure configures the Graphics2D object with the
-     * TEXT_COLOR attribute before calling this method. If the TEXT_COLOR
-     * attribute is null, this method is not called.
-     */
-    protected void drawText(java.awt.Graphics2D g) {
-    }
-
-    @Override
-    public AbstractAttributedFigure clone() {
-        AbstractAttributedFigure that = (AbstractAttributedFigure) super.clone();
-        that.attributes = new HashMap<>(this.attributes);
-        if (this.forbiddenAttributes != null) {
-            that.forbiddenAttributes = new HashSet<>(this.forbiddenAttributes);
-        }
-        return that;
-    }
-
-    protected void writeAttributes(DOMOutput out) throws IOException {
-        Figure prototype = (Figure) out.getPrototype();
-        boolean isElementOpen = false;
-        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-            AttributeKey<?> key = entry.getKey();
-            if (forbiddenAttributes == null
-                    || !forbiddenAttributes.contains(key)) {
-                @SuppressWarnings("unchecked")
-                Object prototypeValue = prototype.get(key);
-                @SuppressWarnings("unchecked")
-                Object attributeValue = get(key);
-                if (prototypeValue != attributeValue
-                        || (prototypeValue != null && attributeValue != null
-                        && !prototypeValue.equals(attributeValue))) {
-                    if (!isElementOpen) {
-                        out.openElement("a");
-                        isElementOpen = true;
-                    }
-                    out.openElement(key.getKey());
-                    out.writeObject(entry.getValue());
-                    out.closeElement();
-                }
-            }
-        }
-        if (isElementOpen) {
-            out.closeElement();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    protected void readAttributes(DOMInput in) throws IOException {
-        if (in.getElementCount("a") > 0) {
-            in.openElement("a");
-            for (int i = 0, n = in.getElementCount(); i < n; i++) {
-                in.openElement(i);
-                String name = in.getTagName();
-                Object value = in.readObject();
-                AttributeKey<?> key = getAttributeKey(name);
-                if (key != null && key.isAssignable(value)) {
-                    if (forbiddenAttributes == null
-                            || !forbiddenAttributes.contains(key)) {
-                        set((AttributeKey<Object>) key, value);
-                    }
-                }
-                in.closeElement();
-            }
-            in.closeElement();
-        }
-    }
-
-    protected AttributeKey<?> getAttributeKey(String name) {
-        return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
-    }
-
-    /**
-     * Applies all attributes of this figure to that figure.
-     */
-    @SuppressWarnings("unchecked")
-    protected void applyAttributesTo(Figure that) {
-        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-            that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-        }
-    }
-
-    @Override
-    public void write(DOMOutput out) throws IOException {
-        Rectangle2D.Double r = getBounds();
-        out.addAttribute("x", r.x);
-        out.addAttribute("y", r.y);
-        out.addAttribute("w", r.width);
-        out.addAttribute("h", r.height);
-        writeAttributes(out);
-    }
-
-    @Override
-    public void read(DOMInput in) throws IOException {
-        double x = in.getAttribute("x", 0d);
-        double y = in.getAttribute("y", 0d);
-        double w = in.getAttribute("w", 0d);
-        double h = in.getAttribute("h", 0d);
-        setBounds(new Point2D.Double(x, y), new Point2D.Double(x + w, y + h));
-        readAttributes(in);
-    }
-
-    public <T> void removeAttribute(AttributeKey<T> key) {
-        if (hasAttribute(key)) {
-            T oldValue = get(key);
-            attributes.remove(key);
-            fireAttributeChanged(key, oldValue, key.getDefaultValue());
-        }
-    }
-
-    public boolean hasAttribute(AttributeKey<?> key) {
-        return attributes.containsKey(key);
-    }
+  @Override
+  public Collection<Connector> getConnectors(ConnectionFigure prototype) {
+    List<Connector> connectors = new ArrayList<>();
+    connectors.add(new ChopRectangleConnector(this));
+    return connectors;
+  }
 }

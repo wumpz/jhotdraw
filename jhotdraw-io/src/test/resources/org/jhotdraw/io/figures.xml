@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<drawing>
+    <figures>
+        <r h="52" id="0" w="63" x="53" y="40">
+            <a>
+                <fillColor>
+                    <color id="1" rgba="#ffffff66"/>
+                </fillColor>
+            </a>
+        </r>
+        <rr arcHeight="20" arcWidth="20" h="59" id="2" w="73" x="157" y="33"/>
+        <e h="66" id="3" w="67" x="273" y="30">
+            <a>
+                <fillColor>
+                    <color id="4" rgba="#ff66ff66"/>
+                </fillColor>
+            </a>
+        </e>
+        <triangle h="53" id="5" w="77" x="386" y="27">
+            <a>
+                <fillColor>
+                    <color id="6" rgba="#ff6666ff"/>
+                </fillColor>
+            </a>
+        </triangle>
+        <b id="7">
+            <points closed="true">
+                <p colinear="true" x="501" y="15"/>
+                <p c1y="120" c2y="120" colinear="true" x="530" y="121"/>
+                <p c1x="546" c1y="135" c2x="546" c2y="135" colinear="true" x="553" y="139"/>
+                <p c1x="556" c1y="140" c2x="556" c2y="140" colinear="true" x="590" y="141"/>
+                <p c2x="621.4958147667429" c2y="123.77767345748583" colinear="true" mask="2" x="612" y="135"/>
+                <p colinear="true" x="647" y="80"/>
+                <p colinear="true" x="639" y="67"/>
+                <p c1x="578" c2x="578" colinear="true" x="572" y="34"/>
+                <p colinear="true" x="578" y="21"/>
+                <p colinear="true" x="579" y="21"/>
+            </points>
+            <a>
+                <fillColor>
+                    <color id="8" rgba="#ff00ff80"/>
+                </fillColor>
+                <pathClosed>
+                    <boolean id="9">true</boolean>
+                </pathClosed>
+            </a>
+        </b>
+        <t id="a" x="49" y="155">
+            <a>
+                <fontSize>
+                    <double id="b">19.0</double>
+                </fontSize>
+                <text>
+                    <string id="c">simple text figure</string>
+                </text>
+                <textColor>
+                    <color id="d" rgba="#ff008040"/>
+                </textColor>
+            </a>
+        </t>
+        <ta h="35" id="e" w="174" x="240" y="151">
+            <a>
+                <fillColor>
+                    <color id="f" rgba="#ffffff00"/>
+                </fillColor>
+                <fontSize>
+                    <double id="10">18.0</double>
+                </fontSize>
+                <text>
+                    <string ref="c"/>
+                </text>
+            </a>
+        </ta>
+        <r h="81" id="11" w="82" x="77" y="231">
+            <a>
+                <fillColor>
+                    <null id="12"/>
+                </fillColor>
+                <textColor>
+                    <color ref="d"/>
+                </textColor>
+            </a>
+        </r>
+        <r h="77" id="13" w="91" x="226" y="231">
+            <a>
+                <fillColor>
+                    <null ref="12"/>
+                </fillColor>
+            </a>
+        </r>
+        <lnk id="14">
+            <points>
+                <p c1x="-0.5" c1y="0.040716612377877937" c2x="-0.5" c2y="0.040716612377877937" colinear="true" x="159.5" y="270.9592833876221"/>
+                <p c1x="-0.5" c1y="0.040716612377877937" c2x="-0.5" c2y="0.040716612377877937" colinear="true" x="225.5" y="270.09934853420197"/>
+            </points>
+            <startConnector>
+                <rConnector id="15">
+                    <Owner>
+                        <r ref="11"/>
+                    </Owner>
+                </rConnector>
+            </startConnector>
+            <endConnector>
+                <rConnector id="16">
+                    <Owner>
+                        <r ref="13"/>
+                    </Owner>
+                </rConnector>
+            </endConnector>
+            <a>
+                <fillColor>
+                    <null ref="12"/>
+                </fillColor>
+            </a>
+        </lnk>
+        <b id="17">
+            <points>
+                <p colinear="true" x="78" y="447"/>
+                <p colinear="true" x="115" y="387"/>
+                <p colinear="true" x="219" y="417"/>
+                <p colinear="true" x="217" y="484"/>
+                <p colinear="true" x="327" y="460"/>
+                <p c1x="327" c1y="459" c2x="327" c2y="459" colinear="true" x="331" y="448"/>
+                <p colinear="true" x="335" y="376"/>
+                <p colinear="true" x="404" y="378"/>
+                <p c1y="434" c2y="434" colinear="true" x="420" y="437"/>
+                <p c1y="438" c2y="438" colinear="true" x="419" y="441"/>
+                <p colinear="true" x="477" y="484"/>
+                <p colinear="true" x="492" y="474"/>
+                <p colinear="true" x="559" y="372"/>
+                <p colinear="true" x="586" y="358"/>
+                <p colinear="true" x="620" y="373"/>
+            </points>
+            <a>
+                <fillColor>
+                    <null ref="12"/>
+                </fillColor>
+            </a>
+        </b>
+    </figures>
+</drawing>

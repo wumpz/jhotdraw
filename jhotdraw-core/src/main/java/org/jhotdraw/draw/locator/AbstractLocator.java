@@ -7,30 +7,19 @@
  */
 package org.jhotdraw.draw.locator;
 
-import org.jhotdraw.draw.figure.Figure;
 import java.awt.geom.*;
 import java.io.Serializable;
-import org.jhotdraw.draw.*;
-import org.jhotdraw.xml.*;
+import org.jhotdraw.draw.figure.Figure;
 
-/**
- * This abstract class can be extended to implement a {@link Locator}.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
-public abstract class AbstractLocator implements Locator, DOMStorable, Serializable {
+/** This abstract class can be extended to implement a {@link Locator}. */
+public abstract class AbstractLocator implements Locator, Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public AbstractLocator() {
-    }
+  public AbstractLocator() {}
 
-    @Override
-    public Point2D.Double locate(Figure owner, Figure dependent) {
-        return locate(owner);
-    }
+  @Override
+  public Point2D.Double locate(Figure owner, Figure dependent) {
+    return locate(owner);
+  }
 }

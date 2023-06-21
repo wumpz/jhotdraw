@@ -25,81 +25,71 @@ import org.jhotdraw.util.ActionUtil;
 
 /**
  * Provides meta-data and factory methods for an application.
- * <p>
- * See {@link ApplicationModel} on how this class interacts with an application.
  *
- * @author Werner Randelshofer
- * @version $Id$
+ * <p>See {@link ApplicationModel} on how this class interacts with an application.
  */
 public class TeddyApplicationModel extends DefaultApplicationModel {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public TeddyApplicationModel() {
-    }
+  public TeddyApplicationModel() {}
 
-    @Override
-    public ActionMap createActionMap(Application a, View v) {
-        ActionMap m = super.createActionMap(a, v);
-        AbstractAction aa;
-        m.put(FindAction.ID, new FindAction(a, v));
-        m.put(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a, v));
-        m.put(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a, v));
-        m.put(ToggleLineNumbersAction.ID, new ToggleLineNumbersAction(a, v));
-        m.put(PrintFileAction.ID, null);
-        return m;
-    }
+  @Override
+  public ActionMap createActionMap(Application a, View v) {
+    ActionMap m = super.createActionMap(a, v);
+    AbstractAction aa;
+    m.put(FindAction.ID, new FindAction(a, v));
+    m.put(ToggleLineWrapAction.ID, new ToggleLineWrapAction(a, v));
+    m.put(ToggleStatusBarAction.ID, new ToggleStatusBarAction(a, v));
+    m.put(ToggleLineNumbersAction.ID, new ToggleLineNumbersAction(a, v));
+    m.put(PrintFileAction.ID, null);
+    return m;
+  }
 
-    @Override
-    public void initView(Application a, View v) {
-    }
+  @Override
+  public void initView(Application a, View v) {}
 
-    /**
-     * Creates the MenuBuilder.
-     */
-    @Override
-    protected MenuBuilder createMenuBuilder() {
-        return new DefaultMenuBuilder() {
-            @Override
-            public void addOtherViewItems(JMenu m, Application app, View v) {
-                ActionMap am = app.getActionMap(v);
-                JCheckBoxMenuItem cbmi;
-                cbmi = new JCheckBoxMenuItem(am.get(ToggleLineWrapAction.ID));
-                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleLineWrapAction.ID));
-                m.add(cbmi);
-                cbmi = new JCheckBoxMenuItem(am.get(ToggleLineNumbersAction.ID));
-                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleLineNumbersAction.ID));
-                m.add(cbmi);
-                cbmi = new JCheckBoxMenuItem(am.get(ToggleStatusBarAction.ID));
-                ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleStatusBarAction.ID));
-                m.add(cbmi);
-            }
-        };
-    }
+  /** Creates the MenuBuilder. */
+  @Override
+  protected MenuBuilder createMenuBuilder() {
+    return new DefaultMenuBuilder() {
+      @Override
+      public void addOtherViewItems(JMenu m, Application app, View v) {
+        ActionMap am = app.getActionMap(v);
+        JCheckBoxMenuItem cbmi;
+        cbmi = new JCheckBoxMenuItem(am.get(ToggleLineWrapAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleLineWrapAction.ID));
+        m.add(cbmi);
+        cbmi = new JCheckBoxMenuItem(am.get(ToggleLineNumbersAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleLineNumbersAction.ID));
+        m.add(cbmi);
+        cbmi = new JCheckBoxMenuItem(am.get(ToggleStatusBarAction.ID));
+        ActionUtil.configureJCheckBoxMenuItem(cbmi, am.get(ToggleStatusBarAction.ID));
+        m.add(cbmi);
+      }
+    };
+  }
 
-    /**
-     * Creates toolbars for the application.
-     * This class returns an empty list - we don't want toolbars in a text editor.
-     */
-    @Override
-    public List<JToolBar> createToolBars(Application app, View p) {
-        return Collections.emptyList();
-    }
+  /**
+   * Creates toolbars for the application. This class returns an empty list - we don't want toolbars
+   * in a text editor.
+   */
+  @Override
+  public List<JToolBar> createToolBars(Application app, View p) {
+    return Collections.emptyList();
+  }
 
-    @Override
-    public JFileURIChooser createOpenChooser(Application app, View p) {
-        JFileURIChooser chooser = new JFileURIChooser();
-        chooser.setAccessory(new CharacterSetAccessory());
-        return chooser;
-    }
+  @Override
+  public JFileURIChooser createOpenChooser(Application app, View p) {
+    JFileURIChooser chooser = new JFileURIChooser();
+    chooser.setAccessory(new CharacterSetAccessory());
+    return chooser;
+  }
 
-    @Override
-    public JFileURIChooser createSaveChooser(Application app, View p) {
-        JFileURIChooser chooser = new JFileURIChooser();
-        chooser.setAccessory(new CharacterSetAccessory());
-        return chooser;
-    }
+  @Override
+  public JFileURIChooser createSaveChooser(Application app, View p) {
+    JFileURIChooser chooser = new JFileURIChooser();
+    chooser.setAccessory(new CharacterSetAccessory());
+    return chooser;
+  }
 }

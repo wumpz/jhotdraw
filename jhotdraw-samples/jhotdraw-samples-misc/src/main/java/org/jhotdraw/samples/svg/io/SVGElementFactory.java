@@ -7,11 +7,5 @@
  */
 package org.jhotdraw.samples.svg.io;
 
-/**
- * Creates SVG elements from Figures.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
-public interface SVGElementFactory {
-}
+/** Creates SVG elements from Figures. */
+public interface SVGElementFactory {}

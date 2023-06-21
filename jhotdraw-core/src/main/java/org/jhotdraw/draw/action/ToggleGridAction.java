@@ -11,39 +11,30 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.util.ActionUtil;
 import org.jhotdraw.util.ResourceBundleUtil;
 
-/**
- * Toggles the grid of the current view.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** Toggles the grid of the current view. */
 public class ToggleGridAction extends AbstractDrawingViewAction {
 
-    private static final long serialVersionUID = 1L;
-    public static final String ID = "view.toggleGrid";
+  private static final long serialVersionUID = 1L;
+  public static final String ID = "view.toggleGrid";
 
-    /**
-     * Creates a new instance.
-     */
-    public ToggleGridAction(DrawingEditor editor) {
-        super(editor);
-        ResourceBundleUtil labels
-                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        labels.configureAction(this, ID);
-        updateViewState();
-    }
+  public ToggleGridAction(DrawingEditor editor) {
+    super(editor);
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    labels.configureAction(this, ID);
+    updateViewState();
+  }
 
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        DrawingView view = getView();
-        if (view != null) {
-            view.setConstrainerVisible(!view.isConstrainerVisible());
-        }
+  @Override
+  public void actionPerformed(java.awt.event.ActionEvent e) {
+    DrawingView view = getView();
+    if (view != null) {
+      view.setConstrainerVisible(!view.isConstrainerVisible());
     }
+  }
 
-    @Override
-    protected void updateViewState() {
-        DrawingView view = getView();
-        putValue(ActionUtil.SELECTED_KEY, view != null && view.isConstrainerVisible());
-    }
+  @Override
+  protected void updateViewState() {
+    DrawingView view = getView();
+    putValue(ActionUtil.SELECTED_KEY, view != null && view.isConstrainerVisible());
+  }
 }

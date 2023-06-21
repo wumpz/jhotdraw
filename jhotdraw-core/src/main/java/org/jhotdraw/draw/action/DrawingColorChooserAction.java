@@ -7,96 +7,90 @@
  */
 package org.jhotdraw.draw.action;
 
-import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /**
- * The DrawingColorChooserAction changes a color attribute of the Drawing object
- * in the current view of the DrawingEditor.
- * <p>
- * The behavior for choosing the initial color of the JColorChooser matches with
- * {@link DrawingColorIcon }.
+ * The DrawingColorChooserAction changes a color attribute of the Drawing object in the current view
+ * of the DrawingEditor.
  *
- * @author Werner Randelshofer
- * @version $Id$
+ * <p>The behavior for choosing the initial color of the JColorChooser matches with {@link
+ * DrawingColorIcon }.
  */
 public class DrawingColorChooserAction extends EditorColorChooserAction {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * Creates a new instance.
-     */
-    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
-        this(editor, key, null, null);
-    }
+  public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key) {
+    this(editor, key, null, null);
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
-        this(editor, key, null, icon);
-    }
+  public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, Icon icon) {
+    this(editor, key, null, icon);
+  }
 
-    /**
-     * Creates a new instance.
-     */
-    public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
-        this(editor, key, name, null);
-    }
+  public DrawingColorChooserAction(DrawingEditor editor, AttributeKey<Color> key, String name) {
+    this(editor, key, name, null);
+  }
 
-    public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon) {
-        this(editor, key, name, icon, new HashMap<AttributeKey<?>, Object>());
-    }
+  public DrawingColorChooserAction(
+      DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon) {
+    this(editor, key, name, icon, new HashMap<AttributeKey<?>, Object>());
+  }
 
-    public DrawingColorChooserAction(DrawingEditor editor, final AttributeKey<Color> key, String name, Icon icon,
-            Map<AttributeKey<?>, Object> fixedAttributes) {
-        super(editor, key, name, icon, fixedAttributes);
-    }
+  public DrawingColorChooserAction(
+      DrawingEditor editor,
+      final AttributeKey<Color> key,
+      String name,
+      Icon icon,
+      Map<AttributeKey<?>, Object> fixedAttributes) {
+    super(editor, key, name, icon, fixedAttributes);
+  }
 
-    @Override
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        if (colorChooser == null) {
-            colorChooser = new JColorChooser();
-        }
-        Color initialColor = getInitialColor();
-        // FIXME - Reuse colorChooser object instead of calling static method here.
-        ResourceBundleUtil labels
-                = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-        Color chosenColor = JColorChooser.showDialog((Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
-        if (chosenColor != null) {
-            HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);
-            attr.put(key, chosenColor);
-            HashSet<Figure> figures = new HashSet<>();
-            figures.add(getView().getDrawing());
-            applyAttributesTo(attr, figures);
-        }
+  @Override
+  public void actionPerformed(java.awt.event.ActionEvent e) {
+    if (colorChooser == null) {
+      colorChooser = new JColorChooser();
     }
+    Color initialColor = getInitialColor();
+    // FIXME - Reuse colorChooser object instead of calling static method here.
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    Color chosenColor =
+        JColorChooser.showDialog(
+            (Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
+    if (chosenColor != null) {
+      HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);
+      attr.put(key, chosenColor);
+      HashSet<Figure> figures = new HashSet<>();
+      figures.addAll(getView().getDrawing().getChildren());
+      applyAttributesTo(attr, figures);
+    }
+  }
 
-    @Override
-    protected Color getInitialColor() {
-        Color initialColor = null;
-        DrawingView v = getEditor().getActiveView();
-        if (v != null) {
-            Figure f = v.getDrawing();
-            initialColor = f.get(key);
-        }
-        if (initialColor == null) {
-            initialColor = super.getInitialColor();
-        }
-        return initialColor;
+  @Override
+  protected Color getInitialColor() {
+    Color initialColor = null;
+    DrawingView v = getEditor().getActiveView();
+    if (v != null) {
+      Drawing f = v.getDrawing();
+      initialColor = f.attr().get(key);
     }
+    if (initialColor == null) {
+      initialColor = super.getInitialColor();
+    }
+    return initialColor;
+  }
 
-    @Override
-    protected void updateEnabledState() {
-        if (getView() != null) {
-            setEnabled(getView().isEnabled());
-        } else {
-            setEnabled(false);
-        }
+  @Override
+  protected void updateEnabledState() {
+    if (getView() != null) {
+      setEnabled(getView().isEnabled());
+    } else {
+      setEnabled(false);
     }
+  }
 }

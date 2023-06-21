@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<drawing>
+    <figures>
+        <b id="0">
+            <points closed="true">
+                <p colinear="true" x="501" y="15"/>
+                <p c1y="120" c2y="120" colinear="true" x="530" y="121"/>
+                <p c1x="546" c1y="135" c2x="546" c2y="135" colinear="true" x="553" y="139"/>
+                <p c1x="556" c1y="140" c2x="556" c2y="140" colinear="true" x="590" y="141"/>
+                <p c2x="621.4958147667429" c2y="123.77767345748583" colinear="true" mask="2" x="612" y="135"/>
+                <p colinear="true" x="647" y="80"/>
+                <p colinear="true" x="639" y="67"/>
+                <p c1x="578" c2x="578" colinear="true" x="572" y="34"/>
+                <p colinear="true" x="578" y="21"/>
+                <p colinear="true" x="579" y="21"/>
+            </points>
+            <a>
+                <fillColor>
+                    <color id="1" rgba="#ff00ff80"/>
+                </fillColor>
+                <pathClosed>
+                    <boolean id="2">true</boolean>
+                </pathClosed>
+            </a>
+        </b>
+    </figures>
+</drawing>

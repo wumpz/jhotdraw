@@ -20,185 +20,174 @@ import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
 
 /**
- * This abstract class can be extended to implement an {@code Action} that acts
- * on behalf of the selected figures of a {@link org.jhotdraw.draw.DrawingView}.
- * <p>
- * By default the enabled state of this action reflects the enabled state of the
- * active {@code DrawingView}. If no drawing view is active, this action is
- * disabled. When many actions listen to the enabled state of the active drawing
- * views this can considerably slow down the editor. If updating the enabled
- * state is not necessary, you can prevent the action from doing so using
- * {@link #setUpdateEnabledState}.
- * <p>
- * {@code AbstractDrawingEditorAction} listens using a
- * {@link WeakPropertyChangeListener} on the {@code DrawingEditor} and thus may
- * become garbage collected if it is not referenced by any other object.
+ * This abstract class can be extended to implement an {@code Action} that acts on behalf of the
+ * selected figures of a {@link org.jhotdraw.draw.DrawingView}.
  *
- * @author Werner Randelshofer
- * @version $Id$
+ * <p>By default the enabled state of this action reflects the enabled state of the active {@code
+ * DrawingView}. If no drawing view is active, this action is disabled. When many actions listen to
+ * the enabled state of the active drawing views this can considerably slow down the editor. If
+ * updating the enabled state is not necessary, you can prevent the action from doing so using
+ * {@link #setUpdateEnabledState}.
+ *
+ * <p>{@code AbstractDrawingEditorAction} listens using a {@link WeakPropertyChangeListener} on the
+ * {@code DrawingEditor} and thus may become garbage collected if it is not referenced by any other
+ * object.
  */
-public abstract class AbstractSelectedAction
-        extends AbstractAction implements Disposable {
+public abstract class AbstractSelectedAction extends AbstractAction implements Disposable {
+
+  private static final long serialVersionUID = 1L;
+  private DrawingEditor editor;
+  private transient DrawingView activeView;
+
+  private class EventHandler
+      implements PropertyChangeListener, FigureSelectionListener, Serializable {
 
     private static final long serialVersionUID = 1L;
-    private DrawingEditor editor;
-    transient private DrawingView activeView;
 
-    private class EventHandler implements PropertyChangeListener, FigureSelectionListener, Serializable {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null) || (evt.getPropertyName() != null && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
-                if (activeView != null) {
-                    activeView.removeFigureSelectionListener(this);
-                    activeView.removePropertyChangeListener(this);
-                }
-                if (evt.getNewValue() != null) {
-                    activeView = ((DrawingView) evt.getNewValue());
-                    activeView.addFigureSelectionListener(this);
-                    activeView.addPropertyChangeListener(this);
-                }
-                updateEnabledState();
-            } else if ("enabled".equals(evt.getPropertyName())) {
-                updateEnabledState();
-            }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null)
+          || (evt.getPropertyName() != null
+              && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
+        if (activeView != null) {
+          activeView.removeFigureSelectionListener(this);
+          activeView.removePropertyChangeListener(this);
         }
-
-        @Override
-        public String toString() {
-            return AbstractSelectedAction.this + " " + this.getClass() + "@" + hashCode();
+        if (evt.getNewValue() != null) {
+          activeView = ((DrawingView) evt.getNewValue());
+          activeView.addFigureSelectionListener(this);
+          activeView.addPropertyChangeListener(this);
         }
-
-        @Override
-        public void selectionChanged(FigureSelectionEvent evt) {
-            updateEnabledState();
-        }
-    };
-    private EventHandler eventHandler = new EventHandler();
-
-    /**
-     * Creates an action which acts on the selected figures on the current view
-     * of the specified editor.
-     */
-    public AbstractSelectedAction(DrawingEditor editor) {
-        setEditor(editor);
-        //updateEnabledState();
-    }
-
-    /**
-     * Updates the enabled state of this action to reflect the enabled state
-     * of the active {@code DrawingView}. If no drawing view is active, this
-     * action is disabled.
-     */
-    protected void updateEnabledState() {
-        if (getView() != null) {
-            setEnabled(getView().isEnabled()
-                    && getView().getSelectionCount() > 0);
-        } else {
-            setEnabled(false);
-        }
+        updateEnabledState();
+      } else if ("enabled".equals(evt.getPropertyName())) {
+        updateEnabledState();
+      }
     }
 
     @Override
-    public void dispose() {
-        setEditor(null);
+    public String toString() {
+      return AbstractSelectedAction.this + " " + this.getClass() + "@" + hashCode();
     }
 
-    public void setEditor(DrawingEditor editor) {
-        if (eventHandler != null) {
-            unregisterEventHandler();
-        }
-        this.editor = editor;
-        if (editor != null && eventHandler != null) {
-            registerEventHandler();
-            updateEnabledState();
-        }
+    @Override
+    public void selectionChanged(FigureSelectionEvent evt) {
+      updateEnabledState();
     }
+  }
+  ;
 
-    public DrawingEditor getEditor() {
-        return editor;
-    }
+  private EventHandler eventHandler = new EventHandler();
 
-    protected DrawingView getView() {
-        return (editor == null) ? null : editor.getActiveView();
-    }
+  /**
+   * Creates an action which acts on the selected figures on the current view of the specified
+   * editor.
+   */
+  public AbstractSelectedAction(DrawingEditor editor) {
+    setEditor(editor);
+    // updateEnabledState();
+  }
 
-    protected Drawing getDrawing() {
-        return (getView() == null) ? null : getView().getDrawing();
+  /**
+   * Updates the enabled state of this action to reflect the enabled state of the active {@code
+   * DrawingView}. If no drawing view is active, this action is disabled.
+   */
+  protected void updateEnabledState() {
+    if (getView() != null) {
+      setEnabled(getView().isEnabled() && getView().getSelectionCount() > 0);
+    } else {
+      setEnabled(false);
     }
+  }
 
-    protected void fireUndoableEditHappened(UndoableEdit edit) {
-        getDrawing().fireUndoableEditHappened(edit);
-    }
+  @Override
+  public void dispose() {
+    setEditor(null);
+  }
 
-    /**
-     * By default, the enabled state of this action is updated to reflect
-     * the enabled state of the active {@code DrawingView}.
-     * Since this is not always necessary, and since many listening actions
-     * may considerably slow down the drawing editor, you can switch this
-     * behavior off here.
-     *
-     * @param newValue Specify false to prevent automatic updating of the
-     * enabled state.
-     */
-    public void setUpdateEnabledState(boolean newValue) {
-        // Note: eventHandler != null yields true, if we are currently updating
-        // the enabled state.
-        if (eventHandler != null != newValue) {
-            if (newValue) {
-                eventHandler = new EventHandler();
-                registerEventHandler();
-            } else {
-                unregisterEventHandler();
-                eventHandler = null;
-            }
-        }
-        if (newValue) {
-            updateEnabledState();
-        }
+  public void setEditor(DrawingEditor editor) {
+    if (eventHandler != null) {
+      unregisterEventHandler();
     }
+    this.editor = editor;
+    if (editor != null && eventHandler != null) {
+      registerEventHandler();
+      updateEnabledState();
+    }
+  }
 
-    /**
-     * Returns true, if this action automatically updates its enabled
-     * state to reflect the enabled state of the active {@code DrawingView}.
-     */
-    public boolean isUpdatEnabledState() {
-        return eventHandler != null;
-    }
+  public DrawingEditor getEditor() {
+    return editor;
+  }
 
-    /**
-     * Unregisters the event handler from the drawing editor and the
-     * active drawing view.
-     */
-    private void unregisterEventHandler() {
-        if (editor != null) {
-            editor.removePropertyChangeListener(eventHandler);
-        }
-        if (activeView != null) {
-            activeView.removeFigureSelectionListener(eventHandler);
-            activeView.removePropertyChangeListener(eventHandler);
-            activeView = null;
-        }
-    }
+  protected DrawingView getView() {
+    return (editor == null) ? null : editor.getActiveView();
+  }
 
-    /**
-     * Registers the event handler from the drawing editor and the
-     * active drawing view.
-     */
-    private void registerEventHandler() {
-        if (editor != null) {
-            editor.addPropertyChangeListener(new WeakPropertyChangeListener(eventHandler));
-            if (activeView != null) {
-                activeView.removeFigureSelectionListener(eventHandler);
-                activeView.removePropertyChangeListener(eventHandler);
-            }
-            activeView = editor.getActiveView();
-            if (activeView != null) {
-                activeView.addFigureSelectionListener(eventHandler);
-                activeView.addPropertyChangeListener(eventHandler);
-            }
-        }
+  protected Drawing getDrawing() {
+    return (getView() == null) ? null : getView().getDrawing();
+  }
+
+  protected void fireUndoableEditHappened(UndoableEdit edit) {
+    getDrawing().fireUndoableEditHappened(edit);
+  }
+
+  /**
+   * By default, the enabled state of this action is updated to reflect the enabled state of the
+   * active {@code DrawingView}. Since this is not always necessary, and since many listening
+   * actions may considerably slow down the drawing editor, you can switch this behavior off here.
+   *
+   * @param newValue Specify false to prevent automatic updating of the enabled state.
+   */
+  public void setUpdateEnabledState(boolean newValue) {
+    // Note: eventHandler != null yields true, if we are currently updating
+    // the enabled state.
+    if (eventHandler != null != newValue) {
+      if (newValue) {
+        eventHandler = new EventHandler();
+        registerEventHandler();
+      } else {
+        unregisterEventHandler();
+        eventHandler = null;
+      }
     }
+    if (newValue) {
+      updateEnabledState();
+    }
+  }
+
+  /**
+   * Returns true, if this action automatically updates its enabled state to reflect the enabled
+   * state of the active {@code DrawingView}.
+   */
+  public boolean isUpdatEnabledState() {
+    return eventHandler != null;
+  }
+
+  /** Unregisters the event handler from the drawing editor and the active drawing view. */
+  private void unregisterEventHandler() {
+    if (editor != null) {
+      editor.removePropertyChangeListener(eventHandler);
+    }
+    if (activeView != null) {
+      activeView.removeFigureSelectionListener(eventHandler);
+      activeView.removePropertyChangeListener(eventHandler);
+      activeView = null;
+    }
+  }
+
+  /** Registers the event handler from the drawing editor and the active drawing view. */
+  private void registerEventHandler() {
+    if (editor != null) {
+      editor.addPropertyChangeListener(new WeakPropertyChangeListener(eventHandler));
+      if (activeView != null) {
+        activeView.removeFigureSelectionListener(eventHandler);
+        activeView.removePropertyChangeListener(eventHandler);
+      }
+      activeView = editor.getActiveView();
+      if (activeView != null) {
+        activeView.addFigureSelectionListener(eventHandler);
+        activeView.addPropertyChangeListener(eventHandler);
+      }
+    }
+  }
 }

@@ -13,163 +13,207 @@ import java.util.prefs.*;
 import javax.swing.*;
 import org.jhotdraw.util.prefs.PreferencesUtil;
 
-/**
- * CharacterSetAccessory.
- *
- * @author Werner Randelshofer
- * @version $Id$
- */
+/** CharacterSetAccessory. */
 public class CharacterSetAccessory extends javax.swing.JPanel {
 
-    private static final long serialVersionUID = 1L;
-    private static final Preferences PREFS = PreferencesUtil.userNodeForPackage(TeddyView.class);
-    private static Object[] availableCharSets;
+  private static final long serialVersionUID = 1L;
+  private static final Preferences PREFS = PreferencesUtil.userNodeForPackage(TeddyView.class);
+  private static Object[] availableCharSets;
 
-    /**
-     * Creates a new instance.
-     */
-    public CharacterSetAccessory() {
-        if ("aqua".equals(UIManager.getLookAndFeel().getID().toLowerCase())) {
-            initComponents();
-        } else {
-            initComponentsWin();
-        }
-        String selectedItem = PREFS.get("characterSet", "UTF-8");
-        charSetCombo.setModel(new DefaultComboBoxModel(new String[]{selectedItem}));
-        charSetCombo.setSelectedItem(selectedItem);
-        charSetCombo.setEnabled(false);
-        fetchAvailableCharSets();
-        String lineSeparator = PREFS.get("lineSeparator", "\n");
-        if ("\r".equals(lineSeparator)) {
-            lineSepCombo.setSelectedIndex(0);
-        } else if ("\n".equals(lineSeparator)) {
-            lineSepCombo.setSelectedIndex(1);
-        } else if ("\r\n".equals(lineSeparator)) {
-            lineSepCombo.setSelectedIndex(2);
-        }
+  public CharacterSetAccessory() {
+    if ("aqua".equals(UIManager.getLookAndFeel().getID().toLowerCase())) {
+      initComponents();
+    } else {
+      initComponentsWin();
     }
+    String selectedItem = PREFS.get("characterSet", "UTF-8");
+    charSetCombo.setModel(new DefaultComboBoxModel(new String[] {selectedItem}));
+    charSetCombo.setSelectedItem(selectedItem);
+    charSetCombo.setEnabled(false);
+    fetchAvailableCharSets();
+    String lineSeparator = PREFS.get("lineSeparator", "\n");
+    if ("\r".equals(lineSeparator)) {
+      lineSepCombo.setSelectedIndex(0);
+    } else if ("\n".equals(lineSeparator)) {
+      lineSepCombo.setSelectedIndex(1);
+    } else if ("\r\n".equals(lineSeparator)) {
+      lineSepCombo.setSelectedIndex(2);
+    }
+  }
 
-    public void fetchAvailableCharSets() {
-        if (availableCharSets == null) {
-            new SwingWorker() {
-                @Override
-                protected Object doInBackground() throws Exception {
-                    SortedMap<String, Charset> sm = Charset.availableCharsets();
-                    LinkedList<String> list = new LinkedList<String>();
-                    for (String key : sm.keySet()) {
-                        if (!key.startsWith("x-")) {
-                            list.add(key);
-                        }
-                    }
-                    availableCharSets = list.toArray();
-                    Arrays.sort(availableCharSets);
-                    return null;
-                }
-
-                @Override
-                public void done() {
-                    Object selectedItem = charSetCombo.getSelectedItem();
-                    charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));
-                    charSetCombo.setSelectedItem(selectedItem);
-                    charSetCombo.setEnabled(true);
-                }
-            }.execute();
-        } else {
-            Object selectedItem = charSetCombo.getSelectedItem();
-            charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));
-            charSetCombo.setSelectedItem(selectedItem);
-            charSetCombo.setEnabled(true);
+  public void fetchAvailableCharSets() {
+    if (availableCharSets == null) {
+      new SwingWorker() {
+        @Override
+        protected Object doInBackground() throws Exception {
+          SortedMap<String, Charset> sm = Charset.availableCharsets();
+          LinkedList<String> list = new LinkedList<String>();
+          for (String key : sm.keySet()) {
+            if (!key.startsWith("x-")) {
+              list.add(key);
+            }
+          }
+          availableCharSets = list.toArray();
+          Arrays.sort(availableCharSets);
+          return null;
         }
-    }
 
-    public String getCharacterSet() {
-        PREFS.put("characterSet", (String) charSetCombo.getSelectedItem());
-        return (String) charSetCombo.getSelectedItem();
-    }
-
-    public String getLineSeparator() {
-        String lineSeparator;
-        switch (charSetCombo.getSelectedIndex()) {
-            case 0:
-            default:
-                lineSeparator = "\n";
-                break;
-            case 1:
-                lineSeparator = "\r";
-                break;
-            case 2:
-                lineSeparator = "\r\n";
-                break;
+        @Override
+        public void done() {
+          Object selectedItem = charSetCombo.getSelectedItem();
+          charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));
+          charSetCombo.setSelectedItem(selectedItem);
+          charSetCombo.setEnabled(true);
         }
-        PREFS.put("lineSeparator", lineSeparator);
-        return lineSeparator;
+      }.execute();
+    } else {
+      Object selectedItem = charSetCombo.getSelectedItem();
+      charSetCombo.setModel(new DefaultComboBoxModel(availableCharSets));
+      charSetCombo.setSelectedItem(selectedItem);
+      charSetCombo.setEnabled(true);
     }
+  }
 
-    /**
-     * This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        charSetLabel = new javax.swing.JLabel();
-        charSetCombo = new javax.swing.JComboBox();
-        lineSepLabel = new javax.swing.JLabel();
-        lineSepCombo = new javax.swing.JComboBox();
-        setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        charSetLabel.setText("Character Set:");
-        charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        lineSepLabel.setText("Line Separator:");
-        lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CR", "LF", "CR LF" }));
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(charSetLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(charSetCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lineSepLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lineSepCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+  public String getCharacterSet() {
+    PREFS.put("characterSet", (String) charSetCombo.getSelectedItem());
+    return (String) charSetCombo.getSelectedItem();
+  }
+
+  public String getLineSeparator() {
+    String lineSeparator;
+    switch (charSetCombo.getSelectedIndex()) {
+      case 0:
+      default:
+        lineSeparator = "\n";
+        break;
+      case 1:
+        lineSeparator = "\r";
+        break;
+      case 2:
+        lineSeparator = "\r\n";
+        break;
+    }
+    PREFS.put("lineSeparator", lineSeparator);
+    return lineSeparator;
+  }
+
+  /**
+   * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+   * modify this code. The content of this method is always regenerated by the Form Editor.
+   */
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
+    charSetLabel = new javax.swing.JLabel();
+    charSetCombo = new javax.swing.JComboBox();
+    lineSepLabel = new javax.swing.JLabel();
+    lineSepCombo = new javax.swing.JComboBox();
+    setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+    charSetLabel.setText("Character Set:");
+    charSetCombo.setModel(
+        new javax.swing.DefaultComboBoxModel(
+            new String[] {"Item 1", "Item 2", "Item 3", "Item 4"}));
+    lineSepLabel.setText("Line Separator:");
+    lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"CR", "LF", "CR LF"}));
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout
+            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(
+                layout
+                    .createSequentialGroup()
+                    .addContainerGap()
                     .addComponent(charSetLabel)
-                    .addComponent(charSetCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(
+                        charSetCombo,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
                     .addComponent(lineSepLabel)
-                    .addComponent(lineSepCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-    }// </editor-fold>//GEN-END:initComponents
-    private void initComponentsWin() {
-        charSetLabel = new javax.swing.JLabel();
-        charSetCombo = new javax.swing.JComboBox();
-        lineSepLabel = new javax.swing.JLabel();
-        lineSepCombo = new javax.swing.JComboBox();
-        setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        charSetLabel.setText("Character Set:");
-        charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-        lineSepLabel.setText("Line Separator:");
-        lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"CR", "LF", "CR LF"}));
-        GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(charSetLabel).addComponent(charSetCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(lineSepLabel).addComponent(lineSepCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE));
-        layout.setVerticalGroup(
-                layout.createSequentialGroup().addComponent(charSetLabel).addComponent(charSetCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(lineSepLabel).addComponent(lineSepCombo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE));
-    }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox charSetCombo;
-    public javax.swing.JLabel charSetLabel;
-    public javax.swing.JComboBox lineSepCombo;
-    public javax.swing.JLabel lineSepLabel;
-    // End of variables declaration//GEN-END:variables
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(
+                        lineSepCombo,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()));
+    layout.setVerticalGroup(
+        layout
+            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(
+                layout
+                    .createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(
+                        layout
+                            .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(charSetLabel)
+                            .addComponent(
+                                charSetCombo,
+                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lineSepLabel)
+                            .addComponent(
+                                lineSepCombo,
+                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap()));
+  } // </editor-fold>//GEN-END:initComponents
+
+  private void initComponentsWin() {
+    charSetLabel = new javax.swing.JLabel();
+    charSetCombo = new javax.swing.JComboBox();
+    lineSepLabel = new javax.swing.JLabel();
+    lineSepCombo = new javax.swing.JComboBox();
+    setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+    charSetLabel.setText("Character Set:");
+    charSetCombo.setModel(
+        new javax.swing.DefaultComboBoxModel(
+            new String[] {"Item 1", "Item 2", "Item 3", "Item 4"}));
+    lineSepLabel.setText("Line Separator:");
+    lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"CR", "LF", "CR LF"}));
+    GroupLayout layout = new GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout
+            .createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(charSetLabel)
+            .addComponent(
+                charSetCombo,
+                GroupLayout.PREFERRED_SIZE,
+                GroupLayout.DEFAULT_SIZE,
+                GroupLayout.PREFERRED_SIZE)
+            .addComponent(lineSepLabel)
+            .addComponent(
+                lineSepCombo,
+                GroupLayout.PREFERRED_SIZE,
+                GroupLayout.DEFAULT_SIZE,
+                GroupLayout.PREFERRED_SIZE));
+    layout.setVerticalGroup(
+        layout
+            .createSequentialGroup()
+            .addComponent(charSetLabel)
+            .addComponent(
+                charSetCombo,
+                GroupLayout.PREFERRED_SIZE,
+                GroupLayout.DEFAULT_SIZE,
+                GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(lineSepLabel)
+            .addComponent(
+                lineSepCombo,
+                GroupLayout.PREFERRED_SIZE,
+                GroupLayout.DEFAULT_SIZE,
+                GroupLayout.PREFERRED_SIZE));
+  }
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  public javax.swing.JComboBox charSetCombo;
+  public javax.swing.JLabel charSetLabel;
+  public javax.swing.JComboBox lineSepCombo;
+  public javax.swing.JLabel lineSepLabel;
+  // End of variables declaration//GEN-END:variables
 }
