@@ -25,13 +25,11 @@ public abstract class AbstractConstrainer implements Constrainer {
 
   public AbstractConstrainer() {}
 
-  /** Adds a <code>ChangeListener</code>. */
   @Override
   public void addChangeListener(ChangeListener l) {
     listenerList.add(ChangeListener.class, l);
   }
 
-  /** Removes a <code>ChangeListener</code>. */
   @Override
   public void removeChangeListener(ChangeListener l) {
     listenerList.remove(ChangeListener.class, l);
