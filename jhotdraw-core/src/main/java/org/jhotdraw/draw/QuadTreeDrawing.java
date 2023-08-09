@@ -253,11 +253,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
     }
   }
 
-  //  @Override
-  //  public boolean contains(Figure f) {
-  //    return children.contains(f);
-  //  }
-
   /** Ensures that the children are sorted in z-order sequence. */
   private void ensureSorted() {
     if (needsSorting) {

@@ -342,12 +342,6 @@ public interface Drawing {
   /** Removes a listener from this composite figure. */
   public void removeDrawingListener(DrawingListener listener);
 
-  //  /** Adds a listener for FigureEvent's. */
-  //  public void addFigureListener(FigureListener l);
-  //
-  //  /** Removes a listener for FigureEvent's. */
-  //  public void removeFigureListener(FigureListener l);
-
   /**
    * Returns the lock object on which all threads acting on Figures in this drawing synchronize to
    * prevent race conditions.
