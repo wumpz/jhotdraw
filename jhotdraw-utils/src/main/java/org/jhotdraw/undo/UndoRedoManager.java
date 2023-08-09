@@ -7,13 +7,20 @@
  */
 package org.jhotdraw.undo;
 
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Locale;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.undo.*;
-import org.jhotdraw.util.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.CompoundEdit;
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /** Same as javax.swing.UndoManager but provides actions for undo and redo operations. */
 public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManager {
