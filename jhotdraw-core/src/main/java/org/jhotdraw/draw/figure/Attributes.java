@@ -144,13 +144,14 @@ public final class Attributes {
    *
    * @see AttributeKey#set
    */
-  public <T> void set(AttributeKey<T> key, T newValue) {
+  public <T> Attributes set(AttributeKey<T> key, T newValue) {
     if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
       T oldValue = key.put(attributes, newValue);
       fireAttributeChanged(key, oldValue, newValue);
     }
 
     DEPENDENT.get().forEach(a -> a.set(key, newValue));
+    return this;
   }
 
   /**
