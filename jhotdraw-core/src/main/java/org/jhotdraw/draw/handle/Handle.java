@@ -78,6 +78,8 @@ public interface Handle extends KeyListener {
    */
   Rectangle getDrawingArea();
 
+  // Rectangle getDrawingArea( double factor );
+
   /** Tests if a point is contained in the handle. */
   public boolean contains(Point p);
 

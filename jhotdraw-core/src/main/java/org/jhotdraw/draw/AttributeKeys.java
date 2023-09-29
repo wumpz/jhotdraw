@@ -612,7 +612,16 @@ public class AttributeKeys {
       grow = getPerpendicularFillGrowth(f, factor);
     } else {
       double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
-      grow = getPerpendicularDrawGrowth(f, factor) + strokeWidth / 2d;
+
+      double width = strokeWidth / 2;
+      if (f.attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+        width *= f.attr().get(STROKE_MITER_LIMIT);
+      } else if (f.attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+        width += strokeWidth * 2;
+      }
+      width++;
+
+      grow = getPerpendicularDrawGrowth(f, factor) + width;
     }
     return grow;
   }

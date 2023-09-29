@@ -9,7 +9,6 @@ package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.BasicStroke;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -110,16 +109,17 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Rectangle2D.Double getDrawingArea(double factor) {
-    double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
-    double width = strokeTotalWidth / 2d;
-    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-      width *= attr().get(STROKE_MITER_LIMIT);
-    } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
-      width += strokeTotalWidth * 2;
-    }
-    width++;
+    //    double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
+    //    double width = strokeTotalWidth / 2d;
+    //    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+    //      width *= attr().get(STROKE_MITER_LIMIT);
+    //    } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+    //      width += strokeTotalWidth * 2;
+    //    }
+    //    width++;
     Rectangle2D.Double r = getBounds();
-    Geom.grow(r, width, width);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, factor) * 1.1 + 1;
+    Geom.grow(r, grow, grow);
     return r;
   }
 

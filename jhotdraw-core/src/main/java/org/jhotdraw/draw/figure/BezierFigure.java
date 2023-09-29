@@ -169,12 +169,13 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
-    double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) / 2d);
+    double tolerance =
+        Math.max(1f, 2 * AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator));
     if (isClosed() || attr().get(FILL_COLOR) != null && attr().get(UNCLOSED_PATH_FILLED)) {
       if (path.contains(p)) {
         return true;
       }
-      double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) * 2d;
+      double grow = tolerance;
       GrowStroke gs =
           new GrowStroke(
               grow,
