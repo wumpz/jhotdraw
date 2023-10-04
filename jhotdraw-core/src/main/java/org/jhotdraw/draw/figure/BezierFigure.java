@@ -249,12 +249,12 @@ public class BezierFigure extends AbstractAttributedFigure {
       if (attr().get(START_DECORATION) != null) {
         Point2D.Double p1 = getPoint(0, 0);
         Point2D.Double p2 = getPoint(1, 0);
-        r.add(attr().get(START_DECORATION).getDrawingArea(this, p1, p2));
+        r.add(attr().get(START_DECORATION).getDrawingArea(this, p1, p2, factor));
       }
       if (attr().get(END_DECORATION) != null) {
         Point2D.Double p1 = getPoint(getNodeCount() - 1, 0);
         Point2D.Double p2 = getPoint(getNodeCount() - 2, 0);
-        r.add(attr().get(END_DECORATION).getDrawingArea(this, p1, p2));
+        r.add(attr().get(END_DECORATION).getDrawingArea(this, p1, p2, factor));
       }
     }
     return r;

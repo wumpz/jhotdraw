@@ -56,10 +56,11 @@ public class CompositeLineDecoration implements LineDecoration {
 
   /** Returns the drawing area of the decorator. */
   @Override
-  public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
+  public Rectangle2D.Double getDrawingArea(
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor) {
     Rectangle2D.Double r = null;
     for (LineDecoration decoration : decorations) {
-      Rectangle2D.Double aR = decoration.getDrawingArea(f, p1, p2);
+      Rectangle2D.Double aR = decoration.getDrawingArea(f, p1, p2, factor);
       if (r == null) {
         r = aR;
       } else {

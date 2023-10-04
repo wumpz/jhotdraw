@@ -40,5 +40,6 @@ public interface LineDecoration extends Cloneable, Serializable {
   public abstract double getDecorationRadius(Figure f);
 
   /** Returns the drawing bounds of the decorator. */
-  public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2);
+  public Rectangle2D.Double getDrawingArea(
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor);
 }

@@ -49,7 +49,12 @@ public abstract class AbstractLineDecoration implements LineDecoration {
   /** Draws the arrow tip in the direction specified by the given two Points. (template method) */
   @Override
   public void draw(Graphics2D g, Figure f, Point2D.Double p1, Point2D.Double p2) {
-    Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
+    Path2D.Double path =
+        getTransformedDecoratorPath(
+            f,
+            p1,
+            p2,
+            AttributeKeys.getGlobalValueFactor(f, AttributeKeys.getScaleFactorFromGraphics(g)));
     Color color;
     if (isFilled) {
       if (isSolid) {
@@ -74,8 +79,10 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 
   /** Returns the drawing area of the decorator. */
   @Override
-  public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
-    Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
+  public Rectangle2D.Double getDrawingArea(
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor) {
+    Path2D.Double path =
+        getTransformedDecoratorPath(f, p1, p2, AttributeKeys.getGlobalValueFactor(f, factor));
     Rectangle2D b = path.getBounds2D();
     Rectangle2D.Double area =
         new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
@@ -109,10 +116,11 @@ public abstract class AbstractLineDecoration implements LineDecoration {
   }
 
   private Path2D.Double getTransformedDecoratorPath(
-      Figure f, Point2D.Double p1, Point2D.Double p2) {
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor) {
     Path2D.Double path = getDecoratorPath(f);
     double strokeWidth = f.attr().get(STROKE_WIDTH);
     AffineTransform transform = new AffineTransform();
+    transform.scale(factor, factor);
     transform.translate(p1.x, p1.y);
     transform.rotate(Math.atan2(p1.x - p2.x, p2.y - p1.y));
     // transform.rotate(Math.PI / 2);
