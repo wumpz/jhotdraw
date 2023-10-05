@@ -96,15 +96,15 @@ public abstract class AbstractLineDecoration implements LineDecoration {
       } else {
         grow = (int) (1 + strokeWidth / 2);
       }
-      Geom.grow(area, grow, grow);
+      Geom.grow(area, grow * factor, grow * factor);
     } else {
-      Geom.grow(area, 1, 1); // grow due to antialiasing
+      Geom.grow(area, factor, factor); // grow due to antialiasing
     }
     return area;
   }
 
   @Override
-  public double getDecorationRadius(Figure f) {
+  public double getDecorationRadius(Figure f, double factor) {
     double strokeWidth = f.attr().get(STROKE_WIDTH);
     double scaleFactor;
     if (strokeWidth > 1f) {
@@ -112,6 +112,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     } else {
       scaleFactor = 1d;
     }
+    scaleFactor *= factor;
     return getDecoratorPathRadius(f) * scaleFactor;
   }
 
@@ -120,13 +121,13 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     Path2D.Double path = getDecoratorPath(f);
     double strokeWidth = f.attr().get(STROKE_WIDTH);
     AffineTransform transform = new AffineTransform();
-    transform.scale(factor, factor);
     transform.translate(p1.x, p1.y);
     transform.rotate(Math.atan2(p1.x - p2.x, p2.y - p1.y));
     // transform.rotate(Math.PI / 2);
     if (strokeWidth > 1f) {
       transform.scale(1d + (strokeWidth - 1d) / 2d, 1d + (strokeWidth - 1d) / 2d);
     }
+    transform.scale(factor, factor);
     path.transform(transform);
     return path;
   }

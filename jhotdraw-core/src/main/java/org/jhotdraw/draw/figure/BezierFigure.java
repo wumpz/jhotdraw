@@ -62,9 +62,11 @@ public class BezierFigure extends AbstractAttributedFigure {
   protected BezierPath path;
   /**
    * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
-   * speed of the figure.
+   * speed of the figure. The factor could influence the cappedPath due to Arrow sizes.
    */
   private transient BezierPath cappedPath;
+
+  private transient double cappedPathFactor;
 
   /**
    * Creates an empty <code>BezierFigure</code>, for example without any <code>BezierPath.Node
@@ -120,7 +122,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         g.draw(gs.createStrokedShape(path));
       }
     } else {
-      g.draw(getCappedPath());
+      g.draw(getCappedPath(AttributeKeys.getScaleFactorFromGraphics(g)));
     }
     drawCaps(g);
   }
@@ -128,7 +130,7 @@ public class BezierFigure extends AbstractAttributedFigure {
   protected void drawCaps(Graphics2D g) {
     if (getNodeCount() > 1) {
       if (attr().get(START_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(AttributeKeys.getScaleFactorFromGraphics(g));
         Point2D.Double p1 = path.get(0, 0);
         Point2D.Double p2 = cp.get(0, 0);
         if (p2.equals(p1)) {
@@ -137,7 +139,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         attr().get(START_DECORATION).draw(g, this, p1, p2);
       }
       if (attr().get(END_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(AttributeKeys.getScaleFactorFromGraphics(g));
         Point2D.Double p1 = path.get(path.size() - 1, 0);
         Point2D.Double p2 = cp.get(path.size() - 1, 0);
         if (p2.equals(p1)) {
@@ -190,11 +192,11 @@ public class BezierFigure extends AbstractAttributedFigure {
       }
     }
     if (!isClosed()) {
-      if (getCappedPath().outlineContains(p, tolerance)) {
+      if (getCappedPath(scaleDenominator).outlineContains(p, tolerance)) {
         return true;
       }
       if (attr().get(START_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(scaleDenominator);
         Point2D.Double p1 = path.get(0, 0);
         Point2D.Double p2 = cp.get(0, 0);
         // FIXME - Check here, if caps path contains the point
@@ -203,7 +205,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         }
       }
       if (attr().get(END_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(scaleDenominator);
         Point2D.Double p1 = path.get(path.size() - 1, 0);
         Point2D.Double p2 = cp.get(path.size() - 1, 0);
         // FIXME - Check here, if caps path contains the point
@@ -332,9 +334,10 @@ public class BezierFigure extends AbstractAttributedFigure {
   /**
    * Returns a path which is cappedPath at the ends, to prevent it from drawing under the end caps.
    */
-  protected BezierPath getCappedPath() {
-    if (cappedPath == null) {
+  protected BezierPath getCappedPath(double factor) {
+    if (cappedPath == null || factor != cappedPathFactor) {
       cappedPath = path.clone();
+      cappedPathFactor = factor;
       if (isClosed()) {
         cappedPath.setClosed(true);
       } else {
@@ -350,7 +353,7 @@ public class BezierFigure extends AbstractAttributedFigure {
             } else {
               pp = p1.getControlPoint(0);
             }
-            double radius = attr().get(START_DECORATION).getDecorationRadius(this);
+            double radius = attr().get(START_DECORATION).getDecorationRadius(this, factor);
             double lineLength = Geom.length(p0.getControlPoint(0), pp);
             cappedPath.set(
                 0, 0, Geom.cap(pp, p0.getControlPoint(0), -Math.min(radius, lineLength)));
@@ -366,7 +369,7 @@ public class BezierFigure extends AbstractAttributedFigure {
             } else {
               pp = p1.getControlPoint(0);
             }
-            double radius = attr().get(END_DECORATION).getDecorationRadius(this);
+            double radius = attr().get(END_DECORATION).getDecorationRadius(this, factor);
             double lineLength = Geom.length(p0.getControlPoint(0), pp);
             cappedPath.set(
                 cappedPath.size() - 1,

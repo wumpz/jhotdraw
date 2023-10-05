@@ -75,10 +75,10 @@ public class CompositeLineDecoration implements LineDecoration {
    * from being drawn it over the decorator.
    */
   @Override
-  public double getDecorationRadius(Figure f) {
+  public double getDecorationRadius(Figure f, double factor) {
     double radius = 0;
     for (LineDecoration decoration : decorations) {
-      radius = Math.max(radius, decoration.getDecorationRadius(f));
+      radius = Math.max(radius, decoration.getDecorationRadius(f, factor));
     }
     return radius;
   }
