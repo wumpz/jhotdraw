@@ -103,7 +103,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public boolean figureContains(Point2D.Double p, double scaleDenominator) {
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) + 1d;
+    double grow =
+        AttributeKeys.getPerpendicularHitGrowth(
+                this, AttributeKeys.getGlobalValueFactor(this, scaleDenominator))
+            + 1d;
     Rectangle2D.Double r = getBounds();
     Geom.grow(r, grow, grow);
     return r.contains(p);
@@ -117,7 +120,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
       }
       FontRenderContext frc = getFontRenderContext();
       HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
-      textAttributes.put(TextAttribute.FONT, getFont());
+      textAttributes.put(
+          TextAttribute.FONT,
+          getFont().deriveFont((float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
       if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
