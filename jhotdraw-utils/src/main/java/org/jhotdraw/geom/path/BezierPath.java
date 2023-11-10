@@ -40,31 +40,40 @@ public class BezierPath implements Shape, Serializable, Cloneable {
   private final List<BezierPath.Node> UNMODIFIEABLE_NODES = Collections.unmodifiableList(NODES);
 
   private static final long serialVersionUID = 1L;
+
   /**
    * Constant for having only control point C0 in effect. C0 is the point through whitch the curve
    * passes.
    */
   public static final int C0_MASK = 0;
+
   /**
    * Constant for having control point C1 in effect (in addition to C0). C1 controls the curve going
    * towards C0.
    */
   public static final int C1_MASK = 1;
+
   /**
    * Constant for having control point C2 in effect (in addition to C0). C2 controls the curve going
    * away from C0.
    */
   public static final int C2_MASK = 2;
+
   /** Constant for having control points C1 and C2 in effect (in addition to C0). */
   public static final int C1C2_MASK = C1_MASK | C2_MASK;
+
   /** We cache a Path2D.Double instance to speed up Shape operations. */
   private transient Path2D.Double generalPath;
+
   /** We cache a Rectangle2D.Double instance to speed up getBounds operations. */
   private transient Rectangle2D.Double bounds;
+
   /** We cache the index of the outermost node to speed up method indexOfOutermostNode(); */
   private int outer = -1;
+
   /** If this value is set to true, closes the bezier path. */
   private boolean isClosed;
+
   /** The winding rule for filling the bezier path. */
   private int windingRule = Path2D.Double.WIND_EVEN_ODD;
 
@@ -82,12 +91,16 @@ public class BezierPath implements Shape, Serializable, Cloneable {
   public static final class Node implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     /** This mask is used to describe which control points in addition to C0 are in effect. */
     public int mask = 0;
+
     /** Control point x coordinates. */
     public double[] x = new double[3];
+
     /** Control point y coordinates. */
     public double[] y = new double[3];
+
     /**
      * This is a hint for editing tools. If this is set to true, the editing tools shall keep all
      * control points on the same line.

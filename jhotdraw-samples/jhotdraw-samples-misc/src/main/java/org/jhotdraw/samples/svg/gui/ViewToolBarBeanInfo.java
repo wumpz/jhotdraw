@@ -24,6 +24,7 @@ public class ViewToolBarBeanInfo extends SimpleBeanInfo {
     beanDescriptor.setDisplayName("ViewToolBar");
     return beanDescriptor;
   } // GEN-LAST:BeanDescriptor
+
   // Properties information will be obtained from introspection.//GEN-FIRST:Properties
   private static PropertyDescriptor[] properties = null;
 
@@ -31,6 +32,7 @@ public class ViewToolBarBeanInfo extends SimpleBeanInfo {
     // Here you can add code for customizing the properties array.
     return properties;
   } // GEN-LAST:Properties
+
   // Event set information will be obtained from introspection.//GEN-FIRST:Events
   private static EventSetDescriptor[] eventSets = null;
 
@@ -38,6 +40,7 @@ public class ViewToolBarBeanInfo extends SimpleBeanInfo {
     // Here you can add code for customizing the event sets array.
     return eventSets;
   } // GEN-LAST:Events
+
   // Method information will be obtained from introspection.//GEN-FIRST:Methods
   private static MethodDescriptor[] methods = null;
 
@@ -56,6 +59,7 @@ public class ViewToolBarBeanInfo extends SimpleBeanInfo {
   private static String iconNameM32 = null; // GEN-END:Icons
   private static int defaultPropertyIndex = -1; // GEN-BEGIN:Idx
   private static int defaultEventIndex = -1; // GEN-END:Idx
+
   // GEN-FIRST:Superclass
   // Here you can add code for customizing the Superclass BeanInfo.
   // GEN-LAST:Superclass

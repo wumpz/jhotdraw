@@ -60,6 +60,7 @@ public class BezierFigure extends AbstractAttributedFigure {
   private static final long serialVersionUID = 1L;
 
   protected BezierPath path;
+
   /**
    * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
    * speed of the figure. The factor could influence the cappedPath due to Arrow sizes.

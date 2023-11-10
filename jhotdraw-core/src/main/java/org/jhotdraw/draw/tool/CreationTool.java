@@ -59,21 +59,28 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class CreationTool extends AbstractTool {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * Attributes to be applied to the created ConnectionFigure. These attributes override the default
    * attributes of the DrawingEditor.
    */
   protected Map<AttributeKey<?>, Object> prototypeAttributes;
+
   /** A localized name for this tool. The presentationName is displayed by the UndoableEdit. */
   protected String presentationName;
+
   /** Treshold for which we create a larger shape of a minimal size. */
   protected Dimension minimalSizeTreshold = new Dimension(2, 2);
+
   /** We set the figure to this minimal size, if it is smaller than the minimal size treshold. */
   protected Dimension minimalSize = new Dimension(40, 40);
+
   /** The prototype for new figures. */
   protected Figure prototype;
+
   /** The created figure. */
   protected Figure createdFigure;
+
   /**
    * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
    * created. This allows to create multiple figures consecutively.

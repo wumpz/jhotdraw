@@ -14,16 +14,19 @@ public class ActionUtil {
 
   /** Key for the selected state of an action. The value must be a Boolean. */
   public static final String SELECTED_KEY = Action.SELECTED_KEY;
+
   /**
    * All actions with equal value are put into the same submenu. The value must be a String or an
    * array of Strings. Each element of the array represents a menu.
    */
   public static final String SUBMENU_KEY = "submenu";
+
   /**
    * All actions with equal value are created as a radio button and put into the same group. The
    * value must be an object.
    */
   public static final String BUTTON_GROUP_KEY = "buttonGroup";
+
   /**
    * UndoableEdit presentation name key.
    *

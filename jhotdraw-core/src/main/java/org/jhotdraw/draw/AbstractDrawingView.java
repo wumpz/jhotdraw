@@ -93,6 +93,7 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   private final transient PropertyChangeSupport propertyChangeSupport =
       new PropertyChangeSupport(this);
   private final transient EventListenerList listenerList = new EventListenerList();
+
   /**
    * Holds the selected figures in an ordered put. The ordering reflects the sequence that was used
    * to select the figures.

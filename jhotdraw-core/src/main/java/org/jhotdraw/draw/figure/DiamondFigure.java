@@ -23,11 +23,13 @@ import org.jhotdraw.geom.Geom;
 public class DiamondFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have the same length.
    */
   public static final AttributeKey<Boolean> IS_QUADRATIC =
       new AttributeKey<>("isQuadratic", Boolean.class, false);
+
   /** The bounds of the diamond figure. */
   private Rectangle2D.Double rectangle;
 
@@ -107,6 +109,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
     diamond.closePath();
     g.draw(diamond);
   }
+
   // SHAPE AND BOUNDS
 
   @Override
@@ -207,6 +210,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   public Object getTransformRestoreData() {
     return rectangle.clone();
   }
+
   // ATTRIBUTES
   // EDITING
   // CONNECTING
@@ -226,6 +230,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   public Connector findCompatibleConnector(Connector c, boolean isStart) {
     return new ChopDiamondConnector(this);
   }
+
   // COMPOSITE FIGURES
   // CLONING
 

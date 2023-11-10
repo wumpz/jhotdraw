@@ -400,6 +400,7 @@ public class FindDialog extends javax.swing.JDialog {
       matcher = null;
     }
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   public javax.swing.JPanel buttonPanel;
   public javax.swing.JTextArea findField;

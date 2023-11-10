@@ -41,20 +41,25 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
 
   private static final long serialVersionUID = 1L;
   protected Figure anchorFigure;
+
   /** The drag rectangle encompasses the bounds of all dragged figures. */
   protected Rectangle2D.Double dragRect;
+
   /**
    * The previousOrigin holds the origin of all dragged figures of the previous mouseDragged event.
    * This coordinate is constrained using the Constrainer of the DrawingView.
    */
   protected Point2D.Double previousOrigin;
+
   /** The anchorOrigin holds the origin of all dragged figures of the mousePressed event. */
   protected Point2D.Double anchorOrigin;
+
   /**
    * The previousPoint holds the location of the mouse of the previous mouseDragged event. This
    * coordinate is not constrained using the Constrainer of the DrawingView.
    */
   protected Point2D.Double previousPoint;
+
   /**
    * The anchorPoint holds the location of the mouse of the mousePressed event. This coordinate is
    * not constrained using the Constrainer of the DrawingView.

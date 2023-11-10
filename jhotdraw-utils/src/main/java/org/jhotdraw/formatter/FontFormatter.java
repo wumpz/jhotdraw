@@ -24,10 +24,13 @@ import javax.swing.text.DefaultFormatterFactory;
 public class FontFormatter extends DefaultFormatter {
 
   private static final long serialVersionUID = 1L;
+
   /** Specifies whether the formatter allows null values. */
   private boolean allowsNullValue = false;
+
   /** Specifies whether the formatter allows unknown fonts. */
   private boolean allowsUnknownFont = false;
+
   /**
    * Map of generic font families. By default, holds a map of HTML generic font families. <a
    * href="http://www.w3.org/TR/CSS2/fonts.html#generic-font-families">

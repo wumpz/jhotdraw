@@ -77,6 +77,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   private static final long serialVersionUID = 1L;
 
   private Drawing drawing;
+
   /**
    * Holds the selected figures in an ordered put. The ordering reflects the sequence that was used
    * to select the figures.
@@ -110,14 +111,19 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       };
   private transient Rectangle2D.Double cachedDrawingArea;
   public static final String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
+
   /** Whether the drawing is double buffered */
   private boolean isDrawingDoubleBuffered = true;
+
   /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
   private VolatileImage drawingBufferV;
+
   /** The drawingBuffer holds a rendered image of the drawing (in view coordinates). */
   private BufferedImage drawingBufferNV;
+
   /** Holds the drawing area (in view coordinates) which is in the drawing buffer. */
   private Rectangle bufferedArea = new Rectangle();
+
   /**
    * Holds the drawing area (in view coordinates) which has not been redrawn yet in the drawing
    * buffer.
@@ -1550,6 +1556,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   public DrawingEditor getEditor() {
     return editor;
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables
   @Override

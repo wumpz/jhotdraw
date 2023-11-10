@@ -56,6 +56,7 @@ import org.jhotdraw.util.*;
 public class DrawApplicationModel extends DefaultApplicationModel {
 
   private static final long serialVersionUID = 1L;
+
   /** This editor is shared by all views. */
   private DefaultDrawingEditor sharedEditor;
 

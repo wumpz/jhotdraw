@@ -49,17 +49,22 @@ import org.jhotdraw.draw.handle.Handle;
 public class DefaultSelectAreaTracker extends AbstractTool implements SelectAreaTracker {
 
   private static final long serialVersionUID = 1L;
+
   /** The bounds of the rubberband. */
   private Rectangle rubberband = new Rectangle();
+
   /** Rubberband color. When this is null, the tracker does not draw the rubberband. */
   private Color rubberbandColor = Color.BLACK;
+
   /** Rubberband stroke. */
   private Stroke rubberbandStroke = new BasicStroke();
+
   /**
    * The hover handles, are the handles of the figure over which the mouse pointer is currently
    * hovering.
    */
   private final List<Handle> hoverHandles = new ArrayList<>();
+
   /** The hover Figure is the figure, over which the mouse is currently hovering. */
   private Figure hoverFigure = null;
 

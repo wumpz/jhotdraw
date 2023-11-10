@@ -178,6 +178,7 @@ public class NetPanel extends JPanel {
         "edit.createLink",
         labels);
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JToolBar attributesToolbar;
   private javax.swing.JToolBar creationToolbar;

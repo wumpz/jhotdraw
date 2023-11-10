@@ -71,6 +71,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   private static final BasicStroke DASHES =
       new BasicStroke(
           1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
+
   /** This is a cached value to improve the performance of method isTextOverflow(); */
   private Boolean isTextOverflow;
 
@@ -394,7 +395,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
   @Override
   public void setFontSize(float size) {
-    attr().set(FONT_SIZE, new Double(size));
+    attr().set(FONT_SIZE, Double.valueOf(size));
   }
 
   @Override

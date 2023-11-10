@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 public class PaletteListCellRenderer extends DefaultListCellRenderer {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * An empty <code>Border</code>. This field might not be used. To change the <code>Border</code>
    * used by this renderer override the <code>getListCellRendererComponent</code> method and set the

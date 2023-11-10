@@ -23,31 +23,40 @@ public interface URIChooser {
   // ************************
   /** Type value indicating that the {@code URIChooser} supports an "Open" file operation. */
   public static final int OPEN_DIALOG = JFileChooser.OPEN_DIALOG;
+
   /** Type value indicating that the {@code URIChooser} supports a "Save" file operation. */
   public static final int SAVE_DIALOG = JFileChooser.SAVE_DIALOG;
+
   /**
    * Type value indicating that the {@code URIChooser} supports a developer-specified file
    * operation.
    */
   public static final int CUSTOM_DIALOG = JFileChooser.CUSTOM_DIALOG;
+
   // ********************************
   // ***** Dialog Return Values *****
   // ********************************
   /** Return value if cancel is chosen. */
   public static final int CANCEL_OPTION = JFileChooser.CANCEL_OPTION;
+
   /** Return value if approve (yes, ok) is chosen. */
   public static final int APPROVE_OPTION = JFileChooser.APPROVE_OPTION;
+
   /** Return value if an error occured. */
   public static final int ERROR_OPTION = JFileChooser.ERROR_OPTION;
+
   // **********************************
   // ***** URIChooser properties *****
   // **********************************
   /** Instruction to cancel the current selection. */
   public static final String CANCEL_SELECTION = JFileChooser.CANCEL_SELECTION;
+
   /** Instruction to approve the current selection (same as pressing yes or ok). */
   public static final String APPROVE_SELECTION = JFileChooser.APPROVE_SELECTION;
+
   /** Identifies a change in the selected URI. */
   public static final String SELECTED_URI_PROPERTY = "selectedURI";
+
   /** Identifies a change in the dialog title. */
   public static final String DIALOG_TITLE_PROPERTY = JFileChooser.DIALOG_TITLE_CHANGED_PROPERTY;
 

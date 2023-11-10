@@ -51,6 +51,7 @@ public class JActivityWindow extends javax.swing.JFrame {
   private JPanel progressPanel;
   private ActivityManager manager;
   private Object activityOwner;
+
   /**
    * Delay for automatic removal of successfully completed activities. Specify 0 for immediate
    * removal. Specify -1 for no removal.
@@ -58,6 +59,7 @@ public class JActivityWindow extends javax.swing.JFrame {
    * <p>FIXME - Changing this value to -1 requires changing code in JActivityView.
    */
   private int normalRemovalDelay = 1500;
+
   /**
    * Delay for automatic removal of completed activities with a warning. Specify 0 for immediate
    * removal. Specify -1 for no removal.
@@ -65,6 +67,7 @@ public class JActivityWindow extends javax.swing.JFrame {
    * <p>FIXME - Changing this value to -1 requires changing code in JActivityView.
    */
   private int warningRemovalDelay = 3000;
+
   /**
    * Delay for automatic removal of completed activities with an error. Specify 0 for immediate
    * removal. Specify -1 for no removal.
@@ -355,6 +358,7 @@ public class JActivityWindow extends javax.swing.JFrame {
     getContentPane().add(viewPanel, java.awt.BorderLayout.CENTER);
     pack();
   }
+
   // Code for dispatching events from components to event handlers.
   private class FormListener implements java.awt.event.ActionListener, java.awt.event.ItemListener {
     FormListener() {}
@@ -386,6 +390,7 @@ public class JActivityWindow extends javax.swing.JFrame {
       }
     }
   } // GEN-LAST:event_cancelAll
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton cancelAllButton;
   private javax.swing.JToggleButton disclosureToggle;

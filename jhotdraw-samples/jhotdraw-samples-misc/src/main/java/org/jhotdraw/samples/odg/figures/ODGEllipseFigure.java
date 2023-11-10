@@ -28,6 +28,7 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;
   private Ellipse2D.Double ellipse;
+
   /** This is used to perform faster drawing and hit testing. */
   private transient Shape cachedTransformedShape;
 

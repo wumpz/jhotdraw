@@ -22,13 +22,16 @@ import java.util.List;
 public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
 
   private Reader reader = null;
+
   /** Position of the next character that will be read from the file. rlw */
   private int readpos = 0;
+
   /** Start and end position of the current token. rlw */
   private int startpos = -1, endpos = -1;
 
   private List<Integer> unread = new ArrayList<>();
   private char buf[] = new char[20];
+
   /**
    * The next character to be considered by the nextToken method. May also be NEED_CHAR to indicate
    * that a new character should be read, or SKIP_LF to indicate that a new character should be read
@@ -41,6 +44,7 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
   private static final int SKIP_LF = Integer.MAX_VALUE - 1;
   private boolean pushedBack;
   private boolean forceLower;
+
   /** The line number of the last token read */
   private int lineno = 1;
 
@@ -59,6 +63,7 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
   private static final byte CT_COMMENT = 16;
   private boolean isParseHexNumbers = false;
   private boolean isParseExponents = false;
+
   /**
    * After a call to the <code>nextToken</code> method, this field contains the type of the token
    * just read. For a single character token, its value is the single character, converted to an
@@ -83,19 +88,25 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
    * @see java.io.StreamTokenizer#TT_WORD
    */
   public int ttype = TT_NOTHING;
+
   /** A constant indicating that the end of the stream has been read. */
   public static final int TT_EOF = -1;
+
   /** A constant indicating that the end of the line has been read. */
   public static final int TT_EOL = '\n';
+
   /** A constant indicating that a number token has been read. */
   public static final int TT_NUMBER = -2;
+
   /** A constant indicating that a word token has been read. */
   public static final int TT_WORD = -3;
+
   /* A constant indicating that no token has been read, used for
    * initializing ttype.  FIXME This could be made public and
    * made available as the part of the API in a future release.
    */
   private static final int TT_NOTHING = -4;
+
   /**
    * If the current token is a word token, this field contains a string giving the characters of the
    * word token. When the current token is a quoted string token, this field contains the body of
@@ -110,6 +121,7 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
    * @see java.io.StreamTokenizer#ttype
    */
   public String sval;
+
   /**
    * If the current token is a number, this field contains the value of that number. The current
    * token is a number when the value of the <code>ttype</code> field is <code>TT_NUMBER</code>.

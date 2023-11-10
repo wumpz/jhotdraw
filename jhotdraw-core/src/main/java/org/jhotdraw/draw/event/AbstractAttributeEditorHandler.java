@@ -50,11 +50,13 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
   protected int updateDepth;
   protected List<Object> attributeRestoreData = new ArrayList<>();
   protected Map<AttributeKey<?>, Object> defaultAttributes;
+
   /**
    * If this variable is put to true, the attribute editor updates the default values of the drawing
    * editor.
    */
   private boolean isUpdateDrawingEditorDefaults;
+
   /**
    * To this figures we have registered the EventHandler as FigureListener and as
    * PropertyChangeListener.

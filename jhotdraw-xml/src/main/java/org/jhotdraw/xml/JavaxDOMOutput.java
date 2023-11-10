@@ -19,17 +19,22 @@ public class JavaxDOMOutput implements DOMOutput {
 
   /** The doctype of the XML document. */
   private String doctype;
+
   /**
    * This map is used to marshall references to objects to the XML DOM. A key in this map is a Java
    * Object, a value in this map is String representing a marshalled reference to that object.
    */
   private HashMap<Object, String> objectids;
+
   /** This map is used to cache prototype objects. */
   private HashMap<String, Object> prototypes;
+
   /** The document used for output. */
   private Document document;
+
   /** The current node used for output. */
   private Node current;
+
   /** The factory used to create objects. */
   private DOMFactory factory;
 

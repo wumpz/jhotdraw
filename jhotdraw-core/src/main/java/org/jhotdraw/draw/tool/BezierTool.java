@@ -43,16 +43,20 @@ public class BezierTool extends AbstractTool {
   private Boolean finishWhenMouseReleased;
   protected Map<AttributeKey<?>, Object> attributes;
   private boolean isToolDoneAfterCreation;
+
   /** The prototype for new figures. */
   private BezierFigure prototype;
+
   /** The created figure. */
   protected BezierFigure createdFigure;
 
   private int nodeCountBeforeDrag;
+
   /** A localized name for this tool. The presentationName is displayed by the UndoableEdit. */
   private String presentationName;
 
   private Point mouseLocation;
+
   /** Holds the view on which we are currently creating a figure. */
   private DrawingView creationView;
 

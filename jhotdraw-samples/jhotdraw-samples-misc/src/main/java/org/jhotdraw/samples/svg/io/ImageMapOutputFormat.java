@@ -59,6 +59,7 @@ public class ImageMapOutputFormat implements OutputFormat {
    * image map.
    */
   private boolean isIncludeNohref = false;
+
   /** Image dimension. We only include AREA elements which are within the image dimension. */
   private Rectangle bounds = new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
 

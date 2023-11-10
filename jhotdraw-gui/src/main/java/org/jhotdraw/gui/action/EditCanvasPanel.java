@@ -195,6 +195,7 @@ public class EditCanvasPanel extends javax.swing.JPanel {
       updateDrawing();
     }
   } // GEN-LAST:event_colorButtonPerformed
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.ButtonGroup bgColorButtonGroup;
   private javax.swing.JButton colorButton;

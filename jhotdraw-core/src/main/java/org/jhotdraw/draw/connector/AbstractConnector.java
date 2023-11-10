@@ -22,10 +22,13 @@ import org.jhotdraw.geom.Geom;
 public class AbstractConnector implements Connector {
 
   private static final long serialVersionUID = 1L;
+
   /** The owner of the connector */
   private Figure owner;
+
   /** Whether we should connect to the figure or to its decorator. */
   private boolean isConnectToDecorator;
+
   /**
    * Whether the state of this connector is persistent. Set this to true only, when the user
    * interface allows to change the state of the connector.

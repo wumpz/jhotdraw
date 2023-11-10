@@ -36,12 +36,16 @@ public class SerializationOutputFormat implements OutputFormat {
 
   /** Format description used for the file filter. */
   private String description;
+
   /** File name extension used for the file filter. */
   private String fileExtension;
+
   /** Image IO image format name. */
   private String formatName;
+
   /** The mime type is used for clipboard access. */
   private String mimeType;
+
   /** The data flavor constructed from the mime type. */
   private DataFlavor dataFlavor;
 

@@ -64,16 +64,22 @@ public interface View extends Disposable {
 
   /** The name of the uri property. */
   public static final String URI_PROPERTY = "uri";
+
   /** The name of the application property. */
   public static final String APPLICATION_PROPERTY = "application";
+
   /** The name of the title property. */
   public static final String TITLE_PROPERTY = "title";
+
   /** The name of the enabled property. */
   public static final String ENABLED_PROPERTY = "enabled";
+
   /** The name of the hasUnsavedChanges property. */
   public static final String HAS_UNSAVED_CHANGES_PROPERTY = "hasUnsavedChanges";
+
   /** The name of the multipleOpenId property. */
   public static final String MULTIPLE_OPEN_ID_PROPERTY = "multipleOpenId";
+
   /** The name of the showing property. */
   public static final String SHOWING_PROPERTY = "showing";
 

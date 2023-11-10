@@ -18,6 +18,7 @@ import java.awt.color.ColorSpace;
 public class CompositeColor extends Color {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * The color value in the native <code>ColorSpace</code> as <code>float</code> components (no
    * alpha). If <code>null</code> after object construction, this must be an sRGB color constructed
@@ -28,6 +29,7 @@ public class CompositeColor extends Color {
    * @see #getRGBComponents
    */
   private float fvalue[] = null;
+
   /**
    * The alpha value as a <code>float</code> component. If <code>frgbvalue</code> is <code>null
    * </code>, this is not valid data, so compute from the <code>int</code> color value.
@@ -37,6 +39,7 @@ public class CompositeColor extends Color {
    * @see #getComponents
    */
   private float falpha = 0.0f;
+
   /**
    * The <code>ColorSpace</code>. If <code>null</code>, then it's default is sRGB.
    *

@@ -33,14 +33,19 @@ import org.jhotdraw.util.*;
 public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, ImageHolderFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** This rectangle describes the bounds into which we draw the image. */
   private Rectangle2D.Double rectangle;
+
   /** This is used to perform faster drawing. */
   private transient Shape cachedTransformedShape;
+
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
+
   /** The image data. This can be null, if the image was created from a BufferedImage. */
   private byte[] imageData;
+
   /** The buffered image. This can be null, if we haven't yet parsed the imageData. */
   private BufferedImage bufferedImage;
 

@@ -39,10 +39,13 @@ import org.jhotdraw.util.*;
 public class ImageFigure extends AbstractAttributedDecoratedFigure implements ImageHolderFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** This rectangle describes the bounds into which we draw the image. */
   private Rectangle2D.Double rectangle;
+
   /** The image data. This can be null, if the image was created from a BufferedImage. */
   private byte[] imageData;
+
   /** The buffered image. This can be null, if we haven't yet parsed the imageData. */
   private transient BufferedImage bufferedImage;
 

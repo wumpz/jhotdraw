@@ -52,6 +52,7 @@ public class SummaryToolBar extends JToolBar {
     summaryField.setFont(new java.awt.Font("DialogInput", 0, 11));
     add(summaryField);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JTextField summaryField;
   private javax.swing.JLabel summaryLabel;

@@ -50,12 +50,16 @@ public class ImageInputFormat implements InputFormat {
 
   /** The prototype for creating a figure that holds the imported image. */
   private ImageHolderFigure prototype;
+
   /** Format description used for the file filter. */
   private String description;
+
   /** File name extension used for the file filter. */
   private String[] fileExtensions;
+
   /** Image IO image format name. */
   private String formatName;
+
   /** The mime types which must be matched. */
   private String[] mimeTypes;
 

@@ -32,14 +32,19 @@ import java.awt.color.ColorSpace;
 public class CIELABColorSpace extends AbstractNamedColorSpace {
 
   private static final long serialVersionUID = 1L;
+
   /** The XYZ coordinates of the CIE Standard Illuminant D65 reference white. */
   private static final double[] D65 = {0.9505d, 1d, 1.0890d};
+
   /** The X coordinate of the reference white. */
   private double Xw;
+
   /** The Y coordinate of the reference white. */
   private double Yw;
+
   /** The Z coordinate of the reference white. */
   private double Zw;
+
   /** Epsilon */
   private static final double EPS = 216d / 24389d;
 
@@ -49,6 +54,7 @@ public class CIELABColorSpace extends AbstractNamedColorSpace {
     CLAMP,
     LEAVE_OUTSIDE
   };
+
   /** By default, clamps non-displayable RGB values. */
   private OutsideGamutHandling outsideGamutHandling = OutsideGamutHandling.CLAMP;
 

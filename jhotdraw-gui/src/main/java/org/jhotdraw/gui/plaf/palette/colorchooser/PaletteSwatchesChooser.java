@@ -29,6 +29,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
 
   private static final long serialVersionUID = 1L;
   private int updateRecursion = 0;
+
   /**
    * HSB color palette with a set of colors chosen based on a physical criteria.
    *
@@ -56,6 +57,7 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
   private static final java.util.List<ColorIcon> HSB_COLORS;
 
   private static final int HSB_COLORS_COLUMN_COUNT = 12;
+
   /**
    * This is the same palette as HSB_COLORS, but all color values are specified in the sRGB color
    * space.
@@ -138,8 +140,10 @@ public class PaletteSwatchesChooser extends AbstractColorChooserPanel {
     jList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
     add(jList, new java.awt.GridBagConstraints());
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JList jList;
+
   // End of variables declaration//GEN-END:variables
   @Override
   public void updateChooser() {

@@ -48,6 +48,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   protected Point2D.Double[] coordinates = new Point2D.Double[] {new Point2D.Double()};
   protected double[] rotates = new double[] {0};
   private boolean editable = true;
+
   /** This is used to perform faster drawing and hit testing. */
   private transient Shape cachedTextShape;
 

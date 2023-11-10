@@ -462,6 +462,7 @@ public class BezierDemo extends javax.swing.JPanel {
       java.awt.event.ActionEvent evt) { // GEN-FIRST:event_checkboxPerformed
     canvas.repaint();
   } // GEN-LAST:event_checkboxPerformed
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton dumpButton;
   private javax.swing.JButton eraseButton;

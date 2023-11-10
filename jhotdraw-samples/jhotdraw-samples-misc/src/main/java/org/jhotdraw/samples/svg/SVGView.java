@@ -41,6 +41,7 @@ public class SVGView extends AbstractView {
   public static final String DRAWING_PROPERTY = "drawing";
   public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
   protected JFileURIChooser exportChooser;
+
   /**
    * Each SVGView uses its own undo redo manager. This allows for undoing and redoing actions per
    * view.
@@ -244,6 +245,7 @@ public class SVGView extends AbstractView {
     setLayout(new java.awt.BorderLayout());
     add(svgPanel, java.awt.BorderLayout.CENTER);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private org.jhotdraw.samples.svg.SVGDrawingPanel svgPanel;
   // End of variables declaration//GEN-END:variables

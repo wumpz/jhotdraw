@@ -157,6 +157,7 @@ public class ProgressIndicator extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
     add(progressBar, gridBagConstraints);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel messageLabel;
   private javax.swing.JLabel noteLabel;

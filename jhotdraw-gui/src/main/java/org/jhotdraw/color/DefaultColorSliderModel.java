@@ -22,8 +22,10 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
 
   private static final long serialVersionUID = 1L;
   protected ColorSpace colorSpace;
+
   /** JSlider's associated to this model. */
   protected List<JSlider> sliders = new ArrayList<>();
+
   /** Components of the color model. */
   protected DefaultBoundedRangeModel[] componentModels;
 

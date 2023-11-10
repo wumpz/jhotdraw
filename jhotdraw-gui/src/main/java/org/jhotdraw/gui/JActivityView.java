@@ -303,6 +303,7 @@ public class JActivityView extends javax.swing.JPanel {
     model.cancel();
     model.setNote("Cancelling...");
   } // GEN-LAST:event_cancel
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton cancelButton;
   private javax.swing.JButton closeButton;

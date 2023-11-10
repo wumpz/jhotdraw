@@ -16,28 +16,35 @@ import org.jhotdraw.draw.figure.Figure;
 public class GridConstrainer extends AbstractConstrainer {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * The width of a minor grid cell. The value 0 turns the constrainer off for the horizontal axis.
    */
   private double width;
+
   /**
    * The height of a minor grid cell. The value 0 turns the constrainer off for the vertical axis.
    */
   private double height;
+
   /**
    * The theta for constrained rotations on the grid. The value 0 turns the constrainer off for
    * rotations.
    */
   private double theta;
+
   /**
    * If this variable is true, the grid is drawn. Note: Grid cells are only drawn, if they are at
    * least two pixels apart on the view coordinate system.
    */
   private boolean isVisible;
+
   /** The color for minor grid cells. */
   private static Color minorColor = new Color(0xebebeb);
+
   /** The color for major grid cells. */
   private static Color majorColor = new Color(0xcacaca);
+
   /** The spacing factor for a major grid cell. */
   private int majorGridSpacing = 5;
 

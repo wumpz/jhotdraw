@@ -333,6 +333,7 @@ public class ActivityMonitorSample extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
     pack();
   }
+
   // Code for dispatching events from components to event handlers.
   private class FormListener
       implements java.awt.event.ActionListener, java.awt.event.MouseListener {
@@ -437,6 +438,7 @@ public class ActivityMonitorSample extends javax.swing.JFrame {
   private void indicatorClicked(java.awt.event.MouseEvent evt) { // GEN-FIRST:event_indicatorClicked
     JActivityWindow.getInstance().setVisible(true);
   } // GEN-LAST:event_indicatorClicked
+
   /**
    * @param args the command line arguments
    */
@@ -449,6 +451,7 @@ public class ActivityMonitorSample extends javax.swing.JFrame {
           }
         });
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JCheckBox cancelableCheckBox;
   private javax.swing.JLabel durationLabel;

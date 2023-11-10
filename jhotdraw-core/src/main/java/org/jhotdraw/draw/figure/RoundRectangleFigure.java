@@ -32,8 +32,10 @@ import org.jhotdraw.geom.Geom;
 public class RoundRectangleFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** Identifies the {@code arcWidth} JavaBeans property. */
   public static final String ARC_WIDTH_PROPERTY = "arcWidth";
+
   /** Identifies the {@code arcHeight} JavaBeans property. */
   public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 

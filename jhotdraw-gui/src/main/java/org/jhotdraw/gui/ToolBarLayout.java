@@ -15,10 +15,13 @@ import java.io.Serializable;
 public class ToolBarLayout implements LayoutManager2, Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** Specifies that components should be laid out left to right. */
   public static final int X_AXIS = 0;
+
   /** Specifies that components should be laid out top to bottom. */
   public static final int Y_AXIS = 1;
+
   /** Specifies the axis of the layout. */
   private int axis;
 

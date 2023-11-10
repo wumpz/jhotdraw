@@ -34,8 +34,10 @@ import org.jhotdraw.draw.handle.Handle;
 public abstract class AbstractTool extends AbstractBean implements Tool {
 
   private static final long serialVersionUID = 1L;
+
   /** This is set to true, if this is the active tool of the editor. */
   private boolean isActive;
+
   /**
    * This is set to true, while the tool is doing some work. This prevents the currentView from
    * being changed when a mouseEnter event is received.
@@ -46,12 +48,14 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   protected Point anchor = new Point();
   protected EventListenerList listenerList = new EventListenerList();
   private DrawingEditorProxy editorProxy;
+
   /*
   private PropertyChangeListener editorHandler;
   private PropertyChangeListener viewHandler;
   */
   /** The input map of the tool. */
   private InputMap inputMap;
+
   /** The action map of the tool. */
   private ActionMap actionMap;
 

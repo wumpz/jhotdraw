@@ -58,14 +58,19 @@ public class SVGOutputFormat implements OutputFormat {
 
   /** This is a counter used to create the next unique identification. */
   private int nextId;
+
   /** In this hash map we store all elements to which we have assigned an id. */
   private HashMap<Element, String> identifiedElements;
+
   /** This element holds all definitions of the SVG file. */
   private Element defs;
+
   /** Holds the document that is currently being written. */
   private Element document;
+
   /** Maps gradients to ID's. We use this, so that we need to store the same gradient only once. */
   private HashMap<Gradient, String> gradientToIDMap;
+
   /** Set this to true for pretty printing. */
   private boolean isPrettyPrint;
 
@@ -86,6 +91,7 @@ public class SVGOutputFormat implements OutputFormat {
     STROKE_LINECAP.put(BasicStroke.CAP_ROUND, "round");
     STROKE_LINECAP.put(BasicStroke.CAP_SQUARE, "square");
   }
+
   /**
    * Set this variable to true if values should be written with float precision instead with double
    * precision. Float precision is less accurate then double precision, but it uses less storage

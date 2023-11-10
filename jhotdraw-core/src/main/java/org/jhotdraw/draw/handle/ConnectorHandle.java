@@ -34,14 +34,19 @@ public class ConnectorHandle extends AbstractHandle {
 
   /** Holds the ConnectionFigure which is currently being created. */
   private ConnectionFigure createdConnection;
+
   /** The prototype for the ConnectionFigure to be created */
   private ConnectionFigure prototype;
+
   /** The Connector. */
   private Connector connector;
+
   /** The current connectable Figure. */
   private Figure connectableFigure;
+
   /** The current connectable Connector. */
   private Connector connectableConnector;
+
   /** All connectors of the connectable Figure. */
   protected Collection<Connector> connectors = Collections.emptyList();
 

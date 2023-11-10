@@ -197,6 +197,7 @@ public class JActivityIndicator extends javax.swing.JPanel {
     setLayout(new java.awt.BorderLayout());
     add(progressBar, java.awt.BorderLayout.CENTER);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JProgressBar progressBar;
   // End of variables declaration//GEN-END:variables

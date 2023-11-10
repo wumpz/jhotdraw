@@ -34,12 +34,14 @@ import org.jhotdraw.geom.path.BezierPath;
 public class LineConnectionFigure extends LineFigure implements ConnectionFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** The name of the JaveBeans property {@code liner}. */
   public static final String LINER_PROPERTY = "liner";
 
   private Connector startConnector;
   private Connector endConnector;
   private Liner liner;
+
   /** Handles figure changes in the start and the end figure. */
   private ConnectionHandler connectionHandler = new ConnectionHandler(this);
 
@@ -116,6 +118,7 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
     }
     return handles;
   }
+
   // CONNECTING
 
   /** ConnectionFigures cannot be connected and always sets connectable to false. */

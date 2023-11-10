@@ -33,8 +33,10 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;
   private RoundRectangle2D.Double roundrect;
+
   /** This is used to perform faster drawing. */
   private transient Shape cachedTransformedShape;
+
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 

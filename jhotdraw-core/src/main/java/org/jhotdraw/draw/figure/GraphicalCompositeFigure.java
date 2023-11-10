@@ -59,6 +59,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    * usually don't have an own presentation but present only the sum of all its children.
    */
   private Figure presentationFigure;
+
   /** Handles figure changes in the children. */
   private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 

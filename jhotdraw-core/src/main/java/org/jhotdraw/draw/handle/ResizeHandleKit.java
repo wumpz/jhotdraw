@@ -97,12 +97,16 @@ public class ResizeHandleKit {
 
     /** Mouse coordinates on track start. */
     private int sx, sy;
+
     /** Geometry for undo. */
     private Object geometry;
+
     /** Figure bounds on track start. */
     protected Rectangle2D.Double sb;
+
     /** Aspect ratio on track start. */
     double aspectRatio;
+
     /** Caches the value returned by getOwner().isTransformable(): */
     private boolean isTransformableCache;
 

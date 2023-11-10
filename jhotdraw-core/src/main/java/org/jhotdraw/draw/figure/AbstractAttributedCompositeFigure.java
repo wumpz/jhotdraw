@@ -49,14 +49,18 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     implements CompositeFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
   protected Layouter layouter;
 
   protected List<Figure> children = new ArrayList<>();
+
   /** Caches the drawing area to improve the performance of method {@link #getDrawingArea}. */
   protected transient Rectangle2D.Double cachedDrawingArea;
+
   /** Caches the bounds to improve the performance of method {@link #getBounds}. */
   protected transient Rectangle2D.Double cachedBounds;
+
   /** Handles figure changes in the children. */
   protected EventHandler eventHandler;
 

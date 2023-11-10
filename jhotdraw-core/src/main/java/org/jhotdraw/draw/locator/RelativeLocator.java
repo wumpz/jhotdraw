@@ -18,16 +18,19 @@ import org.jhotdraw.geom.Insets2D;
 public class RelativeLocator extends AbstractLocator {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * Relative x-coordinate on the bounds of the figure. The value 0 is on the left boundary of the
    * figure, the value 1 on the right boundary.
    */
   protected double relativeX;
+
   /**
    * Relative y-coordinate on the bounds of the figure. The value 0 is on the top boundary of the
    * figure, the value 1 on the bottom boundary.
    */
   protected double relativeY;
+
   /** If this is set to true, if the locator is transforming with the figure. */
   protected boolean isTransform;
 

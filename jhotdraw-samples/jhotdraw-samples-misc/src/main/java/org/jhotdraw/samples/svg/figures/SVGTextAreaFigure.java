@@ -46,8 +46,10 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   private static final BasicStroke DASHES =
       new BasicStroke(
           1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
+
   /** This is a cached value to improve the performance of method isTextOverflow(); */
   private Boolean isTextOverflow;
+
   /** This is used to perform faster drawing and hit testing. */
   private transient Rectangle2D.Double cachedDrawingArea;
 
@@ -351,6 +353,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
       STROKE_GRADIENT.getClone(this)
     };
   }
+
   // ATTRIBUTES
 
   @Override
@@ -459,6 +462,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
     }
     return (float) Math.abs(p.y);
   }
+
   // EDITING
 
   @Override
@@ -505,6 +509,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
     }
     return null;
   }
+
   // CONNECTING
   // COMPOSITE FIGURES
   // CLONING

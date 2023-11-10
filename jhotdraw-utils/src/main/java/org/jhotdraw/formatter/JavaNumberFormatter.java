@@ -23,6 +23,7 @@ import javax.swing.text.DefaultFormatterFactory;
 public class JavaNumberFormatter extends DefaultFormatter {
 
   private static final long serialVersionUID = 1L;
+
   /** Specifies whether the formatter allows null values. */
   private boolean allowsNullValue = false;
 

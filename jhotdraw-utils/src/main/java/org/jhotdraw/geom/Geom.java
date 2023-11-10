@@ -83,12 +83,16 @@ public final class Geom {
     y = a * px + b;
     return (min(abs(x - px), abs(y - py)) <= tolerance);
   }
+
   /** The bitmask that indicates that a point lies above the rectangle. */
   public static final int OUT_TOP = Rectangle2D.OUT_TOP;
+
   /** The bitmask that indicates that a point lies below the rectangle. */
   public static final int OUT_BOTTOM = Rectangle2D.OUT_BOTTOM;
+
   /** The bitmask that indicates that a point lies to the left of the rectangle. */
   public static final int OUT_LEFT = Rectangle2D.OUT_LEFT;
+
   /** The bitmask that indicates that a point lies to the right of the rectangle. */
   public static final int OUT_RIGHT = Rectangle2D.OUT_RIGHT;
 

@@ -66,6 +66,7 @@ public class PaletteFontChooserPreviewPanel extends javax.swing.JPanel {
     previewLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     add(previewLabel, java.awt.BorderLayout.CENTER);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel previewLabel;
   // End of variables declaration//GEN-END:variables

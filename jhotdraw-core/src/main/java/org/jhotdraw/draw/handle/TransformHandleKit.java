@@ -137,6 +137,7 @@ public class TransformHandleKit {
 
     private int dx, dy;
     private Object geometry;
+
     /** Caches the value returned by getOwner().isTransformable(): */
     private boolean isTransformableCache;
 

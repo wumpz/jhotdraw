@@ -542,6 +542,7 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     toolsPanel.add(toolsScrollPane, gridBagConstraints);
     add(toolsPanel, java.awt.BorderLayout.SOUTH);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private org.jhotdraw.samples.svg.gui.ActionsToolBar actionToolBar;
   private org.jhotdraw.samples.svg.gui.AlignToolBar alignToolBar;

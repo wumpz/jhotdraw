@@ -27,18 +27,22 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
 
   private static final long serialVersionUID = 1L;
   protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
+
   /** The resource bundle used for internationalisation. */
   private static ResourceBundleUtil labels;
+
   /**
    * This flag is set to true when at least one significant UndoableEdit has been added to the
    * manager since the last call to discardAllEdits.
    */
   private boolean hasSignificantEdits = false;
+
   /**
    * This flag is set to true when an undo or redo operation is in progress. The UndoRedoManager
    * ignores all incoming UndoableEdit events while this flag is true.
    */
   private boolean undoOrRedoInProgress;
+
   /**
    * Sending this UndoableEdit event to the UndoRedoManager disables the Undo and Redo functions of
    * the manager.
@@ -100,8 +104,10 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
       }
     }
   }
+
   /** The undo action instance. */
   private UndoAction undoAction;
+
   /** The redo action instance. */
   private RedoAction redoAction;
 

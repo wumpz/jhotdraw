@@ -53,6 +53,7 @@ public class ODGApplicationModel extends DefaultApplicationModel {
 
   private static final long serialVersionUID = 1L;
   private static final double[] SCALE_FACTORS = {5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
+
   /** This editor is shared by all views. */
   private DefaultDrawingEditor sharedEditor;
 

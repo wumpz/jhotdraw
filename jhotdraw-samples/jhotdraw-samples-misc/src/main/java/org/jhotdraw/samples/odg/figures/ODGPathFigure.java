@@ -43,6 +43,7 @@ import org.jhotdraw.util.*;
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** This cachedPath is used for drawing. */
   private transient Path2D.Double cachedPath;
 

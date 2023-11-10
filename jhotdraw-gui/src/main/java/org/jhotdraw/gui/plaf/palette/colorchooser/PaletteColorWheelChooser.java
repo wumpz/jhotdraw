@@ -92,6 +92,7 @@ public class PaletteColorWheelChooser extends AbstractColorChooserPanel implemen
       getColorSelectionModel().setSelectedColor(color);
     }
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JSlider brightnessSlider;
   // End of variables declaration//GEN-END:variables

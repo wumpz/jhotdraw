@@ -28,15 +28,18 @@ public class ODGAttributeKeys extends AttributeKeys {
 
   /** Prevent instance creation */
   private ODGAttributeKeys() {}
+
   /** The attribute draw:name assigns a name to the drawing shape. */
   public static final AttributeKey<String> NAME =
       new AttributeKey<String>("name", String.class, null, true, LABELS);
+
   /**
    * Specifies the overall opacity of a ODG figure. This is a value between 0 and 1 whereas 0 is
    * translucent and 1 is fully opaque.
    */
   public static final AttributeKey<Double> OPACITY =
       new AttributeKey<Double>("opacity", Double.class, 1d, false, LABELS);
+
   /**
    * Specifies the fill style of a ODG figure.
    *
@@ -53,15 +56,18 @@ public class ODGAttributeKeys extends AttributeKeys {
    */
   public static final AttributeKey<FillStyle> FILL_STYLE =
       new AttributeKey<FillStyle>("fill", FillStyle.class, FillStyle.SOLID, false, LABELS);
+
   /** Specifies the fill gradient of a ODG figure. */
   public static final AttributeKey<Gradient> FILL_GRADIENT =
       new AttributeKey<Gradient>("fillGradient", Gradient.class, null, true, LABELS);
+
   /**
    * Specifies the fill opacity of a ODG figure. This is a value between 0 and 1 whereas 0 is
    * translucent and 1 is fully opaque.
    */
   public static final AttributeKey<Double> FILL_OPACITY =
       new AttributeKey<Double>("fillOpacity", Double.class, 1d, false, LABELS);
+
   /**
    * Specifies the stroke style of a ODG figure.
    *
@@ -71,9 +77,11 @@ public class ODGAttributeKeys extends AttributeKeys {
    */
   public static final AttributeKey<StrokeStyle> STROKE_STYLE =
       new AttributeKey<StrokeStyle>("stroke", StrokeStyle.class, StrokeStyle.SOLID, false, LABELS);
+
   /** Specifies the stroke gradient of a ODG figure. */
   public static final AttributeKey<Gradient> STROKE_GRADIENT =
       new AttributeKey<Gradient>("strokeGradient", Gradient.class, null, true, LABELS);
+
   /**
    * Specifies the stroke opacity of a ODG figure. This is a value between 0 and 1 whereas 0 is
    * translucent and 1 is fully opaque.

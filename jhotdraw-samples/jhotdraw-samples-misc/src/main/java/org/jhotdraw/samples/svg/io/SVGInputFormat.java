@@ -62,18 +62,23 @@ public class SVGInputFormat implements InputFormat {
 
   /** The SVGFigure factory is used to create Figure's for the drawing. */
   private SVGFigureFactory factory;
+
   /**
    * URL pointing to the SVG input file. This is used as a base URL for resources that are
    * referenced from the SVG file.
    */
   private URL url;
+
   // FIXME - Move these maps to SVGConstants or to SVGAttributeKeys.
   /** Maps to all XML elements that are identified by an xml:id. */
   private HashMap<String, Element> identifiedElements;
+
   /** Maps to all drawing objects from the XML elements they were created from. */
   private HashMap<Element, Object> elementObjects;
+
   /** Tokenizer for parsing SVG path expressions. */
   private StreamPosTokenizer toPathTokenizer;
+
   /** FontFormatter for parsing font family names. */
   private FontFormatter fontFormatter = new FontFormatter();
 
@@ -82,19 +87,25 @@ public class SVGInputFormat implements InputFormat {
 
     /** The width of the Viewport. */
     public double width = 640d;
+
     /** The height of the Viewport. */
     public double height = 480d;
+
     /** The viewBox specifies the coordinate system within the Viewport. */
     public Rectangle2D.Double viewBox = new Rectangle2D.Double(0d, 0d, 640d, 480d);
+
     /** Factor for percent values relative to Viewport width. */
     public double widthPercentFactor = 640d / 100d;
+
     /** Factor for percent values relative to Viewport height. */
     public double heightPercentFactor = 480d / 100d;
+
     /**
      * Factor for number values in the user coordinate system. This is the smaller value of width /
      * viewBox.width and height / viewBox.height.
      */
     public double numberFactor;
+
     /**
      * http://www.w3.org/TR/SVGMobile12/coords.html#PreserveAspectRatioAttribute XXX - use a more
      * sophisticated variable here
@@ -117,12 +128,16 @@ public class SVGInputFormat implements InputFormat {
           + attributes;
     }
   }
+
   /** Each SVG element creates a new Viewport that we store here. */
   private Stack<Viewport> viewportStack;
+
   /** Holds the style manager used for applying cascading style sheet CSS rules to the document. */
   private StyleManager styleManager;
+
   /** Holds the figures that are currently being read. */
   private LinkedList<Figure> figures;
+
   /** Holds the document that is currently being read. */
   private Element document;
 

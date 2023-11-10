@@ -294,6 +294,7 @@ public abstract class AbstractHandle implements Handle {
         (listener, event) -> listener.areaInvalidated(event),
         () -> new HandleEvent(this, invalidatedArea));
   }
+
   /**
    * Wrapper around multiple types of event firing. This is used to define all kinds of event
    * methods below.

@@ -40,8 +40,10 @@ import org.jhotdraw.util.*;
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** This cached path is used for drawing. */
   private transient Path2D.Double cachedPath;
+
   // private transient Rectangle2D.Double cachedDrawingArea;
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;

@@ -273,6 +273,7 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     previewLabel.setText("Selected Color");
     add(previewLabel, java.awt.BorderLayout.SOUTH);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JPanel chooserPanel;
   private javax.swing.JLabel previewLabel;

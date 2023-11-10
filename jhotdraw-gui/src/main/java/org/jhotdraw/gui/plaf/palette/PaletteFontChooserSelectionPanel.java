@@ -123,6 +123,7 @@ public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
     add(facesPanel, gridBagConstraints);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JList collectionList;
   private javax.swing.JLabel collectionsLabel;

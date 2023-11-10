@@ -23,29 +23,36 @@ public class SVGAttributeKeys extends AttributeKeys {
     MIDDLE,
     END
   }
+
   /**
    * Specifies the title of an SVG drawing. This attribute can be null, to indicate that the drawing
    * has no title.
    */
   public static final AttributeKey<String> TITLE =
       new AttributeKey<String>("title", String.class, null, true, LABELS);
+
   /**
    * Specifies the description of an SVG drawing. This attribute can be null, to indicate that the
    * drawing has no description.
    */
   public static final AttributeKey<String> DESCRIPTION =
       new AttributeKey<String>("description", String.class, null, true, LABELS);
+
   /**
    * Specifies the viewport-fill of an SVG viewport. This attribute can be null, to indicate that
    * the viewport has no viewport-fill.
    */
   public static final AttributeKey<Color> VIEWPORT_FILL = CANVAS_FILL_COLOR;
+
   /** Specifies the viewport-fill-opacity of an SVG viewport. */
   public static final AttributeKey<Double> VIEWPORT_FILL_OPACITY = CANVAS_FILL_OPACITY;
+
   /** Specifies the width of an SVG viewport. */
   public static final AttributeKey<Double> VIEWPORT_WIDTH = CANVAS_WIDTH;
+
   /** Specifies the height of an SVG viewport. */
   public static final AttributeKey<Double> VIEWPORT_HEIGHT = CANVAS_HEIGHT;
+
   /** Specifies the text anchor of a SVGText figure. */
   public static final AttributeKey<TextAnchor> TEXT_ANCHOR =
       new AttributeKey<TextAnchor>("textAnchor", TextAnchor.class, TextAnchor.START, false, LABELS);
@@ -55,39 +62,47 @@ public class SVGAttributeKeys extends AttributeKeys {
     CENTER,
     END
   }
+
   /** Specifies the text alignment of a SVGText figure. */
   public static final AttributeKey<TextAlign> TEXT_ALIGN =
       new AttributeKey<TextAlign>("textAlign", TextAlign.class, TextAlign.START, false, LABELS);
+
   /** Specifies the fill gradient of a SVG figure. */
   public static final AttributeKey<Gradient> FILL_GRADIENT =
       new AttributeKey<Gradient>("fillGradient", Gradient.class, null, true, LABELS);
+
   /**
    * Specifies the fill opacity of a SVG figure. This is a value between 0 and 1 whereas 0 is
    * translucent and 1 is fully opaque.
    */
   public static final AttributeKey<Double> FILL_OPACITY =
       new AttributeKey<Double>("fillOpacity", Double.class, 1d, false, LABELS);
+
   /**
    * Specifies the overall opacity of a SVG figure. This is a value between 0 and 1 whereas 0 is
    * translucent and 1 is fully opaque.
    */
   public static final AttributeKey<Double> OPACITY =
       new AttributeKey<Double>("opacity", Double.class, 1d, false, LABELS);
+
   /** Specifies the stroke gradient of a SVG figure. */
   public static final AttributeKey<Gradient> STROKE_GRADIENT =
       new AttributeKey<Gradient>("strokeGradient", Gradient.class, null, true, LABELS);
+
   /**
    * Specifies the stroke opacity of a SVG figure. This is a value between 0 and 1 whereas 0 is
    * translucent and 1 is fully opaque.
    */
   public static final AttributeKey<Double> STROKE_OPACITY =
       new AttributeKey<Double>("strokeOpacity", Double.class, 1d, false, LABELS);
+
   /**
    * Specifies a link. In an SVG file, the link is stored in a "a" element which encloses the
    * figure. http://www.w3.org/TR/SVGMobile12/linking.html#AElement
    */
   public static final AttributeKey<String> LINK =
       new AttributeKey<String>("link", String.class, null, true, LABELS);
+
   /**
    * Specifies a link target. In an SVG file, the link is stored in a "a" element which encloses the
    * figure. http://www.w3.org/TR/SVGMobile12/linking.html#AElement

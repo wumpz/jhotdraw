@@ -34,6 +34,7 @@ import org.jhotdraw.geom.path.BezierPath;
 public class TriangleFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** The bounds of the triangle figure. */
   private Rectangle2D.Double rectangle;
 

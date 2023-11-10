@@ -43,6 +43,7 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment> implements Sha
     QUADRANT_XTO(2),
     /* elliptical-quadranty x y */
     QUADRANT_YTO(2);
+
     /** len is the number of parameters needed by a segment. */
     private int len;
 
@@ -54,10 +55,13 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment> implements Sha
       return len;
     }
   }
+
   /** We cache a Path2D.Double instance to speed up Shape operations. */
   private transient Path2D.Double generalPath;
+
   /** We cache a Rectangle2D.Double instance to speed up getBounds operations. */
   private transient Rectangle2D.Double bounds;
+
   /** The winding rule for filling the bezier path. */
   private int windingRule = Path2D.Double.WIND_EVEN_ODD;
 
@@ -135,8 +139,10 @@ public class EnhancedPath extends ArrayList<EnhancedPath.Segment> implements Sha
 
     /** The type of the segment. */
     public SegType type;
+
     /** Control points x and y coordinates. */
     public double[] coords = new double[8];
+
     /** Modifiers and formulas. */
     public String[] modifiers = new String[8];
 

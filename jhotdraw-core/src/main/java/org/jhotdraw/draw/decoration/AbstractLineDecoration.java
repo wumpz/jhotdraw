@@ -20,10 +20,13 @@ import org.jhotdraw.geom.Geom;
 public abstract class AbstractLineDecoration implements LineDecoration {
 
   private static final long serialVersionUID = 1L;
+
   /** If this is true, the decoration is filled. */
   private boolean isFilled;
+
   /** If this is true, the decoration is stroked. */
   private boolean isStroked;
+
   /** If this is true, the stroke color is used to fill the decoration. */
   private boolean isSolid;
 

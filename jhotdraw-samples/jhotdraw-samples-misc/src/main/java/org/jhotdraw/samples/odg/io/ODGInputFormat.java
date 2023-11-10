@@ -47,6 +47,7 @@ public class ODGInputFormat implements InputFormat {
 
   /** Holds the figures that are currently being read. */
   private LinkedList<Figure> figures;
+
   /** Holds the document that is currently being read. */
   private Document document;
 

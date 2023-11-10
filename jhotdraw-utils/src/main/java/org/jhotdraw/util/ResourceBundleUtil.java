@@ -55,16 +55,22 @@ public class ResourceBundleUtil implements Serializable {
   private static final HashSet<String> ACCELERATOR_KEYS =
       new HashSet<String>(
           Arrays.asList(new String[] {"shift", "control", "ctrl", "meta", "alt", "altGraph"}));
+
   /** The wrapped resource bundle. */
   private transient ResourceBundle resource;
+
   /** The locale. */
   private Locale locale;
+
   /** The base class */
   private Class<?> baseClass = getClass();
+
   /** The base name of the resource bundle. */
   private String baseName;
+
   /** The global verbose property. */
   private static boolean isVerbose = false;
+
   /**
    * The global map of property name modifiers. The key of this map is the name of the property name
    * modifier, the value of this map is a fallback chain.

@@ -163,6 +163,7 @@ public class OSXApplication extends AbstractApplication {
   private OSXPaletteHandler paletteHandler;
   private Preferences prefs;
   private LinkedList<Action> paletteActions;
+
   /** The "invisible" frame is used to hold the frameless menu bar on Mac OS X. */
   private JFrame invisibleFrame;
 

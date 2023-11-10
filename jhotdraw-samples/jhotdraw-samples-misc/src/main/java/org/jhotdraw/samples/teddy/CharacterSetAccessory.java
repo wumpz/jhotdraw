@@ -210,6 +210,7 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
                 GroupLayout.DEFAULT_SIZE,
                 GroupLayout.PREFERRED_SIZE));
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   public javax.swing.JComboBox charSetCombo;
   public javax.swing.JLabel charSetLabel;

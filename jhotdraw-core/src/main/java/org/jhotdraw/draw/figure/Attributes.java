@@ -34,6 +34,7 @@ import org.jhotdraw.draw.AttributeKeys;
 public final class Attributes {
 
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
+
   /**
    * Forbidden attributes can't be put by the put() operation. They can only be changed by put().
    */

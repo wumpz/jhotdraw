@@ -46,6 +46,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   private Layouter layouter;
   private List<Figure> children = new ArrayList<>();
   private transient Rectangle2D.Double cachedDrawingArea;
+
   /** Handles figure changes in the children. */
   private ChildHandler childHandler = new ChildHandler(this);
 
@@ -309,6 +310,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
       invalidate();
     }
   }
+
   // EVENT HANDLING
 
   @Override

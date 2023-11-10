@@ -100,10 +100,13 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
   // PROPERTIES
   /** The name of the "connectable" property. */
   public static final String CONNECTABLE_PROPERTY = "connectable";
+
   /** The name of the "removable" property. */
   public static final String REMOVABLE_PROPERTY = "removable";
+
   /** The name of the "selectable" property. */
   public static final String SELECTABLE_PROPERTY = "selectable";
+
   /** The name of the "transformable" property. */
   public static final String TRANSFORMABLE_PROPERTY = "transformable";
 

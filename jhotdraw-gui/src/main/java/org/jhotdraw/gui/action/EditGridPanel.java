@@ -179,6 +179,7 @@ public class EditGridPanel extends javax.swing.JPanel {
                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private org.jhotdraw.gui.JLifeFormattedTextField heightField;
   private javax.swing.JLabel heightLabel;

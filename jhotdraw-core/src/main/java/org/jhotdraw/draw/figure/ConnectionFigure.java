@@ -120,6 +120,7 @@ public interface ConnectionFigure extends Figure {
    * getEndConnector().getOwner() and handling null cases.
    */
   public Figure getEndFigure();
+
   // COMPOSITE FIGURES
 
   /**

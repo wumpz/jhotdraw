@@ -20,8 +20,10 @@ import javax.swing.plaf.basic.*;
 public class PaletteLookAndFeel extends BasicLookAndFeel {
 
   private static final long serialVersionUID = 1L;
+
   /** Shared instance. */
   private static PaletteLookAndFeel instance;
+
   /** Cached defaults. */
   private UIDefaults cachedDefaults;
 

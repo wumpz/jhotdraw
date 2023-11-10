@@ -17,6 +17,7 @@ import javax.swing.text.*;
 public class JLifeFormattedTextField extends JFormattedTextField {
 
   private static final long serialVersionUID = 1L;
+
   /** Last valid value. */
   private Object value;
 
@@ -38,8 +39,10 @@ public class JLifeFormattedTextField extends JFormattedTextField {
       updateValue();
     }
   }
+
   /** The DocumentHandler handles document changes while the user is editing the field. */
   private DocumentHandler documentHandler;
+
   /**
    * This variable is used to prevent endless update loops. We increase its value on each entry in
    * one of the update methods and decrease it on each exit.

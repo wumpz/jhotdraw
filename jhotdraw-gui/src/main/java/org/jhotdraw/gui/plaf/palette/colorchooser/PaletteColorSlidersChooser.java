@@ -22,6 +22,7 @@ import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
 public class PaletteColorSlidersChooser extends AbstractColorChooserPanel implements UIResource {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * We store here the name of the last selected color sliders panel. When the ColorSlidersChooser
    * is recreated multiple times in the same panel, the application 'remembers' which panel the user
@@ -118,6 +119,7 @@ public class PaletteColorSlidersChooser extends AbstractColorChooserPanel implem
 
   @Override
   public void updateChooser() {}
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JComboBox slidersComboBox;
   private javax.swing.JPanel slidersHolder;

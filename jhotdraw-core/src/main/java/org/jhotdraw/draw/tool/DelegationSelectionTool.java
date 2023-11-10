@@ -44,21 +44,26 @@ public class DelegationSelectionTool extends SelectionTool {
 
   /** A set of actions which is applied to the drawing. */
   private Collection<Action> drawingActions;
+
   /** A set of actions which is applied to a selection of figures. */
   private Collection<Action> selectionActions;
+
   /**
    * We use this timer, to show a popup menu, when the user presses the mouse key for a second
    * without moving the mouse.
    */
   private javax.swing.Timer popupTimer;
+
   /** When the popup menu is visible, we do not track mouse movements. */
   private JPopupMenu popupMenu;
+
   /**
    * We store the last mouse click here, to support multi-click behavior, that is, a behavior that
    * is invoked, when the user clicks multiple on the same spot, but in a longer interval than
    * needed for a double click.
    */
   private MouseEvent lastClickEvent;
+
   /** This variable is set to true, if a mouse pressed event is a popup trigger. */
   private boolean isMousePressedPopupTrigger;
 

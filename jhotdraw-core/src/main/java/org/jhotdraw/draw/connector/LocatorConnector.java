@@ -22,6 +22,7 @@ import org.jhotdraw.draw.locator.Locator;
 public class LocatorConnector extends AbstractConnector {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * The standard size of the connector. The display box is centered around the located point.
    *

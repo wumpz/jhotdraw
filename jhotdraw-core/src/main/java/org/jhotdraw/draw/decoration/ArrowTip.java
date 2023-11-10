@@ -25,6 +25,7 @@ import org.jhotdraw.draw.figure.Figure;
 public class ArrowTip extends AbstractLineDecoration {
 
   private static final long serialVersionUID = 1L;
+
   /** Pointiness of arrow. */
   private double angle;
 

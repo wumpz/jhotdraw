@@ -46,10 +46,12 @@ public class PertView extends AbstractView {
 
   private static final long serialVersionUID = 1L;
   public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
+
   /**
    * Each view uses its own undo redo manager. This allows for undoing and redoing actions per view.
    */
   private UndoRedoManager undo;
+
   /**
    * Depending on the type of an application, there may be one editor per view, or a single shared
    * editor for all views.
@@ -238,6 +240,7 @@ public class PertView extends AbstractView {
     scrollPane.setViewportView(view);
     add(scrollPane, java.awt.BorderLayout.CENTER);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JScrollPane scrollPane;
   private org.jhotdraw.draw.DefaultDrawingView view;

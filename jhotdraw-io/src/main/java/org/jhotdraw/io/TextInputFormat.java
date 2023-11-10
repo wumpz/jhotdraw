@@ -45,12 +45,16 @@ public class TextInputFormat implements InputFormat {
 
   /** The prototype for creating a figure that holds the imported text. */
   private TextHolderFigure prototype;
+
   /** Format description used for the file filter. */
   private String description;
+
   /** File name extension used for the file filter. */
   private String fileExtension;
+
   /** Image IO image format name. */
   private String formatName;
+
   /** This should be set to true for ImageHolderFigures that can hold multiple lines of text. */
   private boolean isMultiline;
 

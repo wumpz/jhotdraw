@@ -33,14 +33,19 @@ import org.jhotdraw.util.ResourceBundleUtil;
 public class AttributeKey<T> implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** Holds a String representation of the attribute key. */
   private String key;
+
   /** Holds the default value. */
   private T defaultValue;
+
   /** Specifies whether null values are allowed. */
   private boolean isNullValueAllowed;
+
   /** Holds labels for the localization of the attribute. */
   private ResourceBundleUtil labels;
+
   /**
    * This variable is used as a "type token" so that we can check for assignability of attribute
    * values at runtime.

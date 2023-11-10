@@ -33,6 +33,7 @@ public class PaletteFontChooserUI extends FontChooserUI {
   private PaletteFontChooserPreviewPanel previewPanel;
   private SelectionPanelHandler selectionPanelHandler;
   private FontChooserHandler chooserHandler;
+
   /**
    * The value of this counter is greater 0, if the palette font chooser is updating, and should
    * ignore incoming events.

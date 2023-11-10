@@ -38,12 +38,14 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
   private Connector savedTarget;
   // private Connector connectableConnector;
   private Figure connectableFigure;
+
   // private Point start;
   /**
    * We temporarily remove the Liner from the connection figure, while the handle is being moved. We
    * store the Liner here, and add it back when the user has finished the interaction.
    */
   private Liner savedLiner;
+
   /** All connectors of the connectable Figure. */
   protected Collection<Connector> connectors = Collections.emptyList();
 

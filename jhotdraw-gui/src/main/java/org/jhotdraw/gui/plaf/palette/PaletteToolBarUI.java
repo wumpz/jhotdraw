@@ -64,6 +64,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
   private boolean rolloverBorders = false;
   private HashMap<AbstractButton, Border> borderTable = new HashMap<>();
   private HashMap<AbstractButton, Boolean> rolloverTable = new HashMap<>();
+
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
    * are now defined by the LookAndFeel, please refer to the key bindings specification for further
@@ -72,6 +73,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    * @deprecated As of Java 2 platform v1.3.
    */
   @Deprecated protected KeyStroke upKey;
+
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
    * are now defined by the LookAndFeel, please refer to the key bindings specification for further
@@ -80,6 +82,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    * @deprecated As of Java 2 platform v1.3.
    */
   @Deprecated protected KeyStroke downKey;
+
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
    * are now defined by the LookAndFeel, please refer to the key bindings specification for further
@@ -88,6 +91,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    * @deprecated As of Java 2 platform v1.3.
    */
   @Deprecated protected KeyStroke leftKey;
+
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
    * are now defined by the LookAndFeel, please refer to the key bindings specification for further
@@ -1007,6 +1011,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
     @Override
     public void focusLost(FocusEvent evt) {}
+
     // MouseInputListener (DockingListener)
     JToolBar tb;
     boolean isDragging = false;
