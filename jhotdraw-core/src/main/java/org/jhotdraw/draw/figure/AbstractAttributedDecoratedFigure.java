@@ -7,10 +7,10 @@
  */
 package org.jhotdraw.draw.figure;
 
-import static org.jhotdraw.draw.AttributeKeys.*;
-
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import static org.jhotdraw.draw.AttributeKeys.DECORATOR_INSETS;
 import org.jhotdraw.geom.Insets2D;
 
 /**
