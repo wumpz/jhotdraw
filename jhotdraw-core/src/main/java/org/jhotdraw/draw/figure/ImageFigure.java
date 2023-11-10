@@ -135,18 +135,18 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
   }
 
   @Override
-  public Rectangle2D.Double getFigureDrawingArea() {
+  public Rectangle2D.Double getFigureDrawingArea(double scale) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale);
     Geom.grow(r, grow, grow);
     return r;
   }
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean figureContains(Point2D.Double p) {
+  public boolean figureContains(Point2D.Double p, double scale) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1d;
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale) + 1d;
     Geom.grow(r, grow, grow);
     return r.contains(p);
   }

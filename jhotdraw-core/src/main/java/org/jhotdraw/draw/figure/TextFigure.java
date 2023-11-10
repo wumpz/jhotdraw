@@ -68,7 +68,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   @Override
   protected void drawText(java.awt.Graphics2D g) {
     if (getText() != null || isEditable()) {
-      TextLayout layout = getTextLayout();
+      TextLayout layout =
+          getTextLayout(
+              AttributeKeys.getGlobalValueFactor(
+                  this, AttributeKeys.getScaleFactorFromGraphics(g)));
       Graphics2D g2 = (Graphics2D) g.create();
       try {
         // Test if world to screen transformation mirrors the text. If so it tries to
@@ -99,14 +102,14 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   }
 
   @Override
-  public boolean figureContains(Point2D.Double p) {
-    if (getBounds().contains(p)) {
-      return true;
-    }
-    return false;
+  public boolean figureContains(Point2D.Double p, double scaleDenominator) {
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) + 1d;
+    Rectangle2D.Double r = getBounds();
+    Geom.grow(r, grow, grow);
+    return r.contains(p);
   }
 
-  protected TextLayout getTextLayout() {
+  protected TextLayout getTextLayout(double sizeFactor) {
     if (textLayout == null) {
       String text = getText();
       if (text == null || text.length() == 0) {
@@ -125,7 +128,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public Rectangle2D.Double getBounds() {
-    TextLayout layout = getTextLayout();
+    TextLayout layout = getTextLayout(1.0f);
     Rectangle2D.Double r =
         new Rectangle2D.Double(
             origin.x, origin.y, layout.getAdvance(), layout.getAscent() + layout.getDescent());
@@ -140,17 +143,17 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public double getBaseline() {
-    TextLayout layout = getTextLayout();
+    TextLayout layout = getTextLayout(1.0);
     return origin.y + layout.getAscent() - getBounds().y;
   }
 
   /** Gets the drawing area without taking the decorator into account. */
   @Override
-  protected Rectangle2D.Double getFigureDrawingArea() {
+  protected Rectangle2D.Double getFigureDrawingArea(double factor) {
     if (getText() == null) {
       return getBounds();
     } else {
-      TextLayout layout = getTextLayout();
+      TextLayout layout = getTextLayout(factor);
       Rectangle2D.Double r =
           new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(), layout.getAscent());
       Rectangle2D lBounds = layout.getBounds();
@@ -235,7 +238,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public void setFontSize(float size) {
-    attr().set(FONT_SIZE, new Double(size));
+    attr().set(FONT_SIZE, Double.valueOf(size));
   }
 
   @Override
@@ -276,6 +279,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
    * Returns a specialized tool for the given coordinate.
    *
    * <p>Returns null, if no specialized tool is available.
+   *
+   * @param p
+   * @return
    */
   @Override
   public Tool getTool(Point2D.Double p) {

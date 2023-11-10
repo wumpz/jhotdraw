@@ -316,7 +316,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   }
 
   @Override
-  public boolean figureContains(Point2D.Double p) {
+  public boolean figureContains(Point2D.Double p, double scale) {
     return bounds.contains(p);
   }
 

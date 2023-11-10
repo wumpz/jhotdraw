@@ -95,7 +95,7 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * {@code Locator} encapsulates a strategy for locating a point on a {@code Figure}.<br>
  * Strategy: {@link org.jhotdraw.draw.locator.Locator}; Context: {@link Figure}. <hr>
  */
-public interface Figure extends Cloneable, Serializable {
+public interface Figure extends AttributeProvider, Cloneable, Serializable {
 
   // PROPERTIES
   /** The name of the "connectable" property. */
@@ -241,8 +241,6 @@ public interface Figure extends Cloneable, Serializable {
    * @see #restoreTransformTo
    */
   public void transform(AffineTransform tx);
-
-  public Attributes attr();
 
   /**
    * Returns true, if the user may select this figure. If this operation returns false, Tool's

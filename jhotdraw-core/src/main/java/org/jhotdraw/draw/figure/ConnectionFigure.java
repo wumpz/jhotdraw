@@ -104,11 +104,9 @@ public interface ConnectionFigure extends Figure {
   public void setNode(int index, BezierPath.Node node);
 
   /** Gets the start point. */
-  @Override
   public Point2D.Double getStartPoint();
 
   /** Gets the end point. */
-  @Override
   public Point2D.Double getEndPoint();
 
   /**
