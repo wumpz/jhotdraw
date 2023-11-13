@@ -11,6 +11,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.Figure;
 
 /**
@@ -124,7 +125,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
 
   @Override
   public void draw(Graphics2D g) {
-    Shape bounds = getOwner().getBounds(1.0);
+    Shape bounds = getOwner().getBounds(AttributeKeys.getScaleFactorFromGraphics(g));
     if (getOwner().attr().get(TRANSFORM) != null) {
       bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }
