@@ -458,7 +458,10 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     Rectangle2D clipBounds = g.getClipBounds();
     if (clipBounds != null) {
       for (Figure child : getChildren()) {
-        if (child.isVisible() && child.getDrawingArea().intersects(clipBounds)) {
+        if (child.isVisible()
+            && child
+                .getDrawingArea(AttributeKeys.getScaleFactorFromGraphics(g))
+                .intersects(clipBounds)) {
           child.draw(g);
         }
       }

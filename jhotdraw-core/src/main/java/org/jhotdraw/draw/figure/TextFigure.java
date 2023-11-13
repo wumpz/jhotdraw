@@ -113,7 +113,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   }
 
   protected TextLayout getTextLayout(double sizeFactor) {
-    if (textLayout == null) {
+    if (textLayout == null || attr().get(IS_STROKE_PIXEL_VALUE)) {
       String text = getText();
       if (text == null || text.length() == 0) {
         text = " ";
@@ -122,7 +122,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
       HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
       textAttributes.put(
           TextAttribute.FONT,
-          getFont().deriveFont((float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
+          getFont()
+              .deriveFont(
+                  getFontSize() * (float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
       if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
