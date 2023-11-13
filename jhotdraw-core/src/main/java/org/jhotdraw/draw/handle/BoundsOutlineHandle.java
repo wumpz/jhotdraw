@@ -125,7 +125,8 @@ public class BoundsOutlineHandle extends AbstractHandle {
 
   @Override
   public void draw(Graphics2D g) {
-    Shape bounds = getOwner().getBounds(AttributeKeys.getScaleFactorFromGraphics(g));
+    Shape bounds =
+        getOwner().getBounds(AttributeKeys.getScaleFactor(view.getDrawingToViewTransform()));
     if (getOwner().attr().get(TRANSFORM) != null) {
       bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }

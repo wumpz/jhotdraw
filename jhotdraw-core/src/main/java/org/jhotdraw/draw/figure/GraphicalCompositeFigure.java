@@ -178,10 +178,15 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       basicSetPresentationFigureBounds(anchor, lead);
     } else {
       Rectangle2D.Double r = getLayouter().layout(this, anchor, lead);
-      basicSetPresentationFigureBounds(
-          new Point2D.Double(r.getX(), r.getY()),
-          new Point2D.Double(
-              Math.max(lead.x, (int) r.getMaxX()), Math.max(lead.y, (int) r.getMaxY())));
+      if (r.isEmpty()) {
+        super.setBounds(anchor, lead);
+        basicSetPresentationFigureBounds(anchor, lead);
+      } else {
+        basicSetPresentationFigureBounds(
+            new Point2D.Double(r.getX(), r.getY()),
+            new Point2D.Double(
+                Math.max(lead.x, (int) r.getMaxX()), Math.max(lead.y, (int) r.getMaxY())));
+      }
       invalidate();
     }
   }
