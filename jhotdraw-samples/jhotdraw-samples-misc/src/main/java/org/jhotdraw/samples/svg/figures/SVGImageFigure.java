@@ -132,7 +132,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) rectangle.clone();
   }
 
@@ -361,7 +361,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
   @Override
   public boolean isEmpty() {
-    Rectangle2D.Double b = getBounds();
+    Rectangle2D.Double b = getBounds(1.0);
     return b.width <= 0 || b.height <= 0 || imageData == null && bufferedImage == null;
   }
 

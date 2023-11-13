@@ -40,7 +40,7 @@ public class ChopRectangleConnector extends AbstractConnector {
         from = connection.getEndPoint();
       } else {
         Rectangle2D.Double r1 =
-            getConnectorTarget(connection.getEndConnector().getOwner()).getBounds();
+            getConnectorTarget(connection.getEndConnector().getOwner()).getBounds(1.0);
         from = new Point2D.Double(r1.x + r1.width / 2, r1.y + r1.height / 2);
       }
     } else {
@@ -60,11 +60,11 @@ public class ChopRectangleConnector extends AbstractConnector {
         from = connection.getStartPoint();
       } else if (connection.getStartFigure() == connection.getEndFigure()) {
         Rectangle2D.Double r1 =
-            getConnectorTarget(connection.getStartConnector().getOwner()).getBounds();
+            getConnectorTarget(connection.getStartConnector().getOwner()).getBounds(1.0);
         from = new Point2D.Double(r1.x + r1.width / 2, r1.y);
       } else {
         Rectangle2D.Double r1 =
-            getConnectorTarget(connection.getStartConnector().getOwner()).getBounds();
+            getConnectorTarget(connection.getStartConnector().getOwner()).getBounds(1.0);
         from = new Point2D.Double(r1.x + r1.width / 2, r1.y + r1.height / 2);
       }
     } else {
@@ -75,7 +75,7 @@ public class ChopRectangleConnector extends AbstractConnector {
 
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
     target = getConnectorTarget(target);
-    Rectangle2D.Double r = target.getBounds();
+    Rectangle2D.Double r = target.getBounds(1.0);
     if (target.attr().get(STROKE_COLOR) != null) {
       double grow;
       switch (target.attr().get(STROKE_PLACEMENT)) {

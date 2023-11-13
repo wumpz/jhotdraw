@@ -36,7 +36,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
   @Override
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
     target = getConnectorTarget(target);
-    Rectangle2D.Double r = target.getBounds();
+    Rectangle2D.Double r = target.getBounds(1.0);
     if (target.attr().get(DiamondFigure.IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
       r.x -= (side - r.width) / 2;

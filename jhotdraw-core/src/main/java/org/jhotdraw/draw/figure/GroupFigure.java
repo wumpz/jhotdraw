@@ -28,7 +28,7 @@ public class GroupFigure extends AbstractAttributedCompositeFigure {
    * <p>FIXME Invoke chop on each child and return the closest point.
    */
   public Point2D.Double chop(Point2D.Double from) {
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
   }
 

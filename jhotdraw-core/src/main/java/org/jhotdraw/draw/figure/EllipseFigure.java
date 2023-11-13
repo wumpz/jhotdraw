@@ -51,7 +51,7 @@ public class EllipseFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) ellipse.getBounds2D();
   }
 

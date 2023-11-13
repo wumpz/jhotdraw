@@ -406,7 +406,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   }
 
   public static void writeText(TextFigure figure, DOMOutput domOutput) throws IOException {
-    Rectangle2D.Double b = figure.getBounds();
+    Rectangle2D.Double b = figure.getBounds(1.0);
     domOutput.addAttribute("x", b.x);
     domOutput.addAttribute("y", b.y);
     writeAttributes(figure, domOutput);
@@ -496,7 +496,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   }
 
   public static void writeBounds(Figure figure, DOMOutput domOutput) {
-    Rectangle2D.Double r = figure.getBounds();
+    Rectangle2D.Double r = figure.getBounds(1.0);
     domOutput.addAttribute("x", r.x);
     domOutput.addAttribute("y", r.y);
     domOutput.addAttribute("w", r.width);

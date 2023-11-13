@@ -34,7 +34,7 @@ public class StickyRectangleConnector extends ChopRectangleConnector {
   public void draw(Graphics2D g) {
     g.setColor(Color.blue);
     g.setStroke(new BasicStroke());
-    g.draw(getBounds());
+    g.draw(getBounds(1.0));
   }
 
   public void setAngle(float angle) {
@@ -47,22 +47,22 @@ public class StickyRectangleConnector extends ChopRectangleConnector {
 
   public StickyRectangleConnector(Figure owner, Point2D.Double p) {
     super(owner);
-    this.angle = (float) Geom.pointToAngle(owner.getBounds(), p);
+    this.angle = (float) Geom.pointToAngle(owner.getBounds(1.0), p);
   }
 
   @Override
   public void updateAnchor(Point2D.Double p) {
-    this.angle = (float) Geom.pointToAngle(getOwner().getBounds(), p);
+    this.angle = (float) Geom.pointToAngle(getOwner().getBounds(1.0), p);
   }
 
   @Override
   public Point2D.Double getAnchor() {
-    return Geom.angleToPoint(getOwner().getBounds(), angle);
+    return Geom.angleToPoint(getOwner().getBounds(1.0), angle);
   }
 
   @Override
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
-    return Geom.angleToPoint(target.getBounds(), angle);
+    return Geom.angleToPoint(target.getBounds(1.0), angle);
   }
 
   public String getParameters() {

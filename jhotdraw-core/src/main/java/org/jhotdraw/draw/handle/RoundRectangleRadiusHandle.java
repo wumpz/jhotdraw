@@ -46,7 +46,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
 
   private Point locate() {
     RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
-    Rectangle r = view.drawingToView(owner.getBounds());
+    Rectangle r = view.drawingToView(owner.getBounds(1.0));
     Point arc = view.drawingToView(new Point2D.Double(owner.getArcWidth(), owner.getArcHeight()));
     return new Point(r.x + arc.x / 2 + OFFSET, r.y + arc.y / 2 + OFFSET);
   }
@@ -62,7 +62,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     int dx = lead.x - anchor.x;
     int dy = lead.y - anchor.y;
     RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
-    Rectangle r = view.drawingToView(owner.getBounds());
+    Rectangle r = view.drawingToView(owner.getBounds(1.0));
     Point viewArc =
         new Point(
             Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),
@@ -78,7 +78,7 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     int dx = lead.x - anchor.x;
     int dy = lead.y - anchor.y;
     RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
-    Rectangle r = view.drawingToView(owner.getBounds());
+    Rectangle r = view.drawingToView(owner.getBounds(1.0));
     Point viewArc =
         new Point(
             Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),

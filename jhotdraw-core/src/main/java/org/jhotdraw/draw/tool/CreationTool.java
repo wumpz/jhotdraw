@@ -213,7 +213,7 @@ public class CreationTool extends AbstractTool {
   @Override
   public void mouseReleased(MouseEvent evt) {
     if (createdFigure != null) {
-      Rectangle2D.Double bounds = createdFigure.getBounds();
+      Rectangle2D.Double bounds = createdFigure.getBounds(1.0);
       if (bounds.width == 0 && bounds.height == 0) {
         getDrawing().remove(createdFigure);
         if (isToolDoneAfterCreation()) {

@@ -646,12 +646,12 @@ public class AttributeKeys {
    * value returned is the number of units that need to be grown (or shrunk) perpendicular to a
    * stroke on an outline of the shape.
    */
-  public static double getPerpendicularHitGrowth(Figure f, double factor) {
+  public static double getPerpendicularHitGrowth(Figure f, double scale) {
     double grow;
     if (f.attr().get(STROKE_COLOR) == null) {
-      grow = getPerpendicularFillGrowth(f, factor);
+      grow = getPerpendicularFillGrowth(f, scale);
     } else {
-      double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
+      double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, scale);
 
       double width = strokeWidth / 2;
       if (f.attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
@@ -661,7 +661,7 @@ public class AttributeKeys {
       }
       width++;
 
-      grow = getPerpendicularDrawGrowth(f, factor) + width;
+      grow = getPerpendicularDrawGrowth(f, scale) + width;
     }
     return grow;
   }

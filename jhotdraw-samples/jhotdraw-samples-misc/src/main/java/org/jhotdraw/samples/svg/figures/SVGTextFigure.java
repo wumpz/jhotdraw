@@ -103,7 +103,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (cachedBounds == null) {
       cachedBounds = new Rectangle2D.Double();
       cachedBounds.setRect(getTextShape().getBounds2D());
@@ -375,7 +375,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
 
   @Override
   public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double b = getBounds();
+    Rectangle2D.Double b = getBounds(1.0);
     return new Dimension2DDouble(b.width, b.height);
   }
 
@@ -419,7 +419,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
 
   @Override
   public double getBaseline() {
-    return coordinates[0].y - getBounds().y;
+    return coordinates[0].y - getBounds(1.0).y;
   }
 
   /** Gets the number of characters used to expand tabs. */

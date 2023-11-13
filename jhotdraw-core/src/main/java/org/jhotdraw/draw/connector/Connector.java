@@ -59,7 +59,7 @@ public interface Connector extends Cloneable, Serializable {
    * Connector. The bounds can differ from the Figure bounds, if the Connector connects to a
    * specific region of the Figure.
    */
-  public Rectangle2D.Double getBounds();
+  public Rectangle2D.Double getBounds(double scale);
 
   /**
    * Updates the anchor of the connector. This method is called when the user manually changes the

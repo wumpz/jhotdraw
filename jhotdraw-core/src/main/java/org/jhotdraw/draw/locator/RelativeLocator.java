@@ -56,7 +56,7 @@ public class RelativeLocator extends AbstractLocator {
 
   @Override
   public java.awt.geom.Point2D.Double locate(Figure owner) {
-    Rectangle2D.Double bounds = owner.getBounds();
+    Rectangle2D.Double bounds = owner.getBounds(1.0);
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
       Insets2D.Double insets = owner.attr().get(DECORATOR_INSETS);
       if (insets != null) {

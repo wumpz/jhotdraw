@@ -30,7 +30,7 @@ public class BorderRectangleFigure extends RectangleFigure {
   }
 
   public void drawFigure(Graphics2D g) {
-    Rectangle bounds = getBounds().getBounds();
+    Rectangle bounds = getBounds(1.0).getBounds();
     border.paintBorder(BORDER_COMPONENT, g, bounds.x, bounds.y, bounds.width, bounds.height);
   }
 }

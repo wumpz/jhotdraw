@@ -132,7 +132,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
 
   // SHAPE AND BOUNDS
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
   }

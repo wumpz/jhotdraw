@@ -78,8 +78,8 @@ public class SmartConnectionFigureSample {
             tc.setBounds(new Point2D.Double(220, 30), new Point2D.Double(310, 100));
             ConnectionFigure cf = new SmartConnectionFigure();
             cf.setLiner(new ElbowLiner());
-            cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
-            cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
+            cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds(1.0)), cf));
+            cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds(1.0)), cf));
             Drawing drawing = new DefaultDrawing();
             drawing.add(ta);
             drawing.add(tb);

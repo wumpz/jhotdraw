@@ -107,7 +107,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
 
   @Override
   protected Rectangle basicGetBounds() {
-    Shape bounds = getOwner().getBounds();
+    Shape bounds = getOwner().getBounds(1.0);
     if (getOwner().attr().get(TRANSFORM) != null) {
       bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }
@@ -124,7 +124,7 @@ public class BoundsOutlineHandle extends AbstractHandle {
 
   @Override
   public void draw(Graphics2D g) {
-    Shape bounds = getOwner().getBounds();
+    Shape bounds = getOwner().getBounds(1.0);
     if (getOwner().attr().get(TRANSFORM) != null) {
       bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }

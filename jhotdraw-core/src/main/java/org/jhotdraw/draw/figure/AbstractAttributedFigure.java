@@ -108,7 +108,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea(double factor) {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     //    double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
     //    double width = strokeTotalWidth / 2d;
     //    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
@@ -117,8 +117,8 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     //      width += strokeTotalWidth * 2;
     //    }
     //    width++;
-    Rectangle2D.Double r = getBounds();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, factor) * 1.1 + 1;
+    Rectangle2D.Double r = getBounds(scale);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale) * 1.1 + 1;
     Geom.grow(r, grow, grow);
     return r;
   }
@@ -227,20 +227,21 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   protected void fireFigureRequestRemove() {
     fireFigureEvent(
         (listener, event) -> listener.figureRequestRemove(event),
-        () -> new FigureEvent(this, getBounds()));
+        () -> new FigureEvent(this, getBounds(1.0)));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureAdded() {
     fireFigureEvent(
-        (listener, event) -> listener.figureAdded(event), () -> new FigureEvent(this, getBounds()));
+        (listener, event) -> listener.figureAdded(event),
+        () -> new FigureEvent(this, getBounds(1.0)));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRemoved() {
     fireFigureEvent(
         (listener, event) -> listener.figureRemoved(event),
-        () -> new FigureEvent(this, getBounds()));
+        () -> new FigureEvent(this, getBounds(1.0)));
   }
 
   public void fireFigureChanged() {
@@ -433,13 +434,13 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Point2D.Double getEndPoint() {
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     return new Point2D.Double(r.x + r.width, r.y + r.height);
   }
 
   @Override
   public Point2D.Double getStartPoint() {
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     return new Point2D.Double(r.x, r.y);
   }
 
@@ -450,7 +451,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
      */
   @Override
   public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     return new Dimension2DDouble(r.width, r.height);
   }
 

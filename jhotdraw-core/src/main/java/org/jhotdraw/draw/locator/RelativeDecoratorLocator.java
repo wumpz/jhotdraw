@@ -42,9 +42,9 @@ public class RelativeDecoratorLocator extends RelativeLocator {
   public java.awt.geom.Point2D.Double locate(Figure owner) {
     Rectangle2D.Double r;
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
-      r = ((DecoratedFigure) owner).getDecorator().getBounds();
+      r = ((DecoratedFigure) owner).getDecorator().getBounds(1.0);
     } else {
-      r = owner.getBounds();
+      r = owner.getBounds(1.0);
     }
     if (isQuadratic) {
       double side = Math.max(r.width, r.height);

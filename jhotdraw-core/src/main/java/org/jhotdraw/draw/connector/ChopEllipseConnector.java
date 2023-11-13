@@ -42,7 +42,7 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
   @Override
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
     target = getConnectorTarget(target);
-    Rectangle2D.Double r = target.getBounds();
+    Rectangle2D.Double r = target.getBounds(1.0);
     if (getStrokeColor(target) != null) {
       double grow;
       switch (target.attr().get(STROKE_PLACEMENT)) {

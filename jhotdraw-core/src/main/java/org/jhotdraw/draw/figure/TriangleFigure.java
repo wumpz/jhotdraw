@@ -66,7 +66,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
   }
@@ -214,7 +214,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
       }
     }
     width++;
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     Geom.grow(r, width, width);
     return r;
   }

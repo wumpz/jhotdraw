@@ -86,7 +86,7 @@ public class AbstractConnector implements Connector {
    * start and end point of a connection.
    */
   protected Point2D.Double findPoint(ConnectionFigure connection) {
-    return Geom.center(getBounds());
+    return Geom.center(getBounds(1.0));
   }
 
   /** Gets the connector's owner. */
@@ -128,17 +128,17 @@ public class AbstractConnector implements Connector {
 
   @Override
   public Point2D.Double getAnchor() {
-    return Geom.center(getBounds());
+    return Geom.center(getBounds(1.0));
   }
 
   @Override
   public void updateAnchor(Point2D.Double p) {}
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return isConnectToDecorator()
-        ? ((DecoratedFigure) getOwner()).getDecorator().getBounds()
-        : getOwner().getBounds();
+        ? ((DecoratedFigure) getOwner()).getDecorator().getBounds(scale)
+        : getOwner().getBounds(scale);
   }
 
   @Override

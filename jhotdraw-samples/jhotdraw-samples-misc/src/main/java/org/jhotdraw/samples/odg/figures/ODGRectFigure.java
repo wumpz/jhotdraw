@@ -98,7 +98,7 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) roundrect.getBounds2D();
   }
 
@@ -289,7 +289,7 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
 
   @Override
   public boolean isEmpty() {
-    Rectangle2D.Double b = getBounds();
+    Rectangle2D.Double b = getBounds(1.0);
     return b.width <= 0 || b.height <= 0;
   }
 

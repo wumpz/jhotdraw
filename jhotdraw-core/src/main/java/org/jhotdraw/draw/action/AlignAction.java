@@ -55,9 +55,9 @@ public abstract class AlignAction extends AbstractSelectedAction {
     Rectangle2D.Double bounds = null;
     for (Figure f : getView().getSelectedFigures()) {
       if (bounds == null) {
-        bounds = f.getBounds();
+        bounds = f.getBounds(1.0);
       } else {
-        bounds.add(f.getBounds());
+        bounds.add(f.getBounds(1.0));
       }
     }
     return bounds;
@@ -84,7 +84,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
       for (Figure f : getView().getSelectedFigures()) {
         if (f.isTransformable()) {
           f.willChange();
-          Rectangle2D.Double b = f.getBounds();
+          Rectangle2D.Double b = f.getBounds(1.0);
           AffineTransform tx = new AffineTransform();
           tx.translate(0, y - b.y);
           f.transform(tx);
@@ -116,7 +116,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
       for (Figure f : getView().getSelectedFigures()) {
         if (f.isTransformable()) {
           f.willChange();
-          Rectangle2D.Double b = f.getBounds();
+          Rectangle2D.Double b = f.getBounds(1.0);
           AffineTransform tx = new AffineTransform();
           tx.translate(x - b.x - b.width, 0);
           f.transform(tx);
@@ -148,7 +148,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
       for (Figure f : getView().getSelectedFigures()) {
         if (f.isTransformable()) {
           f.willChange();
-          Rectangle2D.Double b = f.getBounds();
+          Rectangle2D.Double b = f.getBounds(1.0);
           AffineTransform tx = new AffineTransform();
           tx.translate(x - b.x, 0);
           f.transform(tx);
@@ -180,7 +180,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
       for (Figure f : getView().getSelectedFigures()) {
         if (f.isTransformable()) {
           f.willChange();
-          Rectangle2D.Double b = f.getBounds();
+          Rectangle2D.Double b = f.getBounds(1.0);
           AffineTransform tx = new AffineTransform();
           tx.translate(0, y - b.y - b.height);
           f.transform(tx);
@@ -212,7 +212,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
       for (Figure f : getView().getSelectedFigures()) {
         if (f.isTransformable()) {
           f.willChange();
-          Rectangle2D.Double b = f.getBounds();
+          Rectangle2D.Double b = f.getBounds(1.0);
           AffineTransform tx = new AffineTransform();
           tx.translate(0, y - b.y - b.height / 2);
           f.transform(tx);
@@ -244,7 +244,7 @@ public abstract class AlignAction extends AbstractSelectedAction {
       for (Figure f : getView().getSelectedFigures()) {
         if (f.isTransformable()) {
           f.willChange();
-          Rectangle2D.Double b = f.getBounds();
+          Rectangle2D.Double b = f.getBounds(1.0);
           AffineTransform tx = new AffineTransform();
           tx.translate(x - b.x - b.width / 2, 0);
           f.transform(tx);

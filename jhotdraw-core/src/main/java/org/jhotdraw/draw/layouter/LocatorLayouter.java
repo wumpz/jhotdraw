@@ -37,7 +37,7 @@ public class LocatorLayouter implements Layouter {
       Locator locator = getLocator(child);
       Rectangle2D.Double r;
       if (locator == null) {
-        r = child.getBounds();
+        r = child.getBounds(1.0);
       } else {
         Point2D.Double p = locator.locate(compositeFigure);
         Dimension2DDouble d = child.getPreferredSize();
@@ -62,7 +62,7 @@ public class LocatorLayouter implements Layouter {
       Locator locator = getLocator(child);
       Rectangle2D.Double r;
       if (locator == null) {
-        r = child.getBounds();
+        r = child.getBounds(1.0);
       } else {
         Point2D.Double p = locator.locate(compositeFigure, child);
         Dimension2DDouble d = child.getPreferredSize();

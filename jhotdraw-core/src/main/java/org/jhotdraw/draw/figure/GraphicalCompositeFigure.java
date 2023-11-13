@@ -125,18 +125,18 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    * figure.
    */
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (getPresentationFigure() == null) {
-      return super.getBounds();
+      return super.getBounds(scale);
     }
-    return getPresentationFigure().getBounds();
+    return getPresentationFigure().getBounds(scale);
   }
 
   @Override
-  public boolean contains(Point2D.Double p, double scaleDenominator) {
-    boolean contains = super.contains(p, scaleDenominator);
+  public boolean contains(Point2D.Double p, double scale) {
+    boolean contains = super.contains(p, scale);
     if (!contains && getPresentationFigure() != null) {
-      contains = getPresentationFigure().contains(p, scaleDenominator);
+      contains = getPresentationFigure().contains(p, scale);
     }
     return contains;
   }
@@ -347,7 +347,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    * AttributeKeys.STROKE_PLACEMENT, and AttributeKeys.StrokeTotalWidth.
    */
   public Point2D.Double chop(Point2D.Double from) {
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     if (attr().get(STROKE_COLOR) != null) {
       double grow;
       switch (attr().get(STROKE_PLACEMENT)) {

@@ -102,12 +102,12 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   }
 
   @Override
-  public boolean figureContains(Point2D.Double p, double scaleDenominator) {
+  public boolean figureContains(Point2D.Double p, double scale) {
     double grow =
         AttributeKeys.getPerpendicularHitGrowth(
-                this, AttributeKeys.getGlobalValueFactor(this, scaleDenominator))
+                this, AttributeKeys.getGlobalValueFactor(this, scale))
             + 1d;
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(scale);
     Geom.grow(r, grow, grow);
     return r.contains(p);
   }
@@ -134,8 +134,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
-    TextLayout layout = getTextLayout(1.0f);
+  public Rectangle2D.Double getBounds(double scale) {
+    TextLayout layout = getTextLayout(scale);
     Rectangle2D.Double r =
         new Rectangle2D.Double(
             origin.x, origin.y, layout.getAdvance(), layout.getAscent() + layout.getDescent());
@@ -144,21 +144,21 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   @Override
   public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double b = getBounds();
+    Rectangle2D.Double b = getBounds(1.0);
     return new Dimension2DDouble(b.width, b.height);
   }
 
   @Override
   public double getBaseline() {
     TextLayout layout = getTextLayout(1.0);
-    return origin.y + layout.getAscent() - getBounds().y;
+    return origin.y + layout.getAscent() - getBounds(1.0).y;
   }
 
   /** Gets the drawing area without taking the decorator into account. */
   @Override
   protected Rectangle2D.Double getFigureDrawingArea(double factor) {
     if (getText() == null) {
-      return getBounds();
+      return getBounds(factor);
     } else {
       TextLayout layout = getTextLayout(factor);
       Rectangle2D.Double r =

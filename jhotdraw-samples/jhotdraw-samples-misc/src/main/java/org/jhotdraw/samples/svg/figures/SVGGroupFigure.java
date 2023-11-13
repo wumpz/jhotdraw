@@ -72,13 +72,13 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (cachedBounds == null) {
       if (getChildCount() == 0) {
         cachedBounds = new Rectangle2D.Double();
       } else {
         for (Figure f : children) {
-          Rectangle2D.Double bounds = f.getBounds();
+          Rectangle2D.Double bounds = f.getBounds(scale);
           if (f.attr().get(TRANSFORM) != null) {
             bounds.setRect(f.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
           }

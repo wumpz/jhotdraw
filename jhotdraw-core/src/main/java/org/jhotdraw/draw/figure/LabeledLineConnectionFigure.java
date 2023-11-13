@@ -304,7 +304,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   @Override
   public void layout() {
     if (getLayouter() != null) {
-      Rectangle2D.Double bounds = getBounds();
+      Rectangle2D.Double bounds = getBounds(1.0);
       Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
       getLayouter().layout(this, p, p);
       invalidate();

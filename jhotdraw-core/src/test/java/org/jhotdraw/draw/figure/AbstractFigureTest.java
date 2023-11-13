@@ -57,7 +57,7 @@ public class AbstractFigureTest {
     public void draw(Graphics2D g) {}
 
     @Override
-    public Rectangle2D.Double getBounds() {
+    public Rectangle2D.Double getBounds(double scale) {
       return null;
     }
 

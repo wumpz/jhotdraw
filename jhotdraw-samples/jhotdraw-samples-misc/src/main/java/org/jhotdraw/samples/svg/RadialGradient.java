@@ -72,7 +72,7 @@ public class RadialGradient implements Gradient {
   public void makeRelativeToFigureBounds(Figure f) {
     if (!isRelativeToFigureBounds) {
       isRelativeToFigureBounds = true;
-      Rectangle2D.Double bounds = f.getBounds();
+      Rectangle2D.Double bounds = f.getBounds(1.0);
       cx = (cx - bounds.x) / bounds.width;
       cy = (cy - bounds.y) / bounds.height;
       r = r / Math.sqrt(bounds.width * bounds.width / 2d + bounds.height * bounds.height / 2d);
@@ -107,7 +107,7 @@ public class RadialGradient implements Gradient {
         System.out.println("RadialGradient " + hashCode() + " t=" + t);
       }
       t = new AffineTransform();
-      Rectangle2D.Double bounds = f.getBounds();
+      Rectangle2D.Double bounds = f.getBounds(1.0);
       t.translate(bounds.x, bounds.y);
       t.scale(bounds.width, bounds.height);
     }

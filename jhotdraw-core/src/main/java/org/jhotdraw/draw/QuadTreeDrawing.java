@@ -220,7 +220,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
   public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
     List<Figure> contained = new ArrayList<>();
     for (Figure f : CHILDREN) {
-      Rectangle2D.Double r = f.getBounds();
+      Rectangle2D.Double r = f.getBounds(1.0);
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
         r =

@@ -46,7 +46,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
 
   private Point locate() {
     ODGRectFigure owner = (ODGRectFigure) getOwner();
-    Rectangle2D.Double r = owner.getBounds();
+    Rectangle2D.Double r = owner.getBounds(1.0);
     Point2D.Double p = new Point2D.Double(r.x + owner.getArcWidth(), r.y + owner.getArcHeight());
     if (owner.attr().get(TRANSFORM) != null) {
       owner.attr().get(TRANSFORM).transform(p, p);
@@ -72,7 +72,7 @@ public class ODGRectRadiusHandle extends AbstractHandle {
         LOG.throwing(ODGRectRadiusHandle.class.getName(), "trackStep", ex);
       }
     }
-    Rectangle2D.Double r = odgRect.getBounds();
+    Rectangle2D.Double r = odgRect.getBounds(1.0);
     odgRect.setArc(p.x - r.x, p.y - r.y);
     odgRect.changed();
   }

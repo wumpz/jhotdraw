@@ -298,7 +298,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
-    Rectangle2D.Double oldBounds = getBounds();
+    Rectangle2D.Double oldBounds = getBounds(1.0);
     Rectangle2D.Double newBounds =
         new Rectangle2D.Double(
             Math.min(anchor.x, lead.x),
@@ -374,7 +374,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   public Figure findChild(Point2D.Double p) {
-    if (getBounds().contains(p)) {
+    if (getBounds(1.0).contains(p)) {
       Figure found = null;
       for (Figure child : getChildrenFrontToBack()) {
         if (child.isVisible() && child.contains(p)) {
@@ -421,7 +421,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     }
     changingDepth--;
     if (getLayouter() != null) {
-      Rectangle2D.Double bounds = getBounds();
+      Rectangle2D.Double bounds = getBounds(1.0);
       Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
       Rectangle2D.Double r = getLayouter().layout(this, p, p);
       setBounds(new Point2D.Double(r.x, r.y), new Point2D.Double(r.x + r.width, r.y + r.height));
@@ -606,16 +606,16 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (cachedBounds == null) {
       if (getChildCount() == 0) {
         cachedBounds = new Rectangle2D.Double();
       } else {
         for (Figure f : children) {
           if (cachedBounds == null) {
-            cachedBounds = f.getBounds();
+            cachedBounds = f.getBounds(scale);
           } else {
-            cachedBounds.add(f.getBounds());
+            cachedBounds.add(f.getBounds(scale));
           }
         }
       }
@@ -727,7 +727,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
       width *= attr().get(STROKE_MITER_LIMIT);
     }
     width++;
-    Rectangle2D.Double r = getBounds();
+    Rectangle2D.Double r = getBounds(1.0);
     Geom.grow(r, width, width);
     return r;
   }

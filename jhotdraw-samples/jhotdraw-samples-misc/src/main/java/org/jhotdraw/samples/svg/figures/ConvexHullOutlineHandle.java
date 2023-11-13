@@ -108,7 +108,7 @@ public class ConvexHullOutlineHandle extends AbstractHandle {
 
   @Override
   protected Rectangle basicGetBounds() {
-    Shape bounds = getOwner().getBounds();
+    Shape bounds = getOwner().getBounds(1.0);
     if (getOwner().attr().get(TRANSFORM) != null) {
       bounds = getOwner().attr().get(TRANSFORM).createTransformedShape(bounds);
     }

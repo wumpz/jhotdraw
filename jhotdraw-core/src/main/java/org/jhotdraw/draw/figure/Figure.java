@@ -169,7 +169,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * <p>The bounds are used by Handle objects for adjusting the figure and for aligning the figure
    * on a grid.
    */
-  public Rectangle2D.Double getBounds();
+  public Rectangle2D.Double getBounds(double scale);
 
   /**
    * Returns the drawing area of the figure as a Rectangle.
@@ -191,7 +191,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * <p>The drawing area needs to be large enough, to take line width, line caps and other
    * decorations into account that exceed the bounds of the Figure.
    */
-  public Rectangle2D.Double getDrawingArea(double factor);
+  public Rectangle2D.Double getDrawingArea(double scale);
 
   /**
    * The preferred size is used by Layouter to determine the preferred size of a Figure. For most
@@ -211,7 +211,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    *
    * <p>This is used for hit testing by Tool's.
    */
-  public boolean contains(Point2D.Double p, double scaleDenominator);
+  public boolean contains(Point2D.Double p, double scale);
 
   // TRANSFORMING
   /**
@@ -288,7 +288,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
   public Collection<Handle> createHandles(int detailLevel);
 
   /** Returns a cursor for the specified location. */
-  public Cursor getCursor(Point2D.Double p, double scaleDenominator);
+  public Cursor getCursor(Point2D.Double p, double scale);
 
   /**
    * Returns a collection of Action's for the specified location on the figure.

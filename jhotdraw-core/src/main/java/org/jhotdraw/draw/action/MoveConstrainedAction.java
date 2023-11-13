@@ -42,9 +42,9 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
         if (f.isTransformable()) {
           transformedFigures.add(f);
           if (r == null) {
-            r = f.getBounds();
+            r = f.getBounds(1.0);
           } else {
-            r.add(f.getBounds());
+            r.add(f.getBounds(1.0));
           }
         }
       }

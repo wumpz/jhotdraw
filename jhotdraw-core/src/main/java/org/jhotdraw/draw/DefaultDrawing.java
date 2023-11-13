@@ -191,7 +191,7 @@ public class DefaultDrawing extends AbstractDrawing {
   public List<Figure> findFigures(Rectangle2D.Double bounds) {
     List<Figure> intersection = new ArrayList<>();
     for (Figure f : getChildren()) {
-      if (f.isVisible() && f.getBounds().intersects(bounds)) {
+      if (f.isVisible() && f.getBounds(1.0).intersects(bounds)) {
         intersection.add(f);
       }
     }
@@ -202,7 +202,7 @@ public class DefaultDrawing extends AbstractDrawing {
   public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
     List<Figure> contained = new ArrayList<>();
     for (Figure f : getChildren()) {
-      Rectangle2D.Double r = f.getBounds();
+      Rectangle2D.Double r = f.getBounds(1.0);
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
         r =

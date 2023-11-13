@@ -54,29 +54,13 @@ public class LocatorConnector extends AbstractConnector {
   /** Tests if a point is contained in the connector. */
   @Override
   public boolean contains(Point2D.Double p) {
-    return getBounds().contains(p);
+    return getBounds(1.0).contains(p);
   }
 
   /** Gets the display box of the connector. */
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Point2D.Double p = locator.locate(getOwner());
     return new Rectangle2D.Double(p.x - SIZE / 2, p.y - SIZE / 2, SIZE, SIZE);
   }
-
-  //  @Override
-  //  public void read(DOMInput in) throws IOException {
-  //    super.read(in);
-  //    in.openElement("locator");
-  //    this.locator = (Locator) in.readObject(0);
-  //    in.closeElement();
-  //  }
-  //
-  //  @Override
-  //  public void write(DOMOutput out) throws IOException {
-  //    super.write(out);
-  //    out.openElement("locator");
-  //    out.writeObject(locator);
-  //    out.closeElement();
-  //  }
 }

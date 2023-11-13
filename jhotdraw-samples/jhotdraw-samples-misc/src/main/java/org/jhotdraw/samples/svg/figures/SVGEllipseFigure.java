@@ -79,7 +79,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) ellipse.getBounds2D();
   }
 
@@ -237,7 +237,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
   // EVENT HANDLING
   @Override
   public boolean isEmpty() {
-    Rectangle2D.Double b = getBounds();
+    Rectangle2D.Double b = getBounds(1.0);
     return b.width <= 0 || b.height <= 0;
   }
 

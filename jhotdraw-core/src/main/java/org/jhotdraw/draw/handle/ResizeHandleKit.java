@@ -158,7 +158,7 @@ public class ResizeHandleKit {
       Point location = getScreenLocation();
       sx = -anchor.x + location.x;
       sy = -anchor.y + location.y;
-      sb = getOwner().getBounds();
+      sb = getOwner().getBounds(1.0);
       aspectRatio = sb.height / sb.width;
     }
 
@@ -235,7 +235,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
           setBounds(
@@ -292,7 +292,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
         case KeyEvent.VK_DOWN:
@@ -340,7 +340,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
           setBounds(
@@ -396,7 +396,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
           setBounds(
@@ -461,7 +461,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
           if (r.height > 1) {
@@ -518,7 +518,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
           if (r.height > 1) {
@@ -576,7 +576,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
           if (r.height > 1) {
@@ -633,7 +633,7 @@ public class ResizeHandleKit {
         evt.consume();
         return;
       }
-      Rectangle2D.Double r = getOwner().getBounds();
+      Rectangle2D.Double r = getOwner().getBounds(1.0);
       switch (evt.getKeyCode()) {
         case KeyEvent.VK_UP:
         case KeyEvent.VK_DOWN:

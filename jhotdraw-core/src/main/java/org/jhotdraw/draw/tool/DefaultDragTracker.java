@@ -102,9 +102,9 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         if (f.isTransformable()) {
           transformedFigures.add(f);
           if (dragRect == null) {
-            dragRect = f.getBounds();
+            dragRect = f.getBounds(1.0);
           } else {
-            dragRect.add(f.getBounds());
+            dragRect.add(f.getBounds(1.0));
           }
         }
       }

@@ -322,7 +322,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) bounds.getBounds2D();
   }
 
@@ -464,8 +464,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     if (isTextOverflow == null) {
       Insets2D.Double insets = getInsets();
       isTextOverflow =
-          getPreferredTextSize(getBounds().width - insets.left - insets.right).height
-              > getBounds().height - insets.top - insets.bottom;
+          getPreferredTextSize(getBounds(1.0).width - insets.left - insets.right).height
+              > getBounds(1.0).height - insets.top - insets.bottom;
     }
     return isTextOverflow;
   }

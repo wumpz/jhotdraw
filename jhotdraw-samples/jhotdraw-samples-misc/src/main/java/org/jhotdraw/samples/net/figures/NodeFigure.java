@@ -94,7 +94,7 @@ public class NodeFigure extends TextFigure {
     double min = Double.MAX_VALUE;
     Connector closest = null;
     for (Connector c : connectors) {
-      Point2D.Double p2 = Geom.center(c.getBounds());
+      Point2D.Double p2 = Geom.center(c.getBounds(1.0));
       double d = Geom.length2(p.x, p.y, p2.x, p2.y);
       if (d < min) {
         min = d;
