@@ -414,7 +414,7 @@ public class AttributeKeys {
       return 1.0;
     }
     double scale = transform.getScaleX();
-    return scale != 0 ? 1.0 / scale : 1.0;
+    return scale != 0 ? scale : 1.0;
   }
 
   /**
@@ -441,14 +441,14 @@ public class AttributeKeys {
     if (f.attr().get(IS_STROKE_MITER_LIMIT_FACTOR)) {
       return f.attr().get(STROKE_MITER_LIMIT)
           * f.attr().get(STROKE_WIDTH)
-          * getGlobalValueFactor(f, factor);
+          / getGlobalValueFactor(f, factor);
     } else {
       return f.attr().get(STROKE_MITER_LIMIT);
     }
   }
 
   public static Stroke getStroke(Figure f, double factor) {
-    double strokeWidth = f.attr().get(STROKE_WIDTH) * getGlobalValueFactor(f, factor);
+    double strokeWidth = f.attr().get(STROKE_WIDTH) / getGlobalValueFactor(f, factor);
     float miterLimit = (float) getStrokeTotalMiterLimit(f, factor);
     double dashFactor = f.attr().get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
     double dashPhase = f.attr().get(STROKE_DASH_PHASE);

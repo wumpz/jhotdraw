@@ -124,7 +124,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
           TextAttribute.FONT,
           getFont()
               .deriveFont(
-                  getFontSize() * (float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
+                  getFontSize() / (float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
       if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }

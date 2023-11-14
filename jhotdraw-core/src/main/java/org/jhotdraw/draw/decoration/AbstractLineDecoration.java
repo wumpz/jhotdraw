@@ -130,7 +130,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     if (strokeWidth > 1f) {
       transform.scale(1d + (strokeWidth - 1d) / 2d, 1d + (strokeWidth - 1d) / 2d);
     }
-    transform.scale(factor, factor);
+    transform.scale(1 / factor, 1 / factor);
     path.transform(transform);
     return path;
   }
