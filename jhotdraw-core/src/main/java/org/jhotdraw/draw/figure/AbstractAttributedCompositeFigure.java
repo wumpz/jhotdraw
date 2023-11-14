@@ -338,7 +338,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
-    if (getDrawingArea().contains(p)) {
+    if (getDrawingArea(scaleDenominator).contains(p)) {
       if (attr().get(TRANSFORM) != null) {
         try {
           p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());

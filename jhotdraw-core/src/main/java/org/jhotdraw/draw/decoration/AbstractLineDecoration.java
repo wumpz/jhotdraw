@@ -115,7 +115,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     } else {
       scaleFactor = 1d;
     }
-    scaleFactor *= factor;
+    scaleFactor /= factor;
     return getDecoratorPathRadius(f) * scaleFactor;
   }
 
