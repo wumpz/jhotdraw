@@ -198,7 +198,7 @@ public interface CompositeFigure extends Figure {
    * <p>The task for laying out the child figures is delegated to a Layouter which can be plugged in
    * at runtime.
    */
-  public void layout();
+  public void layout(double scale);
 
   /**
    * Set a Layouter object which encapsulated a layout algorithm for this figure. Typically, a

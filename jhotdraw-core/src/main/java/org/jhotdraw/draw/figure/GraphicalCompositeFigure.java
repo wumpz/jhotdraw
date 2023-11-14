@@ -173,20 +173,33 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    */
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
-    if (getLayouter() == null) {
-      super.setBounds(anchor, lead);
-      basicSetPresentationFigureBounds(anchor, lead);
-    } else {
-      Rectangle2D.Double r = getLayouter().layout(this, anchor, lead);
-      if (r.isEmpty()) {
-        super.setBounds(anchor, lead);
-        basicSetPresentationFigureBounds(anchor, lead);
-      } else {
-        basicSetPresentationFigureBounds(
-            new Point2D.Double(r.getX(), r.getY()),
-            new Point2D.Double(
-                Math.max(lead.x, (int) r.getMaxX()), Math.max(lead.y, (int) r.getMaxY())));
-      }
+    super.setBounds(anchor, lead);
+    basicSetPresentationFigureBounds(anchor, lead);
+    //    if (getLayouter() == null) {
+    //      super.setBounds(anchor, lead);
+    //      basicSetPresentationFigureBounds(anchor, lead);
+    //    } else {
+    //      Rectangle2D.Double r = getLayouter().layout(this, anchor, lead);
+    //      if (r.isEmpty()) {
+    //        super.setBounds(anchor, lead);
+    //        basicSetPresentationFigureBounds(anchor, lead);
+    //      } else {
+    //        basicSetPresentationFigureBounds(
+    //            new Point2D.Double(r.getX(), r.getY()),
+    //            new Point2D.Double(
+    //                Math.max(lead.x, (int) r.getMaxX()), Math.max(lead.y, (int) r.getMaxY())));
+    //      }
+    //      invalidate();
+    //    }
+    layout(1.0);
+  }
+
+  @Override
+  public void layout(double scale) {
+    if (getLayouter() != null) {
+      Rectangle2D.Double bounds = getBounds(1.0);
+      Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
+      getLayouter().layout(this, p, p, scale);
       invalidate();
     }
   }
@@ -277,6 +290,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     that.presentationFigure =
         (this.presentationFigure == null) ? null : this.presentationFigure.clone();
     if (that.presentationFigure != null) {
+      that.presentationFigureHandler.owner = that;
       that.presentationFigure.addFigureListener(that.presentationFigureHandler);
     }
     return that;
@@ -288,59 +302,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       presentationFigure.remap(oldToNew, disconnectIfNotInMap);
     }
   }
-
-  /**
-   * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
-   * implementing the figure interface.
-   */
-  //  @Override
-  //  public <T> void set(AttributeKey<T> key, T newValue) {
-  //    if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-  //      if (getPresentationFigure() != null) {
-  //        getPresentationFigure().set(key, newValue);
-  //      }
-  //      T oldValue = key.put(attributes, newValue);
-  //      fireAttributeChanged(key, oldValue, newValue);
-  //    }
-  //  }
-  //
-  //  public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
-  //    if (forbiddenAttributes == null) {
-  //      forbiddenAttributes = new HashSet<>();
-  //    }
-  //    if (b) {
-  //      forbiddenAttributes.remove(key);
-  //    } else {
-  //      forbiddenAttributes.add(key);
-  //    }
-  //  }
-  //
-  //  /** Gets an attribute from the figure. */
-  //  @Override
-  //  public <T> T get(AttributeKey<T> key) {
-  //    if (getPresentationFigure() != null) {
-  //      return getPresentationFigure().get(key);
-  //    } else {
-  //      return (!attributes.containsKey(key)) ? key.getDefaultValue() : key.get(attributes);
-  //    }
-  //  }
-  //
-  //  /** Applies all attributes of this figure to that figure. */
-  //  @SuppressWarnings("unchecked")
-  //  protected void applyAttributesTo(Figure that) {
-  //    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-  //      that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-  //    }
-  //  }
-  //
-  //  protected AttributeKey<?> getAttributeKey(String name) {
-  //    return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
-  //  }
-  //
-  //  @Override
-  //  public Map<AttributeKey<?>, Object> getAttributes() {
-  //    return new HashMap<>(attributes);
-  //  }
 
   /**
    * This is a default implementation that chops the point at the rectangle returned by getBounds()

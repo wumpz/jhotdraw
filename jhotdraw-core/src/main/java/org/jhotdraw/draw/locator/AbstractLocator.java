@@ -19,7 +19,7 @@ public abstract class AbstractLocator implements Locator, Serializable {
   public AbstractLocator() {}
 
   @Override
-  public Point2D.Double locate(Figure owner, Figure dependent) {
-    return locate(owner);
+  public Point2D.Double locate(Figure owner, Figure dependent, double scale) {
+    return locate(owner, scale);
   }
 }

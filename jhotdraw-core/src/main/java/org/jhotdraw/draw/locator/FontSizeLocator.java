@@ -27,7 +27,7 @@ public class FontSizeLocator implements Locator {
    * @return a Point2D.Double on the figure.
    */
   @Override
-  public Point2D.Double locate(Figure owner) {
+  public Point2D.Double locate(Figure owner, double scale) {
     Point2D.Double p = (Point2D.Double) owner.getStartPoint().clone();
     if (owner instanceof TextHolderFigure) {
       p.y += ((TextHolderFigure) owner).getFontSize();
@@ -42,7 +42,7 @@ public class FontSizeLocator implements Locator {
   }
 
   @Override
-  public Point2D.Double locate(Figure owner, Figure dependent) {
-    return locate(owner);
+  public Point2D.Double locate(Figure owner, Figure dependent, double scale) {
+    return locate(owner, scale);
   }
 }

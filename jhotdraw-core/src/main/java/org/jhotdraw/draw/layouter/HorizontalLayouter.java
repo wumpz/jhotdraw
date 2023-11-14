@@ -33,7 +33,7 @@ public class HorizontalLayouter extends AbstractLayouter {
 
   @Override
   public Rectangle2D.Double calculateLayout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Insets2D.Double layoutInsets = compositeFigure.attr().get(LAYOUT_INSETS);
     Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
     for (Figure child : compositeFigure.getChildren()) {
@@ -52,10 +52,10 @@ public class HorizontalLayouter extends AbstractLayouter {
 
   @Override
   public Rectangle2D.Double layout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Insets2D.Double layoutInsets = compositeFigure.attr().get(LAYOUT_INSETS);
     Alignment compositeAlignment = compositeFigure.attr().get(COMPOSITE_ALIGNMENT);
-    Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead);
+    Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead, scale);
     double x = layoutBounds.x + layoutInsets.left;
     for (Figure child : compositeFigure.getChildren()) {
       if (child.isVisible()) {

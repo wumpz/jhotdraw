@@ -10,6 +10,7 @@ package org.jhotdraw.draw.locator;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.geom.*;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Insets2D;
@@ -55,8 +56,8 @@ public class RelativeLocator extends AbstractLocator {
   }
 
   @Override
-  public java.awt.geom.Point2D.Double locate(Figure owner) {
-    Rectangle2D.Double bounds = owner.getBounds(1.0);
+  public java.awt.geom.Point2D.Double locate(Figure owner, double scale) {
+    Rectangle2D.Double bounds = owner.getBounds(scale);
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
       Insets2D.Double insets = owner.attr().get(DECORATOR_INSETS);
       if (insets != null) {

@@ -32,7 +32,7 @@ public class LocatorLayouter implements Layouter {
 
   @Override
   public Rectangle2D.Double calculateLayout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Rectangle2D.Double bounds = null;
     for (Figure child : extractFiguresToLayout(compositeFigure)) {
       Locator locator = getLocator(child);
@@ -40,7 +40,7 @@ public class LocatorLayouter implements Layouter {
       if (locator == null) {
         r = child.getBounds(1.0);
       } else {
-        Point2D.Double p = locator.locate(extractBaseFigure(compositeFigure));
+        Point2D.Double p = locator.locate(extractBaseFigure(compositeFigure), scale);
         Dimension2DDouble d = child.getPreferredSize();
         r = new Rectangle2D.Double(p.x, p.y, d.width, d.height);
       }
@@ -57,7 +57,7 @@ public class LocatorLayouter implements Layouter {
 
   @Override
   public Rectangle2D.Double layout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Rectangle2D.Double bounds = null;
     for (Figure child : extractFiguresToLayout(compositeFigure)) {
       Locator locator = getLocator(child);
@@ -65,7 +65,7 @@ public class LocatorLayouter implements Layouter {
       if (locator == null) {
         r = child.getBounds(1.0);
       } else {
-        Point2D.Double p = locator.locate(extractBaseFigure(compositeFigure), child);
+        Point2D.Double p = locator.locate(extractBaseFigure(compositeFigure), child, scale);
         if (Double.isNaN(p.x)) {
           continue;
         }

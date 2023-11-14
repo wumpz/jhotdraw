@@ -44,12 +44,12 @@ public class BezierLabelLocator implements Locator {
   }
 
   @Override
-  public Point2D.Double locate(Figure owner) {
+  public Point2D.Double locate(Figure owner, double scale) {
     return getRelativePoint((BezierFigure) owner);
   }
 
   @Override
-  public Point2D.Double locate(Figure owner, Figure label) {
+  public Point2D.Double locate(Figure owner, Figure label, double scale) {
     Point2D.Double relativePoint = getRelativeLabelPoint((BezierFigure) owner, label);
     return relativePoint;
   }

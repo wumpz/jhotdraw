@@ -408,7 +408,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
    * Layouter which can be plugged in at runtime.
    */
   @Override
-  public void layout() {
+  public void layout(double scale) {
     // Note: We increase and below decrease the changing depth here,
     //       because we want to ignore change events from our children
     //       why we lay them out.
@@ -416,14 +416,14 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     for (Figure child : getChildren()) {
       if (child instanceof CompositeFigure) {
         CompositeFigure cf = (CompositeFigure) child;
-        cf.layout();
+        cf.layout(scale);
       }
     }
     changingDepth--;
     if (getLayouter() != null) {
-      Rectangle2D.Double bounds = getBounds(1.0);
+      Rectangle2D.Double bounds = getBounds(scale);
       Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
-      Rectangle2D.Double r = getLayouter().layout(this, p, p);
+      Rectangle2D.Double r = getLayouter().layout(this, p, p, 1.0);
       setBounds(new Point2D.Double(r.x, r.y), new Point2D.Double(r.x + r.width, r.y + r.height));
       invalidate();
     }
@@ -446,7 +446,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public Dimension2DDouble getPreferredSize() {
     if (this.layouter != null) {
-      Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint());
+      Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint(), 1.0);
       return new Dimension2DDouble(r.width, r.height);
     } else {
       return super.getPreferredSize();
@@ -544,7 +544,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   protected void validate() {
     super.validate();
-    layout();
+    layout(1.0);
   }
 
   @Override

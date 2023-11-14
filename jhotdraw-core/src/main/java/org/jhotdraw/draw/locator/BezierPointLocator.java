@@ -29,7 +29,7 @@ public class BezierPointLocator extends AbstractLocator {
   }
 
   @Override
-  public Point2D.Double locate(Figure owner) {
+  public Point2D.Double locate(Figure owner, double scale) {
     BezierFigure plf = (BezierFigure) owner;
     if (index < plf.getNodeCount()) {
       return plf.getPoint(index, coord);

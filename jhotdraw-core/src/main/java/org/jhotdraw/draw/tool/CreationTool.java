@@ -179,7 +179,7 @@ public class CreationTool extends AbstractTool {
     }
     if (createdFigure != null) {
       if (createdFigure instanceof CompositeFigure) {
-        ((CompositeFigure) createdFigure).layout();
+        ((CompositeFigure) createdFigure).layout(1.0);
       }
       createdFigure = null;
     }
@@ -233,7 +233,7 @@ public class CreationTool extends AbstractTool {
           createdFigure.changed();
         }
         if (createdFigure instanceof CompositeFigure) {
-          ((CompositeFigure) createdFigure).layout();
+          ((CompositeFigure) createdFigure).layout(1.0);
         }
         final Figure addedFigure = createdFigure;
         final Drawing addedDrawing = getDrawing();
