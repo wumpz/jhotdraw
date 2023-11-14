@@ -765,6 +765,7 @@ public class BezierPath implements Shape, Serializable, Cloneable {
     double pos = 0;
     double[] coords = new double[6];
     PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
+    i.currentSegment(coords);
     double prevX = coords[0];
     double prevY = coords[1];
     i.next();
