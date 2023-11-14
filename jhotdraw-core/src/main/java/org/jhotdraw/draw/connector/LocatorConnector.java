@@ -48,7 +48,7 @@ public class LocatorConnector extends AbstractConnector {
   }
 
   protected Point2D.Double locate(ConnectionFigure connection) {
-    return locator.locate(getOwner(),1.0);
+    return locator.locate(getOwner(), 1.0);
   }
 
   /** Tests if a point is contained in the connector. */

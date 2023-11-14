@@ -25,7 +25,8 @@ public interface Locator {
    * Locates a position on the provided figure.
    *
    * @param owner locate a point relative to this owner
-   * @param scale location should consider this scale denominator (e.g. pixel sized texts in scaled environments)
+   * @param scale location should consider this scale denominator (e.g. pixel sized texts in scaled
+   *     environments)
    * @return a point on the figure.
    */
   public Point2D.Double locate(Figure owner, double scale);
@@ -34,8 +35,9 @@ public interface Locator {
    * Locates a position on the provided figure relative to the dependent figure.
    *
    * @param owner locate a point relative to this owner
-   * @param dependent 
-   * @param scale location should consider this scale denominator (e.g. pixel sized texts in scaled environments)
+   * @param dependent
+   * @param scale location should consider this scale denominator (e.g. pixel sized texts in scaled
+   *     environments)
    * @return a point on the figure.
    */
   public Point2D.Double locate(Figure owner, Figure dependent, double scale);
