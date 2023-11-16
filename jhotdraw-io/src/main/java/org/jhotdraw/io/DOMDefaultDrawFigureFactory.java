@@ -388,9 +388,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   }
 
   public static void readText(TextFigure figure, DOMInput domInput) throws IOException {
-    figure.setBounds(
-        new Point2D.Double(domInput.getAttribute("x", 0d), domInput.getAttribute("y", 0d)),
-        new Point2D.Double(0, 0));
+    figure.setOrigin(
+        new Point2D.Double(domInput.getAttribute("x", 0d), domInput.getAttribute("y", 0d)));
+    //    figure.setBounds(
+    //        new Point2D.Double(domInput.getAttribute("x", 0d), domInput.getAttribute("y", 0d)),
+    //        new Point2D.Double(0, 0));
     readAttributes(figure, domInput);
     readDecorator(figure, domInput);
   }
@@ -406,7 +408,8 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   }
 
   public static void writeText(TextFigure figure, DOMOutput domOutput) throws IOException {
-    Rectangle2D.Double b = figure.getBounds(1.0);
+    // Rectangle2D.Double b = figure.getBounds(1.0);
+    Point2D.Double b = figure.getOrigin();
     domOutput.addAttribute("x", b.x);
     domOutput.addAttribute("y", b.y);
     writeAttributes(figure, domOutput);

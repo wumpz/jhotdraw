@@ -195,18 +195,4 @@ public class BezierLabelLocator implements Locator {
         }
     }*/
   }
-
-  //  @Override
-  //  public void read(DOMInput in) {
-  //    relativePosition = in.getAttribute("relativePosition", 0d);
-  //    angle = in.getAttribute("angle", 0d);
-  //    distance = in.getAttribute("distance", 0);
-  //  }
-  //
-  //  @Override
-  //  public void write(DOMOutput out) {
-  //    out.addAttribute("relativePosition", relativePosition);
-  //    out.addAttribute("angle", angle);
-  //    out.addAttribute("distance", distance);
-  //  }
 }

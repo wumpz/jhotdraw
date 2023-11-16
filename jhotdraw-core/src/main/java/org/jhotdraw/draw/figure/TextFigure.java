@@ -26,6 +26,7 @@ import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
+import org.jhotdraw.draw.handle.RotateHandle;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.tool.Tool;
@@ -44,6 +45,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
 
   private static final long serialVersionUID = 1L;
   protected Point2D.Double origin = new Point2D.Double();
+  protected Point2D.Double direction = new Point2D.Double(1, 0);
   protected boolean editable = true;
   // cache of the TextFigure's layout
   protected transient TextLayout textLayout;
@@ -81,6 +83,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
           at.translate(0, origin.y + layout.getAscent() / 2);
           at.scale(1, -1);
           at.translate(0, -origin.y - layout.getAscent() / 2);
+          at.concatenate(rotationMatrix());
           g2.transform(at);
         }
         layout.draw(g2, (float) origin.x, (float) (origin.y + layout.getAscent()));
@@ -94,11 +97,29 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   @Override
   public void transform(AffineTransform tx) {
     tx.transform(origin, origin);
+    tx.transform(direction, direction);
   }
 
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     origin = new Point2D.Double(anchor.x, anchor.y);
+    direction = new Point2D.Double(anchor.x + 1, anchor.y);
+  }
+
+  public Point2D.Double getOrigin() {
+    return origin;
+  }
+
+  public void setOrigin(Point2D.Double origin) {
+    this.origin = origin;
+  }
+
+  public Point2D.Double getDirection() {
+    return direction;
+  }
+
+  public void setDirection(Point2D.Double direction) {
+    this.direction = direction;
   }
 
   @Override
@@ -139,6 +160,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
     Rectangle2D.Double r =
         new Rectangle2D.Double(
             origin.x, origin.y, layout.getAdvance(), layout.getAscent() + layout.getDescent());
+
+    r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
+
     return r;
   }
 
@@ -154,6 +178,11 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
     return origin.y + layout.getAscent() - getBounds(1.0).y;
   }
 
+  private AffineTransform rotationMatrix() {
+    return AffineTransform.getRotateInstance(
+        direction.x - origin.x, direction.y - origin.y, origin.x, origin.y);
+  }
+
   /** Gets the drawing area without taking the decorator into account. */
   @Override
   protected Rectangle2D.Double getFigureDrawingArea(double factor) {
@@ -162,7 +191,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
     } else {
       TextLayout layout = getTextLayout(factor);
       Rectangle2D.Double r =
-          new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(), layout.getAscent());
+          new Rectangle2D.Double(
+              origin.x, origin.y, layout.getAdvance(), layout.getAscent() + layout.getDescent());
       Rectangle2D lBounds = layout.getBounds();
       if (!lBounds.isEmpty() && !Double.isNaN(lBounds.getX())) {
         r.add(
@@ -172,8 +202,12 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
                 lBounds.getWidth(),
                 lBounds.getHeight()));
       }
+
+      r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
+
       // grow by two pixels to take antialiasing into account
       Geom.grow(r, 2d, 2d);
+
       return r;
     }
   }
@@ -277,6 +311,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
         handles.add(new MoveHandle(this, RelativeLocator.southWest()));
         handles.add(new MoveHandle(this, RelativeLocator.southEast()));
         handles.add(new FontSizeHandle(this));
+        break;
+      case 1:
+        handles.add(new RotateHandle(this));
         break;
     }
     return handles;

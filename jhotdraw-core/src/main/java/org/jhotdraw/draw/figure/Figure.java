@@ -12,9 +12,11 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
+import java.util.function.Consumer;
 import javax.swing.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.event.FigureListener;
@@ -410,6 +412,12 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * @see #willChange
    */
   public void changed();
+
+  public default void processChange(Consumer<Figure> figureConsumer) {
+    willChange();
+    figureConsumer.accept(this);
+    changed();
+  }
 
   public void requestRemove();
 

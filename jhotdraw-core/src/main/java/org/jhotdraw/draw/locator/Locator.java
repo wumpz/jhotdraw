@@ -11,7 +11,8 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.figure.Figure;
 
 /**
- * A <em>locator</em> encapsulates a strategy for locating a point on a {@link Figure}.
+ * A <em>locator</em> encapsulates a strategy for locating a point and an angle on a {@link Figure}.
+ * The angle would be a tangent on the element found, at least the locator supports this.
  *
  * <p><hr> <b>Design Patterns</b>
  *
