@@ -83,9 +83,13 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
           at.translate(0, origin.y + layout.getAscent() / 2);
           at.scale(1, -1);
           at.translate(0, -origin.y - layout.getAscent() / 2);
-          at.concatenate(rotationMatrix());
+          at.rotate(
+              direction.x - origin.x,
+              -direction.y + origin.y,
+              origin.x,
+              origin.y + layout.getAscent());
           g2.transform(at);
-        }
+        } else g2.transform(rotationMatrix());
         layout.draw(g2, (float) origin.x, (float) (origin.y + layout.getAscent()));
       } finally {
         g2.dispose();
@@ -96,8 +100,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
   // SHAPE AND BOUNDS
   @Override
   public void transform(AffineTransform tx) {
+    System.out.println("before origin=" + origin + " / direction=" + direction);
     tx.transform(origin, origin);
     tx.transform(direction, direction);
+    System.out.println("after origin=" + origin + " / direction=" + direction);
   }
 
   @Override
@@ -313,7 +319,14 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
         handles.add(new FontSizeHandle(this));
         break;
       case 1:
-        handles.add(new RotateHandle(this));
+        handles.add(new BoundsOutlineHandle(this));
+        handles.add(
+            new RotateHandle(this) {
+              @Override
+              protected Point2D.Double getCenter() {
+                return TextFigure.this.getOrigin();
+              }
+            });
         break;
     }
     return handles;
