@@ -89,7 +89,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
               origin.x,
               origin.y + layout.getAscent());
           g2.transform(at);
-        } else g2.transform(rotationMatrix());
+        } else {
+          g2.transform(rotationMatrix());
+        }
         layout.draw(g2, (float) origin.x, (float) (origin.y + layout.getAscent()));
       } finally {
         g2.dispose();
