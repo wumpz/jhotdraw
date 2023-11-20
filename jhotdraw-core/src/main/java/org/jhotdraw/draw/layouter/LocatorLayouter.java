@@ -12,7 +12,9 @@ import java.util.List;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.Origin;
 import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.draw.locator.Locator.Position;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
@@ -40,9 +42,9 @@ public class LocatorLayouter implements Layouter {
       if (locator == null) {
         r = child.getBounds(1.0);
       } else {
-        Point2D.Double p = locator.locate(extractBaseFigure(compositeFigure), scale);
+        Position p = locator.locate(extractBaseFigure(compositeFigure), scale);
         Dimension2DDouble d = child.getPreferredSize();
-        r = new Rectangle2D.Double(p.x, p.y, d.width, d.height);
+        r = new Rectangle2D.Double(p.location().x, p.location().y, d.width, d.height);
       }
       if (!r.isEmpty()) {
         if (bounds == null) {
@@ -62,20 +64,25 @@ public class LocatorLayouter implements Layouter {
     for (Figure child : extractFiguresToLayout(compositeFigure)) {
       Locator locator = getLocator(child);
       Rectangle2D.Double r;
+      Position position = null;
       if (locator == null) {
         r = child.getBounds(1.0);
       } else {
-        Point2D.Double p = locator.locate(extractBaseFigure(compositeFigure), child, scale);
-        if (Double.isNaN(p.x)) {
+        position = locator.locate(extractBaseFigure(compositeFigure), child, scale);
+        if (Double.isNaN(position.location().x)) {
           continue;
         }
         Dimension2DDouble d = child.getPreferredSize();
-        r = new Rectangle2D.Double(p.x, p.y, d.width, d.height);
+        r = new Rectangle2D.Double(position.location().x, position.location().y, d.width, d.height);
       }
       child.willChange();
-      child.setBounds(
-          new Point2D.Double(r.getMinX(), r.getMinY()),
-          new Point2D.Double(r.getMaxX(), r.getMaxY()));
+      if (position != null && child instanceof Origin originChild) {
+        originChild.setOrigin(position.location());
+      } else {
+        child.setBounds(
+            new Point2D.Double(r.getMinX(), r.getMinY()),
+            new Point2D.Double(r.getMaxX(), r.getMaxY()));
+      }
       child.changed();
       if (!r.isEmpty()) {
         if (bounds == null) {

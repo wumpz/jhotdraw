@@ -39,7 +39,7 @@ public class RelativeDecoratorLocator extends RelativeLocator {
   }
 
   @Override
-  public java.awt.geom.Point2D.Double locate(Figure owner, double scale) {
+  public Locator.Position locate(Figure owner, double scale) {
     Rectangle2D.Double r;
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
       r = ((DecoratedFigure) owner).getDecorator().getBounds(1.0);
@@ -52,7 +52,7 @@ public class RelativeDecoratorLocator extends RelativeLocator {
       r.y -= (side - r.height) / 2;
       r.width = r.height = side;
     }
-    return new Point2D.Double(r.x + r.width * relativeX, r.y + r.height * relativeY);
+    return new Position(new Point2D.Double(r.x + r.width * relativeX, r.y + r.height * relativeY));
   }
 
   public static Locator east() {

@@ -28,6 +28,6 @@ public abstract class LocatorHandle extends AbstractHandle {
 
   @Override
   public Point2D.Double getDrawingLocation() {
-    return locator.locate(getOwner(), view.getScaleFactor());
+    return locator.locate(getOwner(), view.getScaleFactor()).location();
   }
 }

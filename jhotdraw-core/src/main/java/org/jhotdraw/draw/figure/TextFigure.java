@@ -41,7 +41,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p>A DrawingEditor should provide the {@link org.jhotdraw.draw.tool.TextCreationTool} to create a
  * {@code TextFigure}.
  */
-public class TextFigure extends AbstractAttributedDecoratedFigure implements TextHolderFigure {
+public class TextFigure extends AbstractAttributedDecoratedFigure
+    implements TextHolderFigure, Origin {
 
   private static final long serialVersionUID = 1L;
   protected Point2D.Double origin = new Point2D.Double();
@@ -114,10 +115,12 @@ public class TextFigure extends AbstractAttributedDecoratedFigure implements Tex
     direction = new Point2D.Double(anchor.x + 1, anchor.y);
   }
 
+  @Override
   public Point2D.Double getOrigin() {
     return origin;
   }
 
+  @Override
   public void setOrigin(Point2D.Double origin) {
     this.origin = origin;
   }

@@ -7,7 +7,13 @@
  */
 package org.jhotdraw.draw.figure;
 
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.END_DECORATION;
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.PATH_CLOSED;
+import static org.jhotdraw.draw.AttributeKeys.START_DECORATION;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.UNCLOSED_PATH_FILLED;
+import static org.jhotdraw.draw.AttributeKeys.WINDING_RULE;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;

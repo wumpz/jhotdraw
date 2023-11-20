@@ -48,7 +48,7 @@ public class LocatorConnector extends AbstractConnector {
   }
 
   protected Point2D.Double locate(ConnectionFigure connection) {
-    return locator.locate(getOwner(), 1.0);
+    return locator.locate(getOwner(), 1.0).location();
   }
 
   /** Tests if a point is contained in the connector. */
@@ -60,7 +60,7 @@ public class LocatorConnector extends AbstractConnector {
   /** Gets the display box of the connector. */
   @Override
   public Rectangle2D.Double getBounds(double scale) {
-    Point2D.Double p = locator.locate(getOwner(), scale);
+    Point2D.Double p = locator.locate(getOwner(), scale).location();
     return new Rectangle2D.Double(p.x - SIZE / 2, p.y - SIZE / 2, SIZE, SIZE);
   }
 }

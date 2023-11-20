@@ -21,6 +21,12 @@ import org.jhotdraw.draw.figure.Figure;
  * Strategy: {@link Locator}; Context: {@link Figure}. <hr>
  */
 public interface Locator {
+  public record Position(Point2D.Double location, double angle) {
+    public Position(Point2D.Double location) {
+      this(location, 0);
+    }
+  }
+  ;
 
   /**
    * Locates a position on the provided figure.
@@ -30,7 +36,7 @@ public interface Locator {
    *     environments)
    * @return a point on the figure.
    */
-  public Point2D.Double locate(Figure owner, double scale);
+  public Position locate(Figure owner, double scale);
 
   /**
    * Locates a position on the provided figure relative to the dependent figure.
@@ -41,5 +47,5 @@ public interface Locator {
    *     environments)
    * @return a point on the figure.
    */
-  public Point2D.Double locate(Figure owner, Figure dependent, double scale);
+  public Position locate(Figure owner, Figure dependent, double scale);
 }

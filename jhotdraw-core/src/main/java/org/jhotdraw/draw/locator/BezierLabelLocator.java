@@ -22,11 +22,9 @@ import org.jhotdraw.geom.Dimension2DDouble;
  */
 public class BezierLabelLocator implements Locator {
 
-  private double relativePosition;
-  private double angle;
-  private double distance;
-
-  public BezierLabelLocator() {}
+  private final double relativePosition;
+  private final double angle;
+  private final double distance;
 
   /**
    * Creates a new locator.
@@ -44,18 +42,17 @@ public class BezierLabelLocator implements Locator {
   }
 
   @Override
-  public Point2D.Double locate(Figure owner, double scale) {
+  public Locator.Position locate(Figure owner, double scale) {
     return getRelativePoint((BezierFigure) owner);
   }
 
   @Override
-  public Point2D.Double locate(Figure owner, Figure label, double scale) {
-    Point2D.Double relativePoint = getRelativeLabelPoint((BezierFigure) owner, label);
-    return relativePoint;
+  public Locator.Position locate(Figure owner, Figure label, double scale) {
+    return getRelativeLabelPoint((BezierFigure) owner, label);
   }
 
   /** Returns the coordinates of the relative point on the path of the specified bezier figure. */
-  public Point2D.Double getRelativePoint(BezierFigure owner) {
+  public Locator.Position getRelativePoint(BezierFigure owner) {
     Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
     Point2D.Double nextPoint =
         owner.getPointOnPath(
@@ -74,18 +71,19 @@ public class BezierLabelLocator implements Locator {
     if (Double.isNaN(p.x)) {
       p = point;
     }
-    return p;
+    return new Position(p);
   }
 
   /**
    * Returns a Point2D.Double on the polyline that is at the provided relative position. XXX -
    * Implement this and move it to BezierPath
    */
-  public Point2D.Double getRelativeLabelPoint(BezierFigure owner, Figure label) {
+  public Locator.Position getRelativeLabelPoint(BezierFigure owner, Figure label) {
     // Get a point on the path an the next point on the path
     Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
+    /*
     if (point == null) {
-      return new Point2D.Double(0, 0);
+      return new Position(new Point2D.Double(0, 0));
     }
     Point2D.Double nextPoint =
         owner.getPointOnPath(
@@ -103,32 +101,35 @@ public class BezierLabelLocator implements Locator {
             point.x + distance * Math.cos(alpha), point.y + distance * Math.sin(alpha));
     if (Double.isNaN(p.x)) {
       p = point;
-    }
+    }*/
+    Position position = getRelativePoint(owner);
+    Point2D.Double p = position.location();
+
     Dimension2DDouble labelDim = label.getPreferredSize();
     if (relativePosition == 0.5 && p.x >= point.x - distance / 2 && p.x <= point.x + distance / 2) {
       if (p.y >= point.y) {
         // South East
-        return new Point2D.Double(p.x - labelDim.width / 2, p.y);
+        return new Position(new Point2D.Double(p.x - labelDim.width / 2, p.y));
       } else {
         // North East
-        return new Point2D.Double(p.x - labelDim.width / 2, p.y - labelDim.height);
+        return new Position(new Point2D.Double(p.x - labelDim.width / 2, p.y - labelDim.height));
       }
     } else {
       if (p.x >= point.x) {
         if (p.y >= point.y) {
           // South East
-          return new Point2D.Double(p.x, p.y);
+          return new Position(new Point2D.Double(p.x, p.y));
         } else {
           // North East
-          return new Point2D.Double(p.x, p.y - labelDim.height);
+          return new Position(new Point2D.Double(p.x, p.y - labelDim.height));
         }
       } else {
         if (p.y >= point.y) {
           // South West
-          return new Point2D.Double(p.x - labelDim.width, p.y);
+          return new Position(new Point2D.Double(p.x - labelDim.width, p.y));
         } else {
           // North West
-          return new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height);
+          return new Position(new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height));
         }
       }
     }
