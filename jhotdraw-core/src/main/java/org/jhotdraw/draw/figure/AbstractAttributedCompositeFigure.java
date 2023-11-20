@@ -444,12 +444,12 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Dimension2DDouble getPreferredSize() {
+  public Dimension2DDouble getPreferredSize(double scale) {
     if (this.layouter != null) {
-      Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint(), 1.0);
+      Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint(), scale);
       return new Dimension2DDouble(r.width, r.height);
     } else {
-      return super.getPreferredSize();
+      return super.getPreferredSize(scale);
     }
   }
 

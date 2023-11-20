@@ -197,7 +197,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   @Override
   public void layout(double scale) {
     if (getLayouter() != null) {
-      Rectangle2D.Double bounds = getBounds(1.0);
+      Rectangle2D.Double bounds = getBounds(scale);
       Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
       getLayouter().layout(this, p, p, scale);
       invalidate();

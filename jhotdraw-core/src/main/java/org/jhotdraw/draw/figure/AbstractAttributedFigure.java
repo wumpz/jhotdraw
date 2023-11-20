@@ -450,8 +450,8 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
      */
   @Override
-  public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double r = getBounds(1.0);
+  public Dimension2DDouble getPreferredSize(double scale) {
+    Rectangle2D.Double r = getBounds(scale);
     return new Dimension2DDouble(r.width, r.height);
   }
 

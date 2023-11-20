@@ -199,7 +199,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * The preferred size is used by Layouter to determine the preferred size of a Figure. For most
    * Figure's this is the same as the dimensions returned by getBounds.
    */
-  public Dimension2DDouble getPreferredSize();
+  public Dimension2DDouble getPreferredSize(double scale);
 
   /**
    * Checks if a point is contained by the figure.

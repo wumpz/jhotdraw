@@ -24,7 +24,7 @@ public class SeparatorLineFigure extends RectangleFigure {
   public SeparatorLineFigure() {}
 
   @Override
-  public Dimension2DDouble getPreferredSize() {
+  public Dimension2DDouble getPreferredSize(double scale) {
     double width = Math.ceil(STROKE_WIDTH.get(this));
     return new Dimension2DDouble(width, width);
   }

@@ -43,7 +43,7 @@ public class LocatorLayouter implements Layouter {
         r = child.getBounds(1.0);
       } else {
         Position p = locator.locate(extractBaseFigure(compositeFigure), scale);
-        Dimension2DDouble d = child.getPreferredSize();
+        Dimension2DDouble d = child.getPreferredSize(scale);
         r = new Rectangle2D.Double(p.location().x, p.location().y, d.width, d.height);
       }
       if (!r.isEmpty()) {
@@ -72,12 +72,16 @@ public class LocatorLayouter implements Layouter {
         if (Double.isNaN(position.location().x)) {
           continue;
         }
-        Dimension2DDouble d = child.getPreferredSize();
+        Dimension2DDouble d = child.getPreferredSize(scale);
         r = new Rectangle2D.Double(position.location().x, position.location().y, d.width, d.height);
       }
       child.willChange();
       if (position != null && child instanceof Origin originChild) {
         originChild.setOrigin(position.location());
+        ((Figure) originChild)
+            .transform(
+                AffineTransform.getRotateInstance(
+                    position.angle(), position.location().x, position.location().y));
       } else {
         child.setBounds(
             new Point2D.Double(r.getMinX(), r.getMinY()),

@@ -48,7 +48,7 @@ public class BezierLabelLocator implements Locator {
 
   @Override
   public Locator.Position locate(Figure owner, Figure label, double scale) {
-    return getRelativeLabelPoint((BezierFigure) owner, label);
+    return getRelativeLabelPoint((BezierFigure) owner, label, scale);
   }
 
   /** Returns the coordinates of the relative point on the path of the specified bezier figure. */
@@ -71,14 +71,14 @@ public class BezierLabelLocator implements Locator {
     if (Double.isNaN(p.x)) {
       p = point;
     }
-    return new Position(p);
+    return new Position(p, dir);
   }
 
   /**
    * Returns a Point2D.Double on the polyline that is at the provided relative position. XXX -
    * Implement this and move it to BezierPath
    */
-  public Locator.Position getRelativeLabelPoint(BezierFigure owner, Figure label) {
+  public Locator.Position getRelativeLabelPoint(BezierFigure owner, Figure label, double scale) {
     // Get a point on the path an the next point on the path
     Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
     /*
@@ -105,31 +105,33 @@ public class BezierLabelLocator implements Locator {
     Position position = getRelativePoint(owner);
     Point2D.Double p = position.location();
 
-    Dimension2DDouble labelDim = label.getPreferredSize();
+    Dimension2DDouble labelDim = label.getPreferredSize(scale);
     if (relativePosition == 0.5 && p.x >= point.x - distance / 2 && p.x <= point.x + distance / 2) {
       if (p.y >= point.y) {
         // South East
-        return new Position(new Point2D.Double(p.x - labelDim.width / 2, p.y));
+        return new Position(new Point2D.Double(p.x - labelDim.width / 2, p.y), position.angle());
       } else {
         // North East
-        return new Position(new Point2D.Double(p.x - labelDim.width / 2, p.y - labelDim.height));
+        return new Position(
+            new Point2D.Double(p.x - labelDim.width / 2, p.y - labelDim.height), position.angle());
       }
     } else {
       if (p.x >= point.x) {
         if (p.y >= point.y) {
           // South East
-          return new Position(new Point2D.Double(p.x, p.y));
+          return new Position(new Point2D.Double(p.x, p.y), position.angle());
         } else {
           // North East
-          return new Position(new Point2D.Double(p.x, p.y - labelDim.height));
+          return new Position(new Point2D.Double(p.x, p.y - labelDim.height), position.angle());
         }
       } else {
         if (p.y >= point.y) {
           // South West
-          return new Position(new Point2D.Double(p.x - labelDim.width, p.y));
+          return new Position(new Point2D.Double(p.x - labelDim.width, p.y), position.angle());
         } else {
           // North West
-          return new Position(new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height));
+          return new Position(
+              new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height), position.angle());
         }
       }
     }

@@ -38,7 +38,7 @@ public class HorizontalLayouter extends AbstractLayouter {
     Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
     for (Figure child : compositeFigure.getChildren()) {
       if (child.isVisible()) {
-        Dimension2DDouble preferredSize = child.getPreferredSize();
+        Dimension2DDouble preferredSize = child.getPreferredSize(scale);
         Insets2D.Double ins = getInsets(child);
         layoutBounds.height =
             Math.max(layoutBounds.height, preferredSize.height + ins.top + ins.bottom);
@@ -60,8 +60,8 @@ public class HorizontalLayouter extends AbstractLayouter {
     for (Figure child : compositeFigure.getChildren()) {
       if (child.isVisible()) {
         Insets2D.Double insets = getInsets(child);
-        double width = child.getPreferredSize().width;
-        double height = child.getPreferredSize().height;
+        double width = child.getPreferredSize(scale).width;
+        double height = child.getPreferredSize(scale).height;
         // --
         switch (compositeAlignment) {
           case LEADING:

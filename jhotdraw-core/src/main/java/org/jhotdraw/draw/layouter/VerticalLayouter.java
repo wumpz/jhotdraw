@@ -44,7 +44,7 @@ public class VerticalLayouter extends AbstractLayouter {
     Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
     for (Figure child : layoutable.getChildren()) {
       if (child.isVisible()) {
-        Dimension2DDouble preferredSize = child.getPreferredSize();
+        Dimension2DDouble preferredSize = child.getPreferredSize(scale);
         Insets2D.Double ins = getInsets(child);
         layoutBounds.width =
             Math.max(layoutBounds.width, preferredSize.width + ins.left + ins.right);
@@ -69,8 +69,8 @@ public class VerticalLayouter extends AbstractLayouter {
     for (Figure child : layoutable.getChildren()) {
       if (child.isVisible()) {
         Insets2D.Double insets = getInsets(child);
-        double height = child.getPreferredSize().height;
-        double width = child.getPreferredSize().width;
+        double height = child.getPreferredSize(scale).height;
+        double width = child.getPreferredSize(scale).width;
         switch (compositeAlignment) {
           case LEADING:
             child.setBounds(

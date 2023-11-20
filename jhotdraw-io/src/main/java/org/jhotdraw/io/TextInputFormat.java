@@ -119,14 +119,14 @@ public class TextInputFormat implements InputFormat {
         buf.append(line);
       }
       figure.setText(buf.toString());
-      Dimension2DDouble s = figure.getPreferredSize();
+      Dimension2DDouble s = figure.getPreferredSize(1.0);
       figure.setBounds(new Point2D.Double(0, 0), new Point2D.Double(s.width, s.height));
     } else {
       double y = 0;
       for (String line = null; line != null; line = r.readLine()) {
         TextHolderFigure figure = (TextHolderFigure) prototype.clone();
         figure.setText(line);
-        Dimension2DDouble s = figure.getPreferredSize();
+        Dimension2DDouble s = figure.getPreferredSize(1.0);
         figure.setBounds(new Point2D.Double(0, y), new Point2D.Double(s.width, s.height));
         list.add(figure);
         y += s.height;
@@ -151,7 +151,7 @@ public class TextInputFormat implements InputFormat {
     if (isMultiline) {
       TextHolderFigure figure = (TextHolderFigure) prototype.clone();
       figure.setText(text);
-      Dimension2DDouble s = figure.getPreferredSize();
+      Dimension2DDouble s = figure.getPreferredSize(1.0);
       figure.willChange();
       figure.setBounds(new Point2D.Double(0, 0), new Point2D.Double(s.width, s.height));
       figure.changed();
@@ -161,7 +161,7 @@ public class TextInputFormat implements InputFormat {
       for (String line : text.split("\n")) {
         TextHolderFigure figure = (TextHolderFigure) prototype.clone();
         figure.setText(line);
-        Dimension2DDouble s = figure.getPreferredSize();
+        Dimension2DDouble s = figure.getPreferredSize(1.0);
         y += s.height;
         figure.willChange();
         figure.setBounds(new Point2D.Double(0, 0 + y), new Point2D.Double(s.width, s.height + y));

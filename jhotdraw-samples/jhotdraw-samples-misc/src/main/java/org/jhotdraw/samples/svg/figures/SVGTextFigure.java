@@ -374,8 +374,8 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double b = getBounds(1.0);
+  public Dimension2DDouble getPreferredSize(double scale) {
+    Rectangle2D.Double b = getBounds(scale);
     return new Dimension2DDouble(b.width, b.height);
   }
 

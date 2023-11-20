@@ -46,6 +46,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
   private static final long serialVersionUID = 1L;
   protected Point2D.Double origin = new Point2D.Double();
+  // always starting from 0,0
   protected Point2D.Double direction = new Point2D.Double(1, 0);
   protected boolean editable = true;
   // cache of the TextFigure's layout
@@ -84,11 +85,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
           at.translate(0, origin.y + layout.getAscent() / 2);
           at.scale(1, -1);
           at.translate(0, -origin.y - layout.getAscent() / 2);
-          at.rotate(
-              direction.x - origin.x,
-              -direction.y + origin.y,
-              origin.x,
-              origin.y + layout.getAscent());
+          at.rotate(direction.x, -direction.y, origin.x, origin.y + layout.getAscent());
           g2.transform(at);
         } else {
           g2.transform(rotationMatrix());
@@ -104,15 +101,20 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   @Override
   public void transform(AffineTransform tx) {
     System.out.println("before origin=" + origin + " / direction=" + direction);
+
+    Point2D.Double dirVector = new Point2D.Double(origin.x + direction.x, origin.y + direction.y);
     tx.transform(origin, origin);
-    tx.transform(direction, direction);
+    tx.transform(dirVector, dirVector);
+    direction.x = dirVector.x - origin.x;
+    direction.y = dirVector.y - origin.y;
+
     System.out.println("after origin=" + origin + " / direction=" + direction);
   }
 
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     origin = new Point2D.Double(anchor.x, anchor.y);
-    direction = new Point2D.Double(anchor.x + 1, anchor.y);
+    // direction = new Point2D.Double(anchor.x + 1, anchor.y);
   }
 
   @Override
@@ -178,8 +180,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   @Override
-  public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double b = getBounds(1.0);
+  public Dimension2DDouble getPreferredSize(double scale) {
+    Rectangle2D.Double b = getBounds(scale);
     return new Dimension2DDouble(b.width, b.height);
   }
 
@@ -190,8 +192,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   private AffineTransform rotationMatrix() {
-    return AffineTransform.getRotateInstance(
-        direction.x - origin.x, direction.y - origin.y, origin.x, origin.y);
+    return AffineTransform.getRotateInstance(direction.x, direction.y, origin.x, origin.y);
   }
 
   /** Gets the drawing area without taking the decorator into account. */
