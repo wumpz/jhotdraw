@@ -45,7 +45,7 @@ public class BezierLabelLocator implements Locator {
 
   @Override
   public Locator.Position locate(Figure owner, double scale) {
-    return getRelativePoint((BezierFigure) owner);
+    return getRelativePoint((BezierFigure) owner, scale);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class BezierLabelLocator implements Locator {
   }
 
   /** Returns the coordinates of the relative point on the path of the specified bezier figure. */
-  public Locator.Position getRelativePoint(BezierFigure owner) {
+  public Locator.Position getRelativePoint(BezierFigure owner, double scale) {
     Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
     Point2D.Double nextPoint =
         owner.getPointOnPath(
@@ -69,7 +69,8 @@ public class BezierLabelLocator implements Locator {
     double alpha = dir + angle;
     Point2D.Double p =
         new Point2D.Double(
-            point.x + distance * Math.cos(alpha), point.y + distance * Math.sin(alpha));
+            point.x + distance / scale * Math.cos(alpha),
+            point.y + distance / scale * Math.sin(alpha));
     if (Double.isNaN(p.x)) {
       p = point;
     }
@@ -104,7 +105,7 @@ public class BezierLabelLocator implements Locator {
     if (Double.isNaN(p.x)) {
       p = point;
     }*/
-    Position position = getRelativePoint(owner);
+    Position position = getRelativePoint(owner, scale);
 
     // If there is a fixed origin, this locator should move the origin the the boundary midth.
     // This should then do the label component.

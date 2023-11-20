@@ -104,21 +104,16 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   // SHAPE AND BOUNDS
   @Override
   public void transform(AffineTransform tx) {
-    System.out.println("before origin=" + origin + " / direction=" + direction);
-
     Point2D.Double dirVector = new Point2D.Double(origin.x + direction.x, origin.y + direction.y);
     tx.transform(origin, origin);
     tx.transform(dirVector, dirVector);
     direction.x = dirVector.x - origin.x;
     direction.y = dirVector.y - origin.y;
-
-    System.out.println("after origin=" + origin + " / direction=" + direction);
   }
 
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     origin = new Point2D.Double(anchor.x, anchor.y);
-    // direction = new Point2D.Double(anchor.x + 1, anchor.y);
   }
 
   @Override
@@ -384,6 +379,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   public TextFigure clone() {
     TextFigure that = (TextFigure) super.clone();
     that.origin = (Point2D.Double) this.origin.clone();
+    that.direction = (Point2D.Double) this.direction.clone();
     that.textLayout = null;
     return that;
   }
