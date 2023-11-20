@@ -13,6 +13,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.Origin;
+import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.Locator.Position;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -76,17 +77,25 @@ public class LocatorLayouter implements Layouter {
         r = new Rectangle2D.Double(position.location().x, position.location().y, d.width, d.height);
       }
       child.willChange();
+
       if (position != null && child instanceof Origin originChild) {
         originChild.setOrigin(position.location());
-        ((Figure) originChild)
-            .transform(
-                AffineTransform.getRotateInstance(
-                    position.angle(), position.location().x, position.location().y));
       } else {
         child.setBounds(
             new Point2D.Double(r.getMinX(), r.getMinY()),
             new Point2D.Double(r.getMaxX(), r.getMaxY()));
       }
+      if (position != null) {
+        if (child instanceof Rotation rotateChild) {
+          rotateChild.setRotation(position.angle());
+        } else {
+          ((Figure) child)
+              .transform(
+                  AffineTransform.getRotateInstance(
+                      -position.angle(), position.location().x, position.location().y));
+        }
+      }
+
       child.changed();
       if (!r.isEmpty()) {
         if (bounds == null) {

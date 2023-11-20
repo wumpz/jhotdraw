@@ -10,6 +10,8 @@ package org.jhotdraw.draw.locator;
 import java.awt.geom.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.Origin;
+import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
@@ -103,6 +105,13 @@ public class BezierLabelLocator implements Locator {
       p = point;
     }*/
     Position position = getRelativePoint(owner);
+
+    // If there is a fixed origin, this locator should move the origin the the boundary midth.
+    // This should then do the label component.
+    if ((label instanceof Origin) && (label instanceof Rotation)) {
+      return position;
+    }
+
     Point2D.Double p = position.location();
 
     Dimension2DDouble labelDim = label.getPreferredSize(scale);

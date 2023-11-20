@@ -42,12 +42,16 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@code TextFigure}.
  */
 public class TextFigure extends AbstractAttributedDecoratedFigure
-    implements TextHolderFigure, Origin {
+    implements TextHolderFigure, Origin, Rotation {
 
   private static final long serialVersionUID = 1L;
   protected Point2D.Double origin = new Point2D.Double();
+
+  public static final Point2D.Double HOIZONTAL_DIRECTION = new Point2D.Double(1, 0);
+
   // always starting from 0,0
   protected Point2D.Double direction = new Point2D.Double(1, 0);
+
   protected boolean editable = true;
   // cache of the TextFigure's layout
   protected transient TextLayout textLayout;
@@ -115,6 +119,11 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     origin = new Point2D.Double(anchor.x, anchor.y);
     // direction = new Point2D.Double(anchor.x + 1, anchor.y);
+  }
+
+  @Override
+  public void setRotation(double angle) {
+    AffineTransform.getRotateInstance(angle).transform(HOIZONTAL_DIRECTION, direction);
   }
 
   @Override
