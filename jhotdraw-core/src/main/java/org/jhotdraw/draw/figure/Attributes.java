@@ -78,19 +78,14 @@ public final class Attributes {
     return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
   }
 
-  /** Set attributes from map. */
   public void setAttributes(Map<AttributeKey<?>, Object> map) {
     for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
       set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
   }
 
-  /**
-   * Returns a view to all attributes of this figure. By convention, an unmodifiable map is
-   * returned.
-   */
   public Map<AttributeKey<?>, Object> getAttributes() {
-    return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
+    return Collections.unmodifiableMap(attributes);
   }
 
   /**
@@ -123,8 +118,7 @@ public final class Attributes {
       }
     } else {
       attributes.clear();
-      HashMap<AttributeKey<?>, Object> restoreDataHashMap =
-          (HashMap<AttributeKey<?>, Object>) restoreData;
+      Map<AttributeKey<?>, Object> restoreDataHashMap = (Map<AttributeKey<?>, Object>) restoreData;
       setAttributes(restoreDataHashMap);
     }
   }

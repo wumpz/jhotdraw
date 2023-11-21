@@ -56,6 +56,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   // cache of the TextFigure's layout
   protected transient TextLayout textLayout;
 
+  protected double alignX;
+  protected double alignY;
+
   public TextFigure() {
     this(
         ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
@@ -82,6 +85,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
                   this, AttributeKeys.getScaleFactorFromGraphics(g)));
       Graphics2D g2 = (Graphics2D) g.create();
       try {
+        double alignDeltaX = layout.getAdvance() * attr().get(AttributeKeys.ALIGN_RELATIVE_X);
+        double alignDeltaY =
+            (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
+
         // Test if world to screen transformation mirrors the text. If so it tries to
         // unmirror it.
         if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
@@ -94,7 +101,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         } else {
           g2.transform(rotationMatrix());
         }
-        layout.draw(g2, (float) origin.x, (float) (origin.y + layout.getAscent()));
+        layout.draw(
+            g2,
+            (float) (origin.x - alignDeltaX),
+            (float) (origin.y + alignDeltaY + layout.getAscent()));
       } finally {
         g2.dispose();
       }
@@ -174,9 +184,17 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   @Override
   public Rectangle2D.Double getBounds(double scale) {
     TextLayout layout = getTextLayout(scale);
+
+    double alignDeltaX = layout.getAdvance() * attr().get(AttributeKeys.ALIGN_RELATIVE_X);
+    double alignDeltaY =
+        (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
+
     Rectangle2D.Double r =
         new Rectangle2D.Double(
-            origin.x, origin.y, layout.getAdvance(), layout.getAscent() + layout.getDescent());
+            origin.x - alignDeltaX,
+            origin.y - alignDeltaY,
+            layout.getAdvance(),
+            layout.getAscent() + layout.getDescent());
 
     r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
 
@@ -206,15 +224,23 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
       return getBounds(factor);
     } else {
       TextLayout layout = getTextLayout(factor);
+
+      double alignDeltaX = layout.getAdvance() * attr().get(AttributeKeys.ALIGN_RELATIVE_X);
+      double alignDeltaY =
+          (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
+
       Rectangle2D.Double r =
           new Rectangle2D.Double(
-              origin.x, origin.y, layout.getAdvance(), layout.getAscent() + layout.getDescent());
+              origin.x - alignDeltaX,
+              origin.y - alignDeltaY,
+              layout.getAdvance(),
+              layout.getAscent() + layout.getDescent());
       Rectangle2D lBounds = layout.getBounds();
       if (!lBounds.isEmpty() && !Double.isNaN(lBounds.getX())) {
         r.add(
             new Rectangle2D.Double(
-                lBounds.getX() + origin.x,
-                (lBounds.getY() + origin.y + layout.getAscent()),
+                lBounds.getX() + origin.x - alignDeltaX,
+                (lBounds.getY() + origin.y - alignDeltaY + layout.getAscent()),
                 lBounds.getWidth(),
                 lBounds.getHeight()));
       }
