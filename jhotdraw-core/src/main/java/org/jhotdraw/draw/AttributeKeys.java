@@ -325,7 +325,7 @@ public class AttributeKeys {
    * boundary x size.
    */
   public static final AttributeKey<Double> ALIGN_RELATIVE_X =
-      new AttributeKey<>("alignRelativeX", Double.class, 0.5d, false);
+      new AttributeKey<>("alignRelativeX", Double.class, 0d, false);
 
   /**
    * For point objects the origin is somewhere within the boundary. With this 0 to 1 number you are
@@ -333,7 +333,7 @@ public class AttributeKeys {
    * boundary y size.
    */
   public static final AttributeKey<Double> ALIGN_RELATIVE_Y =
-      new AttributeKey<>("alignRelativeY", Double.class, 0.5d, false);
+      new AttributeKey<>("alignRelativeY", Double.class, 0d, false);
 
   public static enum Orientation {
     NORTH,
