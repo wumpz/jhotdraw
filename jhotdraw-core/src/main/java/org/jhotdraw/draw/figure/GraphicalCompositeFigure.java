@@ -226,7 +226,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     }
   }
 
-  /** Draw the figure. This method is delegated to the encapsulated presentation figure. */
   @Override
   public void draw(Graphics2D g) {
     drawPresentationFigure(g);
@@ -239,7 +238,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     }
   }
 
-  /** Return default handles from the presentation figure. */
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
     List<Handle> handles = new ArrayList<>();
@@ -247,7 +245,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       MoveHandle.addMoveHandles(this, handles);
     }
     return handles;
-    // return getPresentationFigure().getHandles();
   }
 
   /**

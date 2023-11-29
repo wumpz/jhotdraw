@@ -7,9 +7,10 @@
  */
 package org.jhotdraw.draw.event;
 
-import java.awt.*;
-import java.util.*;
-import org.jhotdraw.draw.*;
+import java.awt.Rectangle;
+import java.util.EventObject;
+import org.jhotdraw.draw.DrawingEditor;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.tool.Tool;
 
 /**
@@ -24,8 +25,8 @@ import org.jhotdraw.draw.tool.Tool;
 public class ToolEvent extends EventObject {
 
   private static final long serialVersionUID = 1L;
-  private Rectangle invalidatedArea;
-  private DrawingView view;
+  private final Rectangle invalidatedArea;
+  private final DrawingView view;
 
   public ToolEvent(Tool src, DrawingView view, Rectangle invalidatedArea) {
     super(src);
