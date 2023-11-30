@@ -108,7 +108,10 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     return getDrawingArea(scale());
   }
 
-  public Double scale() {
+  /**
+   * Scaling from attributes or drawings attributes.
+   */
+  public double scale() {
     return Optional.ofNullable(getDrawing())
         .map(myDrawing -> myDrawing.attr().get(AttributeKeys.SCALE_PROVIDER).scale())
         .orElse(1.0);

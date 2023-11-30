@@ -432,8 +432,8 @@ public class AttributeKeys {
   public static double getGlobalValueFactor(Figure f, double factor) {
     if (f.attr().get(IS_STROKE_PIXEL_VALUE)) {
       if (factor == 1.0 || factor == 0.0) {
-        factor = f.attr().get(AttributeKeys.SCALE_PROVIDER).scale();
-        if (factor == 1.0 && f instanceof AbstractAttributedFigure attributedFigure) {
+        // the figures attributes are not checked by design
+        if (f instanceof AbstractAttributedFigure attributedFigure) {
           factor = attributedFigure.getDrawing().attr().get(AttributeKeys.SCALE_PROVIDER).scale();
         }
       }
