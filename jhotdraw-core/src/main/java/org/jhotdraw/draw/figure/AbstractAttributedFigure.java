@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import javax.swing.Action;
@@ -104,7 +105,13 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Rectangle2D.Double getDrawingArea() {
-    return getDrawingArea(1.0);
+    return getDrawingArea(scale());
+  }
+
+  public Double scale() {
+    return Optional.ofNullable(getDrawing())
+        .map(myDrawing -> myDrawing.attr().get(AttributeKeys.SCALE_PROVIDER).scale())
+        .orElse(1.0);
   }
 
   @Override
@@ -180,12 +187,12 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     this.drawing = null;
   }
 
-  protected Drawing getDrawing() {
+  public Drawing getDrawing() {
     return drawing;
   }
-  
+
   private boolean modified = false;
-  
+
   public final boolean isModified() {
     return modified;
   }
@@ -193,7 +200,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   public void setModified() {
     modified = true;
   }
-  
+
   public void resetModified() {
     modified = false;
   }
@@ -241,21 +248,21 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   protected void fireFigureRequestRemove() {
     fireFigureEvent(
         (listener, event) -> listener.figureRequestRemove(event),
-        () -> new FigureEvent(this, getBounds(1.0)));
+        () -> new FigureEvent(this, getBounds(scale())));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureAdded() {
     fireFigureEvent(
         (listener, event) -> listener.figureAdded(event),
-        () -> new FigureEvent(this, getBounds(1.0)));
+        () -> new FigureEvent(this, getBounds(scale())));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireFigureRemoved() {
     fireFigureEvent(
         (listener, event) -> listener.figureRemoved(event),
-        () -> new FigureEvent(this, getBounds(1.0)));
+        () -> new FigureEvent(this, getBounds(scale())));
   }
 
   public void fireFigureChanged() {
@@ -357,7 +364,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public boolean contains(Point2D.Double p) {
-    return contains(p, 1.0);
+    return contains(p, scale());
   }
 
   /**
@@ -449,13 +456,13 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Point2D.Double getEndPoint() {
-    Rectangle2D.Double r = getBounds(1.0);
+    Rectangle2D.Double r = getBounds(scale());
     return new Point2D.Double(r.x + r.width, r.y + r.height);
   }
 
   @Override
   public Point2D.Double getStartPoint() {
-    Rectangle2D.Double r = getBounds(1.0);
+    Rectangle2D.Double r = getBounds(scale());
     return new Point2D.Double(r.x, r.y);
   }
 

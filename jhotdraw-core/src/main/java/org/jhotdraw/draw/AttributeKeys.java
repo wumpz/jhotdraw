@@ -10,7 +10,10 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.logging.Logger;
 import org.jhotdraw.draw.decoration.LineDecoration;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -350,6 +353,30 @@ public class AttributeKeys {
   public static final AttributeKey<Orientation> ORIENTATION =
       new AttributeKey<>("orientation", Orientation.class, Orientation.NORTH, false, LABELS);
 
+  public static final AttributeKey<ScaleProvider> SCALE_PROVIDER =
+      new AttributeKey<>("scaleProvider", ScaleProvider.class, ScaleProvider.from(() -> 1.0));
+
+  /** Helper class due to Java is not able to infere type into AttributeKey. */
+  public static class ScaleProvider {
+    private final Supplier<Double> scaleProvider;
+
+    public ScaleProvider(Supplier<Double> scaleProvider) {
+      Objects.requireNonNull(scaleProvider);
+      this.scaleProvider = scaleProvider;
+    }
+
+    public Double scale() {
+      LOG.info("reading scale from provider");
+      return scaleProvider.get();
+    }
+
+    private static final Logger LOG = Logger.getLogger(ScaleProvider.class.getName());
+
+    public static final ScaleProvider from(Supplier<Double> scaleProvider) {
+      return new ScaleProvider(scaleProvider);
+    }
+  }
+
   /** A put with all attributes defined by this class. */
   public static final Set<AttributeKey<?>> SUPPORTED_ATTRIBUTES;
 
@@ -403,7 +430,13 @@ public class AttributeKeys {
 
   /** Computing a global scale factor derived from pixel with or different measures. */
   public static double getGlobalValueFactor(Figure f, double factor) {
-    if (factor != 1.0 && f.attr().get(IS_STROKE_PIXEL_VALUE)) {
+    if (f.attr().get(IS_STROKE_PIXEL_VALUE)) {
+      if (factor == 1.0 || factor == 0.0) {
+        factor = f.attr().get(AttributeKeys.SCALE_PROVIDER).scale();
+        if (factor == 1.0 && f instanceof AbstractAttributedFigure attributedFigure) {
+          factor = attributedFigure.getDrawing().attr().get(AttributeKeys.SCALE_PROVIDER).scale();
+        }
+      }
       return factor != 0.0 ? factor : 1.0;
     }
     return 1.0;
