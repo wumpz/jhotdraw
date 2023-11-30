@@ -183,10 +183,24 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   protected Drawing getDrawing() {
     return drawing;
   }
-
-  protected Object getLock() {
-    return (getDrawing() == null) ? this : getDrawing().getLock();
+  
+  private boolean modified = false;
+  
+  public final boolean isModified() {
+    return modified;
   }
+
+  public void setModified() {
+    modified = true;
+  }
+  
+  public void resetModified() {
+    modified = false;
+  }
+
+  //  protected Object getLock() {
+  //    return (getDrawing() == null) ? this : getDrawing().getLock();
+  //  }
 
   /** tool method to process a listener and create its event object lazily. */
   protected void fireFigureEvent(
@@ -371,6 +385,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
       throw new IllegalStateException(
           "changed was called without a prior call to willChange. " + changingDepth);
     }
+    modified = true;
     changingDepth--;
   }
 
