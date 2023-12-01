@@ -62,10 +62,8 @@ import org.jhotdraw.util.ResourceBundleUtil;
 import org.jhotdraw.util.ReversedList;
 
 /**
- * Default TransferHandler for DrawingView objects.
- *
- * @author Werner Randelshofer
- * @version $Id: DefaultDrawingViewTransferHandler.java 717 2010-11-21 12:30:57Z rawcoder $
+ * Delegates Clipboard Actions to the sending JComponent or reroutes to a possible DrawingView that
+ * is provided from this component.
  */
 public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
@@ -93,6 +91,15 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
   }
 
+  private static DrawingView extractDrawingView(JComponent component) {
+    if (component instanceof DrawingViewProvider provider) {
+      return provider.getDrawingView();
+    } else if (component instanceof DrawingView drawingView) {
+      return drawingView;
+    }
+    return null;
+  }
+
   /**
    * Imports data and stores the transferred figures into the supplied transferFigures collection.
    */
@@ -103,8 +110,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
       final HashSet<Figure> transferFigures,
       final Point dropPoint) {
     boolean retValue;
-    if (comp instanceof DrawingView) {
-      final DrawingView view = (DrawingView) comp;
+    DrawingView view = extractDrawingView(comp);
+    if (view != null) {
       final Drawing drawing = view.getDrawing();
       if (drawing.getInputFormats() == null || drawing.getInputFormats().size() == 0) {
         retValue = false;
@@ -294,7 +301,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         fig.changed();
       }
     } else {
-      final DrawingView view = (DrawingView) component;
+      final DrawingView view = extractDrawingView(component);
       Point2D.Double drawingDropPoint = view.viewToDrawing(dropPoint);
       // Set<Figure> transferFigures = view.getSelectedFigures();
       Rectangle2D.Double drawingArea = null;
@@ -323,8 +330,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
   @Override
   public int getSourceActions(JComponent c) {
     int retValue;
-    if (c instanceof DrawingView) {
-      DrawingView view = (DrawingView) c;
+    DrawingView view = extractDrawingView(c);
+    if (view != null) {
       retValue =
           (view.getDrawing().getOutputFormats().size() > 0 && view.getSelectionCount() > 0)
               ? COPY | MOVE
@@ -338,8 +345,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
   @Override
   protected Transferable createTransferable(JComponent c) {
     Transferable retValue;
-    if (c instanceof DrawingView) {
-      DrawingView view = (DrawingView) c;
+    DrawingView view = extractDrawingView(c);
+    if (view != null) {
       retValue = createTransferable(view, view.getSelectedFigures());
     } else {
       retValue = super.createTransferable(c);
@@ -380,8 +387,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
   @Override
   protected void exportDone(JComponent source, Transferable data, int action) {
-    if (source instanceof DrawingView) {
-      final DrawingView view = (DrawingView) source;
+    final DrawingView view = extractDrawingView(source);
+    if (view != null) {
       final Drawing drawing = view.getDrawing();
       if (action == MOVE) {
         final List<DrawingEvent> deletionEvents = new ArrayList<>();
@@ -448,8 +455,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
   @Override
   public void exportAsDrag(JComponent comp, InputEvent e, int action) {
-    if (comp instanceof DrawingView) {
-      DrawingView view = (DrawingView) comp;
+    final DrawingView view = extractDrawingView(comp);
+    if (view != null) {
       HashSet<Figure> transferFigures = new HashSet<>();
       MouseEvent me = (MouseEvent) e;
       Figure f = view.findFigure(me.getPoint());
@@ -495,8 +502,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
   @Override
   public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
     boolean retValue;
-    if (comp instanceof DrawingView) {
-      DrawingView view = (DrawingView) comp;
+    final DrawingView view = extractDrawingView(comp);
+    if (view != null) {
       Drawing drawing = view.getDrawing();
       // Search for a suitable input format
       retValue = false;
@@ -513,10 +520,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
       retValue = super.canImport(comp, transferFlavors);
     }
     return retValue;
-  }
-
-  private void getDrawing() {
-    throw new UnsupportedOperationException("Not yet implemented");
   }
 
   /**
