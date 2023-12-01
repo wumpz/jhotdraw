@@ -175,22 +175,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     super.setBounds(anchor, lead);
     basicSetPresentationFigureBounds(anchor, lead);
-    //    if (getLayouter() == null) {
-    //      super.setBounds(anchor, lead);
-    //      basicSetPresentationFigureBounds(anchor, lead);
-    //    } else {
-    //      Rectangle2D.Double r = getLayouter().layout(this, anchor, lead);
-    //      if (r.isEmpty()) {
-    //        super.setBounds(anchor, lead);
-    //        basicSetPresentationFigureBounds(anchor, lead);
-    //      } else {
-    //        basicSetPresentationFigureBounds(
-    //            new Point2D.Double(r.getX(), r.getY()),
-    //            new Point2D.Double(
-    //                Math.max(lead.x, (int) r.getMaxX()), Math.max(lead.y, (int) r.getMaxY())));
-    //      }
-    //      invalidate();
-    //    }
     layout(AttributeKeys.scaleFromContext(this));
   }
 
@@ -267,7 +251,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
         this.presentationFigure.addNotify(getDrawing());
       }
     }
-    // FIXME: We should calculate the layout here.
   }
 
   /**

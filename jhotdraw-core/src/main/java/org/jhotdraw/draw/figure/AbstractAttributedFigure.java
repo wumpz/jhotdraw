@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.swing.Action;
 import javax.swing.event.EventListenerList;
 import javax.swing.undo.UndoableEdit;
@@ -165,7 +166,10 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public void addFigureListener(FigureListener l) {
-    listenerList.add(FigureListener.class, l);
+    if (Stream.of(listenerList.getListeners(FigureListener.class))
+        .noneMatch(listener -> listener.equals(l))) {
+      listenerList.add(FigureListener.class, l);
+    }
   }
 
   @Override

@@ -26,7 +26,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
@@ -672,13 +671,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public Attributes attr() {
     return attributes;
-  }
-
-  @Override
-  protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
-    super.fireAttributeChanged(
-        attribute, oldValue,
-        newValue); // To change body of generated methods, choose Tools | Templates.
   }
 
   public void drawFigure(Graphics2D g) {
