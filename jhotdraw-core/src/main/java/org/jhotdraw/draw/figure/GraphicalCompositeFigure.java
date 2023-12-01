@@ -159,10 +159,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
 
   /** Return the draw area. This method is delegated to the encapsulated presentation figure. */
   @Override
-  public Rectangle2D.Double getDrawingArea() {
-    Rectangle2D.Double r = super.getDrawingArea();
+  public Rectangle2D.Double getDrawingArea(double scale) {
+    Rectangle2D.Double r = super.getDrawingArea(scale);
     if (getPresentationFigure() != null) {
-      r.add(getPresentationFigure().getDrawingArea());
+      r.add(getPresentationFigure().getDrawingArea(scale));
     }
     return r;
   }

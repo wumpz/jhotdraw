@@ -114,12 +114,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
-      cachedDrawingArea = super.getDrawingArea();
+      cachedDrawingArea = super.getDrawingArea(scale);
       for (Figure child : getChildrenFrontToBack()) {
         if (child.isVisible()) {
-          Rectangle2D.Double childBounds = child.getDrawingArea();
+          Rectangle2D.Double childBounds = child.getDrawingArea(scale);
           if (!childBounds.isEmpty()) {
             cachedDrawingArea.add(childBounds);
           }

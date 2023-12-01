@@ -119,7 +119,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scaleD) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
@@ -127,8 +127,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
       r.y -= (side - r.height) / 2;
       r.width = r.height = side;
     }
-    double grow =
-        AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleD);
     if (grow != 0d) {
       double w = r.width / 2d;
       double h = r.height / 2d;

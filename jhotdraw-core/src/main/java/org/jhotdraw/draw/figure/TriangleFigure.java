@@ -189,9 +189,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
-    double totalStrokeWidth =
-        AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this));
+  public Rectangle2D.Double getDrawingArea(double scale) {
+    double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this, scale);
     double width = 0d;
     if (attr().get(STROKE_COLOR) != null) {
       switch (attr().get(STROKE_PLACEMENT)) {
