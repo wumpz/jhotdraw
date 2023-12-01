@@ -357,6 +357,7 @@ public class AttributeKeys {
 
   /** Helper class due to Java is not able to infere type into AttributeKey. */
   public static class ScaleProvider {
+
     private final Supplier<Double> scaleProvider;
 
     public ScaleProvider(Supplier<Double> scaleProvider) {
@@ -410,7 +411,10 @@ public class AttributeKeys {
               START_DECORATION,
               DECORATOR_INSETS,
               ORIENTATION,
-              WINDING_RULE
+              WINDING_RULE,
+              IS_STROKE_PIXEL_VALUE,
+              ALIGN_RELATIVE_X,
+              ALIGN_RELATIVE_Y
             }));
     SUPPORTED_ATTRIBUTES = Collections.unmodifiableSet(as);
     HashMap<String, AttributeKey<?>> am = new HashMap<>();

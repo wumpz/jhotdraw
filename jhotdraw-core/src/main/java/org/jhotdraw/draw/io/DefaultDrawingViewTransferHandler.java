@@ -91,7 +91,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
         support.getDropLocation() == null ? null : support.getDropLocation().getDropPoint());
   }
 
-  private static DrawingView extractDrawingView(JComponent component) {
+  public DrawingView extractDrawingView(JComponent component) {
     if (component instanceof DrawingViewProvider provider) {
       return provider.getDrawingView();
     } else if (component instanceof DrawingView drawingView) {
