@@ -579,14 +579,16 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   public Point2D.Double chop(Point2D.Double p) {
     if (isClosed()) {
-      double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+      double grow =
+          AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
       if (grow == 0d) {
         return path.chop(p);
       } else {
         GrowStroke gs =
             new GrowStroke(
                 grow,
-                AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT));
+                AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
+                    * attr().get(STROKE_MITER_LIMIT));
         return Geom.chop(gs.createStrokedShape(path), p);
       }
     } else {

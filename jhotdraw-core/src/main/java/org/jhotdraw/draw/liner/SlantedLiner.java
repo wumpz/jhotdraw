@@ -53,8 +53,8 @@ public class SlantedLiner implements Liner {
       }
       Point2D.Double sp = start.findStart(figure);
       Point2D.Double ep = end.findEnd(figure);
-      Rectangle2D.Double sb = start.getBounds(1.0);
-      Rectangle2D.Double eb = end.getBounds(1.0);
+      Rectangle2D.Double sb = start.getBounds();
+      Rectangle2D.Double eb = end.getBounds();
       int soutcode = sb.outcode(sp);
       if (soutcode == 0) {
         soutcode = Geom.outcode(sb, eb);
@@ -128,8 +128,8 @@ public class SlantedLiner implements Liner {
       }
       Point2D.Double sp = start.findStart(figure);
       Point2D.Double ep = end.findEnd(figure);
-      Rectangle2D.Double sb = start.getBounds(1.0);
-      Rectangle2D.Double eb = end.getBounds(1.0);
+      Rectangle2D.Double sb = start.getBounds();
+      Rectangle2D.Double eb = end.getBounds();
       int soutcode = sb.outcode(sp);
       if (soutcode == 0) {
         if (sp.x <= sb.x) {

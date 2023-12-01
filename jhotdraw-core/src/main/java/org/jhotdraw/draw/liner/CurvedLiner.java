@@ -53,8 +53,8 @@ public class CurvedLiner implements Liner {
       }
       Point2D.Double sp = start.findStart(figure);
       Point2D.Double ep = end.findEnd(figure);
-      Rectangle2D.Double sb = start.getBounds(1.0);
-      Rectangle2D.Double eb = end.getBounds(1.0);
+      Rectangle2D.Double sb = start.getBounds();
+      Rectangle2D.Double eb = end.getBounds();
       int soutcode = sb.outcode(sp);
       if (soutcode == 0) {
         soutcode = Geom.outcode(sb, eb);
@@ -127,12 +127,12 @@ public class CurvedLiner implements Liner {
       if (sp.x == ep.x || sp.y == ep.y) {
         path.add(new BezierPath.Node(ep.x, ep.y));
       } else {
-        Rectangle2D.Double sb = start.getBounds(1.0);
+        Rectangle2D.Double sb = start.getBounds();
         sb.x += 5d;
         sb.y += 5d;
         sb.width -= 10d;
         sb.height -= 10d;
-        Rectangle2D.Double eb = end.getBounds(1.0);
+        Rectangle2D.Double eb = end.getBounds();
         eb.x += 5d;
         eb.y += 5d;
         eb.width -= 10d;

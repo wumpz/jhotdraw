@@ -32,8 +32,8 @@ public class ConnectingFiguresSample {
             ConnectionFigure cf = new LineConnectionFigure();
             cf.setLiner(new ElbowLiner());
             // Connect the figures
-            cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds(1.0)), cf));
-            cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds(1.0)), cf));
+            cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
+            cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
             // Add all figures to a drawing
             Drawing drawing = new DefaultDrawing();
             drawing.add(ta);

@@ -90,9 +90,9 @@ public class DnDTracker extends AbstractTool implements DragTracker {
       dragRect = null;
       for (Figure f : view.getSelectedFigures()) {
         if (dragRect == null) {
-          dragRect = f.getBounds(1.0);
+          dragRect = f.getBounds();
         } else {
-          dragRect.add(f.getBounds(1.0));
+          dragRect.add(f.getBounds());
         }
       }
       anchorPoint = previousPoint = view.viewToDrawing(anchor);

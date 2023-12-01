@@ -209,8 +209,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
   @Override
   public double getBaseline() {
-    TextLayout layout = getTextLayout(1.0);
-    return origin.y + layout.getAscent() - getBounds(1.0).y;
+    TextLayout layout = getTextLayout(AttributeKeys.scaleFromContext(this));
+    return origin.y + layout.getAscent() - getBounds().y;
   }
 
   private AffineTransform rotationMatrix() {

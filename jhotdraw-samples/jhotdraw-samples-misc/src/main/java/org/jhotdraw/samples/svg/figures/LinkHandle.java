@@ -56,7 +56,7 @@ public class LinkHandle extends AbstractHandle {
   @Override
   protected Rectangle basicGetBounds() {
     Figure o = getOwner();
-    Rectangle2D.Double b = o.getBounds(1.0);
+    Rectangle2D.Double b = o.getBounds();
     Point2D.Double p = new Point2D.Double(b.x + b.width, b.y + b.height);
     if (o.attr().get(TRANSFORM) != null) {
       o.attr().get(TRANSFORM).transform(p, p);

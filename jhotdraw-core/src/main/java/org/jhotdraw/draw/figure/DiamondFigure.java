@@ -127,7 +127,8 @@ public class DiamondFigure extends AbstractAttributedFigure {
       r.y -= (side - r.height) / 2;
       r.width = r.height = side;
     }
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow =
+        AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
     if (grow != 0d) {
       double w = r.width / 2d;
       double h = r.height / 2d;

@@ -132,7 +132,7 @@ public class LinearGradient implements Gradient {
     AffineTransform t = transform;
     if (isRelativeToFigureBounds) {
       t = (AffineTransform) t.clone();
-      Rectangle2D.Double bounds = f.getBounds(1.0);
+      Rectangle2D.Double bounds = f.getBounds();
       t.translate(bounds.x, bounds.y);
       t.scale(bounds.width, bounds.height);
     }
@@ -208,7 +208,7 @@ public class LinearGradient implements Gradient {
   public void makeRelativeToFigureBounds(Figure f) {
     if (!isRelativeToFigureBounds) {
       isRelativeToFigureBounds = true;
-      Rectangle2D.Double bounds = f.getBounds(1.0);
+      Rectangle2D.Double bounds = f.getBounds();
       x1 = (x1 - bounds.x) / bounds.width;
       y1 = (y1 - bounds.y) / bounds.height;
       x2 = (x2 - bounds.x) / bounds.width;

@@ -98,7 +98,7 @@ public class FileIconsSample {
                 tx = 0;
                 rowHeight = 0;
               }
-              Rectangle2D.Double b = gcf.getBounds(1.0);
+              Rectangle2D.Double b = gcf.getBounds();
               rowHeight = Math.max(rowHeight, b.height);
               AffineTransform at = new AffineTransform();
               at.translate(tx, ty);

@@ -11,6 +11,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.*;
 import java.awt.geom.*;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 
@@ -42,16 +43,16 @@ public class ChopEllipseConnector extends ChopRectangleConnector {
   @Override
   protected Point2D.Double chop(Figure target, Point2D.Double from) {
     target = getConnectorTarget(target);
-    Rectangle2D.Double r = target.getBounds(1.0);
+    Rectangle2D.Double r = target.getBounds(AttributeKeys.scaleFromContext(target));
     if (getStrokeColor(target) != null) {
       double grow;
       switch (target.attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
-          grow = getStrokeTotalWidth(target, 1.0) / 2d;
+          grow = getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target)) / 2d;
           break;
         case OUTSIDE:
-          grow = getStrokeTotalWidth(target, 1.0);
+          grow = getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target));
           break;
         case INSIDE:
           grow = 0f;

@@ -191,7 +191,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     //      }
     //      invalidate();
     //    }
-    layout(1.0);
+    layout(AttributeKeys.scaleFromContext(this));
   }
 
   @Override
@@ -310,16 +310,16 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    * AttributeKeys.STROKE_PLACEMENT, and AttributeKeys.StrokeTotalWidth.
    */
   public Point2D.Double chop(Point2D.Double from) {
-    Rectangle2D.Double r = getBounds(1.0);
+    Rectangle2D.Double r = getBounds();
     if (attr().get(STROKE_COLOR) != null) {
       double grow;
       switch (attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
-          grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+          grow = AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this));
           break;
         case OUTSIDE:
-          grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+          grow = AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this));
           break;
         case INSIDE:
           grow = 0d;

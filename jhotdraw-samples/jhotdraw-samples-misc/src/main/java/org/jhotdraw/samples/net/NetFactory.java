@@ -95,7 +95,7 @@ public class NetFactory extends DefaultDOMFactory {
   }
 
   public static void writeNode(NodeFigure figure, DOMOutput domOutput) throws IOException {
-    Rectangle2D.Double b = figure.getBounds(1.0);
+    Rectangle2D.Double b = figure.getBounds();
     domOutput.addAttribute("x", b.x);
     domOutput.addAttribute("y", b.y);
     writeAttributes(figure, domOutput);

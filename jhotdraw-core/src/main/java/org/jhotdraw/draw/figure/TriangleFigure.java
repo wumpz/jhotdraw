@@ -190,7 +190,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
 
   @Override
   public Rectangle2D.Double getDrawingArea() {
-    double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+    double totalStrokeWidth =
+        AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this));
     double width = 0d;
     if (attr().get(STROKE_COLOR) != null) {
       switch (attr().get(STROKE_PLACEMENT)) {
@@ -214,20 +215,22 @@ public class TriangleFigure extends AbstractAttributedFigure {
       }
     }
     width++;
-    Rectangle2D.Double r = getBounds(1.0);
+    Rectangle2D.Double r = getBounds();
     Geom.grow(r, width, width);
     return r;
   }
 
   public Point2D.Double chop(Point2D.Double p) {
     Shape triangle = getBezierPath();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow =
+        AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
     if (grow != 0d) {
       GrowStroke gs =
           new GrowStroke(
               (float) grow,
               (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
+                  (AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
+                      * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return Geom.chop(triangle, p);

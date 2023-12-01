@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.logging.Logger;
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -366,11 +365,8 @@ public class AttributeKeys {
     }
 
     public Double scale() {
-      LOG.info("reading scale from provider");
       return scaleProvider.get();
     }
-
-    private static final Logger LOG = Logger.getLogger(ScaleProvider.class.getName());
 
     public static final ScaleProvider from(Supplier<Double> scaleProvider) {
       return new ScaleProvider(scaleProvider);
@@ -428,14 +424,26 @@ public class AttributeKeys {
     SUPPORTED_ATTRIBUTES_MAP = sam;
   }
 
+  public static double scaleFromContext(Drawing drawing) {
+    return drawing.attr().get(AttributeKeys.SCALE_PROVIDER).scale();
+  }
+
+  /** Scaling from attributes or drawings attributes. */
+  public static double scaleFromContext(Figure f) {
+    if (f instanceof AbstractAttributedFigure attributedFigure) {
+      // the figures attributes are not checked by design
+      return Optional.ofNullable(attributedFigure.getDrawing())
+          .map(myDrawing -> myDrawing.attr().get(AttributeKeys.SCALE_PROVIDER).scale())
+          .orElse(1.0);
+    }
+    return 1.0;
+  }
+
   /** Computing a global scale factor derived from pixel with or different measures. */
   public static double getGlobalValueFactor(Figure f, double factor) {
     if (f.attr().get(IS_STROKE_PIXEL_VALUE)) {
       if (factor == 1.0 || factor == 0.0) {
-        // the figures attributes are not checked by design
-        if (f instanceof AbstractAttributedFigure attributedFigure) {
-          factor = attributedFigure.getDrawing().attr().get(AttributeKeys.SCALE_PROVIDER).scale();
-        }
+        factor = scaleFromContext(f);
       }
       return factor != 0.0 ? factor : 1.0;
     }

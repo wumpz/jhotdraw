@@ -123,8 +123,8 @@ public class ImageInputFormat implements InputFormat {
     ImageHolderFigure figure = createImageHolder(in);
     if (replace) {
       drawing.removeAllChildren();
-      drawing.attr().set(CANVAS_WIDTH, figure.getBounds(1.0).width);
-      drawing.attr().set(CANVAS_HEIGHT, figure.getBounds(1.0).height);
+      drawing.attr().set(CANVAS_WIDTH, figure.getBounds().width);
+      drawing.attr().set(CANVAS_HEIGHT, figure.getBounds().height);
     }
     drawing.basicAdd(figure);
   }
@@ -188,8 +188,8 @@ public class ImageInputFormat implements InputFormat {
     List<Figure> list = List.of(figure);
     if (replace) {
       drawing.removeAllChildren();
-      drawing.attr().set(CANVAS_WIDTH, figure.getBounds(1.0).width);
-      drawing.attr().set(CANVAS_HEIGHT, figure.getBounds(1.0).height);
+      drawing.attr().set(CANVAS_WIDTH, figure.getBounds().width);
+      drawing.attr().set(CANVAS_HEIGHT, figure.getBounds().height);
     }
     drawing.addAll(list);
   }

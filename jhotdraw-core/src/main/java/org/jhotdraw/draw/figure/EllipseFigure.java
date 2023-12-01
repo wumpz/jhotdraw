@@ -58,7 +58,8 @@ public class EllipseFigure extends AbstractAttributedFigure {
   @Override
   public Rectangle2D.Double getDrawingArea() {
     Rectangle2D.Double r = (Rectangle2D.Double) ellipse.getBounds2D();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow =
+        AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
     Geom.grow(r, grow + 1, grow + 1);
     return r;
   }

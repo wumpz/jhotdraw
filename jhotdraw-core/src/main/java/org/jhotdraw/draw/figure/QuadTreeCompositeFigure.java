@@ -215,7 +215,7 @@ public abstract class QuadTreeCompositeFigure extends AbstractAttributedComposit
   public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
     List<Figure> contained = new ArrayList<>();
     for (Figure f : children) {
-      Rectangle2D r = f.getBounds(1.0);
+      Rectangle2D r = f.getBounds();
       if (f.attr().get(TRANSFORM) != null) {
         r = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
       }

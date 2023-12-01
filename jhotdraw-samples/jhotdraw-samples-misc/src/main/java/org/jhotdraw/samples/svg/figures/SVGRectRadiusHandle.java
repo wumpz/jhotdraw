@@ -58,7 +58,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
 
   private Point locate() {
     SVGRectFigure owner = (SVGRectFigure) getOwner();
-    Rectangle2D.Double r = owner.getBounds(1.0);
+    Rectangle2D.Double r = owner.getBounds();
     Point2D.Double p = new Point2D.Double(r.x + owner.getArcWidth(), r.y + owner.getArcHeight());
     if (owner.attr().get(TRANSFORM) != null) {
       owner.attr().get(TRANSFORM).transform(p, p);
@@ -84,7 +84,7 @@ public class SVGRectRadiusHandle extends AbstractHandle {
         LOG.throwing(SVGRectRadiusHandle.class.getName(), "trackStep", ex);
       }
     }
-    Rectangle2D.Double r = owner.getBounds(1.0);
+    Rectangle2D.Double r = owner.getBounds();
     owner.setArc(
         Math.min(owner.getWidth(), Math.max(0, p.x - r.x)),
         Math.min(owner.getHeight(), Math.max(0, p.y - r.y)));

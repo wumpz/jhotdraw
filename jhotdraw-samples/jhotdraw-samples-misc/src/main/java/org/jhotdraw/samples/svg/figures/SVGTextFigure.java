@@ -419,7 +419,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
 
   @Override
   public double getBaseline() {
-    return coordinates[0].y - getBounds(1.0).y;
+    return coordinates[0].y - getBounds().y;
   }
 
   /** Gets the number of characters used to expand tabs. */

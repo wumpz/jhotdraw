@@ -88,7 +88,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   @Override
   public Rectangle2D.Double getDrawingArea() {
     if (cachedDrawingArea == null) {
-      Rectangle2D.Double r = getBounds(1.0);
+      Rectangle2D.Double r = getBounds();
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0);
       Geom.grow(r, g, g);
       if (attr().get(TRANSFORM) == null) {
@@ -112,7 +112,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
       }
     }
     Rectangle2D r = getTextShape().getBounds2D();
-    return r.isEmpty() ? getBounds(1.0).contains(p) : r.contains(p);
+    return r.isEmpty() ? getBounds().contains(p) : r.contains(p);
   }
 
   private Shape getTextShape() {
@@ -534,8 +534,8 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
     if (isTextOverflow == null) {
       Insets2D.Double insets = getInsets();
       isTextOverflow =
-          getPreferredTextSize(getBounds(1.0).width - insets.left - insets.right).height
-              > getBounds(1.0).height - insets.top - insets.bottom;
+          getPreferredTextSize(getBounds().width - insets.left - insets.right).height
+              > getBounds().height - insets.top - insets.bottom;
     }
     return isTextOverflow;
   }

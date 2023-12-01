@@ -1187,7 +1187,7 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   protected Rectangle2D.Double getDrawingArea() {
     if (cachedDrawingArea == null) {
       if (drawing != null) {
-        cachedDrawingArea = drawing.getDrawingArea(1.0);
+        cachedDrawingArea = drawing.getDrawingArea(getScaleFactor());
       } else {
         cachedDrawingArea = new Rectangle2D.Double();
       }

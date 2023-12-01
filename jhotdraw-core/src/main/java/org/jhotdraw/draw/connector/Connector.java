@@ -59,6 +59,13 @@ public interface Connector extends Cloneable, Serializable {
    * Connector. The bounds can differ from the Figure bounds, if the Connector connects to a
    * specific region of the Figure.
    */
+  public Rectangle2D.Double getBounds();
+
+  /**
+   * Gets the bounds of the connector. This usually are the bounds of the Figure which owns the
+   * Connector. The bounds can differ from the Figure bounds, if the Connector connects to a
+   * specific region of the Figure.
+   */
   public Rectangle2D.Double getBounds(double scale);
 
   /**

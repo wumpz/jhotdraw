@@ -549,7 +549,7 @@ public class SVGOutputFormat implements OutputFormat {
       error.initCause(e);
       throw error;
     }
-    Rectangle2D.Double bounds = f.getBounds(1.0);
+    Rectangle2D.Double bounds = f.getBounds();
     parent.appendChild(
         createTextArea(
             document,

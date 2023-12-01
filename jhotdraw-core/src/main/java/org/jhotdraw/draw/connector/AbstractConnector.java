@@ -9,6 +9,7 @@ package org.jhotdraw.draw.connector;
 
 import java.awt.*;
 import java.awt.geom.*;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -86,7 +87,7 @@ public class AbstractConnector implements Connector {
    * start and end point of a connection.
    */
   protected Point2D.Double findPoint(ConnectionFigure connection) {
-    return Geom.center(getBounds(1.0));
+    return Geom.center(getBounds());
   }
 
   /** Gets the connector's owner. */
@@ -128,11 +129,16 @@ public class AbstractConnector implements Connector {
 
   @Override
   public Point2D.Double getAnchor() {
-    return Geom.center(getBounds(1.0));
+    return Geom.center(getBounds());
   }
 
   @Override
   public void updateAnchor(Point2D.Double p) {}
+
+  @Override
+  public final Rectangle2D.Double getBounds() {
+    return getBounds(AttributeKeys.scaleFromContext(owner));
+  }
 
   @Override
   public Rectangle2D.Double getBounds(double scale) {

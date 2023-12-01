@@ -165,9 +165,9 @@ public class ImageMapOutputFormat implements OutputFormat {
     Rectangle2D.Double drawingRect = null;
     for (Figure f : figures) {
       if (drawingRect == null) {
-        drawingRect = f.getBounds(1.0);
+        drawingRect = f.getBounds();
       } else {
-        drawingRect.add(f.getBounds(1.0));
+        drawingRect.add(f.getBounds());
       }
     }
     AffineTransform tx = new AffineTransform();
@@ -429,7 +429,7 @@ public class ImageMapOutputFormat implements OutputFormat {
     Element elem = parent.getOwnerDocument().createElement("AREA");
     boolean isContained;
     if (f.getArcHeight() == 0 && f.getArcWidth() == 0) {
-      Rectangle2D.Double rect = f.getBounds(1.0);
+      Rectangle2D.Double rect = f.getBounds();
       double grow = getPerpendicularHitGrowth(f, 1.0);
       rect.x -= grow;
       rect.y -= grow;
@@ -458,7 +458,7 @@ public class ImageMapOutputFormat implements OutputFormat {
 
   private void writeTextElement(Element parent, SVGTextFigure f) throws IOException {
     Element elem = parent.getOwnerDocument().createElement("AREA");
-    Rectangle2D.Double rect = f.getBounds(1.0);
+    Rectangle2D.Double rect = f.getBounds();
     double grow = getPerpendicularHitGrowth(f, 1.0);
     rect.x -= grow;
     rect.y -= grow;
@@ -471,7 +471,7 @@ public class ImageMapOutputFormat implements OutputFormat {
 
   private void writeTextAreaElement(Element parent, SVGTextAreaFigure f) throws IOException {
     Element elem = parent.getOwnerDocument().createElement("AREA");
-    Rectangle2D.Double rect = f.getBounds(1.0);
+    Rectangle2D.Double rect = f.getBounds();
     double grow = getPerpendicularHitGrowth(f, 1.0);
     rect.x -= grow;
     rect.y -= grow;
@@ -484,7 +484,7 @@ public class ImageMapOutputFormat implements OutputFormat {
 
   private void writeEllipseElement(Element parent, SVGEllipseFigure f) throws IOException {
     Element elem = parent.getOwnerDocument().createElement("area");
-    Rectangle2D.Double r = f.getBounds(1.0);
+    Rectangle2D.Double r = f.getBounds();
     double grow = getPerpendicularHitGrowth(f, 1.0);
     Ellipse2D.Double ellipse =
         new Ellipse2D.Double(r.x - grow, r.y - grow, r.width + grow, r.height + grow);
@@ -502,7 +502,7 @@ public class ImageMapOutputFormat implements OutputFormat {
 
   private void writeImageElement(Element parent, SVGImageFigure f) {
     Element elem = parent.getOwnerDocument().createElement("area");
-    Rectangle2D.Double rect = f.getBounds(1.0);
+    Rectangle2D.Double rect = f.getBounds();
     writeRectAttributes(elem, f, rect);
     parent.appendChild(elem);
   }

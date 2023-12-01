@@ -237,7 +237,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
   // EVENT HANDLING
   @Override
   public boolean isEmpty() {
-    Rectangle2D.Double b = getBounds(1.0);
+    Rectangle2D.Double b = getBounds();
     return b.width <= 0 || b.height <= 0;
   }
 

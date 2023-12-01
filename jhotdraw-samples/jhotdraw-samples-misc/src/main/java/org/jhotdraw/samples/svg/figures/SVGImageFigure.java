@@ -361,7 +361,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
   @Override
   public boolean isEmpty() {
-    Rectangle2D.Double b = getBounds(1.0);
+    Rectangle2D.Double b = getBounds();
     return b.width <= 0 || b.height <= 0 || imageData == null && bufferedImage == null;
   }
 

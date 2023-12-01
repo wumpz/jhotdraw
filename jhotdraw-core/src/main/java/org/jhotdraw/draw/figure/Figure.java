@@ -171,6 +171,14 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * <p>The bounds are used by Handle objects for adjusting the figure and for aligning the figure
    * on a grid.
    */
+  public Rectangle2D.Double getBounds();
+
+  /**
+   * Returns the untransformed logical bounds of the figure as a Rectangle.
+   *
+   * <p>The bounds are used by Handle objects for adjusting the figure and for aligning the figure
+   * on a grid.
+   */
   public Rectangle2D.Double getBounds(double scale);
 
   /**

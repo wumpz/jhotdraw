@@ -42,9 +42,9 @@ public class RelativeDecoratorLocator extends RelativeLocator {
   public Locator.Position locate(Figure owner, double scale) {
     Rectangle2D.Double r;
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
-      r = ((DecoratedFigure) owner).getDecorator().getBounds(1.0);
+      r = ((DecoratedFigure) owner).getDecorator().getBounds();
     } else {
-      r = owner.getBounds(1.0);
+      r = owner.getBounds();
     }
     if (isQuadratic) {
       double side = Math.max(r.width, r.height);

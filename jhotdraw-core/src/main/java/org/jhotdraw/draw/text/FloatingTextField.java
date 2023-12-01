@@ -79,7 +79,7 @@ public class FloatingTextField {
     textField.setFont(font);
     textField.setForeground(editedFigure.getTextColor());
     textField.setBackground(editedFigure.getFillColor());
-    Rectangle2D.Double fDrawBounds = editedFigure.getBounds(1.0);
+    Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
     Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
     if (editedFigure.attr().get(TRANSFORM) != null) {
       editedFigure.attr().get(TRANSFORM).transform(fDrawLoc, fDrawLoc);

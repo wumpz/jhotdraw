@@ -134,7 +134,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
   public void draw(Graphics2D g) {
     if (createdFigure != null && rubberbandColor != null) {
       g.setColor(rubberbandColor);
-      g.draw(getView().drawingToView(createdFigure.getBounds(1.0)));
+      g.draw(getView().drawingToView(createdFigure.getBounds()));
     }
   }
 
