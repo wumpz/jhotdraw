@@ -183,7 +183,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
     Rectangle2D.Double r =
         (rx instanceof Rectangle2D.Double)

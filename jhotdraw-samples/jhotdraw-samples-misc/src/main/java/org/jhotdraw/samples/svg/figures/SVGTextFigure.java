@@ -141,7 +141,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       Rectangle2D rx = getTextShape().getBounds2D();
       Rectangle2D.Double r =

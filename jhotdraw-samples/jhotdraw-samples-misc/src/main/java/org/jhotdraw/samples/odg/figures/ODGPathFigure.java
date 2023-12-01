@@ -155,7 +155,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
       double width = strokeTotalWidth / 2d;

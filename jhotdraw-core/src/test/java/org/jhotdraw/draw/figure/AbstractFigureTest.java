@@ -62,11 +62,6 @@ public class AbstractFigureTest {
     }
 
     @Override
-    public Rectangle2D.Double getDrawingArea() {
-      return null;
-    }
-
-    @Override
     public boolean contains(Point2D.Double p) {
       return true;
     }

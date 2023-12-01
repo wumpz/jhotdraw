@@ -86,7 +86,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       Rectangle2D.Double r = getBounds();
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0);
