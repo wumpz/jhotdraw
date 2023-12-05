@@ -42,6 +42,7 @@ import org.jhotdraw.draw.figure.TriangleFigure;
 import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.liner.Liner;
+import org.jhotdraw.draw.locator.BezierLabelLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.geom.path.BezierPath;
@@ -171,6 +172,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
     register("elbowLiner", ElbowLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
     register("curvedLiner", CurvedLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
+    register("bezierLabelLoc", BezierLabelLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
 
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
@@ -288,6 +290,20 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.openElement("endConnector");
     domOutput.writeObject(figure.getEndConnector());
     domOutput.closeElement();
+  }
+
+  public static void readBezierLabelLocator(BezierLabelLocator locator, DOMInput domInput)
+      throws IOException {
+    locator.setRelativePosition(domInput.getAttribute("relativePosition", 0.5));
+    locator.setAngle(domInput.getAttribute("angle", 0.0));
+    locator.setDistance(domInput.getAttribute("distance", 0.0));
+  }
+
+  public static void writeBezierLabelLocator(BezierLabelLocator locator, DOMOutput domOutput)
+      throws IOException {
+    domOutput.addAttribute("relativePosition", locator.getRelativePosition());
+    domOutput.addAttribute("angle", locator.getAngle());
+    domOutput.addAttribute("distance", locator.getDistance());
   }
 
   public static void readLocatorConnector(LocatorConnector connector, DOMInput domInput)
