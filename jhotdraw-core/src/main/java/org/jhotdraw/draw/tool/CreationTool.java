@@ -179,7 +179,7 @@ public class CreationTool extends AbstractTool {
     }
     if (createdFigure != null) {
       if (createdFigure instanceof CompositeFigure) {
-        ((CompositeFigure) createdFigure).layout(1.0);
+        ((CompositeFigure) createdFigure).layout(getView().getScaleFactor());
       }
       createdFigure = null;
     }
@@ -198,6 +198,7 @@ public class CreationTool extends AbstractTool {
     anchor.y = evt.getY();
     createdFigure.setBounds(p, p);
     getDrawing().add(createdFigure);
+    fireFigureCreated(createdFigure);
   }
 
   @Override

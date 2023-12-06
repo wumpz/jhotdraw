@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.FigureCreatedEvent;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.figure.Figure;
@@ -404,6 +405,19 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
           event = new ToolEvent(this, getView(), invalidatedArea);
         }
         ((ToolListener) listeners[i + 1]).boundsInvalidated(event);
+      }
+    }
+  }
+
+  protected void fireFigureCreated(Figure figure) {
+    FigureCreatedEvent event = null;
+    Object[] listeners = listenerList.getListenerList();
+    for (int i = listeners.length - 2; i >= 0; i -= 2) {
+      if (listeners[i] == ToolListener.class) {
+        if (event == null) {
+          event = new FigureCreatedEvent(this, getView(), figure);
+        }
+        ((ToolListener) listeners[i + 1]).figureCreated(event);
       }
     }
   }
