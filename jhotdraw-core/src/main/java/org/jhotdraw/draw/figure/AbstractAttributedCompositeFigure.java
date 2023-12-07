@@ -535,6 +535,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     for (Figure thisChild : this.children) {
       Figure thatChild = thisChild.clone();
       that.children.add(thatChild);
+      thatChild.removeFigureListener(this.eventHandler);
       thatChild.addFigureListener(that.eventHandler);
     }
     return that;

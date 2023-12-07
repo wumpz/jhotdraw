@@ -99,7 +99,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       owner.fireUndoableEditHappened(e.getEdit());
     }
   }
-  ;
 
   /**
    * Default constructor which uses nothing as presentation figure. This constructor is needed by
@@ -283,7 +282,8 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     that.presentationFigure =
         (this.presentationFigure == null) ? null : this.presentationFigure.clone();
     if (that.presentationFigure != null) {
-      that.presentationFigureHandler.owner = that;
+      that.presentationFigure.removeFigureListener(this.presentationFigureHandler);
+      that.presentationFigureHandler = new PresentationFigureHandler(that);
       that.presentationFigure.addFigureListener(that.presentationFigureHandler);
     }
     return that;
