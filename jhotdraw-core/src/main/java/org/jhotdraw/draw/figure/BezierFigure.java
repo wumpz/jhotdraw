@@ -286,7 +286,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     this.setClosed(newValue.isClosed());
   }
 
-  public Point2D.Double getPointOnPath(float relative, double flatness) {
+  public Point2D.Double getPointOnPath(double relative, double flatness) {
     return path.getPointOnPath(relative, flatness);
   }
 

@@ -82,13 +82,10 @@ public class BezierLabelLocator implements Locator {
 
   /** Returns the coordinates of the relative point on the path of the specified bezier figure. */
   public Locator.Position getRelativePoint(BezierFigure owner, double scale) {
-    Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
+    Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
     Point2D.Double nextPoint =
         owner.getPointOnPath(
-            (relativePosition < 0.5)
-                ? (float) relativePosition + 0.1f
-                : (float) relativePosition - 0.1f,
-            3);
+            (relativePosition < 0.5) ? relativePosition + 0.1d : relativePosition - 0.1d, 3);
     double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
     if (relativePosition >= 0.5) {
       dir += Math.PI;
@@ -110,7 +107,7 @@ public class BezierLabelLocator implements Locator {
    */
   public Locator.Position getRelativeLabelPoint(BezierFigure owner, Figure label, double scale) {
     // Get a point on the path an the next point on the path
-    Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
+    Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
     Position position = getRelativePoint(owner, scale);
 
     // If there is a fixed origin, this locator should move the origin the the boundary midth.
