@@ -89,6 +89,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         double alignDeltaY =
             (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
 
+        // g2.draw(getBounds(AttributeKeys.getScaleFactorFromGraphics(g)));
+
         // Test if world to screen transformation mirrors the text. If so it tries to
         // unmirror it.
         if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
@@ -101,10 +103,13 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         } else {
           g2.transform(rotationMatrix());
         }
-        layout.draw(
-            g2,
-            (float) (origin.x - alignDeltaX),
-            (float) (origin.y + alignDeltaY + layout.getAscent()));
+
+        // to avoid float imprecisions
+        AffineTransform at2 = new AffineTransform();
+        at2.translate(origin.x, origin.y);
+        g2.transform(at2);
+
+        layout.draw(g2, (float) (-alignDeltaX), (float) (+alignDeltaY + layout.getAscent()));
       } finally {
         g2.dispose();
       }
