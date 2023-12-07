@@ -234,7 +234,7 @@ public class CreationTool extends AbstractTool {
           createdFigure.changed();
         }
         if (createdFigure instanceof CompositeFigure) {
-          ((CompositeFigure) createdFigure).layout(1.0);
+          ((CompositeFigure) createdFigure).layout(getView().getScaleFactor());
         }
         final Figure addedFigure = createdFigure;
         final Drawing addedDrawing = getDrawing();

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
@@ -54,6 +55,10 @@ public final class Attributes {
 
   public Attributes(AttributeListener listener, Supplier<List<Attributes>> dependent) {
     this.listener = listener;
+    this.DEPENDENT = dependent == null ? () -> Collections.emptyList() : dependent;
+  }
+
+  public void dependents(Supplier<List<Attributes>> dependent) {
     this.DEPENDENT = dependent == null ? () -> Collections.emptyList() : dependent;
   }
 
@@ -145,7 +150,8 @@ public final class Attributes {
       fireAttributeChanged(key, oldValue, newValue);
     }
 
-    DEPENDENT.get().forEach(a -> a.set(key, newValue));
+    DEPENDENT.get().forEach(a -> Optional.ofNullable(a)
+            .ifPresent(at -> at.set(key, newValue)));
     return this;
   }
 

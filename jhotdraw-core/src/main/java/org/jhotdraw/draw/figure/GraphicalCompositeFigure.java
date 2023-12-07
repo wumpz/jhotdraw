@@ -118,6 +118,18 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   public GraphicalCompositeFigure(Figure newPresentationFigure) {
     super();
     setPresentationFigure(newPresentationFigure);
+    initAttributeDependentSupplier();
+  }
+
+  private void initAttributeDependentSupplier() {
+    attr()
+        .dependents(
+            Attributes.attrSupplier(
+                () -> {
+                  var list = new ArrayList<>(this.getChildren());
+                  list.add(getPresentationFigure());
+                  return list;
+                }));
   }
 
   /**
@@ -267,6 +279,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   @SuppressWarnings("unchecked")
   public GraphicalCompositeFigure clone() {
     GraphicalCompositeFigure that = (GraphicalCompositeFigure) super.clone();
+    that.initAttributeDependentSupplier();
     that.presentationFigure =
         (this.presentationFigure == null) ? null : this.presentationFigure.clone();
     if (that.presentationFigure != null) {
