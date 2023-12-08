@@ -217,6 +217,7 @@ public final class Attributes {
   }
 
   public static Supplier<List<Attributes>> attrSupplier(Supplier<List<Figure>> dependent) {
-    return () -> dependent.get().stream().map(f -> f.attr()).collect(toList());
+    return () ->
+        dependent.get().stream().filter(f -> f != null).map(f -> f.attr()).collect(toList());
   }
 }
