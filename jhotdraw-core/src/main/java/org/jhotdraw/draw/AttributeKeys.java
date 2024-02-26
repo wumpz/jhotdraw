@@ -373,7 +373,14 @@ public class AttributeKeys {
     if (transform == null) {
       return 1.0;
     }
-    double scale = transform.getScaleX();
+    double scale = 0.0;
+
+    double sx = transform.getScaleX();
+    double shx = transform.getShearX();
+    if (sx != 0 || shx != 0) {
+      scale = Math.sqrt(sx * sx + shx * shx);
+    }
+
     return scale != 0 ? 1.0 / scale : 1.0;
   }
 
