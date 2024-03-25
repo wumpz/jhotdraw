@@ -8,7 +8,11 @@
 package org.jhotdraw.xml;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * {@code DefaultDOMFactory} can be used to serialize DOMStorable objects in a DOM with the use of a

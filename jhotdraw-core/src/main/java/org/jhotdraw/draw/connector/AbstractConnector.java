@@ -9,6 +9,7 @@ package org.jhotdraw.draw.connector;
 
 import java.awt.*;
 import java.awt.geom.*;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -22,10 +23,13 @@ import org.jhotdraw.geom.Geom;
 public class AbstractConnector implements Connector {
 
   private static final long serialVersionUID = 1L;
+
   /** The owner of the connector */
   private Figure owner;
+
   /** Whether we should connect to the figure or to its decorator. */
   private boolean isConnectToDecorator;
+
   /**
    * Whether the state of this connector is persistent. Set this to true only, when the user
    * interface allows to change the state of the connector.
@@ -132,10 +136,15 @@ public class AbstractConnector implements Connector {
   public void updateAnchor(Point2D.Double p) {}
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public final Rectangle2D.Double getBounds() {
+    return getBounds(AttributeKeys.scaleFromContext(owner));
+  }
+
+  @Override
+  public Rectangle2D.Double getBounds(double scale) {
     return isConnectToDecorator()
-        ? ((DecoratedFigure) getOwner()).getDecorator().getBounds()
-        : getOwner().getBounds();
+        ? ((DecoratedFigure) getOwner()).getDecorator().getBounds(scale)
+        : getOwner().getBounds(scale);
   }
 
   @Override

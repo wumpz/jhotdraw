@@ -18,8 +18,10 @@ import javax.swing.text.Document;
 public class JLifeFormattedTextArea extends JTextArea {
 
   private static final long serialVersionUID = 1L;
+
   /** This adapter is used for adapting Formatters to the JTextArea. */
   private JLifeFormattedTextField formattedTextFieldAdapter;
+
   /**
    * Forwards property change events from the formattedTextFieldAdapter to listeners of this object.
    */

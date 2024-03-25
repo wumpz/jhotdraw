@@ -71,6 +71,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
   }
 
   private EventHandler eventHandler = new EventHandler();
+
   /**
    * Last dragged mouse location. This variable is only non-null when the mouse is being pressed or
    * dragged.
@@ -79,11 +80,13 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
 
   private Handle masterHandle;
   private HandleMulticaster multicaster;
+
   /**
    * The hover handles, are the handles of the figure over which the mouse pointer is currently
    * hovering.
    */
   private final List<Handle> hoverHandles = new ArrayList<>();
+
   /** The hover Figure is the figure, over which the mouse is currently hovering. */
   private Figure hoverFigure = null;
 

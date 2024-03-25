@@ -32,20 +32,25 @@ import org.jhotdraw.draw.io.OutputFormat;
 public class SVGDrawingPanelSample extends javax.swing.JFrame {
 
   private static final long serialVersionUID = 1L;
+
   /** Holds the file chooser for opening a file. */
   private JFileChooser openChooser;
+
   /** Holds the file chooser for saving a file. */
   private JFileChooser saveChooser;
+
   /**
    * Maps file filters to input formats, so that we can determine the input format that the user
    * selected for opening a drawing.
    */
   private HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap;
+
   /**
    * Maps file filters to output formats, so that we can determine the output format that the user
    * selected for opening a drawing.
    */
   private HashMap<javax.swing.filechooser.FileFilter, OutputFormat> fileFilterOutputFormatMap;
+
   /** Holds the currently opened file. */
   private File file;
 
@@ -81,6 +86,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
     setJMenuBar(menuBar);
     pack();
   }
+
   // Code for dispatching events from components to event handlers.
   private class FormListener implements java.awt.event.ActionListener {
     FormListener() {}
@@ -93,6 +99,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
       }
     }
   } // </editor-fold>//GEN-END:initComponents
+
   /** Opens a drawing from a file. */
   private void open(java.awt.event.ActionEvent evt) { // GEN-FIRST:event_open
     JFileChooser fc = getOpenChooser();
@@ -141,6 +148,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
       }.execute();
     }
   } // GEN-LAST:event_open
+
   /** Saves a drawing to a file. */
   private void saveAs(java.awt.event.ActionEvent evt) { // GEN-FIRST:event_saveAs
     JFileChooser fc = getSaveChooser();
@@ -189,6 +197,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
       }.execute();
     }
   } // GEN-LAST:event_saveAs
+
   /** Lazily creates a JFileChooser and returns it. */
   private JFileChooser getOpenChooser() {
     if (openChooser == null) {
@@ -261,6 +270,7 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
           }
         });
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JMenu fileMenu;
   private javax.swing.JMenuBar menuBar;

@@ -371,6 +371,7 @@ public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIR
       java.awt.event.FocusEvent evt) { // GEN-FIRST:event_cyanFieldFocusLost
     cyanField.setText(Integer.toString(ccModel.getBoundedRangeModel(0).getValue()));
   } // GEN-LAST:event_cyanFieldFocusLost
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JTextField blackField;
   private javax.swing.JLabel blackFieldLabel;

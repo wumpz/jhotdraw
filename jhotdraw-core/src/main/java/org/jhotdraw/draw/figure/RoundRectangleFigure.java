@@ -32,8 +32,10 @@ import org.jhotdraw.geom.Geom;
 public class RoundRectangleFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** Identifies the {@code arcWidth} JavaBeans property. */
   public static final String ARC_WIDTH_PROPERTY = "arcWidth";
+
   /** Identifies the {@code arcHeight} JavaBeans property. */
   public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
 
@@ -83,14 +85,14 @@ public class RoundRectangleFigure extends AbstractAttributedFigure {
 
   // SHAPE AND BOUNDS
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) roundrect.getBounds2D();
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D.Double r = (Rectangle2D.Double) roundrect.getBounds2D();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1;
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale) + 1;
     Geom.grow(r, grow, grow);
     return r;
   }

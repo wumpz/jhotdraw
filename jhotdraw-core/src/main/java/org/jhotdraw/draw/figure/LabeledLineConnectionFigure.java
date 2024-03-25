@@ -46,6 +46,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   private Layouter layouter;
   private List<Figure> children = new ArrayList<>();
   private transient Rectangle2D.Double cachedDrawingArea;
+
   /** Handles figure changes in the children. */
   private ChildHandler childHandler = new ChildHandler(this);
 
@@ -113,12 +114,12 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
-      cachedDrawingArea = super.getDrawingArea();
+      cachedDrawingArea = super.getDrawingArea(scale);
       for (Figure child : getChildrenFrontToBack()) {
         if (child.isVisible()) {
-          Rectangle2D.Double childBounds = child.getDrawingArea();
+          Rectangle2D.Double childBounds = child.getDrawingArea(scale);
           if (!childBounds.isEmpty()) {
             cachedDrawingArea.add(childBounds);
           }
@@ -301,14 +302,15 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
    * Layouter which can be plugged in at runtime.
    */
   @Override
-  public void layout() {
+  public void layout(double scale) {
     if (getLayouter() != null) {
-      Rectangle2D.Double bounds = getBounds();
+      Rectangle2D.Double bounds = getBounds(scale);
       Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
-      getLayouter().layout(this, p, p);
+      getLayouter().layout(this, p, p, scale);
       invalidate();
     }
   }
+
   // EVENT HANDLING
 
   @Override

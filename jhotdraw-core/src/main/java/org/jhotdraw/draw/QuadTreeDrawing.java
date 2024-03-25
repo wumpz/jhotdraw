@@ -219,8 +219,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   public List<Figure> findFiguresWithin(Rectangle2D.Double bounds) {
     List<Figure> contained = new ArrayList<>();
+    double scale = AttributeKeys.scaleFromContext(this);
     for (Figure f : CHILDREN) {
-      Rectangle2D.Double r = f.getBounds();
+      Rectangle2D.Double r = f.getBounds(scale);
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
         r =
@@ -252,11 +253,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
       fireDrawingChanged(figure.getDrawingArea());
     }
   }
-
-  //  @Override
-  //  public boolean contains(Figure f) {
-  //    return children.contains(f);
-  //  }
 
   /** Ensures that the children are sorted in z-order sequence. */
   private void ensureSorted() {

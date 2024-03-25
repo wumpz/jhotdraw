@@ -43,16 +43,22 @@ public class BezierTool extends AbstractTool {
   private Boolean finishWhenMouseReleased;
   protected Map<AttributeKey<?>, Object> attributes;
   private boolean isToolDoneAfterCreation;
+
   /** The prototype for new figures. */
   private BezierFigure prototype;
+
   /** The created figure. */
   protected BezierFigure createdFigure;
 
+  protected Figure addedFigure;
+
   private int nodeCountBeforeDrag;
+
   /** A localized name for this tool. The presentationName is displayed by the UndoableEdit. */
   private String presentationName;
 
   private Point mouseLocation;
+
   /** Holds the view on which we are currently creating a figure. */
   private DrawingView creationView;
 
@@ -143,7 +149,7 @@ public class BezierTool extends AbstractTool {
                   : creationView
                       .getConstrainer()
                       .constrainPoint(creationView.viewToDrawing(anchor), createdFigure)));
-      getDrawing().add(createdFigure);
+      getDrawing().add(processCreatedFigureBeforeAddingToDocument(createdFigure));
     } else {
       if (evt.getClickCount() == 1) {
         addPointToFigure(
@@ -155,6 +161,11 @@ public class BezierTool extends AbstractTool {
       }
     }
     nodeCountBeforeDrag = createdFigure.getNodeCount();
+  }
+
+  protected Figure processCreatedFigureBeforeAddingToDocument(Figure figure) {
+    addedFigure = figure;
+    return figure;
   }
 
   @SuppressWarnings("unchecked")
@@ -233,7 +244,7 @@ public class BezierTool extends AbstractTool {
   }
 
   protected void fireUndoEvent(Figure createdFigure, DrawingView creationView) {
-    final Figure addedFigure = createdFigure;
+    final Figure addedFigure = this.addedFigure;
     final Drawing addedDrawing = creationView.getDrawing();
     final DrawingView addedView = creationView;
     getDrawing()

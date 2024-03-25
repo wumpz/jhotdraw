@@ -18,6 +18,7 @@ public class LFWriter extends FilterWriter {
 
   /** Line separator string. */
   private String lineSeparator = "\n";
+
   /** If the next character is a line feed, skip it */
   private boolean skipLF;
 

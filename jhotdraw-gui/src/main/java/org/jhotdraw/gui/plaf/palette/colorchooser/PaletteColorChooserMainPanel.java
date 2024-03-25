@@ -17,6 +17,7 @@ import org.jhotdraw.gui.plaf.palette.PaletteTabbedPaneUI;
 public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * We store here the name of the last selected chooser. When the ColorChooserMainPanel is
    * recreated multiple times in the same applicatin, the application 'remembers' which panel the
@@ -64,6 +65,7 @@ public class PaletteColorChooserMainPanel extends javax.swing.JPanel {
     tabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
     add(tabbedPane, java.awt.BorderLayout.CENTER);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JTabbedPane tabbedPane;
   private javax.swing.ButtonGroup toolBarButtonGroup;

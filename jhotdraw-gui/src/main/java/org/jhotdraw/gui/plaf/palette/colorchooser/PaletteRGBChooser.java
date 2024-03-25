@@ -277,6 +277,7 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
       java.awt.event.FocusEvent evt) { // GEN-FIRST:event_redFieldFocusLost
     redField.setText(Integer.toString(ccModel.getBoundedRangeModel(0).getValue()));
   } // GEN-LAST:event_redFieldFocusLost
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JTextField blueField;
   private javax.swing.JLabel blueLabel;

@@ -36,4 +36,6 @@ public interface ToolListener extends EventListener {
 
   /** Sent when the tool has edited an area outside of the bounds of the canvas. */
   public void boundsInvalidated(ToolEvent e);
+
+  public void figureCreated(FigureCreatedEvent e);
 }

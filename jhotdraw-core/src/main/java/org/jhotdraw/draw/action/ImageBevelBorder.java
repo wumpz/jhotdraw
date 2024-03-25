@@ -25,12 +25,16 @@ import javax.swing.border.*;
 public class ImageBevelBorder implements Border {
 
   private static final boolean VERBOSE = false;
+
   /** The image to be used for drawing. */
   private BufferedImage image;
+
   /** The border insets */
   private Insets borderInsets;
+
   /** The insets of the image. */
   private Insets imageInsets;
+
   /** This attribute is set to true, when the image is used to fill the content area too. */
   private boolean fillContentArea;
 

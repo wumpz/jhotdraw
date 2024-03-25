@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
@@ -34,6 +35,7 @@ import org.jhotdraw.draw.AttributeKeys;
 public final class Attributes {
 
   private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
+
   /**
    * Forbidden attributes can't be put by the put() operation. They can only be changed by put().
    */
@@ -53,6 +55,10 @@ public final class Attributes {
 
   public Attributes(AttributeListener listener, Supplier<List<Attributes>> dependent) {
     this.listener = listener;
+    this.DEPENDENT = dependent == null ? () -> Collections.emptyList() : dependent;
+  }
+
+  public void dependents(Supplier<List<Attributes>> dependent) {
     this.DEPENDENT = dependent == null ? () -> Collections.emptyList() : dependent;
   }
 
@@ -77,19 +83,14 @@ public final class Attributes {
     return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
   }
 
-  /** Set attributes from map. */
   public void setAttributes(Map<AttributeKey<?>, Object> map) {
     for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
       set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
   }
 
-  /**
-   * Returns a view to all attributes of this figure. By convention, an unmodifiable map is
-   * returned.
-   */
   public Map<AttributeKey<?>, Object> getAttributes() {
-    return (Map<AttributeKey<?>, Object>) new HashMap<>(attributes);
+    return Collections.unmodifiableMap(attributes);
   }
 
   /**
@@ -122,8 +123,7 @@ public final class Attributes {
       }
     } else {
       attributes.clear();
-      HashMap<AttributeKey<?>, Object> restoreDataHashMap =
-          (HashMap<AttributeKey<?>, Object>) restoreData;
+      Map<AttributeKey<?>, Object> restoreDataHashMap = (Map<AttributeKey<?>, Object>) restoreData;
       setAttributes(restoreDataHashMap);
     }
   }
@@ -144,13 +144,14 @@ public final class Attributes {
    *
    * @see AttributeKey#set
    */
-  public <T> void set(AttributeKey<T> key, T newValue) {
+  public <T> Attributes set(final AttributeKey<T> key, final T newValue) {
     if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
       T oldValue = key.put(attributes, newValue);
       fireAttributeChanged(key, oldValue, newValue);
     }
 
-    DEPENDENT.get().forEach(a -> a.set(key, newValue));
+    DEPENDENT.get().forEach(a -> Optional.ofNullable(a).ifPresent(at -> at.set(key, newValue)));
+    return this;
   }
 
   /**
@@ -216,6 +217,7 @@ public final class Attributes {
   }
 
   public static Supplier<List<Attributes>> attrSupplier(Supplier<List<Figure>> dependent) {
-    return () -> dependent.get().stream().map(f -> f.attr()).collect(toList());
+    return () ->
+        dependent.get().stream().filter(f -> f != null).map(f -> f.attr()).collect(toList());
   }
 }

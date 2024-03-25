@@ -7,7 +7,13 @@
  */
 package org.jhotdraw.draw.figure;
 
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.END_DECORATION;
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.PATH_CLOSED;
+import static org.jhotdraw.draw.AttributeKeys.START_DECORATION;
+import static org.jhotdraw.draw.AttributeKeys.STROKE_MITER_LIMIT;
+import static org.jhotdraw.draw.AttributeKeys.UNCLOSED_PATH_FILLED;
+import static org.jhotdraw.draw.AttributeKeys.WINDING_RULE;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -60,11 +66,14 @@ public class BezierFigure extends AbstractAttributedFigure {
   private static final long serialVersionUID = 1L;
 
   protected BezierPath path;
+
   /**
    * The cappedPath BezierPath is derived from variable path. We cache it to increase the drawing
-   * speed of the figure.
+   * speed of the figure. The factor could influence the cappedPath due to Arrow sizes.
    */
   private transient BezierPath cappedPath;
+
+  private transient double cappedPathFactor;
 
   /**
    * Creates an empty <code>BezierFigure</code>, for example without any <code>BezierPath.Node
@@ -120,7 +129,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         g.draw(gs.createStrokedShape(path));
       }
     } else {
-      g.draw(getCappedPath());
+      g.draw(getCappedPath(AttributeKeys.getScaleFactorFromGraphics(g)));
     }
     drawCaps(g);
   }
@@ -128,7 +137,7 @@ public class BezierFigure extends AbstractAttributedFigure {
   protected void drawCaps(Graphics2D g) {
     if (getNodeCount() > 1) {
       if (attr().get(START_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(AttributeKeys.getScaleFactorFromGraphics(g));
         Point2D.Double p1 = path.get(0, 0);
         Point2D.Double p2 = cp.get(0, 0);
         if (p2.equals(p1)) {
@@ -137,7 +146,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         attr().get(START_DECORATION).draw(g, this, p1, p2);
       }
       if (attr().get(END_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(AttributeKeys.getScaleFactorFromGraphics(g));
         Point2D.Double p1 = path.get(path.size() - 1, 0);
         Point2D.Double p2 = cp.get(path.size() - 1, 0);
         if (p2.equals(p1)) {
@@ -169,12 +178,13 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
-    double tolerance = Math.max(2f, AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) / 2d);
+    double tolerance =
+        Math.max(1f, 2 * AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator));
     if (isClosed() || attr().get(FILL_COLOR) != null && attr().get(UNCLOSED_PATH_FILLED)) {
       if (path.contains(p)) {
         return true;
       }
-      double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator) * 2d;
+      double grow = tolerance;
       GrowStroke gs =
           new GrowStroke(
               grow,
@@ -189,11 +199,11 @@ public class BezierFigure extends AbstractAttributedFigure {
       }
     }
     if (!isClosed()) {
-      if (getCappedPath().outlineContains(p, tolerance)) {
+      if (getCappedPath(scaleDenominator).outlineContains(p, tolerance)) {
         return true;
       }
       if (attr().get(START_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(scaleDenominator);
         Point2D.Double p1 = path.get(0, 0);
         Point2D.Double p2 = cp.get(0, 0);
         // FIXME - Check here, if caps path contains the point
@@ -202,7 +212,7 @@ public class BezierFigure extends AbstractAttributedFigure {
         }
       }
       if (attr().get(END_DECORATION) != null) {
-        BezierPath cp = getCappedPath();
+        BezierPath cp = getCappedPath(scaleDenominator);
         Point2D.Double p1 = path.get(path.size() - 1, 0);
         Point2D.Double p2 = cp.get(path.size() - 1, 0);
         // FIXME - Check here, if caps path contains the point
@@ -236,7 +246,7 @@ public class BezierFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Rectangle2D.Double bounds = path.getBounds2D();
     return bounds;
   }
@@ -248,12 +258,12 @@ public class BezierFigure extends AbstractAttributedFigure {
       if (attr().get(START_DECORATION) != null) {
         Point2D.Double p1 = getPoint(0, 0);
         Point2D.Double p2 = getPoint(1, 0);
-        r.add(attr().get(START_DECORATION).getDrawingArea(this, p1, p2));
+        r.add(attr().get(START_DECORATION).getDrawingArea(this, p1, p2, factor));
       }
       if (attr().get(END_DECORATION) != null) {
         Point2D.Double p1 = getPoint(getNodeCount() - 1, 0);
         Point2D.Double p2 = getPoint(getNodeCount() - 2, 0);
-        r.add(attr().get(END_DECORATION).getDrawingArea(this, p1, p2));
+        r.add(attr().get(END_DECORATION).getDrawingArea(this, p1, p2, factor));
       }
     }
     return r;
@@ -276,7 +286,7 @@ public class BezierFigure extends AbstractAttributedFigure {
     this.setClosed(newValue.isClosed());
   }
 
-  public Point2D.Double getPointOnPath(float relative, double flatness) {
+  public Point2D.Double getPointOnPath(double relative, double flatness) {
     return path.getPointOnPath(relative, flatness);
   }
 
@@ -331,9 +341,10 @@ public class BezierFigure extends AbstractAttributedFigure {
   /**
    * Returns a path which is cappedPath at the ends, to prevent it from drawing under the end caps.
    */
-  protected BezierPath getCappedPath() {
-    if (cappedPath == null) {
+  protected BezierPath getCappedPath(double factor) {
+    if (cappedPath == null || factor != cappedPathFactor) {
       cappedPath = path.clone();
+      cappedPathFactor = factor;
       if (isClosed()) {
         cappedPath.setClosed(true);
       } else {
@@ -349,7 +360,7 @@ public class BezierFigure extends AbstractAttributedFigure {
             } else {
               pp = p1.getControlPoint(0);
             }
-            double radius = attr().get(START_DECORATION).getDecorationRadius(this);
+            double radius = attr().get(START_DECORATION).getDecorationRadius(this, factor);
             double lineLength = Geom.length(p0.getControlPoint(0), pp);
             cappedPath.set(
                 0, 0, Geom.cap(pp, p0.getControlPoint(0), -Math.min(radius, lineLength)));
@@ -365,7 +376,7 @@ public class BezierFigure extends AbstractAttributedFigure {
             } else {
               pp = p1.getControlPoint(0);
             }
-            double radius = attr().get(END_DECORATION).getDecorationRadius(this);
+            double radius = attr().get(END_DECORATION).getDecorationRadius(this, factor);
             double lineLength = Geom.length(p0.getControlPoint(0), pp);
             cappedPath.set(
                 cappedPath.size() - 1,
@@ -568,14 +579,16 @@ public class BezierFigure extends AbstractAttributedFigure {
 
   public Point2D.Double chop(Point2D.Double p) {
     if (isClosed()) {
-      double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+      double grow =
+          AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
       if (grow == 0d) {
         return path.chop(p);
       } else {
         GrowStroke gs =
             new GrowStroke(
                 grow,
-                AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT));
+                AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
+                    * attr().get(STROKE_MITER_LIMIT));
         return Geom.chop(gs.createStrokedShape(path), p);
       }
     } else {

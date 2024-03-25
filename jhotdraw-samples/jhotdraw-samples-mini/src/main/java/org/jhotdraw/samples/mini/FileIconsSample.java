@@ -91,7 +91,7 @@ public class FileIconsSample {
               gcf.attr().set(COMPOSITE_ALIGNMENT, Alignment.CENTER);
               gcf.add(imf);
               gcf.add(tef);
-              gcf.layout();
+              gcf.layout(1.0);
               // Lay out the graphical composite figures on the drawing
               if (i++ % maxColumn == 0) {
                 ty += rowHeight + 20;

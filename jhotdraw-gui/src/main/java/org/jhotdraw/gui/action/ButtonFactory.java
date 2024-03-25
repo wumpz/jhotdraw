@@ -187,6 +187,7 @@ public class ButtonFactory {
   }
 
   public static final int DEFAULT_COLORS_COLUMN_COUNT = 8;
+
   /**
    * Websave color palette as used by Macromedia Fireworks. This palette has 19 columns. The
    * leftmost column contains a redundant set of color icons to make selection of gray scales and of
@@ -221,6 +222,7 @@ public class ButtonFactory {
   }
 
   public static final int WEBSAVE_COLORS_COLUMN_COUNT = 19;
+
   /**
    * HSB color palette with a set of colors chosen based on a physical criteria.
    *
@@ -260,6 +262,7 @@ public class ButtonFactory {
   public static final java.util.List<ColorIcon> HSB_COLORS;
 
   public static final int HSB_COLORS_COLUMN_COUNT = 12;
+
   /**
    * This is the same palette as HSB_COLORS, but all color values are specified in the sRGB color
    * space.

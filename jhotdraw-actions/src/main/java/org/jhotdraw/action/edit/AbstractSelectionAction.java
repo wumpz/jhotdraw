@@ -37,8 +37,10 @@ import org.jhotdraw.beans.WeakPropertyChangeListener;
 public abstract class AbstractSelectionAction extends AbstractAction {
 
   private static final long serialVersionUID = 1L;
+
   /** The target of the action or null if the action acts on the currently focused component. */
   protected JComponent target;
+
   /** This variable keeps a strong reference on the property change listener. */
   private PropertyChangeListener propertyHandler;
 

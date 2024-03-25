@@ -7,31 +7,42 @@
  */
 package org.jhotdraw.undo;
 
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Locale;
 import java.util.logging.Logger;
-import javax.swing.*;
-import javax.swing.undo.*;
-import org.jhotdraw.util.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.CompoundEdit;
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEdit;
+import org.jhotdraw.util.ResourceBundleUtil;
 
 /** Same as javax.swing.UndoManager but provides actions for undo and redo operations. */
 public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManager {
 
   private static final long serialVersionUID = 1L;
   protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
+
   /** The resource bundle used for internationalisation. */
   private static ResourceBundleUtil labels;
+
   /**
    * This flag is set to true when at least one significant UndoableEdit has been added to the
    * manager since the last call to discardAllEdits.
    */
   private boolean hasSignificantEdits = false;
+
   /**
    * This flag is set to true when an undo or redo operation is in progress. The UndoRedoManager
    * ignores all incoming UndoableEdit events while this flag is true.
    */
   private boolean undoOrRedoInProgress;
+
   /**
    * Sending this UndoableEdit event to the UndoRedoManager disables the Undo and Redo functions of
    * the manager.
@@ -93,8 +104,10 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
       }
     }
   }
+
   /** The undo action instance. */
   private UndoAction undoAction;
+
   /** The redo action instance. */
   private RedoAction redoAction;
 

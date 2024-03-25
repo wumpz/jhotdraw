@@ -101,6 +101,7 @@ public class MessagePanel extends javax.swing.JPanel {
       l.actionPerformed(evt);
     }
   } // GEN-LAST:event_closePerformed
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton closeButton;
   private javax.swing.JLabel iconLabel;

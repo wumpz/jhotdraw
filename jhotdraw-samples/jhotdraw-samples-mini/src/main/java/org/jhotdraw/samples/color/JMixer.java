@@ -749,6 +749,7 @@ public class JMixer extends javax.swing.JPanel {
       m.set(m.getBase(), preset.getColor());
     }
   } // GEN-LAST:event_presetPerformed
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JCheckBox achromaticCheck;
   private org.jhotdraw.gui.JLifeFormattedTextField achromaticField;

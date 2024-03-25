@@ -42,12 +42,16 @@ import org.jhotdraw.draw.handle.Handle;
 public class SelectionTool extends AbstractTool {
 
   private static final long serialVersionUID = 1L;
+
   /** The tracker encapsulates the current state of the SelectionTool. */
   private Tool tracker;
+
   /** The tracker encapsulates the current state of the SelectionTool. */
   private HandleTracker handleTracker;
+
   /** The tracker encapsulates the current state of the SelectionTool. */
   private SelectAreaTracker selectAreaTracker;
+
   /** The tracker encapsulates the current state of the SelectionTool. */
   private DragTracker dragTracker;
 
@@ -85,8 +89,10 @@ public class SelectionTool extends AbstractTool {
   }
 
   private TrackerHandler trackerHandler;
+
   /** Constant for the name of the selectBehindEnabled property. */
   public static final String SELECT_BEHIND_ENABLED_PROPERTY = "selectBehindEnabled";
+
   /**
    * Represents the state of the selectBehindEnabled property. By default, this property is set to
    * true.

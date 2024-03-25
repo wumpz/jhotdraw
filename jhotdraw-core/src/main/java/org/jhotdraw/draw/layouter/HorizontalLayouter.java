@@ -33,12 +33,12 @@ public class HorizontalLayouter extends AbstractLayouter {
 
   @Override
   public Rectangle2D.Double calculateLayout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Insets2D.Double layoutInsets = compositeFigure.attr().get(LAYOUT_INSETS);
     Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
     for (Figure child : compositeFigure.getChildren()) {
       if (child.isVisible()) {
-        Dimension2DDouble preferredSize = child.getPreferredSize();
+        Dimension2DDouble preferredSize = child.getPreferredSize(scale);
         Insets2D.Double ins = getInsets(child);
         layoutBounds.height =
             Math.max(layoutBounds.height, preferredSize.height + ins.top + ins.bottom);
@@ -52,16 +52,16 @@ public class HorizontalLayouter extends AbstractLayouter {
 
   @Override
   public Rectangle2D.Double layout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Insets2D.Double layoutInsets = compositeFigure.attr().get(LAYOUT_INSETS);
     Alignment compositeAlignment = compositeFigure.attr().get(COMPOSITE_ALIGNMENT);
-    Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead);
+    Rectangle2D.Double layoutBounds = calculateLayout(compositeFigure, anchor, lead, scale);
     double x = layoutBounds.x + layoutInsets.left;
     for (Figure child : compositeFigure.getChildren()) {
       if (child.isVisible()) {
         Insets2D.Double insets = getInsets(child);
-        double width = child.getPreferredSize().width;
-        double height = child.getPreferredSize().height;
+        double width = child.getPreferredSize(scale).width;
+        double height = child.getPreferredSize(scale).height;
         // --
         switch (compositeAlignment) {
           case LEADING:

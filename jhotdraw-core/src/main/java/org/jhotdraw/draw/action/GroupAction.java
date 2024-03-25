@@ -27,6 +27,7 @@ public class GroupAction extends AbstractSelectedAction {
   private static final long serialVersionUID = 1L;
   public static final String ID = "edit.groupSelection";
   private CompositeFigure prototype;
+
   /**
    * If this variable is true, this action groups figures. If this variable is false, this action
    * ungroups figures.
@@ -158,7 +159,7 @@ public class GroupAction extends AbstractSelectedAction {
     int index = view.getDrawing().indexOf(sorted.iterator().next());
     view.getDrawing().basicRemoveAll(figures);
     view.clearSelection();
-    view.getDrawing().add(index, group);
+    view.getDrawing().add(index > view.getDrawing().getChildCount() ? 0 : index, group);
     group.willChange();
     for (Figure f : sorted) {
       f.willChange();

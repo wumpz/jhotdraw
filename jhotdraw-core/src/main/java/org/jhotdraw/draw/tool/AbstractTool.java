@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.event.FigureCreatedEvent;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.figure.Figure;
@@ -34,8 +35,10 @@ import org.jhotdraw.draw.handle.Handle;
 public abstract class AbstractTool extends AbstractBean implements Tool {
 
   private static final long serialVersionUID = 1L;
+
   /** This is set to true, if this is the active tool of the editor. */
   private boolean isActive;
+
   /**
    * This is set to true, while the tool is doing some work. This prevents the currentView from
    * being changed when a mouseEnter event is received.
@@ -46,12 +49,14 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   protected Point anchor = new Point();
   protected EventListenerList listenerList = new EventListenerList();
   private DrawingEditorProxy editorProxy;
+
   /*
   private PropertyChangeListener editorHandler;
   private PropertyChangeListener viewHandler;
   */
   /** The input map of the tool. */
   private InputMap inputMap;
+
   /** The action map of the tool. */
   private ActionMap actionMap;
 
@@ -400,6 +405,19 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
           event = new ToolEvent(this, getView(), invalidatedArea);
         }
         ((ToolListener) listeners[i + 1]).boundsInvalidated(event);
+      }
+    }
+  }
+
+  protected void fireFigureCreated(Figure figure) {
+    FigureCreatedEvent event = null;
+    Object[] listeners = listenerList.getListenerList();
+    for (int i = listeners.length - 2; i >= 0; i -= 2) {
+      if (listeners[i] == ToolListener.class) {
+        if (event == null) {
+          event = new FigureCreatedEvent(this, getView(), figure);
+        }
+        ((ToolListener) listeners[i + 1]).figureCreated(event);
       }
     }
   }

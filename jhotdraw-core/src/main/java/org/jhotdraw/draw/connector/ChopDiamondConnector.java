@@ -10,6 +10,7 @@ package org.jhotdraw.draw.connector;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.geom.*;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.DiamondFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
@@ -52,7 +53,8 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
         break;
       case OUTSIDE:
         double lineLength = Math.sqrt(r.width * r.width + r.height * r.height);
-        double scale = getStrokeTotalWidth(target, 1.0) * 2d / lineLength;
+        double scale =
+            getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target)) * 2d / lineLength;
         growx = scale * r.height;
         growy = scale * r.width;
         // growy = getStrokeTotalWidth() * SQRT2;
@@ -60,7 +62,7 @@ public class ChopDiamondConnector extends ChopRectangleConnector {
       case CENTER:
       default:
         lineLength = Math.sqrt(r.width * r.width + r.height * r.height);
-        scale = getStrokeTotalWidth(target, 1.0) / lineLength;
+        scale = getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target)) / lineLength;
         growx = scale * r.height;
         growy = scale * r.width;
         // growx = growy = getStrokeTotalWidth() / 2d * SQRT2;

@@ -62,6 +62,13 @@ public interface Connector extends Cloneable, Serializable {
   public Rectangle2D.Double getBounds();
 
   /**
+   * Gets the bounds of the connector. This usually are the bounds of the Figure which owns the
+   * Connector. The bounds can differ from the Figure bounds, if the Connector connects to a
+   * specific region of the Figure.
+   */
+  public Rectangle2D.Double getBounds(double scale);
+
+  /**
    * Updates the anchor of the connector. This method is called when the user manually changes the
    * end point of the ConnectionFigure. The Connector uses this as a hint for choosing a new anchor
    * position.

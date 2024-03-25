@@ -26,10 +26,13 @@ public class BezierPathIterator implements PathIterator {
 
   /** Index of the next node. */
   private int index = 0;
+
   /** The bezier path. */
   private BezierPath path;
+
   /** The transformation. */
   private AffineTransform affine;
+
   /** ?? */
   private static final int CURVE_SIZE[] = {2, 2, 4, 6, 0};
 

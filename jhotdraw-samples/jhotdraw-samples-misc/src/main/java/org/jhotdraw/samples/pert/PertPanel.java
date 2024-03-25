@@ -188,6 +188,7 @@ public class PertPanel extends JPanel {
         "edit.createTextArea",
         drawLabels);
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JToolBar attributesToolbar;
   private javax.swing.JToolBar creationToolbar;

@@ -8,10 +8,14 @@
 package org.jhotdraw.draw.layouter;
 
 import java.awt.geom.*;
+import java.util.List;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.Origin;
+import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.draw.locator.Locator;
+import org.jhotdraw.draw.locator.Locator.Position;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
@@ -31,17 +35,17 @@ public class LocatorLayouter implements Layouter {
 
   @Override
   public Rectangle2D.Double calculateLayout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Rectangle2D.Double bounds = null;
-    for (Figure child : compositeFigure.getChildren()) {
+    for (Figure child : extractFiguresToLayout(compositeFigure)) {
       Locator locator = getLocator(child);
       Rectangle2D.Double r;
       if (locator == null) {
         r = child.getBounds();
       } else {
-        Point2D.Double p = locator.locate(compositeFigure);
-        Dimension2DDouble d = child.getPreferredSize();
-        r = new Rectangle2D.Double(p.x, p.y, d.width, d.height);
+        Position p = locator.locate(extractBaseFigure(compositeFigure), scale);
+        Dimension2DDouble d = child.getPreferredSize(scale);
+        r = new Rectangle2D.Double(p.location().x, p.location().y, d.width, d.height);
       }
       if (!r.isEmpty()) {
         if (bounds == null) {
@@ -56,22 +60,42 @@ public class LocatorLayouter implements Layouter {
 
   @Override
   public Rectangle2D.Double layout(
-      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure compositeFigure, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Rectangle2D.Double bounds = null;
-    for (Figure child : compositeFigure.getChildren()) {
+    for (Figure child : extractFiguresToLayout(compositeFigure)) {
       Locator locator = getLocator(child);
       Rectangle2D.Double r;
+      Position position = null;
       if (locator == null) {
         r = child.getBounds();
       } else {
-        Point2D.Double p = locator.locate(compositeFigure, child);
-        Dimension2DDouble d = child.getPreferredSize();
-        r = new Rectangle2D.Double(p.x, p.y, d.width, d.height);
+        position = locator.locate(extractBaseFigure(compositeFigure), child, scale);
+        if (Double.isNaN(position.location().x)) {
+          continue;
+        }
+        Dimension2DDouble d = child.getPreferredSize(scale);
+        r = new Rectangle2D.Double(position.location().x, position.location().y, d.width, d.height);
       }
       child.willChange();
-      child.setBounds(
-          new Point2D.Double(r.getMinX(), r.getMinY()),
-          new Point2D.Double(r.getMaxX(), r.getMaxY()));
+
+      if (position != null && child instanceof Origin originChild) {
+        originChild.setOrigin(position.location());
+      } else {
+        child.setBounds(
+            new Point2D.Double(r.getMinX(), r.getMinY()),
+            new Point2D.Double(r.getMaxX(), r.getMaxY()));
+      }
+      if (position != null) {
+        if (child instanceof Rotation rotateChild) {
+          rotateChild.setRotation(position.angle());
+        } else {
+          ((Figure) child)
+              .transform(
+                  AffineTransform.getRotateInstance(
+                      -position.angle(), position.location().x, position.location().y));
+        }
+      }
+
       child.changed();
       if (!r.isEmpty()) {
         if (bounds == null) {
@@ -86,5 +110,40 @@ public class LocatorLayouter implements Layouter {
 
   private Locator getLocator(Figure f) {
     return f.attr().get(LAYOUT_LOCATOR);
+  }
+
+  /**
+   * Filters the Elements used as a base to layout subcomponents. Default element is the composite
+   * figure itself. However one could use the first element of a composite figure to use as the main
+   * element and layout the remaining children.
+   *
+   * @param compositeFigure
+   * @return
+   */
+  public Figure extractBaseFigure(CompositeFigure compositeFigure) {
+    return compositeFigure;
+  }
+
+  /**
+   * Using extractBaseFigure one could mark one child as the main element and layout the remaining
+   * elements.
+   */
+  public List<Figure> extractFiguresToLayout(CompositeFigure compositeFigure) {
+    return compositeFigure.getChildren();
+  }
+
+  /** Layout main element is first child. Other childs are layouted. */
+  public static class LocatorLayouterFirstFigure extends LocatorLayouter {
+
+    @Override
+    public List<Figure> extractFiguresToLayout(CompositeFigure compositeFigure) {
+      List<Figure> figures = compositeFigure.getChildren();
+      return figures.subList(1, figures.size());
+    }
+
+    @Override
+    public Figure extractBaseFigure(CompositeFigure compositeFigure) {
+      return compositeFigure.getChildren().get(0);
+    }
   }
 }

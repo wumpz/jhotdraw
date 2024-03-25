@@ -22,23 +22,31 @@ public abstract class AbstractView extends JPanel implements View {
 
   private static final long serialVersionUID = 1L;
   private Application application;
+
   /**
    * The executor used to perform background tasks for the View in a controlled manner. This
    * executor ensures that all background tasks are executed sequentually.
    */
   protected ExecutorService executor;
+
   /** This is set to true, if the view has unsaved changes. */
   private boolean hasUnsavedChanges;
+
   /** The preferences of the view. */
   protected Preferences preferences;
+
   /** This id is used to make multiple open views of the same URI identifiable. */
   private int multipleOpenId = 1;
+
   /** This is set to true, if the view is showing. */
   private boolean isShowing;
+
   /** The title of the view. */
   private String title;
+
   /** List of objects that need to be disposed when this view is disposed. */
   private LinkedList<Disposable> disposables;
+
   /**
    * The URI of the view. Has a null value, if the view has not been loaded from a URI or has not
    * been saved yet.
@@ -117,6 +125,7 @@ public abstract class AbstractView extends JPanel implements View {
   private void initComponents() {
     setLayout(new java.awt.BorderLayout());
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables
   @Override

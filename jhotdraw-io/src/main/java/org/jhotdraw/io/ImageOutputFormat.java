@@ -9,17 +9,26 @@ package org.jhotdraw.io;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.io.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.datatransfer.Transferable;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
-import javax.imageio.*;
-import javax.swing.*;
+import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.jhotdraw.datatransfer.ImageTransferable;
-import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.OutputFormat;
 
@@ -31,10 +40,13 @@ public class ImageOutputFormat implements OutputFormat {
 
   /** Format description used for the file filter. */
   private String description;
+
   /** File name extension used for the file filter. */
   private String fileExtension;
+
   /** Image IO image format name. */
   private String formatName;
+
   /**
    * The image type must match the output format, for example, PNG supports
    * BufferedImage.TYPE_INT_ARGB whereas GIF needs BufferedImage.TYPE_

@@ -12,9 +12,11 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
 import java.util.*;
+import java.util.function.Consumer;
 import javax.swing.*;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
+import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.event.FigureListener;
@@ -95,15 +97,18 @@ import org.jhotdraw.geom.Dimension2DDouble;
  * {@code Locator} encapsulates a strategy for locating a point on a {@code Figure}.<br>
  * Strategy: {@link org.jhotdraw.draw.locator.Locator}; Context: {@link Figure}. <hr>
  */
-public interface Figure extends Cloneable, Serializable {
+public interface Figure extends AttributeProvider, Cloneable, Serializable {
 
   // PROPERTIES
   /** The name of the "connectable" property. */
   public static final String CONNECTABLE_PROPERTY = "connectable";
+
   /** The name of the "removable" property. */
   public static final String REMOVABLE_PROPERTY = "removable";
+
   /** The name of the "selectable" property. */
   public static final String SELECTABLE_PROPERTY = "selectable";
+
   /** The name of the "transformable" property. */
   public static final String TRANSFORMABLE_PROPERTY = "transformable";
 
@@ -169,6 +174,14 @@ public interface Figure extends Cloneable, Serializable {
   public Rectangle2D.Double getBounds();
 
   /**
+   * Returns the untransformed logical bounds of the figure as a Rectangle.
+   *
+   * <p>The bounds are used by Handle objects for adjusting the figure and for aligning the figure
+   * on a grid.
+   */
+  public Rectangle2D.Double getBounds(double scale);
+
+  /**
    * Returns the drawing area of the figure as a Rectangle.
    *
    * <p>The drawing area is used to inform {@link DrawingView} about the area that is needed to draw
@@ -188,13 +201,13 @@ public interface Figure extends Cloneable, Serializable {
    * <p>The drawing area needs to be large enough, to take line width, line caps and other
    * decorations into account that exceed the bounds of the Figure.
    */
-  public Rectangle2D.Double getDrawingArea(double factor);
+  public Rectangle2D.Double getDrawingArea(double scale);
 
   /**
    * The preferred size is used by Layouter to determine the preferred size of a Figure. For most
    * Figure's this is the same as the dimensions returned by getBounds.
    */
-  public Dimension2DDouble getPreferredSize();
+  public Dimension2DDouble getPreferredSize(double scale);
 
   /**
    * Checks if a point is contained by the figure.
@@ -208,7 +221,7 @@ public interface Figure extends Cloneable, Serializable {
    *
    * <p>This is used for hit testing by Tool's.
    */
-  public boolean contains(Point2D.Double p, double scaleDenominator);
+  public boolean contains(Point2D.Double p, double scale);
 
   // TRANSFORMING
   /**
@@ -241,8 +254,6 @@ public interface Figure extends Cloneable, Serializable {
    * @see #restoreTransformTo
    */
   public void transform(AffineTransform tx);
-
-  public Attributes attr();
 
   /**
    * Returns true, if the user may select this figure. If this operation returns false, Tool's
@@ -287,7 +298,7 @@ public interface Figure extends Cloneable, Serializable {
   public Collection<Handle> createHandles(int detailLevel);
 
   /** Returns a cursor for the specified location. */
-  public Cursor getCursor(Point2D.Double p, double scaleDenominator);
+  public Cursor getCursor(Point2D.Double p, double scale);
 
   /**
    * Returns a collection of Action's for the specified location on the figure.
@@ -409,6 +420,12 @@ public interface Figure extends Cloneable, Serializable {
    * @see #willChange
    */
   public void changed();
+
+  public default void processChange(Consumer<Figure> figureConsumer) {
+    willChange();
+    figureConsumer.accept(this);
+    changed();
+  }
 
   public void requestRemove();
 

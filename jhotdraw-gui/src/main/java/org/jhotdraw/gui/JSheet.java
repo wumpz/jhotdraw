@@ -37,32 +37,42 @@ import org.jhotdraw.util.*;
 public class JSheet extends JDialog {
 
   private static final long serialVersionUID = 1L;
+
   /** Event listener list. */
   protected EventListenerList listenerList = new EventListenerList();
+
   /**
    * This handler is used to handle movements of the owner. If the owner moves, we have to change
    * the location of the sheet as well.
    */
   private ComponentListener ownerMovementHandler;
+
   /** If this is non-null, we put the owner to the specified location, when the sheet is hidden. */
   private Point shiftBackLocation;
+
   /**
    * We need to keep track of the old owner position, in order to avoid processing duplicate owner
    * moved events.
    */
   private Point oldLocation;
+
   /** Focus owner on the owner window, before the sheet is shown. */
   private Component oldFocusOwner;
+
   /**
    * This is set to true, when the listeners for the JSheet are installed on the parent component.
    */
   private boolean isInstalled;
+
   /** If this is set to true, the JSheet uses a transition effect when shown and when hidden. */
   private boolean isAnimated = true;
+
   /** If this is set to true, the JSheet uses native Mac OS X sheets. */
   private static final boolean IS_NATIVE_SHEET_SUPPORTED;
+
   /** If this is set to true, the JSheet uses native document modal dialogs. */
   private static final boolean IS_DOCUMENT_MODALITY_SUPPORTED;
+
   /**
    * This variable is only used in Java 1.5 and previous versions. In order to make the sheet
    * document modal, we have to block events on the owner window. We do this by setting a JPanel as

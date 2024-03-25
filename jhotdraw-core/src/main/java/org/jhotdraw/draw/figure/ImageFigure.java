@@ -39,10 +39,13 @@ import org.jhotdraw.util.*;
 public class ImageFigure extends AbstractAttributedDecoratedFigure implements ImageHolderFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** This rectangle describes the bounds into which we draw the image. */
   private Rectangle2D.Double rectangle;
+
   /** The image data. This can be null, if the image was created from a BufferedImage. */
   private byte[] imageData;
+
   /** The buffered image. This can be null, if we haven't yet parsed the imageData. */
   private transient BufferedImage bufferedImage;
 
@@ -129,24 +132,24 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
 
   // SHAPE AND BOUNDS
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
   }
 
   @Override
-  public Rectangle2D.Double getFigureDrawingArea() {
+  public Rectangle2D.Double getFigureDrawingArea(double scale) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale);
     Geom.grow(r, grow, grow);
     return r;
   }
 
   /** Checks if a Point2D.Double is inside the figure. */
   @Override
-  public boolean figureContains(Point2D.Double p) {
+  public boolean figureContains(Point2D.Double p, double scale) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1d;
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale) + 1d;
     Geom.grow(r, grow, grow);
     return r.contains(p);
   }

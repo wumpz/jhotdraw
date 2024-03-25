@@ -119,6 +119,7 @@ public class QuadTree<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Rectangle2D.Double bounds;
+
     /**
      * We store an object into this map, if 1) the bounds of the object contain our bounds or 2) we
      * are a leaf.

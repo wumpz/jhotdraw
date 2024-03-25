@@ -58,11 +58,13 @@ public class ODGView extends AbstractView {
   private static final long serialVersionUID = 1L;
   public static final String GRID_VISIBLE_PROPERTY = "gridVisible";
   protected JFileURIChooser exportChooser;
+
   /**
    * Each ODGView uses its own undo redo manager. This allows for undoing and redoing actions per
    * view.
    */
   private UndoRedoManager undo;
+
   /**
    * Depending on the type of an application, there may be one editor per view, or a single shared
    * editor for all views.
@@ -293,6 +295,7 @@ public class ODGView extends AbstractView {
     add(scrollPane, java.awt.BorderLayout.CENTER);
     add(propertiesPanel, java.awt.BorderLayout.SOUTH);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private org.jhotdraw.samples.odg.ODGPropertiesPanel propertiesPanel;
   private javax.swing.JScrollPane scrollPane;

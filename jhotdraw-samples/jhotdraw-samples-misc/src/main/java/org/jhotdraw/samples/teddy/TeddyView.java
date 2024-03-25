@@ -94,10 +94,13 @@ public class TeddyView extends AbstractView {
   }
 
   protected EditorPanel editorViewport;
+
   /** The undo/redo manager. */
   protected UndoRedoManager undoManager;
+
   /** The panel used for the find feature. */
   private FindDialog findDialog;
+
   /** The Matcher used to perform find operation. */
   private Matcher matcher;
 
@@ -489,6 +492,7 @@ public class TeddyView extends AbstractView {
     NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().getViewFactory();
     return viewFactory.isLineNumbersVisible();
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   public javax.swing.JLabel caretInfoLabel;
   public javax.swing.JScrollPane scrollPane;

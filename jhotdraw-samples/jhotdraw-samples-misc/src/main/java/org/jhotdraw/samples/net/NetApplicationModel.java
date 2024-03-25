@@ -66,6 +66,7 @@ public class NetApplicationModel extends DefaultApplicationModel {
       }
     }
   }
+
   /** This editor is shared by all views. */
   private DefaultDrawingEditor sharedEditor;
 

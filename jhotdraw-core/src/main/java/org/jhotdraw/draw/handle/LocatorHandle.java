@@ -7,8 +7,7 @@
  */
 package org.jhotdraw.draw.handle;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
 
@@ -29,6 +28,6 @@ public abstract class LocatorHandle extends AbstractHandle {
 
   @Override
   public Point2D.Double getDrawingLocation() {
-    return locator.locate(getOwner());
+    return locator.locate(getOwner(), view.getScaleFactor()).location();
   }
 }

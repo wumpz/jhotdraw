@@ -40,8 +40,10 @@ import org.jhotdraw.util.*;
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** This cached path is used for drawing. */
   private transient Path2D.Double cachedPath;
+
   // private transient Rectangle2D.Double cachedDrawingArea;
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
@@ -173,7 +175,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
 
   // int count;
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       double strokeTotalWidth = Math.max(1d, AttributeKeys.getStrokeTotalWidth(this, 1.0));
       double width = strokeTotalWidth / 2d;

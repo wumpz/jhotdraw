@@ -108,7 +108,7 @@ public class ODGBezierFigure extends BezierFigure {
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       if (attr().get(TRANSFORM) == null) {
         cachedDrawingArea = path.getBounds2D();

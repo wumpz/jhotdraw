@@ -59,6 +59,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    * usually don't have an own presentation but present only the sum of all its children.
    */
   private Figure presentationFigure;
+
   /** Handles figure changes in the children. */
   private PresentationFigureHandler presentationFigureHandler = new PresentationFigureHandler(this);
 
@@ -98,7 +99,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       owner.fireUndoableEditHappened(e.getEdit());
     }
   }
-  ;
 
   /**
    * Default constructor which uses nothing as presentation figure. This constructor is needed by
@@ -117,6 +117,18 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   public GraphicalCompositeFigure(Figure newPresentationFigure) {
     super();
     setPresentationFigure(newPresentationFigure);
+    initAttributeDependentSupplier();
+  }
+
+  private void initAttributeDependentSupplier() {
+    attr()
+        .dependents(
+            Attributes.attrSupplier(
+                () -> {
+                  var list = new ArrayList<>(this.getChildren());
+                  list.add(getPresentationFigure());
+                  return list;
+                }));
   }
 
   /**
@@ -124,18 +136,18 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    * figure.
    */
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (getPresentationFigure() == null) {
-      return super.getBounds();
+      return super.getBounds(scale);
     }
-    return getPresentationFigure().getBounds();
+    return getPresentationFigure().getBounds(scale);
   }
 
   @Override
-  public boolean contains(Point2D.Double p, double scaleDenominator) {
-    boolean contains = super.contains(p, scaleDenominator);
+  public boolean contains(Point2D.Double p, double scale) {
+    boolean contains = super.contains(p, scale);
     if (!contains && getPresentationFigure() != null) {
-      contains = getPresentationFigure().contains(p, scaleDenominator);
+      contains = getPresentationFigure().contains(p, scale);
     }
     return contains;
   }
@@ -158,10 +170,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
 
   /** Return the draw area. This method is delegated to the encapsulated presentation figure. */
   @Override
-  public Rectangle2D.Double getDrawingArea() {
-    Rectangle2D.Double r = super.getDrawingArea();
+  public Rectangle2D.Double getDrawingArea(double scale) {
+    Rectangle2D.Double r = super.getDrawingArea(scale);
     if (getPresentationFigure() != null) {
-      r.add(getPresentationFigure().getDrawingArea());
+      r.add(getPresentationFigure().getDrawingArea(scale));
     }
     return r;
   }
@@ -172,15 +184,17 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    */
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
-    if (getLayouter() == null) {
-      super.setBounds(anchor, lead);
-      basicSetPresentationFigureBounds(anchor, lead);
-    } else {
-      Rectangle2D.Double r = getLayouter().layout(this, anchor, lead);
-      basicSetPresentationFigureBounds(
-          new Point2D.Double(r.getX(), r.getY()),
-          new Point2D.Double(
-              Math.max(lead.x, (int) r.getMaxX()), Math.max(lead.y, (int) r.getMaxY())));
+    super.setBounds(anchor, lead);
+    basicSetPresentationFigureBounds(anchor, lead);
+    layout(AttributeKeys.scaleFromContext(this));
+  }
+
+  @Override
+  public void layout(double scale) {
+    if (getLayouter() != null) {
+      Rectangle2D.Double bounds = getBounds(scale);
+      Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
+      getLayouter().layout(this, p, p, scale);
       invalidate();
     }
   }
@@ -207,7 +221,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     }
   }
 
-  /** Draw the figure. This method is delegated to the encapsulated presentation figure. */
   @Override
   public void draw(Graphics2D g) {
     drawPresentationFigure(g);
@@ -220,7 +233,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     }
   }
 
-  /** Return default handles from the presentation figure. */
   @Override
   public Collection<Handle> createHandles(int detailLevel) {
     List<Handle> handles = new ArrayList<>();
@@ -228,7 +240,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       MoveHandle.addMoveHandles(this, handles);
     }
     return handles;
-    // return getPresentationFigure().getHandles();
   }
 
   /**
@@ -251,7 +262,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
         this.presentationFigure.addNotify(getDrawing());
       }
     }
-    // FIXME: We should calculate the layout here.
   }
 
   /**
@@ -268,9 +278,12 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   @SuppressWarnings("unchecked")
   public GraphicalCompositeFigure clone() {
     GraphicalCompositeFigure that = (GraphicalCompositeFigure) super.clone();
+    that.initAttributeDependentSupplier();
     that.presentationFigure =
         (this.presentationFigure == null) ? null : this.presentationFigure.clone();
     if (that.presentationFigure != null) {
+      that.presentationFigure.removeFigureListener(this.presentationFigureHandler);
+      that.presentationFigureHandler = new PresentationFigureHandler(that);
       that.presentationFigure.addFigureListener(that.presentationFigureHandler);
     }
     return that;
@@ -282,59 +295,6 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       presentationFigure.remap(oldToNew, disconnectIfNotInMap);
     }
   }
-
-  /**
-   * Sets an attribute of the figure. AttributeKey name and semantics are defined by the class
-   * implementing the figure interface.
-   */
-  //  @Override
-  //  public <T> void set(AttributeKey<T> key, T newValue) {
-  //    if (forbiddenAttributes == null || !forbiddenAttributes.contains(key)) {
-  //      if (getPresentationFigure() != null) {
-  //        getPresentationFigure().set(key, newValue);
-  //      }
-  //      T oldValue = key.put(attributes, newValue);
-  //      fireAttributeChanged(key, oldValue, newValue);
-  //    }
-  //  }
-  //
-  //  public void setAttributeEnabled(AttributeKey<?> key, boolean b) {
-  //    if (forbiddenAttributes == null) {
-  //      forbiddenAttributes = new HashSet<>();
-  //    }
-  //    if (b) {
-  //      forbiddenAttributes.remove(key);
-  //    } else {
-  //      forbiddenAttributes.add(key);
-  //    }
-  //  }
-  //
-  //  /** Gets an attribute from the figure. */
-  //  @Override
-  //  public <T> T get(AttributeKey<T> key) {
-  //    if (getPresentationFigure() != null) {
-  //      return getPresentationFigure().get(key);
-  //    } else {
-  //      return (!attributes.containsKey(key)) ? key.getDefaultValue() : key.get(attributes);
-  //    }
-  //  }
-  //
-  //  /** Applies all attributes of this figure to that figure. */
-  //  @SuppressWarnings("unchecked")
-  //  protected void applyAttributesTo(Figure that) {
-  //    for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-  //      that.set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-  //    }
-  //  }
-  //
-  //  protected AttributeKey<?> getAttributeKey(String name) {
-  //    return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
-  //  }
-  //
-  //  @Override
-  //  public Map<AttributeKey<?>, Object> getAttributes() {
-  //    return new HashMap<>(attributes);
-  //  }
 
   /**
    * This is a default implementation that chops the point at the rectangle returned by getBounds()
@@ -352,10 +312,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       switch (attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
-          grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+          grow = AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this));
           break;
         case OUTSIDE:
-          grow = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+          grow = AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this));
           break;
         case INSIDE:
           grow = 0d;

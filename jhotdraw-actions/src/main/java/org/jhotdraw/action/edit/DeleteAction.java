@@ -43,10 +43,13 @@ import org.jhotdraw.util.*;
 public class DeleteAction extends TextAction {
 
   private static final long serialVersionUID = 1L;
+
   /** The ID for this action. */
   public static final String ID = "edit.delete";
+
   /** The target of the action or null if the action acts on the currently focused component. */
   private JComponent target;
+
   /** This variable keeps a strong reference on the property change listener. */
   private PropertyChangeListener propertyHandler;
 

@@ -30,6 +30,7 @@ public class ViewSourceAction extends AbstractViewAction {
 
   private static final long serialVersionUID = 1L;
   public static final String ID = "view.viewSource";
+
   /** We store the dialog as a client property in the view. */
   private static final String DIALOG_CLIENT_PROPERTY = "view.viewSource.dialog";
 

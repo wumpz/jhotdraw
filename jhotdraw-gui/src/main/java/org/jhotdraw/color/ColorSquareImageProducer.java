@@ -22,8 +22,10 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
   /** Lookup table for angular component values. */
   protected float[] angulars;
+
   /** Lookup table for radial component values. */
   protected float[] radials;
+
   /** Lookup table for alphas. The alpha value is used for antialiasing the color wheel. */
   protected int[] alphas;
 

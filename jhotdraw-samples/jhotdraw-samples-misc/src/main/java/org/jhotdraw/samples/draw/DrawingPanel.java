@@ -243,6 +243,7 @@ public class DrawingPanel extends JPanel {
     ButtonFactory.addToolTo(
         tb, editor, new TextAreaCreationTool(new TextAreaFigure()), "edit.createTextArea", labels);
   }
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JToolBar attributesToolbar;
   private javax.swing.JToolBar creationToolbar;

@@ -71,6 +71,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   private static final BasicStroke DASHES =
       new BasicStroke(
           1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
+
   /** This is a cached value to improve the performance of method isTextOverflow(); */
   private Boolean isTextOverflow;
 
@@ -97,6 +98,16 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
               bounds.y + insets.top,
               bounds.width - insets.left - insets.right,
               bounds.height - insets.top - insets.bottom);
+
+      Graphics2D g2 = (Graphics2D) g.create();
+      if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
+        AffineTransform at = new AffineTransform();
+        at.translate(0, bounds.y - insets.bottom);
+        at.scale(1, -1);
+        at.translate(0, -bounds.y - bounds.height - insets.bottom);
+        g2.transform(at);
+      }
+
       float leftMargin = (float) textRect.x;
       float rightMargin = (float) Math.max(leftMargin + 1, textRect.x + textRect.width + 1);
       float verticalPos = (float) textRect.y;
@@ -111,7 +122,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
         }
         if (getText() != null) {
           Shape savedClipArea = g.getClip();
-          g.clip(textRect);
+          g2.clip(textRect);
           String[] paragraphs = getText().split("\n"); // Strings.split(getText(), '\n');
           for (int i = 0; i < paragraphs.length; i++) {
             if (paragraphs[i].length() == 0) {
@@ -125,7 +136,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             int tabCount = paragraphs[i].split("\t").length - 1;
             Rectangle2D.Double paragraphBounds =
                 drawParagraph(
-                    g,
+                    g2,
                     as.getIterator(),
                     verticalPos,
                     maxVerticalPos,
@@ -138,9 +149,10 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
               break;
             }
           }
-          g.setClip(savedClipArea);
+          g2.setClip(savedClipArea);
         }
       }
+      g2.dispose();
     }
   }
 
@@ -305,12 +317,12 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   }
 
   @Override
-  public boolean figureContains(Point2D.Double p) {
+  public boolean figureContains(Point2D.Double p, double scale) {
     return bounds.contains(p);
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) bounds.getBounds2D();
   }
 
@@ -383,7 +395,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
 
   @Override
   public void setFontSize(float size) {
-    attr().set(FONT_SIZE, new Double(size));
+    attr().set(FONT_SIZE, Double.valueOf(size));
   }
 
   @Override

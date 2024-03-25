@@ -18,16 +18,19 @@ import org.jhotdraw.geom.Insets2D;
 public class RelativeLocator extends AbstractLocator {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * Relative x-coordinate on the bounds of the figure. The value 0 is on the left boundary of the
    * figure, the value 1 on the right boundary.
    */
   protected double relativeX;
+
   /**
    * Relative y-coordinate on the bounds of the figure. The value 0 is on the top boundary of the
    * figure, the value 1 on the bottom boundary.
    */
   protected double relativeY;
+
   /** If this is set to true, if the locator is transforming with the figure. */
   protected boolean isTransform;
 
@@ -52,8 +55,8 @@ public class RelativeLocator extends AbstractLocator {
   }
 
   @Override
-  public java.awt.geom.Point2D.Double locate(Figure owner) {
-    Rectangle2D.Double bounds = owner.getBounds();
+  public Locator.Position locate(Figure owner, double scale) {
+    Rectangle2D.Double bounds = owner.getBounds(scale);
     if ((owner instanceof DecoratedFigure) && ((DecoratedFigure) owner).getDecorator() != null) {
       Insets2D.Double insets = owner.attr().get(DECORATOR_INSETS);
       if (insets != null) {
@@ -80,7 +83,7 @@ public class RelativeLocator extends AbstractLocator {
           new Point2D.Double(
               bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
     }
-    return location;
+    return new Position(location);
   }
 
   /** Non-transforming East. */

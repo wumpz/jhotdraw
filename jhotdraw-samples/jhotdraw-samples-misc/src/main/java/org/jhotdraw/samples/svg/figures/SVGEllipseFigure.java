@@ -29,8 +29,10 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;
   private Ellipse2D.Double ellipse;
+
   /** This is used to perform faster drawing and hit testing. */
   private transient Shape cachedTransformedShape;
+
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 
@@ -77,12 +79,12 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) ellipse.getBounds2D();
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
     Rectangle2D.Double r =
         (rx instanceof Rectangle2D.Double)

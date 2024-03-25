@@ -28,11 +28,13 @@ public abstract class AbstractViewAction extends AbstractAction {
   private Application app;
   private View view;
   private String propertyName;
+
   /** Set this to true if the action may create a new view if none exists. */
   private boolean mayCreateView;
 
   public static final String VIEW_PROPERTY = "view";
   public static final String ENABLED_PROPERTY = "enabled";
+
   /**
    * Combined enabled value consisting of the enabled state of this action and the enabled state of
    * the view and the application.

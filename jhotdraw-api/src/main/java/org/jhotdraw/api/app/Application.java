@@ -78,6 +78,7 @@ public interface Application {
 
   /** The property name of the activeView property. */
   public static final String ACTIVE_VIEW_PROPERTY = "activeView";
+
   /** The property name of the recentURIs property. */
   public static final String RECENT_URIS_PROPERTY = "recentURIs";
 

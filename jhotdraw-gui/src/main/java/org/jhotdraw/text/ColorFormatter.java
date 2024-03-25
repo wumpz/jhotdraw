@@ -80,25 +80,32 @@ public class ColorFormatter extends DefaultFormatter {
     GRAY_PERCENTAGE,
     CMYK_PERCENTAGE;
   };
+
   /** Specifies the preferred output format. */
   protected Format outputFormat = Format.RGB_INTEGER;
+
   /** Specifies the last used input format. */
   protected Format lastUsedInputFormat = null;
+
   /** This regular expression is used for parsing the RGB_HEX format. */
   protected static final Pattern RGB_HEX_PATTERN =
       Pattern.compile("^\\s*(?:[rR][gG][bB]\\s*#|#)\\s*([0-9a-fA-F]{3,6})\\s*$");
+
   /** This regular expression is used for parsing the RGB_INTEGER format. */
   protected static final Pattern RGB_INTEGER_SHORT_PATTERN =
       Pattern.compile(
           "^\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
+
   /** This regular expression is used for parsing the RGB_INTEGER format. */
   protected static final Pattern RGB_INTEGER_PATTERN =
       Pattern.compile(
           "^\\s*(?:[rR][gG][bB])?\\s*([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})(?:\\s*,\\s*|\\s+)([0-9]{1,3})\\s*$");
+
   /** This regular expression is used for parsing the RGB_PERCENTAGE format. */
   protected static final Pattern RGB_PERCENTAGE_PATTERN =
       Pattern.compile(
           "^\\s*(?:[rR][gG][bB][%])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+
   /**
    * This regular expression is used for parsing the HSB_PERCENTAGE format. This format is
    * recognized when the degree sign is present.
@@ -106,19 +113,23 @@ public class ColorFormatter extends DefaultFormatter {
   protected static final Pattern HSB_PERCENTAGE_PATTERN =
       Pattern.compile(
           "^\\s*(?:[hH][sS][bB])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)(?:\\s*,\\s*|\\s+)([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+
   /**
    * This regular expression is used for parsing the GRAY_PERCENTAGE format. This format is
    * recognized when the degree sign is present.
    */
   protected static final Pattern GRAY_PERCENTAGE_PATTERN =
       Pattern.compile("^\\s*(?:[gG][rR][aA][yY])?\\s*([0-9]{1,3}(?:\\.[0-9]+)?)\\s*$");
+
   /** Specifies whether the formatter allows null values. */
   protected boolean allowsNullValue = true;
+
   /**
    * Specifies whether the formatter should adaptively change its output format depending on the
    * last input format used by the user.
    */
   protected boolean isAdaptive = true;
+
   /** Preferences used for storing the last used input format. */
   protected Preferences prefs;
 

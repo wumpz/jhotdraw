@@ -16,6 +16,7 @@ public class DisclosureIcon implements Icon {
    * This client property needs to be set on the component. The value must be a positive Integer.
    */
   public static final String STATE_COUNT_PROPERTY = "DisclosureIcon.numberOfStates";
+
   /**
    * This client property needs to be set on the component. The value must be a positive Integer.
    */

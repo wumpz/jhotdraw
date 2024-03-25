@@ -48,6 +48,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   protected Point2D.Double[] coordinates = new Point2D.Double[] {new Point2D.Double()};
   protected double[] rotates = new double[] {0};
   private boolean editable = true;
+
   /** This is used to perform faster drawing and hit testing. */
   private transient Shape cachedTextShape;
 
@@ -102,7 +103,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (cachedBounds == null) {
       cachedBounds = new Rectangle2D.Double();
       cachedBounds.setRect(getTextShape().getBounds2D());
@@ -140,7 +141,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       Rectangle2D rx = getTextShape().getBounds2D();
       Rectangle2D.Double r =
@@ -373,8 +374,8 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public Dimension2DDouble getPreferredSize() {
-    Rectangle2D.Double b = getBounds();
+  public Dimension2DDouble getPreferredSize(double scale) {
+    Rectangle2D.Double b = getBounds(scale);
     return new Dimension2DDouble(b.width, b.height);
   }
 

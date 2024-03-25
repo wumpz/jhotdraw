@@ -7,10 +7,11 @@
  */
 package org.jhotdraw.draw.figure;
 
-import static org.jhotdraw.draw.AttributeKeys.*;
+import static org.jhotdraw.draw.AttributeKeys.DECORATOR_INSETS;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import org.jhotdraw.geom.Insets2D;
 
 /**
@@ -41,17 +42,17 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
   }
 
   @Override
-  public final Rectangle2D.Double getDrawingArea() {
-    Rectangle2D.Double r = getFigureDrawingArea();
+  public final Rectangle2D.Double getDrawingArea(double scale) {
+    Rectangle2D.Double r = getFigureDrawingArea(scale);
     if (decorator != null) {
       updateDecoratorBounds();
-      r.add(decorator.getDrawingArea());
+      r.add(decorator.getDrawingArea(scale));
     }
     return r;
   }
 
-  protected Rectangle2D.Double getFigureDrawingArea() {
-    return super.getDrawingArea();
+  protected Rectangle2D.Double getFigureDrawingArea(double scale) {
+    return super.getDrawingArea(scale);
   }
 
   @Override
@@ -90,10 +91,10 @@ public abstract class AbstractAttributedDecoratedFigure extends AbstractAttribut
         return true;
       }
     }
-    return figureContains(p);
+    return figureContains(p, scaleDenominator);
   }
 
-  protected abstract boolean figureContains(Point2D.Double p);
+  protected abstract boolean figureContains(Point2D.Double p, double scaleDenominator);
 
   @Override
   public AbstractAttributedDecoratedFigure clone() {

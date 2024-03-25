@@ -24,7 +24,7 @@ package org.jhotdraw.draw.figure;
  *
  * <p><hr>
  */
-public interface DecoratedFigure extends Figure {
+public interface DecoratedFigure {
 
   /**
    * Sets a decorator Figure, for example a visual adornment to this Figure. Set this to null, if no

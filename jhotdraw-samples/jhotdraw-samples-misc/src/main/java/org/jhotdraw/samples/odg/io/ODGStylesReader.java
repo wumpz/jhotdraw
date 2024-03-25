@@ -35,6 +35,7 @@ public class ODGStylesReader {
     public String family;
     public String parentName;
   }
+
   /**
    * Most office applications support styles within their user interface. Within this specification,
    * the XML representations of such styles are referred to as styles. When a differentiation from
@@ -43,6 +44,7 @@ public class ODGStylesReader {
    * style.
    */
   private HashMap<String, Style> commonStyles;
+
   /**
    * A master style is a common style that contains formatting information and additional content
    * that is displayed with the document content when the style is applied. An example of a master
@@ -54,6 +56,7 @@ public class ODGStylesReader {
    * content of a document.
    */
   private HashMap<String, Style> masterStyles;
+
   /**
    * An automatic style contains formatting properties that, in the user interface view of a
    * document, are assigned to an object such as a paragraph. The term automatic indicates that the

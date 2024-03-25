@@ -81,8 +81,8 @@ public class NodeFigure extends TextFigure {
   }
 
   @Override
-  public Rectangle2D.Double getFigureDrawingArea() {
-    Rectangle2D.Double b = super.getFigureDrawingArea();
+  public Rectangle2D.Double getFigureDrawingArea(double scale) {
+    Rectangle2D.Double b = super.getFigureDrawingArea(scale);
     // Grow for connectors
     Geom.grow(b, 10d, 10d);
     return b;

@@ -70,12 +70,16 @@ public interface DrawingEditor {
 
   /** The property name for the active view property. */
   public static final String ACTIVE_VIEW_PROPERTY = "activeView";
+
   /** The property name for the active tool property. */
   public static final String TOOL_PROPERTY = "tool";
+
   /** The property name for the input map property. */
   public static final String INPUT_MAP_PROPERTY = "inputMap";
+
   /** The property name for the action map property. */
   public static final String ACTION_MAP_PROPERTY = "actionMap";
+
   /** The prefix for default attribute property changes. */
   public static final String DEFAULT_ATTRIBUTE_PROPERTY_PREFIX = "defaultAttribute.";
 

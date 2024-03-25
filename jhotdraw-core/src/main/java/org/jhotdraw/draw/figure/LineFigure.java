@@ -52,6 +52,7 @@ public class LineFigure extends BezierFigure {
     }
     return handles;
   }
+
   // CONNECTING
   // COMPOSITE FIGURES
   // CLONING

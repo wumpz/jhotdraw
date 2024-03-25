@@ -47,7 +47,7 @@ public class StraightLineFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) line.getBounds2D();
   }
 

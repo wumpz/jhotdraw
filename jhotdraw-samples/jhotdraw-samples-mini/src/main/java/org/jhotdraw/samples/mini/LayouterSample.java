@@ -35,7 +35,7 @@ public class LayouterSample {
             composite.add(new TextFigure("Below the line"));
             // Set a layouter and perform the layout
             composite.setLayouter(new VerticalLayouter());
-            composite.layout();
+            composite.layout(1.0);
             // Add the composite figure to a drawing
             Drawing drawing = new DefaultDrawing();
             drawing.add(composite);

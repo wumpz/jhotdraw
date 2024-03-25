@@ -233,6 +233,7 @@ public class ODGDrawingPanel extends JPanel {
     jPanel1.add(attributesToolbar, gridBagConstraints);
     add(jPanel1, java.awt.BorderLayout.SOUTH);
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JToolBar attributesToolbar;
   private javax.swing.JToolBar creationToolbar;

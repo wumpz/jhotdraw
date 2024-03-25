@@ -10,7 +10,9 @@ package org.jhotdraw.draw;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.Supplier;
 import org.jhotdraw.draw.decoration.LineDecoration;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.geom.Dimension2DDouble;
@@ -29,18 +31,21 @@ public class AttributeKeys {
 
   private static final ResourceBundleUtil LABELS =
       ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+
   /**
    * Canvas fill color. The value of this attribute is a Color object. This attribute is used by a
    * Drawing object to specify the fill color of the drawing. The default value is white.
    */
   public static final AttributeKey<Color> CANVAS_FILL_COLOR =
       new AttributeKey<>("canvasFillColor", Color.class, Color.white, true, LABELS);
+
   /**
    * Canvas fill opacity. The value of this attribute is a Double object. This is a value between 0
    * and 1 whereas 0 is translucent and 1 is fully opaque.
    */
   public static final AttributeKey<Double> CANVAS_FILL_OPACITY =
       new AttributeKey<>("canvasFillOpacity", Double.class, 1d, false, LABELS);
+
   /**
    * The width of the canvas. The value of this attribute is a Double object. This is a value
    * between 1 and Double.MAX_VALUE. If the value is null, the width is dynamically adapted to the
@@ -48,6 +53,7 @@ public class AttributeKeys {
    */
   public static final AttributeKey<Double> CANVAS_WIDTH =
       new AttributeKey<>("canvasWidth", Double.class, null, true, LABELS);
+
   /**
    * The height of the canvas. The value of this attribute is a Double object. This is a value
    * between 1 and Double.MAX_VALUE. If the value is null, the height is dynamically adapted to the
@@ -55,12 +61,15 @@ public class AttributeKeys {
    */
   public static final AttributeKey<Double> CANVAS_HEIGHT =
       new AttributeKey<>("canvasHeight", Double.class, null, true, LABELS);
+
   /** Figure fill color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> FILL_COLOR =
       new AttributeKey<>("fillColor", Color.class, Color.white, true, LABELS);
+
   /** Whether to path a BezierFigure is closed. The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> PATH_CLOSED =
       new AttributeKey<>("pathClosed", Boolean.class, false, false, LABELS);
+
   /**
    * Whether an unclosed path of a BezierFigure is filled. The value of this attribute is a Boolean
    * object.
@@ -80,6 +89,7 @@ public class AttributeKeys {
      */
     NON_ZERO
   }
+
   /** Fill under stroke. The value of this attribute is a Boolean object. */
   public static final AttributeKey<WindingRule> WINDING_RULE =
       new AttributeKey<>("windingRule", WindingRule.class, WindingRule.EVEN_ODD, false, LABELS);
@@ -96,15 +106,19 @@ public class AttributeKeys {
     /** If FILL_UNDER_STROKE is put to this value, the area under the stroke will be filled. */
     FULL
   }
+
   /** Fill under stroke. The value of this attribute is a Boolean object. */
   public static final AttributeKey<Underfill> FILL_UNDER_STROKE =
       new AttributeKey<>("fillUnderStroke", Underfill.class, Underfill.CENTER, false, LABELS);
+
   /** Stroke color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> STROKE_COLOR =
       new AttributeKey<>("strokeColor", Color.class, Color.black, true, LABELS);
+
   /** Stroke width. A double used to construct a BasicStroke or the outline of a DoubleStroke. */
   public static final AttributeKey<Double> STROKE_WIDTH =
       new AttributeKey<>("strokeWidth", Double.class, 1d, false, LABELS);
+
   /**
    * Factor for the stroke inner width. This is a double. The default value is 2.
    *
@@ -113,36 +127,44 @@ public class AttributeKeys {
    */
   public static final AttributeKey<Double> STROKE_INNER_WIDTH_FACTOR =
       new AttributeKey<>("innerStrokeWidthFactor", Double.class, 2d, false, LABELS);
+
   /** Stroke join. One of the BasicStroke.JOIN_... values used to construct a BasicStroke. */
   public static final AttributeKey<Integer> STROKE_JOIN =
       new AttributeKey<>("strokeJoin", Integer.class, BasicStroke.JOIN_MITER, false, LABELS);
+
   /** Stroke join. One of the BasicStroke.CAP_... values used to construct a BasicStroke. */
   public static final AttributeKey<Integer> STROKE_CAP =
       new AttributeKey<>("strokeCap", Integer.class, BasicStroke.CAP_BUTT, false, LABELS);
+
   /**
    * Stroke miter limit factor. A double multiplied by total stroke width, used to construct the
    * miter limit of a BasicStroke.
    */
   public static final AttributeKey<Double> STROKE_MITER_LIMIT =
       new AttributeKey<>("strokeMiterLimitFactor", Double.class, 3d, false, LABELS);
+
   /**
    * A boolean used to indicate whether STROKE_MITER_LIMIT is a factor of STROKE_WIDTH, or whether
    * it represents an absolute value.
    */
   public static final AttributeKey<Boolean> IS_STROKE_MITER_LIMIT_FACTOR =
       new AttributeKey<>("isStrokeMiterLimitFactor", Boolean.class, true, false, LABELS);
+
   /** An array of doubles used to specify the dash pattern in a BasicStroke; */
   public static final AttributeKey<double[]> STROKE_DASHES =
       new AttributeKey<>("strokeDashes", double[].class, null, true, LABELS);
+
   /** A double used to specify the starting phase of the stroke dashes. */
   public static final AttributeKey<Double> STROKE_DASH_PHASE =
       new AttributeKey<>("strokeDashPhase", Double.class, 0d, false, LABELS);
+
   /**
    * A boolean used to indicate whether STROKE_DASHES and STROKE_DASH_PHASE shall be interpreted as
    * factors of STROKE_WIDTH, or whether they are absolute values.
    */
   public static final AttributeKey<Boolean> IS_STROKE_DASH_FACTOR =
       new AttributeKey<>("isStrokeDashFactor", Boolean.class, true, false, LABELS);
+
   /** Are stroke values pixel values or should they be transformed as well. */
   public static final AttributeKey<Boolean> IS_STROKE_PIXEL_VALUE =
       new AttributeKey<>("isStrokePixelValue", Boolean.class, false, false, LABELS);
@@ -153,6 +175,7 @@ public class AttributeKeys {
     /** If STROKE_TYPE is put to this value, a DoubleStroke instance is used for stroking. */
     DOUBLE
   }
+
   /**
    * Stroke type. The value of this attribute is either VALUE_STROKE_TYPE_BASIC or
    * VALUE_STROKE_TYPE_DOUBLE. FIXME - Type should be an enumeration.
@@ -168,6 +191,7 @@ public class AttributeKeys {
     /** If STROKE_PLACEMENT is put to this value, the stroke is placed outside of a closed path. */
     OUTSIDE
   }
+
   /**
    * Stroke placement. The value is either StrokePlacement.CENTER, StrokePlacement.INSIDE or
    * StrokePlacement.OUTSIDE. This only has effect for closed paths. On open paths, the stroke is
@@ -178,18 +202,22 @@ public class AttributeKeys {
   public static final AttributeKey<StrokePlacement> STROKE_PLACEMENT =
       new AttributeKey<>(
           "strokePlacement", StrokePlacement.class, StrokePlacement.CENTER, false, LABELS);
+
   /**
    * The value of this attribute is a String object, which is used to display the text of the
    * figure.
    */
   public static final AttributeKey<String> TEXT =
       new AttributeKey<>("text", String.class, null, true, LABELS);
+
   /** Text color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> TEXT_COLOR =
       new AttributeKey<>("textColor", Color.class, Color.BLACK, false, LABELS);
+
   /** Text shadow color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> TEXT_SHADOW_COLOR =
       new AttributeKey<>("textShadowColor", Color.class, null, true, LABELS);
+
   /** Text shadow offset. The value of this attribute is a Dimension2DDouble object. */
   public static final AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET =
       new AttributeKey<>(
@@ -209,9 +237,11 @@ public class AttributeKeys {
     /** stretch to fill horizontally, or vertically */
     BLOCK,
   }
+
   /** Text alignment. The value of this attribute is a Alignment enum. */
   public static final AttributeKey<Alignment> TEXT_ALIGNMENT =
       new AttributeKey<>("textAlignment", Alignment.class, Alignment.LEADING, false, LABELS);
+
   /**
    * The value of this attribute is a Font object, which is used as a prototype to create the font
    * for the text.
@@ -219,18 +249,23 @@ public class AttributeKeys {
   public static final AttributeKey<Font> FONT_FACE =
       new AttributeKey<>(
           "fontFace", Font.class, new Font("VERDANA", Font.PLAIN, 10), false, LABELS);
+
   /** The value of this attribute is a double object. */
   public static final AttributeKey<Double> FONT_SIZE =
       new AttributeKey<>("fontSize", Double.class, 12d, false, LABELS);
+
   /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_BOLD =
       new AttributeKey<>("fontBold", Boolean.class, false, false, LABELS);
+
   /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_ITALIC =
       new AttributeKey<>("fontItalic", Boolean.class, false, false, LABELS);
+
   /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_UNDERLINE =
       new AttributeKey<>("fontUnderline", Boolean.class, false, false, LABELS);
+
   /** The value of this attribute is a Liner object. */
   public static final AttributeKey<Liner> BEZIER_PATH_LAYOUTER =
       new AttributeKey<>("bezierPathLayouter", Liner.class, null, true, LABELS);
@@ -239,10 +274,12 @@ public class AttributeKeys {
       new AttributeKey<>("endDecoration", LineDecoration.class, null, true, LABELS);
   public static final AttributeKey<LineDecoration> START_DECORATION =
       new AttributeKey<>("startDecoration", LineDecoration.class, null, true, LABELS);
+
   /** The value of this attribute is a Insets2D.Double object. */
   public static final AttributeKey<Insets2D.Double> DECORATOR_INSETS =
       new AttributeKey<>(
           "decoratorInsets", Insets2D.Double.class, new Insets2D.Double(), false, LABELS);
+
   /**
    * The value of this attribute is a Insets2D.Double object.
    *
@@ -255,6 +292,7 @@ public class AttributeKeys {
   public static final AttributeKey<Insets2D.Double> LAYOUT_INSETS =
       new AttributeKey<>(
           "borderInsets", Insets2D.Double.class, new Insets2D.Double(), false, LABELS);
+
   /**
    * The value of this attribute is a Alignment object.
    *
@@ -266,6 +304,7 @@ public class AttributeKeys {
    */
   public static final AttributeKey<Alignment> COMPOSITE_ALIGNMENT =
       new AttributeKey<>("layoutAlignment", Alignment.class, Alignment.BLOCK, false, LABELS);
+
   /**
    * The value of this attribute is a Alignment object.
    *
@@ -277,9 +316,26 @@ public class AttributeKeys {
    */
   public static final AttributeKey<Alignment> CHILD_ALIGNMENT =
       new AttributeKey<>("layoutAlignment", Alignment.class, null, true, LABELS);
+
   /** Specifies the transform of a Figure. */
   public static final AttributeKey<AffineTransform> TRANSFORM =
       new AttributeKey<>("transform", AffineTransform.class, null, true, LABELS);
+
+  /**
+   * For point objects the origin is somewhere within the boundary. With this 0 to 1 number you are
+   * able to move the origin and therefore the position of the figure relative amount of the
+   * boundary x size.
+   */
+  public static final AttributeKey<Double> ALIGN_RELATIVE_X =
+      new AttributeKey<>("alignRelativeX", Double.class, 0d, false);
+
+  /**
+   * For point objects the origin is somewhere within the boundary. With this 0 to 1 number you are
+   * able to move the origin and therefore the position of the figure relative amount of the
+   * boundary y size.
+   */
+  public static final AttributeKey<Double> ALIGN_RELATIVE_Y =
+      new AttributeKey<>("alignRelativeY", Double.class, 0d, false);
 
   public static enum Orientation {
     NORTH,
@@ -291,9 +347,33 @@ public class AttributeKeys {
     WEST,
     NORTH_WEST
   }
+
   /** Specifies the orientation of a Figure. */
   public static final AttributeKey<Orientation> ORIENTATION =
       new AttributeKey<>("orientation", Orientation.class, Orientation.NORTH, false, LABELS);
+
+  public static final AttributeKey<ScaleProvider> SCALE_PROVIDER =
+      new AttributeKey<>("scaleProvider", ScaleProvider.class, ScaleProvider.from(() -> 1.0));
+
+  /** Helper class due to Java is not able to infere type into AttributeKey. */
+  public static class ScaleProvider {
+
+    private final Supplier<Double> scaleProvider;
+
+    public ScaleProvider(Supplier<Double> scaleProvider) {
+      Objects.requireNonNull(scaleProvider);
+      this.scaleProvider = scaleProvider;
+    }
+
+    public Double scale() {
+      return scaleProvider.get();
+    }
+
+    public static final ScaleProvider from(Supplier<Double> scaleProvider) {
+      return new ScaleProvider(scaleProvider);
+    }
+  }
+
   /** A put with all attributes defined by this class. */
   public static final Set<AttributeKey<?>> SUPPORTED_ATTRIBUTES;
 
@@ -331,7 +411,10 @@ public class AttributeKeys {
               START_DECORATION,
               DECORATOR_INSETS,
               ORIENTATION,
-              WINDING_RULE
+              WINDING_RULE,
+              IS_STROKE_PIXEL_VALUE,
+              ALIGN_RELATIVE_X,
+              ALIGN_RELATIVE_Y
             }));
     SUPPORTED_ATTRIBUTES = Collections.unmodifiableSet(as);
     HashMap<String, AttributeKey<?>> am = new HashMap<>();
@@ -345,9 +428,27 @@ public class AttributeKeys {
     SUPPORTED_ATTRIBUTES_MAP = sam;
   }
 
+  public static double scaleFromContext(Drawing drawing) {
+    return drawing.attr().get(AttributeKeys.SCALE_PROVIDER).scale();
+  }
+
+  /** Scaling from attributes or drawings attributes. */
+  public static double scaleFromContext(Figure f) {
+    if (f instanceof AbstractAttributedFigure attributedFigure) {
+      // the figures attributes are not checked by design
+      return Optional.ofNullable(attributedFigure.getDrawing())
+          .map(myDrawing -> myDrawing.attr().get(AttributeKeys.SCALE_PROVIDER).scale())
+          .orElse(1.0);
+    }
+    return 1.0;
+  }
+
   /** Computing a global scale factor derived from pixel with or different measures. */
   public static double getGlobalValueFactor(Figure f, double factor) {
-    if (factor != 1.0 && f.attr().get(IS_STROKE_PIXEL_VALUE)) {
+    if (f.attr().get(IS_STROKE_PIXEL_VALUE)) {
+      if (factor == 1.0 || factor == 0.0) {
+        factor = scaleFromContext(f);
+      }
       return factor != 0.0 ? factor : 1.0;
     }
     return 1.0;
@@ -381,7 +482,7 @@ public class AttributeKeys {
       scale = Math.sqrt(sx * sx + shx * shx);
     }
 
-    return scale != 0 ? 1.0 / scale : 1.0;
+    return scale != 0 ? scale : 1.0;
   }
 
   /**
@@ -408,14 +509,14 @@ public class AttributeKeys {
     if (f.attr().get(IS_STROKE_MITER_LIMIT_FACTOR)) {
       return f.attr().get(STROKE_MITER_LIMIT)
           * f.attr().get(STROKE_WIDTH)
-          * getGlobalValueFactor(f, factor);
+          / getGlobalValueFactor(f, factor);
     } else {
       return f.attr().get(STROKE_MITER_LIMIT);
     }
   }
 
   public static Stroke getStroke(Figure f, double factor) {
-    double strokeWidth = f.attr().get(STROKE_WIDTH) * getGlobalValueFactor(f, factor);
+    double strokeWidth = f.attr().get(STROKE_WIDTH) / getGlobalValueFactor(f, factor);
     float miterLimit = (float) getStrokeTotalMiterLimit(f, factor);
     double dashFactor = f.attr().get(IS_STROKE_DASH_FACTOR) ? strokeWidth : 1d;
     double dashPhase = f.attr().get(STROKE_DASH_PHASE);
@@ -613,13 +714,22 @@ public class AttributeKeys {
    * value returned is the number of units that need to be grown (or shrunk) perpendicular to a
    * stroke on an outline of the shape.
    */
-  public static double getPerpendicularHitGrowth(Figure f, double factor) {
+  public static double getPerpendicularHitGrowth(Figure f, double scale) {
     double grow;
     if (f.attr().get(STROKE_COLOR) == null) {
-      grow = getPerpendicularFillGrowth(f, factor);
+      grow = getPerpendicularFillGrowth(f, scale);
     } else {
-      double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, factor);
-      grow = getPerpendicularDrawGrowth(f, factor) + strokeWidth / 2d;
+      double strokeWidth = AttributeKeys.getStrokeTotalWidth(f, scale);
+
+      double width = strokeWidth / 2;
+      if (f.attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
+        width *= f.attr().get(STROKE_MITER_LIMIT);
+      } else if (f.attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
+        width += strokeWidth * 2;
+      }
+      width++;
+
+      grow = getPerpendicularDrawGrowth(f, scale) + width;
     }
     return grow;
   }

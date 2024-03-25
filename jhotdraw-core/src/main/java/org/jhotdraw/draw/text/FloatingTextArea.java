@@ -39,8 +39,10 @@ public class FloatingTextArea {
 
   /** A scroll pane to allow for vertical scrolling while editing */
   protected JScrollPane editScrollContainer;
+
   /** The actual editor */
   protected JTextArea textArea;
+
   /** The drawing view. */
   protected DrawingView view;
 

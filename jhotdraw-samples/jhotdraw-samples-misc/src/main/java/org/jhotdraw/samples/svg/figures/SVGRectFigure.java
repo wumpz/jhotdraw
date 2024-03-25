@@ -31,10 +31,13 @@ import org.jhotdraw.samples.svg.SVGAttributeKeys;
 public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** Identifies the {@code arcWidth} JavaBeans property. */
   public static final String ARC_WIDTH_PROPERTY = "arcWidth";
+
   /** Identifies the {@code arcHeight} JavaBeans property. */
   public static final String ARC_HEIGHT_PROPERTY = "arcHeight";
+
   /**
    * The variable acv is used for generating the locations of the control points for the rounded
    * rectangle using path.curveTo.
@@ -49,10 +52,13 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     double cv = 4.0 / 3.0 * a * b / c;
     ACV = (1.0 - cv);
   }
+
   /** */
   private RoundRectangle2D.Double roundrect;
+
   /** This is used to perform faster drawing. */
   private transient Shape cachedTransformedShape;
+
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 
@@ -172,12 +178,12 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) roundrect.getBounds2D();
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
     Rectangle2D.Double r =
         (rx instanceof Rectangle2D.Double)

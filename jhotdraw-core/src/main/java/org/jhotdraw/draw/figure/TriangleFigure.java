@@ -34,6 +34,7 @@ import org.jhotdraw.geom.path.BezierPath;
 public class TriangleFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** The bounds of the triangle figure. */
   private Rectangle2D.Double rectangle;
 
@@ -65,7 +66,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
   }
@@ -188,8 +189,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
-    double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
+  public Rectangle2D.Double getDrawingArea(double scale) {
+    double totalStrokeWidth = AttributeKeys.getStrokeTotalWidth(this, scale);
     double width = 0d;
     if (attr().get(STROKE_COLOR) != null) {
       switch (attr().get(STROKE_PLACEMENT)) {
@@ -220,13 +221,15 @@ public class TriangleFigure extends AbstractAttributedFigure {
 
   public Point2D.Double chop(Point2D.Double p) {
     Shape triangle = getBezierPath();
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow =
+        AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
     if (grow != 0d) {
       GrowStroke gs =
           new GrowStroke(
               (float) grow,
               (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
+                  (AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
+                      * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return Geom.chop(triangle, p);

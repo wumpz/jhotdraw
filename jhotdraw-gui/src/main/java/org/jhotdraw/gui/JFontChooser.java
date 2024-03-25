@@ -28,40 +28,53 @@ import org.jhotdraw.gui.plaf.palette.PaletteFontChooserUI;
 public class JFontChooser extends JComponent {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * @see #getUIClassID
    * @see #readObject
    */
   private static final String UI_CLASS_ID = "FontChooserUI";
+
   /** Identifies the "selectedFont" property. */
   public static final String SELECTED_FONT_PROPERTY = "selectedFont";
+
   /** Identifies the "selectionPath" property. */
   public static final String SELECTION_PATH_PROPERTY = "selectionPath";
+
   /** Instruction to cancel the current selection. */
   public static final String CANCEL_SELECTION = "CancelSelection";
+
   /** Instruction to approve the current selection (same as pressing yes or ok). */
   public static final String APPROVE_SELECTION = "ApproveSelection";
+
   /** Identifies the "model" property. */
   public static final String MODEL_PROPERTY = "model";
+
   /** Holds the selected path of the JFontChooser. */
   private TreePath selectionPath;
+
   /** Holds the selected font of the JFontChooser. */
   private Font selectedFont;
+
   /** Holds the model of the JFontChooser. */
   private FontChooserModel model;
+
   // ********************************
   // ***** Dialog Return Values *****
   // ********************************
   /** Return value if cancel is chosen. */
   public static final int CANCEL_OPTION = 1;
+
   /** Return value if approve (yes, ok) is chosen. */
   public static final int APPROVE_OPTION = 0;
+
   /** Return value if an error occured. */
   public static final int ERROR_OPTION = -1;
 
   private int returnValue = ERROR_OPTION;
   // DIALOG
   private JDialog dialog = null;
+
   /** This future is used to load fonts lazily */
   private static FutureTask<Font[]> future;
 

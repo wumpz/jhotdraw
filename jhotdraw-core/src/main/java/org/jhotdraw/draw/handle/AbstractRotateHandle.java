@@ -17,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.util.ResourceBundleUtil;
 
@@ -113,7 +114,11 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     transform.translate(-center.x, -center.y);
     getOwner().willChange();
     getOwner().restoreTransformTo(restoreData);
-    getOwner().transform(transform);
+    if (getOwner() instanceof Rotation rotateOwner) {
+      rotateOwner.setRotation(currentTheta);
+    } else {
+      getOwner().transform(transform);
+    }
     getOwner().changed();
   }
 

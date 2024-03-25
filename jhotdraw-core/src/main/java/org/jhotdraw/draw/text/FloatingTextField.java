@@ -75,9 +75,7 @@ public class FloatingTextField {
 
   protected void updateWidget() {
     Font font = editedFigure.getFont();
-    font =
-        font.deriveFont(
-            font.getStyle(), (float) (editedFigure.getFontSize() * view.getScaleFactor()));
+    font = font.deriveFont(font.getStyle(), (float) (editedFigure.getFontSize()));
     textField.setFont(font);
     textField.setForeground(editedFigure.getTextColor());
     textField.setBackground(editedFigure.getFillColor());

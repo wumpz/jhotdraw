@@ -297,6 +297,7 @@ public class PaletteHSBChooser extends AbstractColorChooserPanel implements UIRe
       java.awt.event.FocusEvent evt) { // GEN-FIRST:event_hueFieldFocusLost
     hueField.setText(Integer.toString(ccModel.getBoundedRangeModel(0).getValue()));
   } // GEN-LAST:event_hueFieldFocusLost
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JTextField brightnessField;
   private javax.swing.JLabel brightnessFieldLabel;

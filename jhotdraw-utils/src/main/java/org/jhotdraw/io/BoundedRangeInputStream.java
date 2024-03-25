@@ -23,11 +23,13 @@ public class BoundedRangeInputStream extends FilterInputStream implements Bounde
   private int nread = 0;
   private int size = 0;
   private boolean valueIsAdjusting;
+
   /**
    * Only one ChangeEvent is needed per model instance since the event's only (read-only) state is
    * the source property. The source of events generated here is always "this".
    */
   protected transient ChangeEvent changeEvent = null;
+
   /** The listeners waiting for model changes. */
   protected EventListenerList listenerList = new EventListenerList();
 

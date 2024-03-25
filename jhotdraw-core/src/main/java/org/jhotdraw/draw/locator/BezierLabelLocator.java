@@ -10,6 +10,8 @@ package org.jhotdraw.draw.locator;
 import java.awt.geom.*;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.Origin;
+import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
@@ -26,6 +28,7 @@ public class BezierLabelLocator implements Locator {
   private double angle;
   private double distance;
 
+  /** For write/read. */
   public BezierLabelLocator() {}
 
   /**
@@ -44,25 +47,45 @@ public class BezierLabelLocator implements Locator {
   }
 
   @Override
-  public Point2D.Double locate(Figure owner) {
-    return getRelativePoint((BezierFigure) owner);
+  public Locator.Position locate(Figure owner, double scale) {
+    return getRelativePoint((BezierFigure) owner, scale);
+  }
+
+  public double getRelativePosition() {
+    return relativePosition;
+  }
+
+  public double getAngle() {
+    return angle;
+  }
+
+  public double getDistance() {
+    return distance;
+  }
+
+  public void setRelativePosition(double relativePosition) {
+    this.relativePosition = relativePosition;
+  }
+
+  public void setAngle(double angle) {
+    this.angle = angle;
+  }
+
+  public void setDistance(double distance) {
+    this.distance = distance;
   }
 
   @Override
-  public Point2D.Double locate(Figure owner, Figure label) {
-    Point2D.Double relativePoint = getRelativeLabelPoint((BezierFigure) owner, label);
-    return relativePoint;
+  public Locator.Position locate(Figure owner, Figure label, double scale) {
+    return getRelativeLabelPoint((BezierFigure) owner, label, scale);
   }
 
   /** Returns the coordinates of the relative point on the path of the specified bezier figure. */
-  public Point2D.Double getRelativePoint(BezierFigure owner) {
-    Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
+  public Locator.Position getRelativePoint(BezierFigure owner, double scale) {
+    Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
     Point2D.Double nextPoint =
         owner.getPointOnPath(
-            (relativePosition < 0.5)
-                ? (float) relativePosition + 0.1f
-                : (float) relativePosition - 0.1f,
-            3);
+            (relativePosition < 0.5) ? relativePosition + 0.1d : relativePosition - 0.1d, 3);
     double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
     if (relativePosition >= 0.5) {
       dir += Math.PI;
@@ -70,143 +93,60 @@ public class BezierLabelLocator implements Locator {
     double alpha = dir + angle;
     Point2D.Double p =
         new Point2D.Double(
-            point.x + distance * Math.cos(alpha), point.y + distance * Math.sin(alpha));
+            point.x + distance / scale * Math.cos(alpha),
+            point.y + distance / scale * Math.sin(alpha));
     if (Double.isNaN(p.x)) {
       p = point;
     }
-    return p;
+    return new Position(p, dir);
   }
 
   /**
    * Returns a Point2D.Double on the polyline that is at the provided relative position. XXX -
    * Implement this and move it to BezierPath
    */
-  public Point2D.Double getRelativeLabelPoint(BezierFigure owner, Figure label) {
+  public Locator.Position getRelativeLabelPoint(BezierFigure owner, Figure label, double scale) {
     // Get a point on the path an the next point on the path
-    Point2D.Double point = owner.getPointOnPath((float) relativePosition, 3);
-    if (point == null) {
-      return new Point2D.Double(0, 0);
+    Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
+    Position position = getRelativePoint(owner, scale);
+
+    // If there is a fixed origin, this locator should move the origin the the boundary midth.
+    // This should then do the label component.
+    if ((label instanceof Origin) && (label instanceof Rotation)) {
+      return position;
     }
-    Point2D.Double nextPoint =
-        owner.getPointOnPath(
-            (relativePosition < 0.5)
-                ? (float) relativePosition + 0.1f
-                : (float) relativePosition - 0.1f,
-            3);
-    double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
-    if (relativePosition >= 0.5) {
-      dir += Math.PI;
-    }
-    double alpha = dir + angle;
-    Point2D.Double p =
-        new Point2D.Double(
-            point.x + distance * Math.cos(alpha), point.y + distance * Math.sin(alpha));
-    if (Double.isNaN(p.x)) {
-      p = point;
-    }
-    Dimension2DDouble labelDim = label.getPreferredSize();
+
+    Point2D.Double p = position.location();
+
+    Dimension2DDouble labelDim = label.getPreferredSize(scale);
     if (relativePosition == 0.5 && p.x >= point.x - distance / 2 && p.x <= point.x + distance / 2) {
       if (p.y >= point.y) {
         // South East
-        return new Point2D.Double(p.x - labelDim.width / 2, p.y);
+        return new Position(new Point2D.Double(p.x - labelDim.width / 2, p.y), position.angle());
       } else {
         // North East
-        return new Point2D.Double(p.x - labelDim.width / 2, p.y - labelDim.height);
+        return new Position(
+            new Point2D.Double(p.x - labelDim.width / 2, p.y - labelDim.height), position.angle());
       }
     } else {
       if (p.x >= point.x) {
         if (p.y >= point.y) {
           // South East
-          return new Point2D.Double(p.x, p.y);
+          return new Position(new Point2D.Double(p.x, p.y), position.angle());
         } else {
           // North East
-          return new Point2D.Double(p.x, p.y - labelDim.height);
+          return new Position(new Point2D.Double(p.x, p.y - labelDim.height), position.angle());
         }
       } else {
         if (p.y >= point.y) {
           // South West
-          return new Point2D.Double(p.x - labelDim.width, p.y);
+          return new Position(new Point2D.Double(p.x - labelDim.width, p.y), position.angle());
         } else {
           // North West
-          return new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height);
+          return new Position(
+              new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height), position.angle());
         }
       }
     }
-    /*
-    int percentage = (int) (relativePosition * 100);
-    int segment; // relative segment
-    Point2D.Double segPoint; // relative Point2D.Double on the segment
-    int nPoints = owner.getPointCount();
-    Point2D.Double[] Points = owner.getPoints();
-    if (nPoints < 2) return new Point2D.Double(0, 0);
-    switch (percentage) {
-        case 0 :
-            segment = 0;
-            segPoint = owner.getStartPoint();
-            break;
-        case 100 :
-            segment = owner.getPointCount() - 2;
-            segPoint = owner.getEndPoint();
-            break;
-        default :
-            double totalLength = 0d;
-            double[] segLength = new double[nPoints - 1];
-            for (int i=1; i < nPoints; i++) {
-                segLength[i-1] = Geom.length(Points[i-1].x, Points[i-1].y, Points[i].x, Points[i].y);
-                totalLength += segLength[i-1];
-            }
-            double relativeProgress = percentage * totalLength / 101d;
-            segment = 0;
-            double segMin = 0d;
-            for (segment=0; segment < segLength.length - 1; segment++) {
-                if (segMin + segLength[segment] > relativeProgress) break;
-                segMin += segLength[segment];
-            }
-            // Compute the relative Point2D.Double on the line
-            segPoint = new Point2D.Double();
-            relativeProgress -= segMin;
-            segPoint.x = (int) ((Points[segment].x * (segLength[segment] - relativeProgress) + Points[segment + 1].x * relativeProgress) / segLength[segment] +.5);
-            segPoint.y = (int) ((Points[segment].y * (segLength[segment] - relativeProgress) + Points[segment + 1].y * relativeProgress) / segLength[segment] +.5);
-            break;
-    }
-    Dimension2DDouble labelDim = label.getPreferredSize();
-    Line2D.Double line = new Line2D.Double(Points[segment].x, Points[segment].y, Points[segment + 1].x, Points[segment + 1].y);
-    double dir = Math.atan2(Points[segment + 1].y - Points[segment].y, Points[segment + 1].x - Points[segment].x);
-    double alpha = dir + angle;
-    Point2D.Double p = new Point2D.Double(
-    (int) (segPoint.x + distance * Math.cos(alpha)),
-    (int) (segPoint.y + distance * Math.sin(alpha))
-    );
-    if (p.x >= segPoint.x) {
-        if (p.y >= segPoint.y) {
-            // South East
-            return new Point2D.Double(p.x, p.y);
-        } else {
-            // North East
-            return new Point2D.Double(p.x, p.y - labelDim.height);
-        }
-    } else {
-        if (p.y >= segPoint.y) {
-            // South West
-            return new Point2D.Double(p.x - labelDim.width,  p.y);
-        } else {
-            // North West
-            return new Point2D.Double(p.x - labelDim.width, p.y - labelDim.height);
-        }
-    }*/
   }
-
-  //  @Override
-  //  public void read(DOMInput in) {
-  //    relativePosition = in.getAttribute("relativePosition", 0d);
-  //    angle = in.getAttribute("angle", 0d);
-  //    distance = in.getAttribute("distance", 0);
-  //  }
-  //
-  //  @Override
-  //  public void write(DOMOutput out) {
-  //    out.addAttribute("relativePosition", relativePosition);
-  //    out.addAttribute("angle", angle);
-  //    out.addAttribute("distance", distance);
-  //  }
 }

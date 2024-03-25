@@ -240,6 +240,8 @@ public class MDIApplication extends AbstractApplication {
     ActionMap intermediateMap = new ActionMap();
     intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
     ActionMap vMap = model.createActionMap(this, v);
+    vMap.put(UndoAction.ID, v.getActionMap().get(UndoAction.ID));
+    vMap.put(RedoAction.ID, v.getActionMap().get(RedoAction.ID));
     vMap.setParent(intermediateMap);
     intermediateMap.setParent(getActionMap(null));
     return vMap;

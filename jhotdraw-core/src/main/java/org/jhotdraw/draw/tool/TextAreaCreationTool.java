@@ -70,6 +70,7 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
   private static final long serialVersionUID = 1L;
   private FloatingTextArea textArea;
   private TextHolderFigure typingTarget;
+
   /** Rubberband color of the tool. When this is null, the tool does not draw a rubberband. */
   private Color rubberbandColor = null;
 

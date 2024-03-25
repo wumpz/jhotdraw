@@ -29,8 +29,10 @@ public class JPopupButton extends javax.swing.JButton {
   private Font itemFont;
   public static final Font ITEM_FONT = new Font("Dialog", Font.PLAIN, 10);
   private int popupAnchor = SwingConstants.SOUTH_WEST;
+
   /** The time when the popup became invisible. */
   private long popupBecameInvisible;
+
   /** Whether the popup menu closes automatically, when another popup menu is opened. */
   private boolean isCloseAutomatically;
 

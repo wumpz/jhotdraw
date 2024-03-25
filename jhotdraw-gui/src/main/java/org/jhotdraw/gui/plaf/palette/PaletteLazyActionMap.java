@@ -14,6 +14,7 @@ import javax.swing.plaf.*;
 public class PaletteLazyActionMap extends ActionMapUIResource {
 
   private static final long serialVersionUID = 1L;
+
   /** Object to invoke <code>loadActionMap</code> on. This may be a Class object. */
   private transient Object loader;
 

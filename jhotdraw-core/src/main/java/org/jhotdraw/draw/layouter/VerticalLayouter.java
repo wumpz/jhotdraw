@@ -36,7 +36,7 @@ public class VerticalLayouter extends AbstractLayouter {
 
   @Override
   public Rectangle2D.Double calculateLayout(
-      CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Insets2D.Double layoutInsets = layoutable.attr().get(LAYOUT_INSETS);
     if (layoutInsets == null) {
       layoutInsets = new Insets2D.Double(0, 0, 0, 0);
@@ -44,7 +44,7 @@ public class VerticalLayouter extends AbstractLayouter {
     Rectangle2D.Double layoutBounds = new Rectangle2D.Double(anchor.x, anchor.y, 0, 0);
     for (Figure child : layoutable.getChildren()) {
       if (child.isVisible()) {
-        Dimension2DDouble preferredSize = child.getPreferredSize();
+        Dimension2DDouble preferredSize = child.getPreferredSize(scale);
         Insets2D.Double ins = getInsets(child);
         layoutBounds.width =
             Math.max(layoutBounds.width, preferredSize.width + ins.left + ins.right);
@@ -58,19 +58,19 @@ public class VerticalLayouter extends AbstractLayouter {
 
   @Override
   public Rectangle2D.Double layout(
-      CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead) {
+      CompositeFigure layoutable, Point2D.Double anchor, Point2D.Double lead, double scale) {
     Insets2D.Double layoutInsets = layoutable.attr().get(LAYOUT_INSETS);
     Alignment compositeAlignment = layoutable.attr().get(COMPOSITE_ALIGNMENT);
     if (layoutInsets == null) {
       layoutInsets = new Insets2D.Double();
     }
-    Rectangle2D.Double layoutBounds = calculateLayout(layoutable, anchor, lead);
+    Rectangle2D.Double layoutBounds = calculateLayout(layoutable, anchor, lead, scale);
     double y = layoutBounds.y + layoutInsets.top;
     for (Figure child : layoutable.getChildren()) {
       if (child.isVisible()) {
         Insets2D.Double insets = getInsets(child);
-        double height = child.getPreferredSize().height;
-        double width = child.getPreferredSize().width;
+        double height = child.getPreferredSize(scale).height;
+        double width = child.getPreferredSize(scale).width;
         switch (compositeAlignment) {
           case LEADING:
             child.setBounds(

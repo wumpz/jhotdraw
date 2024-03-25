@@ -37,8 +37,9 @@ public interface LineDecoration extends Cloneable, Serializable {
    * Returns the radius of the decorator. This is used to crop the end of the line, to prevent it
    * from being drawn over the decorator.
    */
-  public abstract double getDecorationRadius(Figure f);
+  public abstract double getDecorationRadius(Figure f, double factor);
 
   /** Returns the drawing bounds of the decorator. */
-  public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2);
+  public Rectangle2D.Double getDrawingArea(
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor);
 }

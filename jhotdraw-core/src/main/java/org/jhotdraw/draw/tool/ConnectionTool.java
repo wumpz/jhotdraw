@@ -46,27 +46,36 @@ import org.jhotdraw.util.*;
 public class ConnectionTool extends AbstractTool {
 
   private static final long serialVersionUID = 1L;
+
   /** FIXME - The ANCHOR_WIDTH value must be retrieved from the DrawingEditor */
   private static final int ANCHOR_WIDTH = 6;
+
   /**
    * Attributes to be applied to the created ConnectionFigure. These attributes override the default
    * attributes of the DrawingEditor.
    */
   private Map<AttributeKey<?>, Object> prototypeAttributes;
+
   /** The Connector at the start point of the connection. */
   protected Connector startConnector;
+
   /** The Connector at the end point of the connection. */
   protected Connector endConnector;
+
   /** The created figure. */
   protected ConnectionFigure createdFigure;
+
   /** the prototypical figure that is used to create new connections. */
   protected ConnectionFigure prototype;
+
   /** The figure for which we enabled drawing of connectors. */
   protected Figure targetFigure;
 
   protected Collection<Connector> connectors = Collections.emptyList();
+
   /** A localized name for this tool. The presentationName is displayed by the UndoableEdit. */
   private String presentationName;
+
   /**
    * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
    * created. This allows to create multiple figures consecutively.

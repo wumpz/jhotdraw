@@ -39,10 +39,13 @@ public class JColorWheel extends JPanel {
   protected Image colorWheelImage;
   protected AbstractColorWheelImageProducer colorWheelProducer;
   protected ColorSliderModel model;
+
   /** Radial color component index. */
   protected int radialIndex = 1;
+
   /** Angular color component index. */
   protected int angularIndex = 0;
+
   /** Vertical color component index. */
   protected int verticalIndex = 2;
 

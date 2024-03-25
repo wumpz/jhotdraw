@@ -23,11 +23,13 @@ import org.jhotdraw.geom.Geom;
 public class DiamondFigure extends AbstractAttributedFigure {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * If the attribute IS_QUADRATIC is put to true, all sides of the diamond have the same length.
    */
   public static final AttributeKey<Boolean> IS_QUADRATIC =
       new AttributeKey<>("isQuadratic", Boolean.class, false);
+
   /** The bounds of the diamond figure. */
   private Rectangle2D.Double rectangle;
 
@@ -107,16 +109,17 @@ public class DiamondFigure extends AbstractAttributedFigure {
     diamond.closePath();
     g.draw(diamond);
   }
+
   // SHAPE AND BOUNDS
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
     return bounds;
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scaleD) {
     Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
     if (attr().get(IS_QUADRATIC)) {
       double side = Math.max(r.width, r.height);
@@ -124,7 +127,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
       r.y -= (side - r.height) / 2;
       r.width = r.height = side;
     }
-    double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0);
+    double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleD);
     if (grow != 0d) {
       double w = r.width / 2d;
       double h = r.height / 2d;
@@ -207,6 +210,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   public Object getTransformRestoreData() {
     return rectangle.clone();
   }
+
   // ATTRIBUTES
   // EDITING
   // CONNECTING
@@ -226,6 +230,7 @@ public class DiamondFigure extends AbstractAttributedFigure {
   public Connector findCompatibleConnector(Connector c, boolean isStart) {
     return new ChopDiamondConnector(this);
   }
+
   // COMPOSITE FIGURES
   // CLONING
 

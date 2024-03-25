@@ -25,4 +25,7 @@ public class ToolAdapter implements ToolListener {
 
   @Override
   public void boundsInvalidated(ToolEvent e) {}
+
+  @Override
+  public void figureCreated(FigureCreatedEvent e) {}
 }

@@ -103,6 +103,7 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
             getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
     add(opacityPopupButton, new java.awt.GridBagConstraints());
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private org.jhotdraw.draw.gui.JAttributeTextField linkField;
   private javax.swing.JLabel linkLabel;

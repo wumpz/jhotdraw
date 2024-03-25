@@ -26,7 +26,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
@@ -49,14 +48,18 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     implements CompositeFigure {
 
   private static final long serialVersionUID = 1L;
+
   /** A Layouter determines how the children of the CompositeFigure are laid out graphically. */
   protected Layouter layouter;
 
   protected List<Figure> children = new ArrayList<>();
+
   /** Caches the drawing area to improve the performance of method {@link #getDrawingArea}. */
   protected transient Rectangle2D.Double cachedDrawingArea;
+
   /** Caches the bounds to improve the performance of method {@link #getBounds}. */
   protected transient Rectangle2D.Double cachedBounds;
+
   /** Handles figure changes in the children. */
   protected EventHandler eventHandler;
 
@@ -334,7 +337,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public boolean contains(Point2D.Double p, double scaleDenominator) {
-    if (getDrawingArea().contains(p)) {
+    if (getDrawingArea(scaleDenominator).contains(p)) {
       if (attr().get(TRANSFORM) != null) {
         try {
           p = (Point2D.Double) attr().get(TRANSFORM).inverseTransform(p, new Point2D.Double());
@@ -404,7 +407,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
    * Layouter which can be plugged in at runtime.
    */
   @Override
-  public void layout() {
+  public void layout(double scale) {
     // Note: We increase and below decrease the changing depth here,
     //       because we want to ignore change events from our children
     //       why we lay them out.
@@ -412,14 +415,14 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     for (Figure child : getChildren()) {
       if (child instanceof CompositeFigure) {
         CompositeFigure cf = (CompositeFigure) child;
-        cf.layout();
+        cf.layout(scale);
       }
     }
     changingDepth--;
     if (getLayouter() != null) {
-      Rectangle2D.Double bounds = getBounds();
+      Rectangle2D.Double bounds = getBounds(scale);
       Point2D.Double p = new Point2D.Double(bounds.x, bounds.y);
-      Rectangle2D.Double r = getLayouter().layout(this, p, p);
+      Rectangle2D.Double r = getLayouter().layout(this, p, p, scale);
       setBounds(new Point2D.Double(r.x, r.y), new Point2D.Double(r.x + r.width, r.y + r.height));
       invalidate();
     }
@@ -440,12 +443,12 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Dimension2DDouble getPreferredSize() {
+  public Dimension2DDouble getPreferredSize(double scale) {
     if (this.layouter != null) {
-      Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint());
+      Rectangle2D.Double r = layouter.calculateLayout(this, getStartPoint(), getEndPoint(), scale);
       return new Dimension2DDouble(r.width, r.height);
     } else {
-      return super.getPreferredSize();
+      return super.getPreferredSize(scale);
     }
   }
 
@@ -454,7 +457,10 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     Rectangle2D clipBounds = g.getClipBounds();
     if (clipBounds != null) {
       for (Figure child : getChildren()) {
-        if (child.isVisible() && child.getDrawingArea().intersects(clipBounds)) {
+        if (child.isVisible()
+            && child
+                .getDrawingArea(AttributeKeys.getScaleFactorFromGraphics(g))
+                .intersects(clipBounds)) {
           child.draw(g);
         }
       }
@@ -529,6 +535,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     for (Figure thisChild : this.children) {
       Figure thatChild = thisChild.clone();
       that.children.add(thatChild);
+      thatChild.removeFigureListener(this.eventHandler);
       thatChild.addFigureListener(that.eventHandler);
     }
     return that;
@@ -537,7 +544,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   protected void validate() {
     super.validate();
-    layout();
+    layout(AttributeKeys.scaleFromContext(this));
   }
 
   @Override
@@ -599,16 +606,16 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     if (cachedBounds == null) {
       if (getChildCount() == 0) {
         cachedBounds = new Rectangle2D.Double();
       } else {
         for (Figure f : children) {
           if (cachedBounds == null) {
-            cachedBounds = f.getBounds();
+            cachedBounds = f.getBounds(scale);
           } else {
-            cachedBounds.add(f.getBounds());
+            cachedBounds.add(f.getBounds(scale));
           }
         }
       }
@@ -667,13 +674,6 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     return attributes;
   }
 
-  @Override
-  protected <T> void fireAttributeChanged(AttributeKey<T> attribute, T oldValue, T newValue) {
-    super.fireAttributeChanged(
-        attribute, oldValue,
-        newValue); // To change body of generated methods, choose Tools | Templates.
-  }
-
   public void drawFigure(Graphics2D g) {
     drawChildren(g);
     if (attr().get(FILL_COLOR) != null) {
@@ -705,7 +705,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   public Stroke getStroke() {
-    return AttributeKeys.getStroke(this, 1.0);
+    return AttributeKeys.getStroke(this, AttributeKeys.scaleFromContext(this));
   }
 
   @Override
@@ -715,7 +715,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   public Rectangle2D.Double getFigureDrawBounds() {
-    double width = AttributeKeys.getStrokeTotalWidth(this, 1.0) / 2d;
+    double width =
+        AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this)) / 2d;
     if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
       width *= attr().get(STROKE_MITER_LIMIT);
     }

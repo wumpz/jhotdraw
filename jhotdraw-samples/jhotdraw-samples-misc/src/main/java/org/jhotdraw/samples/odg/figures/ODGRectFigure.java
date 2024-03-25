@@ -33,8 +33,10 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
 
   private static final long serialVersionUID = 1L;
   private RoundRectangle2D.Double roundrect;
+
   /** This is used to perform faster drawing. */
   private transient Shape cachedTransformedShape;
+
   /** This is used to perform faster hit testing. */
   private transient Shape cachedHitShape;
 
@@ -96,12 +98,12 @@ public class ODGRectFigure extends ODGAttributedFigure implements ODGFigure {
   }
 
   @Override
-  public Rectangle2D.Double getBounds() {
+  public Rectangle2D.Double getBounds(double scale) {
     return (Rectangle2D.Double) roundrect.getBounds2D();
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea() {
+  public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
     Rectangle2D.Double r =
         (rx instanceof Rectangle2D.Double)

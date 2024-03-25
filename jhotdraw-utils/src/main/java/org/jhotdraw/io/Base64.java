@@ -45,23 +45,32 @@ public class Base64 {
   /* ********  P U B L I C   F I E L D S  ******** */
   /** No options specified. Value is zero. */
   public static final int NO_OPTIONS = 0;
+
   /** Specify encoding. */
   public static final int ENCODE = 1;
+
   /** Specify decoding. */
   public static final int DECODE = 0;
+
   /** Specify that data should be gzip-compressed. */
   public static final int GZIP = 2;
+
   /** Don't break lines when encoding (violates strict Base64 specification) */
   public static final int DONT_BREAK_LINES = 8;
+
   /* ********  P R I V A T E   F I E L D S  ******** */
   /** Maximum line length (76) of Base64 output. */
   private static final int MAX_LINE_LENGTH = 76;
+
   /** The equals sign (=) as a byte. */
   private static final byte EQUALS_SIGN = (byte) '=';
+
   /** The new line character (\n) as a byte. */
   private static final byte NEW_LINE = (byte) '\n';
+
   /** Preferred encoding. */
   private static final String PREFERRED_ENCODING = "UTF-8";
+
   /** The 64 valid Base64 values. */
   private static final byte[] ALPHABET;
 
@@ -144,6 +153,7 @@ public class Base64 {
     }
     ALPHABET = __bytes;
   }
+
   /**
    * Translates a Base64 value to either its 6-bit reconstruction value or a negative number
    * indicating some other meaning.
@@ -286,6 +296,7 @@ public class Base64 {
     -9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,     // Decimal 218 - 230
     -9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,     // Decimal 231 - 243
     -9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9,-9         // Decimal 244 - 255 */ };
+
   // I think I end up not using the BAD_ENCODING indicator.
   // private static final byte BAD_ENCODING    = -9; // Indicates error in encoding
   private static final byte WHITE_SPACE_ENC = -5; // Indicates white space in encoding

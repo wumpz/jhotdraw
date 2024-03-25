@@ -30,10 +30,13 @@ public class JavaxDOMInput implements DOMInput {
    * String representing a marshalled reference. A value in this map is an unmarshalled Object.
    */
   private HashMap<String, Object> idobjects = new HashMap<String, Object>();
+
   /** The document used for input. */
   private Document document;
+
   /** The current node used for input. */
   private Node current;
+
   /** The factory used to create objects from XML tag names. */
   private DOMFactory factory;
 

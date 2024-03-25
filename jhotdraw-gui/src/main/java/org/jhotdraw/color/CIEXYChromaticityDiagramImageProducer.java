@@ -44,6 +44,7 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
     CLAMP,
     LEAVE_OUTSIDE
   };
+
   /** By default, clamps non-displayable RGB values. */
   private OutsideGamutHandling outsideGamutHandling = OutsideGamutHandling.LEAVE_OUTSIDE;
 

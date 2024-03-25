@@ -60,6 +60,7 @@ public class CIEXYChromaticityDiagram extends javax.swing.JPanel {
             .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE));
   } // </editor-fold>//GEN-END:initComponents
+
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables
   public static void main(String[] args) {

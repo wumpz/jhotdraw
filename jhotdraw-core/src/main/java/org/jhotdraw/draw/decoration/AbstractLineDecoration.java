@@ -20,10 +20,13 @@ import org.jhotdraw.geom.Geom;
 public abstract class AbstractLineDecoration implements LineDecoration {
 
   private static final long serialVersionUID = 1L;
+
   /** If this is true, the decoration is filled. */
   private boolean isFilled;
+
   /** If this is true, the decoration is stroked. */
   private boolean isStroked;
+
   /** If this is true, the stroke color is used to fill the decoration. */
   private boolean isSolid;
 
@@ -49,7 +52,12 @@ public abstract class AbstractLineDecoration implements LineDecoration {
   /** Draws the arrow tip in the direction specified by the given two Points. (template method) */
   @Override
   public void draw(Graphics2D g, Figure f, Point2D.Double p1, Point2D.Double p2) {
-    Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
+    Path2D.Double path =
+        getTransformedDecoratorPath(
+            f,
+            p1,
+            p2,
+            AttributeKeys.getGlobalValueFactor(f, AttributeKeys.getScaleFactorFromGraphics(g)));
     Color color;
     if (isFilled) {
       if (isSolid) {
@@ -74,8 +82,10 @@ public abstract class AbstractLineDecoration implements LineDecoration {
 
   /** Returns the drawing area of the decorator. */
   @Override
-  public Rectangle2D.Double getDrawingArea(Figure f, Point2D.Double p1, Point2D.Double p2) {
-    Path2D.Double path = getTransformedDecoratorPath(f, p1, p2);
+  public Rectangle2D.Double getDrawingArea(
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor) {
+    Path2D.Double path =
+        getTransformedDecoratorPath(f, p1, p2, AttributeKeys.getGlobalValueFactor(f, factor));
     Rectangle2D b = path.getBounds2D();
     Rectangle2D.Double area =
         new Rectangle2D.Double(b.getX(), b.getY(), b.getWidth(), b.getHeight());
@@ -89,15 +99,15 @@ public abstract class AbstractLineDecoration implements LineDecoration {
       } else {
         grow = (int) (1 + strokeWidth / 2);
       }
-      Geom.grow(area, grow, grow);
+      Geom.grow(area, grow * factor, grow * factor);
     } else {
-      Geom.grow(area, 1, 1); // grow due to antialiasing
+      Geom.grow(area, factor, factor); // grow due to antialiasing
     }
     return area;
   }
 
   @Override
-  public double getDecorationRadius(Figure f) {
+  public double getDecorationRadius(Figure f, double factor) {
     double strokeWidth = f.attr().get(STROKE_WIDTH);
     double scaleFactor;
     if (strokeWidth > 1f) {
@@ -105,11 +115,12 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     } else {
       scaleFactor = 1d;
     }
+    scaleFactor /= factor;
     return getDecoratorPathRadius(f) * scaleFactor;
   }
 
   private Path2D.Double getTransformedDecoratorPath(
-      Figure f, Point2D.Double p1, Point2D.Double p2) {
+      Figure f, Point2D.Double p1, Point2D.Double p2, double factor) {
     Path2D.Double path = getDecoratorPath(f);
     double strokeWidth = f.attr().get(STROKE_WIDTH);
     AffineTransform transform = new AffineTransform();
@@ -119,6 +130,7 @@ public abstract class AbstractLineDecoration implements LineDecoration {
     if (strokeWidth > 1f) {
       transform.scale(1d + (strokeWidth - 1d) / 2d, 1d + (strokeWidth - 1d) / 2d);
     }
+    transform.scale(1 / factor, 1 / factor);
     path.transform(transform);
     return path;
   }

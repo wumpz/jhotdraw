@@ -22,13 +22,16 @@ public abstract class MultiIcon implements Icon {
    * our base.
    */
   protected Icon[] icons;
+
   /**
    * Holds the icon pictures in a single image. This variable is used only until we create the icons
    * array. Then it is set to null.
    */
   private Image tiledImage;
+
   /** The number of icons in the tiledImage. */
   private int tileCount;
+
   /**
    * Whether the tiledImage needs to be tiled horizontaly or vertically to get the icons out of it.
    */

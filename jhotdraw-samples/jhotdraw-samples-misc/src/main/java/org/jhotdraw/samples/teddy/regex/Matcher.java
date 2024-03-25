@@ -17,14 +17,19 @@ public class Matcher {
 
   /** The document to be examined. */
   private Document document;
+
   /** The string to be matched. */
   private String findString;
+
   /** The start index for the next findNext operation. */
   private int startIndex;
+
   /** The array of lower case matching chars. */
   private char[] matchLowerCase;
+
   /** The array of upper case matching chars. */
   private char[] matchUpperCase;
+
   /** The match type. */
   private MatchType matchType;
 
