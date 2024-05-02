@@ -47,20 +47,19 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
    * Sending this UndoableEdit event to the UndoRedoManager disables the Undo and Redo functions of
    * the manager.
    */
-  public static final UndoableEdit DISCARD_ALL_EDITS =
-      new AbstractUndoableEdit() {
-        private static final long serialVersionUID = 1L;
+  public static final UndoableEdit DISCARD_ALL_EDITS = new AbstractUndoableEdit() {
+    private static final long serialVersionUID = 1L;
 
-        @Override
-        public boolean canUndo() {
-          return false;
-        }
+    @Override
+    public boolean canUndo() {
+      return false;
+    }
 
-        @Override
-        public boolean canRedo() {
-          return false;
-        }
-      };
+    @Override
+    public boolean canRedo() {
+      return false;
+    }
+  };
 
   /** Undo Action for use in a menu bar. */
   private class UndoAction extends AbstractAction {
@@ -190,15 +189,14 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
   /** Updates the properties of the UndoAction and of the RedoAction. */
   private void updateActions() {
     String label;
-    LOG.fine(
-        "UndoRedoManager@"
-            + hashCode()
-            + ".updateActions "
-            + editToBeUndone()
-            + " canUndo="
-            + canUndo()
-            + " canRedo="
-            + canRedo());
+    LOG.fine("UndoRedoManager@"
+        + hashCode()
+        + ".updateActions "
+        + editToBeUndone()
+        + " canUndo="
+        + canUndo()
+        + " canRedo="
+        + canRedo());
     if (canUndo()) {
       undoAction.setEnabled(true);
       label = getUndoPresentationName();

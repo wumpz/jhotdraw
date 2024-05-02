@@ -59,45 +59,43 @@ public class FontToolBar extends AbstractToolBar {
     }
     super.setEditor(newValue);
     if (newValue != null) {
-      displayer =
-          new SelectionComponentDisplayer(editor, this) {
-            @Override
-            public void updateVisibility() {
-              boolean newValue =
-                  editor != null
-                      && editor.getActiveView() != null
-                      && (isVisibleIfCreationTool
-                              && ((editor.getTool() instanceof TextCreationTool)
-                                  || editor.getTool() instanceof TextAreaCreationTool)
-                          || containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
-              JComponent component = getComponent();
-              if (component == null) {
-                dispose();
-                return;
-              }
-              component.setVisible(newValue);
-              // The following is needed to trick BoxLayout
-              if (newValue) {
-                component.setPreferredSize(null);
-              } else {
-                component.setPreferredSize(new Dimension(0, 0));
-              }
-              component.revalidate();
-            }
+      displayer = new SelectionComponentDisplayer(editor, this) {
+        @Override
+        public void updateVisibility() {
+          boolean newValue = editor != null
+              && editor.getActiveView() != null
+              && (isVisibleIfCreationTool
+                      && ((editor.getTool() instanceof TextCreationTool)
+                          || editor.getTool() instanceof TextAreaCreationTool)
+                  || containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
+          JComponent component = getComponent();
+          if (component == null) {
+            dispose();
+            return;
+          }
+          component.setVisible(newValue);
+          // The following is needed to trick BoxLayout
+          if (newValue) {
+            component.setPreferredSize(null);
+          } else {
+            component.setPreferredSize(new Dimension(0, 0));
+          }
+          component.revalidate();
+        }
 
-            private boolean containsTextHolderFigure(Collection<Figure> figures) {
-              for (Figure f : figures) {
-                if (f instanceof TextHolderFigure) {
-                  return true;
-                } else if (f instanceof CompositeFigure) {
-                  if (containsTextHolderFigure(((CompositeFigure) f).getChildren())) {
-                    return true;
-                  }
-                }
+        private boolean containsTextHolderFigure(Collection<Figure> figures) {
+          for (Figure f : figures) {
+            if (f instanceof TextHolderFigure) {
+              return true;
+            } else if (f instanceof CompositeFigure) {
+              if (containsTextHolderFigure(((CompositeFigure) f).getChildren())) {
+                return true;
               }
-              return false;
             }
-          };
+          }
+          return false;
+        }
+      };
     }
   }
 

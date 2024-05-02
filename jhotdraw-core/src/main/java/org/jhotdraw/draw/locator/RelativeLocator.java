@@ -65,23 +65,22 @@ public class RelativeLocator extends AbstractLocator {
     }
     Point2D.Double location;
     if (isTransform) {
-      location =
-          new Point2D.Double(
-              bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
+      location = new Point2D.Double(
+          bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
       if (owner.attr().get(TRANSFORM) != null) {
         owner.attr().get(TRANSFORM).transform(location, location);
       }
     } else {
       if (owner.attr().get(TRANSFORM) != null) {
-        Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
+        Rectangle2D r =
+            owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
         bounds.x = r.getX();
         bounds.y = r.getY();
         bounds.width = r.getWidth();
         bounds.height = r.getHeight();
       }
-      location =
-          new Point2D.Double(
-              bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
+      location = new Point2D.Double(
+          bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
     }
     return new Position(location);
   }
@@ -254,16 +253,12 @@ public class RelativeLocator extends AbstractLocator {
   @Override
   public int hashCode() {
     int hash = 7;
-    hash =
-        71 * hash
-            + (int)
-                (Double.doubleToLongBits(this.relativeX)
-                    ^ (Double.doubleToLongBits(this.relativeX) >>> 32));
-    hash =
-        71 * hash
-            + (int)
-                (Double.doubleToLongBits(this.relativeY)
-                    ^ (Double.doubleToLongBits(this.relativeY) >>> 32));
+    hash = 71 * hash
+        + (int) (Double.doubleToLongBits(this.relativeX)
+            ^ (Double.doubleToLongBits(this.relativeX) >>> 32));
+    hash = 71 * hash
+        + (int) (Double.doubleToLongBits(this.relativeY)
+            ^ (Double.doubleToLongBits(this.relativeY) >>> 32));
     return hash;
   }
 }

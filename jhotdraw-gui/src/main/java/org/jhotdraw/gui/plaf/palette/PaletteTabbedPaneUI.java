@@ -32,10 +32,9 @@ import javax.swing.text.View;
 public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
 
   private static final float[] ENABLED_STOPS = new float[] {0f, 0.35f, 0.4f, 1f};
-  private static final Color[] ENABLED_STOP_COLORS =
-      new Color[] {
-        new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)
-      };
+  private static final Color[] ENABLED_STOP_COLORS = new Color[] {
+    new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)
+  };
   private boolean tabsOverlapBorder;
   private Color selectedColor;
   private boolean tabsOpaque = true;
@@ -118,10 +117,9 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
     paintTabBorder(
         g, tabPlacement, tabIndex, tabRect.x, tabRect.y, tabRect.width, tabRect.height, isSelected);
     String title = tabPane.getTitleAt(tabIndex);
-    Font font =
-        isSelected
-            ? PaletteLookAndFeel.getInstance().getFont("TabbedPane.selectedFont")
-            : tabPane.getFont();
+    Font font = isSelected
+        ? PaletteLookAndFeel.getInstance().getFont("TabbedPane.selectedFont")
+        : tabPane.getFont();
     FontMetrics metrics = PaletteUtilities.getFontMetrics(tabPane, g, font);
     Icon icon = getIconForTab(tabIndex);
     layoutLabel(
@@ -205,13 +203,12 @@ public class PaletteTabbedPaneUI extends BasicTabbedPaneUI {
         break;
       case BOTTOM:
         if (!isSelected) {
-          LinearGradientPaint lgp =
-              new LinearGradientPaint(
-                  new Point2D.Float(x, y),
-                  new Point2D.Float(x, y + h - 1),
-                  ENABLED_STOPS,
-                  ENABLED_STOP_COLORS,
-                  MultipleGradientPaint.CycleMethod.REPEAT);
+          LinearGradientPaint lgp = new LinearGradientPaint(
+              new Point2D.Float(x, y),
+              new Point2D.Float(x, y + h - 1),
+              ENABLED_STOPS,
+              ENABLED_STOP_COLORS,
+              MultipleGradientPaint.CycleMethod.REPEAT);
           g.setPaint(lgp);
         }
         g.fillRect(x + 1, y, w - 3, h - 1);

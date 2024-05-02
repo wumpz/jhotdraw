@@ -298,12 +298,11 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     Rectangle2D.Double oldBounds = getBounds();
-    Rectangle2D.Double newBounds =
-        new Rectangle2D.Double(
-            Math.min(anchor.x, lead.x),
-            Math.min(anchor.y, lead.y),
-            Math.abs(anchor.x - lead.x),
-            Math.abs(anchor.y - lead.y));
+    Rectangle2D.Double newBounds = new Rectangle2D.Double(
+        Math.min(anchor.x, lead.x),
+        Math.min(anchor.y, lead.y),
+        Math.abs(anchor.x - lead.x),
+        Math.abs(anchor.y - lead.y));
     double sx = newBounds.width / oldBounds.width;
     double sy = newBounds.height / oldBounds.height;
     AffineTransform tx = new AffineTransform();
@@ -525,11 +524,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public AbstractAttributedCompositeFigure clone() {
     AbstractAttributedCompositeFigure that = (AbstractAttributedCompositeFigure) super.clone();
-    that.attributes =
-        Attributes.from(
-            attributes,
-            that::fireAttributeChanged,
-            Attributes.attrSupplier(() -> that.getChildren()));
+    that.attributes = Attributes.from(
+        attributes, that::fireAttributeChanged, Attributes.attrSupplier(() -> that.getChildren()));
     that.children = new ArrayList<>();
     that.eventHandler = that.createEventHandler();
     for (Figure thisChild : this.children) {
@@ -664,10 +660,9 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     listenerList.add(CompositeFigureListener.class, listener);
   }
 
-  private Attributes attributes =
-      new Attributes(
-          this::fireAttributeChanged,
-          Attributes.attrSupplier(() -> AbstractAttributedCompositeFigure.this.getChildren()));
+  private Attributes attributes = new Attributes(
+      this::fireAttributeChanged,
+      Attributes.attrSupplier(() -> AbstractAttributedCompositeFigure.this.getChildren()));
 
   @Override
   public Attributes attr() {

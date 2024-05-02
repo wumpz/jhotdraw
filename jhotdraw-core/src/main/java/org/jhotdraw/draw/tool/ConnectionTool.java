@@ -264,28 +264,26 @@ public class ConnectionTool extends AbstractTool {
       createdFigure.changed();
       final Figure addedFigure = createdFigure;
       final Drawing addedDrawing = getDrawing();
-      getDrawing()
-          .fireUndoableEditHappened(
-              new AbstractUndoableEdit() {
-                private static final long serialVersionUID = 1L;
+      getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-                @Override
-                public String getPresentationName() {
-                  return presentationName;
-                }
+        @Override
+        public String getPresentationName() {
+          return presentationName;
+        }
 
-                @Override
-                public void undo() throws CannotUndoException {
-                  super.undo();
-                  addedDrawing.remove(addedFigure);
-                }
+        @Override
+        public void undo() throws CannotUndoException {
+          super.undo();
+          addedDrawing.remove(addedFigure);
+        }
 
-                @Override
-                public void redo() throws CannotRedoException {
-                  super.redo();
-                  addedDrawing.add(addedFigure);
-                }
-              });
+        @Override
+        public void redo() throws CannotRedoException {
+          super.redo();
+          addedDrawing.add(addedFigure);
+        }
+      });
       targetFigure = null;
       Point2D.Double anchor = startConnector.getAnchor();
       Rectangle r = new Rectangle(getView().drawingToView(anchor));
@@ -347,17 +345,15 @@ public class ConnectionTool extends AbstractTool {
     if (createdFigure != null) {
       createdFigure.draw(gg);
       Point p = getView().drawingToView(createdFigure.getStartPoint());
-      Ellipse2D.Double e =
-          new Ellipse2D.Double(
-              p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2, ANCHOR_WIDTH, ANCHOR_WIDTH);
+      Ellipse2D.Double e = new Ellipse2D.Double(
+          p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2, ANCHOR_WIDTH, ANCHOR_WIDTH);
       g.setColor(Color.GREEN);
       g.fill(e);
       g.setColor(Color.BLACK);
       g.draw(e);
       p = getView().drawingToView(createdFigure.getEndPoint());
-      e =
-          new Ellipse2D.Double(
-              p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2, ANCHOR_WIDTH, ANCHOR_WIDTH);
+      e = new Ellipse2D.Double(
+          p.x - ANCHOR_WIDTH / 2, p.y - ANCHOR_WIDTH / 2, ANCHOR_WIDTH, ANCHOR_WIDTH);
       g.setColor(Color.GREEN);
       g.fill(e);
       g.setColor(Color.BLACK);

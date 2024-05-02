@@ -44,13 +44,12 @@ public class FloatingTextField {
   private TextHolderFigure editedFigure;
   private JTextField textField;
   private DrawingView view;
-  private FigureListener figureHandler =
-      new FigureListenerAdapter() {
-        @Override
-        public void attributeChanged(FigureEvent e) {
-          updateWidget();
-        }
-      };
+  private FigureListener figureHandler = new FigureListenerAdapter() {
+    @Override
+    public void attributeChanged(FigureEvent e) {
+      updateWidget();
+    }
+  };
 
   public FloatingTextField() {
     textField = new JTextField(20);

@@ -309,25 +309,23 @@ public class JPopupButton extends javax.swing.JButton {
    */
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
-    addMouseListener(
-        new java.awt.event.MouseAdapter() {
-          public void mousePressed(java.awt.event.MouseEvent evt) {
-            handleMousePressed(evt);
-          }
+    addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mousePressed(java.awt.event.MouseEvent evt) {
+        handleMousePressed(evt);
+      }
 
-          public void mouseReleased(java.awt.event.MouseEvent evt) {
-            performAction(evt);
-          }
-        });
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        performAction(evt);
+      }
+    });
   } // </editor-fold>//GEN-END:initComponents
 
   private void performAction(java.awt.event.MouseEvent evt) { // GEN-FIRST:event_performAction
     // Add your handling code here:
     if (actionArea != null
         && actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top)) {
-      action.actionPerformed(
-          new ActionEvent(
-              this, ActionEvent.ACTION_PERFORMED, null, evt.getWhen(), evt.getModifiers()));
+      action.actionPerformed(new ActionEvent(
+          this, ActionEvent.ACTION_PERFORMED, null, evt.getWhen(), evt.getModifiers()));
     }
   } // GEN-LAST:event_performAction
 

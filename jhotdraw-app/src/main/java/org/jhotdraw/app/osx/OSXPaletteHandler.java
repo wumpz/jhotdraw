@@ -23,42 +23,38 @@ public class OSXPaletteHandler {
   private HashMap<Window, View> windows = new HashMap<>();
   private javax.swing.Timer timer;
   private OSXApplication app;
-  private WindowFocusListener focusHandler =
-      new WindowFocusListener() {
-        /**
-         * Invoked when the Window is set to be the focused Window, which means that the Window, or
-         * one of its subcomponents, will receive keyboard events.
-         */
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-          timer.stop();
-          if (windows.get(e.getWindow()) != null) {
-            app.setActiveView(windows.get(e.getWindow()));
-            showPalettes();
-          }
-        }
+  private WindowFocusListener focusHandler = new WindowFocusListener() {
+    /**
+     * Invoked when the Window is set to be the focused Window, which means that the Window, or
+     * one of its subcomponents, will receive keyboard events.
+     */
+    @Override
+    public void windowGainedFocus(WindowEvent e) {
+      timer.stop();
+      if (windows.get(e.getWindow()) != null) {
+        app.setActiveView(windows.get(e.getWindow()));
+        showPalettes();
+      }
+    }
 
-        /**
-         * Invoked when the Window is no longer the focused Window, which means that keyboard events
-         * will no longer be delivered to the Window or any of its subcomponents.
-         */
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-          timer.restart();
-        }
-      };
+    /**
+     * Invoked when the Window is no longer the focused Window, which means that keyboard events
+     * will no longer be delivered to the Window or any of its subcomponents.
+     */
+    @Override
+    public void windowLostFocus(WindowEvent e) {
+      timer.restart();
+    }
+  };
 
   public OSXPaletteHandler(OSXApplication app) {
     this.app = app;
-    timer =
-        new javax.swing.Timer(
-            60,
-            new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent evt) {
-                maybeHidePalettes();
-              }
-            });
+    timer = new javax.swing.Timer(60, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        maybeHidePalettes();
+      }
+    });
     timer.setRepeats(false);
   }
 

@@ -83,12 +83,11 @@ public class MessagePanel extends javax.swing.JPanel {
     add(messageLabel, gridBagConstraints);
     closeButton.setText(labels.getString("messagePanel.close.text")); // NOI18N
     closeButton.setActionCommand("close");
-    closeButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            closePerformed(evt);
-          }
-        });
+    closeButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        closePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;

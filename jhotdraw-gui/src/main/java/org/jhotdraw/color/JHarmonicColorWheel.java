@@ -266,12 +266,11 @@ public class JHarmonicColorWheel extends JColorWheel {
                center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d),
                center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d)));
         */
-        g.fill(
-            new Ellipse2D.Double(
-                center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d) - 2,
-                center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d) - 2,
-                4,
-                4));
+        g.fill(new Ellipse2D.Double(
+            center.x + (radius + 2) * Math.cos(angle * Math.PI * 2d) - 2,
+            center.y - (radius + 2) * Math.sin(angle * Math.PI * 2d) - 2,
+            4,
+            4));
       }
       for (int i = 0, n = harmonicModel.size(); i < n; i++) {
         if (i != baseIndex) {
@@ -280,19 +279,17 @@ public class JHarmonicColorWheel extends JColorWheel {
             float angle = dc.getColorComponents(null)[0];
             float diff = Math.abs(angle - bc.getColorComponents(null)[0]) * 12;
             if (Math.abs(diff - Math.round(diff)) < 0.02f) {
-              g.draw(
-                  new Line2D.Double(
-                      center.x + (radius + 6) * Math.cos(angle * Math.PI * 2d),
-                      center.y - (radius + 6) * Math.sin(angle * Math.PI * 2d),
-                      center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
-                      center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
+              g.draw(new Line2D.Double(
+                  center.x + (radius + 6) * Math.cos(angle * Math.PI * 2d),
+                  center.y - (radius + 6) * Math.sin(angle * Math.PI * 2d),
+                  center.x + (radius - 2) * Math.cos(angle * Math.PI * 2d),
+                  center.y - (radius - 2) * Math.sin(angle * Math.PI * 2d)));
             } else {
-              g.draw(
-                  new Line2D.Double(
-                      center.x + (radius) * Math.cos(angle * Math.PI * 2d),
-                      center.y - (radius) * Math.sin(angle * Math.PI * 2d),
-                      center.x + (radius - 1) * Math.cos(angle * Math.PI * 2d),
-                      center.y - (radius - 1) * Math.sin(angle * Math.PI * 2d)));
+              g.draw(new Line2D.Double(
+                  center.x + (radius) * Math.cos(angle * Math.PI * 2d),
+                  center.y - (radius) * Math.sin(angle * Math.PI * 2d),
+                  center.x + (radius - 1) * Math.cos(angle * Math.PI * 2d),
+                  center.y - (radius - 1) * Math.sin(angle * Math.PI * 2d)));
             }
           }
         }

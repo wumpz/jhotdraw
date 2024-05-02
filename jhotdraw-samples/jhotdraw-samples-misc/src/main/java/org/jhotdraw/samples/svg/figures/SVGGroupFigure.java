@@ -43,11 +43,10 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
           Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
         }
         if (!drawingArea.isEmpty()) {
-          BufferedImage buf =
-              new BufferedImage(
-                  Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
-                  Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
-                  BufferedImage.TYPE_INT_ARGB);
+          BufferedImage buf = new BufferedImage(
+              Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
+              Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
+              BufferedImage.TYPE_INT_ARGB);
           Graphics2D gr = buf.createGraphics();
           gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
           gr.translate((int) -drawingArea.x, (int) -drawingArea.y);
@@ -80,7 +79,8 @@ public class SVGGroupFigure extends GroupFigure implements SVGFigure {
         for (Figure f : children) {
           Rectangle2D.Double bounds = f.getBounds(scale);
           if (f.attr().get(TRANSFORM) != null) {
-            bounds.setRect(f.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
+            bounds.setRect(
+                f.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D());
           }
           if (cachedBounds == null) {
             cachedBounds = bounds;

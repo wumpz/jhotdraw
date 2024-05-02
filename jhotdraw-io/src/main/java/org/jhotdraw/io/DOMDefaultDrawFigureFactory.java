@@ -361,15 +361,14 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     List<BezierPath.Node> nodes = new ArrayList<>();
     for (int i = 0, n = domInput.getElementCount("p"); i < n; i++) {
       domInput.openElement("p", i);
-      BezierPath.Node node =
-          new BezierPath.Node(
-              domInput.getAttribute("mask", 0),
-              domInput.getAttribute("x", 0d),
-              domInput.getAttribute("y", 0d),
-              domInput.getAttribute("c1x", domInput.getAttribute("x", 0d)),
-              domInput.getAttribute("c1y", domInput.getAttribute("y", 0d)),
-              domInput.getAttribute("c2x", domInput.getAttribute("x", 0d)),
-              domInput.getAttribute("c2y", domInput.getAttribute("y", 0d)));
+      BezierPath.Node node = new BezierPath.Node(
+          domInput.getAttribute("mask", 0),
+          domInput.getAttribute("x", 0d),
+          domInput.getAttribute("y", 0d),
+          domInput.getAttribute("c1x", domInput.getAttribute("x", 0d)),
+          domInput.getAttribute("c1y", domInput.getAttribute("y", 0d)),
+          domInput.getAttribute("c2x", domInput.getAttribute("x", 0d)),
+          domInput.getAttribute("c2y", domInput.getAttribute("y", 0d)));
       node.keepColinear = domInput.getAttribute("colinear", true);
       figure.addNode(node);
       domInput.closeElement();
@@ -493,7 +492,8 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   public static void writeAttributes(Figure figure, DOMOutput domOutput) throws IOException {
     Figure prototype = (Figure) domOutput.getPrototype();
     boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : figure.attr().getAttributes().entrySet()) {
+    for (Map.Entry<AttributeKey<?>, Object> entry :
+        figure.attr().getAttributes().entrySet()) {
       AttributeKey<?> key = entry.getKey();
       if (figure.attr().isAttributeEnabled(key)) {
         Object prototypeValue = prototype.attr().get(key);

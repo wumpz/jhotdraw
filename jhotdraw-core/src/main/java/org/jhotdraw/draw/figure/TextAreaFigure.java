@@ -68,17 +68,15 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   private static final long serialVersionUID = 1L;
   protected Rectangle2D.Double bounds = new Rectangle2D.Double();
   protected boolean editable = true;
-  private static final BasicStroke DASHES =
-      new BasicStroke(
-          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
+  private static final BasicStroke DASHES = new BasicStroke(
+      1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {4f, 4f}, 0f);
 
   /** This is a cached value to improve the performance of method isTextOverflow(); */
   private Boolean isTextOverflow;
 
   public TextAreaFigure() {
-    this(
-        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
-            .getString("TextFigure.defaultText"));
+    this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
+        .getString("TextFigure.defaultText"));
   }
 
   public TextAreaFigure(String text) {
@@ -92,12 +90,11 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
       Font font = getFont();
       boolean isUnderlined = attr().get(FONT_UNDERLINE);
       Insets2D.Double insets = getInsets();
-      Rectangle2D.Double textRect =
-          new Rectangle2D.Double(
-              bounds.x + insets.left,
-              bounds.y + insets.top,
-              bounds.width - insets.left - insets.right,
-              bounds.height - insets.top - insets.bottom);
+      Rectangle2D.Double textRect = new Rectangle2D.Double(
+          bounds.x + insets.left,
+          bounds.y + insets.top,
+          bounds.width - insets.left - insets.right,
+          bounds.height - insets.top - insets.bottom);
 
       Graphics2D g2 = (Graphics2D) g.create();
       if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
@@ -114,8 +111,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
       float maxVerticalPos = (float) (textRect.y + textRect.height);
       if (leftMargin < rightMargin) {
         // float tabWidth = (float) (getTabSize() * g.getFontMetrics(font).charWidth('m'));
-        float tabWidth =
-            (float) (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
+        float tabWidth = (float)
+            (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
         float[] tabStops = new float[(int) (textRect.width / tabWidth)];
         for (int i = 0; i < tabStops.length; i++) {
           tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
@@ -134,16 +131,15 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
               as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
             }
             int tabCount = paragraphs[i].split("\t").length - 1;
-            Rectangle2D.Double paragraphBounds =
-                drawParagraph(
-                    g2,
-                    as.getIterator(),
-                    verticalPos,
-                    maxVerticalPos,
-                    leftMargin,
-                    rightMargin,
-                    tabStops,
-                    tabCount);
+            Rectangle2D.Double paragraphBounds = drawParagraph(
+                g2,
+                as.getIterator(),
+                verticalPos,
+                maxVerticalPos,
+                leftMargin,
+                rightMargin,
+                tabStops,
+                tabCount);
             verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
             if (verticalPos > maxVerticalPos) {
               break;
@@ -277,12 +273,11 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
           nextLayout.draw(g, nextPosition, verticalPos);
         }
         Rectangle2D layoutBounds = nextLayout.getBounds();
-        paragraphBounds.add(
-            new Rectangle2D.Double(
-                layoutBounds.getX() + nextPosition,
-                layoutBounds.getY() + verticalPos,
-                layoutBounds.getWidth(),
-                layoutBounds.getHeight()));
+        paragraphBounds.add(new Rectangle2D.Double(
+            layoutBounds.getX() + nextPosition,
+            layoutBounds.getY() + verticalPos,
+            layoutBounds.getWidth(),
+            layoutBounds.getHeight()));
       }
       verticalPos += maxDescent;
     }
@@ -463,9 +458,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   public boolean isTextOverflow() {
     if (isTextOverflow == null) {
       Insets2D.Double insets = getInsets();
-      isTextOverflow =
-          getPreferredTextSize(getBounds().width - insets.left - insets.right).height
-              > getBounds().height - insets.top - insets.bottom;
+      isTextOverflow = getPreferredTextSize(getBounds().width - insets.left - insets.right).height
+          > getBounds().height - insets.top - insets.bottom;
     }
     return isTextOverflow;
   }
@@ -490,8 +484,8 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
       float verticalPos = 0;
       float maxVerticalPos = Float.MAX_VALUE;
       if (leftMargin < rightMargin) {
-        float tabWidth =
-            (float) (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
+        float tabWidth = (float)
+            (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
         float[] tabStops = new float[(int) (textRect.width / tabWidth)];
         for (int i = 0; i < tabStops.length; i++) {
           tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
@@ -507,16 +501,15 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
             as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
           }
           int tabCount = paragraphs[i].split("\t").length - 1;
-          Rectangle2D.Double paragraphBounds =
-              drawParagraph(
-                  null,
-                  as.getIterator(),
-                  verticalPos,
-                  maxVerticalPos,
-                  leftMargin,
-                  rightMargin,
-                  tabStops,
-                  tabCount);
+          Rectangle2D.Double paragraphBounds = drawParagraph(
+              null,
+              as.getIterator(),
+              verticalPos,
+              maxVerticalPos,
+              leftMargin,
+              rightMargin,
+              tabStops,
+              tabCount);
           verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
           textRect.add(paragraphBounds);
         }

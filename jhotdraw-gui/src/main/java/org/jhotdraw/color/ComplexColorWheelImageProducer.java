@@ -136,16 +136,14 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
   public Point getColorLocation(float[] components) {
     float radius = getRadius();
     Point2D.Float center = getCenter();
-    float radial =
-        (components[radialIndex] - colorSpace.getMinValue(radialIndex))
-                / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
-                * 2
-            - 1;
-    float angular =
-        (components[angularIndex] - colorSpace.getMinValue(angularIndex))
-                / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
-                * 2
-            - 1;
+    float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
+            / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
+            * 2
+        - 1;
+    float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
+            / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
+            * 2
+        - 1;
     if (flipX) {
       radial = -radial;
     }
@@ -236,15 +234,14 @@ public class ComplexColorWheelImageProducer extends AbstractColorWheelImageProdu
             + colorSpace.getMinValue(radialIndex);
     rav[verticalIndex] = verticalValue;
     int xy = x + y * w;
-    System.out.println(
-        "ComplexColorWheelImageProducer.getColorAt "
-            + rav[angularIndex]
-            + ","
-            + rav[radialIndex]
-            + " ~ "
-            + angulars[xy]
-            + ","
-            + radials[xy]);
+    System.out.println("ComplexColorWheelImageProducer.getColorAt "
+        + rav[angularIndex]
+        + ","
+        + rav[radialIndex]
+        + " ~ "
+        + angulars[xy]
+        + ","
+        + radials[xy]);
     rav[angularIndex] = angulars[xy];
     rav[radialIndex] = radials[xy];
     Point p = getColorLocation(rav);

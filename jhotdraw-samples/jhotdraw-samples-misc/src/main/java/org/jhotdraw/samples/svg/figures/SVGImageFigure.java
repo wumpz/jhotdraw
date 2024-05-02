@@ -139,10 +139,9 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
   @Override
   public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
-    Rectangle2D.Double r =
-        (rx instanceof Rectangle2D.Double)
-            ? (Rectangle2D.Double) rx
-            : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+    Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+        ? (Rectangle2D.Double) rx
+        : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
     return r;
   }
 
@@ -179,11 +178,10 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
 
   private Shape getHitShape() {
     if (cachedHitShape == null) {
-      cachedHitShape =
-          new GrowStroke(
-                  (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
-                  (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0))
-              .createStrokedShape(getTransformedShape());
+      cachedHitShape = new GrowStroke(
+              (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
+              (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0))
+          .createStrokedShape(getTransformedShape());
     }
     return cachedHitShape;
   }
@@ -259,89 +257,79 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
     LinkedList<Action> actions = new LinkedList<Action>();
     if (attr().get(TRANSFORM) != null) {
-      actions.add(
-          new AbstractAction(labels.getString("edit.removeTransform.text")) {
-            private static final long serialVersionUID = 1L;
+      actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-              willChange();
-              fireUndoableEditHappened(TRANSFORM.setUndoable(SVGImageFigure.this, null));
-              changed();
-            }
-          });
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+          willChange();
+          fireUndoableEditHappened(TRANSFORM.setUndoable(SVGImageFigure.this, null));
+          changed();
+        }
+      });
     }
     if (bufferedImage != null) {
       if (rectangle.width != bufferedImage.getWidth()
           || rectangle.height != bufferedImage.getHeight()) {
-        actions.add(
-            new AbstractAction(labels.getString("edit.setToImageSize.text")) {
-              private static final long serialVersionUID = 1L;
+        actions.add(new AbstractAction(labels.getString("edit.setToImageSize.text")) {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public void actionPerformed(ActionEvent evt) {
-                Object geometry = getTransformRestoreData();
-                willChange();
-                rectangle =
-                    new Rectangle2D.Double(
-                        rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,
-                        rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d,
-                        bufferedImage.getWidth(),
-                        bufferedImage.getHeight());
-                fireUndoableEditHappened(
-                    new TransformRestoreEdit(
-                        SVGImageFigure.this, geometry, getTransformRestoreData()));
-                changed();
-              }
-            });
+          @Override
+          public void actionPerformed(ActionEvent evt) {
+            Object geometry = getTransformRestoreData();
+            willChange();
+            rectangle = new Rectangle2D.Double(
+                rectangle.x - (bufferedImage.getWidth() - rectangle.width) / 2d,
+                rectangle.y - (bufferedImage.getHeight() - rectangle.height) / 2d,
+                bufferedImage.getWidth(),
+                bufferedImage.getHeight());
+            fireUndoableEditHappened(
+                new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
+            changed();
+          }
+        });
       }
       double imageRatio = bufferedImage.getHeight() / (double) bufferedImage.getWidth();
       double figureRatio = rectangle.height / rectangle.width;
       if (Math.abs(imageRatio - figureRatio) > 0.001) {
-        actions.add(
-            new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
-              private static final long serialVersionUID = 1L;
+        actions.add(new AbstractAction(labels.getString("edit.adjustHeightToImageAspect.text")) {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public void actionPerformed(ActionEvent evt) {
-                Object geometry = getTransformRestoreData();
-                willChange();
-                double newHeight =
-                    bufferedImage.getHeight() * rectangle.width / bufferedImage.getWidth();
-                rectangle =
-                    new Rectangle2D.Double(
-                        rectangle.x,
-                        rectangle.y - (newHeight - rectangle.height) / 2d,
-                        rectangle.width,
-                        newHeight);
-                fireUndoableEditHappened(
-                    new TransformRestoreEdit(
-                        SVGImageFigure.this, geometry, getTransformRestoreData()));
-                changed();
-              }
-            });
-        actions.add(
-            new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
-              private static final long serialVersionUID = 1L;
+          @Override
+          public void actionPerformed(ActionEvent evt) {
+            Object geometry = getTransformRestoreData();
+            willChange();
+            double newHeight =
+                bufferedImage.getHeight() * rectangle.width / bufferedImage.getWidth();
+            rectangle = new Rectangle2D.Double(
+                rectangle.x,
+                rectangle.y - (newHeight - rectangle.height) / 2d,
+                rectangle.width,
+                newHeight);
+            fireUndoableEditHappened(
+                new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
+            changed();
+          }
+        });
+        actions.add(new AbstractAction(labels.getString("edit.adjustWidthToImageAspect.text")) {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public void actionPerformed(ActionEvent evt) {
-                Object geometry = getTransformRestoreData();
-                willChange();
-                double newWidth =
-                    bufferedImage.getWidth() * rectangle.height / bufferedImage.getHeight();
-                rectangle =
-                    new Rectangle2D.Double(
-                        rectangle.x - (newWidth - rectangle.width) / 2d,
-                        rectangle.y,
-                        newWidth,
-                        rectangle.height);
-                fireUndoableEditHappened(
-                    new TransformRestoreEdit(
-                        SVGImageFigure.this, geometry, getTransformRestoreData()));
-                changed();
-              }
-            });
+          @Override
+          public void actionPerformed(ActionEvent evt) {
+            Object geometry = getTransformRestoreData();
+            willChange();
+            double newWidth =
+                bufferedImage.getWidth() * rectangle.height / bufferedImage.getHeight();
+            rectangle = new Rectangle2D.Double(
+                rectangle.x - (newWidth - rectangle.width) / 2d,
+                rectangle.y,
+                newWidth,
+                rectangle.height);
+            fireUndoableEditHappened(
+                new TransformRestoreEdit(SVGImageFigure.this, geometry, getTransformRestoreData()));
+            changed();
+          }
+        });
       }
     }
     return actions;

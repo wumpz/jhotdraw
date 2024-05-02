@@ -187,18 +187,14 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     // *** Shared Fonts
     Integer fontPlain = Font.PLAIN;
     Integer fontBold = Font.BOLD;
-    Object dialogPlain11 =
-        new ProxyLazyValue(
-            "javax.swing.plaf.FontUIResource", null, new Object[] {"Dialog Sans", fontPlain, 11});
-    Object dialogPlain12 =
-        new ProxyLazyValue(
-            "javax.swing.plaf.FontUIResource", null, new Object[] {"Dialog Sans", fontPlain, 12});
-    Object fieldPlain12 =
-        new ProxyLazyValue(
-            "javax.swing.plaf.FontUIResource", null, new Object[] {"Verdana", fontPlain, 12});
-    Object dialogBold12 =
-        new ProxyLazyValue(
-            "javax.swing.plaf.FontUIResource", null, new Object[] {"Dialog", fontBold, 12});
+    Object dialogPlain11 = new ProxyLazyValue(
+        "javax.swing.plaf.FontUIResource", null, new Object[] {"Dialog Sans", fontPlain, 11});
+    Object dialogPlain12 = new ProxyLazyValue(
+        "javax.swing.plaf.FontUIResource", null, new Object[] {"Dialog Sans", fontPlain, 12});
+    Object fieldPlain12 = new ProxyLazyValue(
+        "javax.swing.plaf.FontUIResource", null, new Object[] {"Verdana", fontPlain, 12});
+    Object dialogBold12 = new ProxyLazyValue(
+        "javax.swing.plaf.FontUIResource", null, new Object[] {"Dialog", fontBold, 12});
     // *** Shared Colors
     ColorUIResource black = new ColorUIResource(Color.black);
     ColorUIResource control = new ColorUIResource(0xf0f0f0);
@@ -206,11 +202,10 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
     ColorUIResource selectionBackground = new ColorUIResource(0xb5d5ff);
     ColorUIResource selectionForeground = black;
     ColorUIResource listSelectionBackground = new ColorUIResource(0x3875d7);
-    Object focusCellHighlightBorder =
-        new UIDefaults.ProxyLazyValue(
-            "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
-            // null,
-            new Object[] {listSelectionBackground});
+    Object focusCellHighlightBorder = new UIDefaults.ProxyLazyValue(
+        "javax.swing.plaf.BorderUIResource$LineBorderUIResource",
+        // null,
+        new Object[] {listSelectionBackground});
     // *** Shared Insets
     InsetsUIResource zeroInsets = new InsetsUIResource(0, 0, 0, 0);
     // *** Shared Borders
@@ -284,14 +279,12 @@ public class PaletteLookAndFeel extends BasicLookAndFeel {
       "Slider.verticalSize", new DimensionUIResource(20, 100),
       "Slider.northThumb.small",
           new UIDefaults.ProxyLazyValue(
-              "org.jhotdraw.gui.plaf.palette.PaletteSliderThumbIcon",
-              new Object[] {
+              "org.jhotdraw.gui.plaf.palette.PaletteSliderThumbIcon", new Object[] {
                 "/org/jhotdraw/gui/plaf/palette/images/Slider.northThumbs.small.png", 6, true
               }),
       "Slider.westThumb.small",
           new UIDefaults.ProxyLazyValue(
-              "org.jhotdraw.gui.plaf.palette.PaletteSliderThumbIcon",
-              new Object[] {
+              "org.jhotdraw.gui.plaf.palette.PaletteSliderThumbIcon", new Object[] {
                 "/org/jhotdraw/gui/plaf/palette/images/Slider.westThumbs.small.png", 6, true
               }),
       // *** TabbedPane

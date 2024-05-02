@@ -188,16 +188,15 @@ public class SVGApplicationModel extends DefaultApplicationModel {
       c.addChoosableFileFilter(ff);
     }
     c.setFileFilter(firstFF);
-    c.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if ("fileFilterChanged".equals(evt.getPropertyName())) {
-              InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-              c.setAccessory(null);
-            }
-          }
-        });
+    c.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if ("fileFilterChanged".equals(evt.getPropertyName())) {
+          InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
+          c.setAccessory(null);
+        }
+      }
+    });
     return c;
   }
 

@@ -29,13 +29,12 @@ public class TogglePaletteAction extends AbstractAction {
   public TogglePaletteAction(OSXApplication app, Window palette, String label) {
     super(label);
     this.app = app;
-    windowHandler =
-        new WindowAdapter() {
-          @Override
-          public void windowClosing(WindowEvent evt) {
-            putValue(ActionUtil.SELECTED_KEY, false);
-          }
-        };
+    windowHandler = new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent evt) {
+        putValue(ActionUtil.SELECTED_KEY, false);
+      }
+    };
     putValue(ActionUtil.SELECTED_KEY, false);
     setPalette(palette);
   }

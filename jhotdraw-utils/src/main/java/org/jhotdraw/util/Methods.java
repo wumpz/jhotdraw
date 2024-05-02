@@ -433,12 +433,10 @@ public class Methods {
       Object obj, String methodName, String enumClassName, String enumValueName) {
     try {
       Class<?> enumClass = Class.forName(enumClassName);
-      Object enumValue =
-          invokeStatic(
-              "java.lang.Enum",
-              "valueOf",
-              new Class<?>[] {Class.class, String.class},
-              new Object[] {enumClass, enumValueName});
+      Object enumValue = invokeStatic(
+          "java.lang.Enum", "valueOf", new Class<?>[] {Class.class, String.class}, new Object[] {
+            enumClass, enumValueName
+          });
       invoke(obj, methodName, enumClass, enumValue);
     } catch (ClassNotFoundException | NoSuchMethodException e) {
       // ignore

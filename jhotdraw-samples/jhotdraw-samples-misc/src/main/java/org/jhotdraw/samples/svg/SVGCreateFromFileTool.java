@@ -107,10 +107,9 @@ public class SVGCreateFromFileTool extends CreationTool {
           @Override
           protected Drawing doInBackground() throws Exception {
             Drawing drawing = new DefaultDrawing();
-            InputFormat in =
-                (file.getName().toLowerCase().endsWith(".svg"))
-                    ? new SVGInputFormat()
-                    : new SVGZInputFormat();
+            InputFormat in = (file.getName().toLowerCase().endsWith(".svg"))
+                ? new SVGInputFormat()
+                : new SVGZInputFormat();
             in.read(file.toURI(), drawing);
             return drawing;
           }

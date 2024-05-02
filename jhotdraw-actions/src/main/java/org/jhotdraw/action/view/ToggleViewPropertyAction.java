@@ -29,15 +29,14 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
   private Object deselectedPropertyValue;
   private final String setterName;
   private final String getterName;
-  private PropertyChangeListener viewListener =
-      new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          if (propertyName.equals(evt.getPropertyName())) { // Strings get interned
-            updateView();
-          }
-        }
-      };
+  private PropertyChangeListener viewListener = new PropertyChangeListener() {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      if (propertyName.equals(evt.getPropertyName())) { // Strings get interned
+        updateView();
+      }
+    }
+  };
 
   public ToggleViewPropertyAction(Application app, View view, String propertyName) {
     this(app, view, propertyName, Boolean.TYPE, true, false);
@@ -59,10 +58,9 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     this.selectedPropertyValue = selectedPropertyValue;
     this.deselectedPropertyValue = deselectedPropertyValue;
     setterName = "set" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
-    getterName =
-        ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")
-            + Character.toUpperCase(propertyName.charAt(0))
-            + propertyName.substring(1);
+    getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")
+        + Character.toUpperCase(propertyName.charAt(0))
+        + propertyName.substring(1);
     updateView();
   }
 
@@ -70,13 +68,12 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
   public void actionPerformed(ActionEvent evt) {
     View p = getActiveView();
     Object value = getCurrentValue();
-    Object newValue =
-        (value == selectedPropertyValue
-                || value != null
-                    && selectedPropertyValue != null
-                    && value.equals(selectedPropertyValue))
-            ? deselectedPropertyValue
-            : selectedPropertyValue;
+    Object newValue = (value == selectedPropertyValue
+            || value != null
+                && selectedPropertyValue != null
+                && value.equals(selectedPropertyValue))
+        ? deselectedPropertyValue
+        : selectedPropertyValue;
     try {
       p.getClass().getMethod(setterName, parameterClass).invoke(p, new Object[] {newValue});
     } catch (Throwable e) {
@@ -126,15 +123,13 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
     if (p != null) {
       try {
         Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
-        isSelected =
-            value == selectedPropertyValue
-                || value != null
-                    && selectedPropertyValue != null
-                    && value.equals(selectedPropertyValue);
+        isSelected = value == selectedPropertyValue
+            || value != null
+                && selectedPropertyValue != null
+                && value.equals(selectedPropertyValue);
       } catch (Throwable e) {
-        InternalError error =
-            new InternalError(
-                "No " + getterName + " method on " + p + " for property " + propertyName);
+        InternalError error = new InternalError(
+            "No " + getterName + " method on " + p + " for property " + propertyName);
         error.initCause(e);
         throw error;
       }

@@ -145,9 +145,8 @@ public class Base64 {
   static {
     byte[] __bytes;
     try {
-      __bytes =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-              .getBytes(PREFERRED_ENCODING);
+      __bytes = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+          .getBytes(PREFERRED_ENCODING);
     } catch (java.io.UnsupportedEncodingException use) {
       __bytes = NATIVE_ALPHABET; // Fall back to native encoding
     }
@@ -352,10 +351,9 @@ public class Base64 {
     // significant bytes passed in the array.
     // We have to shift left 24 in order to flush out the 1's that appear
     // when Java treats a value as negative that is cast from a byte to an int.
-    int inBuff =
-        (numSigBytes > 0 ? ((source[srcOffset] << 24) >>> 8) : 0)
-            | (numSigBytes > 1 ? ((source[srcOffset + 1] << 24) >>> 16) : 0)
-            | (numSigBytes > 2 ? ((source[srcOffset + 2] << 24) >>> 24) : 0);
+    int inBuff = (numSigBytes > 0 ? ((source[srcOffset] << 24) >>> 8) : 0)
+        | (numSigBytes > 1 ? ((source[srcOffset + 1] << 24) >>> 16) : 0)
+        | (numSigBytes > 2 ? ((source[srcOffset + 2] << 24) >>> 24) : 0);
     switch (numSigBytes) {
       case 3:
         destination[destOffset] = ALPHABET[(inBuff >>> 18)];
@@ -586,11 +584,10 @@ public class Base64 {
       // Convert option to boolean in way that code likes it.
       boolean breakLines = dontBreakLines == 0;
       int len43 = len * 4 / 3;
-      byte[] outBuff =
-          new byte
-              [(len43) // Main 4:3
-                  + ((len % 3) > 0 ? 4 : 0) // Account for padding
-                  + (breakLines ? (len43 / MAX_LINE_LENGTH) : 0)]; // New lines
+      byte[] outBuff = new byte
+          [(len43) // Main 4:3
+              + ((len % 3) > 0 ? 4 : 0) // Account for padding
+              + (breakLines ? (len43 / MAX_LINE_LENGTH) : 0)]; // New lines
       int d = 0;
       int e = 0;
       int len2 = len - 2;
@@ -640,9 +637,8 @@ public class Base64 {
       // Two ways to do the same thing. Don't know which way I like best.
       // int outBuff =   ( ( DECODABET[ source[ srcOffset    ] ] << 24 ) >>>  6 )
       //              | ( ( DECODABET[ source[ srcOffset + 1] ] << 24 ) >>> 12 );
-      int outBuff =
-          ((DECODABET[source[srcOffset]] & 0xFF) << 18)
-              | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12);
+      int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18)
+          | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12);
       destination[destOffset] = (byte) (outBuff >>> 16);
       return 1;
     } else if (source[srcOffset + 3] == EQUALS_SIGN) {
@@ -650,10 +646,9 @@ public class Base64 {
       // int outBuff =   ( ( DECODABET[ source[ srcOffset     ] ] << 24 ) >>>  6 )
       //              | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
       //              | ( ( DECODABET[ source[ srcOffset + 2 ] ] << 24 ) >>> 18 );
-      int outBuff =
-          ((DECODABET[source[srcOffset]] & 0xFF) << 18)
-              | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
-              | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6);
+      int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18)
+          | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
+          | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6);
       destination[destOffset] = (byte) (outBuff >>> 16);
       destination[destOffset + 1] = (byte) (outBuff >>> 8);
       return 2;
@@ -664,11 +659,10 @@ public class Base64 {
         //              | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
         //              | ( ( DECODABET[ source[ srcOffset + 2 ] ] << 24 ) >>> 18 )
         //              | ( ( DECODABET[ source[ srcOffset + 3 ] ] << 24 ) >>> 24 );
-        int outBuff =
-            ((DECODABET[source[srcOffset]] & 0xFF) << 18)
-                | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
-                | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6)
-                | ((DECODABET[source[srcOffset + 3]] & 0xFF));
+        int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18)
+            | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
+            | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6)
+            | ((DECODABET[source[srcOffset + 3]] & 0xFF));
         destination[destOffset] = (byte) (outBuff >> 16);
         destination[destOffset + 1] = (byte) (outBuff >> 8);
         destination[destOffset + 2] = (byte) (outBuff);
@@ -903,9 +897,8 @@ public class Base64 {
       }
       buffer = new byte[(int) file.length()];
       // Open a stream
-      bis =
-          new Base64.InputStream(
-              new java.io.BufferedInputStream(new java.io.FileInputStream(file)), Base64.DECODE);
+      bis = new Base64.InputStream(
+          new java.io.BufferedInputStream(new java.io.FileInputStream(file)), Base64.DECODE);
       // Read until done
       while ((numBytes = bis.read(buffer, length, 4096)) >= 0) {
         length += numBytes;
@@ -944,9 +937,8 @@ public class Base64 {
       int length = 0;
       int numBytes = 0;
       // Open a stream
-      bis =
-          new Base64.InputStream(
-              new java.io.BufferedInputStream(new java.io.FileInputStream(file)), Base64.ENCODE);
+      bis = new Base64.InputStream(
+          new java.io.BufferedInputStream(new java.io.FileInputStream(file)), Base64.ENCODE);
       // Read until done
       while ((numBytes = bis.read(buffer, length, 4096)) >= 0) {
         length += numBytes;

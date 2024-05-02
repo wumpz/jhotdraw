@@ -63,10 +63,9 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     int dy = lead.y - anchor.y;
     RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
     Rectangle r = view.drawingToView(owner.getBounds());
-    Point viewArc =
-        new Point(
-            Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),
-            Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
+    Point viewArc = new Point(
+        Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),
+        Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
     Point2D.Double arc = view.viewToDrawing(viewArc);
     owner.willChange();
     owner.setArc(arc.x, arc.y);
@@ -79,10 +78,9 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     int dy = lead.y - anchor.y;
     RoundRectangleFigure owner = (RoundRectangleFigure) getOwner();
     Rectangle r = view.drawingToView(owner.getBounds());
-    Point viewArc =
-        new Point(
-            Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),
-            Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
+    Point viewArc = new Point(
+        Geom.range(0, r.width, 2 * (originalArc.x / 2 + dx)),
+        Geom.range(0, r.height, 2 * (originalArc.y / 2 + dy)));
     Point2D.Double oldArc = view.viewToDrawing(originalArc);
     Point2D.Double newArc = view.viewToDrawing(viewArc);
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
@@ -91,9 +89,8 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
     fireUndoableEditHappened(edit);
     fireUndoableEditHappened(
         new PropertyChangeEdit(owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
-    fireUndoableEditHappened(
-        new PropertyChangeEdit(
-            owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
+    fireUndoableEditHappened(new PropertyChangeEdit(
+        owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
     fireUndoableEditHappened(edit);
   }
 
@@ -133,12 +130,10 @@ public class RoundRectangleRadiusHandle extends AbstractHandle {
       CompositeFigureEdit edit =
           new CompositeFigureEdit(owner, labels.getString("attribute.roundRectRadius"));
       fireUndoableEditHappened(edit);
-      fireUndoableEditHappened(
-          new PropertyChangeEdit(
-              owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
-      fireUndoableEditHappened(
-          new PropertyChangeEdit(
-              owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
+      fireUndoableEditHappened(new PropertyChangeEdit(
+          owner, RoundRectangleFigure.ARC_WIDTH_PROPERTY, oldArc.x, newArc.x));
+      fireUndoableEditHappened(new PropertyChangeEdit(
+          owner, RoundRectangleFigure.ARC_HEIGHT_PROPERTY, oldArc.y, newArc.y));
       fireUndoableEditHappened(edit);
     }
   }

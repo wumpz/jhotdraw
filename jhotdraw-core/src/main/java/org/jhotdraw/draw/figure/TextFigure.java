@@ -60,9 +60,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   protected double alignY;
 
   public TextFigure() {
-    this(
-        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
-            .getString("TextFigure.defaultText"));
+    this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
+        .getString("TextFigure.defaultText"));
   }
 
   public TextFigure(String text) {
@@ -79,10 +78,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   @Override
   protected void drawText(java.awt.Graphics2D g) {
     if (getText() != null || isEditable()) {
-      TextLayout layout =
-          getTextLayout(
-              AttributeKeys.getGlobalValueFactor(
-                  this, AttributeKeys.getScaleFactorFromGraphics(g)));
+      TextLayout layout = getTextLayout(
+          AttributeKeys.getGlobalValueFactor(this, AttributeKeys.getScaleFactorFromGraphics(g)));
       Graphics2D g2 = (Graphics2D) g.create();
       try {
         double alignDeltaX = layout.getAdvance() * attr().get(AttributeKeys.ALIGN_RELATIVE_X);
@@ -156,10 +153,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
   @Override
   public boolean figureContains(Point2D.Double p, double scale) {
-    double grow =
-        AttributeKeys.getPerpendicularHitGrowth(
-                this, AttributeKeys.getGlobalValueFactor(this, scale))
-            + 1d;
+    double grow = AttributeKeys.getPerpendicularHitGrowth(
+            this, AttributeKeys.getGlobalValueFactor(this, scale))
+        + 1d;
     Rectangle2D.Double r = getBounds(scale);
     Geom.grow(r, grow, grow);
     return r.contains(p);
@@ -194,12 +190,11 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     double alignDeltaY =
         (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
 
-    Rectangle2D.Double r =
-        new Rectangle2D.Double(
-            origin.x - alignDeltaX,
-            origin.y - alignDeltaY,
-            layout.getAdvance(),
-            layout.getAscent() + layout.getDescent());
+    Rectangle2D.Double r = new Rectangle2D.Double(
+        origin.x - alignDeltaX,
+        origin.y - alignDeltaY,
+        layout.getAdvance(),
+        layout.getAscent() + layout.getDescent());
 
     r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
 
@@ -234,20 +229,18 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
       double alignDeltaY =
           (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
 
-      Rectangle2D.Double r =
-          new Rectangle2D.Double(
-              origin.x - alignDeltaX,
-              origin.y - alignDeltaY,
-              layout.getAdvance(),
-              layout.getAscent() + layout.getDescent());
+      Rectangle2D.Double r = new Rectangle2D.Double(
+          origin.x - alignDeltaX,
+          origin.y - alignDeltaY,
+          layout.getAdvance(),
+          layout.getAscent() + layout.getDescent());
       Rectangle2D lBounds = layout.getBounds();
       if (!lBounds.isEmpty() && !Double.isNaN(lBounds.getX())) {
-        r.add(
-            new Rectangle2D.Double(
-                lBounds.getX() + origin.x - alignDeltaX,
-                (lBounds.getY() + origin.y - alignDeltaY + layout.getAscent()),
-                lBounds.getWidth(),
-                lBounds.getHeight()));
+        r.add(new Rectangle2D.Double(
+            lBounds.getX() + origin.x - alignDeltaX,
+            (lBounds.getY() + origin.y - alignDeltaY + layout.getAscent()),
+            lBounds.getWidth(),
+            lBounds.getHeight()));
       }
 
       r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
@@ -361,13 +354,12 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         break;
       case 1:
         handles.add(new BoundsOutlineHandle(this));
-        handles.add(
-            new RotateHandle(this) {
-              @Override
-              protected Point2D.Double getCenter() {
-                return TextFigure.this.getOrigin();
-              }
-            });
+        handles.add(new RotateHandle(this) {
+          @Override
+          protected Point2D.Double getCenter() {
+            return TextFigure.this.getOrigin();
+          }
+        });
         break;
     }
     return handles;

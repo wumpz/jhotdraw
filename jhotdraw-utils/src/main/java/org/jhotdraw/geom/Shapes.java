@@ -28,9 +28,8 @@ public class Shapes {
     double[] coords = new double[6];
     double prevX = 0, prevY = 0;
     double moveX = 0, moveY = 0;
-    for (PathIterator i =
-            new FlatteningPathIterator(
-                shape.getPathIterator(new AffineTransform(), tolerance), tolerance);
+    for (PathIterator i = new FlatteningPathIterator(
+            shape.getPathIterator(new AffineTransform(), tolerance), tolerance);
         !i.isDone();
         i.next()) {
       switch (i.currentSegment(coords)) {

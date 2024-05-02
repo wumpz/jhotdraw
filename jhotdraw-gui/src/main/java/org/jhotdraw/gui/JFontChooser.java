@@ -78,28 +78,27 @@ public class JFontChooser extends JComponent {
   /** This future is used to load fonts lazily */
   private static FutureTask<Font[]> future;
 
-  private TreeModelListener modelHandler =
-      new TreeModelListener() {
-        @Override
-        public void treeNodesChanged(TreeModelEvent e) {
-          updateSelectionPath(getSelectedFont());
-        }
+  private TreeModelListener modelHandler = new TreeModelListener() {
+    @Override
+    public void treeNodesChanged(TreeModelEvent e) {
+      updateSelectionPath(getSelectedFont());
+    }
 
-        @Override
-        public void treeNodesInserted(TreeModelEvent e) {
-          updateSelectionPath(getSelectedFont());
-        }
+    @Override
+    public void treeNodesInserted(TreeModelEvent e) {
+      updateSelectionPath(getSelectedFont());
+    }
 
-        @Override
-        public void treeNodesRemoved(TreeModelEvent e) {
-          updateSelectionPath(getSelectedFont());
-        }
+    @Override
+    public void treeNodesRemoved(TreeModelEvent e) {
+      updateSelectionPath(getSelectedFont());
+    }
 
-        @Override
-        public void treeStructureChanged(TreeModelEvent e) {
-          updateSelectionPath(getSelectedFont());
-        }
-      };
+    @Override
+    public void treeStructureChanged(TreeModelEvent e) {
+      updateSelectionPath(getSelectedFont());
+    }
+  };
 
   /** Creates new form JFontChooser */
   public JFontChooser() {
@@ -107,20 +106,19 @@ public class JFontChooser extends JComponent {
     model = new DefaultFontChooserModel.UIResource();
     model.addTreeModelListener(modelHandler);
     updateUI();
-    addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if ("ancestor".equals(evt.getPropertyName()) && evt.getNewValue() != null) {
-              try {
-                ((DefaultFontChooserModel) model).setFonts(getAllFonts());
-              } catch (Exception ex) {
-                ex.printStackTrace();
-              }
-              JFontChooser.this.removePropertyChangeListener(this);
-            }
+    addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if ("ancestor".equals(evt.getPropertyName()) && evt.getNewValue() != null) {
+          try {
+            ((DefaultFontChooserModel) model).setFonts(getAllFonts());
+          } catch (Exception ex) {
+            ex.printStackTrace();
           }
-        });
+          JFontChooser.this.removePropertyChangeListener(this);
+        }
+      }
+    });
   }
 
   /**
@@ -244,9 +242,8 @@ public class JFontChooser extends JComponent {
       if (listeners[i] == ActionListener.class) {
         // Lazily create the event:
         if (e == null) {
-          e =
-              new ActionEvent(
-                  this, ActionEvent.ACTION_PERFORMED, command, mostRecentEventTime, modifiers);
+          e = new ActionEvent(
+              this, ActionEvent.ACTION_PERFORMED, command, mostRecentEventTime, modifiers);
         }
         ((ActionListener) listeners[i + 1]).actionPerformed(e);
       }
@@ -282,28 +279,26 @@ public class JFontChooser extends JComponent {
   /** Starts loading all fonts from the local graphics environment using a worker thread. */
   public static synchronized void loadAllFonts() {
     if (future == null) {
-      future =
-          new FutureTask<>(
-              new Callable<Font[]>() {
-                @Override
-                public Font[] call() throws Exception {
-                  Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-                  // get rid of bogus fonts
-                  ArrayList<Font> goodFonts = new ArrayList<>(fonts.length);
-                  for (Font f : fonts) {
-                    // System.out.println("JFontChooser "+f.getFontName());
-                    Font decoded = Font.decode(f.getFontName());
-                    if (decoded.getFontName().equals(f.getFontName())
-                        || decoded.getFontName().endsWith("-Derived")) {
-                      goodFonts.add(f);
-                    } else {
-                      // System.out.println("JFontChooser ***bogus*** "+decoded.getFontName());
-                    }
-                  }
-                  return goodFonts.toArray(new Font[goodFonts.size()]);
-                  // return fonts;
-                }
-              });
+      future = new FutureTask<>(new Callable<Font[]>() {
+        @Override
+        public Font[] call() throws Exception {
+          Font[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+          // get rid of bogus fonts
+          ArrayList<Font> goodFonts = new ArrayList<>(fonts.length);
+          for (Font f : fonts) {
+            // System.out.println("JFontChooser "+f.getFontName());
+            Font decoded = Font.decode(f.getFontName());
+            if (decoded.getFontName().equals(f.getFontName())
+                || decoded.getFontName().endsWith("-Derived")) {
+              goodFonts.add(f);
+            } else {
+              // System.out.println("JFontChooser ***bogus*** "+decoded.getFontName());
+            }
+          }
+          return goodFonts.toArray(new Font[goodFonts.size()]);
+          // return fonts;
+        }
+      });
       new Thread(future).start();
     }
   }
@@ -370,18 +365,15 @@ public class JFontChooser extends JComponent {
         setSelectionPath(null);
       } else {
         TreePath path = selectionPath;
-        FontCollectionNode oldCollection =
-            (path != null && path.getPathCount() > 1)
-                ? (FontCollectionNode) path.getPathComponent(1)
-                : null;
-        FontFamilyNode oldFamily =
-            (path != null && path.getPathCount() > 2)
-                ? (FontFamilyNode) path.getPathComponent(2)
-                : null;
-        FontFaceNode oldFace =
-            (path != null && path.getPathCount() > 3)
-                ? (FontFaceNode) path.getPathComponent(3)
-                : null;
+        FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1)
+            ? (FontCollectionNode) path.getPathComponent(1)
+            : null;
+        FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2)
+            ? (FontFamilyNode) path.getPathComponent(2)
+            : null;
+        FontFaceNode oldFace = (path != null && path.getPathCount() > 3)
+            ? (FontFaceNode) path.getPathComponent(3)
+            : null;
         FontCollectionNode newCollection = oldCollection;
         FontFamilyNode newFamily = oldFamily;
         FontFaceNode newFace = null;

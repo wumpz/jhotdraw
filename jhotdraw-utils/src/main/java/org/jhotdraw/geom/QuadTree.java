@@ -188,10 +188,8 @@ public class QuadTree<T> implements Serializable {
             new QuadNode(new Rectangle2D.Double(bounds.x + hw, bounds.y, bounds.width - hw, hh));
         southWest =
             new QuadNode(new Rectangle2D.Double(bounds.x, bounds.y + hh, hw, bounds.height - hh));
-        southEast =
-            new QuadNode(
-                new Rectangle2D.Double(
-                    bounds.x + hw, bounds.y + hh, bounds.width - hw, bounds.height - hh));
+        southEast = new QuadNode(new Rectangle2D.Double(
+            bounds.x + hw, bounds.y + hh, bounds.width - hw, bounds.height - hh));
         HashMap<T, Rectangle2D.Double> temp = objects;
         objects = new HashMap<>();
         for (Map.Entry<T, Rectangle2D.Double> entry : temp.entrySet()) {

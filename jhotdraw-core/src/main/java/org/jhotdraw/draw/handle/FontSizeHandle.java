@@ -78,32 +78,31 @@ public class FontSizeHandle extends LocatorHandle {
     final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
     final Object editRestoreData = restoreData;
     final float editNewSize = newSize;
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("attribute.fontSize.text");
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("attribute.fontSize.text");
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            textOwner.willChange();
-            textOwner.attr().restoreAttributesTo(editRestoreData);
-            textOwner.changed();
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        textOwner.willChange();
+        textOwner.attr().restoreAttributesTo(editRestoreData);
+        textOwner.changed();
+      }
 
-          @Override
-          public void redo() {
-            super.redo();
-            textOwner.willChange();
-            textOwner.setFontSize(newSize);
-            textOwner.changed();
-          }
-        };
+      @Override
+      public void redo() {
+        super.redo();
+        textOwner.willChange();
+        textOwner.setFontSize(newSize);
+        textOwner.changed();
+      }
+    };
     fireUndoableEditHappened(edit);
   }
 
@@ -136,32 +135,31 @@ public class FontSizeHandle extends LocatorHandle {
       textOwner.changed();
       final Object editRestoreData = restoreData;
       final float editNewSize = newSize;
-      UndoableEdit edit =
-          new AbstractUndoableEdit() {
-            private static final long serialVersionUID = 1L;
+      UndoableEdit edit = new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getPresentationName() {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              return labels.getString("attribute.fontSize");
-            }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("attribute.fontSize");
+        }
 
-            @Override
-            public void undo() {
-              super.undo();
-              textOwner.willChange();
-              textOwner.attr().restoreAttributesTo(editRestoreData);
-              textOwner.changed();
-            }
+        @Override
+        public void undo() {
+          super.undo();
+          textOwner.willChange();
+          textOwner.attr().restoreAttributesTo(editRestoreData);
+          textOwner.changed();
+        }
 
-            @Override
-            public void redo() {
-              super.redo();
-              textOwner.willChange();
-              textOwner.setFontSize(newSize);
-              textOwner.changed();
-            }
-          };
+        @Override
+        public void redo() {
+          super.redo();
+          textOwner.willChange();
+          textOwner.setFontSize(newSize);
+          textOwner.changed();
+        }
+      };
       fireUndoableEditHappened(edit);
     }
   }

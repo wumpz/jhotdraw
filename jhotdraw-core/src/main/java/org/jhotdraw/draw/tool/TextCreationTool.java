@@ -128,32 +128,31 @@ public class TextCreationTool extends CreationTool implements ActionListener {
           typingTarget.changed();
         }
       }
-      UndoableEdit edit =
-          new AbstractUndoableEdit() {
-            private static final long serialVersionUID = 1L;
+      UndoableEdit edit = new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getPresentationName() {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              return labels.getString("attribute.text.text");
-            }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("attribute.text.text");
+        }
 
-            @Override
-            public void undo() {
-              super.undo();
-              editedFigure.willChange();
-              editedFigure.setText(oldText);
-              editedFigure.changed();
-            }
+        @Override
+        public void undo() {
+          super.undo();
+          editedFigure.willChange();
+          editedFigure.setText(oldText);
+          editedFigure.changed();
+        }
 
-            @Override
-            public void redo() {
-              super.redo();
-              editedFigure.willChange();
-              editedFigure.setText(newText);
-              editedFigure.changed();
-            }
-          };
+        @Override
+        public void redo() {
+          super.redo();
+          editedFigure.willChange();
+          editedFigure.setText(newText);
+          editedFigure.changed();
+        }
+      };
       getDrawing().fireUndoableEditHappened(edit);
       typingTarget.changed();
       typingTarget = null;
@@ -190,9 +189,8 @@ public class TextCreationTool extends CreationTool implements ActionListener {
   @Override
   public void updateCursor(DrawingView view, Point p) {
     if (view.isEnabled()) {
-      view.setCursor(
-          Cursor.getPredefinedCursor(
-              isEditing() ? Cursor.DEFAULT_CURSOR : Cursor.CROSSHAIR_CURSOR));
+      view.setCursor(Cursor.getPredefinedCursor(
+          isEditing() ? Cursor.DEFAULT_CURSOR : Cursor.CROSSHAIR_CURSOR));
     } else {
       view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }

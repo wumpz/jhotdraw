@@ -70,19 +70,18 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
       v.setEnabled(false);
       if (v.hasUnsavedChanges()) {
         URI unsavedURI = v.getURI();
-        JOptionPane pane =
-            new JOptionPane(
-                "<html>"
-                    + UIManager.getString("OptionPane.css")
-                    + "<b>"
-                    + labels.getFormatted(
-                        "file.saveBefore.doYouWantToSave.message",
-                        (unsavedURI == null)
-                            ? labels.getString("unnamedFile")
-                            : URIUtil.getName(unsavedURI))
-                    + "</b><p>"
-                    + labels.getString("file.saveBefore.doYouWantToSave.details"),
-                JOptionPane.WARNING_MESSAGE);
+        JOptionPane pane = new JOptionPane(
+            "<html>"
+                + UIManager.getString("OptionPane.css")
+                + "<b>"
+                + labels.getFormatted(
+                    "file.saveBefore.doYouWantToSave.message",
+                    (unsavedURI == null)
+                        ? labels.getString("unnamedFile")
+                        : URIUtil.getName(unsavedURI))
+                + "</b><p>"
+                + labels.getString("file.saveBefore.doYouWantToSave.details"),
+            JOptionPane.WARNING_MESSAGE);
         Object[] options = {
           labels.getString("file.saveBefore.saveOption.text"),
           labels.getString("file.saveBefore.cancelOption.text"),
@@ -91,24 +90,21 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
         pane.setOptions(options);
         pane.setInitialValue(options[0]);
         pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
-        JSheet.showSheet(
-            pane,
-            v.getComponent(),
-            new SheetListener() {
-              @Override
-              public void optionSelected(SheetEvent evt) {
-                Object value = evt.getValue();
-                if (value == null
-                    || value.equals(labels.getString("file.saveBefore.cancelOption.text"))) {
-                  v.setEnabled(true);
-                } else if (value.equals(labels.getString("file.saveBefore.dontSaveOption.text"))) {
-                  doIt(v);
-                  v.setEnabled(true);
-                } else if (value.equals(labels.getString("file.saveBefore.saveOption.text"))) {
-                  saveView(v);
-                }
-              }
-            });
+        JSheet.showSheet(pane, v.getComponent(), new SheetListener() {
+          @Override
+          public void optionSelected(SheetEvent evt) {
+            Object value = evt.getValue();
+            if (value == null
+                || value.equals(labels.getString("file.saveBefore.cancelOption.text"))) {
+              v.setEnabled(true);
+            } else if (value.equals(labels.getString("file.saveBefore.dontSaveOption.text"))) {
+              doIt(v);
+              v.setEnabled(true);
+            } else if (value.equals(labels.getString("file.saveBefore.saveOption.text"))) {
+              saveView(v);
+            }
+          }
+        });
       } else {
         doIt(v);
         v.setEnabled(true);
@@ -132,22 +128,19 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     if (v.getURI() == null) {
       URIChooser chooser = getChooser(v);
       // int option = fileChooser.showSaveDialog(this);
-      JSheet.showSaveSheet(
-          chooser,
-          v.getComponent(),
-          new SheetListener() {
-            @Override
-            public void optionSelected(final SheetEvent evt) {
-              if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                saveViewToURI(v, evt.getChooser().getSelectedURI(), evt.getChooser());
-              } else {
-                v.setEnabled(true);
-                if (oldFocusOwner != null) {
-                  oldFocusOwner.requestFocus();
-                }
-              }
+      JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
+        @Override
+        public void optionSelected(final SheetEvent evt) {
+          if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+            saveViewToURI(v, evt.getChooser().getSelectedURI(), evt.getChooser());
+          } else {
+            v.setEnabled(true);
+            if (oldFocusOwner != null) {
+              oldFocusOwner.requestFocus();
             }
-          });
+          }
+        }
+      });
     } else {
       saveViewToURI(v, v.getURI(), null);
     }

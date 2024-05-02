@@ -82,13 +82,12 @@ public class DrawView extends AbstractView {
     view.setDrawing(createDrawing());
     view.getDrawing().addUndoableEditListener(undo);
     initActions();
-    undo.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            setHasUnsavedChanges(undo.hasSignificantEdits());
-          }
-        });
+    undo.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        setHasUnsavedChanges(undo.hasSignificantEdits());
+      }
+    });
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     JPanel placardPanel = new JPanel(new BorderLayout());
     javax.swing.AbstractButton pButton;
@@ -168,16 +167,15 @@ public class DrawView extends AbstractView {
         throw new IOException(
             labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(f)));
       }
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              view.getDrawing().removeUndoableEditListener(undo);
-              view.setDrawing(drawing);
-              view.getDrawing().addUndoableEditListener(undo);
-              undo.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          view.getDrawing().removeUndoableEditListener(undo);
+          view.setDrawing(drawing);
+          view.getDrawing().addUndoableEditListener(undo);
+          undo.discardAllEdits();
+        }
+      });
     } catch (InterruptedException e) {
       InternalError error = new InternalError();
       e.initCause(e);
@@ -212,16 +210,15 @@ public class DrawView extends AbstractView {
   public void clear() {
     final Drawing newDrawing = createDrawing();
     try {
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              view.getDrawing().removeUndoableEditListener(undo);
-              view.setDrawing(newDrawing);
-              view.getDrawing().addUndoableEditListener(undo);
-              undo.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          view.getDrawing().removeUndoableEditListener(undo);
+          view.setDrawing(newDrawing);
+          view.getDrawing().addUndoableEditListener(undo);
+          undo.discardAllEdits();
+        }
+      });
     } catch (InvocationTargetException ex) {
       ex.printStackTrace();
     } catch (InterruptedException ex) {

@@ -117,10 +117,9 @@ public class ImageMapOutputFormat implements OutputFormat {
       Dimension imageSize)
       throws IOException {
     this.drawingTransform = (drawingTransform == null) ? new AffineTransform() : drawingTransform;
-    this.bounds =
-        (imageSize == null)
-            ? new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE)
-            : new Rectangle(0, 0, imageSize.width, imageSize.height);
+    this.bounds = (imageSize == null)
+        ? new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE)
+        : new Rectangle(0, 0, imageSize.width, imageSize.height);
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder;
     try {
@@ -172,13 +171,8 @@ public class ImageMapOutputFormat implements OutputFormat {
     }
     AffineTransform tx = new AffineTransform();
     tx.translate(-Math.min(0, drawingRect.x), -Math.min(0, drawingRect.y));
-    write(
-        out,
-        figures,
-        tx,
-        new Dimension(
-            (int) (Math.abs(drawingRect.x) + drawingRect.width),
-            (int) (Math.abs(drawingRect.y) + drawingRect.height)));
+    write(out, figures, tx, new Dimension((int) (Math.abs(drawingRect.x) + drawingRect.width), (int)
+        (Math.abs(drawingRect.y) + drawingRect.height)));
   }
 
   @Override
@@ -294,12 +288,11 @@ public class ImageMapOutputFormat implements OutputFormat {
       Point2D.Double end = new Point2D.Double(rect.x + rect.width, rect.y + rect.height);
       t.transform(start, start);
       t.transform(end, end);
-      Rectangle r =
-          new Rectangle(
-              (int) Math.min(start.x, end.x),
-              (int) Math.min(start.y, end.y),
-              (int) Math.abs(start.x - end.x),
-              (int) Math.abs(start.y - end.y));
+      Rectangle r = new Rectangle(
+          (int) Math.min(start.x, end.x),
+          (int) Math.min(start.y, end.y),
+          (int) Math.abs(start.x - end.x),
+          (int) Math.abs(start.y - end.y));
       elem.setAttribute("shape", "rect");
       elem.setAttribute("coords", r.x + "," + r.y + "," + (r.x + r.width) + "," + (r.y + r.height));
       writeHrefAttribute(elem, f);
@@ -437,19 +430,17 @@ public class ImageMapOutputFormat implements OutputFormat {
       rect.height += grow;
       isContained = writeRectAttributes(elem, f, rect);
     } else {
-      isContained =
-          writePolyAttributes(
-              elem,
-              f,
-              new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0))
-                  .createStrokedShape(
-                      new RoundRectangle2D.Double(
-                          f.getX(),
-                          f.getY(),
-                          f.getWidth(),
-                          f.getHeight(),
-                          f.getArcWidth(),
-                          f.getArcHeight())));
+      isContained = writePolyAttributes(
+          elem,
+          f,
+          new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0))
+              .createStrokedShape(new RoundRectangle2D.Double(
+                  f.getX(),
+                  f.getY(),
+                  f.getWidth(),
+                  f.getHeight(),
+                  f.getArcWidth(),
+                  f.getArcHeight())));
     }
     if (isContained) {
       parent.appendChild(elem);

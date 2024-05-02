@@ -94,37 +94,34 @@ public class CIEXYChromaticityDiagramImageProducer extends MemoryImageSource {
             XYZ[0] = x * XYZ[1] / y; // X=x*Y/y
             XYZ[2] = z * XYZ[1] / y; // Z = (1-x-y)*Y/y
           }
-          int alpha =
-              XYZ[0] >= CEPS
-                      && XYZ[1] >= CEPS
-                      && XYZ[2] >= CEPS
-                      && XYZ[0] <= 1 - CEPS
-                      && XYZ[1] <= 1 - CEPS
-                      && XYZ[2] <= 1 - CEPS
-                  ? 255
-                  : 0;
+          int alpha = XYZ[0] >= CEPS
+                  && XYZ[1] >= CEPS
+                  && XYZ[2] >= CEPS
+                  && XYZ[0] <= 1 - CEPS
+                  && XYZ[1] <= 1 - CEPS
+                  && XYZ[2] <= 1 - CEPS
+              ? 255
+              : 0;
           if (alpha == 255) {
             // rgb = colorSpace.toRGB(XYZ);
             // toRGB(XYZ,rgb);
             toRGB(XYZ, rgb);
-            alpha =
-                (rgb[0] >= EPS
-                        && rgb[1] >= EPS
-                        && rgb[2] >= EPS
-                        && rgb[0] <= 1 - EPS
-                        && rgb[1] <= 1 - EPS
-                        && rgb[2] <= 1 - EPS)
-                    ? 255
-                    : 0;
+            alpha = (rgb[0] >= EPS
+                    && rgb[1] >= EPS
+                    && rgb[2] >= EPS
+                    && rgb[0] <= 1 - EPS
+                    && rgb[1] <= 1 - EPS
+                    && rgb[2] <= 1 - EPS)
+                ? 255
+                : 0;
             if (alpha == 255) {
               // rgb = colorSpace.toRGB(XYZ);
               //                            pixels[ix + iy * w] = (alpha << 24) | ((int) (rgb[0] *
               // 255f) << 16) | ((int) (rgb[1] * 255f) << 8) | (int) (rgb[2] * 255f);
-              pixels[ix + iy * w] =
-                  (alpha << 24)
-                      | ((0xff & (int) (rgb[0] * 255f)) << 16)
-                      | ((0xff & (int) (rgb[1] * 255f)) << 8)
-                      | (0xff & (int) (rgb[2] * 255f));
+              pixels[ix + iy * w] = (alpha << 24)
+                  | ((0xff & (int) (rgb[0] * 255f)) << 16)
+                  | ((0xff & (int) (rgb[1] * 255f)) << 8)
+                  | (0xff & (int) (rgb[2] * 255f));
             }
           }
         }

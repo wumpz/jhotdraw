@@ -41,14 +41,8 @@ public class DoubleStroke implements Stroke {
     this.outlineWidth = outlineWidth;
     this.miterLimit = miterLimit;
     // outlineStroke = new BasicStroke(outlineWidth, cap, join, miterLimit, dashes, dashPhase);
-    outlineStroke =
-        new BasicStroke(
-            (float) outlineWidth,
-            cap,
-            BasicStroke.JOIN_BEVEL,
-            (float) miterLimit,
-            dashes,
-            dashPhase);
+    outlineStroke = new BasicStroke(
+        (float) outlineWidth, cap, BasicStroke.JOIN_BEVEL, (float) miterLimit, dashes, dashPhase);
   }
 
   @Override
@@ -125,50 +119,46 @@ public class DoubleStroke implements Stroke {
     }
     // Handle the first point of the bezier path
     if (bp.isClosed() && bp.size() > 1) {
-      prevCorners =
-          computeThickLine(
-              bp.nodes().get(bp.size() - 1).x[0],
-              bp.nodes().get(bp.size() - 1).y[0],
-              bp.nodes().get(0).x[0],
-              bp.nodes().get(0).y[0],
-              innerWidth,
-              prevCorners);
-      currentCorners =
-          computeThickLine(
-              bp.nodes().get(0).x[0],
-              bp.nodes().get(0).y[0],
-              bp.nodes().get(1).x[0],
-              bp.nodes().get(1).y[0],
-              innerWidth,
-              currentCorners);
-      intersect =
-          Geom.intersect(
-              prevCorners[0],
-              prevCorners[1],
-              prevCorners[4],
-              prevCorners[5],
-              currentCorners[0],
-              currentCorners[1],
-              currentCorners[4],
-              currentCorners[5],
-              miterLimit);
+      prevCorners = computeThickLine(
+          bp.nodes().get(bp.size() - 1).x[0],
+          bp.nodes().get(bp.size() - 1).y[0],
+          bp.nodes().get(0).x[0],
+          bp.nodes().get(0).y[0],
+          innerWidth,
+          prevCorners);
+      currentCorners = computeThickLine(
+          bp.nodes().get(0).x[0],
+          bp.nodes().get(0).y[0],
+          bp.nodes().get(1).x[0],
+          bp.nodes().get(1).y[0],
+          innerWidth,
+          currentCorners);
+      intersect = Geom.intersect(
+          prevCorners[0],
+          prevCorners[1],
+          prevCorners[4],
+          prevCorners[5],
+          currentCorners[0],
+          currentCorners[1],
+          currentCorners[4],
+          currentCorners[5],
+          miterLimit);
       if (intersect != null) {
         right.moveTo(intersect.x, intersect.y);
       } else {
         right.moveTo(prevCorners[4], prevCorners[5]);
         right.lineTo(currentCorners[0], currentCorners[1]);
       }
-      intersect =
-          Geom.intersect(
-              prevCorners[2],
-              prevCorners[3],
-              prevCorners[6],
-              prevCorners[7],
-              currentCorners[2],
-              currentCorners[3],
-              currentCorners[6],
-              currentCorners[7],
-              miterLimit);
+      intersect = Geom.intersect(
+          prevCorners[2],
+          prevCorners[3],
+          prevCorners[6],
+          prevCorners[7],
+          currentCorners[2],
+          currentCorners[3],
+          currentCorners[6],
+          currentCorners[7],
+          miterLimit);
       if (intersect != null) {
         left.moveTo(intersect.x, intersect.y);
       } else {
@@ -177,14 +167,13 @@ public class DoubleStroke implements Stroke {
       }
     } else {
       if (bp.size() > 1) {
-        currentCorners =
-            computeThickLine(
-                bp.nodes().get(0).x[0],
-                bp.nodes().get(0).y[0],
-                bp.nodes().get(1).x[0],
-                bp.nodes().get(1).y[0],
-                innerWidth,
-                currentCorners);
+        currentCorners = computeThickLine(
+            bp.nodes().get(0).x[0],
+            bp.nodes().get(0).y[0],
+            bp.nodes().get(1).x[0],
+            bp.nodes().get(1).y[0],
+            innerWidth,
+            currentCorners);
         right.moveTo(currentCorners[0], currentCorners[1]);
         left.moveTo(currentCorners[2], currentCorners[3]);
       }
@@ -193,42 +182,39 @@ public class DoubleStroke implements Stroke {
     for (int i = 1, n = bp.size() - 1; i < n; i++) {
       double[] tmp = prevCorners;
       prevCorners = currentCorners;
-      currentCorners =
-          computeThickLine(
-              bp.nodes().get(i).x[0],
-              bp.nodes().get(i).y[0],
-              bp.nodes().get(i + 1).x[0],
-              bp.nodes().get(i + 1).y[0],
-              innerWidth,
-              tmp);
-      intersect =
-          Geom.intersect(
-              prevCorners[0],
-              prevCorners[1],
-              prevCorners[4],
-              prevCorners[5],
-              currentCorners[0],
-              currentCorners[1],
-              currentCorners[4],
-              currentCorners[5],
-              miterLimit);
+      currentCorners = computeThickLine(
+          bp.nodes().get(i).x[0],
+          bp.nodes().get(i).y[0],
+          bp.nodes().get(i + 1).x[0],
+          bp.nodes().get(i + 1).y[0],
+          innerWidth,
+          tmp);
+      intersect = Geom.intersect(
+          prevCorners[0],
+          prevCorners[1],
+          prevCorners[4],
+          prevCorners[5],
+          currentCorners[0],
+          currentCorners[1],
+          currentCorners[4],
+          currentCorners[5],
+          miterLimit);
       if (intersect != null) {
         right.lineTo(intersect.x, intersect.y);
       } else {
         right.lineTo(prevCorners[4], prevCorners[5]);
         right.lineTo(currentCorners[0], currentCorners[1]);
       }
-      intersect =
-          Geom.intersect(
-              prevCorners[2],
-              prevCorners[3],
-              prevCorners[6],
-              prevCorners[7],
-              currentCorners[2],
-              currentCorners[3],
-              currentCorners[6],
-              currentCorners[7],
-              miterLimit);
+      intersect = Geom.intersect(
+          prevCorners[2],
+          prevCorners[3],
+          prevCorners[6],
+          prevCorners[7],
+          currentCorners[2],
+          currentCorners[3],
+          currentCorners[6],
+          currentCorners[7],
+          miterLimit);
       if (intersect != null) {
         left.lineTo(intersect.x, intersect.y);
       } else {
@@ -240,43 +226,40 @@ public class DoubleStroke implements Stroke {
     if (bp.isClosed() && bp.size() > 0) {
       double[] tmp = prevCorners;
       prevCorners = currentCorners;
-      currentCorners =
-          computeThickLine(
-              bp.nodes().get(bp.size() - 1).x[0],
-              bp.nodes().get(bp.size() - 1).y[0],
-              bp.nodes().get(0).x[0],
-              bp.nodes().get(0).y[0],
-              // bp.get(1).x[0], bp.get(1).y[0],
-              innerWidth,
-              tmp);
-      intersect =
-          Geom.intersect(
-              prevCorners[0],
-              prevCorners[1],
-              prevCorners[4],
-              prevCorners[5],
-              currentCorners[0],
-              currentCorners[1],
-              currentCorners[4],
-              currentCorners[5],
-              miterLimit);
+      currentCorners = computeThickLine(
+          bp.nodes().get(bp.size() - 1).x[0],
+          bp.nodes().get(bp.size() - 1).y[0],
+          bp.nodes().get(0).x[0],
+          bp.nodes().get(0).y[0],
+          // bp.get(1).x[0], bp.get(1).y[0],
+          innerWidth,
+          tmp);
+      intersect = Geom.intersect(
+          prevCorners[0],
+          prevCorners[1],
+          prevCorners[4],
+          prevCorners[5],
+          currentCorners[0],
+          currentCorners[1],
+          currentCorners[4],
+          currentCorners[5],
+          miterLimit);
       if (intersect != null) {
         right.lineTo(intersect.x, intersect.y);
       } else {
         right.lineTo(prevCorners[4], prevCorners[5]);
         right.lineTo(currentCorners[0], currentCorners[1]);
       }
-      intersect =
-          Geom.intersect(
-              prevCorners[2],
-              prevCorners[3],
-              prevCorners[6],
-              prevCorners[7],
-              currentCorners[2],
-              currentCorners[3],
-              currentCorners[6],
-              currentCorners[7],
-              miterLimit);
+      intersect = Geom.intersect(
+          prevCorners[2],
+          prevCorners[3],
+          prevCorners[6],
+          prevCorners[7],
+          currentCorners[2],
+          currentCorners[3],
+          currentCorners[6],
+          currentCorners[7],
+          miterLimit);
       if (intersect != null) {
         left.lineTo(intersect.x, intersect.y);
       } else {

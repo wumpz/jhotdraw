@@ -54,24 +54,23 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
 
   protected PropertyChangeListener getEventHandler() {
     if (eventHandler == null) {
-      eventHandler =
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              String name = evt.getPropertyName();
-              if (name == DISCLOSURE_STATE_PROPERTY) {
-                try {
-                  prefs.putInt(getID() + ".disclosureState", (Integer) evt.getNewValue());
-                } catch (IllegalStateException e) {
-                  // This happens, due to a bug in Apple's implementation
-                  // of the Preferences class.
-                  System.err.println(
-                      "Warning AbstractToolBar caught IllegalStateException of Preferences class");
-                  e.printStackTrace();
-                }
-              }
+      eventHandler = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          String name = evt.getPropertyName();
+          if (name == DISCLOSURE_STATE_PROPERTY) {
+            try {
+              prefs.putInt(getID() + ".disclosureState", (Integer) evt.getNewValue());
+            } catch (IllegalStateException e) {
+              // This happens, due to a bug in Apple's implementation
+              // of the Preferences class.
+              System.err.println(
+                  "Warning AbstractToolBar caught IllegalStateException of Preferences class");
+              e.printStackTrace();
             }
-          };
+          }
+        }
+      };
     }
     return eventHandler;
   }
@@ -88,12 +87,11 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
     if (editor != null) {
       init();
       clearDisclosedComponents();
-      setDisclosureState(
-          Math.max(
-              0,
-              Math.min(
-                  getDisclosureStateCount(),
-                  prefs.getInt(getID() + ".disclosureState", getDefaultDisclosureState()))));
+      setDisclosureState(Math.max(
+          0,
+          Math.min(
+              getDisclosureStateCount(),
+              prefs.getInt(getID() + ".disclosureState", getDefaultDisclosureState()))));
       this.addPropertyChangeListener(getEventHandler());
     }
   }
@@ -151,38 +149,37 @@ public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements 
       super.paint(g);
       final int state = getDisclosureState();
       if (runner == null) {
-        runner =
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  panels[state] = createDisclosedComponent(state);
-                } catch (Throwable t) {
-                  t.printStackTrace();
-                  panels[state] = null;
-                }
-                // long end = System.currentTimeMillis();
-                // System.out.println(AbstractToolBar.this.getClass()+" state:"+state+"
-                // elapsed:"+(end-start));
-                JComponent parent = (JComponent) getParent();
-                if (parent != null) {
-                  GridBagLayout layout = (GridBagLayout) parent.getLayout();
-                  GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
-                  parent.remove(ProxyPanel.this);
-                  if (getDisclosureState() == state) {
-                    if (panels[state] != null) {
-                      parent.add(panels[state], gbc);
-                    } else {
-                      JPanel empty = new JPanel(new BorderLayout());
-                      empty.setOpaque(false);
-                      parent.add(empty, gbc);
-                    }
-                  }
-                  parent.revalidate();
-                  ((JComponent) parent.getRootPane().getContentPane()).revalidate();
+        runner = new Runnable() {
+          @Override
+          public void run() {
+            try {
+              panels[state] = createDisclosedComponent(state);
+            } catch (Throwable t) {
+              t.printStackTrace();
+              panels[state] = null;
+            }
+            // long end = System.currentTimeMillis();
+            // System.out.println(AbstractToolBar.this.getClass()+" state:"+state+"
+            // elapsed:"+(end-start));
+            JComponent parent = (JComponent) getParent();
+            if (parent != null) {
+              GridBagLayout layout = (GridBagLayout) parent.getLayout();
+              GridBagConstraints gbc = layout.getConstraints(ProxyPanel.this);
+              parent.remove(ProxyPanel.this);
+              if (getDisclosureState() == state) {
+                if (panels[state] != null) {
+                  parent.add(panels[state], gbc);
+                } else {
+                  JPanel empty = new JPanel(new BorderLayout());
+                  empty.setOpaque(false);
+                  parent.add(empty, gbc);
                 }
               }
-            };
+              parent.revalidate();
+              ((JComponent) parent.getRootPane().getContentPane()).revalidate();
+            }
+          }
+        };
         SwingUtilities.invokeLater(runner);
       }
     }

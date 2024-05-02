@@ -210,26 +210,24 @@ public class OpenFileAction extends AbstractApplicationAction {
     final Component finalParent = parent;
     final int[] returnValue = new int[1];
     final JDialog dialog = createDialog(chooser, finalParent);
-    dialog.addWindowListener(
-        new WindowAdapter() {
-          @Override
-          public void windowClosing(WindowEvent e) {
-            returnValue[0] = JFileChooser.CANCEL_OPTION;
-          }
-        });
-    chooser.addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            if ("CancelSelection".equals(e.getActionCommand())) {
-              returnValue[0] = JFileChooser.CANCEL_OPTION;
-              dialog.setVisible(false);
-            } else if ("ApproveSelection".equals(e.getActionCommand())) {
-              returnValue[0] = JFileChooser.APPROVE_OPTION;
-              dialog.setVisible(false);
-            }
-          }
-        });
+    dialog.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        returnValue[0] = JFileChooser.CANCEL_OPTION;
+      }
+    });
+    chooser.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if ("CancelSelection".equals(e.getActionCommand())) {
+          returnValue[0] = JFileChooser.CANCEL_OPTION;
+          dialog.setVisible(false);
+        } else if ("ApproveSelection".equals(e.getActionCommand())) {
+          returnValue[0] = JFileChooser.APPROVE_OPTION;
+          dialog.setVisible(false);
+        }
+      }
+    });
     returnValue[0] = JFileChooser.ERROR_OPTION;
     chooser.rescanCurrentDirectory();
     dialog.setVisible(true);
@@ -249,10 +247,9 @@ public class OpenFileAction extends AbstractApplicationAction {
       ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
     }
     JDialog dialog;
-    Window window =
-        (parent == null || (parent instanceof Window))
-            ? (Window) parent
-            : SwingUtilities.getWindowAncestor(parent);
+    Window window = (parent == null || (parent instanceof Window))
+        ? (Window) parent
+        : SwingUtilities.getWindowAncestor(parent);
     dialog = new JDialog(window, title, Dialog.ModalityType.APPLICATION_MODAL);
     dialog.setComponentOrientation(chooser.getComponent().getComponentOrientation());
     Container contentPane = dialog.getContentPane();
@@ -265,7 +262,8 @@ public class OpenFileAction extends AbstractApplicationAction {
       }
     }
     // dialog.pack();
-    Preferences prefs = PreferencesUtil.userNodeForPackage(getApplication().getModel().getClass());
+    Preferences prefs =
+        PreferencesUtil.userNodeForPackage(getApplication().getModel().getClass());
     PreferencesUtil.installFramePrefsHandler(prefs, "openChooser", dialog);
     /*
     if (window.getBounds().isEmpty()) {

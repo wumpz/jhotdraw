@@ -84,21 +84,20 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   private ActionMap actionMap;
 
   /** The focus handler. */
-  private FocusListener focusHandler =
-      new FocusListener() {
-        @Override
-        public void focusGained(FocusEvent e) {
-          setActiveView(findView((Container) e.getSource()));
-        }
+  private FocusListener focusHandler = new FocusListener() {
+    @Override
+    public void focusGained(FocusEvent e) {
+      setActiveView(findView((Container) e.getSource()));
+    }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-          /*
-          if (! e.isTemporary()) {
-          setFocusedView(null);
-          }*/
-        }
-      };
+    @Override
+    public void focusLost(FocusEvent e) {
+      /*
+      if (! e.isTemporary()) {
+      setFocusedView(null);
+      }*/
+    }
+  };
 
   public DefaultDrawingEditor() {
     toolHandler = new ToolHandler();

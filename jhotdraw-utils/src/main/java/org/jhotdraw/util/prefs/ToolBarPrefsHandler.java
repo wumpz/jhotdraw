@@ -84,15 +84,13 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         Insets insets = toolbar.getParent().getInsets();
         String constraint;
         if (x == insets.left && y == insets.top) {
-          constraint =
-              (toolbar.getOrientation() == JToolBar.HORIZONTAL)
-                  ? BorderLayout.NORTH
-                  : BorderLayout.WEST;
+          constraint = (toolbar.getOrientation() == JToolBar.HORIZONTAL)
+              ? BorderLayout.NORTH
+              : BorderLayout.WEST;
         } else {
-          constraint =
-              (toolbar.getOrientation() == JToolBar.HORIZONTAL)
-                  ? BorderLayout.SOUTH
-                  : BorderLayout.EAST;
+          constraint = (toolbar.getOrientation() == JToolBar.HORIZONTAL)
+              ? BorderLayout.SOUTH
+              : BorderLayout.EAST;
         }
         prefs.put(prefsPrefix + ".constraint", constraint);
       }
@@ -103,15 +101,13 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         Insets insets = toolbar.getParent().getInsets();
         String constraint;
         if (x == insets.left && y == insets.top) {
-          constraint =
-              (toolbar.getOrientation() == JToolBar.HORIZONTAL)
-                  ? BorderLayout.NORTH
-                  : BorderLayout.WEST;
+          constraint = (toolbar.getOrientation() == JToolBar.HORIZONTAL)
+              ? BorderLayout.NORTH
+              : BorderLayout.WEST;
         } else {
-          constraint =
-              (toolbar.getOrientation() == JToolBar.HORIZONTAL)
-                  ? BorderLayout.SOUTH
-                  : BorderLayout.EAST;
+          constraint = (toolbar.getOrientation() == JToolBar.HORIZONTAL)
+              ? BorderLayout.SOUTH
+              : BorderLayout.EAST;
         }
         prefs.put(prefsPrefix + ".constraint", constraint);
       }

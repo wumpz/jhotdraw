@@ -77,15 +77,14 @@ public class DeleteAction extends TextAction {
     this.target = target;
     if (target != null) {
       // Register with a weak reference on the JComponent.
-      propertyHandler =
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              if ("enabled".equals(evt.getPropertyName())) {
-                setEnabled((Boolean) evt.getNewValue());
-              }
-            }
-          };
+      propertyHandler = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if ("enabled".equals(evt.getPropertyName())) {
+            setEnabled((Boolean) evt.getNewValue());
+          }
+        }
+      };
       target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
     }
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
@@ -98,9 +97,8 @@ public class DeleteAction extends TextAction {
     if (c == null
         && (KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner()
             instanceof JComponent)) {
-      c =
-          (JComponent)
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+      c = (JComponent)
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
     }
     if (c != null && c.isEnabled()) {
       if (c instanceof EditableComponent) {

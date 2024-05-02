@@ -238,9 +238,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
       }
       if (al != null) {
         evt.consume();
-        al.actionPerformed(
-            new ActionEvent(
-                this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
+        al.actionPerformed(new ActionEvent(
+            this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
         fireToolDone();
       }
     }

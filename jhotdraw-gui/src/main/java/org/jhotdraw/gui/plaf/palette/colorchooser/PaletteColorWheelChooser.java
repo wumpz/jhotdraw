@@ -56,13 +56,12 @@ public class PaletteColorWheelChooser extends AbstractColorChooserPanel implemen
     ccModel.configureSlider(2, brightnessSlider);
     brightnessSlider.setMaximum(200);
     colorWheel.setModel(ccModel);
-    ccModel.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent evt) {
-            setColorToModel(ccModel.getColor());
-          }
-        });
+    ccModel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent evt) {
+        setColorToModel(ccModel.getColor());
+      }
+    });
   }
 
   @Override

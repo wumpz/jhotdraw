@@ -61,42 +61,41 @@ public class DrawingColorChooserHandler extends AbstractDrawingViewAction
     drawing.changed();
     getEditor().setDefaultAttribute(key, selectedColor);
     final Color undoValue = selectedColor;
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            return AttributeKeys.FONT_FACE.getPresentationName();
-            /*
-            String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
-            if (name == null) {
-            name = (String) getValue(AbstractAction.NAME);
-            }
-            if (name == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            name = labels.getString("attribute.text");
-            }
-            return name;*/
-          }
+      @Override
+      public String getPresentationName() {
+        return AttributeKeys.FONT_FACE.getPresentationName();
+        /*
+        String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+        if (name == null) {
+        name = (String) getValue(AbstractAction.NAME);
+        }
+        if (name == null) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        name = labels.getString("attribute.text");
+        }
+        return name;*/
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            drawing.willChange();
-            drawing.attr().restoreAttributesTo(restoreData);
-            drawing.changed();
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        drawing.willChange();
+        drawing.attr().restoreAttributesTo(restoreData);
+        drawing.changed();
+      }
 
-          @Override
-          public void redo() {
-            super.redo();
-            // restoreData.add(figure.getAttributesRestoreData());
-            drawing.willChange();
-            drawing.attr().set(key, undoValue);
-            drawing.changed();
-          }
-        };
+      @Override
+      public void redo() {
+        super.redo();
+        // restoreData.add(figure.getAttributesRestoreData());
+        drawing.willChange();
+        drawing.attr().set(key, undoValue);
+        drawing.changed();
+      }
+    };
     fireUndoableEditHappened(edit);
   }
 

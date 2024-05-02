@@ -104,10 +104,9 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     location = new Point(lead.x, lead.y);
     Point2D.Double leadPoint = view.viewToDrawing(lead);
     double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
-    double currentTheta =
-        view.getConstrainer() == null
-            ? (stepTheta - startTheta)
-            : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
+    double currentTheta = view.getConstrainer() == null
+        ? (stepTheta - startTheta)
+        : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
     transform.setToIdentity();
     transform.translate(center.x, center.y);
     transform.rotate(currentTheta);
@@ -125,9 +124,8 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
   @Override
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     view.getDrawing()
-        .fireUndoableEditHappened(
-            new TransformRestoreEdit(
-                getOwner(), restoreData, getOwner().getTransformRestoreData()));
+        .fireUndoableEditHappened(new TransformRestoreEdit(
+            getOwner(), restoreData, getOwner().getTransformRestoreData()));
     fireAreaInvalidated(getDrawingArea());
     location = null;
     invalidate();

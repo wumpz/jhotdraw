@@ -138,9 +138,8 @@ public class BezierScaleHandle extends AbstractHandle {
   @Override
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     view.getDrawing()
-        .fireUndoableEditHappened(
-            new TransformRestoreEdit(
-                getOwner(), restoreData, getOwner().getTransformRestoreData()));
+        .fireUndoableEditHappened(new TransformRestoreEdit(
+            getOwner(), restoreData, getOwner().getTransformRestoreData()));
     location = null;
   }
 }

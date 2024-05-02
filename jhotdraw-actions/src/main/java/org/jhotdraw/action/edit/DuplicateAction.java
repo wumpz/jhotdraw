@@ -66,9 +66,8 @@ public class DuplicateAction extends AbstractSelectionAction {
     if (c == null
         && (KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner()
             instanceof JComponent)) {
-      c =
-          (JComponent)
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+      c = (JComponent)
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
     }
     if (c != null && c.isEnabled()) {
       if (c instanceof EditableComponent) {

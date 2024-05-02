@@ -52,9 +52,8 @@ import javax.swing.*;
 public class ResourceBundleUtil implements Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final HashSet<String> ACCELERATOR_KEYS =
-      new HashSet<String>(
-          Arrays.asList(new String[] {"shift", "control", "ctrl", "meta", "alt", "altGraph"}));
+  private static final HashSet<String> ACCELERATOR_KEYS = new HashSet<String>(
+      Arrays.asList(new String[] {"shift", "control", "ctrl", "meta", "alt", "altGraph"}));
 
   /** The wrapped resource bundle. */
   private transient ResourceBundle resource;
@@ -288,26 +287,24 @@ public class ResourceBundleUtil implements Serializable {
       }
       URL url = baseClass.getResource(rsrcName);
       if (isVerbose && url == null) {
-        System.err.println(
-            "Warning ResourceBundleUtil["
-                + baseName
-                + "].getIconProperty \""
-                + key
-                + suffix
-                + "\" resource:"
-                + rsrcName
-                + " not found.");
+        System.err.println("Warning ResourceBundleUtil["
+            + baseName
+            + "].getIconProperty \""
+            + key
+            + suffix
+            + "\" resource:"
+            + rsrcName
+            + " not found.");
       }
       return (url == null) ? null : new ImageIcon(url);
     } catch (MissingResourceException e) {
       if (isVerbose) {
-        System.err.println(
-            "Warning ResourceBundleUtil["
-                + baseName
-                + "].getIconProperty \""
-                + key
-                + suffix
-                + "\" not found.");
+        System.err.println("Warning ResourceBundleUtil["
+            + baseName
+            + "].getIconProperty \""
+            + key
+            + suffix
+            + "\" not found.");
         // e.printStackTrace();
       }
       return null;

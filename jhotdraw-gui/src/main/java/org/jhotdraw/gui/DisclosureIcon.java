@@ -25,14 +25,12 @@ public class DisclosureIcon implements Icon {
   @Override
   public void paintIcon(Component component, Graphics g, int x, int y) {
     JComponent c = (JComponent) component;
-    int nbOfStates =
-        (c.getClientProperty(STATE_COUNT_PROPERTY) instanceof Integer)
-            ? (Integer) c.getClientProperty(STATE_COUNT_PROPERTY)
-            : 2;
-    int currentState =
-        (c.getClientProperty(CURRENT_STATE_PROPERTY) instanceof Integer)
-            ? (Integer) c.getClientProperty(CURRENT_STATE_PROPERTY)
-            : 1;
+    int nbOfStates = (c.getClientProperty(STATE_COUNT_PROPERTY) instanceof Integer)
+        ? (Integer) c.getClientProperty(STATE_COUNT_PROPERTY)
+        : 2;
+    int currentState = (c.getClientProperty(CURRENT_STATE_PROPERTY) instanceof Integer)
+        ? (Integer) c.getClientProperty(CURRENT_STATE_PROPERTY)
+        : 1;
     g.setColor(Color.black);
     g.drawRect(x, y, getIconWidth() - 1, getIconHeight() - 1);
     g.setColor(new Color(0x666666));

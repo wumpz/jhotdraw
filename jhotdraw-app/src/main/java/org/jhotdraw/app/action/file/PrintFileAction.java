@@ -179,11 +179,10 @@ public class PrintFileAction extends AbstractViewAction {
             if (g instanceof Graphics2D) {
               pageable.getPrintable(i).print(g, pf, i);
             } else {
-              BufferedImage buf =
-                  new BufferedImage(
-                      (int) (pf.getImageableWidth() * resolution / 72d),
-                      (int) (pf.getImageableHeight() * resolution / 72d),
-                      BufferedImage.TYPE_INT_RGB);
+              BufferedImage buf = new BufferedImage(
+                  (int) (pf.getImageableWidth() * resolution / 72d),
+                  (int) (pf.getImageableHeight() * resolution / 72d),
+                  BufferedImage.TYPE_INT_RGB);
               Graphics2D bufG = buf.createGraphics();
               bufG.setBackground(Color.WHITE);
               bufG.fillRect(0, 0, buf.getWidth(), buf.getHeight());

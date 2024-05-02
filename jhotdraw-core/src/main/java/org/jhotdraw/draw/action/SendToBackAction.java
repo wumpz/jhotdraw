@@ -36,28 +36,27 @@ public class SendToBackAction extends AbstractSelectedAction {
     final DrawingView view = getView();
     final List<Figure> figures = new ArrayList<>(view.getSelectedFigures());
     sendToBack(view, figures);
-    fireUndoableEditHappened(
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getTextProperty(ID);
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getTextProperty(ID);
+      }
 
-          @Override
-          public void redo() throws CannotRedoException {
-            super.redo();
-            SendToBackAction.sendToBack(view, figures);
-          }
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        SendToBackAction.sendToBack(view, figures);
+      }
 
-          @Override
-          public void undo() throws CannotUndoException {
-            super.undo();
-            BringToFrontAction.bringToFront(view, figures);
-          }
-        });
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        BringToFrontAction.bringToFront(view, figures);
+      }
+    });
   }
 
   public static void sendToBack(DrawingView view, Collection<Figure> figures) {

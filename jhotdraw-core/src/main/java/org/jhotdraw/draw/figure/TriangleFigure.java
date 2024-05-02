@@ -77,12 +77,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
     Shape triangle = getBezierPath();
     double grow = AttributeKeys.getPerpendicularFillGrowth(this, scaleFactor);
     if (grow != 0d) {
-      GrowStroke gs =
-          new GrowStroke(
-              (float) grow,
-              (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, scaleFactor)
-                      * attr().get(STROKE_MITER_LIMIT)));
+      GrowStroke gs = new GrowStroke((float) grow, (float)
+          (AttributeKeys.getStrokeTotalWidth(this, scaleFactor) * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     g.fill(triangle);
@@ -94,12 +90,8 @@ public class TriangleFigure extends AbstractAttributedFigure {
     Shape triangle = getBezierPath();
     double grow = AttributeKeys.getPerpendicularDrawGrowth(this, scaleFactor);
     if (grow != 0d) {
-      GrowStroke gs =
-          new GrowStroke(
-              (float) grow,
-              (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, scaleFactor)
-                      * attr().get(STROKE_MITER_LIMIT)));
+      GrowStroke gs = new GrowStroke((float) grow, (float)
+          (AttributeKeys.getStrokeTotalWidth(this, scaleFactor) * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     g.draw(triangle);
@@ -169,12 +161,9 @@ public class TriangleFigure extends AbstractAttributedFigure {
     Shape triangle = getBezierPath();
     double grow = AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator);
     if (grow != 0d) {
-      GrowStroke gs =
-          new GrowStroke(
-              (float) grow,
-              (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
-                      * attr().get(STROKE_MITER_LIMIT)));
+      GrowStroke gs = new GrowStroke(
+          (float) grow, (float) (AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
+              * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return triangle.contains(p);
@@ -224,12 +213,9 @@ public class TriangleFigure extends AbstractAttributedFigure {
     double grow =
         AttributeKeys.getPerpendicularHitGrowth(this, AttributeKeys.scaleFromContext(this));
     if (grow != 0d) {
-      GrowStroke gs =
-          new GrowStroke(
-              (float) grow,
-              (float)
-                  (AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
-                      * attr().get(STROKE_MITER_LIMIT)));
+      GrowStroke gs = new GrowStroke((float) grow, (float)
+          (AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
+              * attr().get(STROKE_MITER_LIMIT)));
       triangle = gs.createStrokedShape(triangle);
     }
     return Geom.chop(triangle, p);

@@ -70,17 +70,16 @@ public class TransformHandleKit {
 
   /** Adds handles for scaling, moving, rotating and shearing a Figure. */
   public static void addGroupTransformHandles(Figure f, Collection<Handle> handles) {
-    handles.add(
-        new BoundsOutlineHandle(
-            f,
-            GROUP_BOUNDS_STROKE_1,
-            GROUP_BOUNDS_COLOR_1,
-            GROUP_BOUNDS_STROKE_2,
-            GROUP_BOUNDS_COLOR_2,
-            GROUP_BOUNDS_STROKE_1_DISABLED,
-            GROUP_BOUNDS_COLOR_1_DISABLED,
-            GROUP_BOUNDS_STROKE_2_DISABLED,
-            GROUP_BOUNDS_COLOR_2_DISABLED));
+    handles.add(new BoundsOutlineHandle(
+        f,
+        GROUP_BOUNDS_STROKE_1,
+        GROUP_BOUNDS_COLOR_1,
+        GROUP_BOUNDS_STROKE_2,
+        GROUP_BOUNDS_COLOR_2,
+        GROUP_BOUNDS_STROKE_1_DISABLED,
+        GROUP_BOUNDS_COLOR_1_DISABLED,
+        GROUP_BOUNDS_STROKE_2_DISABLED,
+        GROUP_BOUNDS_COLOR_2_DISABLED));
     addCornerTransformHandles(f, handles);
     addEdgeTransformHandles(f, handles);
     handles.add(new RotateHandle(f));
@@ -88,17 +87,16 @@ public class TransformHandleKit {
 
   /** Adds handles for scaling, moving, rotating and shearing a Figure. */
   public static void addGroupHoverHandles(Figure f, Collection<Handle> handles) {
-    handles.add(
-        new BoundsOutlineHandle(
-            f,
-            GROUP_BOUNDS_STROKE_1_HOVER,
-            GROUP_BOUNDS_COLOR_1_HOVER,
-            GROUP_BOUNDS_STROKE_2_HOVER,
-            GROUP_BOUNDS_COLOR_2_HOVER,
-            GROUP_BOUNDS_STROKE_1_DISABLED,
-            GROUP_BOUNDS_COLOR_1_DISABLED,
-            GROUP_BOUNDS_STROKE_2_DISABLED,
-            GROUP_BOUNDS_COLOR_2_DISABLED));
+    handles.add(new BoundsOutlineHandle(
+        f,
+        GROUP_BOUNDS_STROKE_1_HOVER,
+        GROUP_BOUNDS_COLOR_1_HOVER,
+        GROUP_BOUNDS_STROKE_2_HOVER,
+        GROUP_BOUNDS_COLOR_2_HOVER,
+        GROUP_BOUNDS_STROKE_1_DISABLED,
+        GROUP_BOUNDS_COLOR_1_DISABLED,
+        GROUP_BOUNDS_STROKE_2_DISABLED,
+        GROUP_BOUNDS_COLOR_2_DISABLED));
   }
 
   public static Handle south(Figure owner) {
@@ -179,7 +177,8 @@ public class TransformHandleKit {
       Figure owner = getOwner();
       Rectangle2D.Double bounds = owner.getBounds();
       if (owner.attr().get(TRANSFORM) != null) {
-        Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
+        Rectangle2D r =
+            owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
         bounds.x = r.getX();
         bounds.y = r.getY();
         bounds.width = r.getWidth();
@@ -227,12 +226,11 @@ public class TransformHandleKit {
       Figure f = getOwner();
       f.willChange();
       Rectangle2D.Double oldBounds = getTransformedBounds();
-      Rectangle2D.Double newBounds =
-          new Rectangle2D.Double(
-              Math.min(anchor.x, lead.x),
-              Math.min(anchor.y, lead.y),
-              Math.abs(anchor.x - lead.x),
-              Math.abs(anchor.y - lead.y));
+      Rectangle2D.Double newBounds = new Rectangle2D.Double(
+          Math.min(anchor.x, lead.x),
+          Math.min(anchor.y, lead.y),
+          Math.abs(anchor.x - lead.x),
+          Math.abs(anchor.y - lead.y));
       double sx = newBounds.width / oldBounds.width;
       double sy = newBounds.height / oldBounds.height;
       AffineTransform tx = new AffineTransform();

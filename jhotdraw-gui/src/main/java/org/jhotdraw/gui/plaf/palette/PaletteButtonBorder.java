@@ -22,15 +22,13 @@ import javax.swing.plaf.UIResource;
 public class PaletteButtonBorder implements Border, UIResource {
 
   private static final float[] ENABLED_STOPS = new float[] {0f, 0.35f, 0.4f, 1f};
-  private static final Color[] ENABLED_STOP_COLOR =
-      new Color[] {
-        new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)
-      };
+  private static final Color[] ENABLED_STOP_COLOR = new Color[] {
+    new Color(0xf8f8f8), new Color(0xeeeeee), new Color(0xcacaca), new Color(0xffffff)
+  };
   private static final float[] SELECTED_STOPS = new float[] {0f, 0.1f, 0.9f, 1f};
-  private static final Color[] SELECTED_STOP_COLORS =
-      new Color[] {
-        new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)
-      };
+  private static final Color[] SELECTED_STOP_COLORS = new Color[] {
+    new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)
+  };
 
   @Override
   public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
@@ -66,13 +64,12 @@ public class PaletteButtonBorder implements Border, UIResource {
     }
     g.setColor(new Color(borderColor, true));
     g.drawRect(x, y, width - 1, height - 1);
-    LinearGradientPaint lgp =
-        new LinearGradientPaint(
-            new Point2D.Float(x, y),
-            new Point2D.Float(x, y + height - 1),
-            stops,
-            stopColors,
-            MultipleGradientPaint.CycleMethod.REPEAT);
+    LinearGradientPaint lgp = new LinearGradientPaint(
+        new Point2D.Float(x, y),
+        new Point2D.Float(x, y + height - 1),
+        stops,
+        stopColors,
+        MultipleGradientPaint.CycleMethod.REPEAT);
     g.setPaint(lgp);
     g.fillRect(x + 1, y + 1, width - 2, height - 2);
   }

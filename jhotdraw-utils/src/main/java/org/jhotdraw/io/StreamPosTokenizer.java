@@ -940,12 +940,11 @@ public final class StreamPosTokenizer /*extends StreamTokenizer*/ {
    */
   public void setSlashStarTokens(String slashStar, String starSlash) {
     if (slashStar.length() != starSlash.length()) {
-      throw new IllegalArgumentException(
-          "SlashStar and StarSlash tokens must be of same length: '"
-              + slashStar
-              + "' '"
-              + starSlash
-              + "'");
+      throw new IllegalArgumentException("SlashStar and StarSlash tokens must be of same length: '"
+          + slashStar
+          + "' '"
+          + starSlash
+          + "'");
     }
     if (slashStar.length() < 1 || slashStar.length() > 2) {
       throw new IllegalArgumentException(

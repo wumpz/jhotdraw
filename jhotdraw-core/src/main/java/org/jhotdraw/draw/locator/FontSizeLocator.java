@@ -31,9 +31,8 @@ public class FontSizeLocator implements Locator {
   public Locator.Position locate(Figure owner, double scale) {
     Point2D.Double p = (Point2D.Double) owner.getStartPoint().clone();
     if (owner instanceof TextHolderFigure) {
-      p.y +=
-          ((TextHolderFigure) owner).getFontSize()
-              / AttributeKeys.getGlobalValueFactor(owner, scale);
+      p.y += ((TextHolderFigure) owner).getFontSize()
+          / AttributeKeys.getGlobalValueFactor(owner, scale);
       p.y += ((TextHolderFigure) owner).getInsets().top;
     } else {
       p.y += owner.attr().get(FONT_SIZE) / AttributeKeys.getGlobalValueFactor(owner, scale);

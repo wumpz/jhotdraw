@@ -41,31 +41,29 @@ public abstract class AbstractViewAction extends AbstractAction {
    */
   private boolean combinedEnabled = true;
 
-  private PropertyChangeListener applicationListener =
-      new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          if ((evt.getPropertyName() == null && Application.ACTIVE_VIEW_PROPERTY == null)
-              || (evt.getPropertyName() != null
-                  && evt.getPropertyName()
-                      .equals(Application.ACTIVE_VIEW_PROPERTY))) { // Strings get interned
-            updateView((View) evt.getOldValue(), (View) evt.getNewValue());
-          }
-        }
-      };
-  private PropertyChangeListener viewListener =
-      new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          String name = evt.getPropertyName();
-          if (ENABLED_PROPERTY.equals(name)) {
-            updateEnabled();
-          } else if ((name == null && propertyName == null)
-              || (name != null && name.equals(propertyName))) {
-            updateView();
-          }
-        }
-      };
+  private PropertyChangeListener applicationListener = new PropertyChangeListener() {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      if ((evt.getPropertyName() == null && Application.ACTIVE_VIEW_PROPERTY == null)
+          || (evt.getPropertyName() != null
+              && evt.getPropertyName()
+                  .equals(Application.ACTIVE_VIEW_PROPERTY))) { // Strings get interned
+        updateView((View) evt.getOldValue(), (View) evt.getNewValue());
+      }
+    }
+  };
+  private PropertyChangeListener viewListener = new PropertyChangeListener() {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      String name = evt.getPropertyName();
+      if (ENABLED_PROPERTY.equals(name)) {
+        updateEnabled();
+      } else if ((name == null && propertyName == null)
+          || (name != null && name.equals(propertyName))) {
+        updateView();
+      }
+    }
+  };
 
   /** Creates a new instance which acts on the specified view of the application. */
   public AbstractViewAction(Application app, View view) {
@@ -155,10 +153,9 @@ public abstract class AbstractViewAction extends AbstractAction {
   public void setEnabled(boolean newValue) {
     boolean oldValue = combinedEnabled;
     this.enabled = newValue;
-    combinedEnabled =
-        getApplication().isEnabled()
-            && (isMayCreateView() || getActiveView() != null && getActiveView().isEnabled())
-            && this.enabled;
+    combinedEnabled = getApplication().isEnabled()
+        && (isMayCreateView() || getActiveView() != null && getActiveView().isEnabled())
+        && this.enabled;
     firePropertyChange(ENABLED_PROPERTY, oldValue, combinedEnabled);
   }
 

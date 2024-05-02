@@ -49,7 +49,8 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     view.getDrawing().fireUndoableEditHappened(edit);
     for (Figure figure : view.getSelectedFigures()) {
       figure.willChange();
-      for (Map.Entry<AttributeKey<?>, Object> entry : editor.getDefaultAttributes().entrySet()) {
+      for (Map.Entry<AttributeKey<?>, Object> entry :
+          editor.getDefaultAttributes().entrySet()) {
         if (!excludedAttributes.contains(entry.getKey())) {
           figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }

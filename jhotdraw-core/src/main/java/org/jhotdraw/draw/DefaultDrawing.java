@@ -207,10 +207,9 @@ public class DefaultDrawing extends AbstractDrawing {
       Rectangle2D.Double r = f.getBounds(scale);
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
-        r =
-            (rt instanceof Rectangle2D.Double)
-                ? (Rectangle2D.Double) rt
-                : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
+        r = (rt instanceof Rectangle2D.Double)
+            ? (Rectangle2D.Double) rt
+            : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
       }
       if (f.isVisible() && Geom.contains(bounds, r)) {
         contained.add(f);

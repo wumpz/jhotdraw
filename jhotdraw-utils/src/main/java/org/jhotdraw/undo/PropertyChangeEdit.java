@@ -65,9 +65,8 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
       PropertyDescriptor desc = new PropertyDescriptor(propertyName, source.getClass());
       return desc.getWriteMethod();
     } catch (Exception e) {
-      InternalError ie =
-          new InternalError(
-              "Couldn't find setter for property \"" + propertyName + "\" in " + source);
+      InternalError ie = new InternalError(
+          "Couldn't find setter for property \"" + propertyName + "\" in " + source);
       ie.initCause(e);
       throw ie;
     }
@@ -80,9 +79,8 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     try {
       getSetter().invoke(source, oldValue);
     } catch (Exception e) {
-      InternalError ie =
-          new InternalError(
-              "Couldn't invoke setter for property \"" + propertyName + "\" in " + source);
+      InternalError ie = new InternalError(
+          "Couldn't invoke setter for property \"" + propertyName + "\" in " + source);
       ie.initCause(e);
       throw ie;
     }
@@ -95,9 +93,8 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
     try {
       getSetter().invoke(source, newValue);
     } catch (Exception e) {
-      InternalError ie =
-          new InternalError(
-              "Couldn't invoke setter for property \"" + propertyName + "\" in " + source);
+      InternalError ie = new InternalError(
+          "Couldn't invoke setter for property \"" + propertyName + "\" in " + source);
       ie.initCause(e);
       throw ie;
     }

@@ -53,9 +53,8 @@ public class CopyAction extends AbstractSelectionAction {
     if (c == null
         && (KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner()
             instanceof JComponent)) {
-      c =
-          (JComponent)
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+      c = (JComponent)
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
     }
     // Note: copying is allowed for disabled components
     if (c != null) {

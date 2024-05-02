@@ -117,9 +117,8 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     // Try to install the DnDDrawingViewTransferHandler
     // Since this class only works on J2SE 6, we have to use reflection.
     try {
-      view.setTransferHandler(
-          (TransferHandler)
-              Class.forName("org.jhotdraw.draw.DnDDrawingViewTransferHandler").newInstance());
+      view.setTransferHandler((TransferHandler)
+          Class.forName("org.jhotdraw.draw.DnDDrawingViewTransferHandler").newInstance());
     } catch (Exception e) {
       // bail silently
     }
@@ -130,38 +129,35 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
         sortme.add((JToolBar) c);
       }
     }
-    Collections.sort(
-        sortme,
-        new Comparator<JToolBar>() {
-          @Override
-          public int compare(JToolBar tb1, JToolBar tb2) {
-            int i1 = prefs.getInt("toolBarIndex." + tb1.getName(), 0);
-            int i2 = prefs.getInt("toolBarIndex." + tb2.getName(), 0);
-            return i1 - i2;
-          }
-        });
+    Collections.sort(sortme, new Comparator<JToolBar>() {
+      @Override
+      public int compare(JToolBar tb1, JToolBar tb2) {
+        int i1 = prefs.getInt("toolBarIndex." + tb1.getName(), 0);
+        int i2 = prefs.getInt("toolBarIndex." + tb2.getName(), 0);
+        return i1 - i2;
+      }
+    });
     toolsPane.removeAll();
     for (JToolBar tb : sortme) {
       toolsPane.add(tb);
     }
     toolsPane.addContainerListener(
-        containerHandler =
-            new ContainerListener() {
-              @Override
-              public void componentAdded(ContainerEvent e) {
-                int i = 0;
-                for (Component c : toolsPane.getComponents()) {
-                  if (c instanceof JToolBar) {
-                    JToolBar tb = (JToolBar) c;
-                    prefs.putInt("toolBarIndex." + tb.getName(), i);
-                    i++;
-                  }
-                }
+        containerHandler = new ContainerListener() {
+          @Override
+          public void componentAdded(ContainerEvent e) {
+            int i = 0;
+            for (Component c : toolsPane.getComponents()) {
+              if (c instanceof JToolBar) {
+                JToolBar tb = (JToolBar) c;
+                prefs.putInt("toolBarIndex." + tb.getName(), i);
+                i++;
               }
+            }
+          }
 
-              @Override
-              public void componentRemoved(ContainerEvent e) {}
-            });
+          @Override
+          public void componentRemoved(ContainerEvent e) {}
+        });
     setEditor(new DefaultDrawingEditor());
   }
 
@@ -193,31 +189,26 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     Drawing drawing = new QuadTreeDrawing();
     LinkedList<InputFormat> inputFormats = new LinkedList<InputFormat>();
     inputFormats.add(new SVGZInputFormat());
-    inputFormats.add(
-        new ImageInputFormat(
-            new SVGImageFigure(), "PNG", "Portable Network Graphics (PNG)", "png", "image/png"));
-    inputFormats.add(
-        new ImageInputFormat(
-            new SVGImageFigure(),
-            "JPG",
-            "Joint Photographics Experts Group (JPEG)",
-            "jpg",
-            "image/jpg"));
-    inputFormats.add(
-        new ImageInputFormat(
-            new SVGImageFigure(), "GIF", "Graphics Interchange Format (GIF)", "gif", "image/gif"));
+    inputFormats.add(new ImageInputFormat(
+        new SVGImageFigure(), "PNG", "Portable Network Graphics (PNG)", "png", "image/png"));
+    inputFormats.add(new ImageInputFormat(
+        new SVGImageFigure(),
+        "JPG",
+        "Joint Photographics Experts Group (JPEG)",
+        "jpg",
+        "image/jpg"));
+    inputFormats.add(new ImageInputFormat(
+        new SVGImageFigure(), "GIF", "Graphics Interchange Format (GIF)", "gif", "image/gif"));
     inputFormats.add(new TextInputFormat(new SVGTextFigure()));
     drawing.setInputFormats(inputFormats);
     LinkedList<OutputFormat> outputFormats = new LinkedList<OutputFormat>();
     outputFormats.add(new SVGOutputFormat());
     outputFormats.add(new SVGZOutputFormat());
     outputFormats.add(new ImageOutputFormat());
-    outputFormats.add(
-        new ImageOutputFormat(
-            "JPG", "Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
-    outputFormats.add(
-        new ImageOutputFormat(
-            "BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
+    outputFormats.add(new ImageOutputFormat(
+        "JPG", "Joint Photographics Experts Group (JPEG)", "jpg", BufferedImage.TYPE_INT_RGB));
+    outputFormats.add(new ImageOutputFormat(
+        "BMP", "Windows Bitmap (BMP)", "bmp", BufferedImage.TYPE_BYTE_INDEXED));
     outputFormats.add(new ImageMapOutputFormat());
     drawing.setOutputFormats(outputFormats);
     return drawing;
@@ -292,14 +283,13 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
       try {
         format.read(f, newDrawing);
         final Drawing loadedDrawing = newDrawing;
-        Runnable r =
-            new Runnable() {
-              @Override
-              public void run() {
-                // Set the drawing on the Event Dispatcher Thread
-                setDrawing(loadedDrawing);
-              }
-            };
+        Runnable r = new Runnable() {
+          @Override
+          public void run() {
+            // Set the drawing on the Event Dispatcher Thread
+            setDrawing(loadedDrawing);
+          }
+        };
         if (SwingUtilities.isEventDispatchThread()) {
           r.run();
         } else {
@@ -347,14 +337,13 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     }
     format.read(f, newDrawing);
     final Drawing loadedDrawing = newDrawing;
-    Runnable r =
-        new Runnable() {
-          @Override
-          public void run() {
-            // Set the drawing on the Event Dispatcher Thread
-            setDrawing(loadedDrawing);
-          }
-        };
+    Runnable r = new Runnable() {
+      @Override
+      public void run() {
+        // Set the drawing on the Event Dispatcher Thread
+        setDrawing(loadedDrawing);
+      }
+    };
     if (SwingUtilities.isEventDispatchThread()) {
       r.run();
     } else {
@@ -380,13 +369,12 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     // Defensively clone the drawing object, so that we are not
     // affected by changes of the drawing while we write it into the file.
     final Drawing[] helper = new Drawing[1];
-    Runnable r =
-        new Runnable() {
-          @Override
-          public void run() {
-            helper[0] = (Drawing) getDrawing().clone();
-          }
-        };
+    Runnable r = new Runnable() {
+      @Override
+      public void run() {
+        helper[0] = (Drawing) getDrawing().clone();
+      }
+    };
     if (SwingUtilities.isEventDispatchThread()) {
       r.run();
     } else {
@@ -432,13 +420,12 @@ public class SVGDrawingPanel extends JPanel implements Disposable {
     // Defensively clone the drawing object, so that we are not
     // affected by changes of the drawing while we write it into the file.
     final Drawing[] helper = new Drawing[1];
-    Runnable r =
-        new Runnable() {
-          @Override
-          public void run() {
-            helper[0] = (Drawing) getDrawing().clone();
-          }
-        };
+    Runnable r = new Runnable() {
+      @Override
+      public void run() {
+        helper[0] = (Drawing) getDrawing().clone();
+      }
+    };
     if (SwingUtilities.isEventDispatchThread()) {
       r.run();
     } else {

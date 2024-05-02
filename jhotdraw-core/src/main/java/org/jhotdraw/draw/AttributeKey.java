@@ -189,31 +189,30 @@ public class AttributeKey<T> implements Serializable {
     }
     final Object restoreData = f.attr().getAttributesRestoreData();
     f.attr().set(this, value);
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            return AttributeKey.this.getPresentationName();
-          }
+      @Override
+      public String getPresentationName() {
+        return AttributeKey.this.getPresentationName();
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            f.willChange();
-            f.attr().restoreAttributesTo(restoreData);
-            f.changed();
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        f.willChange();
+        f.attr().restoreAttributesTo(restoreData);
+        f.changed();
+      }
 
-          @Override
-          public void redo() {
-            super.redo();
-            f.willChange();
-            f.attr().set(AttributeKey.this, value);
-            f.changed();
-          }
-        };
+      @Override
+      public void redo() {
+        super.redo();
+        f.willChange();
+        f.attr().set(AttributeKey.this, value);
+        f.changed();
+      }
+    };
     return edit;
   }
 

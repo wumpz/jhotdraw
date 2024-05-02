@@ -143,25 +143,19 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
     brightness = Math.max(0f, Math.min(1f, brightness));
     Point p;
     if (brightness == 1f) {
-      p =
-          new Point(
-              w / 2
-                  + (int) (radiusH * saturation * Math.cos(hue * Math.PI * 2d) / wheelScaleFactor),
-              h / 2
-                  - (int) (radiusH * saturation * Math.sin(hue * Math.PI * 2d) / wheelScaleFactor));
+      p = new Point(
+          w / 2 + (int) (radiusH * saturation * Math.cos(hue * Math.PI * 2d) / wheelScaleFactor),
+          h / 2 - (int) (radiusH * saturation * Math.sin(hue * Math.PI * 2d) / wheelScaleFactor));
     } else {
-      p =
-          new Point(
-              w / 2
-                  + (int)
-                      ((radius + radiusH - radius * brightness)
-                          * Math.cos(hue * Math.PI * 2d)
-                          / wheelScaleFactor),
-              h / 2
-                  - (int)
-                      ((radius + radiusH - radius * brightness)
-                          * Math.sin(hue * Math.PI * 2d)
-                          / wheelScaleFactor));
+      p = new Point(
+          w / 2
+              + (int) ((radius + radiusH - radius * brightness)
+                  * Math.cos(hue * Math.PI * 2d)
+                  / wheelScaleFactor),
+          h / 2
+              - (int) ((radius + radiusH - radius * brightness)
+                  * Math.sin(hue * Math.PI * 2d)
+                  / wheelScaleFactor));
     }
     return p;
   }
@@ -179,13 +173,12 @@ public class HSVHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
     if (hue < 0) {
       hue += 1f;
     }
-    hsb =
-        new float[] {
-          hue,
-          Math.min(1f, sat * 2f),
-          // Math.min(1f, 2f - sat * 2f)
-          Math.min(1f, 1.5f - sat)
-        };
+    hsb = new float[] {
+      hue,
+      Math.min(1f, sat * 2f),
+      // Math.min(1f, 2f - sat * 2f)
+      Math.min(1f, 1.5f - sat)
+    };
     return hsb;
   }
 }

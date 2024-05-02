@@ -214,16 +214,15 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
         openChooser.addChoosableFileFilter(ff);
       }
       openChooser.setFileFilter(firstFF);
-      openChooser.addPropertyChangeListener(
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              if ("fileFilterChanged".equals(evt.getPropertyName())) {
-                InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-                openChooser.setAccessory(null);
-              }
-            }
-          });
+      openChooser.addPropertyChangeListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if ("fileFilterChanged".equals(evt.getPropertyName())) {
+            InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
+            openChooser.setAccessory(null);
+          }
+        }
+      });
     }
     return openChooser;
   }
@@ -244,16 +243,15 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
         saveChooser.addChoosableFileFilter(ff);
       }
       saveChooser.setFileFilter(firstFF);
-      saveChooser.addPropertyChangeListener(
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              if ("fileFilterChanged".equals(evt.getPropertyName())) {
-                OutputFormat outputFormat = fileFilterOutputFormatMap.get(evt.getNewValue());
-                saveChooser.setAccessory(null);
-              }
-            }
-          });
+      saveChooser.addPropertyChangeListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if ("fileFilterChanged".equals(evt.getPropertyName())) {
+            OutputFormat outputFormat = fileFilterOutputFormatMap.get(evt.getNewValue());
+            saveChooser.setAccessory(null);
+          }
+        }
+      });
     }
     return saveChooser;
   }
@@ -262,13 +260,12 @@ public class SVGDrawingPanelSample extends javax.swing.JFrame {
    * @param args the command line arguments
    */
   public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            new SVGDrawingPanelSample().setVisible(true);
-          }
-        });
+    java.awt.EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new SVGDrawingPanelSample().setVisible(true);
+      }
+    });
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

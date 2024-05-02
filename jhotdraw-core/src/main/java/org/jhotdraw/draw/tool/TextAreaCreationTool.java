@@ -182,32 +182,31 @@ public class TextAreaCreationTool extends CreationTool implements ActionListener
           typingTarget.setText("");
         }
       }
-      UndoableEdit edit =
-          new AbstractUndoableEdit() {
-            private static final long serialVersionUID = 1L;
+      UndoableEdit edit = new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getPresentationName() {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              return labels.getString("attribute.text.text");
-            }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("attribute.text.text");
+        }
 
-            @Override
-            public void undo() {
-              super.undo();
-              editedFigure.willChange();
-              editedFigure.setText(oldText);
-              editedFigure.changed();
-            }
+        @Override
+        public void undo() {
+          super.undo();
+          editedFigure.willChange();
+          editedFigure.setText(oldText);
+          editedFigure.changed();
+        }
 
-            @Override
-            public void redo() {
-              super.redo();
-              editedFigure.willChange();
-              editedFigure.setText(newText);
-              editedFigure.changed();
-            }
-          };
+        @Override
+        public void redo() {
+          super.redo();
+          editedFigure.willChange();
+          editedFigure.setText(newText);
+          editedFigure.changed();
+        }
+      };
       getDrawing().fireUndoableEditHappened(edit);
       typingTarget.changed();
       typingTarget = null;

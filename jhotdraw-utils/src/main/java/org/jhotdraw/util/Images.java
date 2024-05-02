@@ -51,9 +51,8 @@ public class Images {
       Raster r = rImg.getData();
       WritableRaster wr = WritableRaster.createWritableRaster(r.getSampleModel(), null);
       rImg.copyData(wr);
-      image =
-          new BufferedImage(
-              rImg.getColorModel(), wr, rImg.getColorModel().isAlphaPremultiplied(), null);
+      image = new BufferedImage(
+          rImg.getColorModel(), wr, rImg.getColorModel().isAlphaPremultiplied(), null);
     }
     return image;
   }
@@ -72,9 +71,8 @@ public class Images {
       // cast exception in
       // sun.awt.image.BufImgSurfaceData.createData(BufImgSurfaceData.java:434)
       // when we attempt to draw the buffered image.
-      bimage =
-          new BufferedImage(
-              image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+      bimage = new BufferedImage(
+          image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
     } else {
       // Determine if the image has transparent pixels; for this method's
       // implementation, see e661 Determining If an Image Has Transparent Pixels
@@ -156,9 +154,8 @@ public class Images {
         parts[i] =
             src.getSubimage(src.getWidth() / count * i, 0, src.getWidth() / count, src.getHeight());
       } else {
-        parts[i] =
-            src.getSubimage(
-                0, src.getHeight() / count * i, src.getWidth(), src.getHeight() / count);
+        parts[i] = src.getSubimage(
+            0, src.getHeight() / count * i, src.getWidth(), src.getHeight() / count);
       }
     }
     return parts;

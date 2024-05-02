@@ -50,10 +50,8 @@ public class ColorIcon implements javax.swing.Icon {
     this.width = width;
     this.height = height;
     if (noColorImage == null) {
-      noColorImage =
-          Images.toBufferedImage(
-              Images.createImage(
-                  ColorIcon.class, "/org/jhotdraw/draw/action/images/attribute.color.noColor.png"));
+      noColorImage = Images.toBufferedImage(Images.createImage(
+          ColorIcon.class, "/org/jhotdraw/draw/action/images/attribute.color.noColor.png"));
     }
   }
 

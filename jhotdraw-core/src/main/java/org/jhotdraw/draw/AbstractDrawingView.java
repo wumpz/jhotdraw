@@ -117,13 +117,12 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
   private boolean paintBackground = true;
   protected BufferedImage backgroundTile;
 
-  private final FigureListener handleInvalidator =
-      new FigureListenerAdapter() {
-        @Override
-        public void figureHandlesChanged(FigureEvent e) {
-          invalidateHandles();
-        }
-      };
+  private final FigureListener handleInvalidator = new FigureListenerAdapter() {
+    @Override
+    public void figureHandlesChanged(FigureEvent e) {
+      invalidateHandles();
+    }
+  };
 
   public boolean isPaintBackground() {
     return paintBackground;
@@ -176,9 +175,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
           Point r = drawingToView(new Point2D.Double(0, 0));
           g.setPaint(getBackgroundPaint(r.x, r.y));
           g.fillRect(0, 0, getWidth(), getHeight());
-          g.setColor(
-              new Color(
-                  canvasColor.getRGB() & 0xfffff | ((int) (canvasOpacity * 256) << 24), true));
+          g.setColor(new Color(
+              canvasColor.getRGB() & 0xfffff | ((int) (canvasOpacity * 256) << 24), true));
           g.fillRect(0, 0, getWidth(), getHeight());
         }
       } else {
@@ -190,10 +188,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
       // the canvas has a fixed size
       g.setColor(getBackground());
       g.fillRect(0, 0, getWidth(), getHeight());
-      Rectangle r =
-          drawingToView(
-              new Rectangle2D.Double(
-                  0, 0, drawing.attr().get(CANVAS_WIDTH), drawing.attr().get(CANVAS_HEIGHT)));
+      Rectangle r = drawingToView(new Rectangle2D.Double(
+          0, 0, drawing.attr().get(CANVAS_WIDTH), drawing.attr().get(CANVAS_HEIGHT)));
       g.setPaint(getBackgroundPaint(r.x, r.y));
       g.fillRect(r.x, r.y, r.width, r.height);
     }
@@ -211,9 +207,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
       if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(
-            evt.getFigure()
-                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+        repaintDrawingArea(evt.getFigure()
+            .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
     }
 
@@ -222,9 +217,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
       if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(
-            evt.getFigure()
-                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+        repaintDrawingArea(evt.getFigure()
+            .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
       removeFromSelection(evt.getFigure());
     }
@@ -272,9 +266,8 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
           repaint();
         }
         if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(
-              e.getFigure()
-                  .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+          repaintDrawingArea(e.getFigure()
+              .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
         } else {
           repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
         }
@@ -491,16 +484,13 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     // Revalidate without flickering
     revalidate();
     paintEnabled = false;
-    javax.swing.Timer t =
-        new javax.swing.Timer(
-            10,
-            new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                repaint();
-                paintEnabled = true;
-              }
-            });
+    javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        repaint();
+        paintEnabled = true;
+      }
+    });
     t.setRepeats(false);
     t.start();
   }
@@ -920,35 +910,34 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
     clearSelection();
     drawing.removeAll(deletedFigures);
-    drawing.fireUndoableEditHappened(
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("edit.delete.text");
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("edit.delete.text");
+      }
 
-          @Override
-          public void undo() throws CannotUndoException {
-            super.undo();
-            clearSelection();
-            Drawing d = drawing;
-            for (int i = 0; i < deletedFigureIndices.length; i++) {
-              d.add(deletedFigureIndices[i], deletedFigures.get(i));
-            }
-            addToSelection(deletedFigures);
-          }
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        clearSelection();
+        Drawing d = drawing;
+        for (int i = 0; i < deletedFigureIndices.length; i++) {
+          d.add(deletedFigureIndices[i], deletedFigures.get(i));
+        }
+        addToSelection(deletedFigures);
+      }
 
-          @Override
-          public void redo() throws CannotRedoException {
-            super.redo();
-            for (int i = 0; i < deletedFigureIndices.length; i++) {
-              drawing.remove(deletedFigures.get(i));
-            }
-          }
-        });
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        for (int i = 0; i < deletedFigureIndices.length; i++) {
+          drawing.remove(deletedFigures.get(i));
+        }
+      }
+    });
   }
 
   @Override
@@ -970,28 +959,27 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
       f.remap(originalToDuplicateMap, false);
     }
     addToSelection(duplicates);
-    drawing.fireUndoableEditHappened(
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("edit.duplicate.text");
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("edit.duplicate.text");
+      }
 
-          @Override
-          public void undo() throws CannotUndoException {
-            super.undo();
-            drawing.removeAll(duplicates);
-          }
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        drawing.removeAll(duplicates);
+      }
 
-          @Override
-          public void redo() throws CannotRedoException {
-            super.redo();
-            drawing.addAll(duplicates);
-          }
-        });
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        drawing.addAll(duplicates);
+      }
+    });
   }
 
   @Override

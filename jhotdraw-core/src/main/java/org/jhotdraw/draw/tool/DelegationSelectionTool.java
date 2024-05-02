@@ -104,16 +104,13 @@ public class DelegationSelectionTool extends SelectionTool {
       handlePopupMenu(evt);
     } else {
       super.mousePressed(evt);
-      popupTimer =
-          new javax.swing.Timer(
-              1000,
-              new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent aevt) {
-                  handlePopupMenu(evt);
-                  popupTimer = null;
-                }
-              });
+      popupTimer = new javax.swing.Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent aevt) {
+          handlePopupMenu(evt);
+          popupTimer = null;
+        }
+      });
       popupTimer.setRepeats(false);
       popupTimer.start();
     }

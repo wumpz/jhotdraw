@@ -65,9 +65,8 @@ public class EditorColorChooserAction extends AttributeAction {
     Color initialColor = getInitialColor();
     // FIXME - Reuse colorChooser object instead of calling static method here.
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-    Color chosenColor =
-        JColorChooser.showDialog(
-            (Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
+    Color chosenColor = JColorChooser.showDialog(
+        (Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
     if (chosenColor != null) {
       HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);
       attr.put(key, chosenColor);

@@ -273,11 +273,10 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
     } else if ("color".equals(tagName)) {
       o = new Color(in.getAttribute("rgba", 0xff));
     } else if ("font".equals(tagName)) {
-      o =
-          new Font(
-              in.getAttribute("name", "Dialog"),
-              in.getAttribute("style", 0),
-              in.getAttribute("size", 0));
+      o = new Font(
+          in.getAttribute("name", "Dialog"),
+          in.getAttribute("style", 0),
+          in.getAttribute("size", 0));
     } else if ("byteArray".equals(tagName)) {
       byte[] a = new byte[in.getElementCount()];
       for (int i = 0; i < a.length; i++) {

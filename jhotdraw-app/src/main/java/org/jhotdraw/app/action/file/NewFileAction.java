@@ -52,13 +52,12 @@ public class NewFileAction extends AbstractApplicationAction {
     }
     newView.setMultipleOpenId(multiOpenId);
     app.add(newView);
-    newView.execute(
-        new Runnable() {
-          @Override
-          public void run() {
-            newView.clear();
-          }
-        });
+    newView.execute(new Runnable() {
+      @Override
+      public void run() {
+        newView.clear();
+      }
+    });
     app.show(newView);
   }
 }

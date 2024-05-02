@@ -60,13 +60,12 @@ public class SVGView extends AbstractView {
     svgPanel.getDrawing().addUndoableEditListener(undo);
     initActions();
     undo.addPropertyChangeListener(
-        propertyHandler =
-            new PropertyChangeListener() {
-              @Override
-              public void propertyChange(PropertyChangeEvent evt) {
-                setHasUnsavedChanges(undo.hasSignificantEdits());
-              }
-            });
+        propertyHandler = new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+            setHasUnsavedChanges(undo.hasSignificantEdits());
+          }
+        });
   }
 
   @Override
@@ -131,9 +130,8 @@ public class SVGView extends AbstractView {
       // chosen to load a uri without having used the uri chooser.
       HashMap<javax.swing.filechooser.FileFilter, InputFormat> fileFilterInputFormatMap = null;
       if (fc != null) {
-        fileFilterInputFormatMap =
-            (HashMap<javax.swing.filechooser.FileFilter, InputFormat>)
-                fc.getClientProperty(SVGApplicationModel.INPUT_FORMAT_MAP_CLIENT_PROPERTY);
+        fileFilterInputFormatMap = (HashMap<javax.swing.filechooser.FileFilter, InputFormat>)
+            fc.getClientProperty(SVGApplicationModel.INPUT_FORMAT_MAP_CLIENT_PROPERTY);
       }
       // private HashMap<javax.swing.filechooser.FileFilter, OutputFormat>
       // fileFilterOutputFormatMap;
@@ -167,16 +165,15 @@ public class SVGView extends AbstractView {
         throw new IOException(
             labels.getFormatted("file.open.unsupportedFileFormat.message", URIUtil.getName(uri)));
       }
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              Drawing oldDrawing = svgPanel.getDrawing();
-              svgPanel.setDrawing(drawing);
-              firePropertyChange(DRAWING_PROPERTY, oldDrawing, svgPanel.getDrawing());
-              undo.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          Drawing oldDrawing = svgPanel.getDrawing();
+          svgPanel.setDrawing(drawing);
+          firePropertyChange(DRAWING_PROPERTY, oldDrawing, svgPanel.getDrawing());
+          undo.discardAllEdits();
+        }
+      });
     } catch (InterruptedException e) {
       InternalError error = new InternalError();
       e.initCause(e);
@@ -203,21 +200,20 @@ public class SVGView extends AbstractView {
   public void clear() {
     final Drawing newDrawing = createDrawing();
     try {
-      Runnable r =
-          new Runnable() {
-            @Override
-            public void run() {
-              Drawing oldDrawing = svgPanel.getDrawing();
-              svgPanel.setDrawing(newDrawing);
-              firePropertyChange(DRAWING_PROPERTY, oldDrawing, newDrawing);
-              if (oldDrawing != null) {
-                oldDrawing.removeAllChildren();
-                oldDrawing.removeUndoableEditListener(undo);
-              }
-              undo.discardAllEdits();
-              newDrawing.addUndoableEditListener(undo);
-            }
-          };
+      Runnable r = new Runnable() {
+        @Override
+        public void run() {
+          Drawing oldDrawing = svgPanel.getDrawing();
+          svgPanel.setDrawing(newDrawing);
+          firePropertyChange(DRAWING_PROPERTY, oldDrawing, newDrawing);
+          if (oldDrawing != null) {
+            oldDrawing.removeAllChildren();
+            oldDrawing.removeUndoableEditListener(undo);
+          }
+          undo.discardAllEdits();
+          newDrawing.addUndoableEditListener(undo);
+        }
+      };
       if (SwingUtilities.isEventDispatchThread()) {
         r.run();
       } else {

@@ -47,24 +47,20 @@ public class FloatingTextArea {
   protected DrawingView view;
 
   private TextHolderFigure editedFigure;
-  private FigureListener figureHandler =
-      new FigureListenerAdapter() {
-        @Override
-        public void attributeChanged(FigureEvent e) {
-          updateWidget();
-        }
-      };
+  private FigureListener figureHandler = new FigureListenerAdapter() {
+    @Override
+    public void attributeChanged(FigureEvent e) {
+      updateWidget();
+    }
+  };
 
   /** Constructor for the FloatingTextArea object */
   public FloatingTextArea() {
     textArea = new JTextArea();
     textArea.setWrapStyleWord(true);
     textArea.setLineWrap(true);
-    editScrollContainer =
-        new JScrollPane(
-            textArea,
-            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    editScrollContainer = new JScrollPane(
+        textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     editScrollContainer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     editScrollContainer.setBorder(BorderFactory.createLineBorder(Color.black));
   }

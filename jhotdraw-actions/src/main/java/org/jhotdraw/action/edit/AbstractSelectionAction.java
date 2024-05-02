@@ -53,18 +53,17 @@ public abstract class AbstractSelectionAction extends AbstractAction {
     this.target = target;
     if (target != null) {
       // Register with a weak reference on the JComponent.
-      propertyHandler =
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              String n = evt.getPropertyName();
-              if ("enabled".equals(n)) {
-                updateEnabled();
-              } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
-                updateEnabled();
-              }
-            }
-          };
+      propertyHandler = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          String n = evt.getPropertyName();
+          if ("enabled".equals(n)) {
+            updateEnabled();
+          } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
+            updateEnabled();
+          }
+        }
+      };
       target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
     }
   }

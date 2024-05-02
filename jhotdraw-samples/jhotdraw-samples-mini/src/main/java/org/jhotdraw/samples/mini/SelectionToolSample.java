@@ -73,12 +73,11 @@ public class SelectionToolSample {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            new SelectionToolSample();
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new SelectionToolSample();
+      }
+    });
   }
 }

@@ -131,15 +131,13 @@ public class ConvexHull {
     }
     // Sort points from left to right O(n log n)
     Point[] sorted = points.clone();
-    Arrays.sort(
-        sorted,
-        new Comparator<Point>() {
-          @Override
-          public int compare(Point o1, Point o2) {
-            int v = o1.x - o2.x;
-            return (v == 0) ? o1.y - o2.y : v;
-          }
-        });
+    Arrays.sort(sorted, new Comparator<Point>() {
+      @Override
+      public int compare(Point o1, Point o2) {
+        int v = o1.x - o2.x;
+        return (v == 0) ? o1.y - o2.y : v;
+      }
+    });
     Point[] hull = new Point[sorted.length + 2];
     // Process upper part of convex hull O(n)
     int upper = 0; // Number of points in upper part of convex hull
@@ -201,18 +199,16 @@ public class ConvexHull {
     }
     // Sort points from left to right O(n log n)
     Point2D.Double[] sorted = points.clone();
-    Arrays.sort(
-        sorted,
-        new Comparator<Point2D.Double>() {
-          @Override
-          public int compare(Point2D.Double o1, Point2D.Double o2) {
-            double v = o1.x - o2.x;
-            if (v == 0) {
-              v = o1.y - o2.y;
-            }
-            return (v > 0) ? 1 : ((v < 0) ? -1 : 0);
-          }
-        });
+    Arrays.sort(sorted, new Comparator<Point2D.Double>() {
+      @Override
+      public int compare(Point2D.Double o1, Point2D.Double o2) {
+        double v = o1.x - o2.x;
+        if (v == 0) {
+          v = o1.y - o2.y;
+        }
+        return (v > 0) ? 1 : ((v < 0) ? -1 : 0);
+      }
+    });
     Point2D.Double[] hull = new Point2D.Double[sorted.length + 2];
     // Process upper part of convex hull O(n)
     int upper = 0; // Number of points in upper part of convex hull

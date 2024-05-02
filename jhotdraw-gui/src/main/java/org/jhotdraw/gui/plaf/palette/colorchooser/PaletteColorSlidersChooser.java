@@ -63,16 +63,15 @@ public class PaletteColorSlidersChooser extends AbstractColorChooserPanel implem
     cbm.addElement(laf.getString("ColorChooser.cmykSliders"));
     cbm.addElement(laf.getString("ColorChooser.hsbSliders"));
     slidersComboBox.setModel(cbm);
-    slidersComboBox.addItemListener(
-        new ItemListener() {
-          @Override
-          public void itemStateChanged(ItemEvent evt) {
-            if (evt.getStateChange() == ItemEvent.SELECTED) {
-              ((CardLayout) slidersHolder.getLayout()).show(slidersHolder, (String) evt.getItem());
-              lastSelectedPanelIndex = slidersComboBox.getSelectedIndex();
-            }
-          }
-        });
+    slidersComboBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent evt) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+          ((CardLayout) slidersHolder.getLayout()).show(slidersHolder, (String) evt.getItem());
+          lastSelectedPanelIndex = slidersComboBox.getSelectedIndex();
+        }
+      }
+    });
     slidersComboBox.setSelectedIndex(lastSelectedPanelIndex);
   }
 

@@ -87,10 +87,9 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
   @Override
   public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
-    Rectangle2D.Double r =
-        (rx instanceof Rectangle2D.Double)
-            ? (Rectangle2D.Double) rx
-            : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+    Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+        ? (Rectangle2D.Double) rx
+        : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
     if (attr().get(TRANSFORM) == null) {
       double g = ODGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2;
       Geom.grow(r, g, g);

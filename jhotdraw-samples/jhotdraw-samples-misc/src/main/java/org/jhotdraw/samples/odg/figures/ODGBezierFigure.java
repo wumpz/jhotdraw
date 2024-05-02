@@ -63,26 +63,25 @@ public class ODGBezierFigure extends BezierFigure {
       final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
       if (index != -1) {
         final BezierPath.Node newNode = getNode(index);
-        fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+        fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                willChange();
-                addNode(index, newNode);
-                changed();
-              }
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            willChange();
+            addNode(index, newNode);
+            changed();
+          }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                willChange();
-                removeNode(index);
-                changed();
-              }
-            });
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            willChange();
+            removeNode(index);
+            changed();
+          }
+        });
         changed();
         evt.consume();
         return true;

@@ -85,19 +85,18 @@ public class ExitAction extends AbstractApplicationAction {
           oldFocusOwner =
               SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
           unsavedView.setEnabled(false);
-          JOptionPane pane =
-              new JOptionPane(
-                  "<html>"
-                      + UIManager.getString("OptionPane.css")
-                      + "<b>"
-                      + labels.getFormatted(
-                          "application.exit.doYouWantToSave.message",
-                          (unsavedURI == null)
-                              ? labels.getString("unnamedFile")
-                              : URIUtil.getName(unsavedURI))
-                      + "</b><p>"
-                      + labels.getString("application.exit.doYouWantToSave.details"),
-                  JOptionPane.WARNING_MESSAGE);
+          JOptionPane pane = new JOptionPane(
+              "<html>"
+                  + UIManager.getString("OptionPane.css")
+                  + "<b>"
+                  + labels.getFormatted(
+                      "application.exit.doYouWantToSave.message",
+                      (unsavedURI == null)
+                          ? labels.getString("unnamedFile")
+                          : URIUtil.getName(unsavedURI))
+                  + "</b><p>"
+                  + labels.getString("application.exit.doYouWantToSave.details"),
+              JOptionPane.WARNING_MESSAGE);
           Object[] options = {
             labels.getString("application.exit.saveOption"),
             labels.getString("application.exit.cancelOption"),
@@ -106,37 +105,33 @@ public class ExitAction extends AbstractApplicationAction {
           pane.setOptions(options);
           pane.setInitialValue(options[0]);
           pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
-          JSheet.showSheet(
-              pane,
-              unsavedView.getComponent(),
-              new SheetListener() {
-                @Override
-                public void optionSelected(SheetEvent evt) {
-                  Object value = evt.getValue();
-                  if (value == null
-                      || value.equals(labels.getString("application.exit.cancelOption"))) {
-                    unsavedView.setEnabled(true);
-                    app.setEnabled(true);
-                  } else if (value.equals(labels.getString("application.exit.dontSaveOption"))) {
-                    doExit();
-                    unsavedView.setEnabled(true);
-                  } else if (value.equals(labels.getString("application.exit.saveOption"))) {
-                    saveChanges();
-                  }
-                }
-              });
+          JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
+            @Override
+            public void optionSelected(SheetEvent evt) {
+              Object value = evt.getValue();
+              if (value == null
+                  || value.equals(labels.getString("application.exit.cancelOption"))) {
+                unsavedView.setEnabled(true);
+                app.setEnabled(true);
+              } else if (value.equals(labels.getString("application.exit.dontSaveOption"))) {
+                doExit();
+                unsavedView.setEnabled(true);
+              } else if (value.equals(labels.getString("application.exit.saveOption"))) {
+                saveChanges();
+              }
+            }
+          });
           break;
         default:
-          pane =
-              new JOptionPane(
-                  "<html>"
-                      + UIManager.get("OptionPane.css")
-                      + "<b>"
-                      + labels.getFormatted(
-                          "application.exit.doYouWantToReview.message", unsavedViewsCount)
-                      + "</b><p>"
-                      + labels.getString("application.exit.doYouWantToReview.details"),
-                  JOptionPane.QUESTION_MESSAGE);
+          pane = new JOptionPane(
+              "<html>"
+                  + UIManager.get("OptionPane.css")
+                  + "<b>"
+                  + labels.getFormatted(
+                      "application.exit.doYouWantToReview.message", unsavedViewsCount)
+                  + "</b><p>"
+                  + labels.getString("application.exit.doYouWantToReview.details"),
+              JOptionPane.QUESTION_MESSAGE);
           Object[] options2 = {
             labels.getString("application.exit.reviewChangesOption"),
             labels.getString("application.exit.cancelOption"),
@@ -183,24 +178,21 @@ public class ExitAction extends AbstractApplicationAction {
     if (v.getURI() == null) {
       URIChooser chooser = getChooser(v);
       // int option = fileChooser.showSaveDialog(this);
-      JSheet.showSaveSheet(
-          chooser,
-          v.getComponent(),
-          new SheetListener() {
-            @Override
-            public void optionSelected(final SheetEvent evt) {
-              if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                final URI uri = evt.getChooser().getSelectedURI();
-                saveToFile(uri, evt.getChooser());
-              } else {
-                unsavedView.setEnabled(true);
-                if (oldFocusOwner != null) {
-                  oldFocusOwner.requestFocus();
-                }
-                getApplication().setEnabled(true);
-              }
+      JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
+        @Override
+        public void optionSelected(final SheetEvent evt) {
+          if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+            final URI uri = evt.getChooser().getSelectedURI();
+            saveToFile(uri, evt.getChooser());
+          } else {
+            unsavedView.setEnabled(true);
+            if (oldFocusOwner != null) {
+              oldFocusOwner.requestFocus();
             }
-          });
+            getApplication().setEnabled(true);
+          }
+        }
+      });
     } else {
       saveToFile(v.getURI(), null);
     }
@@ -209,17 +201,17 @@ public class ExitAction extends AbstractApplicationAction {
   protected void reviewChanges() {
     if (unsavedView.isEnabled()) {
       final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-      oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
+      oldFocusOwner =
+          SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
       unsavedView.setEnabled(false);
       URI unsavedURI = unsavedView.getURI();
-      JOptionPane pane =
-          new JOptionPane(
-              "<html>"
-                  + UIManager.getString("OptionPane.css")
-                  + labels.getFormatted(
-                      "application.exit.doYouWantToSave.message",
-                      (unsavedURI == null) ? unsavedView.getTitle() : URIUtil.getName(unsavedURI)),
-              JOptionPane.WARNING_MESSAGE);
+      JOptionPane pane = new JOptionPane(
+          "<html>"
+              + UIManager.getString("OptionPane.css")
+              + labels.getFormatted(
+                  "application.exit.doYouWantToSave.message",
+                  (unsavedURI == null) ? unsavedView.getTitle() : URIUtil.getName(unsavedURI)),
+          JOptionPane.WARNING_MESSAGE);
       Object[] options = {
         labels.getString("application.exit.saveOption"),
         labels.getString("application.exit.cancelOption"),
@@ -228,25 +220,21 @@ public class ExitAction extends AbstractApplicationAction {
       pane.setOptions(options);
       pane.setInitialValue(options[0]);
       pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
-      JSheet.showSheet(
-          pane,
-          unsavedView.getComponent(),
-          new SheetListener() {
-            @Override
-            public void optionSelected(SheetEvent evt) {
-              Object value = evt.getValue();
-              if (value == null
-                  || value.equals(labels.getString("application.exit.cancelOption"))) {
-                unsavedView.setEnabled(true);
-                getApplication().setEnabled(true);
-              } else if (value.equals(labels.getString("application.exit.dontSaveOption"))) {
-                getApplication().dispose(unsavedView);
-                reviewNext();
-              } else if (value.equals(labels.getString("application.exit.saveOption"))) {
-                saveChangesAndReviewNext();
-              }
-            }
-          });
+      JSheet.showSheet(pane, unsavedView.getComponent(), new SheetListener() {
+        @Override
+        public void optionSelected(SheetEvent evt) {
+          Object value = evt.getValue();
+          if (value == null || value.equals(labels.getString("application.exit.cancelOption"))) {
+            unsavedView.setEnabled(true);
+            getApplication().setEnabled(true);
+          } else if (value.equals(labels.getString("application.exit.dontSaveOption"))) {
+            getApplication().dispose(unsavedView);
+            reviewNext();
+          } else if (value.equals(labels.getString("application.exit.saveOption"))) {
+            saveChangesAndReviewNext();
+          }
+        }
+      });
     } else {
       getApplication().setEnabled(true);
     }
@@ -256,24 +244,21 @@ public class ExitAction extends AbstractApplicationAction {
     final View v = unsavedView;
     if (v.getURI() == null) {
       URIChooser chooser = getChooser(v);
-      JSheet.showSaveSheet(
-          chooser,
-          unsavedView.getComponent(),
-          new SheetListener() {
-            @Override
-            public void optionSelected(final SheetEvent evt) {
-              if (evt.getOption() == URIChooser.APPROVE_OPTION) {
-                final URI uri = evt.getChooser().getSelectedURI();
-                saveToFileAndReviewNext(uri, evt.getChooser());
-              } else {
-                v.setEnabled(true);
-                if (oldFocusOwner != null) {
-                  oldFocusOwner.requestFocus();
-                }
-                getApplication().setEnabled(true);
-              }
+      JSheet.showSaveSheet(chooser, unsavedView.getComponent(), new SheetListener() {
+        @Override
+        public void optionSelected(final SheetEvent evt) {
+          if (evt.getOption() == URIChooser.APPROVE_OPTION) {
+            final URI uri = evt.getChooser().getSelectedURI();
+            saveToFileAndReviewNext(uri, evt.getChooser());
+          } else {
+            v.setEnabled(true);
+            if (oldFocusOwner != null) {
+              oldFocusOwner.requestFocus();
             }
-          });
+            getApplication().setEnabled(true);
+          }
+        }
+      });
     } else {
       saveToFileAndReviewNext(v.getURI(), null);
     }

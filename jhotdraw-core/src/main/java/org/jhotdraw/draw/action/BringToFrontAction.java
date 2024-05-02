@@ -37,28 +37,27 @@ public class BringToFrontAction extends AbstractSelectedAction {
     final DrawingView view = getView();
     final List<Figure> figures = new ArrayList<>(view.getSelectedFigures());
     bringToFront(view, figures);
-    fireUndoableEditHappened(
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getTextProperty(ID);
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getTextProperty(ID);
+      }
 
-          @Override
-          public void redo() throws CannotRedoException {
-            super.redo();
-            BringToFrontAction.bringToFront(view, figures);
-          }
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        BringToFrontAction.bringToFront(view, figures);
+      }
 
-          @Override
-          public void undo() throws CannotUndoException {
-            super.undo();
-            SendToBackAction.sendToBack(view, figures);
-          }
-        });
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        SendToBackAction.sendToBack(view, figures);
+      }
+    });
   }
 
   public static void bringToFront(DrawingView view, Collection<Figure> figures) {

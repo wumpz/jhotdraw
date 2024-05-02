@@ -72,7 +72,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    *
    * @deprecated As of Java 2 platform v1.3.
    */
-  @Deprecated protected KeyStroke upKey;
+  @Deprecated
+  protected KeyStroke upKey;
 
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
@@ -81,7 +82,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    *
    * @deprecated As of Java 2 platform v1.3.
    */
-  @Deprecated protected KeyStroke downKey;
+  @Deprecated
+  protected KeyStroke downKey;
 
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
@@ -90,7 +92,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    *
    * @deprecated As of Java 2 platform v1.3.
    */
-  @Deprecated protected KeyStroke leftKey;
+  @Deprecated
+  protected KeyStroke leftKey;
 
   /**
    * As of Java 2 platform v1.3 this previously undocumented field is no longer used. Key bindings
@@ -99,7 +102,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
    *
    * @deprecated As of Java 2 platform v1.3.
    */
-  @Deprecated protected KeyStroke rightKey;
+  @Deprecated
+  protected KeyStroke rightKey;
 
   private static String FOCUSED_COMP_INDEX = "JToolBar.focusedCompIndex";
 
@@ -366,21 +370,20 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
           // the frame when contents change
           @Override
           protected JRootPane createRootPane() {
-            JRootPane rootPane =
-                new JRootPane() {
-                  private static final long serialVersionUID = 1L;
-                  private boolean packing = false;
+            JRootPane rootPane = new JRootPane() {
+              private static final long serialVersionUID = 1L;
+              private boolean packing = false;
 
-                  @Override
-                  public void validate() {
-                    super.validate();
-                    if (!packing) {
-                      packing = true;
-                      pack();
-                      packing = false;
-                    }
-                  }
-                };
+              @Override
+              public void validate() {
+                super.validate();
+                if (!packing) {
+                  packing = true;
+                  pack();
+                  packing = false;
+                }
+              }
+            };
             rootPane.setOpaque(true);
             return rootPane;
           }
@@ -414,21 +417,20 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
       // the frame when contents change
       @Override
       protected JRootPane createRootPane() {
-        JRootPane rootPane =
-            new JRootPane() {
-              private static final long serialVersionUID = 1L;
-              private boolean packing = false;
+        JRootPane rootPane = new JRootPane() {
+          private static final long serialVersionUID = 1L;
+          private boolean packing = false;
 
-              @Override
-              public void validate() {
-                super.validate();
-                if (!packing) {
-                  packing = true;
-                  pack();
-                  packing = false;
-                }
-              }
-            };
+          @Override
+          public void validate() {
+            super.validate();
+            if (!packing) {
+              packing = true;
+              pack();
+              packing = false;
+            }
+          }
+        };
         rootPane.setOpaque(true);
         return rootPane;
       }
@@ -799,7 +801,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
           return Math.min(n - 1, (childP.x <= child.getWidth()) ? i : i + 1);
         }
       }
-      if (dockingSource.getComponentCount() == 0 || p.x < dockingSource.getComponent(0).getX()) {
+      if (dockingSource.getComponentCount() == 0
+          || p.x < dockingSource.getComponent(0).getX()) {
         return 0;
       }
       return dockingSource.getComponentCount() - 1;
@@ -956,9 +959,8 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
     public void actionPerformed(ActionEvent evt) {
       String key = getName();
       JToolBar toolBar = (JToolBar) evt.getSource();
-      PaletteToolBarUI ui =
-          (PaletteToolBarUI)
-              PaletteLookAndFeel.getUIOfType(toolBar.getUI(), PaletteToolBarUI.class);
+      PaletteToolBarUI ui = (PaletteToolBarUI)
+          PaletteLookAndFeel.getUIOfType(toolBar.getUI(), PaletteToolBarUI.class);
       if ((NAVIGATE_RIGHT == null && key == null)
           || (NAVIGATE_RIGHT != null && NAVIGATE_RIGHT.equals(key))) {
         ui.navigateFocusedComp(EAST);
@@ -1032,11 +1034,10 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         } else {
           insets = c.getInsets();
         }
-        isArmed =
-            !(evt.getX() > insets.left
-                && evt.getX() < c.getWidth() - insets.right
-                && evt.getY() > insets.top
-                && evt.getY() < c.getHeight() - insets.bottom);
+        isArmed = !(evt.getX() > insets.left
+            && evt.getX() < c.getWidth() - insets.right
+            && evt.getY() > insets.top
+            && evt.getY() < c.getHeight() - insets.bottom);
       }
     }
 
@@ -1275,16 +1276,14 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
 
     DragWindow(Window w) {
       super(w);
-      getContentPane()
-          .add(
-              new JPanel() {
-                private static final long serialVersionUID = 1L;
+      getContentPane().add(new JPanel() {
+        private static final long serialVersionUID = 1L;
 
-                @Override
-                public void paintComponent(Graphics g) {
-                  paintDragWindow(g);
-                }
-              });
+        @Override
+        public void paintComponent(Graphics g) {
+          paintDragWindow(g);
+        }
+      });
     }
 
     public void setOrientation(int o) {

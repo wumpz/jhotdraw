@@ -147,20 +147,16 @@ public class CurvedLiner implements Liner {
         }
         if ((soutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0
             && (eoutcode & (Geom.OUT_TOP | Geom.OUT_BOTTOM)) != 0) {
-          path.add(
-              new BezierPath.Node(
-                  BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, sp.x, (sp.y + ep.y) / 2));
-          path.add(
-              new BezierPath.Node(
-                  BezierPath.C1_MASK, ep.x, ep.y, ep.x, (sp.y + ep.y) / 2, ep.x, ep.y));
+          path.add(new BezierPath.Node(
+              BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, sp.x, (sp.y + ep.y) / 2));
+          path.add(new BezierPath.Node(
+              BezierPath.C1_MASK, ep.x, ep.y, ep.x, (sp.y + ep.y) / 2, ep.x, ep.y));
         } else if ((soutcode & (Geom.OUT_LEFT | Geom.OUT_RIGHT)) != 0
             && (eoutcode & (Geom.OUT_LEFT | Geom.OUT_RIGHT)) != 0) {
-          path.add(
-              new BezierPath.Node(
-                  BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, (sp.x + ep.x) / 2, sp.y));
-          path.add(
-              new BezierPath.Node(
-                  BezierPath.C1_MASK, ep.x, ep.y, (sp.x + ep.x) / 2, ep.y, ep.x, ep.y));
+          path.add(new BezierPath.Node(
+              BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, (sp.x + ep.x) / 2, sp.y));
+          path.add(new BezierPath.Node(
+              BezierPath.C1_MASK, ep.x, ep.y, (sp.x + ep.x) / 2, ep.y, ep.x, ep.y));
         } else if (soutcode == Geom.OUT_BOTTOM || soutcode == Geom.OUT_TOP) {
           path.add(new BezierPath.Node(BezierPath.C2_MASK, sp.x, sp.y, sp.x, sp.y, sp.x, ep.y));
           path.add(new BezierPath.Node(ep.x, ep.y));

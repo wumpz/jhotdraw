@@ -74,15 +74,14 @@ public class FigureToolBar extends AbstractToolBar {
         opacityPopupButton.add(opacitySlider);
         labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
         opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
-        opacityPopupButton.setIcon(
-            new SelectionOpacityIcon(
-                editor,
-                OPACITY,
-                FILL_COLOR,
-                STROKE_COLOR,
-                Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
-                new Rectangle(5, 5, 6, 6),
-                new Rectangle(4, 4, 7, 7)));
+        opacityPopupButton.setIcon(new SelectionOpacityIcon(
+            editor,
+            OPACITY,
+            FILL_COLOR,
+            STROKE_COLOR,
+            Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
+            new Rectangle(5, 5, 6, 6),
+            new Rectangle(4, 4, 7, 7)));
         opacityPopupButton.setPopupAnchor(SOUTH_EAST);
         disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
         gbc = new GridBagConstraints();
@@ -132,15 +131,14 @@ public class FigureToolBar extends AbstractToolBar {
         opacityPopupButton.add(opacitySlider);
         labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
         opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
-        opacityPopupButton.setIcon(
-            new SelectionOpacityIcon(
-                editor,
-                OPACITY,
-                FILL_COLOR,
-                STROKE_COLOR,
-                Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
-                new Rectangle(5, 5, 6, 6),
-                new Rectangle(4, 4, 7, 7)));
+        opacityPopupButton.setIcon(new SelectionOpacityIcon(
+            editor,
+            OPACITY,
+            FILL_COLOR,
+            STROKE_COLOR,
+            Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
+            new Rectangle(5, 5, 6, 6),
+            new Rectangle(4, 4, 7, 7)));
         opacityPopupButton.setPopupAnchor(SOUTH_EAST);
         disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
         gbc = new GridBagConstraints();

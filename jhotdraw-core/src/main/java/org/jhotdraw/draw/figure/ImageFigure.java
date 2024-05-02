@@ -106,18 +106,10 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
       g.setStroke(new BasicStroke());
       g.setColor(Color.red);
       g.draw(rectangle);
-      g.draw(
-          new Line2D.Double(
-              rectangle.x,
-              rectangle.y,
-              rectangle.x + rectangle.width,
-              rectangle.y + rectangle.height));
-      g.draw(
-          new Line2D.Double(
-              rectangle.x + rectangle.width,
-              rectangle.y,
-              rectangle.x,
-              rectangle.y + rectangle.height));
+      g.draw(new Line2D.Double(
+          rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height));
+      g.draw(new Line2D.Double(
+          rectangle.x + rectangle.width, rectangle.y, rectangle.x, rectangle.y + rectangle.height));
     }
   }
 

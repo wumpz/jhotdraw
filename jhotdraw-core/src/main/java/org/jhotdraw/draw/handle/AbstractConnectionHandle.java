@@ -295,10 +295,9 @@ public abstract class AbstractConnectionHandle extends AbstractHandle {
         invalidArea.add(c.getDrawingArea());
       }
     }
-    connectors =
-        (connectableFigure == null)
-            ? Collections.emptyList()
-            : connectableFigure.getConnectors(getOwner());
+    connectors = (connectableFigure == null)
+        ? Collections.emptyList()
+        : connectableFigure.getConnectors(getOwner());
     for (Connector c : connectors) {
       if (invalidArea == null) {
         invalidArea = c.getDrawingArea();

@@ -121,14 +121,11 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   }
 
   private void initAttributeDependentSupplier() {
-    attr()
-        .dependents(
-            Attributes.attrSupplier(
-                () -> {
-                  var list = new ArrayList<>(this.getChildren());
-                  list.add(getPresentationFigure());
-                  return list;
-                }));
+    attr().dependents(Attributes.attrSupplier(() -> {
+      var list = new ArrayList<>(this.getChildren());
+      list.add(getPresentationFigure());
+      return list;
+    }));
   }
 
   /**

@@ -40,20 +40,16 @@ public class JDisclosureToolBar extends JToolBar {
       disclosureButton = (JButton) btn;
       disclosureButton.putClientProperty(DisclosureIcon.CURRENT_STATE_PROPERTY, 1);
       disclosureButton.putClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY, 2);
-      disclosureButton.addActionListener(
-          new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              int newState =
-                  ((Integer)
-                              disclosureButton.getClientProperty(
-                                  DisclosureIcon.CURRENT_STATE_PROPERTY)
-                          + 1)
-                      % (Integer)
-                          disclosureButton.getClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY);
-              setDisclosureState(newState);
-            }
-          });
+      disclosureButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          int newState = ((Integer)
+                      disclosureButton.getClientProperty(DisclosureIcon.CURRENT_STATE_PROPERTY)
+                  + 1)
+              % (Integer) disclosureButton.getClientProperty(DisclosureIcon.STATE_COUNT_PROPERTY);
+          setDisclosureState(newState);
+        }
+      });
     } else {
       btn = disclosureButton;
     }

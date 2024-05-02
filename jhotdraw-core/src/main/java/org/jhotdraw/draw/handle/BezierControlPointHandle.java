@@ -93,25 +93,21 @@ public class BezierControlPointHandle extends AbstractHandle {
       Stroke stroke2;
       Color strokeColor2;
       if (getEditor().getTool().supportsHandleInteraction()) {
-        handleFillColor =
-            getEditor()
-                .getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR);
-        handleStrokeColor =
-            getEditor()
-                .getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR);
+        handleFillColor = getEditor()
+            .getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR);
+        handleStrokeColor = getEditor()
+            .getHandleAttribute(HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR);
         stroke1 = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_1);
         strokeColor1 = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_1);
         stroke2 = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_2);
         strokeColor2 = getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_COLOR_2);
       } else {
-        handleFillColor =
-            getEditor()
-                .getHandleAttribute(
-                    HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR_DISABLED);
-        handleStrokeColor =
-            getEditor()
-                .getHandleAttribute(
-                    HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_DISABLED);
+        handleFillColor = getEditor()
+            .getHandleAttribute(
+                HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_FILL_COLOR_DISABLED);
+        handleStrokeColor = getEditor()
+            .getHandleAttribute(
+                HandleAttributeKeys.BEZIER_CONTROL_POINT_HANDLE_STROKE_COLOR_DISABLED);
         stroke1 =
             getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_TANGENT_STROKE_1_DISABLED);
         strokeColor1 =
@@ -151,10 +147,9 @@ public class BezierControlPointHandle extends AbstractHandle {
   @Override
   public void trackStep(Point anchor, Point lead, int modifiersEx) {
     BezierFigure figure = getBezierFigure();
-    Point2D.Double p =
-        view.getConstrainer() == null
-            ? view.viewToDrawing(lead)
-            : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+    Point2D.Double p = view.getConstrainer() == null
+        ? view.viewToDrawing(lead)
+        : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
     BezierPath.Node v = figure.getNode(index);
     fireAreaInvalidated(v);
     figure.willChange();
@@ -173,9 +168,8 @@ public class BezierControlPointHandle extends AbstractHandle {
       // move control point and opposite control point on same line
       double a = Math.PI + Math.atan2(p.y - v.y[0], p.x - v.x[0]);
       int c2 = (controlPointIndex == 1) ? 2 : 1;
-      double r =
-          Math.sqrt(
-              (v.x[c2] - v.x[0]) * (v.x[c2] - v.x[0]) + (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
+      double r = Math.sqrt(
+          (v.x[c2] - v.x[0]) * (v.x[c2] - v.x[0]) + (v.y[c2] - v.y[0]) * (v.y[c2] - v.y[0]));
       double sina = Math.sin(a);
       double cosa = Math.cos(a);
       Point2D.Double p2 = new Point2D.Double(r * cosa + v.x[0], r * sina + v.y[0]);
@@ -214,10 +208,8 @@ public class BezierControlPointHandle extends AbstractHandle {
         Point2D.Double p = figure.getPoint(index, controlPointIndex);
         double a = Math.PI + Math.atan2(p.y - newValue.y[0], p.x - newValue.x[0]);
         int c2 = (controlPointIndex == 1) ? 2 : 1;
-        double r =
-            Math.sqrt(
-                (newValue.x[c2] - newValue.x[0]) * (newValue.x[c2] - newValue.x[0])
-                    + (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
+        double r = Math.sqrt((newValue.x[c2] - newValue.x[0]) * (newValue.x[c2] - newValue.x[0])
+            + (newValue.y[c2] - newValue.y[0]) * (newValue.y[c2] - newValue.y[0]));
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
         Point2D.Double p2 = new Point2D.Double(r * cosa + newValue.x[0], r * sina + newValue.y[0]);
@@ -228,22 +220,21 @@ public class BezierControlPointHandle extends AbstractHandle {
       figure.changed();
     }
     view.getDrawing()
-        .fireUndoableEditHappened(
-            new BezierNodeEdit(figure, index, oldValue, newValue) {
-              private static final long serialVersionUID = 1L;
+        .fireUndoableEditHappened(new BezierNodeEdit(figure, index, oldValue, newValue) {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                fireHandleRequestSecondaryHandles();
-              }
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            fireHandleRequestSecondaryHandles();
+          }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                fireHandleRequestSecondaryHandles();
-              }
-            });
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            fireHandleRequestSecondaryHandles();
+          }
+        });
     view.getDrawing().fireUndoableEditHappened(edit);
   }
 

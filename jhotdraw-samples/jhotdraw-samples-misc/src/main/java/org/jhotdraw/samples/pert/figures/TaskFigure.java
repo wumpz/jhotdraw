@@ -127,9 +127,8 @@ public class TaskFigure extends GraphicalCompositeFigure {
         handles.add(new MoveHandle(this, RelativeLocator.southEast()));
         ConnectorHandle ch;
         handles.add(
-            ch =
-                new ConnectorHandle(
-                    new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
+            ch = new ConnectorHandle(
+                new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
         ch.setToolTipText("Drag the connector to a dependent task.");
         break;
     }

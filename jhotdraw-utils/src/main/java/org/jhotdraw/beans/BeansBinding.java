@@ -44,9 +44,8 @@ public class BeansBinding {
             try {
               getTargetWriteMethod().invoke(target, evt.getNewValue());
             } catch (Exception ex) {
-              InternalError ie =
-                  new InternalError(
-                      "Could not set property \"" + targetProperty + "\" on " + target);
+              InternalError ie = new InternalError(
+                  "Could not set property \"" + targetProperty + "\" on " + target);
               ie.initCause(ex);
               throw ie;
             }
@@ -58,9 +57,8 @@ public class BeansBinding {
             try {
               getSourceWriteMethod().invoke(source, evt.getNewValue());
             } catch (Exception ex) {
-              InternalError ie =
-                  new InternalError(
-                      "Could not set property \"" + targetProperty + "\" on " + target);
+              InternalError ie = new InternalError(
+                  "Could not set property \"" + targetProperty + "\" on " + target);
               ie.initCause(ex);
               throw ie;
             }

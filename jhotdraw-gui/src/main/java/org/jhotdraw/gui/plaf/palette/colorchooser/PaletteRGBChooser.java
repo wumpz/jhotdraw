@@ -81,21 +81,19 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
     new ColorSliderTextFieldHandler(redField, ccModel, 0);
     new ColorSliderTextFieldHandler(greenField, ccModel, 1);
     new ColorSliderTextFieldHandler(blueField, ccModel, 2);
-    ccModel.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent evt) {
-            if (updateRecursion++ == 0) {
-              // setColorToModel(ccModel.getColor());
-              setColorToModel(
-                  new Color(
-                      ccModel.getBoundedRangeModel(0).getValue(),
-                      ccModel.getBoundedRangeModel(1).getValue(),
-                      ccModel.getBoundedRangeModel(2).getValue()));
-            }
-            updateRecursion--;
-          }
-        });
+    ccModel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent evt) {
+        if (updateRecursion++ == 0) {
+          // setColorToModel(ccModel.getColor());
+          setColorToModel(new Color(
+              ccModel.getBoundedRangeModel(0).getValue(),
+              ccModel.getBoundedRangeModel(1).getValue(),
+              ccModel.getBoundedRangeModel(2).getValue()));
+        }
+        updateRecursion--;
+      }
+    });
     redField.setMinimumSize(redField.getPreferredSize());
     greenField.setMinimumSize(greenField.getPreferredSize());
     blueField.setMinimumSize(blueField.getPreferredSize());
@@ -168,16 +166,15 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
     redField.setColumns(3);
     redField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     redField.setText("0");
-    redField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    redField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            redFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        redFieldFocusLost(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridheight = 2;
@@ -202,16 +199,15 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
     greenField.setColumns(3);
     greenField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     greenField.setText("0");
-    greenField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    greenField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            greenFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        greenFieldFocusLost(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridheight = 2;
@@ -236,16 +232,15 @@ public class PaletteRGBChooser extends AbstractColorChooserPanel implements UIRe
     blueField.setColumns(3);
     blueField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     blueField.setText("0");
-    blueField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    blueField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            blueFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        blueFieldFocusLost(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridheight = 2;

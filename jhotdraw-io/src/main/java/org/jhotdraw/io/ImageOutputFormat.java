@@ -192,11 +192,8 @@ public class ImageOutputFormat implements OutputFormat {
       transform.translate(-drawBounds.x * scaleFactor, -drawBounds.y * scaleFactor);
       transform.scale(scaleFactor, scaleFactor);
       return toImage(
-          drawing,
-          figures,
-          transform,
-          new Dimension(
-              (int) (drawBounds.width * scaleFactor), (int) (drawBounds.height * scaleFactor)));
+          drawing, figures, transform, new Dimension((int) (drawBounds.width * scaleFactor), (int)
+              (drawBounds.height * scaleFactor)));
     } else {
       AffineTransform transform = new AffineTransform();
       if (drawBounds.x < 0) {
@@ -210,9 +207,8 @@ public class ImageOutputFormat implements OutputFormat {
           drawing,
           figures,
           transform,
-          new Dimension(
-              (int) ((Math.max(0, drawBounds.x) + drawBounds.width) * scaleFactor),
-              (int) ((Math.max(0, drawBounds.y) + drawBounds.height) * scaleFactor)));
+          new Dimension((int) ((Math.max(0, drawBounds.x) + drawBounds.width) * scaleFactor), (int)
+              ((Math.max(0, drawBounds.y) + drawBounds.height) * scaleFactor)));
     }
   }
 
@@ -235,20 +231,13 @@ public class ImageOutputFormat implements OutputFormat {
     if (background == null) {
       background = new Color(0xff, 0xff, 0xff, 0x0);
     } else {
-      background =
-          new Color(
-              background.getRed(),
-              background.getGreen(),
-              background.getBlue(),
-              (int) (background.getAlpha() * opacity));
+      background = new Color(background.getRed(), background.getGreen(), background.getBlue(), (int)
+          (background.getAlpha() * opacity));
     }
-    BufferedImage buf =
-        new BufferedImage(
-            Math.max(1, imageSize.width),
-            Math.max(1, imageSize.height),
-            (background.getAlpha() == 255)
-                ? BufferedImage.TYPE_INT_RGB
-                : BufferedImage.TYPE_INT_ARGB);
+    BufferedImage buf = new BufferedImage(
+        Math.max(1, imageSize.width),
+        Math.max(1, imageSize.height),
+        (background.getAlpha() == 255) ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = buf.createGraphics();
     // Clear the buffered image with the background color
     Composite savedComposite = g.getComposite();

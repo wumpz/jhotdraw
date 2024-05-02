@@ -95,26 +95,25 @@ public abstract class GenericListener {
      * <p>Create an instance of the DefaultInvoker and override the invoke method to handle the
      * invoking the targetMethod on the target.
      */
-    InvocationHandler handler =
-        new DefaultInvoker() {
-          @Override
-          public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            // Send all methods except for the targetMethod to
-            // the superclass for handling.
-            if (listenerMethod.equals(method)) {
-              if (targetMethod.getParameterTypes().length == 0) {
-                // Special treatment for parameterless target methods:
-                return targetMethod.invoke(target, new Object[0]);
-              } else {
-                // Regular treatment for target methods having the same
-                // argument list as the listener method.
-                return targetMethod.invoke(target, args);
-              }
-            } else {
-              return super.invoke(proxy, method, args);
-            }
+    InvocationHandler handler = new DefaultInvoker() {
+      @Override
+      public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // Send all methods except for the targetMethod to
+        // the superclass for handling.
+        if (listenerMethod.equals(method)) {
+          if (targetMethod.getParameterTypes().length == 0) {
+            // Special treatment for parameterless target methods:
+            return targetMethod.invoke(target, new Object[0]);
+          } else {
+            // Regular treatment for target methods having the same
+            // argument list as the listener method.
+            return targetMethod.invoke(target, args);
           }
-        };
+        } else {
+          return super.invoke(proxy, method, args);
+        }
+      }
+    };
     Class<?> cls = listenerMethod.getDeclaringClass();
     ClassLoader cl = cls.getClassLoader();
     return Proxy.newProxyInstance(cl, new Class<?>[] {cls}, handler);

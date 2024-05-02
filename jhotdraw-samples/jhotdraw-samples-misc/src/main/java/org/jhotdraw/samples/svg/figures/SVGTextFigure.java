@@ -144,17 +144,17 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       Rectangle2D rx = getTextShape().getBounds2D();
-      Rectangle2D.Double r =
-          (rx instanceof Rectangle2D.Double)
-              ? (Rectangle2D.Double) rx
-              : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+      Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+          ? (Rectangle2D.Double) rx
+          : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1;
       Geom.grow(r, g, g);
       if (attr().get(TRANSFORM) == null) {
         cachedDrawingArea = r;
       } else {
         cachedDrawingArea = new Rectangle2D.Double();
-        cachedDrawingArea.setRect(attr().get(TRANSFORM).createTransformedShape(r).getBounds2D());
+        cachedDrawingArea.setRect(
+            attr().get(TRANSFORM).createTransformedShape(r).getBounds2D());
       }
     }
     return (Rectangle2D.Double) cachedDrawingArea.clone();

@@ -85,10 +85,9 @@ public class TrackingHandle extends AbstractHandle {
   public void trackStep(Point anchor, Point lead, int modifiersEx) {
     Figure figure = getOwner();
     figure.willChange();
-    Point2D.Double p =
-        view.getConstrainer() == null
-            ? view.viewToDrawing(lead)
-            : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+    Point2D.Double p = view.getConstrainer() == null
+        ? view.viewToDrawing(lead)
+        : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
     if (getOwner().attr().get(TRANSFORM) != null) {
       try {
         getOwner().attr().get(TRANSFORM).inverseTransform(p, p);
@@ -127,24 +126,23 @@ public class TrackingHandle extends AbstractHandle {
       deleteLocation.run();
       f.changed();
       fireHandleRequestRemove(invalidatedArea);
-      fireUndoableEditHappened(
-          new AbstractUndoableEdit() {
-            @Override
-            public void redo() throws CannotRedoException {
-              super.redo();
-              f.willChange();
-              deleteLocation.run();
-              f.changed();
-            }
+      fireUndoableEditHappened(new AbstractUndoableEdit() {
+        @Override
+        public void redo() throws CannotRedoException {
+          super.redo();
+          f.willChange();
+          deleteLocation.run();
+          f.changed();
+        }
 
-            @Override
-            public void undo() throws CannotUndoException {
-              super.undo();
-              f.willChange();
-              insertLocation.run();
-              f.changed();
-            }
-          });
+        @Override
+        public void undo() throws CannotUndoException {
+          super.undo();
+          f.willChange();
+          insertLocation.run();
+          f.changed();
+        }
+      });
       evt.consume();
       // At this point, the handle is no longer valid, and
       // handles at higher node indices have become invalid too.

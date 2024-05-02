@@ -1032,11 +1032,10 @@ public class BezierPath implements Shape, Serializable, Cloneable {
     lastPoint.x[2] = x1;
     lastPoint.y[2] = y1;
     if ((lastPoint.mask & C1C2_MASK) == C1C2_MASK) {
-      lastPoint.keepColinear =
-          Math.abs(
-                  Geom.angle(lastPoint.x[0], lastPoint.y[0], lastPoint.x[1], lastPoint.y[1])
-                      - Geom.angle(lastPoint.x[2], lastPoint.y[2], lastPoint.x[0], lastPoint.y[0]))
-              < 0.001;
+      lastPoint.keepColinear = Math.abs(
+              Geom.angle(lastPoint.x[0], lastPoint.y[0], lastPoint.x[1], lastPoint.y[1])
+                  - Geom.angle(lastPoint.x[2], lastPoint.y[2], lastPoint.x[0], lastPoint.y[0]))
+          < 0.001;
     }
     NODES.add(new Node(C1_MASK, x3, y3, x2, y2, x3, y3));
   }
@@ -1148,9 +1147,8 @@ public class BezierPath implements Shape, Serializable, Cloneable {
     Arc2D.Double arc =
         new Arc2D.Double(cx - rx, cy - ry, rx * 2d, ry * 2d, -angleStart, -angleExtent, Arc2D.OPEN);
     // Create a path iterator of the rotated arc
-    PathIterator i =
-        arc.getPathIterator(
-            AffineTransform.getRotateInstance(angle, arc.getCenterX(), arc.getCenterY()));
+    PathIterator i = arc.getPathIterator(
+        AffineTransform.getRotateInstance(angle, arc.getCenterX(), arc.getCenterY()));
     // Add the segments to the bezier path
     double[] coords = new double[6];
     i.next(); // skip first moveto

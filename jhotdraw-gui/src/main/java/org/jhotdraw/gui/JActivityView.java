@@ -45,13 +45,12 @@ public class JActivityView extends javax.swing.JPanel {
     /** Thread safe. */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-      ActivityManager.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              updateProperties(evt);
-            }
-          });
+      ActivityManager.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          updateProperties(evt);
+        }
+      });
     }
   }
   ;
@@ -227,10 +226,8 @@ public class JActivityView extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(2, 12, 0, 12);
     add(noteLabel, gridBagConstraints);
     warningLabel.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
-    warningLabel.setIcon(
-        new javax.swing.ImageIcon(
-            getClass()
-                .getResource("/org/jhotdraw/gui/images/ProgressView.warningIcon.png"))); // NOI18N
+    warningLabel.setIcon(new javax.swing.ImageIcon(
+        getClass().getResource("/org/jhotdraw/gui/images/ProgressView.warningIcon.png"))); // NOI18N
     warningLabel.setText("warning");
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 2;
@@ -239,10 +236,8 @@ public class JActivityView extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(2, 12, 0, 12);
     add(warningLabel, gridBagConstraints);
     errorLabel.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
-    errorLabel.setIcon(
-        new javax.swing.ImageIcon(
-            getClass()
-                .getResource("/org/jhotdraw/gui/images/ProgressView.errorIcon.png"))); // NOI18N
+    errorLabel.setIcon(new javax.swing.ImageIcon(
+        getClass().getResource("/org/jhotdraw/gui/images/ProgressView.errorIcon.png"))); // NOI18N
     errorLabel.setText("error");
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 3;
@@ -259,12 +254,11 @@ public class JActivityView extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 12);
     add(progressBar, gridBagConstraints);
     cancelButton.setText(labels.getString("ActivityView.cancel.text")); // NOI18N
-    cancelButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            cancel(evt);
-          }
-        });
+    cancelButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        cancel(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridy = 4;
@@ -272,12 +266,11 @@ public class JActivityView extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(12, 0, 12, 12);
     add(cancelButton, gridBagConstraints);
     closeButton.setText(labels.getString("ActivityView.close.text")); // NOI18N
-    closeButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            close(evt);
-          }
-        });
+    closeButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        close(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridy = 4;

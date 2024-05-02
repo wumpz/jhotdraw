@@ -88,39 +88,36 @@ public class SaveFileAction extends AbstractViewAction {
         saveViewToURI(view, view.getURI(), null);
       } else {
         URIChooser fileChooser = getChooser(view);
-        JSheet.showSaveSheet(
-            fileChooser,
-            view.getComponent(),
-            new SheetListener() {
-              @Override
-              public void optionSelected(final SheetEvent evt) {
-                if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                  final URI uri = evt.getChooser().getSelectedURI();
-                  // Prevent same URI from being opened more than once
-                  if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
-                    for (View v : getApplication().getViews()) {
-                      if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
-                        ResourceBundleUtil labels =
-                            ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
-                        JSheet.showMessageSheet(
-                            view.getComponent(),
-                            labels.getFormatted(
-                                "file.saveAs.couldntSaveIntoOpenFile.message",
-                                evt.getFileChooser().getSelectedFile().getName()));
-                        view.setEnabled(true);
-                        return;
-                      }
-                    }
-                  }
-                  saveViewToURI(view, uri, evt.getChooser());
-                } else {
-                  view.setEnabled(true);
-                  if (oldFocusOwner != null) {
-                    oldFocusOwner.requestFocus();
+        JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
+          @Override
+          public void optionSelected(final SheetEvent evt) {
+            if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+              final URI uri = evt.getChooser().getSelectedURI();
+              // Prevent same URI from being opened more than once
+              if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+                for (View v : getApplication().getViews()) {
+                  if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
+                    ResourceBundleUtil labels =
+                        ResourceBundleUtil.getBundle("org.jhotdraw.app.Labels");
+                    JSheet.showMessageSheet(
+                        view.getComponent(),
+                        labels.getFormatted(
+                            "file.saveAs.couldntSaveIntoOpenFile.message",
+                            evt.getFileChooser().getSelectedFile().getName()));
+                    view.setEnabled(true);
+                    return;
                   }
                 }
               }
-            });
+              saveViewToURI(view, uri, evt.getChooser());
+            } else {
+              view.setEnabled(true);
+              if (oldFocusOwner != null) {
+                oldFocusOwner.requestFocus();
+              }
+            }
+          }
+        });
       }
     }
   }

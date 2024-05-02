@@ -30,16 +30,15 @@ public class FocusWindowAction extends AbstractAction {
     labels.configureAction(this, ID);
     // setEnabled(false);
     setEnabled(view != null);
-    ppc =
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if (name.equals(View.TITLE_PROPERTY)) {
-              putValue(Action.NAME, evt.getNewValue());
-            }
-          }
-        };
+    ppc = new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        String name = evt.getPropertyName();
+        if (name.equals(View.TITLE_PROPERTY)) {
+          putValue(Action.NAME, evt.getNewValue());
+        }
+      }
+    };
     if (view != null) {
       view.addPropertyChangeListener(ppc);
     }
@@ -81,12 +80,11 @@ public class FocusWindowAction extends AbstractAction {
       if (view.hasUnsavedChanges()) {
         title += "*";
       }
-      title =
-          (labels.getFormatted(
-              "internalFrame.title",
-              title,
-              view.getApplication() == null ? "" : view.getApplication().getName(),
-              view.getMultipleOpenId()));
+      title = (labels.getFormatted(
+          "internalFrame.title",
+          title,
+          view.getApplication() == null ? "" : view.getApplication().getName(),
+          view.getMultipleOpenId()));
     }
     return title;
   }

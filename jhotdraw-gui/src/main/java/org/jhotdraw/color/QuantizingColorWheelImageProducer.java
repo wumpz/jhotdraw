@@ -69,9 +69,8 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
         }
         if (alphas[index] != 0) {
           angulars[index] = (float) (Math.atan2(ky, kx) / Math.PI / 2d) * extentA + minA;
-          angulars[index] =
-              (float) Math.round(angulars[index] * angularQuantization)
-                  / (float) angularQuantization;
+          angulars[index] = (float) Math.round(angulars[index] * angularQuantization)
+              / (float) angularQuantization;
         }
       }
     }
@@ -111,18 +110,15 @@ public class QuantizingColorWheelImageProducer extends AbstractColorWheelImagePr
 
   @Override
   public Point getColorLocation(float[] components) {
-    float radial =
-        (components[radialIndex] - colorSpace.getMinValue(radialIndex))
-            / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-    float angular =
-        (components[angularIndex] - colorSpace.getMinValue(angularIndex))
-            / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
+    float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
+        / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
+    float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
+        / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
     float radius = Math.min(w, h) / 2f;
     radial = Math.max(0f, Math.min(1f, radial));
-    Point p =
-        new Point(
-            w / 2 + (int) (radius * radial * Math.cos(angular * Math.PI * 2d)),
-            h / 2 - (int) (radius * radial * Math.sin(angular * Math.PI * 2d)));
+    Point p = new Point(
+        w / 2 + (int) (radius * radial * Math.cos(angular * Math.PI * 2d)),
+        h / 2 - (int) (radius * radial * Math.sin(angular * Math.PI * 2d)));
     return p;
   }
 

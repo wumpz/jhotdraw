@@ -73,44 +73,43 @@ public class DrawingAttributeAction extends AbstractDrawingViewAction {
       drawing.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
     }
     drawing.changed();
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
-            if (name == null) {
-              name = (String) getValue(AbstractAction.NAME);
-            }
-            if (name == null) {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              name = labels.getString("attribute.text");
-            }
-            return name;
-          }
+      @Override
+      public String getPresentationName() {
+        String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
+        if (name == null) {
+          name = (String) getValue(AbstractAction.NAME);
+        }
+        if (name == null) {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          name = labels.getString("attribute.text");
+        }
+        return name;
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            Iterator<Object> iRestore = restoreData.iterator();
-            drawing.willChange();
-            drawing.attr().restoreAttributesTo(iRestore.next());
-            drawing.changed();
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        Iterator<Object> iRestore = restoreData.iterator();
+        drawing.willChange();
+        drawing.attr().restoreAttributesTo(iRestore.next());
+        drawing.changed();
+      }
 
-          @Override
-          @SuppressWarnings("unchecked")
-          public void redo() {
-            super.redo();
-            // restoreData.add(drawing.getAttributesRestoreData());
-            drawing.willChange();
-            for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
-              drawing.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-            }
-            drawing.changed();
-          }
-        };
+      @Override
+      @SuppressWarnings("unchecked")
+      public void redo() {
+        super.redo();
+        // restoreData.add(drawing.getAttributesRestoreData());
+        drawing.willChange();
+        for (Map.Entry<AttributeKey<?>, Object> entry : attributes.entrySet()) {
+          drawing.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+        }
+        drawing.changed();
+      }
+    };
     fireUndoableEditHappened(edit);
   }
 }

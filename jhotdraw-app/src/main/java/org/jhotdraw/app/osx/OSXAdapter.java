@@ -116,16 +116,15 @@ public class OSXAdapter implements InvocationHandler {
    * menu.
    */
   public static void setQuitHandler(ActionListener aboutHandler) {
-    setHandler(
-        new OSXAdapter("handleQuit", aboutHandler) {
-          // Override OSXAdapter.callTarget to always return false.
-          @Override
-          public boolean callTarget(Object appleEvent)
-              throws InvocationTargetException, IllegalAccessException {
-            super.callTarget(appleEvent);
-            return false;
-          }
-        });
+    setHandler(new OSXAdapter("handleQuit", aboutHandler) {
+      // Override OSXAdapter.callTarget to always return false.
+      @Override
+      public boolean callTarget(Object appleEvent)
+          throws InvocationTargetException, IllegalAccessException {
+        super.callTarget(appleEvent);
+        return false;
+      }
+    });
   }
 
   /**
@@ -140,10 +139,9 @@ public class OSXAdapter implements InvocationHandler {
     // If we're setting a handler, enable the About menu item by calling
     // com.apple.eawt.Application reflectively
     try {
-      Method enableAboutMethod =
-          macOSXApplication
-              .getClass()
-              .getDeclaredMethod("setEnabledAboutMenu", new Class<?>[] {boolean.class});
+      Method enableAboutMethod = macOSXApplication
+          .getClass()
+          .getDeclaredMethod("setEnabledAboutMenu", new Class<?>[] {boolean.class});
       enableAboutMethod.invoke(macOSXApplication, new Object[] {enableAboutMenu});
     } catch (Exception ex) {
       System.err.println("OSXAdapter could not access the About Menu");
@@ -163,10 +161,9 @@ public class OSXAdapter implements InvocationHandler {
     // If we're setting a handler, enable the Preferences menu item by calling
     // com.apple.eawt.Application reflectively
     try {
-      Method enablePrefsMethod =
-          macOSXApplication
-              .getClass()
-              .getDeclaredMethod("setEnabledPreferencesMenu", new Class<?>[] {boolean.class});
+      Method enablePrefsMethod = macOSXApplication
+          .getClass()
+          .getDeclaredMethod("setEnabledPreferencesMenu", new Class<?>[] {boolean.class});
       enablePrefsMethod.invoke(macOSXApplication, new Object[] {enablePrefsMenu});
     } catch (Exception ex) {
       System.err.println("OSXAdapter could not access the Preferences Menu");
@@ -182,26 +179,25 @@ public class OSXAdapter implements InvocationHandler {
    * <p>The filename is passed as the {@code actionCommand}.
    */
   public static void setOpenFileHandler(ActionListener fileHandler) {
-    setHandler(
-        new OSXAdapter("handleOpenFile", fileHandler) {
-          // Override OSXAdapter.callTarget to send information on the
-          // file to be opened
-          @Override
-          public boolean callTarget(Object appleEvent) {
-            if (appleEvent != null) {
-              try {
-                Method getFilenameMethod =
-                    appleEvent.getClass().getDeclaredMethod("getFilename", (Class[]) null);
-                String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
-                targetAction.actionPerformed(
-                    new ActionEvent(this, ActionEvent.ACTION_PERFORMED, filename));
-              } catch (Exception ex) {
-                // allowed empty
-              }
-            }
-            return true;
+    setHandler(new OSXAdapter("handleOpenFile", fileHandler) {
+      // Override OSXAdapter.callTarget to send information on the
+      // file to be opened
+      @Override
+      public boolean callTarget(Object appleEvent) {
+        if (appleEvent != null) {
+          try {
+            Method getFilenameMethod =
+                appleEvent.getClass().getDeclaredMethod("getFilename", (Class[]) null);
+            String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
+            targetAction.actionPerformed(
+                new ActionEvent(this, ActionEvent.ACTION_PERFORMED, filename));
+          } catch (Exception ex) {
+            // allowed empty
           }
-        });
+        }
+        return true;
+      }
+    });
   }
 
   /**
@@ -212,26 +208,25 @@ public class OSXAdapter implements InvocationHandler {
    * <p>The filename is passed as the {@code actionCommand}.
    */
   public static void setPrintFileHandler(ActionListener fileHandler) {
-    setHandler(
-        new OSXAdapter("handlePrintFile", fileHandler) {
-          // Override OSXAdapter.callTarget to send information on the
-          // file to be opened
-          @Override
-          public boolean callTarget(Object appleEvent) {
-            if (appleEvent != null) {
-              try {
-                Method getFilenameMethod =
-                    appleEvent.getClass().getDeclaredMethod("getFilename", (Class[]) null);
-                String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
-                targetAction.actionPerformed(
-                    new ActionEvent(this, ActionEvent.ACTION_PERFORMED, filename));
-              } catch (Exception ex) {
-                // allowed empty
-              }
-            }
-            return true;
+    setHandler(new OSXAdapter("handlePrintFile", fileHandler) {
+      // Override OSXAdapter.callTarget to send information on the
+      // file to be opened
+      @Override
+      public boolean callTarget(Object appleEvent) {
+        if (appleEvent != null) {
+          try {
+            Method getFilenameMethod =
+                appleEvent.getClass().getDeclaredMethod("getFilename", (Class[]) null);
+            String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
+            targetAction.actionPerformed(
+                new ActionEvent(this, ActionEvent.ACTION_PERFORMED, filename));
+          } catch (Exception ex) {
+            // allowed empty
           }
-        });
+        }
+        return true;
+      }
+    });
   }
 
   /**
@@ -247,16 +242,12 @@ public class OSXAdapter implements InvocationHandler {
             applicationClass.getConstructor((Class<?>[]) null).newInstance((Object[]) null);
       }
       Class<?> applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
-      Method addListenerMethod =
-          applicationClass.getDeclaredMethod(
-              "addApplicationListener", new Class<?>[] {applicationListenerClass});
+      Method addListenerMethod = applicationClass.getDeclaredMethod(
+          "addApplicationListener", new Class<?>[] {applicationListenerClass});
       // Create a proxy object around this handler that can be reflectively added as an Apple
       // ApplicationListener
-      Object osxAdapterProxy =
-          Proxy.newProxyInstance(
-              OSXAdapter.class.getClassLoader(),
-              new Class<?>[] {applicationListenerClass},
-              adapter);
+      Object osxAdapterProxy = Proxy.newProxyInstance(
+          OSXAdapter.class.getClassLoader(), new Class<?>[] {applicationListenerClass}, adapter);
       addListenerMethod.invoke(macOSXApplication, new Object[] {osxAdapterProxy});
     } catch (ClassNotFoundException cnfe) {
       System.err.println(

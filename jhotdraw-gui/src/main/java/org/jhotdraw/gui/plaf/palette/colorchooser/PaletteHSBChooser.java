@@ -88,13 +88,12 @@ public class PaletteHSBChooser extends AbstractColorChooserPanel implements UIRe
     new ColorSliderTextFieldHandler(hueField, ccModel, 0);
     new ColorSliderTextFieldHandler(saturationField, ccModel, 1);
     new ColorSliderTextFieldHandler(brightnessField, ccModel, 2);
-    ccModel.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent evt) {
-            setColorToModel(ccModel.getColor());
-          }
-        });
+    ccModel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent evt) {
+        setColorToModel(ccModel.getColor());
+      }
+    });
     hueField.setMinimumSize(hueField.getPreferredSize());
     saturationField.setMinimumSize(saturationField.getPreferredSize());
     brightnessField.setMinimumSize(brightnessField.getPreferredSize());
@@ -176,16 +175,15 @@ public class PaletteHSBChooser extends AbstractColorChooserPanel implements UIRe
     hueField.setColumns(3);
     hueField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     hueField.setText("0");
-    hueField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    hueField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            hueFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        hueFieldFocusLost(evt);
+      }
+    });
     hueFieldPanel.add(hueField);
     hueFieldLabel.setText("°");
     hueFieldPanel.add(hueFieldLabel);
@@ -214,16 +212,15 @@ public class PaletteHSBChooser extends AbstractColorChooserPanel implements UIRe
     saturationField.setColumns(3);
     saturationField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     saturationField.setText("0");
-    saturationField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    saturationField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            saturationFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        saturationFieldFocusLost(evt);
+      }
+    });
     saturationFieldPanel.add(saturationField);
     saturationFieldLabel.setText("%");
     saturationFieldPanel.add(saturationFieldLabel);
@@ -252,16 +249,15 @@ public class PaletteHSBChooser extends AbstractColorChooserPanel implements UIRe
     brightnessField.setColumns(3);
     brightnessField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     brightnessField.setText("0");
-    brightnessField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    brightnessField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            brightnessFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        brightnessFieldFocusLost(evt);
+      }
+    });
     brightnessFieldPanel.add(brightnessField);
     brightnessFieldLabel.setText("%");
     brightnessFieldPanel.add(brightnessFieldLabel);

@@ -291,9 +291,8 @@ public class ColorSliderUI extends BasicSliderUI {
       if (colorTrackImage != null) {
         colorTrackImage.flush();
       }
-      colorTrackImageProducer =
-          new ColorTrackImageProducer(
-              width, height, buffer + 2, slider.getOrientation() == JSlider.HORIZONTAL);
+      colorTrackImageProducer = new ColorTrackImageProducer(
+          width, height, buffer + 2, slider.getOrientation() == JSlider.HORIZONTAL);
       if (slider.getClientProperty("colorSliderModel") != null) {
         colorTrackImageProducer.setColorSliderModel(
             (ColorSliderModel) slider.getClientProperty("colorSliderModel"));

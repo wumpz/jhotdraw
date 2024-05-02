@@ -238,28 +238,26 @@ public class CreationTool extends AbstractTool {
         }
         final Figure addedFigure = createdFigure;
         final Drawing addedDrawing = getDrawing();
-        getDrawing()
-            .fireUndoableEditHappened(
-                new AbstractUndoableEdit() {
-                  private static final long serialVersionUID = 1L;
+        getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-                  @Override
-                  public String getPresentationName() {
-                    return presentationName;
-                  }
+          @Override
+          public String getPresentationName() {
+            return presentationName;
+          }
 
-                  @Override
-                  public void undo() throws CannotUndoException {
-                    super.undo();
-                    addedDrawing.remove(addedFigure);
-                  }
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            addedDrawing.remove(addedFigure);
+          }
 
-                  @Override
-                  public void redo() throws CannotRedoException {
-                    super.redo();
-                    addedDrawing.add(addedFigure);
-                  }
-                });
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            addedDrawing.add(addedFigure);
+          }
+        });
         Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
         r.add(evt.getX(), evt.getY());
         maybeFireBoundsInvalidated(r);

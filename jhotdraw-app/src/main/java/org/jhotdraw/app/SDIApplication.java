@@ -149,9 +149,8 @@ public class SDIApplication extends AbstractApplication {
   public void init() {
     super.init();
     initLookAndFeel();
-    prefs =
-        PreferencesUtil.userNodeForPackage(
-            (getModel() == null) ? getClass() : getModel().getClass());
+    prefs = PreferencesUtil.userNodeForPackage(
+        (getModel() == null) ? getClass() : getModel().getClass());
     initLabels();
     setActionMap(createModelActionMap(model));
   }
@@ -211,7 +210,9 @@ public class SDIApplication extends AbstractApplication {
         for (View aView : views()) {
           if (aView != view
               && SwingUtilities.getWindowAncestor(aView.getComponent()) != null
-              && SwingUtilities.getWindowAncestor(aView.getComponent()).getLocation().equals(loc)) {
+              && SwingUtilities.getWindowAncestor(aView.getComponent())
+                  .getLocation()
+                  .equals(loc)) {
             loc.x += 22;
             loc.y += 22;
             moved = true;
@@ -220,38 +221,35 @@ public class SDIApplication extends AbstractApplication {
         }
       } while (moved);
       f.setLocation(loc);
-      f.addWindowListener(
-          new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent evt) {
-              getAction(view, CloseFileAction.ID)
-                  .actionPerformed(
-                      new ActionEvent(f, ActionEvent.ACTION_PERFORMED, "windowClosing"));
-            }
+      f.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(final WindowEvent evt) {
+          getAction(view, CloseFileAction.ID)
+              .actionPerformed(new ActionEvent(f, ActionEvent.ACTION_PERFORMED, "windowClosing"));
+        }
 
-            @Override
-            public void windowClosed(final WindowEvent evt) {
-              view.stop();
-            }
+        @Override
+        public void windowClosed(final WindowEvent evt) {
+          view.stop();
+        }
 
-            @Override
-            public void windowGainedFocus(WindowEvent e) {
-              setActiveView(view);
-            }
-          });
-      view.addPropertyChangeListener(
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              String name = evt.getPropertyName();
-              if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)
-                  || name.equals(View.URI_PROPERTY)
-                  || name.equals(View.TITLE_PROPERTY)
-                  || name.equals(View.MULTIPLE_OPEN_ID_PROPERTY)) {
-                updateViewTitle(view, f);
-              }
-            }
-          });
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+          setActiveView(view);
+        }
+      });
+      view.addPropertyChangeListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          String name = evt.getPropertyName();
+          if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)
+              || name.equals(View.URI_PROPERTY)
+              || name.equals(View.TITLE_PROPERTY)
+              || name.equals(View.MULTIPLE_OPEN_ID_PROPERTY)) {
+            updateViewTitle(view, f);
+          }
+        }
+      });
       f.setVisible(true);
       view.start();
     }

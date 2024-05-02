@@ -47,7 +47,8 @@ public class SplitAction extends UngroupAction {
     for (Figure f : figures) {
       ODGPathFigure path = new ODGPathFigure();
       path.removeAllChildren();
-      for (Map.Entry<AttributeKey<?>, Object> entry : group.attr().getAttributes().entrySet()) {
+      for (Map.Entry<AttributeKey<?>, Object> entry :
+          group.attr().getAttributes().entrySet()) {
         path.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
       }
       path.add(f);

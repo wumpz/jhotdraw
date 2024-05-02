@@ -142,13 +142,12 @@ public class BezierTool extends AbstractTool {
       creationView.clearSelection();
       finishWhenMouseReleased = null;
       createdFigure = createFigure();
-      createdFigure.addNode(
-          new BezierPath.Node(
-              creationView.getConstrainer() == null
-                  ? creationView.viewToDrawing(anchor)
-                  : creationView
-                      .getConstrainer()
-                      .constrainPoint(creationView.viewToDrawing(anchor), createdFigure)));
+      createdFigure.addNode(new BezierPath.Node(
+          creationView.getConstrainer() == null
+              ? creationView.viewToDrawing(anchor)
+              : creationView
+                  .getConstrainer()
+                  .constrainPoint(creationView.viewToDrawing(anchor), createdFigure)));
       getDrawing().add(processCreatedFigureBeforeAddingToDocument(createdFigure));
     } else {
       if (evt.getClickCount() == 1) {
@@ -247,30 +246,28 @@ public class BezierTool extends AbstractTool {
     final Figure addedFigure = this.addedFigure;
     final Drawing addedDrawing = creationView.getDrawing();
     final DrawingView addedView = creationView;
-    getDrawing()
-        .fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+    getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                return presentationName;
-              }
+      @Override
+      public String getPresentationName() {
+        return presentationName;
+      }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                addedDrawing.remove(addedFigure);
-              }
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        addedDrawing.remove(addedFigure);
+      }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                addedView.clearSelection();
-                addedDrawing.add(addedFigure);
-                addedView.addToSelection(addedFigure);
-              }
-            });
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        addedView.clearSelection();
+        addedDrawing.add(addedFigure);
+        addedView.addToSelection(addedFigure);
+      }
+    });
   }
 
   @Override
@@ -340,9 +337,8 @@ public class BezierTool extends AbstractTool {
         && mouseLocation != null
         && getView() == creationView) {
       g.setColor(Color.BLACK);
-      g.setStroke(
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {1f, 5f}, 0f));
+      g.setStroke(new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {1f, 5f}, 0f));
       g.drawLine(anchor.x, anchor.y, mouseLocation.x, mouseLocation.y);
       if (!isWorking && createdFigure.isClosed() && createdFigure.getNodeCount() > 1) {
         Point p = creationView.drawingToView(createdFigure.getStartPoint());

@@ -179,13 +179,12 @@ public class SVGOutputFormat implements OutputFormat {
   }
 
   protected void writeCircleElement(Element parent, SVGEllipseFigure f) throws IOException {
-    parent.appendChild(
-        createCircle(
-            document,
-            f.getX() + f.getWidth() / 2d,
-            f.getY() + f.getHeight() / 2d,
-            f.getWidth() / 2d,
-            f.attr().getAttributes()));
+    parent.appendChild(createCircle(
+        document,
+        f.getX() + f.getWidth() / 2d,
+        f.getY() + f.getHeight() / 2d,
+        f.getWidth() / 2d,
+        f.attr().getAttributes()));
   }
 
   protected Element createCircle(
@@ -277,14 +276,13 @@ public class SVGOutputFormat implements OutputFormat {
   }
 
   protected void writeEllipseElement(Element parent, SVGEllipseFigure f) throws IOException {
-    parent.appendChild(
-        createEllipse(
-            document,
-            f.getX() + f.getWidth() / 2d,
-            f.getY() + f.getHeight() / 2d,
-            f.getWidth() / 2d,
-            f.getHeight() / 2d,
-            f.attr().getAttributes()));
+    parent.appendChild(createEllipse(
+        document,
+        f.getX() + f.getWidth() / 2d,
+        f.getY() + f.getHeight() / 2d,
+        f.getWidth() / 2d,
+        f.getHeight() / 2d,
+        f.attr().getAttributes()));
   }
 
   protected Element createEllipse(
@@ -315,15 +313,14 @@ public class SVGOutputFormat implements OutputFormat {
   }
 
   protected void writeImageElement(Element parent, SVGImageFigure f) throws IOException {
-    parent.appendChild(
-        createImage(
-            document,
-            f.getX(),
-            f.getY(),
-            f.getWidth(),
-            f.getHeight(),
-            f.getImageData(),
-            f.attr().getAttributes()));
+    parent.appendChild(createImage(
+        document,
+        f.getX(),
+        f.getY(),
+        f.getWidth(),
+        f.getHeight(),
+        f.getImageData(),
+        f.attr().getAttributes()));
   }
 
   protected Element createImage(
@@ -373,9 +370,8 @@ public class SVGOutputFormat implements OutputFormat {
         points.add(new Point2D.Double(node.x[0], node.y[0]));
       }
     }
-    parent.appendChild(
-        createPolygon(
-            document, points.toArray(new Point2D.Double[points.size()]), f.attr().getAttributes()));
+    parent.appendChild(createPolygon(
+        document, points.toArray(new Point2D.Double[points.size()]), f.attr().getAttributes()));
   }
 
   protected Element createPolygon(
@@ -397,9 +393,8 @@ public class SVGOutputFormat implements OutputFormat {
         points.add(new Point2D.Double(node.x[0], node.y[0]));
       }
     }
-    parent.appendChild(
-        createPolyline(
-            document, points.toArray(new Point2D.Double[points.size()]), f.attr().getAttributes()));
+    parent.appendChild(createPolyline(
+        document, points.toArray(new Point2D.Double[points.size()]), f.attr().getAttributes()));
   }
 
   protected Element createPolyline(
@@ -415,14 +410,13 @@ public class SVGOutputFormat implements OutputFormat {
 
   protected void writeLineElement(Element parent, SVGPathFigure f) throws IOException {
     BezierFigure bezier = (BezierFigure) f.getChild(0);
-    parent.appendChild(
-        createLine(
-            document,
-            bezier.getNode(0).x[0],
-            bezier.getNode(0).y[0],
-            bezier.getNode(1).x[0],
-            bezier.getNode(1).y[0],
-            f.attr().getAttributes()));
+    parent.appendChild(createLine(
+        document,
+        bezier.getNode(0).x[0],
+        bezier.getNode(0).y[0],
+        bezier.getNode(1).x[0],
+        bezier.getNode(1).y[0],
+        f.attr().getAttributes()));
   }
 
   protected Element createLine(
@@ -445,16 +439,15 @@ public class SVGOutputFormat implements OutputFormat {
   }
 
   protected void writeRectElement(Element parent, SVGRectFigure f) throws IOException {
-    parent.appendChild(
-        createRect(
-            document,
-            f.getX(),
-            f.getY(),
-            f.getWidth(),
-            f.getHeight(),
-            f.getArcWidth(),
-            f.getArcHeight(),
-            f.attr().getAttributes()));
+    parent.appendChild(createRect(
+        document,
+        f.getX(),
+        f.getY(),
+        f.getWidth(),
+        f.getHeight(),
+        f.getArcWidth(),
+        f.getArcHeight(),
+        f.attr().getAttributes()));
   }
 
   protected Element createRect(
@@ -489,9 +482,8 @@ public class SVGOutputFormat implements OutputFormat {
       error.initCause(e);
       throw error;
     }
-    parent.appendChild(
-        createText(
-            document, f.getCoordinates(), f.getRotates(), styledDoc, f.attr().getAttributes()));
+    parent.appendChild(createText(
+        document, f.getCoordinates(), f.getRotates(), styledDoc, f.attr().getAttributes()));
   }
 
   protected Element createText(
@@ -550,15 +542,14 @@ public class SVGOutputFormat implements OutputFormat {
       throw error;
     }
     Rectangle2D.Double bounds = f.getBounds();
-    parent.appendChild(
-        createTextArea(
-            document,
-            bounds.x,
-            bounds.y,
-            bounds.width,
-            bounds.height,
-            styledDoc,
-            f.attr().getAttributes()));
+    parent.appendChild(createTextArea(
+        document,
+        bounds.x,
+        bounds.y,
+        bounds.width,
+        bounds.height,
+        styledDoc,
+        f.attr().getAttributes()));
   }
 
   protected Element createTextArea(
@@ -647,33 +638,31 @@ public class SVGOutputFormat implements OutputFormat {
         Element gradientElem;
         if (gradient instanceof LinearGradient) {
           LinearGradient lg = (LinearGradient) gradient;
-          gradientElem =
-              createLinearGradient(
-                  document,
-                  lg.getX1(),
-                  lg.getY1(),
-                  lg.getX2(),
-                  lg.getY2(),
-                  lg.getStopOffsets(),
-                  lg.getStopColors(),
-                  lg.getStopOpacities(),
-                  lg.isRelativeToFigureBounds(),
-                  lg.getTransform());
+          gradientElem = createLinearGradient(
+              document,
+              lg.getX1(),
+              lg.getY1(),
+              lg.getX2(),
+              lg.getY2(),
+              lg.getStopOffsets(),
+              lg.getStopColors(),
+              lg.getStopOpacities(),
+              lg.isRelativeToFigureBounds(),
+              lg.getTransform());
         } else /*if (gradient instanceof RadialGradient)*/ {
           RadialGradient rg = (RadialGradient) gradient;
-          gradientElem =
-              createRadialGradient(
-                  document,
-                  rg.getCX(),
-                  rg.getCY(),
-                  rg.getFX(),
-                  rg.getFY(),
-                  rg.getR(),
-                  rg.getStopOffsets(),
-                  rg.getStopColors(),
-                  rg.getStopOpacities(),
-                  rg.isRelativeToFigureBounds(),
-                  rg.getTransform());
+          gradientElem = createRadialGradient(
+              document,
+              rg.getCX(),
+              rg.getCY(),
+              rg.getFX(),
+              rg.getFY(),
+              rg.getR(),
+              rg.getStopOffsets(),
+              rg.getStopColors(),
+              rg.getStopOpacities(),
+              rg.isRelativeToFigureBounds(),
+              rg.getTransform());
         }
         id = getId(gradientElem);
         gradientElem.setAttributeNS("xml", "id", id);
@@ -725,33 +714,31 @@ public class SVGOutputFormat implements OutputFormat {
         Element gradientElem;
         if (gradient instanceof LinearGradient) {
           LinearGradient lg = (LinearGradient) gradient;
-          gradientElem =
-              createLinearGradient(
-                  document,
-                  lg.getX1(),
-                  lg.getY1(),
-                  lg.getX2(),
-                  lg.getY2(),
-                  lg.getStopOffsets(),
-                  lg.getStopColors(),
-                  lg.getStopOpacities(),
-                  lg.isRelativeToFigureBounds(),
-                  lg.getTransform());
+          gradientElem = createLinearGradient(
+              document,
+              lg.getX1(),
+              lg.getY1(),
+              lg.getX2(),
+              lg.getY2(),
+              lg.getStopOffsets(),
+              lg.getStopColors(),
+              lg.getStopOpacities(),
+              lg.isRelativeToFigureBounds(),
+              lg.getTransform());
         } else /*if (gradient instanceof RadialGradient)*/ {
           RadialGradient rg = (RadialGradient) gradient;
-          gradientElem =
-              createRadialGradient(
-                  document,
-                  rg.getCX(),
-                  rg.getCY(),
-                  rg.getFX(),
-                  rg.getFY(),
-                  rg.getR(),
-                  rg.getStopOffsets(),
-                  rg.getStopColors(),
-                  rg.getStopOpacities(),
-                  rg.isRelativeToFigureBounds(),
-                  rg.getTransform());
+          gradientElem = createRadialGradient(
+              document,
+              rg.getCX(),
+              rg.getCY(),
+              rg.getFX(),
+              rg.getFY(),
+              rg.getR(),
+              rg.getStopOffsets(),
+              rg.getStopColors(),
+              rg.getStopOpacities(),
+              rg.isRelativeToFigureBounds(),
+              rg.getTransform());
         }
         id = getId(gradientElem);
         gradientElem.setAttributeNS("xml", "id", id);

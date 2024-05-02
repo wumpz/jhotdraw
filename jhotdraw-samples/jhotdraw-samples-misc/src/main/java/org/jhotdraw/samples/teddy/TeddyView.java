@@ -114,23 +114,19 @@ public class TeddyView extends AbstractView {
     editorViewport.setEditor(editor);
     editorViewport.setLineWrap(prefs.getBoolean("lineWrap", true));
     scrollPane.setViewportView(editorViewport);
-    editor.addCaretListener(
-        new CaretListener() {
-          @Override
-          public void caretUpdate(CaretEvent evt) {
-            TeddyView.this.caretUpdate(evt);
-          }
-        });
+    editor.addCaretListener(new CaretListener() {
+      @Override
+      public void caretUpdate(CaretEvent evt) {
+        TeddyView.this.caretUpdate(evt);
+      }
+    });
     scrollPane.getViewport().setBackground(editor.getBackground());
-    scrollPane
-        .getViewport()
-        .addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mousePressed(MouseEvent evt) {
-                editor.requestFocus();
-              }
-            });
+    scrollPane.getViewport().addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent evt) {
+        editor.requestFocus();
+      }
+    });
     Font font = getFont();
     MutableAttributeSet attrs = ((StyledEditorKit) editor.getEditorKit()).getInputAttributes();
     StyleConstants.setFontFamily(attrs, font.getFamily());
@@ -145,13 +141,12 @@ public class TeddyView extends AbstractView {
     setPreferredSize(new Dimension(400, 400));
     undoManager = new UndoRedoManager();
     editor.getDocument().addUndoableEditListener(undoManager);
-    undoManager.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            setHasUnsavedChanges(undoManager.hasSignificantEdits());
-          }
-        });
+    undoManager.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        setHasUnsavedChanges(undoManager.hasSignificantEdits());
+      }
+    });
   }
 
   protected JTextPane createEditor() {
@@ -214,16 +209,15 @@ public class TeddyView extends AbstractView {
   public void read(URI f, String characterSet) throws IOException {
     final Document doc = readDocument(new File(f), characterSet);
     try {
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              editor.getDocument().removeUndoableEditListener(undoManager);
-              editor.setDocument(doc);
-              doc.addUndoableEditListener(undoManager);
-              undoManager.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          editor.getDocument().removeUndoableEditListener(undoManager);
+          editor.setDocument(doc);
+          doc.addUndoableEditListener(undoManager);
+          undoManager.discardAllEdits();
+        }
+      });
     } catch (InterruptedException e) {
       // ignore
     } catch (InvocationTargetException e) {
@@ -253,13 +247,12 @@ public class TeddyView extends AbstractView {
   public void write(URI f, String characterSet, String lineSeparator) throws IOException {
     writeDocument(editor.getDocument(), new File(f), characterSet, lineSeparator);
     try {
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              undoManager.setHasSignificantEdits(false);
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          undoManager.setHasSignificantEdits(false);
+        }
+      });
     } catch (InterruptedException e) {
       // ignore
     } catch (InvocationTargetException e) {
@@ -303,16 +296,15 @@ public class TeddyView extends AbstractView {
   public void clear() {
     final Document newDocument = createDocument();
     try {
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              editor.getDocument().removeUndoableEditListener(undoManager);
-              editor.setDocument(newDocument);
-              newDocument.addUndoableEditListener(undoManager);
-              undoManager.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          editor.getDocument().removeUndoableEditListener(undoManager);
+          editor.setDocument(newDocument);
+          newDocument.addUndoableEditListener(undoManager);
+          undoManager.discardAllEdits();
+        }
+      });
     } catch (InvocationTargetException ex) {
       ex.printStackTrace();
     } catch (InterruptedException ex) {
@@ -477,7 +469,8 @@ public class TeddyView extends AbstractView {
   }
 
   public void setLineNumbersVisible(boolean newValue) {
-    NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().getViewFactory();
+    NumberedViewFactory viewFactory =
+        (NumberedViewFactory) editor.getEditorKit().getViewFactory();
     boolean oldValue = viewFactory.isLineNumbersVisible();
     if (oldValue != newValue) {
       viewFactory.setLineNumbersVisible(newValue);
@@ -489,7 +482,8 @@ public class TeddyView extends AbstractView {
   }
 
   public boolean isLineNumbersVisible() {
-    NumberedViewFactory viewFactory = (NumberedViewFactory) editor.getEditorKit().getViewFactory();
+    NumberedViewFactory viewFactory =
+        (NumberedViewFactory) editor.getEditorKit().getViewFactory();
     return viewFactory.isLineNumbersVisible();
   }
 

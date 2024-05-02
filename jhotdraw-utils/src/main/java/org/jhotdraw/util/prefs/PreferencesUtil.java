@@ -284,19 +284,17 @@ public class PreferencesUtil extends Preferences {
     }
     Rectangle bounds;
     if (resizable) {
-      bounds =
-          new Rectangle(
-              prefs.getInt(name + ".x", 0),
-              prefs.getInt(name + ".y", 0),
-              Math.max(defaultSize.width, prefs.getInt(name + ".width", preferredSize.width)),
-              Math.max(defaultSize.height, prefs.getInt(name + ".height", preferredSize.height)));
+      bounds = new Rectangle(
+          prefs.getInt(name + ".x", 0),
+          prefs.getInt(name + ".y", 0),
+          Math.max(defaultSize.width, prefs.getInt(name + ".width", preferredSize.width)),
+          Math.max(defaultSize.height, prefs.getInt(name + ".height", preferredSize.height)));
     } else {
-      bounds =
-          new Rectangle(
-              prefs.getInt(name + ".x", 0),
-              prefs.getInt(name + ".y", 0),
-              window.getWidth(),
-              window.getHeight());
+      bounds = new Rectangle(
+          prefs.getInt(name + ".x", 0),
+          prefs.getInt(name + ".y", 0),
+          window.getWidth(),
+          window.getHeight());
     }
     if (!screenBounds.contains(bounds)) {
       bounds.x = screenBounds.x + (screenBounds.width - bounds.width) / 2;
@@ -304,20 +302,19 @@ public class PreferencesUtil extends Preferences {
       Rectangle.intersect(screenBounds, bounds, bounds);
     }
     window.setBounds(bounds);
-    window.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentMoved(ComponentEvent evt) {
-            prefs.putInt(name + ".x", evt.getComponent().getX());
-            prefs.putInt(name + ".y", evt.getComponent().getY());
-          }
+    window.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentMoved(ComponentEvent evt) {
+        prefs.putInt(name + ".x", evt.getComponent().getX());
+        prefs.putInt(name + ".y", evt.getComponent().getY());
+      }
 
-          @Override
-          public void componentResized(ComponentEvent evt) {
-            prefs.putInt(name + ".width", evt.getComponent().getWidth());
-            prefs.putInt(name + ".height", evt.getComponent().getHeight());
-          }
-        });
+      @Override
+      public void componentResized(ComponentEvent evt) {
+        prefs.putInt(name + ".width", evt.getComponent().getWidth());
+        prefs.putInt(name + ".height", evt.getComponent().getHeight());
+      }
+    });
   }
 
   /**
@@ -344,42 +341,39 @@ public class PreferencesUtil extends Preferences {
     screenBounds.width -= screenInsets.left + screenInsets.right;
     screenBounds.height -= screenInsets.top + screenInsets.bottom;
     Dimension preferredSize = window.getPreferredSize();
-    Rectangle bounds =
-        new Rectangle(
-            prefs.getInt(name + ".x", x + screenBounds.x),
-            prefs.getInt(name + ".y", 0 + screenBounds.y),
-            preferredSize.width,
-            preferredSize.height);
+    Rectangle bounds = new Rectangle(
+        prefs.getInt(name + ".x", x + screenBounds.x),
+        prefs.getInt(name + ".y", 0 + screenBounds.y),
+        preferredSize.width,
+        preferredSize.height);
     if (!screenBounds.contains(bounds)) {
       bounds.x = screenBounds.x;
       bounds.y = screenBounds.y;
     }
     window.setBounds(bounds);
-    window.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentMoved(ComponentEvent evt) {
-            prefs.putInt(name + ".x", evt.getComponent().getX());
-            prefs.putInt(name + ".y", evt.getComponent().getY());
-          }
-          /*
-          public void componentResized(ComponentEvent evt) {
-          prefs.putInt(name+".width", evt.getComponent().getWidth());
-          prefs.putInt(name+".height", evt.getComponent().getHeight());
-          }*/
-        });
-    window.addWindowListener(
-        new WindowAdapter() {
-          @Override
-          public void windowClosing(WindowEvent e) {
-            prefs.putBoolean(name + ".visible", false);
-          }
+    window.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentMoved(ComponentEvent evt) {
+        prefs.putInt(name + ".x", evt.getComponent().getX());
+        prefs.putInt(name + ".y", evt.getComponent().getY());
+      }
+      /*
+      public void componentResized(ComponentEvent evt) {
+      prefs.putInt(name+".width", evt.getComponent().getWidth());
+      prefs.putInt(name+".height", evt.getComponent().getHeight());
+      }*/
+    });
+    window.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        prefs.putBoolean(name + ".visible", false);
+      }
 
-          @Override
-          public void windowOpened(WindowEvent e) {
-            prefs.putBoolean(name + ".visible", true);
-          }
-        });
+      @Override
+      public void windowOpened(WindowEvent e) {
+        prefs.putBoolean(name + ".visible", true);
+      }
+    });
   }
 
   /**
@@ -402,32 +396,30 @@ public class PreferencesUtil extends Preferences {
     screenBounds.height -= screenInsets.top + screenInsets.bottom;
     Dimension preferredSize = window.getPreferredSize();
     Dimension minSize = window.getMinimumSize();
-    Rectangle bounds =
-        new Rectangle(
-            prefs.getInt(name + ".x", 0),
-            prefs.getInt(name + ".y", 0),
-            Math.max(minSize.width, prefs.getInt(name + ".width", preferredSize.width)),
-            Math.max(minSize.height, prefs.getInt(name + ".height", preferredSize.height)));
+    Rectangle bounds = new Rectangle(
+        prefs.getInt(name + ".x", 0),
+        prefs.getInt(name + ".y", 0),
+        Math.max(minSize.width, prefs.getInt(name + ".width", preferredSize.width)),
+        Math.max(minSize.height, prefs.getInt(name + ".height", preferredSize.height)));
     if (!screenBounds.contains(bounds)) {
       bounds.x = screenBounds.x + (screenBounds.width - bounds.width) / 2;
       bounds.y = screenBounds.y + (screenBounds.height - bounds.height) / 2;
       Rectangle.intersect(screenBounds, bounds, bounds);
     }
     window.setBounds(bounds);
-    window.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentMoved(ComponentEvent evt) {
-            prefs.putInt(name + ".x", evt.getComponent().getX());
-            prefs.putInt(name + ".y", evt.getComponent().getY());
-          }
+    window.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentMoved(ComponentEvent evt) {
+        prefs.putInt(name + ".x", evt.getComponent().getX());
+        prefs.putInt(name + ".y", evt.getComponent().getY());
+      }
 
-          @Override
-          public void componentResized(ComponentEvent evt) {
-            prefs.putInt(name + ".width", evt.getComponent().getWidth());
-            prefs.putInt(name + ".height", evt.getComponent().getHeight());
-          }
-        });
+      @Override
+      public void componentResized(ComponentEvent evt) {
+        prefs.putInt(name + ".width", evt.getComponent().getWidth());
+        prefs.putInt(name + ".height", evt.getComponent().getHeight());
+      }
+    });
   }
 
   /**
@@ -459,12 +451,11 @@ public class PreferencesUtil extends Preferences {
     } catch (IndexOutOfBoundsException e) {
       // empty allowed
     }
-    tabbedPane.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent e) {
-            prefs.putInt(name, tabbedPane.getSelectedIndex());
-          }
-        });
+    tabbedPane.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        prefs.putInt(name, tabbedPane.getSelectedIndex());
+      }
+    });
   }
 }

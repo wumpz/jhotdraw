@@ -68,16 +68,14 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     putValue(AbstractAction.NAME, name);
     putValue(AbstractAction.SMALL_ICON, icon);
     setEnabled(true);
-    editor.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0].getKey())) {
-              putValue(
-                  "attribute_" + DefaultAttributeAction.this.keys[0].getKey(), evt.getNewValue());
-            }
-          }
-        });
+    editor.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0].getKey())) {
+          putValue("attribute_" + DefaultAttributeAction.this.keys[0].getKey(), evt.getNewValue());
+        }
+      }
+    });
     this.fixedAttributes = fixedAttributes;
     updateEnabledState();
   }

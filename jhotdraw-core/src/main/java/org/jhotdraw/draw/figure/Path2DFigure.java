@@ -44,11 +44,10 @@ public class Path2DFigure extends AbstractAttributedFigure {
         case 1:
           for (int i = 0; i < path.size(); i++) {
             int idx = i;
-            handles.add(
-                new TrackingHandle(
-                    this,
-                    () -> path.getNodePoint(idx),
-                    p -> path.changeNode(idx, node -> node.withPoint(p.x, p.y))));
+            handles.add(new TrackingHandle(
+                this,
+                () -> path.getNodePoint(idx),
+                p -> path.changeNode(idx, node -> node.withPoint(p.x, p.y))));
           }
           break;
       }
@@ -121,11 +120,10 @@ public class Path2DFigure extends AbstractAttributedFigure {
     if (grow == 0d) {
       g.draw(path);
     } else {
-      GrowStroke gs =
-          new GrowStroke(
-              grow,
-              AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
-                  * attr().get(STROKE_MITER_LIMIT));
+      GrowStroke gs = new GrowStroke(
+          grow,
+          AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
+              * attr().get(STROKE_MITER_LIMIT));
       g.draw(gs.createStrokedShape(path));
     }
     //    } else {

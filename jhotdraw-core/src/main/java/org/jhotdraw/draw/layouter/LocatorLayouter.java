@@ -90,9 +90,8 @@ public class LocatorLayouter implements Layouter {
           rotateChild.setRotation(position.angle());
         } else {
           ((Figure) child)
-              .transform(
-                  AffineTransform.getRotateInstance(
-                      -position.angle(), position.location().x, position.location().y));
+              .transform(AffineTransform.getRotateInstance(
+                  -position.angle(), position.location().x, position.location().y));
         }
       }
 

@@ -95,19 +95,17 @@ public class DrawingPageable implements Pageable {
       if (isAutorotate
           && drawBounds.width > drawBounds.height
           && pageFormat.getImageableWidth() < pageFormat.getImageableHeight()) {
-        double scaleFactor =
-            Math.min(
-                pageFormat.getImageableWidth() / drawBounds.height,
-                pageFormat.getImageableHeight() / drawBounds.width);
+        double scaleFactor = Math.min(
+            pageFormat.getImageableWidth() / drawBounds.height,
+            pageFormat.getImageableHeight() / drawBounds.width);
         tx.scale(scaleFactor, scaleFactor);
         tx.translate(drawBounds.height, 0d);
         tx.rotate(Math.PI / 2d, 0, 0);
         tx.translate(-drawBounds.x, -drawBounds.y);
       } else {
-        double scaleFactor =
-            Math.min(
-                pageFormat.getImageableWidth() / drawBounds.width,
-                pageFormat.getImageableHeight() / drawBounds.height);
+        double scaleFactor = Math.min(
+            pageFormat.getImageableWidth() / drawBounds.width,
+            pageFormat.getImageableHeight() / drawBounds.height);
         tx.scale(scaleFactor, scaleFactor);
         tx.translate(-drawBounds.x, -drawBounds.y);
       }

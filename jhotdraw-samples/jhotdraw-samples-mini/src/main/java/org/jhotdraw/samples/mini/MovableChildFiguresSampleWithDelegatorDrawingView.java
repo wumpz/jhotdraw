@@ -68,68 +68,66 @@ public class MovableChildFiguresSampleWithDelegatorDrawingView {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        // Create a simple drawing consisting of three
+        // text areas and an elbow connection.
+        LabeledEllipseFigure ta = new LabeledEllipseFigure();
+        ta.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
+        LabeledEllipseFigure tb = new LabeledEllipseFigure();
+        tb.setBounds(new Point2D.Double(220, 120), new Point2D.Double(310, 210));
+        LabeledEllipseFigure tc = new LabeledEllipseFigure();
+        tc.setBounds(new Point2D.Double(220, 10), new Point2D.Double(310, 100));
+        Drawing drawing = new DefaultDrawing();
+        drawing.add(ta);
+        drawing.add(tb);
+        drawing.add(tc);
+        // Create a frame with a drawing view and a drawing editor
+        JFrame f = new JFrame("My Drawing");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(400, 300);
+        final DrawingViewImpl view = new DrawingViewImpl();
+        final JPanel drawPanel = new JPanel() {
           @Override
-          public void run() {
-            // Create a simple drawing consisting of three
-            // text areas and an elbow connection.
-            LabeledEllipseFigure ta = new LabeledEllipseFigure();
-            ta.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
-            LabeledEllipseFigure tb = new LabeledEllipseFigure();
-            tb.setBounds(new Point2D.Double(220, 120), new Point2D.Double(310, 210));
-            LabeledEllipseFigure tc = new LabeledEllipseFigure();
-            tc.setBounds(new Point2D.Double(220, 10), new Point2D.Double(310, 100));
-            Drawing drawing = new DefaultDrawing();
-            drawing.add(ta);
-            drawing.add(tb);
-            drawing.add(tc);
-            // Create a frame with a drawing view and a drawing editor
-            JFrame f = new JFrame("My Drawing");
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.setSize(400, 300);
-            final DrawingViewImpl view = new DrawingViewImpl();
-            final JPanel drawPanel =
-                new JPanel() {
-                  @Override
-                  protected void printComponent(Graphics g) {
-                    view.printComponent(g);
-                  }
-
-                  @Override
-                  protected void paintComponent(Graphics g) {
-                    view.paintComponent(g);
-                  }
-
-                  @Override
-                  public void setBounds(int x, int y, int width, int height) {
-                    super.setBounds(
-                        x, y, width,
-                        height); // To change body of generated methods, choose Tools | Templates.
-                    view.fireViewTransformChanged();
-                  }
-                };
-            drawPanel.setSize(500, 500);
-            drawPanel.setOpaque(true);
-            view.setDrawTo(drawPanel);
-            view.setDrawing(drawing);
-            f.add(drawPanel);
-            f.add(new JLabel("Press space bar to toggle handles."), BorderLayout.SOUTH);
-            DrawingEditor editor = new DefaultDrawingEditor();
-            editor.add(view);
-            editor.setTool(new DelegationSelectionTool());
-            f.setVisible(true);
+          protected void printComponent(Graphics g) {
+            view.printComponent(g);
           }
 
-          class DrawingViewImpl extends DelegatorDrawingView {
-
-            @Override
-            public AffineTransform getDrawingToViewTransform() {
-              AffineTransform transform = new AffineTransform();
-              transform.setToRotation(0.9, getDrawTo().getWidth() / 2, getDrawTo().getHeight() / 2);
-              return transform;
-            }
+          @Override
+          protected void paintComponent(Graphics g) {
+            view.paintComponent(g);
           }
-        });
+
+          @Override
+          public void setBounds(int x, int y, int width, int height) {
+            super.setBounds(
+                x, y, width,
+                height); // To change body of generated methods, choose Tools | Templates.
+            view.fireViewTransformChanged();
+          }
+        };
+        drawPanel.setSize(500, 500);
+        drawPanel.setOpaque(true);
+        view.setDrawTo(drawPanel);
+        view.setDrawing(drawing);
+        f.add(drawPanel);
+        f.add(new JLabel("Press space bar to toggle handles."), BorderLayout.SOUTH);
+        DrawingEditor editor = new DefaultDrawingEditor();
+        editor.add(view);
+        editor.setTool(new DelegationSelectionTool());
+        f.setVisible(true);
+      }
+
+      class DrawingViewImpl extends DelegatorDrawingView {
+
+        @Override
+        public AffineTransform getDrawingToViewTransform() {
+          AffineTransform transform = new AffineTransform();
+          transform.setToRotation(0.9, getDrawTo().getWidth() / 2, getDrawTo().getHeight() / 2);
+          return transform;
+        }
+      }
+    });
   }
 }

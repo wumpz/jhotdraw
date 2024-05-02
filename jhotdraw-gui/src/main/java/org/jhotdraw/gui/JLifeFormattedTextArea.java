@@ -37,16 +37,15 @@ public class JLifeFormattedTextArea extends JTextArea {
     // super class constructor.
     if (formattedTextFieldAdapter == null) {
       formattedTextFieldAdapter = new JLifeFormattedTextField();
-      handler =
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              if (evt.getSource() == formattedTextFieldAdapter
-                  && "value".equals(evt.getPropertyName())) {
-                firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
-              }
-            }
-          };
+      handler = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if (evt.getSource() == formattedTextFieldAdapter
+              && "value".equals(evt.getPropertyName())) {
+            firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
+          }
+        }
+      };
       formattedTextFieldAdapter.addPropertyChangeListener(handler);
     }
     formattedTextFieldAdapter.setDocument(newValue);

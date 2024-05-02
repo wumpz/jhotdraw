@@ -115,17 +115,15 @@ public class BezierFigure extends AbstractAttributedFigure {
   @Override
   protected void drawStroke(Graphics2D g) {
     if (isClosed()) {
-      double grow =
-          AttributeKeys.getPerpendicularDrawGrowth(
-              this, AttributeKeys.getScaleFactorFromGraphics(g));
+      double grow = AttributeKeys.getPerpendicularDrawGrowth(
+          this, AttributeKeys.getScaleFactorFromGraphics(g));
       if (grow == 0d) {
         g.draw(path);
       } else {
-        GrowStroke gs =
-            new GrowStroke(
-                grow,
-                AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
-                    * attr().get(STROKE_MITER_LIMIT));
+        GrowStroke gs = new GrowStroke(
+            grow,
+            AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
+                * attr().get(STROKE_MITER_LIMIT));
         g.draw(gs.createStrokedShape(path));
       }
     } else {
@@ -160,17 +158,15 @@ public class BezierFigure extends AbstractAttributedFigure {
   @Override
   protected void drawFill(Graphics2D g) {
     if (isClosed() || attr().get(UNCLOSED_PATH_FILLED)) {
-      double grow =
-          AttributeKeys.getPerpendicularFillGrowth(
-              this, AttributeKeys.getScaleFactorFromGraphics(g));
+      double grow = AttributeKeys.getPerpendicularFillGrowth(
+          this, AttributeKeys.getScaleFactorFromGraphics(g));
       if (grow == 0d) {
         g.fill(path);
       } else {
-        GrowStroke gs =
-            new GrowStroke(
-                grow,
-                AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
-                    * attr().get(STROKE_MITER_LIMIT));
+        GrowStroke gs = new GrowStroke(
+            grow,
+            AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.getScaleFactorFromGraphics(g))
+                * attr().get(STROKE_MITER_LIMIT));
         g.fill(gs.createStrokedShape(path));
       }
     }
@@ -185,11 +181,10 @@ public class BezierFigure extends AbstractAttributedFigure {
         return true;
       }
       double grow = tolerance;
-      GrowStroke gs =
-          new GrowStroke(
-              grow,
-              AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
-                  * attr().get(STROKE_MITER_LIMIT));
+      GrowStroke gs = new GrowStroke(
+          grow,
+          AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
+              * attr().get(STROKE_MITER_LIMIT));
       if (gs.createStrokedShape(path).contains(p)) {
         return true;
       } else {
@@ -584,11 +579,10 @@ public class BezierFigure extends AbstractAttributedFigure {
       if (grow == 0d) {
         return path.chop(p);
       } else {
-        GrowStroke gs =
-            new GrowStroke(
-                grow,
-                AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
-                    * attr().get(STROKE_MITER_LIMIT));
+        GrowStroke gs = new GrowStroke(
+            grow,
+            AttributeKeys.getStrokeTotalWidth(this, AttributeKeys.scaleFromContext(this))
+                * attr().get(STROKE_MITER_LIMIT));
         return Geom.chop(gs.createStrokedShape(path), p);
       }
     } else {
@@ -630,33 +624,31 @@ public class BezierFigure extends AbstractAttributedFigure {
       final int index = splitSegment(p, 5f / view.getScaleFactor());
       if (index != -1) {
         final BezierPath.Node newNode = getNode(index);
-        fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+        fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("edit.bezierPath.splitSegment.text");
-              }
+          @Override
+          public String getPresentationName() {
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("edit.bezierPath.splitSegment.text");
+          }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                willChange();
-                addNode(index, newNode);
-                changed();
-              }
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            willChange();
+            addNode(index, newNode);
+            changed();
+          }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                willChange();
-                removeNode(index);
-                changed();
-              }
-            });
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            willChange();
+            removeNode(index);
+            changed();
+          }
+        });
         changed();
         evt.consume();
         return true;

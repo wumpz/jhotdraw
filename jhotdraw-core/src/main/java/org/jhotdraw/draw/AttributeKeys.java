@@ -199,9 +199,8 @@ public class AttributeKeys {
    *
    * <p>The default value is StrokePlacement.CENTER.
    */
-  public static final AttributeKey<StrokePlacement> STROKE_PLACEMENT =
-      new AttributeKey<>(
-          "strokePlacement", StrokePlacement.class, StrokePlacement.CENTER, false, LABELS);
+  public static final AttributeKey<StrokePlacement> STROKE_PLACEMENT = new AttributeKey<>(
+      "strokePlacement", StrokePlacement.class, StrokePlacement.CENTER, false, LABELS);
 
   /**
    * The value of this attribute is a String object, which is used to display the text of the
@@ -219,13 +218,8 @@ public class AttributeKeys {
       new AttributeKey<>("textShadowColor", Color.class, null, true, LABELS);
 
   /** Text shadow offset. The value of this attribute is a Dimension2DDouble object. */
-  public static final AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET =
-      new AttributeKey<>(
-          "textShadowOffset",
-          Dimension2DDouble.class,
-          new Dimension2DDouble(1d, 1d),
-          false,
-          LABELS);
+  public static final AttributeKey<Dimension2DDouble> TEXT_SHADOW_OFFSET = new AttributeKey<>(
+      "textShadowOffset", Dimension2DDouble.class, new Dimension2DDouble(1d, 1d), false, LABELS);
 
   public static enum Alignment {
     /** align on the left or the top */
@@ -246,9 +240,8 @@ public class AttributeKeys {
    * The value of this attribute is a Font object, which is used as a prototype to create the font
    * for the text.
    */
-  public static final AttributeKey<Font> FONT_FACE =
-      new AttributeKey<>(
-          "fontFace", Font.class, new Font("VERDANA", Font.PLAIN, 10), false, LABELS);
+  public static final AttributeKey<Font> FONT_FACE = new AttributeKey<>(
+      "fontFace", Font.class, new Font("VERDANA", Font.PLAIN, 10), false, LABELS);
 
   /** The value of this attribute is a double object. */
   public static final AttributeKey<Double> FONT_SIZE =
@@ -276,9 +269,8 @@ public class AttributeKeys {
       new AttributeKey<>("startDecoration", LineDecoration.class, null, true, LABELS);
 
   /** The value of this attribute is a Insets2D.Double object. */
-  public static final AttributeKey<Insets2D.Double> DECORATOR_INSETS =
-      new AttributeKey<>(
-          "decoratorInsets", Insets2D.Double.class, new Insets2D.Double(), false, LABELS);
+  public static final AttributeKey<Insets2D.Double> DECORATOR_INSETS = new AttributeKey<>(
+      "decoratorInsets", Insets2D.Double.class, new Insets2D.Double(), false, LABELS);
 
   /**
    * The value of this attribute is a Insets2D.Double object.
@@ -289,9 +281,8 @@ public class AttributeKeys {
    * <p>The insets are used to determine the insets between the bounds of the CompositeFigure and
    * its children.
    */
-  public static final AttributeKey<Insets2D.Double> LAYOUT_INSETS =
-      new AttributeKey<>(
-          "borderInsets", Insets2D.Double.class, new Insets2D.Double(), false, LABELS);
+  public static final AttributeKey<Insets2D.Double> LAYOUT_INSETS = new AttributeKey<>(
+      "borderInsets", Insets2D.Double.class, new Insets2D.Double(), false, LABELS);
 
   /**
    * The value of this attribute is a Alignment object.
@@ -381,41 +372,39 @@ public class AttributeKeys {
 
   static {
     HashSet<AttributeKey<?>> as = new HashSet<>();
-    as.addAll(
-        Arrays.asList(
-            new AttributeKey<?>[] {
-              FILL_COLOR,
-              FILL_UNDER_STROKE,
-              STROKE_COLOR,
-              STROKE_WIDTH,
-              STROKE_INNER_WIDTH_FACTOR,
-              STROKE_JOIN,
-              STROKE_CAP,
-              STROKE_MITER_LIMIT,
-              STROKE_DASHES,
-              STROKE_DASH_PHASE,
-              STROKE_TYPE,
-              STROKE_PLACEMENT,
-              TEXT,
-              TEXT_COLOR,
-              TEXT_SHADOW_COLOR,
-              TEXT_SHADOW_OFFSET,
-              TRANSFORM,
-              FONT_FACE,
-              FONT_SIZE,
-              FONT_BOLD,
-              FONT_ITALIC,
-              FONT_UNDERLINE,
-              BEZIER_PATH_LAYOUTER,
-              END_DECORATION,
-              START_DECORATION,
-              DECORATOR_INSETS,
-              ORIENTATION,
-              WINDING_RULE,
-              IS_STROKE_PIXEL_VALUE,
-              ALIGN_RELATIVE_X,
-              ALIGN_RELATIVE_Y
-            }));
+    as.addAll(Arrays.asList(new AttributeKey<?>[] {
+      FILL_COLOR,
+      FILL_UNDER_STROKE,
+      STROKE_COLOR,
+      STROKE_WIDTH,
+      STROKE_INNER_WIDTH_FACTOR,
+      STROKE_JOIN,
+      STROKE_CAP,
+      STROKE_MITER_LIMIT,
+      STROKE_DASHES,
+      STROKE_DASH_PHASE,
+      STROKE_TYPE,
+      STROKE_PLACEMENT,
+      TEXT,
+      TEXT_COLOR,
+      TEXT_SHADOW_COLOR,
+      TEXT_SHADOW_OFFSET,
+      TRANSFORM,
+      FONT_FACE,
+      FONT_SIZE,
+      FONT_BOLD,
+      FONT_ITALIC,
+      FONT_UNDERLINE,
+      BEZIER_PATH_LAYOUTER,
+      END_DECORATION,
+      START_DECORATION,
+      DECORATOR_INSETS,
+      ORIENTATION,
+      WINDING_RULE,
+      IS_STROKE_PIXEL_VALUE,
+      ALIGN_RELATIVE_X,
+      ALIGN_RELATIVE_Y
+    }));
     SUPPORTED_ATTRIBUTES = Collections.unmodifiableSet(as);
     HashMap<String, AttributeKey<?>> am = new HashMap<>();
     for (AttributeKey<?> a : as) {

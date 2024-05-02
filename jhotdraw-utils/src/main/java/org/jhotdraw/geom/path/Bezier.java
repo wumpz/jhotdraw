@@ -225,14 +225,11 @@ public class Bezier {
     } else {
       segments.add(new ArrayList<>(digitizedPoints.subList(0, cornerIndices.get(0) + 1)));
       for (int i = 1; i < cornerIndices.size(); i++) {
-        segments.add(
-            new ArrayList<>(
-                digitizedPoints.subList(cornerIndices.get(i - 1), cornerIndices.get(i) + 1)));
+        segments.add(new ArrayList<>(
+            digitizedPoints.subList(cornerIndices.get(i - 1), cornerIndices.get(i) + 1)));
       }
-      segments.add(
-          new ArrayList<>(
-              digitizedPoints.subList(
-                  cornerIndices.get(cornerIndices.size() - 1), digitizedPoints.size())));
+      segments.add(new ArrayList<>(digitizedPoints.subList(
+          cornerIndices.get(cornerIndices.size() - 1), digitizedPoints.size())));
     }
     return segments;
   }
@@ -316,10 +313,9 @@ public class Bezier {
       for (int i = 1, n = digitizedPoints.size() - 1; i < n; i++) {
         Point2D.Double cur = digitizedPoints.get(i);
         Point2D.Double next = digitizedPoints.get(i + 1);
-        cleaned.add(
-            new Point2D.Double(
-                cur.x * weight + pnWeight * prev.x + pnWeight * next.x,
-                cur.y * weight + pnWeight * prev.y + pnWeight * next.y));
+        cleaned.add(new Point2D.Double(
+            cur.x * weight + pnWeight * prev.x + pnWeight * next.x,
+            cur.y * weight + pnWeight * prev.y + pnWeight * next.y));
         prev = cur;
       }
       if (digitizedPoints.size() > 1) {
@@ -590,11 +586,10 @@ public class Bezier {
     Q2_u = bezierII(1, Q2, u);
     /* Compute f(u)/f'(u) */
     numerator = (Q_u.x - P.x) * (Q1_u.x) + (Q_u.y - P.y) * (Q1_u.y);
-    denominator =
-        (Q1_u.x) * (Q1_u.x)
-            + (Q1_u.y) * (Q1_u.y)
-            + (Q_u.x - P.x) * (Q2_u.x)
-            + (Q_u.y - P.y) * (Q2_u.y);
+    denominator = (Q1_u.x) * (Q1_u.x)
+        + (Q1_u.y) * (Q1_u.y)
+        + (Q_u.x - P.x) * (Q2_u.x)
+        + (Q_u.y - P.y) * (Q2_u.y);
     /* u = u - f(u)/f'(u) */
     uPrime = u - (numerator / denominator);
     return (uPrime);

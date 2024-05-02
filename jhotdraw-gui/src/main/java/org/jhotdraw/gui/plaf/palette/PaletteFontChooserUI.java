@@ -259,14 +259,12 @@ public class PaletteFontChooserUI extends FontChooserUI {
   private void doCollectionChanged() {
     JList list = selectionPanel.getCollectionList();
     TreePath path = fontChooser.getSelectionPath();
-    FontCollectionNode oldCollection =
-        (path != null && path.getPathCount() > 1)
-            ? (FontCollectionNode) path.getPathComponent(1)
-            : null;
-    FontFamilyNode oldFamily =
-        (path != null && path.getPathCount() > 2)
-            ? (FontFamilyNode) path.getPathComponent(2)
-            : null;
+    FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1)
+        ? (FontCollectionNode) path.getPathComponent(1)
+        : null;
+    FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2)
+        ? (FontFamilyNode) path.getPathComponent(2)
+        : null;
     FontFaceNode oldFace =
         (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
     FontCollectionNode newCollection = (FontCollectionNode) list.getSelectedValue();
@@ -321,14 +319,12 @@ public class PaletteFontChooserUI extends FontChooserUI {
   private void doFamilyChanged() {
     JList list = selectionPanel.getFamilyList();
     TreePath path = fontChooser.getSelectionPath();
-    FontCollectionNode oldCollection =
-        (path != null && path.getPathCount() > 1)
-            ? (FontCollectionNode) path.getPathComponent(1)
-            : null;
-    FontFamilyNode oldFamily =
-        (path != null && path.getPathCount() > 2)
-            ? (FontFamilyNode) path.getPathComponent(2)
-            : null;
+    FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1)
+        ? (FontCollectionNode) path.getPathComponent(1)
+        : null;
+    FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2)
+        ? (FontFamilyNode) path.getPathComponent(2)
+        : null;
     FontFaceNode oldFace =
         (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
     FontCollectionNode newCollection = oldCollection;
@@ -359,14 +355,12 @@ public class PaletteFontChooserUI extends FontChooserUI {
   private void doFaceChanged() {
     JList list = selectionPanel.getFaceList();
     TreePath path = fontChooser.getSelectionPath();
-    FontCollectionNode oldCollection =
-        (path != null && path.getPathCount() > 1)
-            ? (FontCollectionNode) path.getPathComponent(1)
-            : null;
-    FontFamilyNode oldFamily =
-        (path != null && path.getPathCount() > 2)
-            ? (FontFamilyNode) path.getPathComponent(2)
-            : null;
+    FontCollectionNode oldCollection = (path != null && path.getPathCount() > 1)
+        ? (FontCollectionNode) path.getPathComponent(1)
+        : null;
+    FontFamilyNode oldFamily = (path != null && path.getPathCount() > 2)
+        ? (FontFamilyNode) path.getPathComponent(2)
+        : null;
     FontFaceNode oldFace =
         (path != null && path.getPathCount() > 3) ? (FontFaceNode) path.getPathComponent(3) : null;
     FontCollectionNode newCollection = oldCollection;
