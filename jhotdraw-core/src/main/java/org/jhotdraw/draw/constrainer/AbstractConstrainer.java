@@ -7,12 +7,15 @@
  */
 package org.jhotdraw.draw.constrainer;
 
+import java.awt.geom.Point2D;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 /** This abstract class can be extended to implement a {@link Constrainer}. */
-public abstract class AbstractConstrainer implements Constrainer {
+public abstract class AbstractConstrainer implements Constrainer, CoordinateDataReceiver {
 
   private static final long serialVersionUID = 1L;
 
@@ -64,5 +67,71 @@ public abstract class AbstractConstrainer implements Constrainer {
     }
     that.listenerList = new EventListenerList();
     return that;
+  }
+
+  private final Set<AbstractCoordinateConstrainerExtension> coordExtension = new LinkedHashSet<>();
+
+  public void clearCoordConstrainerExtensions() {
+    coordExtension.clear();
+  }
+
+  public void addCoordConstrainerExtension(AbstractCoordinateConstrainerExtension ext) {
+    coordExtension.add(ext);
+  }
+
+  public void removeCoordConstrainerExtension(AbstractCoordinateConstrainerExtension ext) {
+    coordExtension.remove(ext);
+  }
+
+  public <T extends AbstractCoordinateConstrainerExtension> T getCoordConstrainerExtension(
+      Class<T> clazz) {
+    for (AbstractCoordinateConstrainerExtension item : coordExtension) {
+      if (clazz.isInstance(item)) {
+        return (T) item;
+      }
+    }
+    return null;
+  }
+
+  private CoordinateDataSupplier coordinateSupplier = null;
+
+  @Override
+  public void clearCoordinateSupplier() {
+    coordinateSupplier = null;
+  }
+
+  @Override
+  public CoordinateDataSupplier getCoordinateSupplier() {
+    return coordinateSupplier;
+  }
+
+  @Override
+  public void setCoordinateSupplier(CoordinateDataSupplier coordinateSupplier) {
+    this.coordinateSupplier = coordinateSupplier;
+  }
+
+  /**
+   * Constrains this point by extensions. This is used to e.g. contrain angles, distances, ....
+   * To activage this, it has to be included in some constrainPoint methods while implementing
+   * a new Constrainer.
+   *
+   * @param point
+   * @param snapDistance
+   * @return
+   */
+  protected Point2D.Double constrainPointByExtensions(
+      final Point2D.Double point, final double snapDistance) {
+    Point2D.Double snap = point;
+    if (coordinateSupplier != null && !coordExtension.isEmpty()) {
+      CoordinateData cdata =
+          coordinateSupplier.getConstrainerCoordinatesForExtensions(coordExtension);
+
+      for (AbstractCoordinateConstrainerExtension ext : coordExtension) {
+        if (ext.isActive()) {
+          snap = ext.constrainPoint(cdata, snapDistance, snap);
+        }
+      }
+    }
+    return snap;
   }
 }
