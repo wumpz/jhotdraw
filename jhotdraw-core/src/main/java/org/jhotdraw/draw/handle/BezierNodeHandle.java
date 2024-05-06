@@ -20,9 +20,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.constrainer.CoordinateData;
+import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
+import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
@@ -31,7 +35,7 @@ import org.jhotdraw.undo.CompositeEdit;
 import org.jhotdraw.util.ResourceBundleUtil;
 
 /** A {@link Handle} which allows to interactively change a node of a bezier path. */
-public class BezierNodeHandle extends AbstractHandle {
+public class BezierNodeHandle extends AbstractHandle implements CoordinateDataSupplier {
 
   protected int index;
   private CompositeEdit edit;
@@ -125,6 +129,10 @@ public class BezierNodeHandle extends AbstractHandle {
     view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
     oldNode = figure.getNode(index);
     fireHandleRequestSecondaryHandles();
+    if (view.getConstrainer() != null
+        && view.getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.setCoordinateSupplier(this);
+    }
   }
 
   @Override
@@ -200,6 +208,10 @@ public class BezierNodeHandle extends AbstractHandle {
       }
     });
     view.getDrawing().fireUndoableEditHappened(edit);
+    if (view.getConstrainer() != null
+        && view.getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.clearCoordinateSupplier();
+    }
   }
 
   @Override
@@ -383,5 +395,15 @@ public class BezierNodeHandle extends AbstractHandle {
         fireHandleRequestRemove(invalidatedArea);
         break;
     }
+  }
+
+  @Override
+  public CoordinateData getConstrainerCoordinates(int before, int after) {
+    if (this.getOwner() == null) return null;
+    List<Point2D.Double> list = new ArrayList<>();
+    for (int idx = 0; idx < this.getOwner().getNodeCount(); idx++) {
+      list.add(this.getOwner().getPoint(idx));
+    }
+    return new CoordinateData(list.toArray(Point2D.Double[]::new), index);
   }
 }

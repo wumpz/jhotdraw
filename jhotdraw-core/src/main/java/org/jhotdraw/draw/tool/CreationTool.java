@@ -14,6 +14,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -22,6 +24,9 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.constrainer.CoordinateData;
+import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
+import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.util.ResourceBundleUtil;
@@ -56,7 +61,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@code Figure} extends the {@code Cloneable} interface. <br>
  * Prototype: {@link Figure}; Client: {@link CreationTool}. <hr>
  */
-public class CreationTool extends AbstractTool {
+public class CreationTool extends AbstractTool implements CoordinateDataSupplier {
 
   private static final long serialVersionUID = 1L;
 
@@ -166,22 +171,25 @@ public class CreationTool extends AbstractTool {
   @Override
   public void activate(DrawingEditor editor) {
     super.activate(editor);
-    if (getView() != null) {
-      getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    if (getView().getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.setCoordinateSupplier(this);
     }
   }
 
   @Override
   public void deactivate(DrawingEditor editor) {
     super.deactivate(editor);
-    if (getView() != null) {
-      getView().setCursor(Cursor.getDefaultCursor());
-    }
+    getView().setCursor(Cursor.getDefaultCursor());
     if (createdFigure != null) {
       if (createdFigure instanceof CompositeFigure) {
         ((CompositeFigure) createdFigure).layout(getView().getScaleFactor());
       }
       createdFigure = null;
+    }
+    if (getView().getConstrainer() != null
+        && getView().getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.clearCoordinateSupplier();
     }
   }
 
@@ -325,5 +333,21 @@ public class CreationTool extends AbstractTool {
     } else {
       view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }
+  }
+
+  @Override
+  public CoordinateData getConstrainerCoordinates(int before, int after) {
+    if (this.createdFigure == null) {
+      return null;
+    }
+    var b = this.createdFigure.getBounds();
+
+    List<Point2D.Double> list = new ArrayList<>();
+    list.add(new Point2D.Double(b.x, b.y));
+    if (b.width != 0 || b.height != 0) {
+      list.add(new Point2D.Double(b.x + b.width, b.y + b.height));
+    }
+
+    return new CoordinateData(list.toArray(Point2D.Double[]::new), list.size());
   }
 }

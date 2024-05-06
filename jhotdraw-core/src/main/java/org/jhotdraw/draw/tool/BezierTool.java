@@ -15,6 +15,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
@@ -23,6 +25,9 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.constrainer.CoordinateData;
+import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
+import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
@@ -36,7 +41,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * <p>To creation of the BezierFigure can be finished by adding a segment which closes the path, or
  * by double clicking on the drawing area, or by selecting a different tool in the DrawingEditor.
  */
-public class BezierTool extends AbstractTool {
+public class BezierTool extends AbstractTool implements CoordinateDataSupplier {
 
   private static final long serialVersionUID = 1L;
 
@@ -103,6 +108,9 @@ public class BezierTool extends AbstractTool {
   public void activate(DrawingEditor editor) {
     super.activate(editor);
     getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    if (getView().getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.setCoordinateSupplier(this);
+    }
   }
 
   @Override
@@ -120,6 +128,10 @@ public class BezierTool extends AbstractTool {
       }
       finishCreation(createdFigure, creationView);
       createdFigure = null;
+    }
+    if (getView().getConstrainer() != null
+        && getView().getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.clearCoordinateSupplier();
     }
   }
 
@@ -378,5 +390,17 @@ public class BezierTool extends AbstractTool {
 
   public boolean isToolDoneAfterCreation() {
     return isToolDoneAfterCreation;
+  }
+
+  @Override
+  public CoordinateData getConstrainerCoordinates(int before, int after) {
+    if (this.createdFigure == null) {
+      return null;
+    }
+    List<Point2D.Double> list = new ArrayList<>();
+    for (int idx = 0; idx < this.createdFigure.getNodeCount(); idx++) {
+      list.add(this.createFigure().getPoint(idx));
+    }
+    return new CoordinateData(list.toArray(Point2D.Double[]::new), list.size());
   }
 }

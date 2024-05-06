@@ -115,6 +115,9 @@ public abstract class AbstractConstrainer implements Constrainer, CoordinateData
    * To activage this, it has to be included in some constrainPoint methods while implementing
    * a new Constrainer.
    *
+   * The main procedure here is, that drawing tools are able to provide points while drawing. Mainly
+   * all CoordinateDataSuppliers are used. To add one you need to set it using setCoordinateSupplier.
+   *
    * @param point
    * @param snapDistance
    * @return
