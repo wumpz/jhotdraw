@@ -322,4 +322,16 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     }
     return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
   }
+
+  @Override
+  public void changed() {
+    if (presentationFigure != null) presentationFigure.changed();
+    super.changed();
+  }
+
+  @Override
+  public void willChange() {
+    super.willChange();
+    if (presentationFigure != null) presentationFigure.willChange();
+  }
 }
