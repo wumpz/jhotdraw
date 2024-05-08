@@ -56,8 +56,7 @@ public class PathLabelLocator implements Locator {
 
   @Override
   public Locator.Position locate(Figure owner, double scale) {
-    if ( owner instanceof PathLocatorBase path)
-    return getRelativePoint(path, scale);
+    if (owner instanceof PathLocatorBase path) return getRelativePoint(path, scale);
     else return returnBoundsCenter(owner);
   }
 
@@ -87,8 +86,7 @@ public class PathLabelLocator implements Locator {
 
   @Override
   public Locator.Position locate(Figure owner, Figure label, double scale) {
-    if ( owner instanceof PathLocatorBase path)
-    return getRelativeLabelPoint(path, label, scale);
+    if (owner instanceof PathLocatorBase path) return getRelativeLabelPoint(path, label, scale);
     else return returnBoundsCenter(owner);
   }
 
@@ -111,9 +109,10 @@ public class PathLabelLocator implements Locator {
   }
 
   /**
-   * Returns a Point2D.Double on the polyline that is at the provided 
+   * Returns a Point2D.Double on the polyline that is at the provided
    */
-  protected Locator.Position getRelativeLabelPoint(PathLocatorBase owner, Figure label, double scale) {
+  protected Locator.Position getRelativeLabelPoint(
+      PathLocatorBase owner, Figure label, double scale) {
     // Get a point on the path an the next point on the path
     Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
     Locator.Position position = getRelativePoint(owner, scale);
@@ -130,7 +129,8 @@ public class PathLabelLocator implements Locator {
     if (relativePosition == 0.5 && p.x >= point.x - distance / 2 && p.x <= point.x + distance / 2) {
       if (p.y >= point.y) {
         // South East
-        return new Locator.Position(new Point2D.Double(p.x - labelDim.width / 2, p.y), position.angle());
+        return new Locator.Position(
+            new Point2D.Double(p.x - labelDim.width / 2, p.y), position.angle());
       } else {
         // North East
         return new Locator.Position(
@@ -143,12 +143,14 @@ public class PathLabelLocator implements Locator {
           return new Locator.Position(new Point2D.Double(p.x, p.y), position.angle());
         } else {
           // North East
-          return new Locator.Position(new Point2D.Double(p.x, p.y - labelDim.height), position.angle());
+          return new Locator.Position(
+              new Point2D.Double(p.x, p.y - labelDim.height), position.angle());
         }
       } else {
         if (p.y >= point.y) {
           // South West
-          return new Locator.Position(new Point2D.Double(p.x - labelDim.width, p.y), position.angle());
+          return new Locator.Position(
+              new Point2D.Double(p.x - labelDim.width, p.y), position.angle());
         } else {
           // North West
           return new Locator.Position(
@@ -160,6 +162,6 @@ public class PathLabelLocator implements Locator {
 
   private Position returnBoundsCenter(Figure owner) {
     var bounds = owner.getBounds();
-    return new Locator.Position( new Point2D.Double(bounds.getCenterX(), bounds.getCenterY()), 0);
+    return new Locator.Position(new Point2D.Double(bounds.getCenterX(), bounds.getCenterY()), 0);
   }
 }

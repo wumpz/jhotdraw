@@ -34,14 +34,19 @@ public class BezierLabelLocator extends PathLabelLocator {
   public BezierLabelLocator(double relativePosition, double angle, double distance) {
     super(relativePosition, angle, distance);
   }
-  
+
   @Override
   public Locator.Position locate(Figure owner, double scale) {
-    return getRelativePoint((double relative, double tolerance) -> ((BezierFigure) owner).getPointOnPath(relative, 3), scale);
+    return getRelativePoint(
+        (double relative, double tolerance) -> ((BezierFigure) owner).getPointOnPath(relative, 3),
+        scale);
   }
 
   @Override
   public Locator.Position locate(Figure owner, Figure label, double scale) {
-    return getRelativeLabelPoint((double relative, double tolerance) -> ((BezierFigure) owner).getPointOnPath(relative, 3), label, scale);
-  }  
+    return getRelativeLabelPoint(
+        (double relative, double tolerance) -> ((BezierFigure) owner).getPointOnPath(relative, 3),
+        label,
+        scale);
+  }
 }
