@@ -92,9 +92,9 @@ public class LinearLabelLocator implements Locator {
 
   /** Returns the coordinates of the relative point on the path of the specified path. */
   protected Locator.Position getRelativePoint(LinearLocatorBase owner, double scale) {
-    Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
+    Point2D.Double point = owner.getPointOnPath(relativePosition, 0.1);
     Point2D.Double nextPoint = owner.getPointOnPath(
-        (relativePosition < 0.5) ? relativePosition + 0.1d : relativePosition - 0.1d, 3);
+        (relativePosition < 0.5) ? relativePosition + 0.1d : relativePosition - 0.1d, 0.1);
     double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
     if (relativePosition >= 0.5) {
       dir += Math.PI;
@@ -114,7 +114,7 @@ public class LinearLabelLocator implements Locator {
   protected Locator.Position getRelativeLabelPoint(
       LinearLocatorBase owner, Figure label, double scale) {
     // Get a point on the path an the next point on the path
-    Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
+    Point2D.Double point = owner.getPointOnPath(relativePosition, 0.1);
     Locator.Position position = getRelativePoint(owner, scale);
 
     // If there is a fixed origin, this locator should move the origin the the boundary midth.
