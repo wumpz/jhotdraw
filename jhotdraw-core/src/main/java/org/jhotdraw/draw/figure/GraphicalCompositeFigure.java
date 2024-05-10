@@ -212,10 +212,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    */
   @Override
   public void transform(AffineTransform tx) {
-    super.transform(tx);
     if (getPresentationFigure() != null) {
       getPresentationFigure().transform(tx);
     }
+    super.transform(tx);
   }
 
   @Override

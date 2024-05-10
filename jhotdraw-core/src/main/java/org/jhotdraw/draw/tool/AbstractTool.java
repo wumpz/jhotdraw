@@ -463,4 +463,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   public boolean supportsHandleInteraction() {
     return false;
   }
+
+  protected Figure processCreatedFigureBeforeAddingToDocument(Figure figure) {
+    return figure;
+  }
 }

@@ -174,6 +174,7 @@ public class BezierTool extends AbstractTool implements CoordinateDataSupplier {
     nodeCountBeforeDrag = createdFigure.getNodeCount();
   }
 
+  @Override
   protected Figure processCreatedFigureBeforeAddingToDocument(Figure figure) {
     addedFigure = figure;
     return figure;
