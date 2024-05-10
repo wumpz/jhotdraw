@@ -25,19 +25,19 @@ import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.geom.Dimension2DDouble;
 
 /**
- * A {@link Locator} which can be used to place a label on the path of a path like structure. {@link PathLocatorBase}.
+ * A {@link Locator} which can be used to place a label on the path of a path like structure. {@link LinearLocatorBase}.
  *
  * <p>The point is located at a distance and an angle relative to the total length of the bezier path.
  *
  * <p>The angle should is perpendicular to the path.
  */
-public class PathLabelLocator implements Locator {
+public class LinearLabelLocator implements Locator {
 
   private double relativePosition;
   private double angle;
   private double distance;
 
-  public PathLabelLocator() {}
+  public LinearLabelLocator() {}
 
   /**
    * Creates a new locator.
@@ -48,7 +48,7 @@ public class PathLabelLocator implements Locator {
    * @param angle The angle of the distance vector.
    * @param distance The length of the distance vector.
    */
-  public PathLabelLocator(double relativePosition, double angle, double distance) {
+  public LinearLabelLocator(double relativePosition, double angle, double distance) {
     this.relativePosition = relativePosition;
     this.angle = angle;
     this.distance = distance;
@@ -56,7 +56,7 @@ public class PathLabelLocator implements Locator {
 
   @Override
   public Locator.Position locate(Figure owner, double scale) {
-    if (owner instanceof PathLocatorBase path) return getRelativePoint(path, scale);
+    if (owner instanceof LinearLocatorBase path) return getRelativePoint(path, scale);
     else return returnBoundsCenter(owner);
   }
 
@@ -86,12 +86,12 @@ public class PathLabelLocator implements Locator {
 
   @Override
   public Locator.Position locate(Figure owner, Figure label, double scale) {
-    if (owner instanceof PathLocatorBase path) return getRelativeLabelPoint(path, label, scale);
+    if (owner instanceof LinearLocatorBase path) return getRelativeLabelPoint(path, label, scale);
     else return returnBoundsCenter(owner);
   }
 
   /** Returns the coordinates of the relative point on the path of the specified path. */
-  protected Locator.Position getRelativePoint(PathLocatorBase owner, double scale) {
+  protected Locator.Position getRelativePoint(LinearLocatorBase owner, double scale) {
     Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
     Point2D.Double nextPoint = owner.getPointOnPath(
         (relativePosition < 0.5) ? relativePosition + 0.1d : relativePosition - 0.1d, 3);
@@ -112,7 +112,7 @@ public class PathLabelLocator implements Locator {
    * Returns a Point2D.Double on the polyline that is at the provided
    */
   protected Locator.Position getRelativeLabelPoint(
-      PathLocatorBase owner, Figure label, double scale) {
+      LinearLocatorBase owner, Figure label, double scale) {
     // Get a point on the path an the next point on the path
     Point2D.Double point = owner.getPointOnPath(relativePosition, 3);
     Locator.Position position = getRelativePoint(owner, scale);
@@ -160,7 +160,7 @@ public class PathLabelLocator implements Locator {
     }
   }
 
-  private Position returnBoundsCenter(Figure owner) {
+  public static final Position returnBoundsCenter(Figure owner) {
     var bounds = owner.getBounds();
     return new Locator.Position(new Point2D.Double(bounds.getCenterX(), bounds.getCenterY()), 0);
   }

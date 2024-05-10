@@ -23,9 +23,12 @@ import java.awt.geom.Point2D;
 /**
  * Tooling around path like geometries.
  */
-public interface PathLocatorBase {
+public interface LinearLocatorBase {
   /**
    * Extracts point at a relative position mainly to place a label there.
+   * @param relative
+   * @param tolerance
+   * @return
    */
   Point2D.Double getPointOnPath(double relative, double tolerance);
 }

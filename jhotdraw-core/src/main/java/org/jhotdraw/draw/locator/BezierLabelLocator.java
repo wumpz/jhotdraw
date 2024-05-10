@@ -18,7 +18,7 @@ import org.jhotdraw.draw.figure.Figure;
  *
  * <p>XXX - The angle should be perpendicular to the path.
  */
-public class BezierLabelLocator extends PathLabelLocator {
+public class BezierLabelLocator extends LinearLabelLocator {
   /** For write/read. */
   public BezierLabelLocator() {}
 
