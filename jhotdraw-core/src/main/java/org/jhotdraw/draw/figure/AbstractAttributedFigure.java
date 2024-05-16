@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.figure;
 
+import java.awt.Color;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
 import java.awt.Cursor;
@@ -77,7 +78,12 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   @Override
   public void draw(Graphics2D g) {
     if (attr().get(FILL_COLOR) != null) {
-      g.setColor(attr().get(FILL_COLOR));
+      var fillColor = attr().get(FILL_COLOR);
+      Float opacity = attr().get(OPACITY);
+      if ( opacity < 1) {
+        fillColor = new Color(fillColor.getRGB() & 0xfffff | ((int) (opacity * 256) << 24), true);
+      }
+      g.setColor(fillColor);
       drawFill(g);
     }
     if (attr().get(STROKE_COLOR) != null && attr().get(STROKE_WIDTH) >= 0d) {

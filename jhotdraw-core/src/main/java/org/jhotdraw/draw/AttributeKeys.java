@@ -66,6 +66,12 @@ public class AttributeKeys {
   public static final AttributeKey<Color> FILL_COLOR =
       new AttributeKey<>("fillColor", Color.class, Color.white, true, LABELS);
 
+  /**
+   * Figure opacity. The value of this attribute is the opacity / transparency value from 0 (transparent) - 1 (opaque) .
+   */
+  public static final AttributeKey<Float> OPACITY =
+      new AttributeKey<>("opacity", Float.class, 1f, true, LABELS);
+
   /** Whether to path a BezierFigure is closed. The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> PATH_CLOSED =
       new AttributeKey<>("pathClosed", Boolean.class, false, false, LABELS);
