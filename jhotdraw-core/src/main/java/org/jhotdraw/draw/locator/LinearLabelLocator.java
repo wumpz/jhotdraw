@@ -110,6 +110,7 @@ public class LinearLabelLocator implements Locator {
 
   /**
    * Returns a Point2D.Double on the polyline that is at the provided
+   * @return
    */
   protected Locator.Position getRelativeLabelPoint(
       LinearLocatorBase owner, Figure label, double scale) {

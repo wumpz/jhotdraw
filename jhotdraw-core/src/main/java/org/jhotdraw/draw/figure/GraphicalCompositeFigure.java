@@ -129,7 +129,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   }
 
   /**
-   * Return the logcal display area. This method is delegated to the encapsulated presentation
+   * Return the logical display area. This method is delegated to the encapsulated presentation
    * figure.
    */
   @Override
@@ -331,7 +331,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
 
   @Override
   public void willChange() {
-    super.willChange();
     if (presentationFigure != null) presentationFigure.willChange();
+    super.willChange();
   }
 }
