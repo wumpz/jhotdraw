@@ -7,9 +7,9 @@
  */
 package org.jhotdraw.draw.figure;
 
-import java.awt.Color;
 import static org.jhotdraw.draw.AttributeKeys.*;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -80,8 +80,8 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     if (attr().get(FILL_COLOR) != null) {
       var fillColor = attr().get(FILL_COLOR);
       Float opacity = attr().get(OPACITY);
-      if ( opacity < 1) {
-        fillColor = new Color(fillColor.getRGB() & 0xfffff | ((int) (opacity * 256) << 24), true);
+      if (opacity < 1) {
+        fillColor = new Color(fillColor.getRGB() & 0xffffff | ((int) (opacity * 256) << 24), true);
       }
       g.setColor(fillColor);
       drawFill(g);
