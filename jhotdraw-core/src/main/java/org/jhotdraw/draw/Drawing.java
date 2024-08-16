@@ -14,7 +14,7 @@ import java.util.*;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.event.DrawingListener;
-import org.jhotdraw.draw.figure.Attributes;
+import org.jhotdraw.draw.figure.AttributeProvider;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
@@ -75,9 +75,7 @@ import org.jhotdraw.draw.io.OutputFormat;
  * streams.<br>
  * Strategy: {@link org.jhotdraw.draw.io.InputFormat}; Context: {@link Drawing}. <hr>
  */
-public interface Drawing {
-
-  Attributes attr();
+public interface Drawing extends AttributeProvider {
 
   /** Returns an unchangeable list view on the children. */
   public java.util.List<Figure> getChildren();
