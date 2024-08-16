@@ -351,8 +351,14 @@ public class AttributeKeys {
 
   public static final AttributeKey<ScaleProvider> SCALE_PROVIDER =
       new AttributeKey<>("scaleProvider", ScaleProvider.class, ScaleProvider.from(() -> 1.0));
+  
+  public static final AttributeKey<UserData> USER_DATA =
+      new AttributeKey<>("userData", UserData.class, new UserData(), true);
 
-  /** Helper class due to Java is not able to infere type into AttributeKey. */
+  /** 
+   * Helper class due to Java is not able to infere type into AttributeKey. 
+   * ScaleProvider delivers the actual scale of the presentation of a figure or a DocumentView.
+   */
   public static class ScaleProvider {
 
     private final Supplier<Double> scaleProvider;
@@ -368,6 +374,28 @@ public class AttributeKeys {
 
     public static final ScaleProvider from(Supplier<Double> scaleProvider) {
       return new ScaleProvider(scaleProvider);
+    }
+  }
+  
+  /** 
+   * Helper class due to Java is not able to infere type into AttributeKey. 
+   * UserData allows to add unstructured data to a Drawing or a Figure without having 
+   * to specifiy it as JHotDraw attributes. JHotDraw will not process this data
+   * in any way. 
+   */
+  public static class UserData {
+    private final Map<String, Object> data = new HashMap<>();
+    
+    public Map<String, Object> data() {
+        return data;
+    }
+    
+    public Object getOrDefault(String name, Object defValue) {
+      return data.getOrDefault(name, defValue);
+    }
+    
+    public Object set(String name, Object value) {
+      return data.put(name, value);
     }
   }
 
