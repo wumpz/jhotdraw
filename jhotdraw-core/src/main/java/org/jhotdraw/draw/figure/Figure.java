@@ -287,6 +287,16 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
   public boolean isTransformable();
 
   /**
+   * Was the underlying figure modified though some kind of manual or programmatic action.
+   */
+  public boolean isModified();
+  
+  /**
+   * Reset modified status of this figure.
+   */
+  public void resetModified();
+
+  /**
    * Creates handles used to manipulate the figure.
    *
    * @param detailLevel The detail level of the handles. Usually this is 0 for bounding box handles

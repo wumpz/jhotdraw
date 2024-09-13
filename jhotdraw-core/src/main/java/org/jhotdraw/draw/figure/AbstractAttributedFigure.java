@@ -201,6 +201,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   private boolean modified = false;
 
+  @Override
   public final boolean isModified() {
     return modified;
   }
