@@ -290,7 +290,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * Was the underlying figure modified though some kind of manual or programmatic action.
    */
   public boolean isModified();
-  
+
   /**
    * Reset modified status of this figure.
    */

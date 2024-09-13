@@ -162,6 +162,21 @@ public class AttributeKey<T> implements Serializable {
   }
 
   /**
+   * Gets the value of the attribute denoted by this AttributeKey from a Map.
+   * If the value is not there, it will be included into the attributes list
+   * with the default value und then this value is returned.
+   *
+   * @param a A Map.
+   * @return The value of the attribute.
+   */
+  public T getAndInclude(Map<AttributeKey<?>, Object> a) {
+    if (a.containsKey(this)) return (T) a.get(this);
+
+    a.put(this, defaultValue);
+    return defaultValue;
+  }
+
+  /**
    * Convenience method for setting a value on a Figure.
    *
    * <p>Note: Unlike in previous versions of JHotDraw 7, this method does not call {@code

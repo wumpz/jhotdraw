@@ -165,6 +165,17 @@ public final class Attributes {
     return key.get(attributes);
   }
 
+  /**
+   * Gets an attribute from the Figure. Includes this attribute, if it was not there.
+   *
+   * @see AttributeKey#get
+   * @return Returns the attribute value. If the Figure does not have an attribute with the
+   *     specified key, returns key.getDefaultValue().
+   */
+  public <T> T getAndInclude(AttributeKey<T> key) {
+    return key.getAndInclude(attributes);
+  }
+
   public static AttributeKey<?> getAttributeKey(String name) {
     return AttributeKeys.SUPPORTED_ATTRIBUTES_MAP.get(name);
   }

@@ -42,9 +42,18 @@ public class AttributesTest {
 
     attrRestored.restoreAttributesTo(backup);
 
-    assertEquals(1.5, attrRestored.get(AttributeKeys.STROKE_WIDTH).doubleValue());
+    assertEquals(1.5, attrRestored.get(AttributeKeys.STROKE_WIDTH));
     assertEquals(
         attr.get(AttributeKeys.STROKE_WIDTH).doubleValue(),
         attrRestored.get(AttributeKeys.STROKE_WIDTH).doubleValue());
+  }
+
+  @Test
+  public void testGetAndInclude() {
+    Attributes attr = new Attributes();
+    assertThat(attr.getAttributes()).isEmpty();
+    assertEquals(1.0, attr.getAndInclude(AttributeKeys.STROKE_WIDTH));
+    assertThat(attr.getAttributes()).isNotEmpty();
+    attr.getAttributes().containsKey(AttributeKeys.STROKE_WIDTH);
   }
 }
