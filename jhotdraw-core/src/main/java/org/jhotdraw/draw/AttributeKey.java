@@ -9,6 +9,7 @@ package org.jhotdraw.draw;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.function.Supplier;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.Figure;
@@ -40,6 +41,9 @@ public class AttributeKey<T> implements Serializable {
   /** Holds the default value. */
   private T defaultValue;
 
+  // for e.g. new instances of a default value, this could be used
+  private Supplier<T> defaultValueSupplier;
+
   /** Specifies whether null values are allowed. */
   private boolean isNullValueAllowed;
 
@@ -57,7 +61,7 @@ public class AttributeKey<T> implements Serializable {
    * and allowing null values.
    */
   public AttributeKey(String key, Class<T> clazz) {
-    this(key, clazz, null, true);
+    this(key, clazz, (T) null, true);
   }
 
   /**
@@ -74,6 +78,11 @@ public class AttributeKey<T> implements Serializable {
    */
   public AttributeKey(String key, Class<T> clazz, T defaultValue, boolean isNullValueAllowed) {
     this(key, clazz, defaultValue, isNullValueAllowed, null);
+  }
+
+  public AttributeKey(
+      String key, Class<T> clazz, boolean isNullValueAllowed, Supplier<T> defaultValueSupplier) {
+    this(key, clazz, isNullValueAllowed, null, defaultValueSupplier);
   }
 
   /**
@@ -95,6 +104,20 @@ public class AttributeKey<T> implements Serializable {
     this.key = key;
     this.clazz = clazz;
     this.defaultValue = defaultValue;
+    this.isNullValueAllowed = isNullValueAllowed;
+    this.labels =
+        (labels == null) ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels") : labels;
+  }
+
+  public AttributeKey(
+      String key,
+      Class<T> clazz,
+      boolean isNullValueAllowed,
+      ResourceBundleUtil labels,
+      Supplier<T> defaultValueSupplier) {
+    this.key = key;
+    this.clazz = clazz;
+    this.defaultValueSupplier = defaultValueSupplier;
     this.isNullValueAllowed = isNullValueAllowed;
     this.labels =
         (labels == null) ? ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels") : labels;
@@ -124,6 +147,7 @@ public class AttributeKey<T> implements Serializable {
    * @return the default value.
    */
   public T getDefaultValue() {
+    if (defaultValueSupplier != null) return defaultValueSupplier.get();
     return defaultValue;
   }
 
@@ -158,7 +182,7 @@ public class AttributeKey<T> implements Serializable {
    */
   @SuppressWarnings("unchecked")
   public T get(Map<AttributeKey<?>, Object> a) {
-    return a.containsKey(this) ? (T) a.get(this) : defaultValue;
+    return a.containsKey(this) ? (T) a.get(this) : getDefaultValue();
   }
 
   /**
@@ -172,8 +196,9 @@ public class AttributeKey<T> implements Serializable {
   public T getAndInclude(Map<AttributeKey<?>, Object> a) {
     if (a.containsKey(this)) return (T) a.get(this);
 
-    a.put(this, defaultValue);
-    return defaultValue;
+    T dv = getDefaultValue();
+    a.put(this, dv);
+    return dv;
   }
 
   /**

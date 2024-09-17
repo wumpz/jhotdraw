@@ -353,7 +353,7 @@ public class AttributeKeys {
       new AttributeKey<>("scaleProvider", ScaleProvider.class, ScaleProvider.from(() -> 1.0));
 
   public static final AttributeKey<UserData> USER_DATA =
-      new AttributeKey<>("userData", UserData.class, new UserData(), true);
+      new AttributeKey<>("userData", UserData.class, true, () -> new UserData());
 
   /**
    * Helper class due to Java is not able to infere type into AttributeKey.
