@@ -27,6 +27,7 @@ import org.jhotdraw.action.edit.PasteAction;
 import org.jhotdraw.action.edit.SelectAllAction;
 import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.AttributeKey;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
@@ -175,9 +176,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   @SuppressWarnings("unchecked")
   @Override
   public void applyDefaultAttributesTo(Figure f) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
-      f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
+		f.attr().setAttributes(defaultAttributes);
   }
 
   @Override

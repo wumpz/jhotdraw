@@ -284,9 +284,7 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
     Figure f = prototype.clone();
     getEditor().applyDefaultAttributesTo(f);
     if (prototypeAttributes != null) {
-      for (Map.Entry<AttributeKey<?>, Object> entry : prototypeAttributes.entrySet()) {
-        f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-      }
+      f.attr().setAttributes(prototypeAttributes);
     }
     return f;
   }

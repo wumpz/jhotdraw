@@ -83,9 +83,18 @@ public final class Attributes {
     return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
   }
 
+  /**
+   * Copy attribute values from a map of attribute values. This detects also the use of
+   * UserData sub maps and copy only those values and creates a new instance of UserData itself.
+   * @param map
+   */
   public void setAttributes(Map<AttributeKey<?>, Object> map) {
     for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+      if (entry.getValue() instanceof AttributeKeys.UserData ud) {
+        getAndInclude(AttributeKeys.USER_DATA).data().putAll(ud.data());
+      } else {
+        set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+      }
     }
   }
 

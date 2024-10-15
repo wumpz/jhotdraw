@@ -56,4 +56,24 @@ public class AttributesTest {
     assertThat(attr.getAttributes()).isNotEmpty();
     attr.getAttributes().containsKey(AttributeKeys.STROKE_WIDTH);
   }
+
+  @Test
+  void testCopyAttributesIncludingUserData() {
+    Attributes attr = new Attributes();
+    attr.set(AttributeKeys.STROKE_WIDTH, 1.5);
+    attr.getAndInclude(AttributeKeys.USER_DATA).data().put("var", "value");
+
+    Attributes attrNew = new Attributes();
+    attrNew.setAttributes(attr.getAttributes());
+
+    attr.set(AttributeKeys.STROKE_WIDTH, 2.0);
+    attr.get(AttributeKeys.USER_DATA).data().put("var", "value2");
+
+    // ensure that the values are valid and no instance was copy to the new Attribute container
+    assertEquals(attrNew.get(AttributeKeys.STROKE_WIDTH).doubleValue(), 1.5f);
+    assertEquals(attr.get(AttributeKeys.STROKE_WIDTH).doubleValue(), 2.0f);
+
+    assertEquals(attrNew.get(AttributeKeys.USER_DATA).data().get("var"), "value");
+    assertEquals(attr.get(AttributeKeys.USER_DATA).data().get("var"), "value2");
+  }
 }
