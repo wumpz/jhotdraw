@@ -26,6 +26,8 @@ public interface DrawingListener extends EventListener {
 
   void figureRemoved(DrawingEvent e);
 
+  void figureChanged(DrawingEvent e);
+
   void drawingChanged(DrawingEvent e);
 
   void drawingAttributeChanged(DrawingEvent e);

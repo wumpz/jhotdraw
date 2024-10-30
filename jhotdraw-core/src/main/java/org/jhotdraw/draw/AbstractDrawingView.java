@@ -224,6 +224,9 @@ public abstract class AbstractDrawingView implements DrawingView, EditableCompon
     }
 
     @Override
+    public void figureChanged(DrawingEvent e) {}
+
+    @Override
     public void areaInvalidated(HandleEvent evt) {
       repaint(evt.getInvalidatedArea());
     }

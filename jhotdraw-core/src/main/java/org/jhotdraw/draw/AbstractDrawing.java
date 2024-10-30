@@ -372,6 +372,12 @@ public abstract class AbstractDrawing implements Drawing {
         () -> new DrawingEvent(this, index, figure));
   }
 
+  protected void fireFigureChanged(Figure figure, int index) {
+    fireDrawingEvent(
+        (listener, event) -> listener.figureChanged(event),
+        () -> new DrawingEvent(this, index, figure));
+  }
+
   protected int getChangingDepth() {
     return changingDepth;
   }

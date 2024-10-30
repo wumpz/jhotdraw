@@ -301,6 +301,9 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
         //          repaintDrawingArea(e.getInvalidatedArea());
       }
     }
+
+    @Override
+    public void figureChanged(DrawingEvent e) {}
   }
 
   private EventHandler eventHandler;
