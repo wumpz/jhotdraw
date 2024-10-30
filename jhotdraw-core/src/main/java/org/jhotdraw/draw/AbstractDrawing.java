@@ -414,7 +414,7 @@ public abstract class AbstractDrawing implements Drawing {
 
     @Override
     public void figureChanged(FigureEvent e) {
-			fireFigureChanged(e.getFigure(), 0);
+      fireFigureChanged(e.getFigure(), 0);
       if (!isChanging()) {
         Rectangle2D.Double invalidatedArea = getDrawingArea();
         invalidatedArea.add(e.getInvalidatedArea());
