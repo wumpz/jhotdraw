@@ -312,7 +312,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
     @Override
     public void figureChanged(FigureEvent e) {
-			fireFigureChanged(e.getFigure(), 0);
+      fireFigureChanged(e.getFigure(), 0);
       if (!isChanging()) {
         quadTree.remove(e.getFigure());
         quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());
