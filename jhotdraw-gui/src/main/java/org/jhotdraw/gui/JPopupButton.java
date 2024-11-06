@@ -259,7 +259,7 @@ public class JPopupButton extends javax.swing.JButton {
   }
 
   protected void togglePopup(java.awt.event.MouseEvent evt) {
-    if (popupMenu != null && popupMenu.isShowing() || popupBecameInvisible >= evt.getWhen()) {
+    if (isEnabled() == false || popupMenu != null && popupMenu.isShowing() || popupBecameInvisible >= evt.getWhen()) {
       popupMenu.setVisible(false);
     } else {
       showPopup(evt);
@@ -322,7 +322,7 @@ public class JPopupButton extends javax.swing.JButton {
 
   private void performAction(java.awt.event.MouseEvent evt) { // GEN-FIRST:event_performAction
     // Add your handling code here:
-    if (actionArea != null
+    if (isEnabled() && actionArea != null
         && actionArea.contains(evt.getX() - getInsets().left, evt.getY() - getInsets().top)) {
       action.actionPerformed(new ActionEvent(
           this, ActionEvent.ACTION_PERFORMED, null, evt.getWhen(), evt.getModifiers()));
