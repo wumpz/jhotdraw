@@ -32,6 +32,16 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
   private static final long serialVersionUID = 1L;
   private DrawingEditor target;
 
+  @Override
+  public void resetDefaultAttributes(Map<AttributeKey<?>, Object> attributes) {
+    target.resetDefaultAttributes(attributes);
+  }
+
+  @Override
+  public void removeDefaultAttribute(AttributeKey key) {
+    target.removeDefaultAttribute(key);
+  }
+
   private class Forwarder implements PropertyChangeListener, Serializable {
 
     private static final long serialVersionUID = 1L;

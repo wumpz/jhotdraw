@@ -155,6 +155,18 @@ public interface DrawingEditor {
   public Map<AttributeKey<?>, Object> getDefaultAttributes();
 
   /**
+   * Replace all default attributes by a preset.
+   * @param attributes
+   */
+  public void resetDefaultAttributes(Map<AttributeKey<?>, Object> attributes);
+
+  /**
+   * Remove a default attribute.
+   * @param key
+   */
+  public void removeDefaultAttribute(AttributeKey key);
+
+  /**
    * Sets a handle attribute of the editor. The default attribute will be used by creation tools, to
    * create a new figure.
    *

@@ -194,6 +194,12 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   }
 
   @Override
+  public final void removeDefaultAttribute(AttributeKey key) {
+    Object oldValue = defaultAttributes.remove(key);
+    firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), oldValue, null);
+  }
+
+  @Override
   public void remove(DrawingView view) {
     view.getComponent().removeFocusListener(focusHandler);
     views.remove(view);
@@ -260,6 +266,16 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     Map<AttributeKey<?>, Object> m =
         (Map<AttributeKey<?>, Object>) Collections.unmodifiableMap(defaultAttributes);
     return m;
+  }
+
+  @Override
+  public void resetDefaultAttributes(Map<AttributeKey<?>, Object> attributes) {
+    new HashSet<AttributeKey>(defaultAttributes.keySet())
+        .forEach(key -> removeDefaultAttribute(key));
+    attributes.forEach((key, value) -> {
+      defaultAttributes.put(key, value);
+      firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), null, value);
+    });
   }
 
   @Override
