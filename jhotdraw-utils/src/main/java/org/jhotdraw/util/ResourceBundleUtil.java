@@ -119,12 +119,13 @@ public class ResourceBundleUtil implements Serializable {
       return value;
     } catch (MissingResourceException e) {
       if (isVerbose) {
-				LOG.warning("Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
+        LOG.warning("Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
       }
       return key;
     }
   }
-	private static final Logger LOG = Logger.getLogger(ResourceBundleUtil.class.getName());
+
+  private static final Logger LOG = Logger.getLogger(ResourceBundleUtil.class.getName());
 
   /**
    * Recursive part of the getString method.

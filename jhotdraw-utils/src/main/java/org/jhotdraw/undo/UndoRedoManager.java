@@ -28,7 +28,7 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
 
   private static final long serialVersionUID = 1L;
   protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
-	private static final Logger LOG = Logger.getLogger(UndoRedoManager.class.getName());
+  private static final Logger LOG = Logger.getLogger(UndoRedoManager.class.getName());
 
   /** The resource bundle used for internationalisation. */
   private static ResourceBundleUtil labels;
@@ -79,7 +79,7 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
       try {
         undo();
       } catch (CannotUndoException e) {
-				LOG.log(Level.SEVERE, "cannot undo", e);
+        LOG.log(Level.SEVERE, "cannot undo", e);
       }
     }
   }
