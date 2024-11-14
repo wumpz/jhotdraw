@@ -104,11 +104,6 @@ public class CSSParser {
     }
     for (String selector : selectors) {
       rm.add(new CSSRule(selector, declarations));
-      // System.out.println("CSSParser.add("+selector+","+declarations);
-      /*
-      for (Map.Entry<String,String> entry : declarations.entrySet()) {
-             rm.add(new CSSRule(selector, entry.getKey(), entry.getValue()));
-      }*/
     }
   }
 
@@ -143,7 +138,6 @@ public class CSSParser {
       list.add(selector.toString());
     }
     tt.pushBack();
-    // System.out.println("selectors:"+list);
     return list;
   }
 
@@ -190,7 +184,6 @@ public class CSSParser {
         }
       }
       map.put(key.toString(), value.toString());
-      // System.out.println("  declaration: "+key+":"+value);
     } while (tt.ttype != '}' && tt.ttype != StreamTokenizer.TT_EOF);
     tt.pushBack();
     return map;

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.net.*;
 import java.text.*;
 import java.util.*;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -115,18 +116,15 @@ public class ResourceBundleUtil implements Serializable {
   public String getString(String key) {
     try {
       String value = getStringRecursive(key);
-      // System.out.println("ResourceBundleUtil "+baseName+" get("+key+"):"+value);
       return value;
     } catch (MissingResourceException e) {
-      // System.out.println("ResourceBundleUtil "+baseName+" get("+key+"):***MISSING***");
       if (isVerbose) {
-        System.err.println(
-            "Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
-        // e.printStackTrace();
+				LOG.warning("Warning ResourceBundleUtil[" + baseName + "] \"" + key + "\" not found.");
       }
       return key;
     }
   }
+	private static final Logger LOG = Logger.getLogger(ResourceBundleUtil.class.getName());
 
   /**
    * Recursive part of the getString method.

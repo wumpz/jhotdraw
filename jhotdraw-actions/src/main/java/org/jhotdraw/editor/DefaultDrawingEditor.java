@@ -270,12 +270,16 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
 
   @Override
   public void resetDefaultAttributes(Map<AttributeKey<?>, Object> attributes) {
-    new HashSet<AttributeKey>(defaultAttributes.keySet())
-        .forEach(key -> removeDefaultAttribute(key));
+    removeAllDefaultAttributes();
     attributes.forEach((key, value) -> {
       defaultAttributes.put(key, value);
       firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), null, value);
     });
+  }
+
+  public void removeAllDefaultAttributes() {
+    new HashSet<AttributeKey>(defaultAttributes.keySet())
+        .forEach(key -> removeDefaultAttribute(key));
   }
 
   @Override

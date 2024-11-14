@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -27,6 +28,7 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
 
   private static final long serialVersionUID = 1L;
   protected PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
+	private static final Logger LOG = Logger.getLogger(UndoRedoManager.class.getName());
 
   /** The resource bundle used for internationalisation. */
   private static ResourceBundleUtil labels;
@@ -77,8 +79,7 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
       try {
         undo();
       } catch (CannotUndoException e) {
-        System.err.println("Cannot undo: " + e);
-        e.printStackTrace();
+				LOG.log(Level.SEVERE, "cannot undo", e);
       }
     }
   }
@@ -99,16 +100,16 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
       try {
         redo();
       } catch (CannotRedoException e) {
-        System.out.println("Cannot redo: " + e);
+        LOG.log(Level.SEVERE, "cannot redo", e);
       }
     }
   }
 
   /** The undo action instance. */
-  private UndoAction undoAction;
+  private final UndoAction undoAction;
 
   /** The redo action instance. */
-  private RedoAction redoAction;
+  private final RedoAction redoAction;
 
   public static ResourceBundleUtil getLabels() {
     if (labels == null) {
@@ -216,8 +217,6 @@ public class UndoRedoManager extends UndoManager { // javax.swing.undo.UndoManag
     redoAction.putValue(Action.NAME, label);
     redoAction.putValue(Action.SHORT_DESCRIPTION, label);
   }
-
-  private static final Logger LOG = Logger.getLogger(UndoRedoManager.class.getName());
 
   /**
    * Undoes the last edit event. The UndoRedoManager ignores all incoming UndoableEdit events, while
