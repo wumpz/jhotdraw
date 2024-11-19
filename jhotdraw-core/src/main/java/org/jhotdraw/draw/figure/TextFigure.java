@@ -129,8 +129,13 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   @Override
-  public void setRotation(double angle) {
+  public void setAngle(double angle) {
     AffineTransform.getRotateInstance(angle).transform(HOIZONTAL_DIRECTION, direction);
+  }
+
+  @Override
+  public double getAngle() {
+    return Geom.angle(0, 0, direction.x, direction.y);
   }
 
   @Override

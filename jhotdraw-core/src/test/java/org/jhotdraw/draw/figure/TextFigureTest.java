@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 JHotDraw.
+ * Copyright (C) 2024 JHotDraw.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,17 +18,20 @@
  */
 package org.jhotdraw.draw.figure;
 
-/**
- * This figure can be rotated by angle.
- *
- * @author tw
- */
-public interface Rotation {
-  double getAngle();
+import static org.junit.jupiter.api.Assertions.*;
 
-  void setAngle(double angle);
+import org.junit.jupiter.api.Test;
 
-  default boolean allowSettingAngle() {
-    return true;
+public class TextFigureTest {
+  @Test
+  void testAngleCalculation() {
+    TextFigure figure = new TextFigure();
+
+    assertEquals(0, figure.getAngle());
+
+    for (double a = 0; a <= Math.PI; a = a + 0.1) {
+      figure.setAngle(a);
+      assertEquals(a, figure.getAngle(), 0.001);
+    }
   }
 }

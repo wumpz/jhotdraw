@@ -114,7 +114,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     getOwner().willChange();
     getOwner().restoreTransformTo(restoreData);
     if (getOwner() instanceof Rotation rotateOwner) {
-      rotateOwner.setRotation(currentTheta);
+      rotateOwner.setAngle(currentTheta);
     } else {
       getOwner().transform(transform);
     }

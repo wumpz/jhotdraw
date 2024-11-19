@@ -87,7 +87,7 @@ public class LocatorLayouter implements Layouter {
       }
       if (position != null) {
         if (child instanceof Rotation rotateChild) {
-          rotateChild.setRotation(position.angle());
+          rotateChild.setAngle(position.angle());
         } else {
           ((Figure) child)
               .transform(AffineTransform.getRotateInstance(
