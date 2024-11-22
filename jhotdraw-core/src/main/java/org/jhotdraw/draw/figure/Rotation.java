@@ -31,4 +31,10 @@ public interface Rotation {
   default boolean allowSettingAngle() {
     return true;
   }
+
+  /**
+   * something like a roation cross to visuablize the angle
+   * @param show
+   */
+  default void showGraphicalRotationHint(boolean show) {}
 }
