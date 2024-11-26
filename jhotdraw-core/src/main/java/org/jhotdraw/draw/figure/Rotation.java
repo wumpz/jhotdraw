@@ -29,7 +29,6 @@ public interface Rotation {
   void setAngle(double angle);
 
   default void allowSettingAngle(boolean allow) {}
-  ;
 
   default boolean isAllowedToSetAngle() {
     return true;
