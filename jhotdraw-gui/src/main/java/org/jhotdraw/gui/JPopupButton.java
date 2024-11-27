@@ -92,8 +92,7 @@ public class JPopupButton extends javax.swing.JButton {
 
   private Handler handler = new Handler();
 
-  /** Creates new form JToolBarMenu */
-  public JPopupButton() {
+    public JPopupButton() {
     initComponents();
     setFocusable(false);
     itemFont = ITEM_FONT;
