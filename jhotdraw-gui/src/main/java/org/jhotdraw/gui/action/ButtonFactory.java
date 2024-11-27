@@ -691,7 +691,17 @@ public class ButtonFactory {
       defaultAttributes = new HashMap<>();
     }
     popupButton.setAction(
-        new DefaultAttributeAction(editor, attributeKey, defaultAttributes),
+        new DefaultAttributeAction(editor, attributeKey, defaultAttributes) {
+          @Override
+          protected void updateEnabledState() {
+            if (getView() != null) {
+              // dont take selection size into account to allow still setting default colors
+              setEnabled(getView().isEnabled());
+            } else {
+              setEnabled(false);
+            }
+          }
+        },
         new Rectangle(0, 0, 22, 22));
     popupButton.setColumnCount(columnCount, false);
     boolean hasNullColor = false;
