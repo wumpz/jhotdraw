@@ -29,12 +29,12 @@ import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.Shapes;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.GrowStroke;
+import org.jhotdraw.utils.geom.Shapes;
+import org.jhotdraw.utils.util.*;
 
 /** SVGPath is a composite Figure which contains one or more SVGBezierFigures as its children. */
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {

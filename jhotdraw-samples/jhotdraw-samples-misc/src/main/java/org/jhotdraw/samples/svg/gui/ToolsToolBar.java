@@ -38,7 +38,7 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** DrawToolsPane. */
 public class ToolsToolBar extends AbstractToolBar {

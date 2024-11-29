@@ -18,8 +18,8 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.constrainer.TranslationDirection;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** Moves the selected figures by one constrained unit. */
 public abstract class MoveConstrainedAction extends AbstractSelectedAction {

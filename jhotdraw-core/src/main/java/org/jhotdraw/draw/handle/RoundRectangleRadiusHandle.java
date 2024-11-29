@@ -13,9 +13,9 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.event.CompositeFigureEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.RoundRectangleFigure;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.undo.PropertyChangeEdit;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.undo.PropertyChangeEdit;
+import org.jhotdraw.utils.util.*;
 
 /** A {@link Handle} to manipulate the corner radius of a {@link RoundRectangleFigure}. */
 public class RoundRectangleRadiusHandle extends AbstractHandle {

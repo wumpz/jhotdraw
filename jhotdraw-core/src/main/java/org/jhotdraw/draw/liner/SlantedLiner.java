@@ -13,8 +13,8 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.path.BezierPath;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.path.BezierPath;
 
 /** SlantedLiner. */
 public class SlantedLiner implements Liner {

@@ -22,8 +22,8 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.samples.svg.SVGView;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /** ViewSourceAction. */
 public class ViewSourceAction extends AbstractViewAction {

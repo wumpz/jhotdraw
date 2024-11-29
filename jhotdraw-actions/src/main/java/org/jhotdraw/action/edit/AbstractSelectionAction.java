@@ -13,7 +13,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import org.jhotdraw.api.gui.EditableComponent;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /**
  * {@code AbstractSelectionAction} acts on the selection of a target component.

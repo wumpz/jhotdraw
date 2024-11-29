@@ -16,9 +16,9 @@ import javax.swing.undo.AbstractUndoableEdit;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.gui.Dialogs;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The EditCanvasPanel can be used to edit the attributes of a Drawing.

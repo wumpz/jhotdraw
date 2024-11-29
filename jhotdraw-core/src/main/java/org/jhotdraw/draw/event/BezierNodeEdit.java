@@ -12,8 +12,8 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * An {@code UndoableEdit} event which can undo a change of a node in a {@link BezierFigure}.

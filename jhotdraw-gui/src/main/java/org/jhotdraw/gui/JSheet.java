@@ -17,7 +17,7 @@ import javax.swing.plaf.*;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * JSheet is a document modal dialog which is displayed below the title bar of a JFrame.

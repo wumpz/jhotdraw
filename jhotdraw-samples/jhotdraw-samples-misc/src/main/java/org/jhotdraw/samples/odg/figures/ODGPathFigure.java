@@ -30,14 +30,14 @@ import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.Shapes;
-import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.ODGConstants;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.GrowStroke;
+import org.jhotdraw.utils.geom.Shapes;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.*;
 
 /** ODGPath is a composite Figure which contains one or more ODGBezierFigures as its children. */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {

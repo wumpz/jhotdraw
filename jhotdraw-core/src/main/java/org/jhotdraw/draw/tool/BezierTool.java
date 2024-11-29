@@ -30,10 +30,10 @@ import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
 import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.path.Bezier;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.path.Bezier;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@link Tool} which allows to create a new {@link BezierFigure} by drawing its path.

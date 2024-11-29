@@ -15,10 +15,10 @@ import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.DoubleStroke;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.DoubleStroke;
+import org.jhotdraw.utils.geom.Insets2D;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Defines a put of well known {@link Figure} attributes.

@@ -38,8 +38,6 @@ import org.jhotdraw.draw.AttributeKeys.WindingRule;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.OutputFormat;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.io.Base64;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.LinearGradient;
 import org.jhotdraw.samples.svg.RadialGradient;
@@ -50,6 +48,8 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.io.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

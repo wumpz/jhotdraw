@@ -20,7 +20,7 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.draw.event.TrackingEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.undo.CompositeEdit;
+import org.jhotdraw.utils.undo.CompositeEdit;
 
 /**
  * Simple tracking handle that changes in some way the owner Figure. This change is injected using

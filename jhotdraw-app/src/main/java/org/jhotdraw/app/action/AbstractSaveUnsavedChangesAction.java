@@ -26,8 +26,8 @@ import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that asks to save unsaved

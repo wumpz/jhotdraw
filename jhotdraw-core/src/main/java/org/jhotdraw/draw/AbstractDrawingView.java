@@ -79,8 +79,8 @@ import org.jhotdraw.draw.event.HandleEvent;
 import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * Implementation of DrawingView using no JComponent as a backend. The displaying container comes

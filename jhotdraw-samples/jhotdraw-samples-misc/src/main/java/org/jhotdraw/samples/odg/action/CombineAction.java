@@ -13,7 +13,7 @@ import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** CombinePathsAction. */
 public class CombineAction extends GroupAction {

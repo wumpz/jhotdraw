@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.app.OSXApplication;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * TogglePaletteAction.

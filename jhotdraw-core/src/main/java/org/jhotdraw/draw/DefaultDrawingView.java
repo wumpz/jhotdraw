@@ -60,8 +60,8 @@ import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.io.DefaultDrawingViewTransferHandler;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings with a small number

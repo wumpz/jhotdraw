@@ -23,8 +23,8 @@ import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.editor.DefaultDrawingEditor;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /** Example showing how to lay out composite figures. */
 public class FileIconsSample {

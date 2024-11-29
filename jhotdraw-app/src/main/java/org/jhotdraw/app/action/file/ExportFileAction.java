@@ -30,8 +30,8 @@ import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Presents a file chooser to the user and then exports the contents of the active view to the

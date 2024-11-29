@@ -16,7 +16,7 @@ import javax.swing.*;
 import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.gui.JDisclosureToolBar;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /** AbstractToolBar. */
 public /*abstract*/ class AbstractToolBar extends JDisclosureToolBar implements Disposable {

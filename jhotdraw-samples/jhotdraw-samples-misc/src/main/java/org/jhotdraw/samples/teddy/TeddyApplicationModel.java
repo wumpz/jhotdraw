@@ -21,7 +21,7 @@ import org.jhotdraw.samples.teddy.action.FindAction;
 import org.jhotdraw.samples.teddy.action.ToggleLineNumbersAction;
 import org.jhotdraw.samples.teddy.action.ToggleLineWrapAction;
 import org.jhotdraw.samples.teddy.action.ToggleStatusBarAction;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * Provides meta-data and factory methods for an application.

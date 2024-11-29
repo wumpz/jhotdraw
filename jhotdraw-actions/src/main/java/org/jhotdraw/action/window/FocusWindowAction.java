@@ -13,8 +13,8 @@ import java.beans.*;
 import java.net.URI;
 import javax.swing.*;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.*;
 
 /** Requests focus for a Frame. */
 public class FocusWindowAction extends AbstractAction {

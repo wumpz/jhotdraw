@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.Map;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /**
  * DrawingEditorProxy. <hr> <b>Design Patterns</b>

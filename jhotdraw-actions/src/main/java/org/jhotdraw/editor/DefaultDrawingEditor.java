@@ -25,7 +25,6 @@ import org.jhotdraw.action.edit.CutAction;
 import org.jhotdraw.action.edit.DeleteAction;
 import org.jhotdraw.action.edit.PasteAction;
 import org.jhotdraw.action.edit.SelectAllAction;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
@@ -35,6 +34,7 @@ import org.jhotdraw.draw.event.ToolAdapter;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /**
  * A default implementation of {@link DrawingEditor}.

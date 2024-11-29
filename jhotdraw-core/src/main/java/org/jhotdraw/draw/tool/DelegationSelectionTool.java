@@ -28,7 +28,7 @@ import javax.swing.JRadioButtonMenuItem;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers. If a double click or

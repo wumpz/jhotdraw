@@ -12,7 +12,7 @@ package org.jhotdraw.app;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** {@code CrossPlatformApplication}. */
 public class CrossPlatformApplication extends SDIApplication {

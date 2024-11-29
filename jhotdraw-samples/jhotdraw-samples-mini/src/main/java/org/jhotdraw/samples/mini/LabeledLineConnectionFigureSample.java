@@ -16,7 +16,7 @@ import org.jhotdraw.draw.figure.TextFigure;
 import org.jhotdraw.draw.layouter.LocatorLayouter;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.locator.BezierLabelLocator;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * Example showing how to connect two rectangles with a labeled connection, that has a labels at

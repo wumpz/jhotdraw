@@ -14,13 +14,13 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureCreatedEvent;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /**
  * This abstract class can be extended to implement a {@link Tool}.

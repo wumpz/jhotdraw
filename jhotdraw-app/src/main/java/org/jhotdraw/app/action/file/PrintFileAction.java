@@ -33,7 +33,7 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.PrintableView;
 import org.jhotdraw.gui.JSheet;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Presents a printer chooser to the user and then prints the {@link org.jhotdraw.api.app.View}.

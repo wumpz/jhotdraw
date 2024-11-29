@@ -19,7 +19,7 @@ import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.SerializationInputFormat;
 import org.jhotdraw.io.SerializationOutputFormat;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** Example showing how to create a drawing editor which acts on four drawing views. */
 public class DnDMultiEditorSample {

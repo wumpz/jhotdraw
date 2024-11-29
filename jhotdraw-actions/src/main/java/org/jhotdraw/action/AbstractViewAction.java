@@ -11,7 +11,7 @@ import java.beans.*;
 import javax.swing.*;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that acts on behalf of a

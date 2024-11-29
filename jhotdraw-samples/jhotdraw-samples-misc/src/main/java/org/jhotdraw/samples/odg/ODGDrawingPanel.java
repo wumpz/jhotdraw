@@ -36,8 +36,8 @@ import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextAreaFigure;
 import org.jhotdraw.samples.svg.figures.SVGTextFigure;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.undo.UndoRedoManager;
+import org.jhotdraw.utils.util.*;
 
 /** ODGDrawingPanel. */
 public class ODGDrawingPanel extends JPanel {

@@ -43,9 +43,9 @@ import org.jhotdraw.app.action.file.OpenFileAction;
 import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.*;
 
 /**
  * {@code SDIApplication} handles the lifecycle of multiple {@link View}s using a Windows single

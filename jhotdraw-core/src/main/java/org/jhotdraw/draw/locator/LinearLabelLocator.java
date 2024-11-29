@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.Origin;
 import org.jhotdraw.draw.figure.Rotation;
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
 
 /**
  * A {@link Locator} which can be used to place a label on the path of a path like structure. {@link LinearLocatorBase}.

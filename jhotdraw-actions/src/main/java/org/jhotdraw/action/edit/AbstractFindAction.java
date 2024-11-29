@@ -10,7 +10,7 @@ package org.jhotdraw.action.edit;
 import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Presents a find dialog to the user and then highlights the found items in the active view.

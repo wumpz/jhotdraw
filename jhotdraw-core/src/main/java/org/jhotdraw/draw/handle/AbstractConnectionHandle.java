@@ -21,8 +21,8 @@ import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} the start or end point of a

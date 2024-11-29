@@ -14,8 +14,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.text.*;
 import org.jhotdraw.api.gui.EditableComponent;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Deletes the region at (or after) the caret position.

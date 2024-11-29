@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.Methods;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.Methods;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * An <em>attribute key</em> provides typesafe access to an attribute of a {@link Figure}.

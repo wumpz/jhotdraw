@@ -21,7 +21,7 @@ import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.color.ColorUtil;
 import org.jhotdraw.color.HSBColorSpace;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * {@code ColorFormatter} is used to format colors into a textual representation which can be edited

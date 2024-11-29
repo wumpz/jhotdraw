@@ -79,10 +79,10 @@ import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.gui.JMDIDesktopPane;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.ReversedList;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.ReversedList;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * {@code MDIApplication} handles the lifecycle of multiple {@link View}s using a Windows multiple

@@ -15,7 +15,7 @@ import java.util.Formatter;
 import java.util.Locale;
 import javax.swing.DefaultBoundedRangeModel;
 import org.jhotdraw.api.gui.ActivityModel;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /** Default implementation of {@link ActivityModel}. */
 public class DefaultActivityModel extends DefaultBoundedRangeModel implements ActivityModel {

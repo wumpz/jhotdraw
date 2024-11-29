@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.util.ReversedList;
 
 public class HandleMulticaster {
 

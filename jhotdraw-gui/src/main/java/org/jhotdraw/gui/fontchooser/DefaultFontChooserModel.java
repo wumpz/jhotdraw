@@ -9,7 +9,7 @@ package org.jhotdraw.gui.fontchooser;
 import java.awt.*;
 import java.util.*;
 import javax.swing.tree.*;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * DefaultFontChooserModel with a predefined set of font collections.

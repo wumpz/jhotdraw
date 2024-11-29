@@ -25,10 +25,10 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.print.DrawingPageable;
 import org.jhotdraw.gui.JFileURIChooser;
-import org.jhotdraw.net.URIUtil;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.undo.UndoRedoManager;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Provides a view on a SVG drawing.

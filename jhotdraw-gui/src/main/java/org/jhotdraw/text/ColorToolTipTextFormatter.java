@@ -12,7 +12,7 @@ import java.awt.Color;
 import java.awt.color.ColorSpace;
 import java.text.ParseException;
 import org.jhotdraw.color.HSBColorSpace;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * {@code ColorFormatter} is used to format colors into a textual representation which can be

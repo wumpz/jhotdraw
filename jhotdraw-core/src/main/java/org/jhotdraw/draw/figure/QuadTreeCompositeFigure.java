@@ -21,9 +21,9 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListenerAdapter;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.QuadTree;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.QuadTree;
+import org.jhotdraw.utils.util.ReversedList;
 
 /** QuadTreeCompositeFigure. */
 public abstract class QuadTreeCompositeFigure extends AbstractAttributedCompositeFigure {

@@ -10,7 +10,7 @@ package org.jhotdraw.samples.svg;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.SDIApplication;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Main entry point of the SVG sample application. Creates an {@link Application} depending on the

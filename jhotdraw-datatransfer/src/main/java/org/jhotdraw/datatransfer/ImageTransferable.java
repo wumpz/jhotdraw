@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import javax.imageio.ImageIO;
-import org.jhotdraw.util.Images;
+import org.jhotdraw.utils.util.Images;
 
 /** A Transferable with an Image as its transfer class. */
 public class ImageTransferable implements Transferable {

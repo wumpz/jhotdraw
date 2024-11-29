@@ -9,7 +9,7 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.*;
 import javax.swing.*;
-import org.jhotdraw.util.Images;
+import org.jhotdraw.utils.util.Images;
 
 /** An Icon with different visuals reflecting the state of the slider on which it draws on. */
 public class PaletteSliderThumbIcon extends MultiIcon {

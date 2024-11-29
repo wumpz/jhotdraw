@@ -22,8 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * A default implementation of {@link Drawing} useful for drawings which contain only a few figures.

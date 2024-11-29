@@ -12,7 +12,7 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopEllipseConnector;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /** A {@link Figure} with an elliptic shape. */
 public class EllipseFigure extends AbstractAttributedFigure {

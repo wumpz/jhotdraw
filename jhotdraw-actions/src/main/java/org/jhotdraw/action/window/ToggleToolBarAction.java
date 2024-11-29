@@ -10,7 +10,7 @@ package org.jhotdraw.action.window;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /** ToggleToolBarAction. */
 public class ToggleToolBarAction extends AbstractAction {

@@ -20,12 +20,12 @@ import java.util.Comparator;
 import java.util.List;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.QuadTree;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.QuadTree;
+import org.jhotdraw.utils.util.*;
 
 /**
- * An implementation of {@link Drawing} which uses a {@link org.jhotdraw.geom.QuadTree} to provide a
+ * An implementation of {@link Drawing} which uses a {@link org.jhotdraw.utils.geom.QuadTree} to provide a
  * good responsiveness for drawings which contain many figures.
  */
 public class QuadTreeDrawing extends AbstractDrawing {

@@ -22,7 +22,7 @@ import org.jhotdraw.color.HSBColorSpace;
 import org.jhotdraw.gui.plaf.palette.PaletteListUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
 import org.jhotdraw.gui.plaf.palette.PalettePanelUI;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** PaletteSwatchesChooser. */
 public class PaletteSwatchesChooser extends AbstractColorChooserPanel {

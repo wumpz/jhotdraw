@@ -16,9 +16,9 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.*;
 
 /** A Handle to manipulate the radius of a round lead rectangle. */
 public class ODGRectRadiusHandle extends AbstractHandle {

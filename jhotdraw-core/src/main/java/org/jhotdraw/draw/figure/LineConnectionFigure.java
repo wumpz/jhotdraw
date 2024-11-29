@@ -23,7 +23,7 @@ import org.jhotdraw.draw.handle.ConnectionEndHandle;
 import org.jhotdraw.draw.handle.ConnectionStartHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.geom.path.BezierPath;
+import org.jhotdraw.utils.geom.path.BezierPath;
 
 /**
  * A {@link ConnectionFigure} which connects two figures using a bezier path.

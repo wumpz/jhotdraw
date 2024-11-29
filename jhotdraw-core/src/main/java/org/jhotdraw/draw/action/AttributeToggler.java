@@ -15,8 +15,8 @@ import javax.swing.text.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * AttributeToggler toggles an attribute of the selected figures between two different values. If

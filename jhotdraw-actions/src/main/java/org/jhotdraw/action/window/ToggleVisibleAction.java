@@ -10,7 +10,7 @@ package org.jhotdraw.action.window;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * Toggles the visible state of a Component. Is selected, when the Component is visible.

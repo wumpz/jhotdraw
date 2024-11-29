@@ -40,9 +40,9 @@ import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageInputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
 import org.jhotdraw.io.TextInputFormat;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.undo.UndoRedoManager;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Provides a view on a drawing.

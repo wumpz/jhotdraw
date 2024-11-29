@@ -23,8 +23,8 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Insets2D;
+import org.jhotdraw.utils.util.*;
 
 /**
  * TaskFigure.

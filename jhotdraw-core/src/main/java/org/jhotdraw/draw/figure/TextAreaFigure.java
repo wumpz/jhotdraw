@@ -32,9 +32,9 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TextOverflowHandle;
 import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Insets2D;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@code TextHolderFigure} which holds multiple lines of text in a rectangular area.

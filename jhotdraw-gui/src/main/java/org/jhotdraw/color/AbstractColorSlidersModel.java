@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.jhotdraw.beans.AbstractBean;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /** AbstractColorSlidersModel. */
 public abstract class AbstractColorSlidersModel extends AbstractBean implements ColorSliderModel {

@@ -18,8 +18,8 @@ import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.Rotation;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} which can rotate a {@link

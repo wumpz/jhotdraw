@@ -9,7 +9,7 @@ package org.jhotdraw.samples.svg.gui;
 
 import java.awt.*;
 import javax.swing.*;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** SummaryToolBar. */
 public class SummaryToolBar extends JToolBar {

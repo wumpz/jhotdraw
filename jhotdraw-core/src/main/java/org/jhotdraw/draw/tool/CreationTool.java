@@ -29,7 +29,7 @@ import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
 import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@link Tool} to create a new figure by drawing its bounds. The figure to be created is

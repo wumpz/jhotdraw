@@ -23,8 +23,8 @@ import javax.swing.plaf.metal.*;
 import org.jhotdraw.api.gui.ActivityModel;
 import org.jhotdraw.gui.event.ActivityManagerEvent;
 import org.jhotdraw.gui.event.ActivityManagerListener;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * The {@code JActivityWindow} displays all progress models registered in the progress manager.

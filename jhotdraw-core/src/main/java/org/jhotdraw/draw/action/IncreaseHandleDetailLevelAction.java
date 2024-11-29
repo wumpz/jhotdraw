@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.action;
 
 import org.jhotdraw.draw.*;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** SelectSameAction. */
 public class IncreaseHandleDetailLevelAction extends AbstractSelectedAction {

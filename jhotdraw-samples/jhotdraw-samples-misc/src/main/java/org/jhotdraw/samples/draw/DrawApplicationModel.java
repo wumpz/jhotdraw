@@ -43,7 +43,7 @@ import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Provides factory methods for creating views, menu bars and toolbars.

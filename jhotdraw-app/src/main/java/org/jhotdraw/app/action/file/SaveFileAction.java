@@ -26,8 +26,8 @@ import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Saves the changes in the active view. If the active view has not an URI, an {@code URIChooser} is

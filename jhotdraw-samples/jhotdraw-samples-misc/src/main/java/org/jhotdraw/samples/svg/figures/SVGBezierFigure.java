@@ -23,9 +23,9 @@ import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.handle.BezierNodeHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * SVGBezierFigure is not an actual SVG element, it is used by SVGPathFigure to represent a single

@@ -37,10 +37,10 @@ import org.jhotdraw.draw.handle.BezierOutlineHandle;
 import org.jhotdraw.draw.handle.BezierScaleHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.GrowStroke;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@link Figure} which draws an opened or a closed bezier path.
@@ -59,7 +59,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * Component: {@link BezierFigure}; Decorator: {@link org.jhotdraw.draw.decoration.LineDecoration}.
  * <hr>
  *
- * @see org.jhotdraw.geom.path.BezierPath
+ * @see org.jhotdraw.utils.geom.path.BezierPath
  */
 public class BezierFigure extends AbstractAttributedFigure {
 

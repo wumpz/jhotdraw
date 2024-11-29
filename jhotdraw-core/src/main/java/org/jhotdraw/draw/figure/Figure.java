@@ -22,7 +22,7 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
 
 /**
  * A <em>figure</em> is a graphical element of a {@link Drawing}. A figure can be only in one

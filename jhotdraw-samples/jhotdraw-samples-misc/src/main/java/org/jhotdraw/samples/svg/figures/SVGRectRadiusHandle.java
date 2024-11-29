@@ -18,9 +18,9 @@ import org.jhotdraw.draw.event.CompositeFigureEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.undo.PropertyChangeEdit;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.undo.PropertyChangeEdit;
+import org.jhotdraw.utils.util.*;
 
 /** A Handle to manipulate the radius of a round lead rectangle. */
 public class SVGRectRadiusHandle extends AbstractHandle {

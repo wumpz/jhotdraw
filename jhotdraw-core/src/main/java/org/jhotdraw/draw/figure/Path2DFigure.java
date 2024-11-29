@@ -17,8 +17,8 @@ import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TrackingHandle;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.path.MutablePath2D;
+import org.jhotdraw.utils.geom.GrowStroke;
+import org.jhotdraw.utils.geom.path.MutablePath2D;
 
 public class Path2DFigure extends AbstractAttributedFigure {
 

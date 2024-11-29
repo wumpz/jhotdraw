@@ -13,9 +13,9 @@ import javax.swing.text.*;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.samples.teddy.regex.MatchType;
 import org.jhotdraw.samples.teddy.regex.Matcher;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.*;
 
 /**
  * @author werni

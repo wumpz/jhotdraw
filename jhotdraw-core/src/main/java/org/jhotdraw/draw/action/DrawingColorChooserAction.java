@@ -12,7 +12,7 @@ import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The DrawingColorChooserAction changes a color attribute of the Drawing object in the current view

@@ -17,7 +17,7 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.app.PrintableView;
 import org.jhotdraw.app.action.file.PrintFileAction;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Prints a file for which a print request was sent to the application.

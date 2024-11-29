@@ -55,9 +55,9 @@ import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.window.TogglePaletteAction;
 import org.jhotdraw.app.osx.OSXAdapter;
 import org.jhotdraw.app.osx.OSXPaletteHandler;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.*;
 
 /**
  * {@code OSXApplication} handles the lifecycle of multiple {@link View}s using a Mac OS X

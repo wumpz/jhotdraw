@@ -19,7 +19,7 @@ import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** SVGAttributedFigure. */
 public abstract class SVGAttributedFigure extends AbstractAttributedFigure {

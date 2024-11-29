@@ -15,8 +15,8 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.formatter.JavaNumberFormatter;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.*;
 
 /**
  * The ODGPropertiesPanel allows to edit properties (attributes and other things) of a ODGFigure.

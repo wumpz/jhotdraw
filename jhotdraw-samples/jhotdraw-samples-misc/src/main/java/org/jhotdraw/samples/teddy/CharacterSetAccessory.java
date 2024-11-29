@@ -11,7 +11,7 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /** CharacterSetAccessory. */
 public class CharacterSetAccessory extends javax.swing.JPanel {

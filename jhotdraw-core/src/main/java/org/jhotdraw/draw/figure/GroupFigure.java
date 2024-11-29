@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.figure;
 
 import java.awt.geom.*;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /** A {@link org.jhotdraw.draw.figure.Figure} which groups a collection of figures. */
 public class GroupFigure extends AbstractAttributedCompositeFigure {

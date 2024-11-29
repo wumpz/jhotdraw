@@ -15,7 +15,7 @@ import javax.swing.*;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /** This abstract class can be extended to implement a {@link View}. */
 public abstract class AbstractView extends JPanel implements View {

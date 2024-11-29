@@ -10,8 +10,8 @@ package org.jhotdraw.gui.action;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.formatter.JavaNumberFormatter;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The EditGridPanel can be used to edit the properties of a GridConstrainer.

@@ -14,7 +14,7 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** AlignToolBar. */
 public class AlignToolBar extends AbstractToolBar {

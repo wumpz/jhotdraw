@@ -21,7 +21,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@link Handle} associated to a {@link Connector} which allows to create a new {@link

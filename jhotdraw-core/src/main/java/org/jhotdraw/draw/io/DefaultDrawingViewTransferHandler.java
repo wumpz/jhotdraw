@@ -58,8 +58,8 @@ import org.jhotdraw.draw.event.DrawingEvent;
 import org.jhotdraw.draw.event.DrawingListener;
 import org.jhotdraw.draw.event.DrawingListenerAdapter;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * Delegates Clipboard Actions to the sending JComponent or reroutes to a possible DrawingView that

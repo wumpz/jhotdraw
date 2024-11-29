@@ -13,7 +13,7 @@ import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** PickAttributesAction. */
 public class PickAttributesAction extends AbstractSelectedAction {

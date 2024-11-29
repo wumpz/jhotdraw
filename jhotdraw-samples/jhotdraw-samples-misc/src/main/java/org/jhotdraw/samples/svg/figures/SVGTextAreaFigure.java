@@ -31,11 +31,11 @@ import org.jhotdraw.draw.handle.TextOverflowHandle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.tool.TextAreaEditingTool;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /** SVGTextArea. */
 public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure, TextHolderFigure {

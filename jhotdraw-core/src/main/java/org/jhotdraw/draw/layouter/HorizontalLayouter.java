@@ -13,8 +13,8 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.AttributeKeys.Alignment;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /**
  * A {@link Layouter} which lays out all children of a {@link CompositeFigure} in horizontal

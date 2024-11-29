@@ -12,7 +12,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * A {@link Handle} which allows to interactively scale and rotate a BezierFigure.

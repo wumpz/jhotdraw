@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.event.*;
 import org.jhotdraw.api.gui.ActivityModel;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A class to view an {@code ActivityModel}.

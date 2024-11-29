@@ -12,7 +12,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.odg.ODGConstants.FillStyle;
 import org.jhotdraw.samples.odg.ODGConstants.StrokeStyle;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * ODGAttributeKeys.

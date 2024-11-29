@@ -11,8 +11,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** AttributeAction. */
 public class DrawingAttributeAction extends AbstractDrawingViewAction {

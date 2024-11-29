@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.figure;
 
 import java.awt.*;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /**
  * The interface of a {@link Figure} that has some editable text contents.

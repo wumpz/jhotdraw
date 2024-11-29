@@ -24,7 +24,7 @@ import org.jhotdraw.draw.gui.JAttributeTextField;
 import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLabelUI;
 import org.jhotdraw.gui.plaf.palette.PaletteLookAndFeel;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** LinkToolBar. */
 public class LinkToolBar extends AbstractToolBar {

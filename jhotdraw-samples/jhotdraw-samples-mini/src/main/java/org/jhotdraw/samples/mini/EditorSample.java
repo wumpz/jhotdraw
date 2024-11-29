@@ -16,7 +16,7 @@ import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.editor.DefaultDrawingEditor;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * Example showing how to create an editor that can edit figures on a drawing using the

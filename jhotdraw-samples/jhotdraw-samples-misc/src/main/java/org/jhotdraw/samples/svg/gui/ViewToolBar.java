@@ -15,13 +15,13 @@ import javax.swing.border.*;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.gui.JLifeFormattedTextField;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * ViewToolBar.

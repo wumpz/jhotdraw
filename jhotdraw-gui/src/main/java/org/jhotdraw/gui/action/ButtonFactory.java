@@ -103,14 +103,14 @@ import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.DoubleStroke;
 import org.jhotdraw.gui.JComponentPopup;
 import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.Images;
-import org.jhotdraw.util.Methods;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.DoubleStroke;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.Images;
+import org.jhotdraw.utils.util.Methods;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * ButtonFactory.

@@ -13,7 +13,7 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.RoundRectangleFigure;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * A {@link Connector} which locates a connection point at the bounds of a {@link

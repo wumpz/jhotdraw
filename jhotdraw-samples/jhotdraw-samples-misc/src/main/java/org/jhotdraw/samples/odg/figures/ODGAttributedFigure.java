@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.ODGConstants;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** ODGAttributedFigure. */
 public abstract class ODGAttributedFigure extends AbstractAttributedFigure implements ODGFigure {

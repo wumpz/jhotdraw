@@ -19,7 +19,7 @@ import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.io.SerializationInputFormat;
 import org.jhotdraw.io.SerializationOutputFormat;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Example showing how to create a drawing editor with a creation tool for figures with pre-defined

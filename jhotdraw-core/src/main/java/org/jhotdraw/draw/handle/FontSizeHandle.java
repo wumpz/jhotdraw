@@ -16,7 +16,7 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.locator.FontSizeLocator;
 import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** A {@link Handle} which can be used to change the font size of a {@link TextHolderFigure}. */
 public class FontSizeHandle extends LocatorHandle {
