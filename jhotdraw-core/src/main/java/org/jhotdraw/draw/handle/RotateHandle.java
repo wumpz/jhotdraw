@@ -59,12 +59,14 @@ public class RotateHandle extends AbstractRotateHandle {
         public void undo() {
           super.undo();
           rotation.setAngle(startAngle);
+          fireAreaInvalidated(getDrawingArea());
         }
 
         @Override
         public void redo() {
           super.redo();
           rotation.setAngle(actualAngle);
+          fireAreaInvalidated(getDrawingArea());
         }
       });
       fireAreaInvalidated(getDrawingArea());
