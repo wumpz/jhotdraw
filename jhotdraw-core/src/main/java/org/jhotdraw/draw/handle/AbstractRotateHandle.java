@@ -93,12 +93,12 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     restoreData = getOwner().getTransformRestoreData();
     transform = new AffineTransform();
     center = getCenter();
-//    if (getOwner() instanceof Rotation rotateOwner) {
-//      startTheta = rotateOwner.getAngle();
-//    } else {
-      Point2D.Double anchorPoint = view.viewToDrawing(anchor);
-      startTheta = Geom.angle(center.x, center.y, anchorPoint.x, anchorPoint.y);
-    //}
+    //    if (getOwner() instanceof Rotation rotateOwner) {
+    //      startTheta = rotateOwner.getAngle();
+    //    } else {
+    Point2D.Double anchorPoint = view.viewToDrawing(anchor);
+    startTheta = Geom.angle(center.x, center.y, anchorPoint.x, anchorPoint.y);
+    // }
   }
 
   @Override
