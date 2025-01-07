@@ -437,7 +437,8 @@ public class AttributeKeys {
       WINDING_RULE,
       IS_STROKE_PIXEL_VALUE,
       ALIGN_RELATIVE_X,
-      ALIGN_RELATIVE_Y
+      ALIGN_RELATIVE_Y,
+      PATH_CLOSED
     }));
     SUPPORTED_ATTRIBUTES = Collections.unmodifiableSet(as);
     HashMap<String, AttributeKey<?>> am = new HashMap<>();

@@ -496,7 +496,8 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     for (Map.Entry<AttributeKey<?>, Object> entry :
         figure.attr().getAttributes().entrySet()) {
       AttributeKey<?> key = entry.getKey();
-      if (figure.attr().isAttributeEnabled(key)) {
+      if (AttributeKeys.SUPPORTED_ATTRIBUTES.contains(key)
+          && figure.attr().isAttributeEnabled(key)) {
         Object prototypeValue = prototype.attr().get(key);
         Object attributeValue = figure.attr().get(key);
         if (!Objects.equals(prototypeValue, attributeValue)) {
