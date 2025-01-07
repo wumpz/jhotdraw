@@ -47,9 +47,6 @@ import org.jhotdraw.utils.geom.Geom;
 /**
  * This abstract class can be extended to implement a {@link Figure} which has its own attribute
  * set.
- *
- * @author Werner Randelshofer
- * @version $Id: AbstractAttributedFigure.java 778 2012-04-13 15:37:19Z rawcoder $
  */
 public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
@@ -495,7 +492,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setConnectable(boolean newValue) {
-    boolean oldValue = isConnectable;
     isConnectable = newValue;
   }
 
@@ -508,7 +504,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setSelectable(boolean newValue) {
-    boolean oldValue = isSelectable;
     isSelectable = newValue;
   }
 
@@ -519,7 +514,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setRemovable(boolean newValue) {
-    boolean oldValue = isRemovable;
     isRemovable = newValue;
   }
 
@@ -533,7 +527,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setTransformable(boolean newValue) {
-    boolean oldValue = isTransformable;
     isTransformable = newValue;
   }
 
