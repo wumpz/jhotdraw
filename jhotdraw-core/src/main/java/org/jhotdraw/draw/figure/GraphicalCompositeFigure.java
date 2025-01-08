@@ -134,10 +134,11 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    */
   @Override
   public Rectangle2D.Double getBounds(double scale) {
-    if (getPresentationFigure() == null) {
-      return super.getBounds(scale);
+    var bounds = super.getBounds(scale);
+    if (getPresentationFigure() != null) {
+      bounds.add(getPresentationFigure().getBounds(scale));
     }
-    return getPresentationFigure().getBounds(scale);
+    return bounds;
   }
 
   @Override
@@ -245,7 +246,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    *
    * @param newPresentationFigure figure takes over the presentation tasks
    */
-  public void setPresentationFigure(Figure newPresentationFigure) {
+  public final void setPresentationFigure(Figure newPresentationFigure) {
     if (this.presentationFigure != null) {
       this.presentationFigure.removeFigureListener(presentationFigureHandler);
       if (getDrawing() != null) {
