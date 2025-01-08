@@ -108,8 +108,9 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
             dragRect.add(f.getBounds());
           }
         } else {
-					LOG.fine("skipped dragging for figure (isTransformable()==false || isDraggable()==false)");
-				}
+          LOG.fine(
+              "skipped dragging for figure (isTransformable()==false || isDraggable()==false)");
+        }
       }
       if (dragRect != null) {
         anchorPoint = previousPoint = view.viewToDrawing(anchor);
@@ -117,7 +118,8 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
       }
     }
   }
-	private static final Logger LOG = Logger.getLogger(DefaultDragTracker.class.getName());
+
+  private static final Logger LOG = Logger.getLogger(DefaultDragTracker.class.getName());
 
   @Override
   public void mouseDragged(MouseEvent evt) {

@@ -285,12 +285,12 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    * @see #transform
    */
   public boolean isTransformable();
-	
-	/**
-	 * Returns true, if user tries to drag this figure. If this operation returns false, Tool's should not 
-	 * drag this figure on behalf of the user. This is used mainly by the DragTracker.
-	 */
-	public boolean isDraggable();
+
+  /**
+   * Returns true, if user tries to drag this figure. If this operation returns false, Tool's should not
+   * drag this figure on behalf of the user. This is used mainly by the DragTracker.
+   */
+  public boolean isDraggable();
 
   /**
    * Was the underlying figure modified though some kind of manual or programmatic action.

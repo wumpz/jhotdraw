@@ -58,6 +58,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   private boolean isVisible = true;
   private boolean isTransformable = true;
   private boolean isConnectable = true;
+	private boolean isDraggable = true;
 
   private Attributes attributes = new Attributes(this::fireAttributeChanged);
 
@@ -532,7 +533,11 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
 	@Override
 	public boolean isDraggable() {
-	  return true;
+		return isDraggable;
+	}
+
+	public void setDraggable(boolean isDraggable) {
+		this.isDraggable = isDraggable;
 	}
 
   /** Checks whether this figure is visible. By default {@code AbstractFigure} is visible. */
