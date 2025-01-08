@@ -530,6 +530,11 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     isTransformable = newValue;
   }
 
+	@Override
+	public boolean isDraggable() {
+	  return true;
+	}
+
   /** Checks whether this figure is visible. By default {@code AbstractFigure} is visible. */
   @Override
   public boolean isVisible() {

@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.logging.Logger;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
@@ -99,14 +100,16 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
       dragRect = null;
       transformedFigures = new HashSet<>();
       for (Figure f : view.getSelectedFigures()) {
-        if (f.isTransformable()) {
+        if (f.isTransformable() && f.isDraggable()) {
           transformedFigures.add(f);
           if (dragRect == null) {
             dragRect = f.getBounds();
           } else {
             dragRect.add(f.getBounds());
           }
-        }
+        } else {
+					LOG.fine("skipped dragging for figure (isTransformable()==false || isDraggable()==false)");
+				}
       }
       if (dragRect != null) {
         anchorPoint = previousPoint = view.viewToDrawing(anchor);
@@ -114,6 +117,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
       }
     }
   }
+	private static final Logger LOG = Logger.getLogger(DefaultDragTracker.class.getName());
 
   @Override
   public void mouseDragged(MouseEvent evt) {
