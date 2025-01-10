@@ -197,6 +197,17 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     return drawing;
   }
 
+  /**
+   * Sometimes basicAdd is used to initiale include elements into a drawing. This method can then be used, to
+   * connect this figure with a Drawing.
+   * @param d
+   */
+  public void setDrawing(Drawing d) {
+    if (this.drawing != null)
+      throw new IllegalStateException("figure is already part of a drawing");
+    this.drawing = d;
+  }
+
   private boolean modified = false;
 
   @Override

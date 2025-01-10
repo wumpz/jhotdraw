@@ -205,8 +205,8 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
     anchor.x = evt.getX();
     anchor.y = evt.getY();
     createdFigure.setBounds(p, p);
-    getDrawing().add(createdFigure);
-    fireFigureCreated(createdFigure);
+    //    getDrawing().add(createdFigure);
+    //    fireFigureCreated(createdFigure);
   }
 
   @Override
@@ -246,6 +246,11 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
         }
         final Figure addedFigure = createdFigure;
         final Drawing addedDrawing = getDrawing();
+
+        // added to drawing
+        getDrawing().add(createdFigure);
+        fireFigureCreated(createdFigure);
+
         getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
           private static final long serialVersionUID = 1L;
 
