@@ -222,6 +222,20 @@ public class JavaxDOMInput implements DOMInput {
     throw new IllegalArgumentException("element not found:" + tagName);
   }
 
+  @Override
+  public boolean hasElement(String tagName) {
+    int count = 0;
+    NodeList list = current.getChildNodes();
+    int len = list.getLength();
+    for (int i = 0; i < len; i++) {
+      Node node = list.item(i);
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** Opens the element with the specified name and index and makes it the current node. */
   @Override
   public void openElement(String tagName, int index) {

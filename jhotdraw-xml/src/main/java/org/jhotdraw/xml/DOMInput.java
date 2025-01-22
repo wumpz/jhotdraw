@@ -64,6 +64,9 @@ public interface DOMInput {
   /** Opens the last element with the specified name and makes it the current node. */
   public void openElement(String tagName) throws IOException;
 
+  /** Is it possible to call openElement(tagName)? */
+  public boolean hasElement(String tagName);
+
   /** Opens the element with the specified name and index and makes it the current node. */
   public void openElement(String tagName, int index) throws IOException;
 

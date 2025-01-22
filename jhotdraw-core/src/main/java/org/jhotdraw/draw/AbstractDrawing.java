@@ -393,7 +393,7 @@ public abstract class AbstractDrawing implements Drawing {
 
   protected void validate() {}
 
-  private final void addAll(int index, Collection<? extends Figure> figures) {
+  private void addAll(int index, Collection<? extends Figure> figures) {
     for (Figure f : figures) {
       basicAdd(index++, f);
       f.addNotify(this);

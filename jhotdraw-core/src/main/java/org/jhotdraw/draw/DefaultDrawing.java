@@ -91,10 +91,12 @@ public class DefaultDrawing extends AbstractDrawing {
         unsorted.remove(f);
       }
     }
-    for (Figure f : c) {
-      if (unsorted.contains(f)) {
-        sorted.add(f);
-        unsorted.remove(f);
+    if (!unsorted.isEmpty()) {
+      for (Figure f : c) {
+        if (unsorted.contains(f)) {
+          sorted.add(f);
+          unsorted.remove(f);
+        }
       }
     }
     return sorted;
