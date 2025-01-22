@@ -75,6 +75,18 @@ public class ImageOutputFormat implements OutputFormat {
     this.imageType = bufferedImageType;
   }
 
+  private boolean flippedYAxis = false;
+
+  /**
+   * To allow image clipboard copy of coordinate systems that grows from bottom up. screen coordinates have
+   * 0x0 in the left upper corner und grow from top to bottom.
+   * @return
+   */
+  public ImageOutputFormat withFlippedYAxis() {
+    flippedYAxis = true;
+    return this;
+  }
+
   @Override
   public javax.swing.filechooser.FileFilter getFileFilter() {
     return new FileNameExtensionFilter(description, fileExtension);
@@ -252,6 +264,15 @@ public class ImageOutputFormat implements OutputFormat {
       f.draw(g);
     }
     g.dispose();
+
+    if (flippedYAxis) {
+      BufferedImage buf2 = new BufferedImage(buf.getWidth(), buf.getHeight(), buf.getType());
+      g = buf2.createGraphics();
+      g.drawImage(buf, 0, buf.getHeight(), buf.getWidth(), -buf.getHeight(), null);
+      g.dispose();
+      buf = buf2;
+    }
+
     // Convert the image, if it does not have the specified image type
     if (imageType != BufferedImage.TYPE_INT_ARGB) {
       BufferedImage buf2 = new BufferedImage(buf.getWidth(), buf.getHeight(), imageType);
