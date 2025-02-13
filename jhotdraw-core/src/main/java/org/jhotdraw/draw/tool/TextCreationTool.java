@@ -108,8 +108,8 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     typingTarget = textHolder;
   }
 
-  @Override
-  public void mouseReleased(MouseEvent evt) {}
+  //  @Override
+  //  public void mouseReleased(MouseEvent evt) {}
 
   protected void endEdit() {
     if (typingTarget != null) {
