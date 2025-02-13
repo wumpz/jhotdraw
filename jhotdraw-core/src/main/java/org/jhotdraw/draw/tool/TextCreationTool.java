@@ -108,8 +108,8 @@ public class TextCreationTool extends CreationTool implements ActionListener {
     typingTarget = textHolder;
   }
 
-  //  @Override
-  //  public void mouseReleased(MouseEvent evt) {}
+	@Override
+	public void mouseReleased(MouseEvent evt) {}
 
   protected void endEdit() {
     if (typingTarget != null) {
@@ -119,6 +119,10 @@ public class TextCreationTool extends CreationTool implements ActionListener {
       final String newText = textField.getText();
       if (newText.length() > 0) {
         typingTarget.setText(newText);
+				if ( createdFigure != null ) {
+					getDrawing().remove(getAddedFigure());
+					getDrawing().add(getAddedFigure());
+				}
       } else {
         if (createdFigure != null) {
           getDrawing().remove(getAddedFigure());
