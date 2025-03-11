@@ -82,7 +82,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     public void figureChanged(FigureEvent e) {
       if (!owner.isChanging()) {
         owner.willChange();
-        owner.fireFigureChanged(e);
+        owner.fireFigureChanged(new FigureEvent(owner, e.getInvalidatedArea()));
         owner.changed();
       }
     }
@@ -332,7 +332,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
 
   @Override
   public void willChange() {
-    if (presentationFigure != null) presentationFigure.willChange();
     super.willChange();
+    if (presentationFigure != null) presentationFigure.willChange();
   }
 }
