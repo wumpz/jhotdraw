@@ -282,6 +282,10 @@ public interface Drawing extends AttributeProvider {
   /** Finds a top level Figure which is behind the specified Figures. */
   Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
 
+  /** Finds a top level Figure which is behind the specified Figures. */
+  Figure findFigureBehind(
+      Point2D.Double p, double scaleDenominator, Collection<? extends Figure> figures);
+
   /** Returns a list of the figures in Z-Order from front to back. */
   List<Figure> getFiguresFrontToBack();
 

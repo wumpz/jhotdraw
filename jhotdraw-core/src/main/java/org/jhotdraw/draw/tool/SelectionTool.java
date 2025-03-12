@@ -208,23 +208,26 @@ public class SelectionTool extends AbstractTool {
       DrawingView view = getView();
       Handle handle = view.findHandle(anchor);
       Tool newTracker = null;
-      if (handle != null) {
+
+      boolean selectBehindActive = isSelectBehindEnabled()
+          && (evt.getModifiersEx() & (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK)) != 0;
+
+      if (handle != null && !selectBehindActive) {
         newTracker = getHandleTracker(handle);
       } else {
         Figure figure;
         Drawing drawing = view.getDrawing();
         Point2D.Double p = view.viewToDrawing(anchor);
-        if (isSelectBehindEnabled()
-            && (evt.getModifiersEx() & (InputEvent.ALT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK))
-                != 0) {
+
+        if (selectBehindActive) {
           figure = drawing.findFigure(p, view.getScaleFactor());
           while (figure != null && !figure.isSelectable()) {
             figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
           }
           HashSet<Figure> ignoredFigures = new HashSet<>(view.getSelectedFigures());
           ignoredFigures.add(figure);
-          Figure figureBehind =
-              view.getDrawing().findFigureBehind(view.viewToDrawing(anchor), ignoredFigures);
+          Figure figureBehind = view.getDrawing()
+              .findFigureBehind(view.viewToDrawing(anchor), view.getScaleFactor(), ignoredFigures);
           if (figureBehind != null) {
             figure = figureBehind;
           }
