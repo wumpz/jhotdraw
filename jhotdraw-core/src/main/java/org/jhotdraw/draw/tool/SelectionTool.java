@@ -224,7 +224,6 @@ public class SelectionTool extends AbstractTool {
           figure = drawing.findFigureBehind(
               p, view.getScaleFactor(), Collections.emptySet(), f -> f.isSelectable());
           HashSet<Figure> ignoredFigures = new HashSet<>(view.getSelectedFigures());
-          ignoredFigures.add(figure);
           Figure figureBehind = view.getDrawing()
               .findFigureBehind(
                   view.viewToDrawing(anchor),
