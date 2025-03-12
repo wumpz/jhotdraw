@@ -434,7 +434,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         Drawing drawing = view.getDrawing();
         Figure figure = drawing.findFigure(point, view.getScaleFactor());
         while (figure != null && !figure.isSelectable()) {
-          figure = drawing.findFigureBehind(point, view.getScaleFactor(), figure);
+          figure = drawing.findFigureBehind(point, view.getScaleFactor(), figure, f -> true);
         }
         if (figure != null) {
           view.setCursor(figure.getCursor(view.viewToDrawing(p), view.getScaleFactor()));

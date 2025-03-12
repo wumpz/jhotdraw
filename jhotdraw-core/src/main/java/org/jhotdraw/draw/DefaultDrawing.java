@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.utils.geom.Geom;
 import org.jhotdraw.utils.util.ReversedList;
@@ -133,47 +134,18 @@ public class DefaultDrawing extends AbstractDrawing {
   }
 
   @Override
-  public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+  public Figure findFigureBehind(
+      Point2D.Double p, double scaleDenominator, Figure figure, Predicate<Figure> filter) {
     boolean isBehind = false;
     for (Figure f : getFiguresFrontToBack()) {
       if (isBehind) {
-        if (f.isVisible() && f.contains(p)) {
+        if (f.isVisible()
+            && f.contains(p, scaleDenominator)
+            && (filter == null || filter.test(f))) {
           return f;
         }
       } else {
         isBehind = figure == f;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure) {
-    boolean isBehind = false;
-    for (Figure f : getFiguresFrontToBack()) {
-      if (isBehind) {
-        if (f.isVisible() && f.contains(p, scaleDenominator)) {
-          return f;
-        }
-      } else {
-        isBehind = figure == f;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
-    int inFrontOf = children.size();
-    for (Figure f : getFiguresFrontToBack()) {
-      if (inFrontOf == 0) {
-        if (f.isVisible() && f.contains(p)) {
-          return f;
-        }
-      } else {
-        if (children.contains(f)) {
-          inFrontOf--;
-        }
       }
     }
     return null;
@@ -181,11 +153,16 @@ public class DefaultDrawing extends AbstractDrawing {
 
   @Override
   public Figure findFigureBehind(
-      Point2D.Double p, double scaleDenominator, Collection<? extends Figure> children) {
+      Point2D.Double p,
+      double scaleDenominator,
+      Collection<? extends Figure> children,
+      Predicate<Figure> filter) {
     int inFrontOf = children.size();
     for (Figure f : getFiguresFrontToBack()) {
       if (inFrontOf == 0) {
-        if (f.isVisible() && f.contains(p, scaleDenominator)) {
+        if (f.isVisible()
+            && f.contains(p, scaleDenominator)
+            && (filter == null || filter.test(f))) {
           return f;
         }
       } else {

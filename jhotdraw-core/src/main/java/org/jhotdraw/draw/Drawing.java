@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.Predicate;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.event.DrawingListener;
@@ -274,17 +275,25 @@ public interface Drawing extends AttributeProvider {
   Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
 
   /** Finds a top level Figure which is behind the specified Figure. */
-  Figure findFigureBehind(Point2D.Double p, Figure figure);
+  default Figure findFigureBehind(Point2D.Double p, Figure figure) {
+    return findFigureBehind(p, 1.0, figure, figureFilter -> true);
+  }
 
   /** Finds a top level Figure which is behind the specified Figure. */
-  Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure);
+  Figure findFigureBehind(
+      Point2D.Double p, double scaleDenominator, Figure figure, Predicate<Figure> filter);
 
   /** Finds a top level Figure which is behind the specified Figures. */
-  Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
+  default Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures) {
+    return findFigureBehind(p, 1.0, figures, figure -> true);
+  }
 
   /** Finds a top level Figure which is behind the specified Figures. */
   Figure findFigureBehind(
-      Point2D.Double p, double scaleDenominator, Collection<? extends Figure> figures);
+      Point2D.Double p,
+      double scaleDenominator,
+      Collection<? extends Figure> figures,
+      Predicate<Figure> filter);
 
   /** Returns a list of the figures in Z-Order from front to back. */
   List<Figure> getFiguresFrontToBack();

@@ -10,6 +10,7 @@ package org.jhotdraw.draw.tool;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.util.Collections;
 import java.util.HashSet;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolAdapter;
@@ -220,14 +221,16 @@ public class SelectionTool extends AbstractTool {
         Point2D.Double p = view.viewToDrawing(anchor);
 
         if (selectBehindActive) {
-          figure = drawing.findFigure(p, view.getScaleFactor());
-          while (figure != null && !figure.isSelectable()) {
-            figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
-          }
+          figure = drawing.findFigureBehind(
+              p, view.getScaleFactor(), Collections.emptySet(), f -> f.isSelectable());
           HashSet<Figure> ignoredFigures = new HashSet<>(view.getSelectedFigures());
           ignoredFigures.add(figure);
           Figure figureBehind = view.getDrawing()
-              .findFigureBehind(view.viewToDrawing(anchor), view.getScaleFactor(), ignoredFigures);
+              .findFigureBehind(
+                  view.viewToDrawing(anchor),
+                  view.getScaleFactor(),
+                  ignoredFigures,
+                  f -> f.isSelectable());
           if (figureBehind != null) {
             figure = figureBehind;
           }
@@ -251,7 +254,7 @@ public class SelectionTool extends AbstractTool {
           if (figure == null) {
             figure = drawing.findFigure(p, view.getScaleFactor());
             while (figure != null && !figure.isSelectable()) {
-              figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
+              figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
             }
           }
         }
