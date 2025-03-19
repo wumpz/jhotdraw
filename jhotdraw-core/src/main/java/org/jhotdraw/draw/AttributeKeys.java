@@ -174,6 +174,13 @@ public class AttributeKeys {
   /** Are stroke values pixel values or should they be transformed as well. */
   public static final AttributeKey<Boolean> IS_STROKE_PIXEL_VALUE =
       new AttributeKey<>("isStrokePixelValue", Boolean.class, false, false, LABELS);
+	
+	/**
+	 * This one is for element sizes, like font size, uml box sizes etc. that could be pixel sized while the needed stroke value is
+	 * not.
+	 */
+	public static final AttributeKey<Boolean> IS_SIZE_PIXEL_VALUE =
+      new AttributeKey<>("isSizePixelValue", Boolean.class, false, false, LABELS);
 
   public static enum StrokeType {
     /** If STROKE_TYPE is put to this value, a BasicStroke instance is used for stroking. */
@@ -468,9 +475,27 @@ public class AttributeKeys {
     return 1.0;
   }
 
-  /** Computing a global scale factor derived from pixel with or different measures. */
+  /** 
+	 * Computing a global scale factor derived from pixel width or different measures. 
+	 * This one is derived from the attribute IS_STROKE_PIXEL_VALUE which is used for scaling of e.g. line strokes.
+	 */
   public static double getGlobalValueFactor(Figure f, double factor) {
     if (f.attr().get(IS_STROKE_PIXEL_VALUE)) {
+      if (factor == 1.0 || factor == 0.0) {
+        factor = scaleFromContext(f);
+      }
+      return factor != 0.0 ? factor : 1.0;
+    }
+    return 1.0;
+  }
+	
+	/** 
+	 * Computing a global scale factor derived from pixel width or different measures. 
+	 * This one is derived from the attribute IS_SIZE_PIXEL_VALUE which is used for element sizes, while
+	 * IS_STROKE_PIXEL_VALUE is used for scaling of e.g. line strokes.
+	 */
+  public static double getGlobalSizeFactor(Figure f, double factor) {
+    if (f.attr().get(IS_SIZE_PIXEL_VALUE)) {
       if (factor == 1.0 || factor == 0.0) {
         factor = scaleFromContext(f);
       }

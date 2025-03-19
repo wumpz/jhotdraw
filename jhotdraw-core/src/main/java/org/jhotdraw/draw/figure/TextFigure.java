@@ -79,7 +79,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   protected void drawText(java.awt.Graphics2D g) {
     if (getText() != null || isEditable()) {
       TextLayout layout = getTextLayout(
-          AttributeKeys.getGlobalValueFactor(this, AttributeKeys.getScaleFactorFromGraphics(g)));
+          AttributeKeys.getGlobalSizeFactor(this, AttributeKeys.getScaleFactorFromGraphics(g)));
       Graphics2D g2 = (Graphics2D) g.create();
       try {
         double alignDeltaX = layout.getAdvance() * attr().get(AttributeKeys.ALIGN_RELATIVE_X);
@@ -159,7 +159,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   @Override
   public boolean figureContains(Point2D.Double p, double scale) {
     double grow = AttributeKeys.getPerpendicularHitGrowth(
-            this, AttributeKeys.getGlobalValueFactor(this, scale))
+            this, AttributeKeys.getGlobalSizeFactor(this, scale))
         + 1d;
     Rectangle2D.Double r = getBounds(scale);
     Geom.grow(r, grow, grow);
@@ -178,7 +178,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
           TextAttribute.FONT,
           getFont()
               .deriveFont(
-                  getFontSize() / (float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
+                  getFontSize() / (float) AttributeKeys.getGlobalSizeFactor(this, sizeFactor)));
       if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
