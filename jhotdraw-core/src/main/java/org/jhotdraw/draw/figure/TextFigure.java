@@ -167,7 +167,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   protected TextLayout getTextLayout(double sizeFactor) {
-    if (textLayout == null || attr().get(IS_STROKE_PIXEL_VALUE)) {
+    if (textLayout == null || attr().get(IS_SIZE_PIXEL_VALUE)) {
       String text = getText();
       if (text == null || text.length() == 0) {
         text = " ";
