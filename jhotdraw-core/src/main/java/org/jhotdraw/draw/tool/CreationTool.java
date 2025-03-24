@@ -27,6 +27,7 @@ import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.constrainer.CoordinateData;
 import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
 import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.utils.util.ResourceBundleUtil;
@@ -222,6 +223,8 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
   @Override
   public void mouseReleased(MouseEvent evt) {
     if (createdFigure != null) {
+      if (createdFigure instanceof AbstractAttributedFigure abstrFigure)
+        abstrFigure.setDrawing(getDrawing());
       Rectangle2D.Double bounds = createdFigure.getBounds();
       if (bounds.width == 0 && bounds.height == 0) {
         getDrawing().remove(createdFigure);
