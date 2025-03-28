@@ -54,6 +54,9 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   protected List<Figure> children = new ArrayList<>();
 
+  /** cache only workd for one specific scale factor, since drawing area and bounding box are scale depenedent*/
+  protected transient double cachedScaleFactor = 0.0;
+
   /** Caches the drawing area to improve the performance of method {@link #getDrawingArea}. */
   protected transient Rectangle2D.Double cachedDrawingArea;
 
@@ -547,6 +550,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   protected void invalidate() {
     cachedBounds = null;
     cachedDrawingArea = null;
+    cachedScaleFactor = 0;
   }
 
   @Override
@@ -580,16 +584,17 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea(double factor) {
-    if (cachedDrawingArea == null) {
+  public Rectangle2D.Double getDrawingArea(double scale) {
+    if (cachedDrawingArea == null || scale != cachedScaleFactor) {
+      cachedScaleFactor = scale;
       if (getChildCount() == 0) {
         cachedDrawingArea = new Rectangle2D.Double();
       } else {
         for (Figure f : children) {
           if (cachedDrawingArea == null) {
-            cachedDrawingArea = f.getDrawingArea(factor);
+            cachedDrawingArea = f.getDrawingArea(scale);
           } else {
-            cachedDrawingArea.add(f.getDrawingArea(factor));
+            cachedDrawingArea.add(f.getDrawingArea(scale));
           }
         }
       }
@@ -603,7 +608,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public Rectangle2D.Double getBounds(double scale) {
-    if (cachedBounds == null) {
+    if (cachedBounds == null || scale != cachedScaleFactor) {
+      cachedScaleFactor = scale;
       if (getChildCount() == 0) {
         cachedBounds = new Rectangle2D.Double();
       } else {
