@@ -206,6 +206,22 @@ public class ResizeHandleKit {
       f.setBounds(anchor, lead);
       f.changed();
     }
+
+    protected final int cursor(int cid) {
+      if (getView().getDrawingToViewTransform() != null) {
+        if (getView().getDrawingToViewTransform().getScaleY() < 0) {
+          // switch SE, NW, SW, NE Cursors
+          return switch (cid) {
+            case Cursor.NE_RESIZE_CURSOR -> Cursor.NW_RESIZE_CURSOR;
+            case Cursor.NW_RESIZE_CURSOR -> Cursor.NE_RESIZE_CURSOR;
+            case Cursor.SE_RESIZE_CURSOR -> Cursor.SW_RESIZE_CURSOR;
+            case Cursor.SW_RESIZE_CURSOR -> Cursor.SE_RESIZE_CURSOR;
+            default -> cid;
+          };
+        }
+      }
+      return cid;
+    }
   }
 
   private static class NorthEastHandle extends ResizeHandle {
@@ -269,7 +285,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.NE_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.NE_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
@@ -430,7 +446,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.NW_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.NW_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
@@ -495,7 +511,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.SE_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.SE_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
@@ -610,7 +626,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.SW_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.SW_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
