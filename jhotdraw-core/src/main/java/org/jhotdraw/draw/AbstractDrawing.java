@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EventListener;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -76,6 +77,13 @@ public abstract class AbstractDrawing implements Drawing {
   public void addDrawingListener(DrawingListener listener) {
     listenerList.add(DrawingListener.class, listener);
   }
+	
+	/**
+	 * Allow to get a list of attached listeners. If you do not want to maintain an external listener list yourself.
+	 */
+	public final <T extends EventListener> T[] findDrawingListener(Class<T> type) {
+		return listenerList.getListeners(type);
+	}
 
   @Override
   public void addInputFormat(InputFormat format) {
