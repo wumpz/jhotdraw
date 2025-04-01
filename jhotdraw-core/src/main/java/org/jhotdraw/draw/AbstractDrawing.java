@@ -77,13 +77,13 @@ public abstract class AbstractDrawing implements Drawing {
   public void addDrawingListener(DrawingListener listener) {
     listenerList.add(DrawingListener.class, listener);
   }
-	
-	/**
-	 * Allow to get a list of attached listeners. If you do not want to maintain an external listener list yourself.
-	 */
-	public final <T extends EventListener> T[] findDrawingListener(Class<T> type) {
-		return listenerList.getListeners(type);
-	}
+
+  /**
+   * Allow to get a list of attached listeners. If you do not want to maintain an external listener list yourself.
+   */
+  public final <T extends EventListener> T[] findDrawingListener(Class<T> type) {
+    return listenerList.getListeners(type);
+  }
 
   @Override
   public void addInputFormat(InputFormat format) {
