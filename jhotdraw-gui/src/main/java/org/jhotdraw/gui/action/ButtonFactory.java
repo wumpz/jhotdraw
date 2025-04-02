@@ -1682,7 +1682,7 @@ public class ButtonFactory {
     labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
     btn.setFocusable(false);
     AbstractAction a = new AttributeToggler<>(
-        editor, FONT_ITALIC, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
+        editor, FONT_ITALIC, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.ItalicAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
     btn.addActionListener(a);
@@ -1706,7 +1706,7 @@ public class ButtonFactory {
     labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
     btn.setFocusable(false);
     AbstractAction a = new AttributeToggler<>(
-        editor, FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
+        editor, FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.UnderlineAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY,
         labels.getString("attribute.fontStyle.underline.text"));
