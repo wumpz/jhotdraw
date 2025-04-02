@@ -590,6 +590,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
       if (getChildCount() == 0) {
         cachedDrawingArea = new Rectangle2D.Double();
       } else {
+        cachedDrawingArea = null;
         for (Figure f : children) {
           if (cachedDrawingArea == null) {
             cachedDrawingArea = f.getDrawingArea(scale);
@@ -613,6 +614,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
       if (getChildCount() == 0) {
         cachedBounds = new Rectangle2D.Double();
       } else {
+        cachedBounds = null;
         for (Figure f : children) {
           if (cachedBounds == null) {
             cachedBounds = f.getBounds(scale);
