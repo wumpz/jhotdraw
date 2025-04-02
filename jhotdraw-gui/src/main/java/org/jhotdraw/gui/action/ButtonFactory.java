@@ -544,19 +544,49 @@ public class ButtonFactory {
 
   public static void addColorButtonsTo(
       JToolBar bar, DrawingEditor editor, java.util.List<ColorIcon> colors, int columnCount) {
+
+    bar.add(createColorButtonStroke(editor, colors, columnCount));
+    bar.add(createColorButtonFill(editor, colors, columnCount));
+    bar.add(createColorButtonText(editor, colors, columnCount));
+  }
+
+  public static JPopupButton createColorButtonText(DrawingEditor editor) {
+    return createColorButtonText(editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+  }
+
+  public static JPopupButton createColorButtonText(
+      DrawingEditor editor, List<ColorIcon> colors, int columnCount) {
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-    bar.add(createEditorColorButton(
+    return createEditorColorButton(
+        editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<>());
+  }
+
+  public static JPopupButton createColorButtonFill(DrawingEditor editor) {
+    return createColorButtonFill(editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+  }
+
+  public static JPopupButton createColorButtonFill(
+      DrawingEditor editor, List<ColorIcon> colors, int columnCount) {
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    return createEditorColorButton(
+        editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<>());
+  }
+
+  public static JPopupButton createColorButtonStroke(DrawingEditor editor) {
+    return createColorButtonStroke(editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+  }
+
+  public static JPopupButton createColorButtonStroke(
+      DrawingEditor editor, List<ColorIcon> colors, int columnCount) {
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    return createEditorColorButton(
         editor,
         STROKE_COLOR,
         colors,
         columnCount,
         "attribute.strokeColor",
         labels,
-        new HashMap<>()));
-    bar.add(createEditorColorButton(
-        editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<>()));
-    bar.add(createEditorColorButton(
-        editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<>()));
+        new HashMap<>());
   }
 
   /**
