@@ -119,14 +119,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Rectangle2D.Double getDrawingArea(double scale) {
-    //    double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
-    //    double width = strokeTotalWidth / 2d;
-    //    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-    //      width *= attr().get(STROKE_MITER_LIMIT);
-    //    } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
-    //      width += strokeTotalWidth * 2;
-    //    }
-    //    width++;
     Rectangle2D.Double r = getBounds(scale);
     double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale) * 1.1 + 1;
     Geom.grow(r, grow, grow);

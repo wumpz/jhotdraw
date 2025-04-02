@@ -251,7 +251,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
       r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
 
       // grow by two pixels to take antialiasing into account
-      Geom.grow(r, 2d, 2d);
+      Geom.grow(r, 2d / factor, 2d / factor);
 
       return r;
     }
