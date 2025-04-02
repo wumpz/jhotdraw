@@ -21,8 +21,8 @@ import org.jhotdraw.utils.util.ResourceBundleUtil;
 /** A {@link Handle} which can be used to change the font size of a {@link TextHolderFigure}. */
 public class FontSizeHandle extends LocatorHandle {
 
-  private float oldSize;
-  private float newSize;
+  private double oldSize;
+  private double newSize;
   private Object restoreData;
 
   public FontSizeHandle(TextHolderFigure owner) {
@@ -77,7 +77,7 @@ public class FontSizeHandle extends LocatorHandle {
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
     final Object editRestoreData = restoreData;
-    final float editNewSize = newSize;
+    final double editNewSize = newSize;
     UndoableEdit edit = new AbstractUndoableEdit() {
       private static final long serialVersionUID = 1L;
 
@@ -134,7 +134,7 @@ public class FontSizeHandle extends LocatorHandle {
       textOwner.setFontSize(newSize);
       textOwner.changed();
       final Object editRestoreData = restoreData;
-      final float editNewSize = newSize;
+      final double editNewSize = newSize;
       UndoableEdit edit = new AbstractUndoableEdit() {
         private static final long serialVersionUID = 1L;
 

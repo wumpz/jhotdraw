@@ -326,7 +326,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public void setFontSize(float size) {
+  public void setFontSize(double size) {
     // put(FONT_SIZE,  new Double(size));
     Point2D.Double p = new Point2D.Double(0, size);
     AffineTransform tx = attr().get(TRANSFORM);
@@ -344,7 +344,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public float getFontSize() {
+  public double getFontSize() {
     //   return get(FONT_SIZE).floatValue();
     Point2D.Double p = new Point2D.Double(0, attr().get(FONT_SIZE));
     AffineTransform tx = attr().get(TRANSFORM);
@@ -360,7 +360,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
       ex.printStackTrace();
       }*/
     }
-    return (float) Math.abs(p.y);
+    return Math.abs(p.y);
   }
 
   // EDITING

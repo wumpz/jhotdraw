@@ -389,13 +389,13 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
   }
 
   @Override
-  public void setFontSize(float size) {
-    attr().set(FONT_SIZE, Double.valueOf(size));
+  public void setFontSize(double size) {
+    attr().set(FONT_SIZE, size);
   }
 
   @Override
-  public float getFontSize() {
-    return attr().get(FONT_SIZE).floatValue();
+  public double getFontSize() {
+    return attr().get(FONT_SIZE);
   }
 
   // EDITING

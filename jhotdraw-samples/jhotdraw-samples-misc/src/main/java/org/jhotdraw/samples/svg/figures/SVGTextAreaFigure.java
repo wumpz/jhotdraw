@@ -425,7 +425,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   }
 
   @Override
-  public void setFontSize(float size) {
+  public void setFontSize(double size) {
     Point2D.Double p = new Point2D.Double(0, size);
     AffineTransform tx = attr().get(TRANSFORM);
     if (tx != null) {
@@ -442,7 +442,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
   }
 
   @Override
-  public float getFontSize() {
+  public double getFontSize() {
     Point2D.Double p = new Point2D.Double(0, attr().get(FONT_SIZE));
     AffineTransform tx = attr().get(TRANSFORM);
     if (tx != null) {
@@ -457,7 +457,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
       ex.printStackTrace();
       }*/
     }
-    return (float) Math.abs(p.y);
+    return Math.abs(p.y);
   }
 
   // EDITING

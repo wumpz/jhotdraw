@@ -69,10 +69,10 @@ public interface TextHolderFigure extends Figure {
   public int getTextColumns();
 
   /** Sets the font size of the text held by the TextHolderFigure. */
-  public void setFontSize(float size);
+  public void setFontSize(double size);
 
   /** Gets the font size of the text held by the TextHolderFigure. */
-  public float getFontSize();
+  public double getFontSize();
 
   /**
    * Gets the baseline of the first line of text, relative to the upper left corner of the figure

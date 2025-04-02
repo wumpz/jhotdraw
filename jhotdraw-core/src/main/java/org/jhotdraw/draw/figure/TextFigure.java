@@ -174,11 +174,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
       }
       FontRenderContext frc = getFontRenderContext();
       HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
-      textAttributes.put(
-          TextAttribute.FONT,
-          getFont()
-              .deriveFont(
-                  getFontSize() / (float) AttributeKeys.getGlobalSizeFactor(this, sizeFactor)));
+      textAttributes.put(TextAttribute.FONT, getFont().deriveFont((float)
+          (getFontSize() / AttributeKeys.getGlobalSizeFactor(this, sizeFactor))));
       if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
@@ -323,13 +320,13 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   @Override
-  public void setFontSize(float size) {
-    attr().set(FONT_SIZE, Double.valueOf(size));
+  public void setFontSize(double size) {
+    attr().set(FONT_SIZE, size);
   }
 
   @Override
-  public float getFontSize() {
-    return attr().get(FONT_SIZE).floatValue();
+  public double getFontSize() {
+    return attr().get(FONT_SIZE);
   }
 
   // EDITING
