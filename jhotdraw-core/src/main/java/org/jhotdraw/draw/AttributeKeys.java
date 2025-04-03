@@ -256,9 +256,11 @@ public class AttributeKeys {
   public static final AttributeKey<Font> FONT_FACE = new AttributeKey<>(
       "fontFace", Font.class, new Font("VERDANA", Font.PLAIN, 10), false, LABELS);
 
-  /** The value of this attribute is a double object. */
   public static final AttributeKey<Double> FONT_SIZE =
       new AttributeKey<>("fontSize", Double.class, 12d, false, LABELS);
+
+  public static final AttributeKey<Double> ROTATION =
+      new AttributeKey<>("rotation", Double.class, 0d, false, LABELS);
 
   /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_BOLD =
@@ -447,7 +449,8 @@ public class AttributeKeys {
       ALIGN_RELATIVE_X,
       ALIGN_RELATIVE_Y,
       PATH_CLOSED,
-      OPACITY
+      OPACITY,
+      ROTATION
     }));
     SUPPORTED_ATTRIBUTES = Collections.unmodifiableSet(as);
     HashMap<String, AttributeKey<?>> am = new HashMap<>();
