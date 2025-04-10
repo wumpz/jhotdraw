@@ -9,6 +9,9 @@ package org.jhotdraw.draw.action;
 
 import java.beans.*;
 import java.io.Serializable;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.api.app.Disposable;
@@ -17,6 +20,7 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /**
@@ -74,9 +78,22 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
       updateEnabledState();
     }
   }
-  ;
 
   private EventHandler eventHandler = new EventHandler();
+
+  private Predicate<Figure> validFigure = null;
+
+  private boolean allSelectedFiguresNeedToBeValid = true;
+
+  /**
+   * check selected figures for validity and is used to process only valid figures
+   * @param validFigure
+   */
+  protected void setValidityCheckFigure(
+      Predicate<Figure> validFigure, boolean allSelectedFiguresNeedToBeValid) {
+    this.validFigure = validFigure;
+    this.allSelectedFiguresNeedToBeValid = allSelectedFiguresNeedToBeValid;
+  }
 
   /**
    * Creates an action which acts on the selected figures on the current view of the specified
@@ -93,10 +110,47 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    */
   protected void updateEnabledState() {
     if (getView() != null) {
-      setEnabled(getView().isEnabled() && getView().getSelectionCount() > 0);
+      setEnabled(hasSelectedFigures());
     } else {
       setEnabled(false);
     }
+  }
+
+  /**
+   * contains the selection at least one valid element
+   * @return
+   */
+  protected boolean hasSelectedFigures() {
+    if (!getView().isEnabled()) return false;
+    if (validFigure != null) {
+      if (allSelectedFiguresNeedToBeValid)
+        return getView().getSelectedFigures().stream().allMatch(validFigure);
+      else return getView().getSelectedFigures().stream().anyMatch(validFigure);
+    } else return getView().getSelectionCount() > 0;
+  }
+
+  /**
+   * Process all valid figures.
+   */
+  protected final void processSelectedFigures(Consumer<Figure> consumeFigure) {
+    streamSelectedFigures().forEach(consumeFigure);
+  }
+
+  /**
+   * Stream all valid selected figures.
+   * @return
+   */
+  protected Stream<Figure> streamSelectedFigures() {
+    return getView().getSelectedFigures().stream()
+        .filter(f -> validFigure == null || validFigure.test(f));
+  }
+
+  /**
+   * Return first valid selected figure.
+   * @return
+   */
+  protected Figure firstSelectedFigure() {
+    return streamSelectedFigures().findFirst().orElse(null);
   }
 
   @Override
