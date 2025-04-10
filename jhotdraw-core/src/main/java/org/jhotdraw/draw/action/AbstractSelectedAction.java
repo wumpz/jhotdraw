@@ -88,9 +88,9 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
   /**
    * check selected figures for validity and is used to process only valid figures
    * @param validFigure predicate if a given figure is valid or null
-	 * @param allSelectedFiguresNeedToBeValid should all selected figures be valid to enable this action?
+   * @param allSelectedFiguresNeedToBeValid should all selected figures be valid to enable this action?
    */
-  protected void setValidityCheckFigure(
+  protected final void setValidityCheckFigure(
       Predicate<Figure> validFigure, boolean allSelectedFiguresNeedToBeValid) {
     this.validFigure = validFigure;
     this.allSelectedFiguresNeedToBeValid = allSelectedFiguresNeedToBeValid;
@@ -126,10 +126,8 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
     if (validFigure != null) {
       if (allSelectedFiguresNeedToBeValid)
         return getView().getSelectedFigures().stream().allMatch(validFigure);
-      else 
-				return getView().getSelectedFigures().stream().anyMatch(validFigure);
-    } else 
-			return getView().getSelectionCount() > 0;
+      else return getView().getSelectedFigures().stream().anyMatch(validFigure);
+    } else return getView().getSelectionCount() > 0;
   }
 
   /**
