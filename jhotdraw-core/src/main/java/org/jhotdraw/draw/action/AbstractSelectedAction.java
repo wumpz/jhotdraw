@@ -87,7 +87,8 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
 
   /**
    * check selected figures for validity and is used to process only valid figures
-   * @param validFigure
+   * @param validFigure predicate if a given figure is valid or null
+	 * @param allSelectedFiguresNeedToBeValid should all selected figures be valid to enable this action?
    */
   protected void setValidityCheckFigure(
       Predicate<Figure> validFigure, boolean allSelectedFiguresNeedToBeValid) {
