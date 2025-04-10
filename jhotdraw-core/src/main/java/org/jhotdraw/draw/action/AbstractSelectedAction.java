@@ -122,12 +122,14 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    * @return
    */
   protected boolean hasSelectedFigures() {
-    if (!getView().isEnabled()) return false;
+    if (getView() == null || !getView().isEnabled()) return false;
     if (validFigure != null) {
       if (allSelectedFiguresNeedToBeValid)
         return getView().getSelectedFigures().stream().allMatch(validFigure);
-      else return getView().getSelectedFigures().stream().anyMatch(validFigure);
-    } else return getView().getSelectionCount() > 0;
+      else 
+				return getView().getSelectedFigures().stream().anyMatch(validFigure);
+    } else 
+			return getView().getSelectionCount() > 0;
   }
 
   /**
@@ -141,7 +143,7 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    * Stream all valid selected figures.
    * @return
    */
-  protected Stream<Figure> streamSelectedFigures() {
+  protected final Stream<Figure> streamSelectedFigures() {
     return getView().getSelectedFigures().stream()
         .filter(f -> validFigure == null || validFigure.test(f));
   }
@@ -150,7 +152,7 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    * Return first valid selected figure.
    * @return
    */
-  protected Figure firstSelectedFigure() {
+  protected final Figure firstSelectedFigure() {
     return streamSelectedFigures().findFirst().orElse(null);
   }
 
