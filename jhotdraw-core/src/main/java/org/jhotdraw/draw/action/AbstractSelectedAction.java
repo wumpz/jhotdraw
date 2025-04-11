@@ -142,6 +142,7 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    * @return
    */
   protected final Stream<Figure> streamSelectedFigures() {
+    if (getView() == null) return Stream.empty();
     return getView().getSelectedFigures().stream()
         .filter(f -> validFigure == null || validFigure.test(f));
   }
