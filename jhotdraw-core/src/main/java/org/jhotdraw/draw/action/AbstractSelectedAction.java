@@ -85,15 +85,20 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
 
   private boolean allSelectedFiguresNeedToBeValid = true;
 
+  private boolean allowNoSelection = false;
+
   /**
    * check selected figures for validity and is used to process only valid figures
    * @param validFigure predicate if a given figure is valid or null
    * @param allSelectedFiguresNeedToBeValid should all selected figures be valid to enable this action?
    */
   protected final void setValidityCheckFigure(
-      Predicate<Figure> validFigure, boolean allSelectedFiguresNeedToBeValid) {
+      Predicate<Figure> validFigure,
+      boolean allSelectedFiguresNeedToBeValid,
+      boolean allowNoSelection) {
     this.validFigure = validFigure;
     this.allSelectedFiguresNeedToBeValid = allSelectedFiguresNeedToBeValid;
+    this.allowNoSelection = allowNoSelection;
   }
 
   /**
@@ -111,7 +116,8 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    */
   protected void updateEnabledState() {
     if (getView() != null) {
-      setEnabled(hasSelectedFigures());
+      if (allowNoSelection && getView().getSelectionCount() == 0) setEnabled(true);
+      else setEnabled(hasSelectedFigures());
     } else {
       setEnabled(false);
     }
