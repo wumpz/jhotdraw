@@ -124,6 +124,17 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
   }
 
   /**
+   * If this action is enabled, then here some state updates can be done.
+   */
+  protected void onEnabled() {}
+
+  @Override
+  public void setEnabled(boolean newValue) {
+    super.setEnabled(newValue);
+    if (newValue) onEnabled();
+  }
+
+  /**
    * contains the selection at least one valid element
    * @return
    */
