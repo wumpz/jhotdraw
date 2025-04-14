@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.draw.action;
 
+import static org.jhotdraw.draw.DrawingEditor.DEFAULT_ATTRIBUTE_PROPERTY_PREFIX;
+
 import java.beans.*;
 import java.io.Serializable;
 import java.util.function.Consumer;
@@ -65,6 +67,9 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
         updateEnabledState();
       } else if ("enabled".equals(evt.getPropertyName())) {
         updateEnabledState();
+      } else if (evt.getPropertyName() != null
+          && evt.getPropertyName().startsWith(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX)) {
+        editorDefaultAttributeUpdated(evt);
       }
     }
 
@@ -203,6 +208,13 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
   protected void fireUndoableEditHappened(UndoableEdit edit) {
     getDrawing().fireUndoableEditHappened(edit);
   }
+
+  /**
+   * Sometimes state changes with those default editor properties. This selected action internally uses already
+   * a property change listener to the active editor.
+   * @param evt
+   */
+  protected void editorDefaultAttributeUpdated(PropertyChangeEvent evt) {}
 
   /**
    * By default, the enabled state of this action is updated to reflect the enabled state of the
