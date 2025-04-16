@@ -464,10 +464,10 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
     return false;
   }
 
-	/**
-	 * Good behaviour of tools is to call this method before a Figure is added to a drawing. Now additional 
-	 * processing is possible, e.g. change Color before adding to drawing.
-	 */
+  /**
+   * Good behaviour of tools is to call this method before a Figure is added to a drawing. Now additional
+   * processing is possible, e.g. change Color before adding to drawing.
+   */
   protected Figure processCreatedFigureBeforeAddingToDocument(Figure figure) {
     return figure;
   }
