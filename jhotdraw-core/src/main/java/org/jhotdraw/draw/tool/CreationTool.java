@@ -247,6 +247,9 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
         if (createdFigure instanceof CompositeFigure) {
           ((CompositeFigure) createdFigure).layout(getView().getScaleFactor());
         }
+				
+				processCreatedFigureBeforeAddingToDocument(createdFigure);
+				
         final Figure addedFigure = createdFigure;
         final Drawing addedDrawing = getDrawing();
 
