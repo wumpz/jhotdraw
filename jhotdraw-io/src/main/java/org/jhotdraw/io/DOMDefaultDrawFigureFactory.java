@@ -235,6 +235,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       figure.basicAdd((Figure) domInput.readObject(i));
     }
     domInput.closeElement();
+		readAttributes(figure, domInput);
   }
 
   public static void writeGraphicalComposite(GraphicalCompositeFigure figure, DOMOutput domOutput)
@@ -249,6 +250,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       domOutput.writeObject(child);
     }
     domOutput.closeElement();
+		writeAttributes(figure, domOutput);
   }
 
   public static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
