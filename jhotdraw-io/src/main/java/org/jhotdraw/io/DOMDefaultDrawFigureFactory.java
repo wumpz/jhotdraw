@@ -30,6 +30,7 @@ import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.DiamondFigure;
 import org.jhotdraw.draw.figure.EllipseFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.GroupFigure;
 import org.jhotdraw.draw.figure.ImageFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
@@ -131,6 +132,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::readGroup,
         DOMDefaultDrawFigureFactory::writeGroup);
     register(
+        "gcomp",
+        GraphicalCompositeFigure.class,
+        DOMDefaultDrawFigureFactory::readGraphicalComposite,
+        DOMDefaultDrawFigureFactory::writeGraphicalComposite);
+    register(
         "arrowTip",
         ArrowTip.class,
         DOMDefaultDrawFigureFactory::readArrowTip,
@@ -215,6 +221,34 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       domOutput.addText(Base64.encodeBytes(figure.getImageData()));
       domOutput.closeElement();
     }
+  }
+
+  public static void readGraphicalComposite(GraphicalCompositeFigure figure, DOMInput domInput)
+      throws IOException {
+    if (domInput.hasElement("presentation")) {
+      domInput.openElement("presentation");
+      figure.setPresentationFigure((Figure) domInput.readObject());
+      domInput.closeElement();
+    }
+    domInput.openElement("children");
+    for (int i = 0; i < domInput.getElementCount(); i++) {
+      figure.basicAdd((Figure) domInput.readObject(i));
+    }
+    domInput.closeElement();
+  }
+
+  public static void writeGraphicalComposite(GraphicalCompositeFigure figure, DOMOutput domOutput)
+      throws IOException {
+    if (figure.getPresentationFigure() != null) {
+      domOutput.openElement("presentation");
+      domOutput.writeObject(figure.getPresentationFigure());
+      domOutput.closeElement();
+    }
+    domOutput.openElement("children");
+    for (Figure child : figure.getChildren()) {
+      domOutput.writeObject(child);
+    }
+    domOutput.closeElement();
   }
 
   public static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
