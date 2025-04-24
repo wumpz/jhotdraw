@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 import org.jhotdraw.draw.decoration.LineDecoration;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.layouter.LocatorLayouter;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.utils.geom.Dimension2DDouble;
 import org.jhotdraw.utils.geom.DoubleStroke;
@@ -450,7 +451,8 @@ public class AttributeKeys {
       ALIGN_RELATIVE_Y,
       PATH_CLOSED,
       OPACITY,
-      ROTATION
+      ROTATION,
+      LocatorLayouter.LAYOUT_LOCATOR
     }));
     SUPPORTED_ATTRIBUTES = Collections.unmodifiableSet(as);
     HashMap<String, AttributeKey<?>> am = new HashMap<>();
