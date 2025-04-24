@@ -27,7 +27,7 @@ import org.jhotdraw.utils.geom.Dimension2DDouble;
 /**
  * A {@link Locator} which can be used to place a label on the path of a path like structure. {@link LinearLocatorBase}.
  *
- * <p>The point is located at a distance and an angle relative to the total length of the bezier path.
+ * <p>The point is located at a distance and an angle relative to the total length of the path.
  *
  * <p>The angle should is perpendicular to the path.
  */
