@@ -352,7 +352,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   public static void readRelativeLocator(RelativeLocator locator, DOMInput domInput)
       throws IOException {
     locator.setRelativePosition(
-        domInput.getAttribute("relativeX", 0.5), domInput.getAttribute("relativeX", 0.5));
+        domInput.getAttribute("relativeX", 0.5), domInput.getAttribute("relativeY", 0.5));
     locator.setIsTransform(domInput.getAttribute("transform", false));
   }
 
