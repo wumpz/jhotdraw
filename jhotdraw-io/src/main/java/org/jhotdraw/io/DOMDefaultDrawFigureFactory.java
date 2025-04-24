@@ -33,6 +33,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.GroupFigure;
 import org.jhotdraw.draw.figure.ImageFigure;
+import org.jhotdraw.draw.figure.LabelFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.figure.LineFigure;
 import org.jhotdraw.draw.figure.RectangleFigure;
@@ -114,6 +115,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     register(
         "t",
         TextFigure.class,
+        DOMDefaultDrawFigureFactory::readText,
+        DOMDefaultDrawFigureFactory::writeText);
+    register(
+        "label",
+        LabelFigure.class,
         DOMDefaultDrawFigureFactory::readText,
         DOMDefaultDrawFigureFactory::writeText);
     register(
@@ -235,7 +241,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       figure.basicAdd((Figure) domInput.readObject(i));
     }
     domInput.closeElement();
-		readAttributes(figure, domInput);
+    readAttributes(figure, domInput);
   }
 
   public static void writeGraphicalComposite(GraphicalCompositeFigure figure, DOMOutput domOutput)
@@ -250,7 +256,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       domOutput.writeObject(child);
     }
     domOutput.closeElement();
-		writeAttributes(figure, domOutput);
+    writeAttributes(figure, domOutput);
   }
 
   public static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
