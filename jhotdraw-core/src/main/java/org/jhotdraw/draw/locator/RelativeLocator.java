@@ -67,6 +67,14 @@ public class RelativeLocator extends AbstractLocator {
     return relativeY;
   }
 
+	public boolean isTransform() {
+		return isTransform;
+	}
+
+	public void setIsTransform(boolean transformable) {
+		this.isTransform = transformable;
+	}
+
   @Override
   public Locator.Position locate(Figure owner, double scale) {
     Rectangle2D.Double bounds = owner.getBounds(scale);
