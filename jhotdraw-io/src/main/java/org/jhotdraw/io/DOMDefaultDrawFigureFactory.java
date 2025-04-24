@@ -171,7 +171,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::readLocatorConnector,
         DOMDefaultDrawFigureFactory::writeLocatorConnector);
 
-    register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
+    register(
+        "relativeLoc",
+        RelativeLocator.class,
+        DOMDefaultDrawFigureFactory::readRelativeLocator,
+        DOMDefaultDrawFigureFactory::writeRelativeLocator); 
     register("elbowLiner", ElbowLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
     register("curvedLiner", CurvedLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
     register(
@@ -301,6 +305,20 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.openElement("endConnector");
     domOutput.writeObject(figure.getEndConnector());
     domOutput.closeElement();
+  }
+
+  public static void readRelativeLocator(RelativeLocator locator, DOMInput domInput)
+      throws IOException {
+    locator.setRelativePosition(
+        domInput.getAttribute("relativeX", 0.5), domInput.getAttribute("relativeX", 0.5));
+    locator.setIsTransform(domInput.getAttribute("transform", false));
+  }
+
+  public static void writeRelativeLocator(RelativeLocator locator, DOMOutput domOutput)
+      throws IOException {
+    domOutput.addAttribute("relativeX", locator.getRelativeX());
+    domOutput.addAttribute("relativeY", locator.getRelativeY());
+    domOutput.addAttribute("transform", locator.isTransform());
   }
 
   public static void readBezierLabelLocator(BezierLabelLocator locator, DOMInput domInput)
