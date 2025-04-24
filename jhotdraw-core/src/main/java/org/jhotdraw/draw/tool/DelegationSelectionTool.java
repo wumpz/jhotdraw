@@ -279,11 +279,11 @@ public class DelegationSelectionTool extends SelectionTool {
       }
       Figure outerFigure = figure;
       if (figure != null && figure.isSelectable()) {
-        Tool figureTool = figure.getTool(p);
+        Tool figureTool = figure.getTool(v, p);
         if (figureTool == null) {
           figure = getDrawing().findFigureInside(p);
           if (figure != null) {
-            figureTool = figure.getTool(p);
+            figureTool = figure.getTool(v, p);
           }
         }
         if (figureTool != null) {

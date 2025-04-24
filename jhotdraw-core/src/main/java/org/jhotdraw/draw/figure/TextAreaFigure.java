@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TextOverflowHandle;
@@ -414,7 +415,7 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     if (isEditable() && contains(p)) {
       TextAreaEditingTool tool = new TextAreaEditingTool(this);
       return tool;

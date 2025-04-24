@@ -331,7 +331,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    *
    * <p>Returns null, if no specialized tool is available.
    */
-  public Tool getTool(Point2D.Double p);
+  public Tool getTool(DrawingView view, Point2D.Double p);
 
   /** Returns a tooltip for the specified location on the figure. */
   public String getToolTipText(Point2D.Double p);

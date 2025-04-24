@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
@@ -409,7 +410,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     if (isEditable() && contains(p)) {
       TextEditingTool tool = new TextEditingTool(this);
       return tool;

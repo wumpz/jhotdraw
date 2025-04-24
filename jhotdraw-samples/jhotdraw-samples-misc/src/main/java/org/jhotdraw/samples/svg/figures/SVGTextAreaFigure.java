@@ -499,7 +499,7 @@ public class SVGTextAreaFigure extends SVGAttributedFigure implements SVGFigure,
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     if (isEditable() && contains(p)) {
       TextAreaEditingTool tool = new TextAreaEditingTool(this);
       return tool;
