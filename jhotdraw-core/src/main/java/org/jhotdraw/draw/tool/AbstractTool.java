@@ -282,6 +282,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   public void mouseMoved(MouseEvent evt) {}
 
   @Override
+  public void mouseDragged(MouseEvent e) {}
+
+  @Override
   public void mousePressed(MouseEvent evt) {
     DrawingView view = editor.findView((Container) evt.getSource());
     view.requestFocus();
