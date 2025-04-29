@@ -86,8 +86,8 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
 
   /** The created figure. */
   protected Figure createdFigure;
-	
-	private boolean selectFigureAfterCreation = true;
+
+  private boolean selectFigureAfterCreation = true;
 
   /**
    * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
@@ -166,11 +166,11 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
     }
     this.presentationName = name;
   }
-	
-	public CreationTool withSelectFigureAfterCreation(boolean selectFigures) {
-		this.selectFigureAfterCreation = selectFigures;
-		return this;
-	}
+
+  public CreationTool withSelectFigureAfterCreation(boolean selectFigures) {
+    this.selectFigureAfterCreation = selectFigures;
+    return this;
+  }
 
   public Figure getPrototype() {
     return prototype;
