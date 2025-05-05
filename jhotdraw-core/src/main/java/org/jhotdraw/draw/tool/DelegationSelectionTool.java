@@ -54,6 +54,8 @@ public class DelegationSelectionTool extends SelectionTool {
    */
   private javax.swing.Timer popupTimer;
 
+  private boolean usePopupTimer = true;
+
   /** When the popup menu is visible, we do not track mouse movements. */
   private JPopupMenu popupMenu;
 
@@ -85,6 +87,11 @@ public class DelegationSelectionTool extends SelectionTool {
     this.selectionActions = selectionActions;
   }
 
+  public DelegationSelectionTool withUsePopupTimer(boolean flag) {
+    this.usePopupTimer = flag;
+    return this;
+  }
+
   /**
    * MouseListener method for mousePressed events. If the popup trigger has been activated, then the
    * appropriate hook method is called.
@@ -104,15 +111,17 @@ public class DelegationSelectionTool extends SelectionTool {
       handlePopupMenu(evt);
     } else {
       super.mousePressed(evt);
-      popupTimer = new javax.swing.Timer(1000, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent aevt) {
-          handlePopupMenu(evt);
-          popupTimer = null;
-        }
-      });
-      popupTimer.setRepeats(false);
-      popupTimer.start();
+      if (usePopupTimer) {
+        popupTimer = new javax.swing.Timer(1000, new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent aevt) {
+            handlePopupMenu(evt);
+            popupTimer = null;
+          }
+        });
+        popupTimer.setRepeats(false);
+        popupTimer.start();
+      }
     }
   }
 
