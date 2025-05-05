@@ -18,6 +18,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
@@ -269,11 +271,18 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
       g.drawRect(anchor.x - 2, anchor.y - 2, 4, 4);
 
       Graphics2D gDrawing = (Graphics2D) g.create();
-      gDrawing.transform(getView().getDrawingToViewTransform());
-      createdFigure.draw(gDrawing);
-      gDrawing.dispose();
+      try {
+        gDrawing.transform(getView().getDrawingToViewTransform());
+        createdFigure.draw(gDrawing);
+      } catch (Exception ex) {
+        LOG.log(Level.FINE, "unable to draw figure {0}", ex.toString());
+      } finally {
+        gDrawing.dispose();
+      }
     }
   }
+
+  private static final Logger LOG = Logger.getLogger(CreationTool.class.getName());
 
   @Override
   public void mouseReleased(MouseEvent evt) {
