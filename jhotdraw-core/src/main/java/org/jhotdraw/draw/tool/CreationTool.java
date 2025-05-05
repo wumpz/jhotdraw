@@ -253,12 +253,12 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
   public void mouseDragged(MouseEvent evt) {
     if (createdFigure != null) {
       Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()), createdFigure);
-      var areaBefore = createdFigure.getDrawingArea();
+      var areaBefore = createdFigure.getDrawingArea(getView().getScaleFactor());
       createdFigure.willChange();
       setFigureBounds(
           createdFigure, constrainPoint(new Point(anchor.x, anchor.y), createdFigure), p);
       createdFigure.changed();
-      var areaAfter = createdFigure.getDrawingArea();
+      var areaAfter = createdFigure.getDrawingArea(getView().getScaleFactor());
       areaAfter.add(areaBefore);
       fireAreaInvalidated(areaAfter);
     }

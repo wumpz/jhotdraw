@@ -9,9 +9,14 @@ package org.jhotdraw.draw.figure;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopEllipseConnector;
 import org.jhotdraw.draw.connector.Connector;
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.utils.geom.Geom;
 
 /** A {@link Figure} with an elliptic shape. */
@@ -143,5 +148,19 @@ public class EllipseFigure extends AbstractAttributedFigure {
   @Override
   public Object getTransformRestoreData() {
     return ellipse.clone();
+  }
+
+  @Override
+  public Collection<Handle> createHandles(int detailLevel) {
+    java.util.List<Handle> handles = new ArrayList<>();
+    switch (detailLevel) {
+      case -1:
+        handles.add(new BoundsOutlineHandle(this, false, true));
+        break;
+      case 0:
+        ResizeHandleKit.addResizeHandles(this, handles, true);
+        break;
+    }
+    return handles;
   }
 }
