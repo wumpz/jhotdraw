@@ -7,10 +7,11 @@
  */
 package org.jhotdraw.draw.tool;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -89,6 +90,8 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
 
   private boolean selectFigureAfterCreation = true;
 
+  private boolean anchorIsCenterOfBoundingBox = false;
+
   /**
    * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
    * created. This allows to create multiple figures consecutively.
@@ -119,6 +122,15 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
       name = labels.getString("edit.createFigure.text");
     }
     this.presentationName = name;
+  }
+
+  /**
+   * Bounding box is now constructed around anchor as center and lead as path to one edge. The main calculation is
+   * done within setFigureBounds to make more specific adaptions.
+   */
+  public CreationTool withAchorIsCenterOfBoundingBox(boolean flag) {
+    this.anchorIsCenterOfBoundingBox = flag;
+    return this;
   }
 
   /**
@@ -201,6 +213,23 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
     }
   }
 
+  /**
+   * Sets the bounding box for a figure. Here it should be possible to recalculate the new bounding box to
+   * e.g. anchor is center and lead is distance center to one border point.
+   * @param figure
+   * @param anchor
+   * @param lead
+   */
+  protected void setFigureBounds(Figure figure, Point2D.Double anchor, Point2D.Double lead) {
+    if (anchorIsCenterOfBoundingBox) {
+      Point2D.Double newAnchor =
+          new Point2D.Double(anchor.x - (lead.x - anchor.x), anchor.y - (lead.y - anchor.y));
+      figure.setBounds(newAnchor, lead);
+    } else {
+      figure.setBounds(anchor, lead);
+    }
+  }
+
   @Override
   public void mousePressed(MouseEvent evt) {
     super.mousePressed(evt);
@@ -212,18 +241,37 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
     Point2D.Double p = constrainPoint(viewToDrawing(anchor), createdFigure);
     anchor.x = evt.getX();
     anchor.y = evt.getY();
-    createdFigure.setBounds(p, p);
+    setFigureBounds(createdFigure, p, p);
     //    getDrawing().add(createdFigure);
     //    fireFigureCreated(createdFigure);
+    fireAreaInvalidated(createdFigure.getDrawingArea());
   }
 
   @Override
   public void mouseDragged(MouseEvent evt) {
     if (createdFigure != null) {
       Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()), createdFigure);
+      var areaBefore = createdFigure.getDrawingArea();
       createdFigure.willChange();
-      createdFigure.setBounds(constrainPoint(new Point(anchor.x, anchor.y), createdFigure), p);
+      setFigureBounds(
+          createdFigure, constrainPoint(new Point(anchor.x, anchor.y), createdFigure), p);
       createdFigure.changed();
+      var areaAfter = createdFigure.getDrawingArea();
+      areaAfter.add(areaBefore);
+      fireAreaInvalidated(areaAfter);
+    }
+  }
+
+  @Override
+  public void draw(Graphics2D g) {
+    if (createdFigure != null) {
+      g.setColor(Color.red);
+      g.drawRect(anchor.x - 2, anchor.y - 2, 4, 4);
+
+      Graphics2D gDrawing = (Graphics2D) g.create();
+      gDrawing.transform(getView().getDrawingToViewTransform());
+      createdFigure.draw(gDrawing);
+      gDrawing.dispose();
     }
   }
 
@@ -242,7 +290,8 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
         if (Math.abs(anchor.x - evt.getX()) < minimalSizeTreshold.width
             && Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
           createdFigure.willChange();
-          createdFigure.setBounds(
+          setFigureBounds(
+              createdFigure,
               constrainPoint(new Point(anchor.x, anchor.y), createdFigure),
               constrainPoint(
                   new Point(
@@ -284,9 +333,9 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
             addedDrawing.add(addedFigure);
           }
         });
-        Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
-        r.add(evt.getX(), evt.getY());
-        maybeFireBoundsInvalidated(r);
+        //        Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
+        //        r.add(evt.getX(), evt.getY());
+        //        maybeFireBoundsInvalidated(r);
         creationFinished(createdFigure);
         createdFigure = null;
       }

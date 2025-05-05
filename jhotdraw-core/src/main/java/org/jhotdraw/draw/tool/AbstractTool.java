@@ -348,9 +348,10 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireAreaInvalidated(Rectangle2D.Double r) {
-    Point p1 = getView().drawingToView(new Point2D.Double(r.x, r.y));
-    Point p2 = getView().drawingToView(new Point2D.Double(r.x + r.width, r.y + r.height));
-    fireAreaInvalidated(new Rectangle(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y));
+    // Point p1 = getView().drawingToView(new Point2D.Double(r.x, r.y));
+    // Point p2 = getView().drawingToView(new Point2D.Double(r.x + r.width, r.y + r.height));
+    // fireAreaInvalidated(new Rectangle(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y));
+    fireAreaInvalidated(getView().drawingToView(r));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
