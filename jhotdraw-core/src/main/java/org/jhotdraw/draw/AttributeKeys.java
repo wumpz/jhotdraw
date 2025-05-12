@@ -263,17 +263,17 @@ public class AttributeKeys {
   public static final AttributeKey<Double> ROTATION =
       new AttributeKey<>("rotation", Double.class, 0d, false, LABELS);
 
-  /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_BOLD =
       new AttributeKey<>("fontBold", Boolean.class, false, false, LABELS);
 
-  /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_ITALIC =
       new AttributeKey<>("fontItalic", Boolean.class, false, false, LABELS);
 
-  /** The value of this attribute is a Boolean object. */
   public static final AttributeKey<Boolean> FONT_UNDERLINE =
       new AttributeKey<>("fontUnderline", Boolean.class, false, false, LABELS);
+
+  public static final AttributeKey<Boolean> FONT_STRIKETHROUGH =
+      new AttributeKey<>("fontStrikeThrough", Boolean.class, false, false, LABELS);
 
   /** The value of this attribute is a Liner object. */
   public static final AttributeKey<Liner> BEZIER_PATH_LAYOUTER =
@@ -439,6 +439,7 @@ public class AttributeKeys {
       FONT_BOLD,
       FONT_ITALIC,
       FONT_UNDERLINE,
+      FONT_STRIKETHROUGH,
       BEZIER_PATH_LAYOUTER,
       END_DECORATION,
       START_DECORATION,
