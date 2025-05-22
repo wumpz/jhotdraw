@@ -87,7 +87,7 @@ public class TrackingHandle extends AbstractHandle {
     figure.willChange();
     Point2D.Double p = view.getConstrainer() == null
         ? view.viewToDrawing(lead)
-        : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+        : view.getConstrainer().constrainPoint(view.viewToDrawing(lead), getOwner());
     if (getOwner().attr().get(TRANSFORM) != null) {
       try {
         getOwner().attr().get(TRANSFORM).inverseTransform(p, p);
