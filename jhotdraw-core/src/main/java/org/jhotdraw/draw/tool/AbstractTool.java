@@ -299,6 +299,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   }
 
   @Override
+  public void mouseWheelMoved(MouseWheelEvent mwe) {}
+
+  @Override
   public void addToolListener(ToolListener l) {
     listenerList.add(ToolListener.class, l);
   }
