@@ -182,6 +182,13 @@ public class AttributeKeys {
    */
   public static final AttributeKey<Boolean> IS_SIZE_PIXEL_VALUE =
       new AttributeKey<>("isSizePixelValue", Boolean.class, false, false, LABELS);
+	
+	/** 
+	 * A double used to specify a global scale factor to other here given sizes. E.g. font size. The factor will be used
+	 * to present the figure in the graphics. It helps to scale pixel sizes. 
+	 */
+  public static final AttributeKey<Double> SIZE_FACTOR =
+      new AttributeKey<>("sizeFactor", Double.class, 1d, false, LABELS);
 
   public static enum StrokeType {
     /** If STROKE_TYPE is put to this value, a BasicStroke instance is used for stroking. */
@@ -448,6 +455,7 @@ public class AttributeKeys {
       WINDING_RULE,
       IS_STROKE_PIXEL_VALUE,
       IS_SIZE_PIXEL_VALUE,
+			SIZE_FACTOR, 
       ALIGN_RELATIVE_X,
       ALIGN_RELATIVE_Y,
       PATH_CLOSED,
