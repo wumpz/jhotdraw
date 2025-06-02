@@ -220,7 +220,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     return origin.y + layout.getAscent() - getBounds().y;
   }
 
-  private AffineTransform rotationMatrix() {
+  protected AffineTransform rotationMatrix() {
     return AffineTransform.getRotateInstance(direction.x, direction.y, origin.x, origin.y);
   }
 
