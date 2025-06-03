@@ -20,18 +20,16 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.draw.event.TrackingEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.utils.undo.CompositeEdit;
 
 /**
- * Simple tracking handle that changes in some way the owner Figure. This change is injected using
- * some lambdas.
+ * Simple tracking handle that changes in some way the owner Figure. This change is injected using some lambdas.
  */
 public class TrackingHandle extends AbstractHandle {
+
   private final Supplier<Point2D.Double> readLocation;
   private final Consumer<Point2D.Double> writeLocation;
   private final Runnable deleteLocation;
   private final Runnable insertLocation;
-  private CompositeEdit edit;
 
   public TrackingHandle(
       Figure owner, Supplier<Point2D.Double> readLocation, Consumer<Point2D.Double> writeLocation) {
@@ -76,8 +74,6 @@ public class TrackingHandle extends AbstractHandle {
 
   @Override
   public void trackStart(Point anchor, int modifiersEx) {
-    Figure figure = getOwner();
-    view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
     oldPoint = readLocation.get();
   }
 
@@ -111,8 +107,12 @@ public class TrackingHandle extends AbstractHandle {
     final Figure f = getOwner();
     Point2D.Double newPoint = readLocation.get();
     view.getDrawing()
-        .fireUndoableEditHappened(new TrackingEdit(f, writeLocation, oldPoint, newPoint));
-    view.getDrawing().fireUndoableEditHappened(edit);
+        .fireUndoableEditHappened(new TrackingEdit(f, writeLocation, oldPoint, newPoint) {
+          @Override
+          public String getPresentationName() {
+            return "Punkt verschieben";
+          }
+        });
   }
 
   @Override
