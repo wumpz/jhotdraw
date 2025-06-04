@@ -12,7 +12,6 @@ import java.util.function.Consumer;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 
@@ -30,8 +29,8 @@ public class TrackingEdit extends AbstractUndoableEdit {
       Point2D.Double newValue) {
     this.owner = owner;
     this.writeLocation = writeLocation;
-    this.oldValue = new Point2D.Double( oldValue.x, oldValue.y);
-    this.newValue = new Point2D.Double( newValue.x, newValue.y);
+    this.oldValue = new Point2D.Double(oldValue.x, oldValue.y);
+    this.newValue = new Point2D.Double(newValue.x, newValue.y);
   }
 
   @Override
@@ -50,14 +49,14 @@ public class TrackingEdit extends AbstractUndoableEdit {
     owner.changed();
   }
 
-//  @Override
-//  public boolean addEdit(UndoableEdit anEdit) {
-//    if (anEdit instanceof TrackingEdit that) {
-//      if (that.owner == this.owner && that.writeLocation == this.writeLocation) {
-//        this.newValue = that.newValue;
-//        return true;
-//      }
-//    }
-//    return false;
-//  }
+  //  @Override
+  //  public boolean addEdit(UndoableEdit anEdit) {
+  //    if (anEdit instanceof TrackingEdit that) {
+  //      if (that.owner == this.owner && that.writeLocation == this.writeLocation) {
+  //        this.newValue = that.newValue;
+  //        return true;
+  //      }
+  //    }
+  //    return false;
+  //  }
 }
