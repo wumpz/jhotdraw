@@ -94,7 +94,7 @@ public class LinearLabelLocator implements Locator {
   protected Locator.Position getRelativePoint(LinearLocatorBase owner, double scale) {
     Point2D.Double point = owner.getPointOnPath(relativePosition, 0.1);
     Point2D.Double nextPoint = owner.getPointOnPath(
-        (relativePosition < 0.5) ? relativePosition + 0.1d : relativePosition - 0.1d, 0.1);
+        (relativePosition < 0.5) ? relativePosition + 0.01d : relativePosition - 0.01d, 0.1);
     double dir = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
     if (relativePosition >= 0.5) {
       dir += Math.PI;
