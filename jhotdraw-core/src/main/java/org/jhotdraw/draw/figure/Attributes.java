@@ -109,12 +109,12 @@ public final class Attributes {
   public Object getAttributesRestoreData() {
     List<Attributes> dependent = DEPENDENT.get();
     if (dependent.isEmpty()) {
-      return getAttributes();
+      return new HashMap<>(attributes);
     } else {
       List<Map<AttributeKey<?>, Object>> list = new ArrayList<>();
-      list.add(getAttributes());
+      list.add(new HashMap<>(attributes));
       for (Attributes attr : dependent) {
-        list.add(attr.getAttributes());
+        list.add(new HashMap<>(attr.getAttributes()));
       }
       return list;
     }

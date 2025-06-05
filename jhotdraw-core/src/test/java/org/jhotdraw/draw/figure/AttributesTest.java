@@ -22,6 +22,7 @@ package org.jhotdraw.draw.figure;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Map;
 import org.jhotdraw.draw.AttributeKeys;
 import org.junit.jupiter.api.Test;
 
@@ -75,5 +76,24 @@ public class AttributesTest {
 
     assertEquals(attrNew.get(AttributeKeys.USER_DATA).data().get("var"), "value");
     assertEquals(attr.get(AttributeKeys.USER_DATA).data().get("var"), "value2");
+  }
+
+  @Test
+  void testEnsureCopyOfAttributesMapRestoreData() {
+    Attributes attr = new Attributes();
+    attr.set(AttributeKeys.STROKE_WIDTH, 1.5);
+    attr.set(AttributeKeys.STROKE_COLOR, null); // null values can happen
+
+    var data = attr.getAttributesRestoreData();
+
+    attr.removeAttribute(AttributeKeys.STROKE_WIDTH);
+    attr.removeAttribute(AttributeKeys.STROKE_COLOR);
+    assertThat(data).isInstanceOf(Map.class);
+    assertThat((Map) data).hasSize(2);
+
+    attr.restoreAttributesTo(data);
+
+    assertThat(attr.get(AttributeKeys.STROKE_WIDTH)).isEqualTo(1.5);
+    assertThat(attr.get(AttributeKeys.STROKE_COLOR)).isNull();
   }
 }
