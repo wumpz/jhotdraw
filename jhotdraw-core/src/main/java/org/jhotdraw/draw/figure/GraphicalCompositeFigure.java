@@ -117,13 +117,12 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   public GraphicalCompositeFigure(Figure newPresentationFigure) {
     super();
     setPresentationFigure(newPresentationFigure);
-    initAttributeDependentSupplier();
   }
 
   private void initAttributeDependentSupplier() {
     attr().dependents(Attributes.attrSupplier(() -> {
       var list = new ArrayList<>(this.getChildren());
-      list.add(getPresentationFigure());
+      if (this.presentationFigure != null) list.add(presentationFigure);
       return list;
     }));
   }
@@ -260,6 +259,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
         this.presentationFigure.addNotify(getDrawing());
       }
     }
+    initAttributeDependentSupplier();
   }
 
   /**
