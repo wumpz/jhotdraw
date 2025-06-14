@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.CompositeFigureEvent;
 import org.jhotdraw.draw.event.CompositeFigureListener;
@@ -163,7 +164,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   @Override
   public void updateConnection() {
     super.updateConnection();
-    layout();
+    layout(AttributeKeys.scaleFromContext(this));
   }
 
   // COMPOSITE FIGURES
@@ -322,7 +323,7 @@ public class LabeledLineConnectionFigure extends LineConnectionFigure implements
   @Override
   public void validate() {
     super.validate();
-    layout();
+    layout(AttributeKeys.scaleFromContext(this));
   }
 
   @Override

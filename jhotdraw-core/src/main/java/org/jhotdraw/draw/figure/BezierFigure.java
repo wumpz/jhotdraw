@@ -385,8 +385,6 @@ public class BezierFigure extends AbstractAttributedFigure {
     return cappedPath;
   }
 
-  public void layout() {}
-
   /** Adds a control point. */
   public void addNode(BezierPath.Node p) {
     addNode(getNodeCount(), p);
