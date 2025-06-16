@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jhotdraw</groupId>
     <artifactId>jhotdraw</artifactId>
-    <version>10.2-SNAPSHOT</version>
+    <version>10.2</version>
   </parent>
   <artifactId>jhotdraw-utils</artifactId>
   <packaging>jar</packaging>
