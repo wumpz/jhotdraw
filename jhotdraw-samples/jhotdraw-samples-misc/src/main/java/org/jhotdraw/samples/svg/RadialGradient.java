@@ -89,11 +89,9 @@ public class RadialGradient implements Gradient {
     float[] fractions = new float[stopColors.length];
     for (int i = 0; i < stopColors.length; i++) {
       fractions[i] = (float) stopOffsets[i];
-      colors[i] =
-          new Color(
-              (stopColors[i].getRGB() & 0xffffff)
-                  | ((int) (opacity * stopOpacities[i] * 255) << 24),
-              true);
+      colors[i] = new Color(
+          (stopColors[i].getRGB() & 0xffffff) | ((int) (opacity * stopOpacities[i] * 255) << 24),
+          true);
     }
     // Compute the dimensions and transforms for the paint
     Point2D.Double cp, fp;
@@ -118,16 +116,15 @@ public class RadialGradient implements Gradient {
     }
     // Construct the paint
     RadialGradientPaint gp;
-    gp =
-        new RadialGradientPaint(
-            cp,
-            (float) rr,
-            fp,
-            fractions,
-            colors,
-            RadialGradientPaint.CycleMethod.NO_CYCLE,
-            RadialGradientPaint.ColorSpaceType.SRGB,
-            t);
+    gp = new RadialGradientPaint(
+        cp,
+        (float) rr,
+        fp,
+        fractions,
+        colors,
+        RadialGradientPaint.CycleMethod.NO_CYCLE,
+        RadialGradientPaint.ColorSpaceType.SRGB,
+        t);
     return gp;
   }
 

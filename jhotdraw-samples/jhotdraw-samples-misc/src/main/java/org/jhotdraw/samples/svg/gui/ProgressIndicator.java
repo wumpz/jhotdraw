@@ -50,14 +50,13 @@ public class ProgressIndicator extends javax.swing.JPanel {
     String oldValue = noteLabel.getText();
     noteLabel.setText(newValue);
     if (oldValue == null || newValue == null && oldValue != newValue) {
-      Runnable r =
-          new Runnable() {
-            @Override
-            public void run() {
-              noteLabel.setVisible(newValue != null);
-              validate();
-            }
-          };
+      Runnable r = new Runnable() {
+        @Override
+        public void run() {
+          noteLabel.setVisible(newValue != null);
+          validate();
+        }
+      };
       SwingUtilities.invokeLater(r);
     }
   }

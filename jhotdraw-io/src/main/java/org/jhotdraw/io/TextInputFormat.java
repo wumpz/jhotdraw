@@ -22,7 +22,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
 
 /**
  * An input format for importing text into a drawing.

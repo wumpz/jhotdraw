@@ -27,15 +27,15 @@ import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.gui.JAttributeTextField;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
-import org.jhotdraw.formatter.FontFormatter;
-import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
 import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.formatter.FontFormatter;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.*;
 
 /** StrokeToolBar. */
 public class FontToolBar extends AbstractToolBar {
@@ -59,45 +59,43 @@ public class FontToolBar extends AbstractToolBar {
     }
     super.setEditor(newValue);
     if (newValue != null) {
-      displayer =
-          new SelectionComponentDisplayer(editor, this) {
-            @Override
-            public void updateVisibility() {
-              boolean newValue =
-                  editor != null
-                      && editor.getActiveView() != null
-                      && (isVisibleIfCreationTool
-                              && ((editor.getTool() instanceof TextCreationTool)
-                                  || editor.getTool() instanceof TextAreaCreationTool)
-                          || containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
-              JComponent component = getComponent();
-              if (component == null) {
-                dispose();
-                return;
-              }
-              component.setVisible(newValue);
-              // The following is needed to trick BoxLayout
-              if (newValue) {
-                component.setPreferredSize(null);
-              } else {
-                component.setPreferredSize(new Dimension(0, 0));
-              }
-              component.revalidate();
-            }
+      displayer = new SelectionComponentDisplayer(editor, this) {
+        @Override
+        public void updateVisibility() {
+          boolean newValue = editor != null
+              && editor.getActiveView() != null
+              && (isVisibleIfCreationTool
+                      && ((editor.getTool() instanceof TextCreationTool)
+                          || editor.getTool() instanceof TextAreaCreationTool)
+                  || containsTextHolderFigure(editor.getActiveView().getSelectedFigures()));
+          JComponent component = getComponent();
+          if (component == null) {
+            dispose();
+            return;
+          }
+          component.setVisible(newValue);
+          // The following is needed to trick BoxLayout
+          if (newValue) {
+            component.setPreferredSize(null);
+          } else {
+            component.setPreferredSize(new Dimension(0, 0));
+          }
+          component.revalidate();
+        }
 
-            private boolean containsTextHolderFigure(Collection<Figure> figures) {
-              for (Figure f : figures) {
-                if (f instanceof TextHolderFigure) {
-                  return true;
-                } else if (f instanceof CompositeFigure) {
-                  if (containsTextHolderFigure(((CompositeFigure) f).getChildren())) {
-                    return true;
-                  }
-                }
+        private boolean containsTextHolderFigure(Collection<Figure> figures) {
+          for (Figure f : figures) {
+            if (f instanceof TextHolderFigure) {
+              return true;
+            } else if (f instanceof CompositeFigure) {
+              if (containsTextHolderFigure(((CompositeFigure) f).getChildren())) {
+                return true;
               }
-              return false;
             }
-          };
+          }
+          return false;
+        }
+      };
     }
   }
 

@@ -34,7 +34,7 @@ import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JFileURIChooser;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.samples.net.figures.NodeFigure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Provides factory methods for creating views, menu bars and toolbars.
@@ -86,9 +86,8 @@ public class NetApplicationModel extends DefaultApplicationModel {
     for (double sf : SCALE_FACTORS) {
       m.put(
           (int) (sf * 100) + "%",
-          aa =
-              new ViewPropertyAction(
-                  a, v, DrawingView.SCALE_FACTOR_PROPERTY, Double.TYPE, new Double(sf)));
+          aa = new ViewPropertyAction(
+              a, v, DrawingView.SCALE_FACTOR_PROPERTY, Double.TYPE, new Double(sf)));
       aa.putValue(Action.NAME, (int) (sf * 100) + " %");
     }
     return m;

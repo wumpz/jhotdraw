@@ -23,8 +23,8 @@ import javax.swing.plaf.metal.*;
 import org.jhotdraw.api.gui.ActivityModel;
 import org.jhotdraw.gui.event.ActivityManagerEvent;
 import org.jhotdraw.gui.event.ActivityManagerListener;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * The {@code JActivityWindow} displays all progress models registered in the progress manager.
@@ -91,21 +91,19 @@ public class JActivityWindow extends javax.swing.JFrame {
     @Override
     public void activityModelRemoved(ActivityManagerEvent evt) {
       final ActivityModel pm = evt.getActivityModel();
-      int delay =
-          (pm.getError() != null)
-              ? errorRemovalDelay
-              : ((pm.getWarning() != null) ? warningRemovalDelay : normalRemovalDelay);
+      int delay = (pm.getError() != null)
+          ? errorRemovalDelay
+          : ((pm.getWarning() != null) ? warningRemovalDelay : normalRemovalDelay);
       if (delay == -1) {
         JActivityWindow.this.setVisible(true);
         return;
       }
-      ActionListener tt =
-          new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              removeActivityModel(pm);
-            }
-          };
+      ActionListener tt = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          removeActivityModel(pm);
+        }
+      };
       if (delay == 0) {
         tt.actionPerformed(null);
       } else {
@@ -138,17 +136,16 @@ public class JActivityWindow extends javax.swing.JFrame {
     initComponents();
     setFocusable(false); // needed for Mac OS X
     setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-    progressPanel =
-        new javax.swing.JPanel() {
-          private static final long serialVersionUID = 1L;
+    progressPanel = new javax.swing.JPanel() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public Dimension getPreferredSize() {
-            Dimension d = super.getPreferredSize();
-            d.width = 300;
-            return d;
-          }
-        };
+      @Override
+      public Dimension getPreferredSize() {
+        Dimension d = super.getPreferredSize();
+        d.width = 300;
+        return d;
+      }
+    };
     progressPanel.setLayout(new javax.swing.BoxLayout(progressPanel, javax.swing.BoxLayout.Y_AXIS));
     // getContentPane().add(progressPanel, java.awt.BorderLayout.CENTER);
     scrollPane.setViewportView(progressPanel);

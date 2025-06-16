@@ -23,8 +23,8 @@ import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
 import org.jhotdraw.draw.layouter.VerticalLayouter;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Insets2D;
+import org.jhotdraw.utils.util.*;
 
 /**
  * TaskFigure.
@@ -127,9 +127,8 @@ public class TaskFigure extends GraphicalCompositeFigure {
         handles.add(new MoveHandle(this, RelativeLocator.southEast()));
         ConnectorHandle ch;
         handles.add(
-            ch =
-                new ConnectorHandle(
-                    new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
+            ch = new ConnectorHandle(
+                new LocatorConnector(this, RelativeLocator.east()), new DependencyFigure()));
         ch.setToolTipText("Drag the connector to a dependent task.");
         break;
     }

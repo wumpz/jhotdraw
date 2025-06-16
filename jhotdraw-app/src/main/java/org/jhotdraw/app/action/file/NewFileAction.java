@@ -11,7 +11,7 @@ import java.awt.event.*;
 import org.jhotdraw.action.AbstractApplicationAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Creates a new view.
@@ -52,13 +52,12 @@ public class NewFileAction extends AbstractApplicationAction {
     }
     newView.setMultipleOpenId(multiOpenId);
     app.add(newView);
-    newView.execute(
-        new Runnable() {
-          @Override
-          public void run() {
-            newView.clear();
-          }
-        });
+    newView.execute(new Runnable() {
+      @Override
+      public void run() {
+        newView.clear();
+      }
+    });
     app.show(newView);
   }
 }

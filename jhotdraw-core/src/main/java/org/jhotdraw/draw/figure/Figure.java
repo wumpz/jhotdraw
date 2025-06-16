@@ -22,7 +22,7 @@ import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
 
 /**
  * A <em>figure</em> is a graphical element of a {@link Drawing}. A figure can be only in one
@@ -287,6 +287,22 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
   public boolean isTransformable();
 
   /**
+   * Returns true, if user tries to drag this figure. If this operation returns false, Tool's should not
+   * drag this figure on behalf of the user. This is used mainly by the DragTracker.
+   */
+  public boolean isDraggable();
+
+  /**
+   * Was the underlying figure modified though some kind of manual or programmatic action.
+   */
+  public boolean isModified();
+
+  /**
+   * Reset modified status of this figure.
+   */
+  public void resetModified();
+
+  /**
    * Creates handles used to manipulate the figure.
    *
    * @param detailLevel The detail level of the handles. Usually this is 0 for bounding box handles
@@ -315,7 +331,7 @@ public interface Figure extends AttributeProvider, Cloneable, Serializable {
    *
    * <p>Returns null, if no specialized tool is available.
    */
-  public Tool getTool(Point2D.Double p);
+  public Tool getTool(DrawingView view, Point2D.Double p);
 
   /** Returns a tooltip for the specified location on the figure. */
   public String getToolTipText(Point2D.Double p);

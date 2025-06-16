@@ -29,7 +29,7 @@ import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListenerAdapter;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.MoveHandle;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * The GraphicalCompositeFigure fills in the gap between a CompositeFigure and other figures which
@@ -82,7 +82,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
     public void figureChanged(FigureEvent e) {
       if (!owner.isChanging()) {
         owner.willChange();
-        owner.fireFigureChanged(e);
+        owner.fireFigureChanged(new FigureEvent(owner, e.getInvalidatedArea()));
         owner.changed();
       }
     }
@@ -117,30 +117,27 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
   public GraphicalCompositeFigure(Figure newPresentationFigure) {
     super();
     setPresentationFigure(newPresentationFigure);
-    initAttributeDependentSupplier();
   }
 
   private void initAttributeDependentSupplier() {
-    attr()
-        .dependents(
-            Attributes.attrSupplier(
-                () -> {
-                  var list = new ArrayList<>(this.getChildren());
-                  list.add(getPresentationFigure());
-                  return list;
-                }));
+    attr().dependents(Attributes.attrSupplier(() -> {
+      var list = new ArrayList<>(this.getChildren());
+      if (this.presentationFigure != null) list.add(presentationFigure);
+      return list;
+    }));
   }
 
   /**
-   * Return the logcal display area. This method is delegated to the encapsulated presentation
+   * Return the logical display area. This method is delegated to the encapsulated presentation
    * figure.
    */
   @Override
   public Rectangle2D.Double getBounds(double scale) {
-    if (getPresentationFigure() == null) {
-      return super.getBounds(scale);
+    Rectangle2D.Double r = super.getDrawingArea(scale);
+    if (getPresentationFigure() != null) {
+      r.add(getPresentationFigure().getDrawingArea(scale));
     }
-    return getPresentationFigure().getBounds(scale);
+    return r;
   }
 
   @Override
@@ -215,10 +212,10 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    */
   @Override
   public void transform(AffineTransform tx) {
-    super.transform(tx);
     if (getPresentationFigure() != null) {
       getPresentationFigure().transform(tx);
     }
+    super.transform(tx);
   }
 
   @Override
@@ -248,7 +245,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
    *
    * @param newPresentationFigure figure takes over the presentation tasks
    */
-  public void setPresentationFigure(Figure newPresentationFigure) {
+  public final void setPresentationFigure(Figure newPresentationFigure) {
     if (this.presentationFigure != null) {
       this.presentationFigure.removeFigureListener(presentationFigureHandler);
       if (getDrawing() != null) {
@@ -262,6 +259,7 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
         this.presentationFigure.addNotify(getDrawing());
       }
     }
+    initAttributeDependentSupplier();
   }
 
   /**
@@ -324,5 +322,17 @@ public class GraphicalCompositeFigure extends AbstractAttributedCompositeFigure 
       Geom.grow(r, grow, grow);
     }
     return Geom.angleToPoint(r, Geom.pointToAngle(r, from));
+  }
+
+  @Override
+  public void changed() {
+    if (presentationFigure != null) presentationFigure.changed();
+    super.changed();
+  }
+
+  @Override
+  public void willChange() {
+    super.willChange();
+    if (presentationFigure != null) presentationFigure.willChange();
   }
 }

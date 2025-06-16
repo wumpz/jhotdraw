@@ -41,22 +41,21 @@ public class ZoomAction extends AbstractDrawingViewAction {
     final Rectangle vRect = getView().getComponent().getVisibleRect();
     final double oldFactor = getView().getScaleFactor();
     getView().setScaleFactor(scaleFactor);
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            if (vRect != null) {
-              vRect.x = (int) (vRect.x / oldFactor * scaleFactor);
-              vRect.y = (int) (vRect.y / oldFactor * scaleFactor);
-              vRect.width = (int) (vRect.width / oldFactor * scaleFactor);
-              vRect.height = (int) (vRect.height / oldFactor * scaleFactor);
-              vRect.x += vRect.width / 3;
-              vRect.y += vRect.height / 3;
-              vRect.width /= 3;
-              vRect.height /= 3;
-              getView().getComponent().scrollRectToVisible(vRect);
-            }
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        if (vRect != null) {
+          vRect.x = (int) (vRect.x / oldFactor * scaleFactor);
+          vRect.y = (int) (vRect.y / oldFactor * scaleFactor);
+          vRect.width = (int) (vRect.width / oldFactor * scaleFactor);
+          vRect.height = (int) (vRect.height / oldFactor * scaleFactor);
+          vRect.x += vRect.width / 3;
+          vRect.y += vRect.height / 3;
+          vRect.width /= 3;
+          vRect.height /= 3;
+          getView().getComponent().scrollRectToVisible(vRect);
+        }
+      }
+    });
   }
 }

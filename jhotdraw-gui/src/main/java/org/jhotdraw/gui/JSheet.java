@@ -17,7 +17,7 @@ import javax.swing.plaf.*;
 import org.jhotdraw.api.gui.URIChooser;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * JSheet is a document modal dialog which is displayed below the title bar of a JFrame.
@@ -83,12 +83,10 @@ public class JSheet extends JDialog {
 
   static {
     // SoyLatte doesn't properly support document modal dialogs yet.
-    IS_DOCUMENT_MODALITY_SUPPORTED =
-        !System.getProperty("os.name").equals("Darwin")
-            && System.getProperty("java.version").compareTo("1.6") >= 0;
-    IS_NATIVE_SHEET_SUPPORTED =
-        System.getProperty("os.name").toLowerCase().startsWith("mac os x")
-            && System.getProperty("java.version").compareTo("1.6") >= 0;
+    IS_DOCUMENT_MODALITY_SUPPORTED = !System.getProperty("os.name").equals("Darwin")
+        && System.getProperty("java.version").compareTo("1.6") >= 0;
+    IS_NATIVE_SHEET_SUPPORTED = System.getProperty("os.name").toLowerCase().startsWith("mac os x")
+        && System.getProperty("java.version").compareTo("1.6") >= 0;
   }
 
   /** Creates a new JSheet. */
@@ -123,21 +121,20 @@ public class JSheet extends JDialog {
     // If the user has moved the owner, we 'forget' the shift back location,
     // and don't shift the owner back to the place it was, when we opened
     // the sheet.
-    ownerMovementHandler =
-        new ComponentAdapter() {
-          @Override
-          public void componentMoved(ComponentEvent evt) {
-            Window owner = getOwner();
-            Point newLocation = owner.getLocation();
-            if (!newLocation.equals(oldLocation)) {
-              setLocation(
-                  newLocation.x + (owner.getWidth() - getWidth()) / 2,
-                  newLocation.y + owner.getInsets().top);
-              shiftBackLocation = null;
-              oldLocation = newLocation;
-            }
-          }
-        };
+    ownerMovementHandler = new ComponentAdapter() {
+      @Override
+      public void componentMoved(ComponentEvent evt) {
+        Window owner = getOwner();
+        Point newLocation = owner.getLocation();
+        if (!newLocation.equals(oldLocation)) {
+          setLocation(
+              newLocation.x + (owner.getWidth() - getWidth()) / 2,
+              newLocation.y + owner.getInsets().top);
+          shiftBackLocation = null;
+          oldLocation = newLocation;
+        }
+      }
+    };
   }
 
   protected boolean isShowAsSheet() {
@@ -158,24 +155,21 @@ public class JSheet extends JDialog {
         Point sheetLoc;
         if (isShowAsSheet()) {
           if (owner instanceof JFrame) {
-            sheetLoc =
-                new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y
-                        + owner.getInsets().top
-                        + ((JFrame) owner).getRootPane().getContentPane().getY());
+            sheetLoc = new Point(
+                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                ownerLoc.y
+                    + owner.getInsets().top
+                    + ((JFrame) owner).getRootPane().getContentPane().getY());
           } else if (owner instanceof JDialog) {
-            sheetLoc =
-                new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y
-                        + owner.getInsets().top
-                        + ((JDialog) owner).getRootPane().getContentPane().getY());
+            sheetLoc = new Point(
+                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                ownerLoc.y
+                    + owner.getInsets().top
+                    + ((JDialog) owner).getRootPane().getContentPane().getY());
           } else {
-            sheetLoc =
-                new Point(
-                    ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                    ownerLoc.y + owner.getInsets().top);
+            sheetLoc = new Point(
+                ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+                ownerLoc.y + owner.getInsets().top);
           }
           if (sheetLoc.x < 0) {
             owner.setLocation(ownerLoc.x - sheetLoc.x, ownerLoc.y);
@@ -187,10 +181,9 @@ public class JSheet extends JDialog {
             oldLocation = ownerLoc;
           }
         } else {
-          sheetLoc =
-              new Point(
-                  ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
-                  ownerLoc.y + (owner.getHeight() - getHeight()) / 3);
+          sheetLoc = new Point(
+              ownerLoc.x + (owner.getWidth() - getWidth()) / 2,
+              ownerLoc.y + (owner.getHeight() - getHeight()) / 3);
         }
         setLocation(sheetLoc);
         oldFocusOwner = owner.getFocusOwner();
@@ -317,43 +310,41 @@ public class JSheet extends JDialog {
       getContentPane().setVisible(false);
       final Rectangle startBounds = getBounds();
       int parentWidth = getParent().getWidth();
-      final Rectangle endBounds =
-          new Rectangle(
-              (parentWidth < startBounds.width)
-                  ? startBounds.x + (startBounds.width - parentWidth) / 2
-                  : startBounds.x,
-              startBounds.y,
-              Math.min(startBounds.width, parentWidth),
-              0);
+      final Rectangle endBounds = new Rectangle(
+          (parentWidth < startBounds.width)
+              ? startBounds.x + (startBounds.width - parentWidth) / 2
+              : startBounds.x,
+          startBounds.y,
+          Math.min(startBounds.width, parentWidth),
+          0);
       final Timer timer = new Timer(20, null);
-      timer.addActionListener(
-          new ActionListener() {
-            long startTime;
-            long endTime;
+      timer.addActionListener(new ActionListener() {
+        long startTime;
+        long endTime;
 
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-              long now = System.currentTimeMillis();
-              if (startTime == 0) {
-                startTime = now;
-                endTime = startTime + 200;
-              }
-              if (now > endTime) {
-                timer.stop();
-                hide0();
-                setBounds(startBounds);
-                getContentPane().setVisible(true);
-                uninstallSheet();
-              } else {
-                float ratio = (now - startTime) / (float) (endTime - startTime);
-                setBounds(
-                    (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
-                    (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
-                    (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
-                    (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio));
-              }
-            }
-          });
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+          long now = System.currentTimeMillis();
+          if (startTime == 0) {
+            startTime = now;
+            endTime = startTime + 200;
+          }
+          if (now > endTime) {
+            timer.stop();
+            hide0();
+            setBounds(startBounds);
+            getContentPane().setVisible(true);
+            uninstallSheet();
+          } else {
+            float ratio = (now - startTime) / (float) (endTime - startTime);
+            setBounds(
+                (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
+                (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
+                (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
+                (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio));
+          }
+        }
+      });
       timer.setRepeats(true);
       timer.setInitialDelay(5);
       timer.start();
@@ -371,52 +362,50 @@ public class JSheet extends JDialog {
       getContentPane().setVisible(false);
       final Rectangle endBounds = getBounds();
       int parentWidth = getParent().getWidth();
-      final Rectangle startBounds =
-          new Rectangle(
-              (parentWidth < endBounds.width)
-                  ? endBounds.x + (endBounds.width - parentWidth) / 2
-                  : endBounds.x,
-              endBounds.y,
-              Math.min(endBounds.width, parentWidth),
-              0);
+      final Rectangle startBounds = new Rectangle(
+          (parentWidth < endBounds.width)
+              ? endBounds.x + (endBounds.width - parentWidth) / 2
+              : endBounds.x,
+          endBounds.y,
+          Math.min(endBounds.width, parentWidth),
+          0);
       setBounds(startBounds);
       if (!isDocumentModalitySupported()) {
         ((Window) getParent()).toFront();
       }
       show0();
       final Timer timer = new Timer(20, null);
-      timer.addActionListener(
-          new ActionListener() {
-            long startTime;
-            long endTime;
+      timer.addActionListener(new ActionListener() {
+        long startTime;
+        long endTime;
 
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-              long now = System.currentTimeMillis();
-              if (startTime == 0) {
-                startTime = now;
-                endTime = startTime + 200;
-              }
-              if (now > endTime) {
-                timer.stop();
-                setBounds(endBounds);
-                getContentPane().setVisible(true);
-                Component c = getFocusTraversalPolicy().getInitialComponent(JSheet.this);
-                if (c != null) {
-                  c.requestFocus();
-                } else {
-                  getContentPane().requestFocus();
-                }
-              } else {
-                float ratio = (now - startTime) / (float) (endTime - startTime);
-                setBounds(
-                    (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
-                    (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
-                    (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
-                    (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio));
-              }
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+          long now = System.currentTimeMillis();
+          if (startTime == 0) {
+            startTime = now;
+            endTime = startTime + 200;
+          }
+          if (now > endTime) {
+            timer.stop();
+            setBounds(endBounds);
+            getContentPane().setVisible(true);
+            Component c = getFocusTraversalPolicy().getInitialComponent(JSheet.this);
+            if (c != null) {
+              c.requestFocus();
+            } else {
+              getContentPane().requestFocus();
             }
-          });
+          } else {
+            float ratio = (now - startTime) / (float) (endTime - startTime);
+            setBounds(
+                (int) (startBounds.x * (1f - ratio) + endBounds.x * ratio),
+                (int) (startBounds.y * (1f - ratio) + endBounds.y * ratio),
+                (int) (startBounds.width * (1f - ratio) + endBounds.width * ratio),
+                (int) (startBounds.height * (1f - ratio) + endBounds.height * ratio));
+          }
+        }
+      });
       timer.setRepeats(true);
       timer.setInitialDelay(5);
       timer.start();
@@ -792,17 +781,12 @@ public class JSheet extends JDialog {
    *     <code>JOptionPane.QUESTION_MESSAGE</code>, * or <code>JOptionPane.PLAIN_MESSAGE</code>
    */
   public static void showMessageSheet(Component parentComponent, Object message, int messageType) {
-    showMessageSheet(
-        parentComponent,
-        message,
-        messageType,
-        null,
-        new SheetListener() {
-          @Override
-          public void optionSelected(SheetEvent evt) {
-            // empty
-          }
-        });
+    showMessageSheet(parentComponent, message, messageType, null, new SheetListener() {
+      @Override
+      public void optionSelected(SheetEvent evt) {
+        // empty
+      }
+    });
   }
 
   /**
@@ -926,10 +910,9 @@ public class JSheet extends JDialog {
 
   private static JSheet createSheet(final JOptionPane pane, Component parent, int style) {
     // If the parent is on a popup menu retrieve its invoker
-    JPopupMenu popup =
-        parent instanceof JPopupMenu
-            ? (JPopupMenu) parent
-            : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
+    JPopupMenu popup = parent instanceof JPopupMenu
+        ? (JPopupMenu) parent
+        : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
     if (popup != null) {
       parent = popup.getInvoker();
     }
@@ -950,63 +933,60 @@ public class JSheet extends JDialog {
     }
     contentPane.add(pane, BorderLayout.CENTER);
     sheet.setResizable(false);
-    sheet.addWindowListener(
-        new WindowAdapter() {
-          private boolean gotFocus = false;
+    sheet.addWindowListener(new WindowAdapter() {
+      private boolean gotFocus = false;
 
-          @Override
-          public void windowClosing(WindowEvent we) {
-            pane.setValue(null);
-          }
+      @Override
+      public void windowClosing(WindowEvent we) {
+        pane.setValue(null);
+      }
 
-          @Override
-          public void windowClosed(WindowEvent we) {
-            if (pane.getValue() == JOptionPane.UNINITIALIZED_VALUE) {
-              sheet.fireOptionSelected(pane);
-            }
-          }
+      @Override
+      public void windowClosed(WindowEvent we) {
+        if (pane.getValue() == JOptionPane.UNINITIALIZED_VALUE) {
+          sheet.fireOptionSelected(pane);
+        }
+      }
 
-          @Override
-          public void windowGainedFocus(WindowEvent we) {
-            // Once window gets focus, set initial focus
-            if (!gotFocus) {
-              // Ugly dirty hack: JOptionPane.selectInitialValue() is protected.
-              // So we call directly into the UI. This may cause mayhem,
-              // because we override the encapsulation.
-              // pane.selectInitialValue();
-              OptionPaneUI ui = pane.getUI();
-              if (ui != null) {
-                ui.selectInitialValue(pane);
-              }
-              gotFocus = true;
-            }
+      @Override
+      public void windowGainedFocus(WindowEvent we) {
+        // Once window gets focus, set initial focus
+        if (!gotFocus) {
+          // Ugly dirty hack: JOptionPane.selectInitialValue() is protected.
+          // So we call directly into the UI. This may cause mayhem,
+          // because we override the encapsulation.
+          // pane.selectInitialValue();
+          OptionPaneUI ui = pane.getUI();
+          if (ui != null) {
+            ui.selectInitialValue(pane);
           }
-        });
-    sheet.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentShown(ComponentEvent ce) {
-            // reset value to ensure closing works properly
-            pane.setValue(JOptionPane.UNINITIALIZED_VALUE);
-          }
-        });
-    pane.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent event) {
-            // Let the defaultCloseOperation handle the closing
-            // if the user closed the window without selecting a button
-            // (newValue = null in that case).  Otherwise, close the sheet.
-            if (sheet.isVisible()
-                && event.getSource() == pane
-                && (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY))
-                && event.getNewValue() != null
-                && event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
-              sheet.setVisible(false);
-              sheet.fireOptionSelected(pane);
-            }
-          }
-        });
+          gotFocus = true;
+        }
+      }
+    });
+    sheet.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentShown(ComponentEvent ce) {
+        // reset value to ensure closing works properly
+        pane.setValue(JOptionPane.UNINITIALIZED_VALUE);
+      }
+    });
+    pane.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent event) {
+        // Let the defaultCloseOperation handle the closing
+        // if the user closed the window without selecting a button
+        // (newValue = null in that case).  Otherwise, close the sheet.
+        if (sheet.isVisible()
+            && event.getSource() == pane
+            && (event.getPropertyName().equals(JOptionPane.VALUE_PROPERTY))
+            && event.getNewValue() != null
+            && event.getNewValue() != JOptionPane.UNINITIALIZED_VALUE) {
+          sheet.setVisible(false);
+          sheet.fireOptionSelected(pane);
+        }
+      }
+    });
     sheet.pack();
     return sheet;
   }
@@ -1095,18 +1075,16 @@ public class JSheet extends JDialog {
       chooser.setDialogType(JFileChooser.CUSTOM_DIALOG);
     }
     // If the parent is on a popup menu retrieve its invoker
-    JPopupMenu popup =
-        parent instanceof JPopupMenu
-            ? (JPopupMenu) parent
-            : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
+    JPopupMenu popup = parent instanceof JPopupMenu
+        ? (JPopupMenu) parent
+        : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
     if (popup != null) {
       parent = popup.getInvoker();
     }
     // Begin Create Dialog
-    Frame frame =
-        parent instanceof Frame
-            ? (Frame) parent
-            : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+    Frame frame = parent instanceof Frame
+        ? (Frame) parent
+        : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
     String title = chooser.getUI().getDialogTitle(chooser);
     chooser.getAccessibleContext().setAccessibleDescription(title);
     final JSheet sheet = new JSheet(frame);
@@ -1115,30 +1093,28 @@ public class JSheet extends JDialog {
     contentPane.setLayout(new BorderLayout());
     contentPane.add(chooser, BorderLayout.CENTER);
     // End Create Dialog
-    final ActionListener actionListener =
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-            int option;
-            if ("ApproveSelection".equals(evt.getActionCommand())) {
-              option = JFileChooser.APPROVE_OPTION;
-            } else {
-              option = JFileChooser.CANCEL_OPTION;
-            }
-            sheet.hide();
-            sheet.fireOptionSelected(chooser, option);
-            chooser.removeActionListener(this);
-          }
-        };
+    final ActionListener actionListener = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        int option;
+        if ("ApproveSelection".equals(evt.getActionCommand())) {
+          option = JFileChooser.APPROVE_OPTION;
+        } else {
+          option = JFileChooser.CANCEL_OPTION;
+        }
+        sheet.hide();
+        sheet.fireOptionSelected(chooser, option);
+        chooser.removeActionListener(this);
+      }
+    };
     chooser.addActionListener(actionListener);
-    sheet.addWindowListener(
-        new WindowAdapter() {
-          @Override
-          public void windowClosing(WindowEvent e) {
-            sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
-            chooser.removeActionListener(actionListener);
-          }
-        });
+    sheet.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
+        chooser.removeActionListener(actionListener);
+      }
+    });
     chooser.rescanCurrentDirectory();
     sheet.pack();
     sheet.show();
@@ -1162,18 +1138,16 @@ public class JSheet extends JDialog {
       chooser.setDialogType(URIChooser.CUSTOM_DIALOG);
     }
     // If the parent is on a popup menu retrieve its invoker
-    JPopupMenu popup =
-        parent instanceof JPopupMenu
-            ? (JPopupMenu) parent
-            : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
+    JPopupMenu popup = parent instanceof JPopupMenu
+        ? (JPopupMenu) parent
+        : (JPopupMenu) SwingUtilities.getAncestorOfClass(JPopupMenu.class, parent);
     if (popup != null) {
       parent = popup.getInvoker();
     }
     // Begin Create Dialog
-    Frame frame =
-        parent instanceof Frame
-            ? (Frame) parent
-            : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+    Frame frame = parent instanceof Frame
+        ? (Frame) parent
+        : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
     if (chooser instanceof JFileChooser) {
       String title = ((JFileChooser) chooser).getUI().getDialogTitle((JFileChooser) chooser);
       ((JFileChooser) chooser).getAccessibleContext().setAccessibleDescription(title);
@@ -1184,30 +1158,28 @@ public class JSheet extends JDialog {
     contentPane.setLayout(new BorderLayout());
     contentPane.add(chooser.getComponent(), BorderLayout.CENTER);
     // End Create Dialog
-    final ActionListener actionListener =
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-            int option;
-            if ("ApproveSelection".equals(evt.getActionCommand())) {
-              option = JFileChooser.APPROVE_OPTION;
-            } else {
-              option = JFileChooser.CANCEL_OPTION;
-            }
-            sheet.hide();
-            sheet.fireOptionSelected(chooser, option);
-            chooser.removeActionListener(this);
-          }
-        };
+    final ActionListener actionListener = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        int option;
+        if ("ApproveSelection".equals(evt.getActionCommand())) {
+          option = JFileChooser.APPROVE_OPTION;
+        } else {
+          option = JFileChooser.CANCEL_OPTION;
+        }
+        sheet.hide();
+        sheet.fireOptionSelected(chooser, option);
+        chooser.removeActionListener(this);
+      }
+    };
     chooser.addActionListener(actionListener);
-    sheet.addWindowListener(
-        new WindowAdapter() {
-          @Override
-          public void windowClosing(WindowEvent e) {
-            sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
-            chooser.removeActionListener(actionListener);
-          }
-        });
+    sheet.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        sheet.fireOptionSelected(chooser, JFileChooser.CANCEL_OPTION);
+        chooser.removeActionListener(actionListener);
+      }
+    });
     chooser.rescanCurrentDirectory();
     sheet.pack();
     sheet.show();

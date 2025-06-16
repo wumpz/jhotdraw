@@ -55,44 +55,42 @@ public class ActivityManager {
 
   /** Adds a progress model to the manager. This method is thread safe. */
   public void add(final ActivityModel pm) {
-    invokeAndWait(
-        new Runnable() {
-          @Override
-          @SuppressWarnings("unchecked")
-          public void run() {
-            if (models.add(pm)) {
-              ArrayList<ActivityManagerListener> ls;
-              synchronized (ActivityManager.this) {
-                ls = (ArrayList<ActivityManagerListener>) listeners.clone();
-              }
-              ActivityManagerEvent evt = new ActivityManagerEvent(ActivityManager.this, pm);
-              for (ActivityManagerListener l : ls) {
-                l.activityModelAdded(evt);
-              }
-            }
+    invokeAndWait(new Runnable() {
+      @Override
+      @SuppressWarnings("unchecked")
+      public void run() {
+        if (models.add(pm)) {
+          ArrayList<ActivityManagerListener> ls;
+          synchronized (ActivityManager.this) {
+            ls = (ArrayList<ActivityManagerListener>) listeners.clone();
           }
-        });
+          ActivityManagerEvent evt = new ActivityManagerEvent(ActivityManager.this, pm);
+          for (ActivityManagerListener l : ls) {
+            l.activityModelAdded(evt);
+          }
+        }
+      }
+    });
   }
 
   /** Removes a progress model from the manager. This method is thread safe. */
   public void remove(final ActivityModel pm) {
-    invokeAndWait(
-        new Runnable() {
-          @Override
-          @SuppressWarnings("unchecked")
-          public void run() {
-            if (models.remove(pm)) {
-              ArrayList<ActivityManagerListener> ls;
-              synchronized (ActivityManager.this) {
-                ls = (ArrayList<ActivityManagerListener>) listeners.clone();
-              }
-              ActivityManagerEvent evt = new ActivityManagerEvent(ActivityManager.this, pm);
-              for (ActivityManagerListener l : ls) {
-                l.activityModelRemoved(evt);
-              }
-            }
+    invokeAndWait(new Runnable() {
+      @Override
+      @SuppressWarnings("unchecked")
+      public void run() {
+        if (models.remove(pm)) {
+          ArrayList<ActivityManagerListener> ls;
+          synchronized (ActivityManager.this) {
+            ls = (ArrayList<ActivityManagerListener>) listeners.clone();
           }
-        });
+          ActivityManagerEvent evt = new ActivityManagerEvent(ActivityManager.this, pm);
+          for (ActivityManagerListener l : ls) {
+            l.activityModelRemoved(evt);
+          }
+        }
+      }
+    });
   }
 
   @SuppressWarnings("unchecked")

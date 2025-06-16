@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolListener;
+import org.jhotdraw.draw.figure.Figure;
 
 /**
  * A <em>tool</em> defines an editing mode of a {@link DrawingEditor}.
@@ -58,7 +59,7 @@ import org.jhotdraw.draw.event.ToolListener;
  * Subject: {@link Tool}; Observer: {@link ToolListener}; Event: {@link
  * org.jhotdraw.draw.event.ToolEvent}; Concrete Observer: {@link DrawingEditor}. <hr>
  */
-public interface Tool extends MouseListener, MouseMotionListener, KeyListener {
+public interface Tool extends MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
   /**
    * Activates the tool for the given editor. This method is called whenever the user switches to

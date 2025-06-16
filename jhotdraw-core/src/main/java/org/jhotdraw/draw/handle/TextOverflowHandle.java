@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TextHolderFigure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The TextOverflowHandle indicates when the text does not fit into the bounds of a TextAreaFigure.

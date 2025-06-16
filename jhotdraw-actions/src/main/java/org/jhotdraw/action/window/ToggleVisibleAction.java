@@ -10,7 +10,7 @@ package org.jhotdraw.action.window;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * Toggles the visible state of a Component. Is selected, when the Component is visible.
@@ -27,18 +27,17 @@ public class ToggleVisibleAction extends AbstractAction {
     this.component = c;
     putValue(Action.NAME, name);
     putValue(ActionUtil.SELECTED_KEY, c.isVisible());
-    c.addComponentListener(
-        new ComponentAdapter() {
-          @Override
-          public void componentShown(ComponentEvent e) {
-            putValue(ActionUtil.SELECTED_KEY, component.isVisible());
-          }
+    c.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentShown(ComponentEvent e) {
+        putValue(ActionUtil.SELECTED_KEY, component.isVisible());
+      }
 
-          @Override
-          public void componentHidden(ComponentEvent e) {
-            putValue(ActionUtil.SELECTED_KEY, component.isVisible());
-          }
-        });
+      @Override
+      public void componentHidden(ComponentEvent e) {
+        putValue(ActionUtil.SELECTED_KEY, component.isVisible());
+      }
+    });
   }
 
   @Override

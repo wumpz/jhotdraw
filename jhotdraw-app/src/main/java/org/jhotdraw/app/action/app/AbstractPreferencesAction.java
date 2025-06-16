@@ -10,7 +10,7 @@ package org.jhotdraw.app.action.app;
 
 import org.jhotdraw.action.AbstractApplicationAction;
 import org.jhotdraw.api.app.Application;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Displays a preferences dialog for the application.

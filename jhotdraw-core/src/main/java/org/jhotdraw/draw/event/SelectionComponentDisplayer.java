@@ -68,13 +68,12 @@ public class SelectionComponentDisplayer
   }
 
   public void updateVisibility() {
-    boolean newValue =
-        editor != null
-            && editor.getActiveView() != null
-            && (isVisibleIfCreationTool
-                    && editor.getTool() != null
-                    && !(editor.getTool() instanceof SelectionTool)
-                || editor.getActiveView().getSelectionCount() >= minSelectionCount);
+    boolean newValue = editor != null
+        && editor.getActiveView() != null
+        && (isVisibleIfCreationTool
+                && editor.getTool() != null
+                && !(editor.getTool() instanceof SelectionTool)
+            || editor.getActiveView().getSelectionCount() >= minSelectionCount);
     JComponent component = weakRef.get();
     if (component == null) {
       dispose();

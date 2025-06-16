@@ -13,7 +13,7 @@ import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** PickAttributesAction. */
 public class PickAttributesAction extends AbstractSelectedAction {
@@ -48,7 +48,8 @@ public class PickAttributesAction extends AbstractSelectedAction {
     Collection<Figure> selection = getView().getSelectedFigures();
     if (selection.size() > 0) {
       Figure figure = selection.iterator().next();
-      for (Map.Entry<AttributeKey<?>, Object> entry : figure.attr().getAttributes().entrySet()) {
+      for (Map.Entry<AttributeKey<?>, Object> entry :
+          figure.attr().getAttributes().entrySet()) {
         if (!excludedAttributes.contains(entry.getKey())) {
           editor.setDefaultAttribute((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }

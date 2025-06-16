@@ -55,9 +55,9 @@ import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.app.action.window.TogglePaletteAction;
 import org.jhotdraw.app.osx.OSXAdapter;
 import org.jhotdraw.app.osx.OSXPaletteHandler;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.*;
 
 /**
  * {@code OSXApplication} handles the lifecycle of multiple {@link View}s using a Mac OS X
@@ -173,9 +173,8 @@ public class OSXApplication extends AbstractApplication {
   public void init() {
     super.init();
     ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
-    prefs =
-        PreferencesUtil.userNodeForPackage(
-            (getModel() == null) ? getClass() : getModel().getClass());
+    prefs = PreferencesUtil.userNodeForPackage(
+        (getModel() == null) ? getClass() : getModel().getClass());
     initLookAndFeel();
     paletteHandler = new OSXPaletteHandler(this);
     initLabels();
@@ -199,10 +198,8 @@ public class OSXApplication extends AbstractApplication {
 
   protected void initLookAndFeel() {
     try {
-      String lafName =
-          (String)
-              Methods.invokeStatic(
-                  "ch.randelshofer.quaqua.QuaquaManager", "getLookAndFeelClassName");
+      String lafName = (String)
+          Methods.invokeStatic("ch.randelshofer.quaqua.QuaquaManager", "getLookAndFeelClassName");
       UIManager.setLookAndFeel(lafName);
     } catch (Exception e) {
       e.printStackTrace();
@@ -292,7 +289,9 @@ public class OSXApplication extends AbstractApplication {
         for (View aView : views()) {
           if (aView != view
               && aView.isShowing()
-              && SwingUtilities.getWindowAncestor(aView.getComponent()).getLocation().equals(loc)) {
+              && SwingUtilities.getWindowAncestor(aView.getComponent())
+                  .getLocation()
+                  .equals(loc)) {
             loc.x += 22;
             loc.y += 22;
             moved = true;
@@ -528,47 +527,46 @@ public class OSXApplication extends AbstractApplication {
   }
 
   protected void initPalettes(final LinkedList<Action> paletteActions) {
-    SwingUtilities.invokeLater(
-        () -> {
-          LinkedList<JFrame> palettes = new LinkedList<>();
-          LinkedList<JToolBar> toolBars =
-              new LinkedList<>(getModel().createToolBars(OSXApplication.this, null));
-          int i = 0;
-          int x = 0;
-          for (JToolBar tb : toolBars) {
-            i++;
-            tb.setFloatable(false);
-            tb.setOrientation(JToolBar.VERTICAL);
-            tb.setFocusable(false);
-            JFrame d = new JFrame();
-            // Note: Client properties must be set before heavy-weight
-            // peers are created
-            d.getRootPane().putClientProperty("Window.style", "small");
-            d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);
-            d.getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
-            d.setFocusable(false);
-            d.setResizable(false);
-            d.getContentPane().setLayout(new BorderLayout());
-            d.getContentPane().add(tb, BorderLayout.CENTER);
-            d.setAlwaysOnTop(true);
-            d.setUndecorated(true);
-            d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-            d.getRootPane().setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-            d.setJMenuBar(createMenuBar(null));
-            d.pack();
-            d.setFocusableWindowState(false);
-            PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
-            x += d.getWidth();
-            TogglePaletteAction tpa = new TogglePaletteAction(OSXApplication.this, d, tb.getName());
-            palettes.add(d);
-            if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
-              addPalette(d);
-              tpa.putValue(ActionUtil.SELECTED_KEY, true);
-            }
-            paletteActions.add(tpa);
-          }
-          firePropertyChange("paletteCount", 0, palettes.size());
-        });
+    SwingUtilities.invokeLater(() -> {
+      LinkedList<JFrame> palettes = new LinkedList<>();
+      LinkedList<JToolBar> toolBars =
+          new LinkedList<>(getModel().createToolBars(OSXApplication.this, null));
+      int i = 0;
+      int x = 0;
+      for (JToolBar tb : toolBars) {
+        i++;
+        tb.setFloatable(false);
+        tb.setOrientation(JToolBar.VERTICAL);
+        tb.setFocusable(false);
+        JFrame d = new JFrame();
+        // Note: Client properties must be set before heavy-weight
+        // peers are created
+        d.getRootPane().putClientProperty("Window.style", "small");
+        d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);
+        d.getRootPane().putClientProperty("Quaqua.RootPane.isPalette", Boolean.TRUE);
+        d.setFocusable(false);
+        d.setResizable(false);
+        d.getContentPane().setLayout(new BorderLayout());
+        d.getContentPane().add(tb, BorderLayout.CENTER);
+        d.setAlwaysOnTop(true);
+        d.setUndecorated(true);
+        d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        d.getRootPane().setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+        d.setJMenuBar(createMenuBar(null));
+        d.pack();
+        d.setFocusableWindowState(false);
+        PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
+        x += d.getWidth();
+        TogglePaletteAction tpa = new TogglePaletteAction(OSXApplication.this, d, tb.getName());
+        palettes.add(d);
+        if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
+          addPalette(d);
+          tpa.putValue(ActionUtil.SELECTED_KEY, true);
+        }
+        paletteActions.add(tpa);
+      }
+      firePropertyChange("paletteCount", 0, palettes.size());
+    });
   }
 
   @Override

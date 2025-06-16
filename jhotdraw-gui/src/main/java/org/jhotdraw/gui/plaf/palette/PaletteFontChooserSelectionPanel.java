@@ -8,7 +8,7 @@ package org.jhotdraw.gui.plaf.palette;
 
 import java.awt.Color;
 import javax.swing.*;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** PaletteFontChooserSelectionPanel. */
 public class PaletteFontChooserSelectionPanel extends javax.swing.JPanel {

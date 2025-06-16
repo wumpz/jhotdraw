@@ -117,11 +117,9 @@ public class LinearGradient implements Gradient {
     for (int i = 0; i < stopColors.length; i++) {
       // Each fraction must be larger or equal the previous fraction.
       fractions[i] = Math.min(1f, Math.max(previousFraction, (float) stopOffsets[i]));
-      colors[i] =
-          new Color(
-              (stopColors[i].getRGB() & 0xffffff)
-                  | ((int) (opacity * stopOpacities[i] * 255) << 24),
-              true);
+      colors[i] = new Color(
+          (stopColors[i].getRGB() & 0xffffff) | ((int) (opacity * stopOpacities[i] * 255) << 24),
+          true);
       previousFraction = fractions[i];
     }
     // Compute the dimensions and transforms for the paint
@@ -143,15 +141,14 @@ public class LinearGradient implements Gradient {
     }
     // Construct a gradient
     LinearGradientPaint gp;
-    gp =
-        new LinearGradientPaint(
-            p1,
-            p2,
-            fractions,
-            colors,
-            LinearGradientPaint.CycleMethod.NO_CYCLE,
-            LinearGradientPaint.ColorSpaceType.SRGB,
-            t);
+    gp = new LinearGradientPaint(
+        p1,
+        p2,
+        fractions,
+        colors,
+        LinearGradientPaint.CycleMethod.NO_CYCLE,
+        LinearGradientPaint.ColorSpaceType.SRGB,
+        t);
     return gp;
   }
 

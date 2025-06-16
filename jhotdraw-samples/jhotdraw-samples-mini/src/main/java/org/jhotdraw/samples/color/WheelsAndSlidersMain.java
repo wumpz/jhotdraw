@@ -72,9 +72,8 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     previewLabel.setOpaque(true);
     // RGB panels
     chooserPanel.add(createSliderChooser(ColorSpace.getInstance(ColorSpace.CS_sRGB)));
-    chooserPanel.add(
-        createColorWheelChooser(
-            ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB), 0, 1, 2, JColorWheel.Type.SQUARE));
+    chooserPanel.add(createColorWheelChooser(
+        ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_sRGB), 0, 1, 2, JColorWheel.Type.SQUARE));
     // chooserPanel.add(createColorWheelChooser(ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_LINEAR_RGB), 0, 1, 2, JColorWheel.Type.SQUARE));
     // CMYK
     // chooserPanel.add(createSliderChooser(CMYKGenericColorSpace.getInstance()));
@@ -97,16 +96,10 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     cs = new CIELCHabColorSpace();
     chooserPanel.add(createColorWheelChooser(cs, 2, 1, 0, JColorWheel.Type.POLAR));
     // CIEXYZ
-    chooserPanel.add(
-        createColorWheelChooser(
-            ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ),
-            1,
-            0,
-            2,
-            JColorWheel.Type.SQUARE));
-    chooserPanel.add(
-        createColorWheelChooser(
-            ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC), 1, 2, 0, JColorWheel.Type.SQUARE));
+    chooserPanel.add(createColorWheelChooser(
+        ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_CIEXYZ), 1, 0, 2, JColorWheel.Type.SQUARE));
+    chooserPanel.add(createColorWheelChooser(
+        ICC_ColorSpace.getInstance(ICC_ColorSpace.CS_PYCC), 1, 2, 0, JColorWheel.Type.SQUARE));
   }
 
   private JPanel createColorWheelChooser(ColorSpace sys) {
@@ -151,15 +144,14 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
     s.setPaintTicks(true);
     m.configureSlider(verticalIndex, s);
     p.add(
-        new JLabel(
-            "<html>"
-                + ColorUtil.getName(sys)
-                + "<br>α:"
-                + angularIndex
-                + " r:"
-                + radialIndex
-                + " v:"
-                + verticalIndex),
+        new JLabel("<html>"
+            + ColorUtil.getName(sys)
+            + "<br>α:"
+            + angularIndex
+            + " r:"
+            + radialIndex
+            + " v:"
+            + verticalIndex),
         BorderLayout.NORTH);
     p.add(w, BorderLayout.CENTER);
     p.add(s, BorderLayout.EAST);
@@ -170,16 +162,15 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
       final JTextField tf = new JTextField();
       tf.setEditable(false);
       tf.setColumns(4);
-      ChangeListener cl =
-          new ChangeListener() {
-            NumberFormat df = NumberFormat.getNumberInstance();
+      ChangeListener cl = new ChangeListener() {
+        NumberFormat df = NumberFormat.getNumberInstance();
 
-            @Override
-            public void stateChanged(ChangeEvent e) {
-              df.setMaximumFractionDigits(3);
-              tf.setText(df.format(m.getComponent(comp)));
-            }
-          };
+        @Override
+        public void stateChanged(ChangeEvent e) {
+          df.setMaximumFractionDigits(3);
+          tf.setText(df.format(m.getComponent(comp)));
+        }
+      };
       cl.stateChanged(null);
       m.addChangeListener(cl);
       pp.add(tf);
@@ -220,16 +211,15 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
       final JTextField tf = new JTextField();
       tf.setEditable(false);
       tf.setColumns(4);
-      ChangeListener cl =
-          new ChangeListener() {
-            NumberFormat df = NumberFormat.getNumberInstance();
+      ChangeListener cl = new ChangeListener() {
+        NumberFormat df = NumberFormat.getNumberInstance();
 
-            @Override
-            public void stateChanged(ChangeEvent e) {
-              df.setMaximumFractionDigits(3);
-              tf.setText(df.format(m.getComponent(comp)));
-            }
-          };
+        @Override
+        public void stateChanged(ChangeEvent e) {
+          df.setMaximumFractionDigits(3);
+          tf.setText(df.format(m.getComponent(comp)));
+        }
+      };
       cl.stateChanged(null);
       m.addChangeListener(cl);
       if (vertical) {
@@ -245,17 +235,16 @@ public class WheelsAndSlidersMain extends javax.swing.JPanel {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            JFrame f = new JFrame("Color Wheels, Squares and Sliders");
-            f.add(new WheelsAndSlidersMain());
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.pack();
-            f.setVisible(true);
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        JFrame f = new JFrame("Color Wheels, Squares and Sliders");
+        f.add(new WheelsAndSlidersMain());
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.pack();
+        f.setVisible(true);
+      }
+    });
   }
 
   /**

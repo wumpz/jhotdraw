@@ -189,16 +189,14 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
   public Point getColorLocation(float[] components) {
     float radius = getRadius();
     Point2D.Float center = getCenter();
-    float radial =
-        (components[radialIndex] - colorSpace.getMinValue(radialIndex))
-                / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
-                * 2
-            - 1;
-    float angular =
-        (components[angularIndex] - colorSpace.getMinValue(angularIndex))
-                / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
-                * 2
-            - 1;
+    float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
+            / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
+            * 2
+        - 1;
+    float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
+            / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
+            * 2
+        - 1;
     if (flipX) {
       radial = -radial;
     }
@@ -234,16 +232,14 @@ public class DiskColorWheelImageProducer extends AbstractColorWheelImageProducer
       radial /= r;
     }
     float[] hsb = new float[3];
-    hsb[angularIndex] =
-        (angular + 1f)
-                / 2f
-                * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
-            + colorSpace.getMinValue(angularIndex);
-    hsb[radialIndex] =
-        (radial + 1f)
-                / 2f
-                * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
-            + colorSpace.getMinValue(radialIndex);
+    hsb[angularIndex] = (angular + 1f)
+            / 2f
+            * (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex))
+        + colorSpace.getMinValue(angularIndex);
+    hsb[radialIndex] = (radial + 1f)
+            / 2f
+            * (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex))
+        + colorSpace.getMinValue(radialIndex);
     hsb[verticalIndex] = verticalValue;
     return hsb;
   }

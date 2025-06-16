@@ -14,13 +14,13 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureCreatedEvent;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /**
  * This abstract class can be extended to implement a {@link Tool}.
@@ -238,9 +238,8 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
       }
       if (al != null) {
         evt.consume();
-        al.actionPerformed(
-            new ActionEvent(
-                this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
+        al.actionPerformed(new ActionEvent(
+            this, ActionEvent.ACTION_PERFORMED, "tool", evt.getWhen(), evt.getModifiers()));
         fireToolDone();
       }
     }
@@ -283,6 +282,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   public void mouseMoved(MouseEvent evt) {}
 
   @Override
+  public void mouseDragged(MouseEvent e) {}
+
+  @Override
   public void mousePressed(MouseEvent evt) {
     DrawingView view = editor.findView((Container) evt.getSource());
     view.requestFocus();
@@ -295,6 +297,9 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   public void mouseReleased(MouseEvent evt) {
     isWorking = false;
   }
+
+  @Override
+  public void mouseWheelMoved(MouseWheelEvent mwe) {}
 
   @Override
   public void addToolListener(ToolListener l) {
@@ -346,9 +351,10 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
   protected void fireAreaInvalidated(Rectangle2D.Double r) {
-    Point p1 = getView().drawingToView(new Point2D.Double(r.x, r.y));
-    Point p2 = getView().drawingToView(new Point2D.Double(r.x + r.width, r.y + r.height));
-    fireAreaInvalidated(new Rectangle(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y));
+    // Point p1 = getView().drawingToView(new Point2D.Double(r.x, r.y));
+    // Point p2 = getView().drawingToView(new Point2D.Double(r.x + r.width, r.y + r.height));
+    // fireAreaInvalidated(new Rectangle(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y));
+    fireAreaInvalidated(getView().drawingToView(r));
   }
 
   /** Notify all listenerList that have registered interest for notification on this event type. */
@@ -435,7 +441,7 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
         Drawing drawing = view.getDrawing();
         Figure figure = drawing.findFigure(point, view.getScaleFactor());
         while (figure != null && !figure.isSelectable()) {
-          figure = drawing.findFigureBehind(point, view.getScaleFactor(), figure);
+          figure = drawing.findFigureBehind(point, view.getScaleFactor(), figure, f -> true);
         }
         if (figure != null) {
           view.setCursor(figure.getCursor(view.viewToDrawing(p), view.getScaleFactor()));
@@ -463,5 +469,13 @@ public abstract class AbstractTool extends AbstractBean implements Tool {
   @Override
   public boolean supportsHandleInteraction() {
     return false;
+  }
+
+  /**
+   * Good behaviour of tools is to call this method before a Figure is added to a drawing. Now additional
+   * processing is possible, e.g. change Color before adding to drawing.
+   */
+  protected Figure processCreatedFigureBeforeAddingToDocument(Figure figure) {
+    return figure;
   }
 }

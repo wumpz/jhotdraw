@@ -15,8 +15,8 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.action.AbstractDrawingViewAction;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * EditGridAction.

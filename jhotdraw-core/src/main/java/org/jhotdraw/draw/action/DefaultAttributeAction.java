@@ -13,8 +13,8 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * DefaultAttributeAction.
@@ -68,16 +68,14 @@ public class DefaultAttributeAction extends AbstractSelectedAction {
     putValue(AbstractAction.NAME, name);
     putValue(AbstractAction.SMALL_ICON, icon);
     setEnabled(true);
-    editor.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0].getKey())) {
-              putValue(
-                  "attribute_" + DefaultAttributeAction.this.keys[0].getKey(), evt.getNewValue());
-            }
-          }
-        });
+    editor.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(DefaultAttributeAction.this.keys[0].getKey())) {
+          putValue("attribute_" + DefaultAttributeAction.this.keys[0].getKey(), evt.getNewValue());
+        }
+      }
+    });
     this.fixedAttributes = fixedAttributes;
     updateEnabledState();
   }

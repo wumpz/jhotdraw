@@ -30,8 +30,10 @@ import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.DiamondFigure;
 import org.jhotdraw.draw.figure.EllipseFigure;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.GraphicalCompositeFigure;
 import org.jhotdraw.draw.figure.GroupFigure;
 import org.jhotdraw.draw.figure.ImageFigure;
+import org.jhotdraw.draw.figure.LabelFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.figure.LineFigure;
 import org.jhotdraw.draw.figure.RectangleFigure;
@@ -43,9 +45,11 @@ import org.jhotdraw.draw.liner.CurvedLiner;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.liner.Liner;
 import org.jhotdraw.draw.locator.BezierLabelLocator;
+import org.jhotdraw.draw.locator.LinearLabelLocator;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.geom.path.BezierPath;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.io.Base64;
 import org.jhotdraw.xml.DOMInput;
 import org.jhotdraw.xml.DOMOutput;
 import org.jhotdraw.xml.DefaultDOMFactory;
@@ -114,6 +118,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::readText,
         DOMDefaultDrawFigureFactory::writeText);
     register(
+        "label",
+        LabelFigure.class,
+        DOMDefaultDrawFigureFactory::readText,
+        DOMDefaultDrawFigureFactory::writeText);
+    register(
         "ta",
         TextAreaFigure.class,
         DOMDefaultDrawFigureFactory::readBaseData,
@@ -128,6 +137,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         GroupFigure.class,
         DOMDefaultDrawFigureFactory::readGroup,
         DOMDefaultDrawFigureFactory::writeGroup);
+    register(
+        "gcomp",
+        GraphicalCompositeFigure.class,
+        DOMDefaultDrawFigureFactory::readGraphicalComposite,
+        DOMDefaultDrawFigureFactory::writeGraphicalComposite);
     register(
         "arrowTip",
         ArrowTip.class,
@@ -169,10 +183,23 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
         DOMDefaultDrawFigureFactory::readLocatorConnector,
         DOMDefaultDrawFigureFactory::writeLocatorConnector);
 
-    register("relativeLoc", RelativeLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
+    register(
+        "relativeLoc",
+        RelativeLocator.class,
+        DOMDefaultDrawFigureFactory::readRelativeLocator,
+        DOMDefaultDrawFigureFactory::writeRelativeLocator);
     register("elbowLiner", ElbowLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
     register("curvedLiner", CurvedLiner.class, (f, i) -> {}, (f, o) -> {}); // do nothing
-    register("bezierLabelLoc", BezierLabelLocator.class, (f, i) -> {}, (f, o) -> {}); // do nothing;
+    register(
+        "bezierLabelLoc",
+        BezierLabelLocator.class,
+        DOMDefaultDrawFigureFactory::readBezierLabelLocator,
+        DOMDefaultDrawFigureFactory::writeBezierLabelLocator);
+    register(
+        "linearLabelLoc",
+        LinearLabelLocator.class,
+        DOMDefaultDrawFigureFactory::readLinearLabelLocator,
+        DOMDefaultDrawFigureFactory::writeLinearLabelLocator);
 
     for (Object[] o : ENUM_TAGS) {
       addEnumClass((String) o[1], (Class) o[0]);
@@ -200,6 +227,36 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
       domOutput.addText(Base64.encodeBytes(figure.getImageData()));
       domOutput.closeElement();
     }
+  }
+
+  public static void readGraphicalComposite(GraphicalCompositeFigure figure, DOMInput domInput)
+      throws IOException {
+    if (domInput.hasElement("presentation")) {
+      domInput.openElement("presentation");
+      figure.setPresentationFigure((Figure) domInput.readObject());
+      domInput.closeElement();
+    }
+    domInput.openElement("children");
+    for (int i = 0; i < domInput.getElementCount(); i++) {
+      figure.basicAdd((Figure) domInput.readObject(i));
+    }
+    domInput.closeElement();
+    readAttributes(figure, domInput);
+  }
+
+  public static void writeGraphicalComposite(GraphicalCompositeFigure figure, DOMOutput domOutput)
+      throws IOException {
+    if (figure.getPresentationFigure() != null) {
+      domOutput.openElement("presentation");
+      domOutput.writeObject(figure.getPresentationFigure());
+      domOutput.closeElement();
+    }
+    domOutput.openElement("children");
+    for (Figure child : figure.getChildren()) {
+      domOutput.writeObject(child);
+    }
+    domOutput.closeElement();
+    writeAttributes(figure, domOutput);
   }
 
   public static void readGroup(GroupFigure figure, DOMInput domInput) throws IOException {
@@ -292,6 +349,20 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     domOutput.closeElement();
   }
 
+  public static void readRelativeLocator(RelativeLocator locator, DOMInput domInput)
+      throws IOException {
+    locator.setRelativePosition(
+        domInput.getAttribute("relativeX", 0.5), domInput.getAttribute("relativeY", 0.5));
+    locator.setIsTransform(domInput.getAttribute("transform", false));
+  }
+
+  public static void writeRelativeLocator(RelativeLocator locator, DOMOutput domOutput)
+      throws IOException {
+    domOutput.addAttribute("relativeX", locator.getRelativeX());
+    domOutput.addAttribute("relativeY", locator.getRelativeY());
+    domOutput.addAttribute("transform", locator.isTransform());
+  }
+
   public static void readBezierLabelLocator(BezierLabelLocator locator, DOMInput domInput)
       throws IOException {
     locator.setRelativePosition(domInput.getAttribute("relativePosition", 0.5));
@@ -300,6 +371,20 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   }
 
   public static void writeBezierLabelLocator(BezierLabelLocator locator, DOMOutput domOutput)
+      throws IOException {
+    domOutput.addAttribute("relativePosition", locator.getRelativePosition());
+    domOutput.addAttribute("angle", locator.getAngle());
+    domOutput.addAttribute("distance", locator.getDistance());
+  }
+
+  public static void readLinearLabelLocator(LinearLabelLocator locator, DOMInput domInput)
+      throws IOException {
+    locator.setRelativePosition(domInput.getAttribute("relativePosition", 0.5));
+    locator.setAngle(domInput.getAttribute("angle", 0.0));
+    locator.setDistance(domInput.getAttribute("distance", 0.0));
+  }
+
+  public static void writeLinearLabelLocator(LinearLabelLocator locator, DOMOutput domOutput)
       throws IOException {
     domOutput.addAttribute("relativePosition", locator.getRelativePosition());
     domOutput.addAttribute("angle", locator.getAngle());
@@ -361,15 +446,14 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     List<BezierPath.Node> nodes = new ArrayList<>();
     for (int i = 0, n = domInput.getElementCount("p"); i < n; i++) {
       domInput.openElement("p", i);
-      BezierPath.Node node =
-          new BezierPath.Node(
-              domInput.getAttribute("mask", 0),
-              domInput.getAttribute("x", 0d),
-              domInput.getAttribute("y", 0d),
-              domInput.getAttribute("c1x", domInput.getAttribute("x", 0d)),
-              domInput.getAttribute("c1y", domInput.getAttribute("y", 0d)),
-              domInput.getAttribute("c2x", domInput.getAttribute("x", 0d)),
-              domInput.getAttribute("c2y", domInput.getAttribute("y", 0d)));
+      BezierPath.Node node = new BezierPath.Node(
+          domInput.getAttribute("mask", 0),
+          domInput.getAttribute("x", 0d),
+          domInput.getAttribute("y", 0d),
+          domInput.getAttribute("c1x", domInput.getAttribute("x", 0d)),
+          domInput.getAttribute("c1y", domInput.getAttribute("y", 0d)),
+          domInput.getAttribute("c2x", domInput.getAttribute("x", 0d)),
+          domInput.getAttribute("c2y", domInput.getAttribute("y", 0d)));
       node.keepColinear = domInput.getAttribute("colinear", true);
       figure.addNode(node);
       domInput.closeElement();
@@ -493,9 +577,11 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
   public static void writeAttributes(Figure figure, DOMOutput domOutput) throws IOException {
     Figure prototype = (Figure) domOutput.getPrototype();
     boolean isElementOpen = false;
-    for (Map.Entry<AttributeKey<?>, Object> entry : figure.attr().getAttributes().entrySet()) {
+    for (Map.Entry<AttributeKey<?>, Object> entry :
+        figure.attr().getAttributes().entrySet()) {
       AttributeKey<?> key = entry.getKey();
-      if (figure.attr().isAttributeEnabled(key)) {
+      if (AttributeKeys.SUPPORTED_ATTRIBUTES.contains(key)
+          && figure.attr().isAttributeEnabled(key)) {
         Object prototypeValue = prototype.attr().get(key);
         Object attributeValue = figure.attr().get(key);
         if (!Objects.equals(prototypeValue, attributeValue)) {

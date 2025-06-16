@@ -33,9 +33,9 @@ import org.jhotdraw.app.action.file.LoadDirectoryAction;
 import org.jhotdraw.app.action.file.LoadFileAction;
 import org.jhotdraw.app.action.file.LoadRecentFileAction;
 import org.jhotdraw.app.action.file.OpenRecentFileAction;
-import org.jhotdraw.beans.AbstractBean;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.beans.AbstractBean;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * This abstract class can be extended to implement an {@link Application}.
@@ -83,9 +83,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
   /** Initializes the application after it has been configured. */
   @Override
   public void init() {
-    prefs =
-        PreferencesUtil.userNodeForPackage(
-            (getModel() == null) ? getClass() : getModel().getClass());
+    prefs = PreferencesUtil.userNodeForPackage(
+        (getModel() == null) ? getClass() : getModel().getClass());
     int count = prefs.getInt("recentFileCount", 0);
     for (int i = 0; i < count; i++) {
       String path = prefs.get("recentFile." + i, null);
@@ -309,27 +308,26 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     configure(args);
     // Get URI's from command line
     final List<URI> uris = getOpenURIsFromMainArgs(args);
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            init();
-            // Call this right after init.
-            model.initApplication(AbstractApplication.this);
-            // Get start URIs
-            final LinkedList<URI> startUris;
-            if (uris.isEmpty()) {
-              startUris = new LinkedList<>();
-              if (model.isOpenLastURIOnLaunch() && !recentURIs.isEmpty()) {
-                startUris.add(recentURIs.getFirst());
-              }
-            } else {
-              startUris = new LinkedList<>(uris);
-            }
-            // Start with start URIs
-            start(startUris);
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        init();
+        // Call this right after init.
+        model.initApplication(AbstractApplication.this);
+        // Get start URIs
+        final LinkedList<URI> startUris;
+        if (uris.isEmpty()) {
+          startUris = new LinkedList<>();
+          if (model.isOpenLastURIOnLaunch() && !recentURIs.isEmpty()) {
+            startUris.add(recentURIs.getFirst());
           }
-        });
+        } else {
+          startUris = new LinkedList<>(uris);
+        }
+        // Start with start URIs
+        start(startUris);
+      }
+    });
   }
 
   /**

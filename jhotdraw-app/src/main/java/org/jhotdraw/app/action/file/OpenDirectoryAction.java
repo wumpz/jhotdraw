@@ -10,7 +10,7 @@ package org.jhotdraw.app.action.file;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.api.gui.URIChooser;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Presents an {@code URIChooser} for selecting a directory and loads the selected URI into an empty

@@ -13,7 +13,7 @@ import java.awt.*;
 import javax.swing.*;
 import org.jhotdraw.api.gui.AttributeEditor;
 import org.jhotdraw.gui.JLifeFormattedTextField;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** An entry field that can be used to edit an attribute of a {@code Figure}. */
 public class JAttributeTextField<T> extends JLifeFormattedTextField implements AttributeEditor<T> {

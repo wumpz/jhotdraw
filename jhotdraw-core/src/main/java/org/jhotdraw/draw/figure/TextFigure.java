@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
 import org.jhotdraw.draw.handle.Handle;
@@ -30,10 +31,10 @@ import org.jhotdraw.draw.handle.RotateHandle;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.Insets2D;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@code TextHolderFigure} which holds a single line of text.
@@ -60,9 +61,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   protected double alignY;
 
   public TextFigure() {
-    this(
-        ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
-            .getString("TextFigure.defaultText"));
+    this(ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels")
+        .getString("TextFigure.defaultText"));
   }
 
   public TextFigure(String text) {
@@ -79,10 +79,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   @Override
   protected void drawText(java.awt.Graphics2D g) {
     if (getText() != null || isEditable()) {
-      TextLayout layout =
-          getTextLayout(
-              AttributeKeys.getGlobalValueFactor(
-                  this, AttributeKeys.getScaleFactorFromGraphics(g)));
+      TextLayout layout = getTextLayout(
+          AttributeKeys.getGlobalSizeFactor(this, AttributeKeys.getScaleFactorFromGraphics(g)));
       Graphics2D g2 = (Graphics2D) g.create();
       try {
         double alignDeltaX = layout.getAdvance() * attr().get(AttributeKeys.ALIGN_RELATIVE_X);
@@ -132,8 +130,13 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   @Override
-  public void setRotation(double angle) {
+  public void setAngle(double angle) {
     AffineTransform.getRotateInstance(angle).transform(HOIZONTAL_DIRECTION, direction);
+  }
+
+  @Override
+  public double getAngle() {
+    return Geom.angle(0, 0, direction.x, direction.y);
   }
 
   @Override
@@ -156,31 +159,31 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
   @Override
   public boolean figureContains(Point2D.Double p, double scale) {
-    double grow =
-        AttributeKeys.getPerpendicularHitGrowth(
-                this, AttributeKeys.getGlobalValueFactor(this, scale))
-            + 1d;
+    double grow = AttributeKeys.getPerpendicularHitGrowth(
+            this, AttributeKeys.getGlobalSizeFactor(this, scale))
+        + 1d;
     Rectangle2D.Double r = getBounds(scale);
     Geom.grow(r, grow, grow);
     return r.contains(p);
   }
 
   protected TextLayout getTextLayout(double sizeFactor) {
-    if (textLayout == null || attr().get(IS_STROKE_PIXEL_VALUE)) {
+    if (textLayout == null || attr().get(IS_SIZE_PIXEL_VALUE)) {
       String text = getText();
       if (text == null || text.length() == 0) {
         text = " ";
       }
       FontRenderContext frc = getFontRenderContext();
       HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
-      textAttributes.put(
-          TextAttribute.FONT,
-          getFont()
-              .deriveFont(
-                  getFontSize() / (float) AttributeKeys.getGlobalValueFactor(this, sizeFactor)));
+      textAttributes.put(TextAttribute.FONT, getFont().deriveFont((float)
+          (getFontSize() / AttributeKeys.getGlobalSizeFactor(this, sizeFactor))));
       if (attr().get(FONT_UNDERLINE)) {
         textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
       }
+      if (attr().get(FONT_STRIKETHROUGH)) {
+        textAttributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+      }
+
       textLayout = new TextLayout(text, textAttributes, frc);
     }
     return textLayout;
@@ -194,12 +197,11 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     double alignDeltaY =
         (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
 
-    Rectangle2D.Double r =
-        new Rectangle2D.Double(
-            origin.x - alignDeltaX,
-            origin.y - alignDeltaY,
-            layout.getAdvance(),
-            layout.getAscent() + layout.getDescent());
+    Rectangle2D.Double r = new Rectangle2D.Double(
+        origin.x - alignDeltaX,
+        origin.y - alignDeltaY,
+        layout.getAdvance(),
+        layout.getAscent() + layout.getDescent());
 
     r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
 
@@ -218,7 +220,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     return origin.y + layout.getAscent() - getBounds().y;
   }
 
-  private AffineTransform rotationMatrix() {
+  protected AffineTransform rotationMatrix() {
     return AffineTransform.getRotateInstance(direction.x, direction.y, origin.x, origin.y);
   }
 
@@ -234,26 +236,24 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
       double alignDeltaY =
           (layout.getAscent() + layout.getDescent()) * attr().get(AttributeKeys.ALIGN_RELATIVE_Y);
 
-      Rectangle2D.Double r =
-          new Rectangle2D.Double(
-              origin.x - alignDeltaX,
-              origin.y - alignDeltaY,
-              layout.getAdvance(),
-              layout.getAscent() + layout.getDescent());
+      Rectangle2D.Double r = new Rectangle2D.Double(
+          origin.x - alignDeltaX,
+          origin.y - alignDeltaY,
+          layout.getAdvance(),
+          layout.getAscent() + layout.getDescent());
       Rectangle2D lBounds = layout.getBounds();
       if (!lBounds.isEmpty() && !Double.isNaN(lBounds.getX())) {
-        r.add(
-            new Rectangle2D.Double(
-                lBounds.getX() + origin.x - alignDeltaX,
-                (lBounds.getY() + origin.y - alignDeltaY + layout.getAscent()),
-                lBounds.getWidth(),
-                lBounds.getHeight()));
+        r.add(new Rectangle2D.Double(
+            lBounds.getX() + origin.x - alignDeltaX,
+            (lBounds.getY() + origin.y - alignDeltaY + layout.getAscent()),
+            lBounds.getWidth(),
+            lBounds.getHeight()));
       }
 
       r = (Rectangle2D.Double) rotationMatrix().createTransformedShape(r).getBounds2D();
 
       // grow by two pixels to take antialiasing into account
-      Geom.grow(r, 2d, 2d);
+      Geom.grow(r, 2d / factor, 2d / factor);
 
       return r;
     }
@@ -325,13 +325,13 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
   }
 
   @Override
-  public void setFontSize(float size) {
-    attr().set(FONT_SIZE, Double.valueOf(size));
+  public void setFontSize(double size) {
+    attr().set(FONT_SIZE, size);
   }
 
   @Override
-  public float getFontSize() {
-    return attr().get(FONT_SIZE).floatValue();
+  public double getFontSize() {
+    return attr().get(FONT_SIZE);
   }
 
   // EDITING
@@ -361,13 +361,12 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         break;
       case 1:
         handles.add(new BoundsOutlineHandle(this));
-        handles.add(
-            new RotateHandle(this) {
-              @Override
-              protected Point2D.Double getCenter() {
-                return TextFigure.this.getOrigin();
-              }
-            });
+        handles.add(new RotateHandle(this) {
+          @Override
+          protected Point2D.Double getCenter() {
+            return TextFigure.this.getOrigin();
+          }
+        });
         break;
     }
     return handles;
@@ -382,7 +381,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
    * @return
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     if (isEditable() && contains(p)) {
       TextEditingTool t = new TextEditingTool(this);
       return t;

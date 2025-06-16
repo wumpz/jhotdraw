@@ -12,8 +12,8 @@ import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * {@code AttributeAction} applies attribute values on the selected figures of the current {@code
@@ -92,47 +92,46 @@ public class AttributeAction extends AbstractSelectedAction {
       }
       figure.changed();
     }
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
-            if (name == null) {
-              name = (String) getValue(AbstractAction.NAME);
-            }
-            if (name == null) {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              name = labels.getString("attribute.text");
-            }
-            return name;
-          }
+      @Override
+      public String getPresentationName() {
+        String name = (String) getValue(ActionUtil.UNDO_PRESENTATION_NAME_KEY);
+        if (name == null) {
+          name = (String) getValue(AbstractAction.NAME);
+        }
+        if (name == null) {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          name = labels.getString("attribute.text");
+        }
+        return name;
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            Iterator<Object> iRestore = restoreData.iterator();
-            for (Figure figure : selectedFigures) {
-              figure.willChange();
-              figure.attr().restoreAttributesTo(iRestore.next());
-              figure.changed();
-            }
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        Iterator<Object> iRestore = restoreData.iterator();
+        for (Figure figure : selectedFigures) {
+          figure.willChange();
+          figure.attr().restoreAttributesTo(iRestore.next());
+          figure.changed();
+        }
+      }
 
-          @Override
-          public void redo() {
-            super.redo();
-            for (Figure figure : selectedFigures) {
-              // restoreData.add(figure.getAttributesRestoreData());
-              figure.willChange();
-              for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
-                figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-              }
-              figure.changed();
-            }
+      @Override
+      public void redo() {
+        super.redo();
+        for (Figure figure : selectedFigures) {
+          // restoreData.add(figure.getAttributesRestoreData());
+          figure.willChange();
+          for (Map.Entry<AttributeKey<?>, Object> entry : a.entrySet()) {
+            figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
           }
-        };
+          figure.changed();
+        }
+      }
+    };
     getDrawing().fireUndoableEditHappened(edit);
   }
 

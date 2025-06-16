@@ -16,9 +16,9 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.AbstractHandle;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.*;
 
 /** A Handle to manipulate the radius of a round lead rectangle. */
 public class ODGRectRadiusHandle extends AbstractHandle {
@@ -84,34 +84,31 @@ public class ODGRectRadiusHandle extends AbstractHandle {
     final ODGRectFigure odgRect = (ODGRectFigure) getOwner();
     final Dimension2DDouble oldValue = originalArc2D;
     final Dimension2DDouble newValue = odgRect.getArc();
-    view.getDrawing()
-        .fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+    view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-                return labels.getString("arc");
-              }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
+        return labels.getString("arc");
+      }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                odgRect.willChange();
-                odgRect.setArc(oldValue);
-                odgRect.changed();
-              }
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        odgRect.willChange();
+        odgRect.setArc(oldValue);
+        odgRect.changed();
+      }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                odgRect.willChange();
-                odgRect.setArc(newValue);
-                odgRect.changed();
-              }
-            });
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        odgRect.willChange();
+        odgRect.setArc(newValue);
+        odgRect.changed();
+      }
+    });
   }
 
   @Override

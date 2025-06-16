@@ -11,10 +11,11 @@ import java.awt.Graphics2D;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.function.Predicate;
 import javax.swing.event.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.event.DrawingListener;
-import org.jhotdraw.draw.figure.Attributes;
+import org.jhotdraw.draw.figure.AttributeProvider;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
@@ -75,9 +76,7 @@ import org.jhotdraw.draw.io.OutputFormat;
  * streams.<br>
  * Strategy: {@link org.jhotdraw.draw.io.InputFormat}; Context: {@link Drawing}. <hr>
  */
-public interface Drawing {
-
-  Attributes attr();
+public interface Drawing extends AttributeProvider {
 
   /** Returns an unchangeable list view on the children. */
   public java.util.List<Figure> getChildren();
@@ -276,13 +275,25 @@ public interface Drawing {
   Figure findFigureExcept(Point2D.Double p, Collection<? extends Figure> ignore);
 
   /** Finds a top level Figure which is behind the specified Figure. */
-  Figure findFigureBehind(Point2D.Double p, Figure figure);
+  default Figure findFigureBehind(Point2D.Double p, Figure figure) {
+    return findFigureBehind(p, 1.0, figure, figureFilter -> true);
+  }
 
   /** Finds a top level Figure which is behind the specified Figure. */
-  Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure);
+  Figure findFigureBehind(
+      Point2D.Double p, double scaleDenominator, Figure figure, Predicate<Figure> filter);
 
   /** Finds a top level Figure which is behind the specified Figures. */
-  Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures);
+  default Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> figures) {
+    return findFigureBehind(p, 1.0, figures, figure -> true);
+  }
+
+  /** Finds a top level Figure which is behind the specified Figures. */
+  Figure findFigureBehind(
+      Point2D.Double p,
+      double scaleDenominator,
+      Collection<? extends Figure> figures,
+      Predicate<Figure> filter);
 
   /** Returns a list of the figures in Z-Order from front to back. */
   List<Figure> getFiguresFrontToBack();

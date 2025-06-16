@@ -12,7 +12,7 @@ import java.beans.*;
 import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * ViewPropertyAction.
@@ -28,15 +28,14 @@ public class ViewPropertyAction extends AbstractViewAction {
   private Object propertyValue;
   private String setterName;
   private String getterName;
-  private PropertyChangeListener viewListener =
-      new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          if (propertyName.equals(evt.getPropertyName())) { // Strings get interned
-            updateSelectedState();
-          }
-        }
-      };
+  private PropertyChangeListener viewListener = new PropertyChangeListener() {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      if (propertyName.equals(evt.getPropertyName())) { // Strings get interned
+        updateSelectedState();
+      }
+    }
+  };
 
   public ViewPropertyAction(Application app, View view, String propertyName, Object propertyValue) {
     this(app, view, propertyName, propertyValue.getClass(), propertyValue);
@@ -53,10 +52,9 @@ public class ViewPropertyAction extends AbstractViewAction {
     this.parameterClass = new Class<?>[] {propertyClass};
     this.propertyValue = propertyValue;
     setterName = "set" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
-    getterName =
-        ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")
-            + Character.toUpperCase(propertyName.charAt(0))
-            + propertyName.substring(1);
+    getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")
+        + Character.toUpperCase(propertyName.charAt(0))
+        + propertyName.substring(1);
     updateSelectedState();
   }
 
@@ -93,9 +91,8 @@ public class ViewPropertyAction extends AbstractViewAction {
     if (p != null) {
       try {
         Object value = p.getClass().getMethod(getterName, (Class[]) null).invoke(p);
-        isSelected =
-            value == propertyValue
-                || value != null && propertyValue != null && value.equals(propertyValue);
+        isSelected = value == propertyValue
+            || value != null && propertyValue != null && value.equals(propertyValue);
       } catch (Throwable e) {
         InternalError error =
             new InternalError("Method invocation failed. getter:" + getterName + " object:" + p);

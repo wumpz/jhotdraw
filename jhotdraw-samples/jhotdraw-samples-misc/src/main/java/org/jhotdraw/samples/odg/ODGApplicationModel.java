@@ -42,7 +42,7 @@ import org.jhotdraw.samples.odg.figures.ODGPathFigure;
 import org.jhotdraw.samples.odg.figures.ODGRectFigure;
 import org.jhotdraw.samples.svg.action.CombineAction;
 import org.jhotdraw.samples.svg.action.SplitAction;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Provides meta-data and factory methods for an application.
@@ -142,26 +142,24 @@ public class ODGApplicationModel extends DefaultApplicationModel {
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<AttributeKey<?>, Object>();
     STROKE_GRADIENT.put(defaultAttributes, (Gradient) null);
-    bar.add(
-        ButtonFactory.createEditorColorButton(
-            editor,
-            STROKE_COLOR,
-            ButtonFactory.WEBSAVE_COLORS,
-            ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-            "attribute.strokeColor",
-            labels,
-            defaultAttributes));
+    bar.add(ButtonFactory.createEditorColorButton(
+        editor,
+        STROKE_COLOR,
+        ButtonFactory.WEBSAVE_COLORS,
+        ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
+        "attribute.strokeColor",
+        labels,
+        defaultAttributes));
     defaultAttributes = new HashMap<AttributeKey<?>, Object>();
     FILL_GRADIENT.put(defaultAttributes, (Gradient) null);
-    bar.add(
-        ButtonFactory.createEditorColorButton(
-            editor,
-            FILL_COLOR,
-            ButtonFactory.WEBSAVE_COLORS,
-            ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
-            "attribute.fillColor",
-            labels,
-            defaultAttributes));
+    bar.add(ButtonFactory.createEditorColorButton(
+        editor,
+        FILL_COLOR,
+        ButtonFactory.WEBSAVE_COLORS,
+        ButtonFactory.WEBSAVE_COLORS_COLUMN_COUNT,
+        "attribute.fillColor",
+        labels,
+        defaultAttributes));
   }
 
   private void addStrokeButtonsTo(JToolBar bar, DrawingEditor editor) {
@@ -243,16 +241,15 @@ public class ODGApplicationModel extends DefaultApplicationModel {
       c.addChoosableFileFilter(ff);
     }
     c.setFileFilter(firstFF);
-    c.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if ("fileFilterChanged".equals(evt.getPropertyName())) {
-              InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
-              c.setAccessory(null);
-            }
-          }
-        });
+    c.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if ("fileFilterChanged".equals(evt.getPropertyName())) {
+          InputFormat inputFormat = fileFilterInputFormatMap.get(evt.getNewValue());
+          c.setAccessory(null);
+        }
+      }
+    });
     return c;
   }
 

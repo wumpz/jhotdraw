@@ -196,10 +196,8 @@ public class ImageBevelBorder implements Border {
     // South
     if (bottom > 0 && left + right < width) {
       subImg = image.getSubimage(left, imgHeight - bottom, imgWidth - right - left, bottom);
-      paint =
-          new TexturePaint(
-              subImg,
-              new Rectangle(x + left, y + height - bottom, imgWidth - left - right, bottom));
+      paint = new TexturePaint(
+          subImg, new Rectangle(x + left, y + height - bottom, imgWidth - left - right, bottom));
       g.setPaint(paint);
       g.fillRect(x + left, y + height - bottom, width - left - right, bottom);
     }
@@ -213,9 +211,8 @@ public class ImageBevelBorder implements Border {
     // East
     if (right > 0 && top + bottom < height) {
       subImg = image.getSubimage(imgWidth - right, top, right, imgHeight - top - bottom);
-      paint =
-          new TexturePaint(
-              subImg, new Rectangle(x + width - right, y + top, right, imgHeight - top - bottom));
+      paint = new TexturePaint(
+          subImg, new Rectangle(x + width - right, y + top, right, imgHeight - top - bottom));
       g.setPaint(paint);
       g.fillRect(x + width - right, y + top, right, height - top - bottom);
     }
@@ -224,11 +221,9 @@ public class ImageBevelBorder implements Border {
       g.setColor(Color.yellow);
       if (left + right < width && top + bottom < height) {
         subImg = image.getSubimage(left, top, imgWidth - right - left, imgHeight - top - bottom);
-        paint =
-            new TexturePaint(
-                subImg,
-                new Rectangle(
-                    x + left, y + top, imgWidth - right - left, imgHeight - top - bottom));
+        paint = new TexturePaint(
+            subImg,
+            new Rectangle(x + left, y + top, imgWidth - right - left, imgHeight - top - bottom));
         g.setPaint(paint);
         g.fillRect(x + left, y + top, width - right - left, height - top - bottom);
       }

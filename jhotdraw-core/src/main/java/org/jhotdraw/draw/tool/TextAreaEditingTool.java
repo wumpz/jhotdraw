@@ -15,8 +15,8 @@ import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.text.*;
-import org.jhotdraw.geom.Insets2D;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Insets2D;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A tool to edit existing figures that implement the TextHolderFigure interface, such as
@@ -115,32 +115,31 @@ public class TextAreaEditingTool extends AbstractTool implements ActionListener 
         typingTarget.setText("");
       }
       typingTarget.changed();
-      UndoableEdit edit =
-          new AbstractUndoableEdit() {
-            private static final long serialVersionUID = 1L;
+      UndoableEdit edit = new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getPresentationName() {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              return labels.getString("attribute.text.text");
-            }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("attribute.text.text");
+        }
 
-            @Override
-            public void undo() {
-              super.undo();
-              editedFigure.willChange();
-              editedFigure.setText(oldText);
-              editedFigure.changed();
-            }
+        @Override
+        public void undo() {
+          super.undo();
+          editedFigure.willChange();
+          editedFigure.setText(oldText);
+          editedFigure.changed();
+        }
 
-            @Override
-            public void redo() {
-              super.redo();
-              editedFigure.willChange();
-              editedFigure.setText(newText);
-              editedFigure.changed();
-            }
-          };
+        @Override
+        public void redo() {
+          super.redo();
+          editedFigure.willChange();
+          editedFigure.setText(newText);
+          editedFigure.changed();
+        }
+      };
       getDrawing().fireUndoableEditHappened(edit);
       typingTarget.changed();
       typingTarget = null;

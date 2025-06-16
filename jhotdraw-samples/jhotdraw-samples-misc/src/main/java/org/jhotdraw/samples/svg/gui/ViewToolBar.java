@@ -15,13 +15,13 @@ import javax.swing.border.*;
 import javax.swing.text.DefaultFormatterFactory;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.gui.JLifeFormattedTextField;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * ViewToolBar.
@@ -92,9 +92,8 @@ public class ViewToolBar extends AbstractToolBar {
         gbc.insets = new Insets(3, 0, 0, 0);
         gbc.weighty = 1;
         gbc.weightx = 1;
-        btn.setPreferredSize(
-            new Dimension(
-                btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
+        btn.setPreferredSize(new Dimension(
+            btn.getPreferredSize().width, toggleGridButton.getPreferredSize().height));
         p.add(btn, gbc);
 
         break;
@@ -121,24 +120,23 @@ public class ViewToolBar extends AbstractToolBar {
             JavaNumberFormatter.createFormatterFactory(0d, 1000d, 1d, true));
         gridSizeField.setHorizontalAlignment(JTextField.LEADING);
         final GridConstrainer constrainer = (GridConstrainer) view.getVisibleConstrainer();
-        gridSizeField.addPropertyChangeListener(
-            new PropertyChangeListener() {
-              @Override
-              public void propertyChange(PropertyChangeEvent evt) {
-                if ("value".equals(evt.getPropertyName())) {
-                  if (evt.getNewValue() != null) {
-                    constrainer.setWidth((Double) evt.getNewValue());
-                    constrainer.setHeight((Double) evt.getNewValue());
-                    prefs = PreferencesUtil.userNodeForPackage(getClass());
-                    try {
-                      prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
-                    } catch (IllegalStateException e) { // ignore
-                    }
-                    view.getComponent().repaint();
-                  }
+        gridSizeField.addPropertyChangeListener(new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+            if ("value".equals(evt.getPropertyName())) {
+              if (evt.getNewValue() != null) {
+                constrainer.setWidth((Double) evt.getNewValue());
+                constrainer.setHeight((Double) evt.getNewValue());
+                prefs = PreferencesUtil.userNodeForPackage(getClass());
+                try {
+                  prefs.putDouble("view.gridSize", (Double) evt.getNewValue());
+                } catch (IllegalStateException e) { // ignore
                 }
+                view.getComponent().repaint();
               }
-            });
+            }
+          }
+        });
         gridSizeField.setValue(constrainer.getHeight());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -170,28 +168,26 @@ public class ViewToolBar extends AbstractToolBar {
         scaleFactorField.setFormatterFactory(new DefaultFormatterFactory(formatter));
         scaleFactorField.setHorizontalAlignment(JTextField.LEADING);
         scaleFactorField.setValue(view.getScaleFactor());
-        scaleFactorField.addPropertyChangeListener(
-            new PropertyChangeListener() {
-              @Override
-              public void propertyChange(PropertyChangeEvent evt) {
-                if ("value".equals(evt.getPropertyName())) {
-                  if (evt.getNewValue() != null) {
-                    view.setScaleFactor((Double) evt.getNewValue());
-                  }
-                }
+        scaleFactorField.addPropertyChangeListener(new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+            if ("value".equals(evt.getPropertyName())) {
+              if (evt.getNewValue() != null) {
+                view.setScaleFactor((Double) evt.getNewValue());
               }
-            });
-        view.addPropertyChangeListener(
-            new PropertyChangeListener() {
-              @Override
-              public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
-                  if (evt.getNewValue() != null) {
-                    scaleFactorField.setValue((Double) evt.getNewValue());
-                  }
-                }
+            }
+          }
+        });
+        view.addPropertyChangeListener(new PropertyChangeListener() {
+          @Override
+          public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName() == DrawingView.SCALE_FACTOR_PROPERTY) {
+              if (evt.getNewValue() != null) {
+                scaleFactorField.setValue((Double) evt.getNewValue());
               }
-            });
+            }
+          }
+        });
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -210,9 +206,8 @@ public class ViewToolBar extends AbstractToolBar {
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.insets = new Insets(3, 0, 0, 0);
         gbc.weighty = 1;
-        btn.setPreferredSize(
-            new Dimension(
-                btn.getPreferredSize().width, scaleFactorField.getPreferredSize().height));
+        btn.setPreferredSize(new Dimension(
+            btn.getPreferredSize().width, scaleFactorField.getPreferredSize().height));
         p.add(btn, gbc);
 
         break;

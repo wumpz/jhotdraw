@@ -23,7 +23,7 @@ import org.jhotdraw.draw.handle.ConnectionEndHandle;
 import org.jhotdraw.draw.handle.ConnectionStartHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.liner.Liner;
-import org.jhotdraw.geom.path.BezierPath;
+import org.jhotdraw.utils.geom.path.BezierPath;
 
 /**
  * A {@link ConnectionFigure} which connects two figures using a bezier path.
@@ -391,26 +391,25 @@ public class LineConnectionFigure extends LineFigure implements ConnectionFigure
       final int index = splitSegment(p, (float) (5f / view.getScaleFactor()));
       if (index != -1) {
         final BezierPath.Node newNode = getNode(index);
-        fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+        fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                willChange();
-                addNode(index, newNode);
-                changed();
-              }
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            willChange();
+            addNode(index, newNode);
+            changed();
+          }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                willChange();
-                removeNode(index);
-                changed();
-              }
-            });
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            willChange();
+            removeNode(index);
+            changed();
+          }
+        });
         changed();
         return true;
       }

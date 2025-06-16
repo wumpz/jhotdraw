@@ -15,8 +15,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
-import org.jhotdraw.geom.path.Bezier;
-import org.jhotdraw.geom.path.BezierPath;
+import org.jhotdraw.utils.geom.path.Bezier;
+import org.jhotdraw.utils.geom.path.BezierPath;
 
 /** Demonstration of the curve fitting algorithm of class {@link Bezier}. */
 public class BezierDemo extends javax.swing.JPanel {
@@ -177,20 +177,18 @@ public class BezierDemo extends javax.swing.JPanel {
               g.setColor(Color.CYAN);
               g.fillRect(
                   (int) (node.x[1] * zoomFactor - 1), (int) (node.y[1] * zoomFactor - 1), 3, 3);
-              g.draw(
-                  new Line2D.Double(
-                      node.x[1] * zoomFactor,
-                      node.y[1] * zoomFactor,
-                      node.x[0] * zoomFactor,
-                      node.y[0] * zoomFactor));
+              g.draw(new Line2D.Double(
+                  node.x[1] * zoomFactor,
+                  node.y[1] * zoomFactor,
+                  node.x[0] * zoomFactor,
+                  node.y[0] * zoomFactor));
               g.fillRect(
                   (int) (node.x[2] * zoomFactor - 1), (int) (node.y[2] * zoomFactor - 1), 3, 3);
-              g.draw(
-                  new Line2D.Double(
-                      node.x[2] * zoomFactor,
-                      node.y[2] * zoomFactor,
-                      node.x[0] * zoomFactor,
-                      node.y[0] * zoomFactor));
+              g.draw(new Line2D.Double(
+                  node.x[2] * zoomFactor,
+                  node.y[2] * zoomFactor,
+                  node.x[0] * zoomFactor,
+                  node.y[0] * zoomFactor));
             } else {
               if ((node.mask & BezierPath.C1_MASK) == BezierPath.C1_MASK) {
                 g.setColor(Color.WHITE);
@@ -199,12 +197,11 @@ public class BezierDemo extends javax.swing.JPanel {
                 g.setColor(Color.MAGENTA);
                 g.fillRect(
                     (int) (node.x[1] * zoomFactor - 1), (int) (node.y[1] * zoomFactor - 1), 3, 3);
-                g.draw(
-                    new Line2D.Double(
-                        node.x[1] * zoomFactor,
-                        node.y[1] * zoomFactor,
-                        node.x[0] * zoomFactor,
-                        node.y[0] * zoomFactor));
+                g.draw(new Line2D.Double(
+                    node.x[1] * zoomFactor,
+                    node.y[1] * zoomFactor,
+                    node.x[0] * zoomFactor,
+                    node.y[0] * zoomFactor));
               }
               if ((node.mask & BezierPath.C2_MASK) == BezierPath.C2_MASK) {
                 g.setColor(Color.WHITE);
@@ -213,12 +210,11 @@ public class BezierDemo extends javax.swing.JPanel {
                 g.setColor(Color.MAGENTA);
                 g.fillRect(
                     (int) (node.x[2] * zoomFactor - 1), (int) (node.y[2] * zoomFactor - 1), 3, 3);
-                g.draw(
-                    new Line2D.Double(
-                        node.x[2] * zoomFactor,
-                        node.y[2] * zoomFactor,
-                        node.x[0] * zoomFactor,
-                        node.y[0] * zoomFactor));
+                g.draw(new Line2D.Double(
+                    node.x[2] * zoomFactor,
+                    node.y[2] * zoomFactor,
+                    node.x[0] * zoomFactor,
+                    node.y[0] * zoomFactor));
               }
             }
           }
@@ -263,17 +259,16 @@ public class BezierDemo extends javax.swing.JPanel {
   }
 
   public static void main(String[] arg) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          public void run() {
-            JFrame f = new JFrame("Bezier Demo");
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.add(new BezierDemo());
-            f.setPreferredSize(new Dimension(400, 300));
-            f.pack();
-            f.setVisible(true);
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        JFrame f = new JFrame("Bezier Demo");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.add(new BezierDemo());
+        f.setPreferredSize(new Dimension(400, 300));
+        f.pack();
+        f.setVisible(true);
+      }
+    });
   }
 
   private double getSquaredError() {
@@ -318,12 +313,11 @@ public class BezierDemo extends javax.swing.JPanel {
     jPanel1.add(toleranceLabel, gridBagConstraints);
     zoomSlider.setMaximum(800);
     zoomSlider.setMinimum(100);
-    zoomSlider.addChangeListener(
-        new javax.swing.event.ChangeListener() {
-          public void stateChanged(javax.swing.event.ChangeEvent evt) {
-            zoomChanged(evt);
-          }
-        });
+    zoomSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        zoomChanged(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -331,24 +325,22 @@ public class BezierDemo extends javax.swing.JPanel {
     gridBagConstraints.weightx = 1.0;
     jPanel1.add(zoomSlider, gridBagConstraints);
     showDigitizedCheck.setText("Show Source Points");
-    showDigitizedCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            checkboxPerformed(evt);
-          }
-        });
+    showDigitizedCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        checkboxPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridwidth = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
     jPanel1.add(showDigitizedCheck, gridBagConstraints);
     showPreprocessedCheck.setText("Show Preprocessed Points");
-    showPreprocessedCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            checkboxPerformed(evt);
-          }
-        });
+    showPreprocessedCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        checkboxPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridwidth = 2;
@@ -356,12 +348,11 @@ public class BezierDemo extends javax.swing.JPanel {
     jPanel1.add(showPreprocessedCheck, gridBagConstraints);
     showPolylineCheck.setSelected(true);
     showPolylineCheck.setText("Show Polyline");
-    showPolylineCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            checkboxPerformed(evt);
-          }
-        });
+    showPolylineCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        checkboxPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -370,12 +361,11 @@ public class BezierDemo extends javax.swing.JPanel {
     jPanel1.add(showPolylineCheck, gridBagConstraints);
     showBezierCheck.setSelected(true);
     showBezierCheck.setText("Show Bezier Path");
-    showBezierCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            checkboxPerformed(evt);
-          }
-        });
+    showBezierCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        checkboxPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -383,23 +373,21 @@ public class BezierDemo extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
     jPanel1.add(showBezierCheck, gridBagConstraints);
     showControlsCheck.setText("Show Bezier Controls");
-    showControlsCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            checkboxPerformed(evt);
-          }
-        });
+    showControlsCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        checkboxPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridwidth = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
     jPanel1.add(showControlsCheck, gridBagConstraints);
     eraseButton.setText("Erase");
-    eraseButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            eraseButtonActionPerformed(evt);
-          }
-        });
+    eraseButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        eraseButtonActionPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 4;
@@ -408,12 +396,11 @@ public class BezierDemo extends javax.swing.JPanel {
     gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
     jPanel1.add(eraseButton, gridBagConstraints);
     dumpButton.setText("Dump");
-    dumpButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            dumpButtonActionPerformed(evt);
-          }
-        });
+    dumpButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        dumpButtonActionPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 3;
     gridBagConstraints.gridy = 4;

@@ -30,14 +30,14 @@ import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
-import org.jhotdraw.geom.Shapes;
-import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.ODGConstants;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.GrowStroke;
+import org.jhotdraw.utils.geom.Shapes;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.util.*;
 
 /** ODGPath is a composite Figure which contains one or more ODGBezierFigures as its children. */
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
@@ -64,11 +64,10 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
           Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
         }
         if (!drawingArea.isEmpty()) {
-          BufferedImage buf =
-              new BufferedImage(
-                  Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
-                  Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
-                  BufferedImage.TYPE_INT_ARGB);
+          BufferedImage buf = new BufferedImage(
+              Math.max(1, (int) ((2 + drawingArea.width) * g.getTransform().getScaleX())),
+              Math.max(1, (int) ((2 + drawingArea.height) * g.getTransform().getScaleY())),
+              BufferedImage.TYPE_INT_ARGB);
           Graphics2D gr = buf.createGraphics();
           gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
           gr.translate((int) -drawingArea.x, (int) -drawingArea.y);
@@ -172,10 +171,9 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         strokeRect = attr().get(TRANSFORM).createTransformedShape(strokeRect).getBounds2D();
       }
       Rectangle2D rx = gp.getBounds2D();
-      Rectangle2D.Double r =
-          (rx instanceof Rectangle2D.Double)
-              ? (Rectangle2D.Double) rx
-              : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+      Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+          ? (Rectangle2D.Double) rx
+          : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
       Geom.grow(r, strokeRect.getWidth(), strokeRect.getHeight());
       cachedDrawingArea = r;
     }
@@ -202,10 +200,8 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         return true;
       }
       double grow = AttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d;
-      GrowStroke gs =
-          new GrowStroke(
-              grow,
-              (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
+      GrowStroke gs = new GrowStroke(
+          grow, (AttributeKeys.getStrokeTotalWidth(this, 1.0) * attr().get(STROKE_MITER_LIMIT)));
       if (gs.createStrokedShape(getPath()).contains(p)) {
         return true;
       } else {
@@ -326,111 +322,104 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
         ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
     LinkedList<Action> actions = new LinkedList<Action>();
     if (attr().get(TRANSFORM) != null) {
-      actions.add(
-          new AbstractAction(labels.getString("edit.removeTransform.text")) {
+      actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+          willChange();
+          fireUndoableEditHappened(TRANSFORM.setUndoable(ODGPathFigure.this, null));
+          changed();
+        }
+      });
+      actions.add(new AbstractAction(labels.getString("edit.flattenTransform.text")) {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+          // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
+          // TransformEdit edit = new TransformEdit(ODGPathFigure.this, )
+          final Object restoreData = getTransformRestoreData();
+          UndoableEdit edit = new AbstractUndoableEdit() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed(ActionEvent evt) {
+            public String getPresentationName() {
+              return labels.getString("flattenTransform");
+            }
+
+            @Override
+            public void undo() throws CannotUndoException {
+              super.undo();
               willChange();
-              fireUndoableEditHappened(TRANSFORM.setUndoable(ODGPathFigure.this, null));
+              restoreTransformTo(restoreData);
               changed();
             }
-          });
-      actions.add(
-          new AbstractAction(labels.getString("edit.flattenTransform.text")) {
-            private static final long serialVersionUID = 1L;
 
             @Override
-            public void actionPerformed(ActionEvent evt) {
-              // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
-              // TransformEdit edit = new TransformEdit(ODGPathFigure.this, )
-              final Object restoreData = getTransformRestoreData();
-              UndoableEdit edit =
-                  new AbstractUndoableEdit() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public String getPresentationName() {
-                      return labels.getString("flattenTransform");
-                    }
-
-                    @Override
-                    public void undo() throws CannotUndoException {
-                      super.undo();
-                      willChange();
-                      restoreTransformTo(restoreData);
-                      changed();
-                    }
-
-                    @Override
-                    public void redo() throws CannotRedoException {
-                      super.redo();
-                      willChange();
-                      restoreTransformTo(restoreData);
-                      flattenTransform();
-                      changed();
-                    }
-                  };
+            public void redo() throws CannotRedoException {
+              super.redo();
               willChange();
+              restoreTransformTo(restoreData);
               flattenTransform();
               changed();
-              fireUndoableEditHappened(edit);
             }
-          });
+          };
+          willChange();
+          flattenTransform();
+          changed();
+          fireUndoableEditHappened(edit);
+        }
+      });
     }
-    actions.add(
-        new AbstractAction(labels.getString("closePath")) {
-          private static final long serialVersionUID = 1L;
+    actions.add(new AbstractAction(labels.getString("closePath")) {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-            for (Figure child : getChildren()) {
-              willChange();
-              getDrawing().fireUndoableEditHappened(PATH_CLOSED.setUndoable(child, true));
-              changed();
-            }
-          }
-        });
-    actions.add(
-        new AbstractAction(labels.getString("openPath")) {
-          private static final long serialVersionUID = 1L;
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        for (Figure child : getChildren()) {
+          willChange();
+          getDrawing().fireUndoableEditHappened(PATH_CLOSED.setUndoable(child, true));
+          changed();
+        }
+      }
+    });
+    actions.add(new AbstractAction(labels.getString("openPath")) {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-            for (Figure child : getChildren()) {
-              willChange();
-              getDrawing().fireUndoableEditHappened(PATH_CLOSED.setUndoable(child, false));
-              changed();
-            }
-          }
-        });
-    actions.add(
-        new AbstractAction(labels.getString("windingRule.evenOdd")) {
-          private static final long serialVersionUID = 1L;
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        for (Figure child : getChildren()) {
+          willChange();
+          getDrawing().fireUndoableEditHappened(PATH_CLOSED.setUndoable(child, false));
+          changed();
+        }
+      }
+    });
+    actions.add(new AbstractAction(labels.getString("windingRule.evenOdd")) {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-            willChange();
-            getDrawing()
-                .fireUndoableEditHappened(
-                    WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.EVEN_ODD));
-            changed();
-          }
-        });
-    actions.add(
-        new AbstractAction(labels.getString("windingRule.nonZero")) {
-          private static final long serialVersionUID = 1L;
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        willChange();
+        getDrawing()
+            .fireUndoableEditHappened(
+                WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.EVEN_ODD));
+        changed();
+      }
+    });
+    actions.add(new AbstractAction(labels.getString("windingRule.nonZero")) {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-            ODGPathFigure.this.willChange();
-            getDrawing()
-                .fireUndoableEditHappened(
-                    WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.NON_ZERO));
-            ODGPathFigure.this.changed();
-          }
-        });
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        ODGPathFigure.this.willChange();
+        getDrawing()
+            .fireUndoableEditHappened(
+                WINDING_RULE.setUndoable(ODGPathFigure.this, WindingRule.NON_ZERO));
+        ODGPathFigure.this.changed();
+      }
+    });
     return actions;
   }
 

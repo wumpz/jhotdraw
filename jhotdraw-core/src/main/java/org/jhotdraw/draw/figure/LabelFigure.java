@@ -9,6 +9,7 @@ package org.jhotdraw.draw.figure;
 
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.event.FigureListener;
 import org.jhotdraw.draw.event.FigureListenerAdapter;
@@ -53,24 +54,23 @@ public class LabelFigure extends TextFigure {
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     return (target != null && contains(p)) ? new TextEditingTool(target) : null;
   }
 
-  private final FigureListener FIGURE_LISTENER =
-      new FigureListenerAdapter() {
+  private final FigureListener FIGURE_LISTENER = new FigureListenerAdapter() {
 
-        @Override
-        public void figureRemoved(FigureEvent e) {
-          if (e.getFigure() == target) {
-            target.removeFigureListener(this);
-            target = null;
-          }
-        }
+    @Override
+    public void figureRemoved(FigureEvent e) {
+      if (e.getFigure() == target) {
+        target.removeFigureListener(this);
+        target = null;
+      }
+    }
 
-        @Override
-        public void figureRequestRemove(FigureEvent e) {}
-      };
+    @Override
+    public void figureRequestRemove(FigureEvent e) {}
+  };
 
   @Override
   public void remap(Map<Figure, Figure> oldToNew, boolean disconnectIfNotInMap) {

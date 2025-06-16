@@ -60,8 +60,8 @@ import org.jhotdraw.draw.event.HandleListener;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.io.DefaultDrawingViewTransferHandler;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * A default implementation of {@link DrawingView} suited for viewing drawings with a small number
@@ -102,13 +102,12 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
   private DrawingEditor editor;
   private JLabel emptyDrawingLabel;
   protected BufferedImage backgroundTile;
-  private FigureListener handleInvalidator =
-      new FigureListenerAdapter() {
-        @Override
-        public void figureHandlesChanged(FigureEvent e) {
-          invalidateHandles();
-        }
-      };
+  private FigureListener handleInvalidator = new FigureListenerAdapter() {
+    @Override
+    public void figureHandlesChanged(FigureEvent e) {
+      invalidateHandles();
+    }
+  };
   private transient Rectangle2D.Double cachedDrawingArea;
   public static final String DRAWING_DOUBLE_BUFFERED_PROPERTY = "drawingDoubleBuffered";
 
@@ -187,9 +186,8 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
           Point r = drawingToView(new Point2D.Double(0, 0));
           g.setPaint(getBackgroundPaint(r.x, r.y));
           g.fillRect(0, 0, getWidth(), getHeight());
-          g.setColor(
-              new Color(
-                  canvasColor.getRGB() & 0xfffff | ((int) (canvasOpacity * 256) << 24), true));
+          g.setColor(new Color(
+              canvasColor.getRGB() & 0xfffff | ((int) (canvasOpacity * 256) << 24), true));
           g.fillRect(0, 0, getWidth(), getHeight());
         }
       } else {
@@ -201,10 +199,8 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       // the canvas has a fixed size
       g.setColor(getBackground());
       g.fillRect(0, 0, getWidth(), getHeight());
-      Rectangle r =
-          drawingToView(
-              new Rectangle2D.Double(
-                  0, 0, drawing.attr().get(CANVAS_WIDTH), drawing.attr().get(CANVAS_HEIGHT)));
+      Rectangle r = drawingToView(new Rectangle2D.Double(
+          0, 0, drawing.attr().get(CANVAS_WIDTH), drawing.attr().get(CANVAS_HEIGHT)));
       g.setPaint(getBackgroundPaint(r.x, r.y));
       g.fillRect(r.x, r.y, r.width, r.height);
     }
@@ -219,8 +215,10 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
 
     @Override
     public void drawingChanged(DrawingEvent e) {
-      repaintDrawingArea(e.getInvalidatedArea());
-      invalidateDimension();
+      if (e.getInvalidatedArea() != null) {
+        repaintDrawingArea(e.getInvalidatedArea());
+        invalidateDimension();
+      }
     }
 
     @Override
@@ -228,9 +226,8 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       if (drawing.getChildCount() == 1 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(
-            evt.getFigure()
-                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+        repaintDrawingArea(evt.getFigure()
+            .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
       invalidateDimension();
     }
@@ -240,9 +237,8 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       if (drawing.getChildCount() == 0 && getEmptyDrawingMessage() != null) {
         repaint();
       } else {
-        repaintDrawingArea(
-            evt.getFigure()
-                .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+        repaintDrawingArea(evt.getFigure()
+            .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
       }
       removeFromSelection(evt.getFigure());
       invalidateDimension();
@@ -296,9 +292,8 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
           repaint(); // must repaint everything
         }
         if (e.getInvalidatedArea() != null) {
-          repaintDrawingArea(
-              e.getFigure()
-                  .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
+          repaintDrawingArea(e.getFigure()
+              .getDrawingArea(AttributeKeys.getScaleFactor(getDrawingToViewTransform())));
         } else {
           repaintDrawingArea(viewToDrawing(getCanvasViewBounds()));
         }
@@ -308,6 +303,9 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
         //          repaintDrawingArea(e.getInvalidatedArea());
       }
     }
+
+    @Override
+    public void figureChanged(DrawingEvent e) {}
   }
 
   private EventHandler eventHandler;
@@ -409,34 +407,30 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       shift.x = bufferedArea.x - vr.x;
       shift.y = bufferedArea.y - vr.y;
       if (shift.x > 0) {
-        dirtyArea.add(
-            new Rectangle(
-                bufferedArea.x - shift.x,
-                vr.y,
-                shift.x + bufferedArea.width - vr.width,
-                bufferedArea.height));
+        dirtyArea.add(new Rectangle(
+            bufferedArea.x - shift.x,
+            vr.y,
+            shift.x + bufferedArea.width - vr.width,
+            bufferedArea.height));
       } else if (shift.x < 0) {
-        dirtyArea.add(
-            new Rectangle(
-                bufferedArea.x + vr.width,
-                vr.y,
-                -shift.x + bufferedArea.width - vr.width,
-                bufferedArea.height));
+        dirtyArea.add(new Rectangle(
+            bufferedArea.x + vr.width,
+            vr.y,
+            -shift.x + bufferedArea.width - vr.width,
+            bufferedArea.height));
       }
       if (shift.y > 0) {
-        dirtyArea.add(
-            new Rectangle(
-                vr.x,
-                bufferedArea.y - shift.y,
-                bufferedArea.width,
-                shift.y + bufferedArea.height - vr.height));
+        dirtyArea.add(new Rectangle(
+            vr.x,
+            bufferedArea.y - shift.y,
+            bufferedArea.width,
+            shift.y + bufferedArea.height - vr.height));
       } else if (shift.y < 0) {
-        dirtyArea.add(
-            new Rectangle(
-                vr.x,
-                bufferedArea.y + vr.height,
-                bufferedArea.width,
-                -shift.y + bufferedArea.height - vr.height));
+        dirtyArea.add(new Rectangle(
+            vr.x,
+            bufferedArea.y + vr.height,
+            bufferedArea.width,
+            -shift.y + bufferedArea.height - vr.height));
       }
       bufferedArea.x = vr.x;
       bufferedArea.y = vr.y;
@@ -455,17 +449,15 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     }
     // Update the contents of the buffer if necessary
     while (true) {
-      int valid =
-          (drawingBufferV == null)
-              ? VolatileImage.IMAGE_INCOMPATIBLE
-              : drawingBufferV.validate(getGraphicsConfiguration());
+      int valid = (drawingBufferV == null)
+          ? VolatileImage.IMAGE_INCOMPATIBLE
+          : drawingBufferV.validate(getGraphicsConfiguration());
       switch (valid) {
         case VolatileImage.IMAGE_INCOMPATIBLE:
           // old buffer doesn't work with new GraphicsConfig; (re-)create it
           try {
-            drawingBufferV =
-                getGraphicsConfiguration()
-                    .createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+            drawingBufferV = getGraphicsConfiguration()
+                .createCompatibleVolatileImage(vr.width, vr.height, Transparency.TRANSLUCENT);
           } catch (OutOfMemoryError e) {
             drawingBufferV = null;
           }
@@ -532,34 +524,30 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       shift.x = bufferedArea.x - vr.x;
       shift.y = bufferedArea.y - vr.y;
       if (shift.x > 0) {
-        dirtyArea.add(
-            new Rectangle(
-                bufferedArea.x - shift.x,
-                vr.y,
-                shift.x + bufferedArea.width - vr.width,
-                bufferedArea.height));
+        dirtyArea.add(new Rectangle(
+            bufferedArea.x - shift.x,
+            vr.y,
+            shift.x + bufferedArea.width - vr.width,
+            bufferedArea.height));
       } else if (shift.x < 0) {
-        dirtyArea.add(
-            new Rectangle(
-                bufferedArea.x + vr.width,
-                vr.y,
-                -shift.x + bufferedArea.width - vr.width,
-                bufferedArea.height));
+        dirtyArea.add(new Rectangle(
+            bufferedArea.x + vr.width,
+            vr.y,
+            -shift.x + bufferedArea.width - vr.width,
+            bufferedArea.height));
       }
       if (shift.y > 0) {
-        dirtyArea.add(
-            new Rectangle(
-                vr.x,
-                bufferedArea.y - shift.y,
-                bufferedArea.width,
-                shift.y + bufferedArea.height - vr.height));
+        dirtyArea.add(new Rectangle(
+            vr.x,
+            bufferedArea.y - shift.y,
+            bufferedArea.width,
+            shift.y + bufferedArea.height - vr.height));
       } else if (shift.y < 0) {
-        dirtyArea.add(
-            new Rectangle(
-                vr.x,
-                bufferedArea.y + vr.height,
-                bufferedArea.width,
-                -shift.y + bufferedArea.height - vr.height));
+        dirtyArea.add(new Rectangle(
+            vr.x,
+            bufferedArea.y + vr.height,
+            bufferedArea.width,
+            -shift.y + bufferedArea.height - vr.height));
       }
       bufferedArea.x = vr.x;
       bufferedArea.y = vr.y;
@@ -583,9 +571,8 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       case VolatileImage.IMAGE_INCOMPATIBLE:
         // old buffer doesn't work with new GraphicsConfig; (re-)create it
         try {
-          drawingBufferNV =
-              getGraphicsConfiguration()
-                  .createCompatibleImage(vr.width, vr.height, Transparency.TRANSLUCENT);
+          drawingBufferNV = getGraphicsConfiguration()
+              .createCompatibleImage(vr.width, vr.height, Transparency.TRANSLUCENT);
         } catch (OutOfMemoryError e) {
           drawingBufferNV = null;
         }
@@ -771,16 +758,13 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     revalidate();
     validateViewTranslation();
     paintEnabled = false;
-    javax.swing.Timer t =
-        new javax.swing.Timer(
-            10,
-            new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                repaint();
-                paintEnabled = true;
-              }
-            });
+    javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        repaint();
+        paintEnabled = true;
+      }
+    });
     t.setRepeats(false);
     t.start();
   }
@@ -1154,31 +1138,25 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       Double ch = getDrawing() == null ? null : getDrawing().attr().get(CANVAS_HEIGHT);
       Insets insets = getInsets();
       if (cw == null || ch == null) {
-        cachedPreferredSize =
-            new Dimension(
-                (int) Math.ceil((Math.max(0, r.x) + r.width) * scaleFactor)
-                    + insets.left
-                    + insets.right,
-                (int) Math.ceil((Math.max(0, r.y) + r.height) * scaleFactor)
-                    + insets.top
-                    + insets.bottom);
+        cachedPreferredSize = new Dimension(
+            (int) Math.ceil((Math.max(0, r.x) + r.width) * scaleFactor)
+                + insets.left
+                + insets.right,
+            (int) Math.ceil((Math.max(0, r.y) + r.height) * scaleFactor)
+                + insets.top
+                + insets.bottom);
       } else {
-        cachedPreferredSize =
-            new Dimension(
-                (int)
-                        Math.ceil(
-                            (-Math.min(0, r.x)
-                                    + Math.max(Math.max(0, r.x) + r.width + Math.min(0, r.x), cw))
-                                * scaleFactor)
-                    + insets.left
-                    + insets.right,
-                (int)
-                        Math.ceil(
-                            (-Math.min(0, r.y)
-                                    + Math.max(Math.max(0, r.y) + r.height + Math.min(0, r.y), ch))
-                                * scaleFactor)
-                    + insets.top
-                    + insets.bottom);
+        cachedPreferredSize = new Dimension(
+            (int) Math.ceil((-Math.min(0, r.x)
+                        + Math.max(Math.max(0, r.x) + r.width + Math.min(0, r.x), cw))
+                    * scaleFactor)
+                + insets.left
+                + insets.right,
+            (int) Math.ceil((-Math.min(0, r.y)
+                        + Math.max(Math.max(0, r.y) + r.height + Math.min(0, r.y), ch))
+                    * scaleFactor)
+                + insets.top
+                + insets.bottom);
       }
     }
     return (Dimension) cachedPreferredSize.clone();
@@ -1216,12 +1194,11 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     int height = getHeight();
     Insets insets = getInsets();
     Rectangle2D.Double da = getDrawingArea();
-    Rectangle r =
-        new Rectangle(
-            (int) (da.x * scaleFactor),
-            (int) (da.y * scaleFactor),
-            (int) (da.width * scaleFactor),
-            (int) (da.height * scaleFactor));
+    Rectangle r = new Rectangle(
+        (int) (da.x * scaleFactor),
+        (int) (da.y * scaleFactor),
+        (int) (da.width * scaleFactor),
+        (int) (da.height * scaleFactor));
     Double cwd = getDrawing().attr().get(CANVAS_WIDTH);
     Double chd = getDrawing().attr().get(CANVAS_HEIGHT);
     if (cwd == null || chd == null) {
@@ -1367,37 +1344,34 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
     }
     clearSelection();
     getDrawing().removeAll(deletedFigures);
-    getDrawing()
-        .fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+    getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("edit.delete.text");
-              }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("edit.delete.text");
+      }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                clearSelection();
-                Drawing d = getDrawing();
-                for (int i = 0; i < deletedFigureIndices.length; i++) {
-                  d.add(deletedFigureIndices[i], deletedFigures.get(i));
-                }
-                addToSelection(deletedFigures);
-              }
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        clearSelection();
+        Drawing d = getDrawing();
+        for (int i = 0; i < deletedFigureIndices.length; i++) {
+          d.add(deletedFigureIndices[i], deletedFigures.get(i));
+        }
+        addToSelection(deletedFigures);
+      }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                for (int i = 0; i < deletedFigureIndices.length; i++) {
-                  drawing.remove(deletedFigures.get(i));
-                }
-              }
-            });
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        for (int i = 0; i < deletedFigureIndices.length; i++) {
+          drawing.remove(deletedFigures.get(i));
+        }
+      }
+    });
   }
 
   @Override
@@ -1419,30 +1393,27 @@ public class DefaultDrawingView extends JComponent implements DrawingView, Edita
       f.remap(originalToDuplicateMap, false);
     }
     addToSelection(duplicates);
-    getDrawing()
-        .fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+    getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("edit.duplicate.text");
-              }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("edit.duplicate.text");
+      }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                getDrawing().removeAll(duplicates);
-              }
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        getDrawing().removeAll(duplicates);
+      }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                getDrawing().addAll(duplicates);
-              }
-            });
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        getDrawing().addAll(duplicates);
+      }
+    });
   }
 
   @Override

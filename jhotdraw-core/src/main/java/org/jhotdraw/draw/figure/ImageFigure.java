@@ -31,9 +31,9 @@ import javax.swing.Action;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.connector.ChopRectangleConnector;
 import org.jhotdraw.draw.connector.Connector;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.util.*;
 
 /** A default implementation of {@link ImageHolderFigure} which can hold a buffered image. */
 public class ImageFigure extends AbstractAttributedDecoratedFigure implements ImageHolderFigure {
@@ -106,18 +106,10 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure implements Im
       g.setStroke(new BasicStroke());
       g.setColor(Color.red);
       g.draw(rectangle);
-      g.draw(
-          new Line2D.Double(
-              rectangle.x,
-              rectangle.y,
-              rectangle.x + rectangle.width,
-              rectangle.y + rectangle.height));
-      g.draw(
-          new Line2D.Double(
-              rectangle.x + rectangle.width,
-              rectangle.y,
-              rectangle.x,
-              rectangle.y + rectangle.height));
+      g.draw(new Line2D.Double(
+          rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height));
+      g.draw(new Line2D.Double(
+          rectangle.x + rectangle.width, rectangle.y, rectangle.x, rectangle.y + rectangle.height));
     }
   }
 

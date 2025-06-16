@@ -22,8 +22,8 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.samples.svg.SVGView;
 import org.jhotdraw.samples.svg.io.SVGOutputFormat;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /** ViewSourceAction. */
 public class ViewSourceAction extends AbstractViewAction {
@@ -61,64 +61,59 @@ public class ViewSourceAction extends AbstractViewAction {
       dialog.setSize(400, 400);
       dialog.setLocationByPlatform(true);
       updateSource(drawing, ta);
-      final UndoableEditListener undoableEditHandler =
-          new UndoableEditListener() {
-            @Override
-            public void undoableEditHappened(UndoableEditEvent e) {
-              updateSource(v.getDrawing(), ta);
-            }
-          };
+      final UndoableEditListener undoableEditHandler = new UndoableEditListener() {
+        @Override
+        public void undoableEditHappened(UndoableEditEvent e) {
+          updateSource(v.getDrawing(), ta);
+        }
+      };
       v.getDrawing().addUndoableEditListener(undoableEditHandler);
-      final PropertyChangeListener propertyChangeHandler =
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              if (evt.getPropertyName() == SVGView.DRAWING_PROPERTY) {
-                Drawing oldDrawing = (Drawing) evt.getOldValue();
-                if (oldDrawing != null) {
-                  oldDrawing.removeUndoableEditListener(undoableEditHandler);
-                }
-                Drawing newDrawing = (Drawing) evt.getNewValue();
-                if (newDrawing != null) {
-                  newDrawing.addUndoableEditListener(undoableEditHandler);
-                }
-                if (newDrawing != null) {
-                  updateSource(newDrawing, ta);
-                }
-              } else if (evt.getPropertyName() == View.TITLE_PROPERTY) {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-                dialog.setTitle(labels.getFormatted("view.viewSource.titleText", v.getTitle()));
-              }
+      final PropertyChangeListener propertyChangeHandler = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if (evt.getPropertyName() == SVGView.DRAWING_PROPERTY) {
+            Drawing oldDrawing = (Drawing) evt.getOldValue();
+            if (oldDrawing != null) {
+              oldDrawing.removeUndoableEditListener(undoableEditHandler);
             }
-          };
+            Drawing newDrawing = (Drawing) evt.getNewValue();
+            if (newDrawing != null) {
+              newDrawing.addUndoableEditListener(undoableEditHandler);
+            }
+            if (newDrawing != null) {
+              updateSource(newDrawing, ta);
+            }
+          } else if (evt.getPropertyName() == View.TITLE_PROPERTY) {
+            ResourceBundleUtil labels =
+                ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+            dialog.setTitle(labels.getFormatted("view.viewSource.titleText", v.getTitle()));
+          }
+        }
+      };
       v.addPropertyChangeListener(propertyChangeHandler);
-      final Disposable disposable =
-          new Disposable() {
-            @Override
-            public void dispose() {
-              if (v.getDrawing() != null) {
-                v.getDrawing().removeUndoableEditListener(undoableEditHandler);
-              }
-              v.removePropertyChangeListener(propertyChangeHandler);
-              getApplication().removeWindow(dialog);
-              v.putClientProperty(DIALOG_CLIENT_PROPERTY, null);
-              v.removeDisposable(this);
-            }
-          };
-      dialog.addWindowListener(
-          new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent evt) {
-              disposable.dispose();
-            }
-          });
+      final Disposable disposable = new Disposable() {
+        @Override
+        public void dispose() {
+          if (v.getDrawing() != null) {
+            v.getDrawing().removeUndoableEditListener(undoableEditHandler);
+          }
+          v.removePropertyChangeListener(propertyChangeHandler);
+          getApplication().removeWindow(dialog);
+          v.putClientProperty(DIALOG_CLIENT_PROPERTY, null);
+          v.removeDisposable(this);
+        }
+      };
+      dialog.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosed(WindowEvent evt) {
+          disposable.dispose();
+        }
+      });
       v.addDisposable(disposable);
     } else {
       dialog = (JDialog) v.getClientProperty(DIALOG_CLIENT_PROPERTY);
-      JTextArea ta =
-          (JTextArea)
-              ((JScrollPane) dialog.getContentPane().getComponent(0)).getViewport().getView();
+      JTextArea ta = (JTextArea)
+          ((JScrollPane) dialog.getContentPane().getComponent(0)).getViewport().getView();
       updateSource(drawing, ta);
     }
     Preferences prefs = PreferencesUtil.userNodeForPackage(getClass());

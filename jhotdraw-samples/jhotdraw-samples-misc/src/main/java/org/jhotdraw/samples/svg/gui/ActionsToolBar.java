@@ -28,8 +28,8 @@ import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.samples.svg.figures.SVGGroupFigure;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.undo.UndoRedoManager;
+import org.jhotdraw.utils.util.*;
 
 /** ActionsToolBar. */
 public class ActionsToolBar extends AbstractToolBar {

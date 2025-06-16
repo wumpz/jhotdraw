@@ -20,7 +20,7 @@ import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.liner.ElbowLiner;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.editor.DefaultDrawingEditor;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * Example showing how to connect two text areas with an elbow connection.
@@ -64,41 +64,40 @@ public class SmartConnectionFigureSample {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            // Create a simple drawing consisting of three
-            // text areas and an elbow connection.
-            TextAreaFigure ta = new TextAreaFigure();
-            ta.setBounds(new Point2D.Double(10, 30), new Point2D.Double(100, 100));
-            TextAreaFigure tb = new TextAreaFigure();
-            tb.setBounds(new Point2D.Double(220, 130), new Point2D.Double(310, 210));
-            TextAreaFigure tc = new TextAreaFigure();
-            tc.setBounds(new Point2D.Double(220, 30), new Point2D.Double(310, 100));
-            ConnectionFigure cf = new SmartConnectionFigure();
-            cf.setLiner(new ElbowLiner());
-            cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
-            cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
-            Drawing drawing = new DefaultDrawing();
-            drawing.add(ta);
-            drawing.add(tb);
-            drawing.add(tc);
-            drawing.add(cf);
-            // Show the drawing
-            JFrame f = new JFrame("'Smart' ConnectionFigure Sample");
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.setSize(400, 300);
-            // Set up the drawing view
-            DrawingView view = new DefaultDrawingView();
-            view.setDrawing(drawing);
-            f.getContentPane().add(view.getComponent());
-            // Set up the drawing editor
-            DrawingEditor editor = new DefaultDrawingEditor();
-            editor.add(view);
-            editor.setTool(new DelegationSelectionTool());
-            f.setVisible(true);
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        // Create a simple drawing consisting of three
+        // text areas and an elbow connection.
+        TextAreaFigure ta = new TextAreaFigure();
+        ta.setBounds(new Point2D.Double(10, 30), new Point2D.Double(100, 100));
+        TextAreaFigure tb = new TextAreaFigure();
+        tb.setBounds(new Point2D.Double(220, 130), new Point2D.Double(310, 210));
+        TextAreaFigure tc = new TextAreaFigure();
+        tc.setBounds(new Point2D.Double(220, 30), new Point2D.Double(310, 100));
+        ConnectionFigure cf = new SmartConnectionFigure();
+        cf.setLiner(new ElbowLiner());
+        cf.setStartConnector(ta.findConnector(Geom.center(ta.getBounds()), cf));
+        cf.setEndConnector(tb.findConnector(Geom.center(tb.getBounds()), cf));
+        Drawing drawing = new DefaultDrawing();
+        drawing.add(ta);
+        drawing.add(tb);
+        drawing.add(tc);
+        drawing.add(cf);
+        // Show the drawing
+        JFrame f = new JFrame("'Smart' ConnectionFigure Sample");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(400, 300);
+        // Set up the drawing view
+        DrawingView view = new DefaultDrawingView();
+        view.setDrawing(drawing);
+        f.getContentPane().add(view.getComponent());
+        // Set up the drawing editor
+        DrawingEditor editor = new DefaultDrawingEditor();
+        editor.add(view);
+        editor.setTool(new DelegationSelectionTool());
+        f.setVisible(true);
+      }
+    });
   }
 }

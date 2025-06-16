@@ -24,5 +24,19 @@ package org.jhotdraw.draw.figure;
  * @author tw
  */
 public interface Rotation {
-  void setRotation(double angle);
+  double getAngle();
+
+  void setAngle(double angle);
+
+  default void allowSettingAngle(boolean allow) {}
+
+  default boolean isAllowedToSetAngle() {
+    return true;
+  }
+
+  /**
+   * something like a roation cross to visuablize the angle
+   * @param show
+   */
+  default void showGraphicalRotationHint(boolean show) {}
 }

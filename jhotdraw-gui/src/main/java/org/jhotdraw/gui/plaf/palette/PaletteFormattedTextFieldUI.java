@@ -51,17 +51,10 @@ public class PaletteFormattedTextFieldUI extends BasicFormattedTextFieldUI {
         if (!editor.isEditValid()) {
           Rectangle r = (Rectangle) a;
           g.setColor(errorIndicatorForeground);
-          g.setStroke(
-              new BasicStroke(
-                  2.5f,
-                  BasicStroke.CAP_BUTT,
-                  BasicStroke.JOIN_BEVEL,
-                  0,
-                  new float[] {3f, 3f},
-                  0.5f));
-          g.draw(
-              new Line2D.Float(
-                  r.x, r.y + r.height - 0.5f, r.x + r.width - 1, r.y + r.height - 0.5f));
+          g.setStroke(new BasicStroke(
+              2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3f, 3f}, 0.5f));
+          g.draw(new Line2D.Float(
+              r.x, r.y + r.height - 0.5f, r.x + r.width - 1, r.y + r.height - 0.5f));
         }
         super.paint(g, a);
       }

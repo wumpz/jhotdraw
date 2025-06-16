@@ -103,14 +103,14 @@ import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.event.ToolListener;
 import org.jhotdraw.draw.tool.DelegationSelectionTool;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.DoubleStroke;
 import org.jhotdraw.gui.JComponentPopup;
 import org.jhotdraw.gui.JFontChooser;
 import org.jhotdraw.gui.JPopupButton;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.Images;
-import org.jhotdraw.util.Methods;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.DoubleStroke;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.Images;
+import org.jhotdraw.utils.util.Methods;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * ButtonFactory.
@@ -134,56 +134,55 @@ public class ButtonFactory {
   public static final java.util.List<ColorIcon> DEFAULT_COLORS;
 
   static {
-    DEFAULT_COLORS =
-        List.of(
-            new ColorIcon(0x800000, "Cayenne"),
-            new ColorIcon(0x808000, "Asparagus"),
-            new ColorIcon(0x008000, "Clover"),
-            new ColorIcon(0x008080, "Teal"),
-            new ColorIcon(0x000080, "Midnight"),
-            new ColorIcon(0x800080, "Plum"),
-            new ColorIcon(0x7f7f7f, "Tin"),
-            new ColorIcon(0x808080, "Nickel"),
-            new ColorIcon(0xff0000, "Maraschino"),
-            new ColorIcon(0xffff00, "Lemon"),
-            new ColorIcon(0x00ff00, "Spring"),
-            new ColorIcon(0x00ffff, "Turquoise"),
-            new ColorIcon(0x0000ff, "Blueberry"),
-            new ColorIcon(0xff00ff, "Magenta"),
-            new ColorIcon(0x666666, "Steel"),
-            new ColorIcon(0x999999, "Aluminium"),
-            new ColorIcon(0xff6666, "Salmon"),
-            new ColorIcon(0xffff66, "Banana"),
-            new ColorIcon(0x66ff66, "Flora"),
-            new ColorIcon(0x66ffff, "Ice"),
-            new ColorIcon(0x6666ff, "Orchid"),
-            new ColorIcon(0xff66ff, "Bubblegum"),
-            new ColorIcon(0x4c4c4c, "Iron"),
-            new ColorIcon(0xb3b3b3, "Magnesium"),
-            new ColorIcon(0x804000, "Mocha"),
-            new ColorIcon(0x408000, "Fern"),
-            new ColorIcon(0x008040, "Moss"),
-            new ColorIcon(0x004080, "Ocean"),
-            new ColorIcon(0x400080, "Eggplant"),
-            new ColorIcon(0x800040, "Maroon"),
-            new ColorIcon(0x333333, "Tungsten"),
-            new ColorIcon(0xcccccc, "Silver"),
-            new ColorIcon(0xff8000, "Tangerine"),
-            new ColorIcon(0x80ff00, "Lime"),
-            new ColorIcon(0x00ff80, "Sea Foam"),
-            new ColorIcon(0x0080ff, "Aqua"),
-            new ColorIcon(0x8000ff, "Grape"),
-            new ColorIcon(0xff0080, "Strawberry"),
-            new ColorIcon(0x191919, "Lead"),
-            new ColorIcon(0xe6e6e6, "Mercury"),
-            new ColorIcon(0xffcc66, "Cantaloupe"),
-            new ColorIcon(0xccff66, "Honeydew"),
-            new ColorIcon(0x66ffcc, "Spindrift"),
-            new ColorIcon(0x66ccff, "Sky"),
-            new ColorIcon(0xcc66ff, "Lavender"),
-            new ColorIcon(0xff6fcf, "Carnation"),
-            new ColorIcon(0x000000, "Licorice"),
-            new ColorIcon(0xffffff, "Snow"));
+    DEFAULT_COLORS = List.of(
+        new ColorIcon(0x800000, "Cayenne"),
+        new ColorIcon(0x808000, "Asparagus"),
+        new ColorIcon(0x008000, "Clover"),
+        new ColorIcon(0x008080, "Teal"),
+        new ColorIcon(0x000080, "Midnight"),
+        new ColorIcon(0x800080, "Plum"),
+        new ColorIcon(0x7f7f7f, "Tin"),
+        new ColorIcon(0x808080, "Nickel"),
+        new ColorIcon(0xff0000, "Maraschino"),
+        new ColorIcon(0xffff00, "Lemon"),
+        new ColorIcon(0x00ff00, "Spring"),
+        new ColorIcon(0x00ffff, "Turquoise"),
+        new ColorIcon(0x0000ff, "Blueberry"),
+        new ColorIcon(0xff00ff, "Magenta"),
+        new ColorIcon(0x666666, "Steel"),
+        new ColorIcon(0x999999, "Aluminium"),
+        new ColorIcon(0xff6666, "Salmon"),
+        new ColorIcon(0xffff66, "Banana"),
+        new ColorIcon(0x66ff66, "Flora"),
+        new ColorIcon(0x66ffff, "Ice"),
+        new ColorIcon(0x6666ff, "Orchid"),
+        new ColorIcon(0xff66ff, "Bubblegum"),
+        new ColorIcon(0x4c4c4c, "Iron"),
+        new ColorIcon(0xb3b3b3, "Magnesium"),
+        new ColorIcon(0x804000, "Mocha"),
+        new ColorIcon(0x408000, "Fern"),
+        new ColorIcon(0x008040, "Moss"),
+        new ColorIcon(0x004080, "Ocean"),
+        new ColorIcon(0x400080, "Eggplant"),
+        new ColorIcon(0x800040, "Maroon"),
+        new ColorIcon(0x333333, "Tungsten"),
+        new ColorIcon(0xcccccc, "Silver"),
+        new ColorIcon(0xff8000, "Tangerine"),
+        new ColorIcon(0x80ff00, "Lime"),
+        new ColorIcon(0x00ff80, "Sea Foam"),
+        new ColorIcon(0x0080ff, "Aqua"),
+        new ColorIcon(0x8000ff, "Grape"),
+        new ColorIcon(0xff0080, "Strawberry"),
+        new ColorIcon(0x191919, "Lead"),
+        new ColorIcon(0xe6e6e6, "Mercury"),
+        new ColorIcon(0xffcc66, "Cantaloupe"),
+        new ColorIcon(0xccff66, "Honeydew"),
+        new ColorIcon(0x66ffcc, "Spindrift"),
+        new ColorIcon(0x66ccff, "Sky"),
+        new ColorIcon(0xcc66ff, "Lavender"),
+        new ColorIcon(0xff6fcf, "Carnation"),
+        new ColorIcon(0x000000, "Licorice"),
+        new ColorIcon(0xffffff, "Snow"));
   }
 
   public static final int DEFAULT_COLORS_COLUMN_COUNT = 8;
@@ -276,60 +275,53 @@ public class ButtonFactory {
     HSBColorSpace hsbCS = HSBColorSpace.getInstance();
     List<ColorIcon> m = new ArrayList<>();
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-    m.add(
-        new ColorIcon(
-            new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
+    m.add(new ColorIcon(
+        new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
     for (int b = 10; b >= 0; b--) {
       Color c = new Color(grayCS, new float[] {b / 10f}, 1f);
-      m.add(
-          new ColorIcon(
-              c, labels.getFormatted("attribute.color.grayComponents.toolTipText", b * 10)));
+      m.add(new ColorIcon(
+          c, labels.getFormatted("attribute.color.grayComponents.toolTipText", b * 10)));
     }
     for (int s = 2; s <= 8; s += 2) {
       for (int h = 0; h < 12; h++) {
         Color c = new Color(hsbCS, new float[] {(h) / 12f, s * 0.1f, 1f}, 1f);
-        m.add(
-            new ColorIcon(
-                c,
-                labels.getFormatted(
-                    "attribute.color.hsbComponents.toolTipText", h * 360 / 12, s * 10, 100)));
+        m.add(new ColorIcon(
+            c,
+            labels.getFormatted(
+                "attribute.color.hsbComponents.toolTipText", h * 360 / 12, s * 10, 100)));
       }
     }
     for (int b = 10; b >= 2; b -= 2) {
       for (int h = 0; h < 12; h++) {
         Color c = new Color(hsbCS, new float[] {(h) / 12f, 1f, b * 0.1f}, 1f);
-        m.add(
-            new ColorIcon(
-                new Color(hsbCS, new float[] {(h) / 12f, 1f, b * 0.1f}, 1f),
-                labels.getFormatted(
-                    "attribute.color.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
+        m.add(new ColorIcon(
+            new Color(hsbCS, new float[] {(h) / 12f, 1f, b * 0.1f}, 1f),
+            labels.getFormatted(
+                "attribute.color.hsbComponents.toolTipText", h * 360 / 12, 100, b * 10)));
       }
     }
     HSB_COLORS = Collections.unmodifiableList(m);
     m = new ArrayList<>();
     for (ColorIcon ci : HSB_COLORS) {
       if (ci.getColor() == null) {
-        m.add(
-            new ColorIcon(
-                new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
+        m.add(new ColorIcon(
+            new Color(0, true), labels.getToolTipTextProperty("attribute.color.noColor")));
       } else {
         Color c = ci.getColor();
-        c =
-            c.getColorSpace() == grayCS
-                ? new Color(
-                    c.getGreen(),
-                    c.getGreen(),
-                    c.getGreen(),
-                    c.getAlpha()) // workaround for rounding error
-                : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
-        m.add(
-            new ColorIcon(
-                c,
-                labels.getFormatted(
-                    "attribute.color.rgbComponents.toolTipText",
-                    c.getRed(),
-                    c.getGreen(),
-                    c.getBlue())));
+        c = c.getColorSpace() == grayCS
+            ? new Color(
+                c.getGreen(),
+                c.getGreen(),
+                c.getGreen(),
+                c.getAlpha()) // workaround for rounding error
+            : new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+        m.add(new ColorIcon(
+            c,
+            labels.getFormatted(
+                "attribute.color.rgbComponents.toolTipText",
+                c.getRed(),
+                c.getGreen(),
+                c.getBlue())));
       }
     }
     HSB_COLORS_AS_RGB = Collections.unmodifiableList(m);
@@ -417,13 +409,12 @@ public class ButtonFactory {
     final JToggleButton defaultToolButton = t;
     if (!(tb.getClientProperty("toolHandler") instanceof ToolListener)) {
       ToolListener toolHandler;
-      toolHandler =
-          new ToolAdapter() {
-            @Override
-            public void toolDone(ToolEvent event) {
-              defaultToolButton.setSelected(true);
-            }
-          };
+      toolHandler = new ToolAdapter() {
+        @Override
+        public void toolDone(ToolEvent event) {
+          defaultToolButton.setSelected(true);
+        }
+      };
       tb.putClientProperty("toolHandler", toolHandler);
     }
     labels.configureToolBarButton(t, "selectionTool");
@@ -465,35 +456,32 @@ public class ButtonFactory {
       zoomPopupButton.setText(
           (int) (editor.getDrawingViews().iterator().next().getScaleFactor() * 100) + " %");
     }
-    editor.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            // String constants are interned
-            if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null)
-                || (evt.getPropertyName() != null
-                    && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
-              if (evt.getNewValue() == null) {
-                zoomPopupButton.setText("100 %");
-              } else {
-                zoomPopupButton.setText(
-                    (int) (editor.getActiveView().getScaleFactor() * 100) + " %");
-              }
-            }
+    editor.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // String constants are interned
+        if ((evt.getPropertyName() == null && DrawingEditor.ACTIVE_VIEW_PROPERTY == null)
+            || (evt.getPropertyName() != null
+                && evt.getPropertyName().equals(DrawingEditor.ACTIVE_VIEW_PROPERTY))) {
+          if (evt.getNewValue() == null) {
+            zoomPopupButton.setText("100 %");
+          } else {
+            zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
           }
-        });
+        }
+      }
+    });
     double[] factors = {16, 8, 5, 4, 3, 2, 1.5, 1.25, 1, 0.75, 0.5, 0.25, 0.10};
     for (int i = 0; i < factors.length; i++) {
-      zoomPopupButton.add(
-          new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
-            private static final long serialVersionUID = 1L;
+      zoomPopupButton.add(new ZoomEditorAction(editor, factors[i], zoomPopupButton) {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-              super.actionPerformed(e);
-              zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
-            }
-          });
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+          super.actionPerformed(e);
+          zoomPopupButton.setText((int) (editor.getActiveView().getScaleFactor() * 100) + " %");
+        }
+      });
     }
     // zoomPopupButton.setPreferredSize(new Dimension(16,16));
     zoomPopupButton.setFocusable(false);
@@ -510,27 +498,25 @@ public class ButtonFactory {
     labels.configureToolBarButton(zoomPopupButton, "view.zoomFactor");
     zoomPopupButton.setFocusable(false);
     zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
-    view.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            // String constants are interned
-            if ("scaleFactor".equals(evt.getPropertyName())) {
-              zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
-            }
-          }
-        });
+    view.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // String constants are interned
+        if ("scaleFactor".equals(evt.getPropertyName())) {
+          zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
+        }
+      }
+    });
     for (int i = 0; i < factors.length; i++) {
-      zoomPopupButton.add(
-          new ZoomAction(view, factors[i], zoomPopupButton) {
-            private static final long serialVersionUID = 1L;
+      zoomPopupButton.add(new ZoomAction(view, factors[i], zoomPopupButton) {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-              super.actionPerformed(e);
-              zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
-            }
-          });
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+          super.actionPerformed(e);
+          zoomPopupButton.setText((int) (view.getScaleFactor() * 100) + " %");
+        }
+      });
     }
     // zoomPopupButton.setPreferredSize(new Dimension(16,16));
     zoomPopupButton.setFocusable(false);
@@ -558,34 +544,49 @@ public class ButtonFactory {
 
   public static void addColorButtonsTo(
       JToolBar bar, DrawingEditor editor, java.util.List<ColorIcon> colors, int columnCount) {
+
+    bar.add(createColorButtonStroke(editor, colors, columnCount));
+    bar.add(createColorButtonFill(editor, colors, columnCount));
+    bar.add(createColorButtonText(editor, colors, columnCount));
+  }
+
+  public static JPopupButton createColorButtonText(DrawingEditor editor) {
+    return createColorButtonText(editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+  }
+
+  public static JPopupButton createColorButtonText(
+      DrawingEditor editor, List<ColorIcon> colors, int columnCount) {
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-    bar.add(
-        createEditorColorButton(
-            editor,
-            STROKE_COLOR,
-            colors,
-            columnCount,
-            "attribute.strokeColor",
-            labels,
-            new HashMap<>()));
-    bar.add(
-        createEditorColorButton(
-            editor,
-            FILL_COLOR,
-            colors,
-            columnCount,
-            "attribute.fillColor",
-            labels,
-            new HashMap<>()));
-    bar.add(
-        createEditorColorButton(
-            editor,
-            TEXT_COLOR,
-            colors,
-            columnCount,
-            "attribute.textColor",
-            labels,
-            new HashMap<>()));
+    return createEditorColorButton(
+        editor, TEXT_COLOR, colors, columnCount, "attribute.textColor", labels, new HashMap<>());
+  }
+
+  public static JPopupButton createColorButtonFill(DrawingEditor editor) {
+    return createColorButtonFill(editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+  }
+
+  public static JPopupButton createColorButtonFill(
+      DrawingEditor editor, List<ColorIcon> colors, int columnCount) {
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    return createEditorColorButton(
+        editor, FILL_COLOR, colors, columnCount, "attribute.fillColor", labels, new HashMap<>());
+  }
+
+  public static JPopupButton createColorButtonStroke(DrawingEditor editor) {
+    return createColorButtonStroke(editor, DEFAULT_COLORS, DEFAULT_COLORS_COLUMN_COUNT);
+  }
+
+  public static JPopupButton createColorButtonStroke(
+      DrawingEditor editor, List<ColorIcon> colors, int columnCount) {
+    ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+    return createEditorColorButton(
+        editor,
+        STROKE_COLOR,
+        colors,
+        columnCount,
+        "attribute.strokeColor",
+        labels,
+        new HashMap<>());
   }
 
   /**
@@ -720,7 +721,17 @@ public class ButtonFactory {
       defaultAttributes = new HashMap<>();
     }
     popupButton.setAction(
-        new DefaultAttributeAction(editor, attributeKey, defaultAttributes),
+        new DefaultAttributeAction(editor, attributeKey, defaultAttributes) {
+          @Override
+          protected void updateEnabledState() {
+            if (getView() != null) {
+              // dont take selection size into account to allow still setting default colors
+              setEnabled(getView().isEnabled());
+            } else {
+              setEnabled(false);
+            }
+          }
+        },
         new Rectangle(0, 0, 22, 22));
     popupButton.setColumnCount(columnCount, false);
     boolean hasNullColor = false;
@@ -733,9 +744,8 @@ public class ButtonFactory {
         hasNullColor = true;
       }
       popupButton.add(
-          a =
-              new AttributeAction(
-                  editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
+          a = new AttributeAction(
+              editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
       a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
       a.setUpdateEnabledState(false);
     }
@@ -745,50 +755,43 @@ public class ButtonFactory {
       HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
       attributes.put(attributeKey, null);
       popupButton.add(
-          a =
-              new AttributeAction(
-                  editor,
-                  attributes,
+          a = new AttributeAction(
+              editor,
+              attributes,
+              labels.getToolTipTextProperty("attribute.color.noColor"),
+              new ColorIcon(
+                  null,
                   labels.getToolTipTextProperty("attribute.color.noColor"),
-                  new ColorIcon(
-                      null,
-                      labels.getToolTipTextProperty("attribute.color.noColor"),
-                      swatches.get(0).getIconWidth(),
-                      swatches.get(0).getIconHeight())));
+                  swatches.get(0).getIconWidth(),
+                  swatches.get(0).getIconHeight())));
       a.putValue(
           Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
       a.setUpdateEnabledState(false);
     }
     // Color chooser
-    ImageIcon chooserIcon =
-        new ImageIcon(
-            Images.createImage(
-                ButtonFactory.class,
-                "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+    ImageIcon chooserIcon = new ImageIcon(Images.createImage(
+        ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
     Action a;
     popupButton.add(
-        a =
-            new EditorColorChooserAction(
-                editor, attributeKey, "color", chooserIcon, defaultAttributes));
+        a = new EditorColorChooserAction(
+            editor, attributeKey, "color", chooserIcon, defaultAttributes));
     labels.configureToolBarButton(popupButton, labelKey);
     a.putValue(
         Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
-    Icon icon =
-        new EditorColorIcon(
-            editor,
-            attributeKey,
-            labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
-            colorShape);
+    Icon icon = new EditorColorIcon(
+        editor,
+        attributeKey,
+        labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
+        colorShape);
     popupButton.setIcon(icon);
     popupButton.setDisabledIcon(icon);
     popupButton.setFocusable(false);
-    editor.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            popupButton.repaint();
-          }
-        });
+    editor.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        popupButton.repaint();
+      }
+    });
     return popupButton;
   }
 
@@ -984,9 +987,8 @@ public class ButtonFactory {
           hasNullColor = true;
         }
         popupButton.add(
-            a =
-                new AttributeAction(
-                    editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
+            a = new AttributeAction(
+                editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
         a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         a.setUpdateEnabledState(false);
         dsp.add(a);
@@ -1000,42 +1002,36 @@ public class ButtonFactory {
       HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
       attributes.put(attributeKey, null);
       popupButton.add(
-          a =
-              new AttributeAction(
-                  editor,
-                  attributes,
-                  labels.getToolTipTextProperty("attribute.color.noColor"),
-                  new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+          a = new AttributeAction(
+              editor,
+              attributes,
+              labels.getToolTipTextProperty("attribute.color.noColor"),
+              new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
       a.putValue(
           Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
       a.setUpdateEnabledState(false);
       dsp.add(a);
     }
     // Color chooser
-    ImageIcon chooserIcon =
-        new ImageIcon(
-            Images.createImage(
-                ButtonFactory.class,
-                "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+    ImageIcon chooserIcon = new ImageIcon(Images.createImage(
+        ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
     AttributeAction a;
     popupButton.add(
-        a =
-            new SelectionColorChooserAction(
-                editor,
-                attributeKey,
-                labels.getToolTipTextProperty("attribute.color.colorChooser"),
-                chooserIcon,
-                defaultAttributes));
+        a = new SelectionColorChooserAction(
+            editor,
+            attributeKey,
+            labels.getToolTipTextProperty("attribute.color.colorChooser"),
+            chooserIcon,
+            defaultAttributes));
     a.putValue(
         Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
     dsp.add(a);
     labels.configureToolBarButton(popupButton, labelKey);
-    Icon icon =
-        new SelectionColorIcon(
-            editor,
-            attributeKey,
-            labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
-            colorShape);
+    Icon icon = new SelectionColorIcon(
+        editor,
+        attributeKey,
+        labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
+        colorShape);
     popupButton.setIcon(icon);
     popupButton.setDisabledIcon(icon);
     popupButton.setFocusable(false);
@@ -1071,62 +1067,55 @@ public class ButtonFactory {
     popupButton.setRequestFocusEnabled(false);
     // We lazily initialize the popup menu because creating a JColorChooser
     // takes a lot of time.
-    JComponentPopup popupMenu =
-        new JComponentPopup() {
-          private static final long serialVersionUID = 1L;
-          private JColorChooser colorChooser;
+    JComponentPopup popupMenu = new JComponentPopup() {
+      private static final long serialVersionUID = 1L;
+      private JColorChooser colorChooser;
 
-          @Override
-          public void show(Component invoker, int x, int y) {
-            if (colorChooser == null) {
-              initialize();
-            }
-            Color c;
-            if (editor.getActiveView() != null && editor.getActiveView().getSelectionCount() > 0) {
-              c =
-                  editor
-                      .getActiveView()
-                      .getSelectedFigures()
-                      .iterator()
-                      .next()
-                      .attr()
-                      .get(attributeKey);
-            } else {
-              c = editor.getDefaultAttribute(attributeKey);
-            }
-            colorChooser.setColor(c == null ? new Color(0, true) : c);
-            super.show(invoker, x, y);
-          }
+      @Override
+      public void show(Component invoker, int x, int y) {
+        if (colorChooser == null) {
+          initialize();
+        }
+        Color c;
+        if (editor.getActiveView() != null && editor.getActiveView().getSelectionCount() > 0) {
+          c = editor
+              .getActiveView()
+              .getSelectedFigures()
+              .iterator()
+              .next()
+              .attr()
+              .get(attributeKey);
+        } else {
+          c = editor.getDefaultAttribute(attributeKey);
+        }
+        colorChooser.setColor(c == null ? new Color(0, true) : c);
+        super.show(invoker, x, y);
+      }
 
-          private void initialize() {
-            colorChooser = new JColorChooser();
-            colorChooser.setOpaque(true);
-            colorChooser.setBackground(Color.WHITE);
-            if (uiclass != null) {
-              try {
-                colorChooser.setUI(
-                    (ColorChooserUI)
-                        Methods.invokeStatic(
-                            uiclass,
-                            "createUI",
-                            new Class<?>[] {JComponent.class},
-                            new Object[] {colorChooser}));
-              } catch (NoSuchMethodException ex) {
-                ex.printStackTrace();
-              }
-            }
-            dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
-            add(colorChooser);
+      private void initialize() {
+        colorChooser = new JColorChooser();
+        colorChooser.setOpaque(true);
+        colorChooser.setBackground(Color.WHITE);
+        if (uiclass != null) {
+          try {
+            colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(
+                uiclass, "createUI", new Class<?>[] {JComponent.class}, new Object[] {colorChooser
+                }));
+          } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
           }
-        };
+        }
+        dsp.add(new SelectionColorChooserHandler(editor, attributeKey, colorChooser, this));
+        add(colorChooser);
+      }
+    };
     popupButton.setPopupMenu(popupMenu);
     popupButton.setPopupAlpha(1.0f); // must be set after we set the popup menu
-    Icon icon =
-        new SelectionColorIcon(
-            editor,
-            attributeKey,
-            labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
-            colorShape);
+    Icon icon = new SelectionColorIcon(
+        editor,
+        attributeKey,
+        labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
+        colorShape);
     popupButton.setIcon(icon);
     popupButton.setDisabledIcon(icon);
     popupButton.setFocusable(false);
@@ -1286,9 +1275,8 @@ public class ButtonFactory {
           hasNullColor = true;
         }
         popupButton.add(
-            a =
-                new DrawingAttributeAction(
-                    editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
+            a = new DrawingAttributeAction(
+                editor, attributes, labels.getToolTipTextProperty(labelKey), swatch));
         dsp.add(a);
         a.putValue(Action.SHORT_DESCRIPTION, swatch.getName());
         a.setUpdateEnabledState(false);
@@ -1302,38 +1290,32 @@ public class ButtonFactory {
       HashMap<AttributeKey<?>, Object> attributes = new HashMap<>(defaultAttributes);
       attributes.put(attributeKey, null);
       popupButton.add(
-          a =
-              new DrawingAttributeAction(
-                  editor,
-                  attributes,
-                  labels.getToolTipTextProperty("attribute.color.noColor"),
-                  new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
+          a = new DrawingAttributeAction(
+              editor,
+              attributes,
+              labels.getToolTipTextProperty("attribute.color.noColor"),
+              new ColorIcon(null, labels.getToolTipTextProperty("attribute.color.noColor"))));
       dsp.add(a);
       a.putValue(
           Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.noColor"));
       a.setUpdateEnabledState(false);
     }
     // Color chooser
-    ImageIcon chooserIcon =
-        new ImageIcon(
-            Images.createImage(
-                ButtonFactory.class,
-                "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
+    ImageIcon chooserIcon = new ImageIcon(Images.createImage(
+        ButtonFactory.class, "/org/jhotdraw/draw/action/images/attribute.color.colorChooser.png"));
     DrawingColorChooserAction a;
     popupButton.add(
-        a =
-            new DrawingColorChooserAction(
-                editor, attributeKey, "color", chooserIcon, defaultAttributes));
+        a = new DrawingColorChooserAction(
+            editor, attributeKey, "color", chooserIcon, defaultAttributes));
     dsp.add(a);
     labels.configureToolBarButton(popupButton, labelKey);
     a.putValue(
         Action.SHORT_DESCRIPTION, labels.getToolTipTextProperty("attribute.color.colorChooser"));
-    Icon icon =
-        new DrawingColorIcon(
-            editor,
-            attributeKey,
-            labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
-            colorShape);
+    Icon icon = new DrawingColorIcon(
+        editor,
+        attributeKey,
+        labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
+        colorShape);
     popupButton.setIcon(icon);
     popupButton.setDisabledIcon(icon);
     popupButton.setFocusable(false);
@@ -1371,55 +1353,49 @@ public class ButtonFactory {
     popupButton.setRequestFocusEnabled(false);
     // We lazily initialize the popup menu because creating a JColorChooser
     // takes a lot of time.
-    JComponentPopup popupMenu =
-        new JComponentPopup() {
-          private static final long serialVersionUID = 1L;
-          private JColorChooser colorChooser;
+    JComponentPopup popupMenu = new JComponentPopup() {
+      private static final long serialVersionUID = 1L;
+      private JColorChooser colorChooser;
 
-          @Override
-          public void show(Component invoker, int x, int y) {
-            if (colorChooser == null) {
-              initialize();
-            }
-            Color c;
-            if (editor.getActiveView() != null) {
-              c = editor.getActiveView().getDrawing().attr().get(attributeKey);
-            } else {
-              c = editor.getDefaultAttribute(attributeKey);
-            }
-            colorChooser.setColor(c == null ? new Color(0, true) : c);
-            super.show(invoker, x, y);
-          }
+      @Override
+      public void show(Component invoker, int x, int y) {
+        if (colorChooser == null) {
+          initialize();
+        }
+        Color c;
+        if (editor.getActiveView() != null) {
+          c = editor.getActiveView().getDrawing().attr().get(attributeKey);
+        } else {
+          c = editor.getDefaultAttribute(attributeKey);
+        }
+        colorChooser.setColor(c == null ? new Color(0, true) : c);
+        super.show(invoker, x, y);
+      }
 
-          private void initialize() {
-            colorChooser = new JColorChooser();
-            colorChooser.setOpaque(true);
-            colorChooser.setBackground(Color.WHITE);
-            if (uiclass != null) {
-              try {
-                colorChooser.setUI(
-                    (ColorChooserUI)
-                        Methods.invokeStatic(
-                            uiclass,
-                            "createUI",
-                            new Class<?>[] {JComponent.class},
-                            new Object[] {colorChooser}));
-              } catch (NoSuchMethodException ex) {
-                ex.printStackTrace();
-              }
-            }
-            dsp.add(new DrawingColorChooserHandler(editor, attributeKey, colorChooser, this));
-            add(colorChooser);
+      private void initialize() {
+        colorChooser = new JColorChooser();
+        colorChooser.setOpaque(true);
+        colorChooser.setBackground(Color.WHITE);
+        if (uiclass != null) {
+          try {
+            colorChooser.setUI((ColorChooserUI) Methods.invokeStatic(
+                uiclass, "createUI", new Class<?>[] {JComponent.class}, new Object[] {colorChooser
+                }));
+          } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
           }
-        };
+        }
+        dsp.add(new DrawingColorChooserHandler(editor, attributeKey, colorChooser, this));
+        add(colorChooser);
+      }
+    };
     popupButton.setPopupMenu(popupMenu);
     popupButton.setPopupAlpha(1.0f); // must be set after we set the popup menu
-    Icon icon =
-        new DrawingColorIcon(
-            editor,
-            attributeKey,
-            labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
-            colorShape);
+    Icon icon = new DrawingColorIcon(
+        editor,
+        attributeKey,
+        labels.getLargeIconProperty(labelKey, ButtonFactory.class).getImage(),
+        colorShape);
     popupButton.setIcon(icon);
     popupButton.setDisabledIcon(icon);
     popupButton.setFocusable(false);
@@ -1470,9 +1446,8 @@ public class ButtonFactory {
     }
     for (int i = 0; i < widths.length; i++) {
       String label = Double.toString(widths[i]);
-      Icon icon =
-          new StrokeIcon(
-              new BasicStroke((float) widths[i], BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+      Icon icon = new StrokeIcon(
+          new BasicStroke((float) widths[i], BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
       AttributeAction a = new AttributeAction(editor, STROKE_WIDTH, widths[i], label, icon);
       a.putValue(
           ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.strokeWidth.text"));
@@ -1506,16 +1481,10 @@ public class ButtonFactory {
       null
     };
     for (LineDecoration decoration : decorations) {
-      strokeDecorationPopupButton.add(
-          new AttributeAction(
-              editor,
-              START_DECORATION,
-              decoration,
-              null,
-              new LineDecorationIcon(decoration, true)));
-      strokeDecorationPopupButton.add(
-          new AttributeAction(
-              editor, END_DECORATION, decoration, null, new LineDecorationIcon(decoration, false)));
+      strokeDecorationPopupButton.add(new AttributeAction(
+          editor, START_DECORATION, decoration, null, new LineDecorationIcon(decoration, true)));
+      strokeDecorationPopupButton.add(new AttributeAction(
+          editor, END_DECORATION, decoration, null, new LineDecorationIcon(decoration, false)));
     }
     return strokeDecorationPopupButton;
   }
@@ -1562,13 +1531,11 @@ public class ButtonFactory {
           fdashes[j] = (float) dashe[j];
         }
       }
-      Icon icon =
-          new StrokeIcon(
-              new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10f, fdashes, 0));
+      Icon icon = new StrokeIcon(
+          new BasicStroke(2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 10f, fdashes, 0));
       AttributeAction a;
-      AbstractButton btn =
-          strokeDashesPopupButton.add(
-              a = new AttributeAction(editor, STROKE_DASHES, dashe, null, icon));
+      AbstractButton btn = strokeDashesPopupButton.add(
+          a = new AttributeAction(editor, STROKE_DASHES, dashe, null, icon));
       dsp.add(a);
       btn.setDisabledIcon(icon);
     }
@@ -1580,40 +1547,36 @@ public class ButtonFactory {
     JPopupButton strokeTypePopupButton = new JPopupButton();
     labels.configureToolBarButton(strokeTypePopupButton, "attribute.strokeType");
     strokeTypePopupButton.setFocusable(false);
-    strokeTypePopupButton.add(
-        new AttributeAction(
-            editor,
-            STROKE_TYPE,
-            AttributeKeys.StrokeType.BASIC,
-            labels.getString("attribute.strokeType.basic"),
-            new StrokeIcon(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL))));
+    strokeTypePopupButton.add(new AttributeAction(
+        editor,
+        STROKE_TYPE,
+        AttributeKeys.StrokeType.BASIC,
+        labels.getString("attribute.strokeType.basic"),
+        new StrokeIcon(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL))));
     HashMap<AttributeKey<?>, Object> attr = new HashMap<>();
     attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
     attr.put(STROKE_INNER_WIDTH_FACTOR, 2d);
-    strokeTypePopupButton.add(
-        new AttributeAction(
-            editor,
-            attr,
-            labels.getString("attribute.strokeType.double"),
-            new StrokeIcon(new DoubleStroke(2, 1))));
+    strokeTypePopupButton.add(new AttributeAction(
+        editor,
+        attr,
+        labels.getString("attribute.strokeType.double"),
+        new StrokeIcon(new DoubleStroke(2, 1))));
     attr = new HashMap<>();
     attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
     attr.put(STROKE_INNER_WIDTH_FACTOR, 3d);
-    strokeTypePopupButton.add(
-        new AttributeAction(
-            editor,
-            attr,
-            labels.getString("attribute.strokeType.double"),
-            new StrokeIcon(new DoubleStroke(3, 1))));
+    strokeTypePopupButton.add(new AttributeAction(
+        editor,
+        attr,
+        labels.getString("attribute.strokeType.double"),
+        new StrokeIcon(new DoubleStroke(3, 1))));
     attr = new HashMap<>();
     attr.put(STROKE_TYPE, AttributeKeys.StrokeType.DOUBLE);
     attr.put(STROKE_INNER_WIDTH_FACTOR, 4d);
-    strokeTypePopupButton.add(
-        new AttributeAction(
-            editor,
-            attr,
-            labels.getString("attribute.strokeType.double"),
-            new StrokeIcon(new DoubleStroke(4, 1))));
+    strokeTypePopupButton.add(new AttributeAction(
+        editor,
+        attr,
+        labels.getString("attribute.strokeType.double"),
+        new StrokeIcon(new DoubleStroke(4, 1))));
     return strokeTypePopupButton;
   }
 
@@ -1626,57 +1589,48 @@ public class ButtonFactory {
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.center"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.center"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.inside"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.inside"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.CENTER);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.outside"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.outside"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.centerFilled"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.centerFilled"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.insideFilled"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.insideFilled"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.FULL);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.outsideFilled"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.outsideFilled"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.CENTER);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.centerUnfilled"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.centerUnfilled"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.INSIDE);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.insideUnfilled"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.insideUnfilled"), null));
     attr = new HashMap<>();
     attr.put(STROKE_PLACEMENT, AttributeKeys.StrokePlacement.OUTSIDE);
     attr.put(FILL_UNDER_STROKE, AttributeKeys.Underfill.NONE);
-    strokePlacementPopupButton.add(
-        new AttributeAction(
-            editor, attr, labels.getString("attribute.strokePlacement.outsideUnfilled"), null));
+    strokePlacementPopupButton.add(new AttributeAction(
+        editor, attr, labels.getString("attribute.strokePlacement.outsideUnfilled"), null));
     return strokePlacementPopupButton;
   }
 
@@ -1733,9 +1687,8 @@ public class ButtonFactory {
     btn = new JButton();
     labels.configureToolBarButton(btn, "attribute.fontStyle.bold");
     btn.setFocusable(false);
-    AbstractAction a =
-        new AttributeToggler<>(
-            editor, FONT_BOLD, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
+    AbstractAction a = new AttributeToggler<>(
+        editor, FONT_BOLD, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.bold.text"));
     btn.addActionListener(a);
@@ -1758,9 +1711,8 @@ public class ButtonFactory {
     btn = new JButton();
     labels.configureToolBarButton(btn, "attribute.fontStyle.italic");
     btn.setFocusable(false);
-    AbstractAction a =
-        new AttributeToggler<>(
-            editor, FONT_ITALIC, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
+    AbstractAction a = new AttributeToggler<>(
+        editor, FONT_ITALIC, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.ItalicAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY, labels.getString("attribute.fontStyle.italic.text"));
     btn.addActionListener(a);
@@ -1783,9 +1735,8 @@ public class ButtonFactory {
     btn = new JButton();
     labels.configureToolBarButton(btn, "attribute.fontStyle.underline");
     btn.setFocusable(false);
-    AbstractAction a =
-        new AttributeToggler<>(
-            editor, FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.BoldAction());
+    AbstractAction a = new AttributeToggler<>(
+        editor, FONT_UNDERLINE, Boolean.TRUE, Boolean.FALSE, new StyledEditorKit.UnderlineAction());
     a.putValue(
         ActionUtil.UNDO_PRESENTATION_NAME_KEY,
         labels.getString("attribute.fontStyle.underline.text"));
@@ -1837,26 +1788,24 @@ public class ButtonFactory {
     toggleButton = new JToggleButton();
     labels.configureToolBarButton(toggleButton, "view.toggleGrid");
     toggleButton.setFocusable(false);
-    toggleButton.addItemListener(
-        new ItemListener() {
-          @Override
-          public void itemStateChanged(ItemEvent event) {
-            view.setConstrainerVisible(toggleButton.isSelected());
-            // view.getComponent().repaint();
-          }
-        });
-    view.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            // String constants are interned
-            if ((evt.getPropertyName() == null && DrawingView.CONSTRAINER_VISIBLE_PROPERTY == null)
-                || (evt.getPropertyName() != null
-                    && evt.getPropertyName().equals(DrawingView.CONSTRAINER_VISIBLE_PROPERTY))) {
-              toggleButton.setSelected(view.isConstrainerVisible());
-            }
-          }
-        });
+    toggleButton.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent event) {
+        view.setConstrainerVisible(toggleButton.isSelected());
+        // view.getComponent().repaint();
+      }
+    });
+    view.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // String constants are interned
+        if ((evt.getPropertyName() == null && DrawingView.CONSTRAINER_VISIBLE_PROPERTY == null)
+            || (evt.getPropertyName() != null
+                && evt.getPropertyName().equals(DrawingView.CONSTRAINER_VISIBLE_PROPERTY))) {
+          toggleButton.setSelected(view.isConstrainerVisible());
+        }
+      }
+    });
     return toggleButton;
   }
 
@@ -1889,9 +1838,8 @@ public class ButtonFactory {
     attr = new HashMap<>();
     attr.put(STROKE_CAP, BasicStroke.CAP_SQUARE);
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeCap.square"), null));
+        a = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeCap.square"), null));
     dsp.add(a);
     return popupButton;
   }
@@ -1915,23 +1863,20 @@ public class ButtonFactory {
     attr.put(STROKE_JOIN, BasicStroke.JOIN_BEVEL);
     AttributeAction a;
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeJoin.bevel"), null));
+        a = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeJoin.bevel"), null));
     dsp.add(a);
     attr = new HashMap<>();
     attr.put(STROKE_JOIN, BasicStroke.JOIN_ROUND);
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeJoin.round"), null));
+        a = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeJoin.round"), null));
     dsp.add(a);
     attr = new HashMap<>();
     attr.put(STROKE_JOIN, BasicStroke.JOIN_MITER);
     popupButton.add(
-        a =
-            new AttributeAction(
-                editor, attr, labels.getString("attribute.strokeJoin.miter"), null));
+        a = new AttributeAction(
+            editor, attr, labels.getString("attribute.strokeJoin.miter"), null));
     dsp.add(a);
     return popupButton;
   }

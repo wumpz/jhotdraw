@@ -158,13 +158,11 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
     return Optional.ofNullable(REGISTRATION.get(o.getClass().getName()))
         .map(reg -> reg.tagName())
         .or(() -> Optional.ofNullable(super.getName(o)))
-        .orElseThrow(
-            () ->
-                new IllegalArgumentException(
-                    "Storable class not known to factory. Storable class:"
-                        + o.getClass()
-                        + " Factory:"
-                        + DefaultDOMFactory.this.getClass()));
+        .orElseThrow(() ->
+            new IllegalArgumentException("Storable class not known to factory. Storable class:"
+                + o.getClass()
+                + " Factory:"
+                + DefaultDOMFactory.this.getClass()));
   }
 
   @SuppressWarnings("rawtypes")

@@ -13,7 +13,7 @@ import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * A {@link Connector} which locates a connection point at the bounds of any figure which has a
@@ -81,9 +81,8 @@ public class ChopRectangleConnector extends AbstractConnector {
       switch (target.attr().get(STROKE_PLACEMENT)) {
         case CENTER:
         default:
-          grow =
-              AttributeKeys.getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target))
-                  / 2d;
+          grow = AttributeKeys.getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target))
+              / 2d;
           break;
         case OUTSIDE:
           grow = AttributeKeys.getStrokeTotalWidth(target, AttributeKeys.scaleFromContext(target));

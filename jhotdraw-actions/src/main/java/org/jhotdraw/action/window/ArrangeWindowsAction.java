@@ -14,7 +14,7 @@ import static org.jhotdraw.api.gui.Arrangeable.Arrangement.VERTICAL;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import org.jhotdraw.api.gui.Arrangeable;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Changes the arrangement of an {@link Arrangeable} object.

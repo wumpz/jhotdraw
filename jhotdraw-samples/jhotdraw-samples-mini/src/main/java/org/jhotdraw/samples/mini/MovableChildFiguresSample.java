@@ -66,35 +66,34 @@ public class MovableChildFiguresSample {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            // Create a simple drawing consisting of three
-            // text areas and an elbow connection.
-            LabeledEllipseFigure ta = new LabeledEllipseFigure();
-            ta.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
-            LabeledEllipseFigure tb = new LabeledEllipseFigure();
-            tb.setBounds(new Point2D.Double(220, 120), new Point2D.Double(310, 210));
-            LabeledEllipseFigure tc = new LabeledEllipseFigure();
-            tc.setBounds(new Point2D.Double(220, 10), new Point2D.Double(310, 100));
-            Drawing drawing = new DefaultDrawing();
-            drawing.add(ta);
-            drawing.add(tb);
-            drawing.add(tc);
-            // Create a frame with a drawing view and a drawing editor
-            JFrame f = new JFrame("My Drawing");
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.setSize(400, 300);
-            DrawingView view = new DefaultDrawingView();
-            view.setDrawing(drawing);
-            f.add(view.getComponent());
-            f.add(new JLabel("Press space bar to toggle handles."), BorderLayout.SOUTH);
-            DrawingEditor editor = new DefaultDrawingEditor();
-            editor.add(view);
-            editor.setTool(new DelegationSelectionTool());
-            f.setVisible(true);
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        // Create a simple drawing consisting of three
+        // text areas and an elbow connection.
+        LabeledEllipseFigure ta = new LabeledEllipseFigure();
+        ta.setBounds(new Point2D.Double(10, 10), new Point2D.Double(100, 100));
+        LabeledEllipseFigure tb = new LabeledEllipseFigure();
+        tb.setBounds(new Point2D.Double(220, 120), new Point2D.Double(310, 210));
+        LabeledEllipseFigure tc = new LabeledEllipseFigure();
+        tc.setBounds(new Point2D.Double(220, 10), new Point2D.Double(310, 100));
+        Drawing drawing = new DefaultDrawing();
+        drawing.add(ta);
+        drawing.add(tb);
+        drawing.add(tc);
+        // Create a frame with a drawing view and a drawing editor
+        JFrame f = new JFrame("My Drawing");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(400, 300);
+        DrawingView view = new DefaultDrawingView();
+        view.setDrawing(drawing);
+        f.add(view.getComponent());
+        f.add(new JLabel("Press space bar to toggle handles."), BorderLayout.SOUTH);
+        DrawingEditor editor = new DefaultDrawingEditor();
+        editor.add(view);
+        editor.setTool(new DelegationSelectionTool());
+        f.setVisible(true);
+      }
+    });
   }
 }

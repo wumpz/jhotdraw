@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.api.gui.EditableComponent;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Duplicates the selected region.
@@ -66,9 +66,8 @@ public class DuplicateAction extends AbstractSelectionAction {
     if (c == null
         && (KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner()
             instanceof JComponent)) {
-      c =
-          (JComponent)
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+      c = (JComponent)
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
     }
     if (c != null && c.isEnabled()) {
       if (c instanceof EditableComponent) {

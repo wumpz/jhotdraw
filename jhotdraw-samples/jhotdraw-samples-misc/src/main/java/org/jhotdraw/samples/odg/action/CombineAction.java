@@ -13,7 +13,7 @@ import org.jhotdraw.draw.action.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** CombinePathsAction. */
 public class CombineAction extends GroupAction {
@@ -52,7 +52,8 @@ public class CombineAction extends GroupAction {
     for (Figure f : figures) {
       ODGPathFigure path = new ODGPathFigure();
       path.removeAllChildren();
-      for (Map.Entry<AttributeKey<?>, Object> entry : group.attr().getAttributes().entrySet()) {
+      for (Map.Entry<AttributeKey<?>, Object> entry :
+          group.attr().getAttributes().entrySet()) {
         path.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
       }
       path.add(f);

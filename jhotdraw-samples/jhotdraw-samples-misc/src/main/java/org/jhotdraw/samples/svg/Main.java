@@ -10,7 +10,7 @@ package org.jhotdraw.samples.svg;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.app.OSXApplication;
 import org.jhotdraw.app.SDIApplication;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Main entry point of the SVG sample application. Creates an {@link Application} depending on the
@@ -39,9 +39,8 @@ public class Main {
     SVGApplicationModel model = new SVGApplicationModel();
     model.setName("JHotDraw SVG");
     model.setVersion(Main.class.getPackage().getImplementationVersion());
-    model.setCopyright(
-        "Copyright 2006-2010 (c) by the authors of JHotDraw.\n"
-            + "This software is licensed under LGPL and Creative Commons 3.0 Attribution.");
+    model.setCopyright("Copyright 2006-2010 (c) by the authors of JHotDraw.\n"
+        + "This software is licensed under LGPL and Creative Commons 3.0 Attribution.");
     model.setViewClassName("org.jhotdraw.samples.svg.SVGView");
     app.setModel(model);
     app.launch(args);

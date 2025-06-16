@@ -44,8 +44,8 @@ import org.jhotdraw.draw.tool.TextCreationTool;
 import org.jhotdraw.editor.DefaultDrawingEditor;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.action.ButtonFactory;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.undo.UndoRedoManager;
+import org.jhotdraw.utils.util.*;
 
 /** DrawingPanel. */
 public class DrawingPanel extends JPanel {

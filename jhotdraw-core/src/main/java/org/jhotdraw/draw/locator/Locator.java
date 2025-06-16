@@ -26,7 +26,6 @@ public interface Locator {
       this(location, 0);
     }
   }
-  ;
 
   /**
    * Locates a position on the provided figure.

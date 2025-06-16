@@ -222,6 +222,20 @@ public class JavaxDOMInput implements DOMInput {
     throw new IllegalArgumentException("element not found:" + tagName);
   }
 
+  @Override
+  public boolean hasElement(String tagName) {
+    int count = 0;
+    NodeList list = current.getChildNodes();
+    int len = list.getLength();
+    for (int i = 0; i < len; i++) {
+      Node node = list.item(i);
+      if ((node instanceof Element) && ((Element) node).getTagName().equalsIgnoreCase(tagName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** Opens the element with the specified name and index and makes it the current node. */
   @Override
   public void openElement(String tagName, int index) {
@@ -270,14 +284,13 @@ public class JavaxDOMInput implements DOMInput {
     String ref = getAttribute("ref", null);
     String id = getAttribute("id", null);
     if (ref != null && id != null) {
-      throw new IOException(
-          "Element has both an id and a ref attribute: <"
-              + getTagName()
-              + " id="
-              + id
-              + " ref="
-              + ref
-              + ">");
+      throw new IOException("Element has both an id and a ref attribute: <"
+          + getTagName()
+          + " id="
+          + id
+          + " ref="
+          + ref
+          + ">");
     }
     if (id != null && idobjects.containsKey(id)) {
       throw new IOException("Duplicate id attribute: <" + getTagName() + " id=" + id + ">");

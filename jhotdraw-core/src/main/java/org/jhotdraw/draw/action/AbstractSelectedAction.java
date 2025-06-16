@@ -7,17 +7,23 @@
  */
 package org.jhotdraw.draw.action;
 
+import static org.jhotdraw.draw.DrawingEditor.DEFAULT_ATTRIBUTE_PROPERTY_PREFIX;
+
 import java.beans.*;
 import java.io.Serializable;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.api.app.Disposable;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.event.FigureSelectionListener;
+import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that acts on behalf of the
@@ -61,6 +67,9 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
         updateEnabledState();
       } else if ("enabled".equals(evt.getPropertyName())) {
         updateEnabledState();
+      } else if (evt.getPropertyName() != null
+          && evt.getPropertyName().startsWith(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX)) {
+        editorDefaultAttributeUpdated(evt);
       }
     }
 
@@ -74,9 +83,28 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
       updateEnabledState();
     }
   }
-  ;
 
   private EventHandler eventHandler = new EventHandler();
+
+  private Predicate<Figure> validFigure = null;
+
+  private boolean allSelectedFiguresNeedToBeValid = true;
+
+  private boolean allowNoSelection = false;
+
+  /**
+   * check selected figures for validity and is used to process only valid figures
+   * @param validFigure predicate if a given figure is valid or null
+   * @param allSelectedFiguresNeedToBeValid should all selected figures be valid to enable this action?
+   */
+  protected final void setValidityCheckFigure(
+      Predicate<Figure> validFigure,
+      boolean allSelectedFiguresNeedToBeValid,
+      boolean allowNoSelection) {
+    this.validFigure = validFigure;
+    this.allSelectedFiguresNeedToBeValid = allSelectedFiguresNeedToBeValid;
+    this.allowNoSelection = allowNoSelection;
+  }
 
   /**
    * Creates an action which acts on the selected figures on the current view of the specified
@@ -93,10 +121,60 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
    */
   protected void updateEnabledState() {
     if (getView() != null) {
-      setEnabled(getView().isEnabled() && getView().getSelectionCount() > 0);
+      if (allowNoSelection && getView().getSelectionCount() == 0) setEnabled(true);
+      else setEnabled(hasSelectedFigures());
     } else {
       setEnabled(false);
     }
+  }
+
+  /**
+   * If this action is enabled, then here some state updates can be done.
+   */
+  protected void onEnabled() {}
+
+  @Override
+  public void setEnabled(boolean newValue) {
+    super.setEnabled(newValue);
+    if (newValue) onEnabled();
+  }
+
+  /**
+   * contains the selection at least one valid element
+   * @return
+   */
+  protected boolean hasSelectedFigures() {
+    if (getView() == null || !getView().isEnabled()) return false;
+    if (validFigure != null) {
+      if (allSelectedFiguresNeedToBeValid)
+        return getView().getSelectedFigures().stream().allMatch(validFigure);
+      else return getView().getSelectedFigures().stream().anyMatch(validFigure);
+    } else return getView().getSelectionCount() > 0;
+  }
+
+  /**
+   * Process all valid figures.
+   */
+  protected final void processSelectedFigures(Consumer<Figure> consumeFigure) {
+    streamSelectedFigures().forEach(consumeFigure);
+  }
+
+  /**
+   * Stream all valid selected figures.
+   * @return
+   */
+  protected final Stream<Figure> streamSelectedFigures() {
+    if (getView() == null) return Stream.empty();
+    return getView().getSelectedFigures().stream()
+        .filter(f -> validFigure == null || validFigure.test(f));
+  }
+
+  /**
+   * Return first valid selected figure.
+   * @return
+   */
+  protected final Figure firstSelectedFigure() {
+    return streamSelectedFigures().findFirst().orElse(null);
   }
 
   @Override
@@ -130,6 +208,13 @@ public abstract class AbstractSelectedAction extends AbstractAction implements D
   protected void fireUndoableEditHappened(UndoableEdit edit) {
     getDrawing().fireUndoableEditHappened(edit);
   }
+
+  /**
+   * Sometimes state changes with those default editor properties. This selected action internally uses already
+   * a property change listener to the active editor.
+   * @param evt
+   */
+  protected void editorDefaultAttributeUpdated(PropertyChangeEvent evt) {}
 
   /**
    * By default, the enabled state of this action is updated to reflect the enabled state of the

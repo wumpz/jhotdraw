@@ -87,24 +87,22 @@ public class JMixer extends javax.swing.JPanel {
       c.setFont(smallFont);
     }
     // Create a list, overriding the getToolTipText() method
-    swatchesList =
-        new JList() {
-          private static final long serialVersionUID = 1L;
+    swatchesList = new JList() {
+      private static final long serialVersionUID = 1L;
 
-          // This method is called as the cursor moves within the list.
-          @Override
-          public String getToolTipText(MouseEvent evt) {
-            // Get item index
-            int index = locationToIndex(evt.getPoint());
-            // Get item
-            Object item = getModel().getElementAt(index);
-            JComponent c =
-                (JComponent)
-                    getCellRenderer().getListCellRendererComponent(this, item, index, false, false);
-            // Return the tool tip text
-            return c.getToolTipText();
-          }
-        };
+      // This method is called as the cursor moves within the list.
+      @Override
+      public String getToolTipText(MouseEvent evt) {
+        // Get item index
+        int index = locationToIndex(evt.getPoint());
+        // Get item
+        Object item = getModel().getElementAt(index);
+        JComponent c = (JComponent)
+            getCellRenderer().getListCellRendererComponent(this, item, index, false, false);
+        // Return the tool tip text
+        return c.getToolTipText();
+      }
+    };
     swatchesList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
     swatchesList.setVisibleRowCount(5);
     scrollPane.setViewportView(swatchesList);
@@ -115,66 +113,58 @@ public class JMixer extends javax.swing.JPanel {
     sliderModel =
         new DefaultColorSliderModel(harmonicWheel.getHarmonicColorModel().getColorSpace());
     sliderModel.configureSlider(1, saturationSlider);
-    harmonicWheel
-        .getHarmonicColorModel()
-        .addListDataListener(
-            new ListDataListener() {
-              @Override
-              public void intervalAdded(ListDataEvent e) {}
+    harmonicWheel.getHarmonicColorModel().addListDataListener(new ListDataListener() {
+      @Override
+      public void intervalAdded(ListDataEvent e) {}
 
-              @Override
-              public void intervalRemoved(ListDataEvent e) {}
+      @Override
+      public void intervalRemoved(ListDataEvent e) {}
 
-              @Override
-              public void contentsChanged(ListDataEvent e) {
-                adjusting++;
-                HarmonicColorModel hcm = harmonicWheel.getHarmonicColorModel();
-                Color cc = hcm.get(e.getIndex0());
-                if (cc != null) {
-                  sliderModel.setColor(cc);
-                }
-                adjusting--;
-              }
-            });
-    harmonicWheel.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if (name == JHarmonicColorWheel.SELECTED_INDEX_PROPERTY) {
-              adjusting++;
-              int index = harmonicWheel.getSelectedIndex();
-              HarmonicColorModel hcm = harmonicWheel.getHarmonicColorModel();
-              if (index != -1) {
-                sliderModel.setColor(hcm.get(index));
-              }
-              adjusting--;
+      @Override
+      public void contentsChanged(ListDataEvent e) {
+        adjusting++;
+        HarmonicColorModel hcm = harmonicWheel.getHarmonicColorModel();
+        Color cc = hcm.get(e.getIndex0());
+        if (cc != null) {
+          sliderModel.setColor(cc);
+        }
+        adjusting--;
+      }
+    });
+    harmonicWheel.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        String name = evt.getPropertyName();
+        if (name == JHarmonicColorWheel.SELECTED_INDEX_PROPERTY) {
+          adjusting++;
+          int index = harmonicWheel.getSelectedIndex();
+          HarmonicColorModel hcm = harmonicWheel.getHarmonicColorModel();
+          if (index != -1) {
+            sliderModel.setColor(hcm.get(index));
+          }
+          adjusting--;
+        }
+      }
+    });
+    sliderModel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        if (adjusting++ == 0) {
+          HarmonicColorModel hcm = harmonicWheel.getHarmonicColorModel();
+          if (!hcm.isAdjusting()) {
+            int index = harmonicWheel.getSelectedIndex();
+            if (index != -1) {
+              Color cc = sliderModel.getColor();
+              Color oldValue = hcm.get(index);
+              Color newValue = new Color(
+                  oldValue.getColorSpace(), ColorUtil.fromColor(oldValue.getColorSpace(), cc), 1f);
+              hcm.set(index, newValue);
             }
           }
-        });
-    sliderModel.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent e) {
-            if (adjusting++ == 0) {
-              HarmonicColorModel hcm = harmonicWheel.getHarmonicColorModel();
-              if (!hcm.isAdjusting()) {
-                int index = harmonicWheel.getSelectedIndex();
-                if (index != -1) {
-                  Color cc = sliderModel.getColor();
-                  Color oldValue = hcm.get(index);
-                  Color newValue =
-                      new Color(
-                          oldValue.getColorSpace(),
-                          ColorUtil.fromColor(oldValue.getColorSpace(), cc),
-                          1f);
-                  hcm.set(index, newValue);
-                }
-              }
-            }
-            adjusting--;
-          }
-        });
+        }
+        adjusting--;
+      }
+    });
     harmonicWheel.setSelectedIndex(0);
     harmonicWheel.getHarmonicColorModel().setSize(25);
     // updateRules();
@@ -191,17 +181,16 @@ public class JMixer extends javax.swing.JPanel {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            JFrame f = new JFrame("Mixer");
-            f.add(new JMixer());
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.pack();
-            f.setVisible(true);
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        JFrame f = new JFrame("Mixer");
+        f.add(new JMixer());
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.pack();
+        f.setVisible(true);
+      }
+    });
   }
 
   private void updateRules() {
@@ -315,46 +304,42 @@ public class JMixer extends javax.swing.JPanel {
 
     disclosureButton.setSelected(true);
     disclosureButton.setText("Show Mixer");
-    disclosureButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            mixerDisclosurePerformed(evt);
-          }
-        });
+    disclosureButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        mixerDisclosurePerformed(evt);
+      }
+    });
     add(disclosureButton, new java.awt.GridBagConstraints());
 
     sysGroup.add(sysRGBToggle);
     sysRGBToggle.setSelected(true);
     sysRGBToggle.setText("RGB");
-    sysRGBToggle.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            systemChangePerformed(evt);
-          }
-        });
+    sysRGBToggle.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        systemChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 1;
     add(sysRGBToggle, gridBagConstraints);
 
     sysGroup.add(sysRYBToggle);
     sysRYBToggle.setText("RYB");
-    sysRYBToggle.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            systemChangePerformed(evt);
-          }
-        });
+    sysRYBToggle.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        systemChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 1;
     add(sysRYBToggle, gridBagConstraints);
 
     presetCombo.setEditable(true);
-    presetCombo.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            presetPerformed(evt);
-          }
-        });
+    presetCombo.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        presetPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -372,12 +357,11 @@ public class JMixer extends javax.swing.JPanel {
 
     hueGroup.add(customHueRadio);
     customHueRadio.setText("Custom");
-    customHueRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    customHueRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -408,12 +392,11 @@ public class JMixer extends javax.swing.JPanel {
     hueGroup.add(analogousRadio);
     analogousRadio.setSelected(true);
     analogousRadio.setText("Analogous");
-    analogousRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    analogousRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -444,12 +427,11 @@ public class JMixer extends javax.swing.JPanel {
 
     hueGroup.add(primaryRadio);
     primaryRadio.setText("Primary");
-    primaryRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    primaryRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -480,12 +462,11 @@ public class JMixer extends javax.swing.JPanel {
 
     hueGroup.add(clashRadio);
     clashRadio.setText("Clash");
-    clashRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    clashRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -516,12 +497,11 @@ public class JMixer extends javax.swing.JPanel {
 
     hueGroup.add(triadRadio);
     triadRadio.setText("Triad");
-    triadRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    triadRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -552,12 +532,11 @@ public class JMixer extends javax.swing.JPanel {
 
     hueGroup.add(splitComplementaryRadio);
     splitComplementaryRadio.setText("Split Complementary");
-    splitComplementaryRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    splitComplementaryRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -588,12 +567,11 @@ public class JMixer extends javax.swing.JPanel {
 
     hueGroup.add(complementaryRadio);
     complementaryRadio.setText("Complementary");
-    complementaryRadio.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    complementaryRadio.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -623,12 +601,11 @@ public class JMixer extends javax.swing.JPanel {
     mixerPanel.add(complementaryLabel2, gridBagConstraints);
 
     achromaticCheck.setText("Achromatic");
-    achromaticCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    achromaticCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -658,12 +635,11 @@ public class JMixer extends javax.swing.JPanel {
 
     monochromaticCheck.setSelected(true);
     monochromaticCheck.setText("Monochromatic");
-    monochromaticCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ruleChangePerformed(evt);
-          }
-        });
+    monochromaticCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ruleChangePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;

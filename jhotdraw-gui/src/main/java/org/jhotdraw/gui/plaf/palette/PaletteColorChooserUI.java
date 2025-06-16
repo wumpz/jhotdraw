@@ -123,16 +123,15 @@ public class PaletteColorChooserUI extends ColorChooserUI {
     chooser.addPropertyChangeListener(propertyChangeListener);
     previewListener = new PreviewListener();
     chooser.getSelectionModel().addChangeListener(previewListener);
-    previewMouseListener =
-        new MouseAdapter() {
-          @Override
-          public void mousePressed(MouseEvent e) {
-            if (chooser.getDragEnabled()) {
-              TransferHandler th = chooser.getTransferHandler();
-              th.exportAsDrag(chooser, e, TransferHandler.COPY);
-            }
-          }
-        };
+    previewMouseListener = new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        if (chooser.getDragEnabled()) {
+          TransferHandler th = chooser.getTransferHandler();
+          th.exportAsDrag(chooser, e, TransferHandler.COPY);
+        }
+      }
+    };
   }
 
   protected void uninstallListeners() {

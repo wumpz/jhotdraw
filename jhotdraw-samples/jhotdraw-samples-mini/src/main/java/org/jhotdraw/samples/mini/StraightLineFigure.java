@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * Example showing the minimal amount of code needed to implement a {@code Figure} by extending

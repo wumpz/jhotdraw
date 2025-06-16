@@ -406,11 +406,8 @@ public class GridConstrainer extends AbstractConstrainer {
           if (i % majorGridSpacing == 0) {
             point.y = height * i;
             t.transform(point, viewPoint);
-            g.drawLine(
-                viewBounds.x,
-                (int) viewPoint.y,
-                viewBounds.x + viewBounds.width,
-                (int) viewPoint.y);
+            g.drawLine(viewBounds.x, (int) viewPoint.y, viewBounds.x + viewBounds.width, (int)
+                viewPoint.y);
           }
         }
       }

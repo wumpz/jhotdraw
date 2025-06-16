@@ -1,7 +1,7 @@
 /*
- * @(#)BezierNodeHandle.java
+ * @(#)TrackingHandle.java
  *
- * Copyright (c) 1996-2010 The authors and contributors of JHotDraw.
+ * Copyright (c) 1996-2024 The authors and contributors of JHotDraw.
  * You may not use, copy or modify this file, except in compliance with the
  * accompanying license terms.
  */
@@ -20,18 +20,16 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.draw.event.TrackingEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.undo.CompositeEdit;
 
 /**
- * Simple tracking handle that changes in some way the owner Figure. This change is injected using
- * some lambdas.
+ * Simple tracking handle that changes in some way the owner Figure. This change is injected using some lambdas.
  */
 public class TrackingHandle extends AbstractHandle {
+
   private final Supplier<Point2D.Double> readLocation;
   private final Consumer<Point2D.Double> writeLocation;
   private final Runnable deleteLocation;
   private final Runnable insertLocation;
-  private CompositeEdit edit;
 
   public TrackingHandle(
       Figure owner, Supplier<Point2D.Double> readLocation, Consumer<Point2D.Double> writeLocation) {
@@ -76,8 +74,6 @@ public class TrackingHandle extends AbstractHandle {
 
   @Override
   public void trackStart(Point anchor, int modifiersEx) {
-    Figure figure = getOwner();
-    view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
     oldPoint = readLocation.get();
   }
 
@@ -85,10 +81,9 @@ public class TrackingHandle extends AbstractHandle {
   public void trackStep(Point anchor, Point lead, int modifiersEx) {
     Figure figure = getOwner();
     figure.willChange();
-    Point2D.Double p =
-        view.getConstrainer() == null
-            ? view.viewToDrawing(lead)
-            : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+    Point2D.Double p = view.getConstrainer() == null
+        ? view.viewToDrawing(lead)
+        : view.getConstrainer().constrainPoint(view.viewToDrawing(lead), getOwner());
     if (getOwner().attr().get(TRANSFORM) != null) {
       try {
         getOwner().attr().get(TRANSFORM).inverseTransform(p, p);
@@ -112,8 +107,12 @@ public class TrackingHandle extends AbstractHandle {
     final Figure f = getOwner();
     Point2D.Double newPoint = readLocation.get();
     view.getDrawing()
-        .fireUndoableEditHappened(new TrackingEdit(f, writeLocation, oldPoint, newPoint));
-    view.getDrawing().fireUndoableEditHappened(edit);
+        .fireUndoableEditHappened(new TrackingEdit(f, writeLocation, oldPoint, newPoint) {
+          @Override
+          public String getPresentationName() {
+            return "Punkt verschieben";
+          }
+        });
   }
 
   @Override
@@ -127,24 +126,23 @@ public class TrackingHandle extends AbstractHandle {
       deleteLocation.run();
       f.changed();
       fireHandleRequestRemove(invalidatedArea);
-      fireUndoableEditHappened(
-          new AbstractUndoableEdit() {
-            @Override
-            public void redo() throws CannotRedoException {
-              super.redo();
-              f.willChange();
-              deleteLocation.run();
-              f.changed();
-            }
+      fireUndoableEditHappened(new AbstractUndoableEdit() {
+        @Override
+        public void redo() throws CannotRedoException {
+          super.redo();
+          f.willChange();
+          deleteLocation.run();
+          f.changed();
+        }
 
-            @Override
-            public void undo() throws CannotUndoException {
-              super.undo();
-              f.willChange();
-              insertLocation.run();
-              f.changed();
-            }
-          });
+        @Override
+        public void undo() throws CannotUndoException {
+          super.undo();
+          f.willChange();
+          insertLocation.run();
+          f.changed();
+        }
+      });
       evt.consume();
       // At this point, the handle is no longer valid, and
       // handles at higher node indices have become invalid too.

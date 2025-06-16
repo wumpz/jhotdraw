@@ -111,16 +111,15 @@ public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIR
     new ColorSliderTextFieldHandler(magentaField, ccModel, 1);
     new ColorSliderTextFieldHandler(yellowField, ccModel, 2);
     new ColorSliderTextFieldHandler(blackField, ccModel, 3);
-    ccModel.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent evt) {
-            if (updateRecursion++ == 0) {
-              setColorToModel(ccModel.getColor());
-            }
-            updateRecursion--;
-          }
-        });
+    ccModel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent evt) {
+        if (updateRecursion++ == 0) {
+          setColorToModel(ccModel.getColor());
+        }
+        updateRecursion--;
+      }
+    });
     cyanField.setMinimumSize(cyanField.getPreferredSize());
     magentaField.setMinimumSize(magentaField.getPreferredSize());
     yellowField.setMinimumSize(yellowField.getPreferredSize());
@@ -207,16 +206,15 @@ public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIR
     cyanField.setColumns(3);
     cyanField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     cyanField.setText("0");
-    cyanField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    cyanField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            cyanFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        cyanFieldFocusLost(evt);
+      }
+    });
     cyanFieldPanel.add(cyanField);
     cyanFieldLabel.setText("%");
     cyanFieldPanel.add(cyanFieldLabel);
@@ -245,16 +243,15 @@ public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIR
     magentaField.setColumns(3);
     magentaField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     magentaField.setText("0");
-    magentaField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    magentaField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            magentaFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        magentaFieldFocusLost(evt);
+      }
+    });
     magentaFieldPanel.add(magentaField);
     magentaFieldLabel.setText("%");
     magentaFieldPanel.add(magentaFieldLabel);
@@ -283,16 +280,15 @@ public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIR
     yellowField.setColumns(3);
     yellowField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     yellowField.setText("0");
-    yellowField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    yellowField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            yellowFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        yellowFieldFocusLost(evt);
+      }
+    });
     yellowFieldPanel.add(yellowField);
     yellowFieldLabel.setText("%");
     yellowFieldPanel.add(yellowFieldLabel);
@@ -321,16 +317,15 @@ public class PaletteCMYKChooser extends AbstractColorChooserPanel implements UIR
     blackField.setColumns(3);
     blackField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
     blackField.setText("0");
-    blackField.addFocusListener(
-        new java.awt.event.FocusAdapter() {
-          public void focusGained(java.awt.event.FocusEvent evt) {
-            fieldFocusGained(evt);
-          }
+    blackField.addFocusListener(new java.awt.event.FocusAdapter() {
+      public void focusGained(java.awt.event.FocusEvent evt) {
+        fieldFocusGained(evt);
+      }
 
-          public void focusLost(java.awt.event.FocusEvent evt) {
-            blackFieldFocusLost(evt);
-          }
-        });
+      public void focusLost(java.awt.event.FocusEvent evt) {
+        blackFieldFocusLost(evt);
+      }
+    });
     blackFieldPanel.add(blackField);
     blackFieldLabel.setText("%");
     blackFieldPanel.add(blackFieldLabel);

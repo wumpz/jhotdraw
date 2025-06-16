@@ -23,7 +23,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.ImageHolderFigure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.util.Images;
+import org.jhotdraw.utils.util.Images;
 
 /**
  * An input format for importing drawings using one of the image formats supported by javax.imageio.

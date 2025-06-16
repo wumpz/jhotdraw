@@ -19,10 +19,10 @@ import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.GrowStroke;
 
 /** SVGEllipse represents a SVG ellipse and a SVG circle element. */
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
@@ -86,10 +86,9 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
   @Override
   public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
-    Rectangle2D.Double r =
-        (rx instanceof Rectangle2D.Double)
-            ? (Rectangle2D.Double) rx
-            : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+    Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+        ? (Rectangle2D.Double) rx
+        : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
     if (attr().get(TRANSFORM) == null) {
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d + 1;
       Geom.grow(r, g, g);
@@ -122,11 +121,10 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
   private Shape getHitShape() {
     if (cachedHitShape == null) {
       if (attr().get(FILL_COLOR) != null || attr().get(FILL_GRADIENT) != null) {
-        cachedHitShape =
-            new GrowStroke(
-                    (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
-                    (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0))
-                .createStrokedShape(getTransformedShape());
+        cachedHitShape = new GrowStroke(
+                (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
+                (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0))
+            .createStrokedShape(getTransformedShape());
       } else {
         cachedHitShape =
             SVGAttributeKeys.getHitStroke(this, 1.0).createStrokedShape(getTransformedShape());

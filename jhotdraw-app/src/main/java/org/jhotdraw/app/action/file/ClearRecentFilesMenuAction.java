@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.beans.*;
 import org.jhotdraw.action.AbstractApplicationAction;
 import org.jhotdraw.api.app.Application;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Clears (empties) the Recent Files sub-menu in the File menu.

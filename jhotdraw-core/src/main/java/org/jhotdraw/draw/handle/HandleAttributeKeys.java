@@ -83,20 +83,18 @@ public class HandleAttributeKeys {
       new AttributeKey<>("bezierTangentColor1", Color.class, Color.BLUE);
 
   /** Bezier tangent line stroke 1. */
-  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_1 =
-      new AttributeKey<>(
-          "bezierTangentStroke1",
-          Stroke.class,
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 0f));
+  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_1 = new AttributeKey<>(
+      "bezierTangentStroke1",
+      Stroke.class,
+      new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 0f));
 
   /** Bezier tangent line stroke 2. */
-  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_2 =
-      new AttributeKey<>(
-          "bezierTangentStroke2",
-          Stroke.class,
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 5f));
+  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_2 = new AttributeKey<>(
+      "bezierTangentStroke2",
+      Stroke.class,
+      new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 5f));
 
   /** Bezier node handle stroke color. */
   public static final AttributeKey<Color> BEZIER_NODE_HANDLE_STROKE_COLOR =
@@ -115,11 +113,10 @@ public class HandleAttributeKeys {
       new AttributeKey<>("bezierPathColor2", Color.class, new Color(0x00a8ff));
 
   /** Bezier path stroke 1. */
-  public static final AttributeKey<Stroke> BEZIER_PATH_STROKE_1 =
-      new AttributeKey<>(
-          "bezierPathStroke1",
-          Stroke.class,
-          new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+  public static final AttributeKey<Stroke> BEZIER_PATH_STROKE_1 = new AttributeKey<>(
+      "bezierPathStroke1",
+      Stroke.class,
+      new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
 
   /** Bezier path stroke 2. */
   public static final AttributeKey<Stroke> BEZIER_PATH_STROKE_2 =
@@ -162,20 +159,18 @@ public class HandleAttributeKeys {
       new AttributeKey<>("bezierTangentColor1Disabled", Color.class, FILL_COLOR_DISABLED);
 
   /** Bezier tangent line stroke 1. */
-  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_1_DISABLED =
-      new AttributeKey<>(
-          "bezierTangentStroke1Disabled",
-          Stroke.class,
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 0f));
+  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_1_DISABLED = new AttributeKey<>(
+      "bezierTangentStroke1Disabled",
+      Stroke.class,
+      new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 0f));
 
   /** Bezier tangent line stroke 2. */
-  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_2_DISABLED =
-      new AttributeKey<>(
-          "bezierTangentStroke2Disabled",
-          Stroke.class,
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 5f));
+  public static final AttributeKey<Stroke> BEZIER_TANGENT_STROKE_2_DISABLED = new AttributeKey<>(
+      "bezierTangentStroke2Disabled",
+      Stroke.class,
+      new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0f, new float[] {5f, 5f}, 5f));
 
   /** Bezier node handle stroke color. */
   public static final AttributeKey<Color> BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED =
@@ -195,11 +190,10 @@ public class HandleAttributeKeys {
       new AttributeKey<>("bezierPathColor2Disabled", Color.class, new Color(0x0));
 
   /** Bezier path stroke 1. */
-  public static final AttributeKey<Stroke> BEZIER_PATH_STROKE_1_DISABLED =
-      new AttributeKey<>(
-          "bezierPathStroke1Disabled",
-          Stroke.class,
-          new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+  public static final AttributeKey<Stroke> BEZIER_PATH_STROKE_1_DISABLED = new AttributeKey<>(
+      "bezierPathStroke1Disabled",
+      Stroke.class,
+      new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
 
   /** Bezier path stroke 2. */
   public static final AttributeKey<Stroke> BEZIER_PATH_STROKE_2_DISABLED =
@@ -231,11 +225,10 @@ public class HandleAttributeKeys {
       new AttributeKey<>("resizeBoundsColor2", Color.class, Color.BLUE);
 
   /** Resize bounds stroke 1. */
-  public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_1 =
-      new AttributeKey<>(
-          "resizeBoundsStroke1",
-          Stroke.class,
-          new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+  public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_1 = new AttributeKey<>(
+      "resizeBoundsStroke1",
+      Stroke.class,
+      new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
 
   /** Resize bounds stroke 2. */
   public static final AttributeKey<Stroke> RESIZE_BOUNDS_STROKE_2 =
@@ -303,11 +296,10 @@ public class HandleAttributeKeys {
       new AttributeKey<>("transformBoundsColor2", Color.class, Color.MAGENTA);
 
   /** Transform bounds stroke 1. */
-  public static final AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_1 =
-      new AttributeKey<>(
-          "transformBoundsStroke1",
-          Stroke.class,
-          new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+  public static final AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_1 = new AttributeKey<>(
+      "transformBoundsStroke1",
+      Stroke.class,
+      new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
 
   /** Transform bounds stroke 2. */
   public static final AttributeKey<Stroke> TRANSFORM_BOUNDS_STROKE_2 =
@@ -376,19 +368,17 @@ public class HandleAttributeKeys {
       new AttributeKey<>("transformBoundsColor2", Color.class, Color.MAGENTA);
 
   /** Group bounds stroke 1. */
-  public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_1 =
-      new AttributeKey<>(
-          "transformBoundsStroke1",
-          Stroke.class,
-          new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
+  public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_1 = new AttributeKey<>(
+      "transformBoundsStroke1",
+      Stroke.class,
+      new BasicStroke(3f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL));
 
   /** Group bounds stroke 2. */
-  public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2 =
-      new AttributeKey<>(
-          "transformBoundsStroke2",
-          Stroke.class,
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f, 2f}, 0f));
+  public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2 = new AttributeKey<>(
+      "transformBoundsStroke2",
+      Stroke.class,
+      new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f, 2f}, 0f));
 
   // ---
   /** Group bounds hover color 1. */
@@ -404,12 +394,11 @@ public class HandleAttributeKeys {
       new AttributeKey<>("transformBoundsStroke1Hover", Stroke.class, null);
 
   /** Group bounds hover stroke 2. */
-  public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2_HOVER =
-      new AttributeKey<>(
-          "transformBoundsStroke2Hover",
-          Stroke.class,
-          new BasicStroke(
-              1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f, 2f}, 0f));
+  public static final AttributeKey<Stroke> GROUP_BOUNDS_STROKE_2_HOVER = new AttributeKey<>(
+      "transformBoundsStroke2Hover",
+      Stroke.class,
+      new BasicStroke(
+          1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] {2f, 2f}, 0f));
 
   // ---
   // ---

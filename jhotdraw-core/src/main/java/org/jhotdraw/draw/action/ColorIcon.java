@@ -9,8 +9,8 @@ package org.jhotdraw.draw.action;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import org.jhotdraw.util.Images;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.Images;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** ColorIcon. */
 public class ColorIcon implements javax.swing.Icon {
@@ -50,10 +50,8 @@ public class ColorIcon implements javax.swing.Icon {
     this.width = width;
     this.height = height;
     if (noColorImage == null) {
-      noColorImage =
-          Images.toBufferedImage(
-              Images.createImage(
-                  ColorIcon.class, "/org/jhotdraw/draw/action/images/attribute.color.noColor.png"));
+      noColorImage = Images.toBufferedImage(Images.createImage(
+          ColorIcon.class, "/org/jhotdraw/draw/action/images/attribute.color.noColor.png"));
     }
   }
 

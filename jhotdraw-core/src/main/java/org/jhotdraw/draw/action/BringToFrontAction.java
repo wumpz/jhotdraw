@@ -17,7 +17,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** ToFrontAction. */
 public class BringToFrontAction extends AbstractSelectedAction {
@@ -37,28 +37,27 @@ public class BringToFrontAction extends AbstractSelectedAction {
     final DrawingView view = getView();
     final List<Figure> figures = new ArrayList<>(view.getSelectedFigures());
     bringToFront(view, figures);
-    fireUndoableEditHappened(
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    fireUndoableEditHappened(new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getTextProperty(ID);
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getTextProperty(ID);
+      }
 
-          @Override
-          public void redo() throws CannotRedoException {
-            super.redo();
-            BringToFrontAction.bringToFront(view, figures);
-          }
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        BringToFrontAction.bringToFront(view, figures);
+      }
 
-          @Override
-          public void undo() throws CannotUndoException {
-            super.undo();
-            SendToBackAction.sendToBack(view, figures);
-          }
-        });
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        SendToBackAction.sendToBack(view, figures);
+      }
+    });
   }
 
   public static void bringToFront(DrawingView view, Collection<Figure> figures) {

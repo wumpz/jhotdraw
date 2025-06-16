@@ -21,7 +21,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@link Handle} associated to a {@link Connector} which allows to create a new {@link
@@ -86,14 +86,12 @@ public class ConnectorHandle extends AbstractHandle {
           getEditor()
               .getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
       Point p = view.drawingToView(createdConnection.getEndPoint());
-      g.setColor(
-          getEditor()
-              .getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR));
+      g.setColor(getEditor()
+          .getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_FILL_COLOR));
       int width = getHandlesize();
       g.fillOval(p.x - width / 2, p.y - width / 2, width, width);
-      g.setColor(
-          getEditor()
-              .getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
+      g.setColor(getEditor()
+          .getHandleAttribute(HandleAttributeKeys.CONNECTED_CONNECTOR_HANDLE_STROKE_COLOR));
       g.drawOval(p.x - width / 2, p.y - width / 2, width, width);
     }
   }
@@ -154,32 +152,29 @@ public class ConnectorHandle extends AbstractHandle {
       getConnection().updateConnection();
       view.clearSelection();
       view.addToSelection(c);
-      view.getDrawing()
-          .fireUndoableEditHappened(
-              new AbstractUndoableEdit() {
-                private static final long serialVersionUID = 1L;
+      view.getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-                @Override
-                public String getPresentationName() {
-                  ResourceBundleUtil labels =
-                      ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                  return labels.getString("edit.createConnectionFigure.text");
-                }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("edit.createConnectionFigure.text");
+        }
 
-                @Override
-                public void undo() throws CannotUndoException {
-                  super.undo();
-                  drawing.remove(c);
-                }
+        @Override
+        public void undo() throws CannotUndoException {
+          super.undo();
+          drawing.remove(c);
+        }
 
-                @Override
-                public void redo() throws CannotRedoException {
-                  super.redo();
-                  drawing.add(c);
-                  view.clearSelection();
-                  view.addToSelection(c);
-                }
-              });
+        @Override
+        public void redo() throws CannotRedoException {
+          super.redo();
+          drawing.add(c);
+          view.clearSelection();
+          view.addToSelection(c);
+        }
+      });
     } else {
       view.getDrawing().remove(getConnection());
       fireAreaInvalidated(getDrawingArea());
@@ -251,10 +246,9 @@ public class ConnectorHandle extends AbstractHandle {
         invalidArea.add(c.getDrawingArea());
       }
     }
-    connectors =
-        (connectableFigure == null)
-            ? Collections.emptyList()
-            : connectableFigure.getConnectors(prototype);
+    connectors = (connectableFigure == null)
+        ? Collections.emptyList()
+        : connectableFigure.getConnectors(prototype);
     for (Connector c : connectors) {
       if (invalidArea == null) {
         invalidArea = c.getDrawingArea();

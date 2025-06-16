@@ -7,14 +7,19 @@
  */
 package org.jhotdraw.draw.tool;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
@@ -22,9 +27,13 @@ import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
+import org.jhotdraw.draw.constrainer.CoordinateData;
+import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
+import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A {@link Tool} to create a new figure by drawing its bounds. The figure to be created is
@@ -56,7 +65,7 @@ import org.jhotdraw.util.ResourceBundleUtil;
  * {@code Figure} extends the {@code Cloneable} interface. <br>
  * Prototype: {@link Figure}; Client: {@link CreationTool}. <hr>
  */
-public class CreationTool extends AbstractTool {
+public class CreationTool extends AbstractTool implements CoordinateDataSupplier {
 
   private static final long serialVersionUID = 1L;
 
@@ -80,6 +89,10 @@ public class CreationTool extends AbstractTool {
 
   /** The created figure. */
   protected Figure createdFigure;
+
+  private boolean selectFigureAfterCreation = true;
+
+  private boolean anchorIsCenterOfBoundingBox = false;
 
   /**
    * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
@@ -111,6 +124,15 @@ public class CreationTool extends AbstractTool {
       name = labels.getString("edit.createFigure.text");
     }
     this.presentationName = name;
+  }
+
+  /**
+   * Bounding box is now constructed around anchor as center and lead as path to one edge. The main calculation is
+   * done within setFigureBounds to make more specific adaptions.
+   */
+  public CreationTool withAchorIsCenterOfBoundingBox(boolean flag) {
+    this.anchorIsCenterOfBoundingBox = flag;
+    return this;
   }
 
   /**
@@ -159,6 +181,11 @@ public class CreationTool extends AbstractTool {
     this.presentationName = name;
   }
 
+  public CreationTool withSelectFigureAfterCreation(boolean selectFigures) {
+    this.selectFigureAfterCreation = selectFigures;
+    return this;
+  }
+
   public Figure getPrototype() {
     return prototype;
   }
@@ -166,22 +193,42 @@ public class CreationTool extends AbstractTool {
   @Override
   public void activate(DrawingEditor editor) {
     super.activate(editor);
-    if (getView() != null) {
-      getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    getView().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    if (getView().getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.setCoordinateSupplier(this);
     }
   }
 
   @Override
   public void deactivate(DrawingEditor editor) {
     super.deactivate(editor);
-    if (getView() != null) {
-      getView().setCursor(Cursor.getDefaultCursor());
-    }
+    getView().setCursor(Cursor.getDefaultCursor());
     if (createdFigure != null) {
       if (createdFigure instanceof CompositeFigure) {
         ((CompositeFigure) createdFigure).layout(getView().getScaleFactor());
       }
       createdFigure = null;
+    }
+    if (getView().getConstrainer() != null
+        && getView().getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.clearCoordinateSupplier();
+    }
+  }
+
+  /**
+   * Sets the bounding box for a figure. Here it should be possible to recalculate the new bounding box to
+   * e.g. anchor is center and lead is distance center to one border point.
+   * @param figure
+   * @param anchor
+   * @param lead
+   */
+  protected void setFigureBounds(Figure figure, Point2D.Double anchor, Point2D.Double lead) {
+    if (anchorIsCenterOfBoundingBox) {
+      Point2D.Double newAnchor =
+          new Point2D.Double(anchor.x - (lead.x - anchor.x), anchor.y - (lead.y - anchor.y));
+      figure.setBounds(newAnchor, lead);
+    } else {
+      figure.setBounds(anchor, lead);
     }
   }
 
@@ -196,24 +243,52 @@ public class CreationTool extends AbstractTool {
     Point2D.Double p = constrainPoint(viewToDrawing(anchor), createdFigure);
     anchor.x = evt.getX();
     anchor.y = evt.getY();
-    createdFigure.setBounds(p, p);
-    getDrawing().add(createdFigure);
-    fireFigureCreated(createdFigure);
+    setFigureBounds(createdFigure, p, p);
+    //    getDrawing().add(createdFigure);
+    //    fireFigureCreated(createdFigure);
+    fireAreaInvalidated(createdFigure.getDrawingArea());
   }
 
   @Override
   public void mouseDragged(MouseEvent evt) {
     if (createdFigure != null) {
       Point2D.Double p = constrainPoint(new Point(evt.getX(), evt.getY()), createdFigure);
+      var areaBefore = createdFigure.getDrawingArea(getView().getScaleFactor());
       createdFigure.willChange();
-      createdFigure.setBounds(constrainPoint(new Point(anchor.x, anchor.y), createdFigure), p);
+      setFigureBounds(
+          createdFigure, constrainPoint(new Point(anchor.x, anchor.y), createdFigure), p);
       createdFigure.changed();
+      var areaAfter = createdFigure.getDrawingArea(getView().getScaleFactor());
+      areaAfter.add(areaBefore);
+      fireAreaInvalidated(areaAfter);
     }
   }
 
   @Override
+  public void draw(Graphics2D g) {
+    if (createdFigure != null) {
+      g.setColor(Color.red);
+      g.drawRect(anchor.x - 2, anchor.y - 2, 4, 4);
+
+      Graphics2D gDrawing = (Graphics2D) g.create();
+      try {
+        gDrawing.transform(getView().getDrawingToViewTransform());
+        createdFigure.draw(gDrawing);
+      } catch (Exception ex) {
+        LOG.log(Level.FINE, "unable to draw figure {0}", ex.toString());
+      } finally {
+        gDrawing.dispose();
+      }
+    }
+  }
+
+  private static final Logger LOG = Logger.getLogger(CreationTool.class.getName());
+
+  @Override
   public void mouseReleased(MouseEvent evt) {
     if (createdFigure != null) {
+      if (createdFigure instanceof AbstractAttributedFigure abstrFigure)
+        abstrFigure.setDrawing(getDrawing());
       Rectangle2D.Double bounds = createdFigure.getBounds();
       if (bounds.width == 0 && bounds.height == 0) {
         getDrawing().remove(createdFigure);
@@ -224,7 +299,8 @@ public class CreationTool extends AbstractTool {
         if (Math.abs(anchor.x - evt.getX()) < minimalSizeTreshold.width
             && Math.abs(anchor.y - evt.getY()) < minimalSizeTreshold.height) {
           createdFigure.willChange();
-          createdFigure.setBounds(
+          setFigureBounds(
+              createdFigure,
               constrainPoint(new Point(anchor.x, anchor.y), createdFigure),
               constrainPoint(
                   new Point(
@@ -236,33 +312,39 @@ public class CreationTool extends AbstractTool {
         if (createdFigure instanceof CompositeFigure) {
           ((CompositeFigure) createdFigure).layout(getView().getScaleFactor());
         }
+
+        processCreatedFigureBeforeAddingToDocument(createdFigure);
+
         final Figure addedFigure = createdFigure;
         final Drawing addedDrawing = getDrawing();
-        getDrawing()
-            .fireUndoableEditHappened(
-                new AbstractUndoableEdit() {
-                  private static final long serialVersionUID = 1L;
 
-                  @Override
-                  public String getPresentationName() {
-                    return presentationName;
-                  }
+        // added to drawing
+        getDrawing().add(createdFigure);
+        fireFigureCreated(createdFigure);
 
-                  @Override
-                  public void undo() throws CannotUndoException {
-                    super.undo();
-                    addedDrawing.remove(addedFigure);
-                  }
+        getDrawing().fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-                  @Override
-                  public void redo() throws CannotRedoException {
-                    super.redo();
-                    addedDrawing.add(addedFigure);
-                  }
-                });
-        Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
-        r.add(evt.getX(), evt.getY());
-        maybeFireBoundsInvalidated(r);
+          @Override
+          public String getPresentationName() {
+            return presentationName;
+          }
+
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            addedDrawing.remove(addedFigure);
+          }
+
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            addedDrawing.add(addedFigure);
+          }
+        });
+        //        Rectangle r = new Rectangle(anchor.x, anchor.y, 0, 0);
+        //        r.add(evt.getX(), evt.getY());
+        //        maybeFireBoundsInvalidated(r);
         creationFinished(createdFigure);
         createdFigure = null;
       }
@@ -278,9 +360,7 @@ public class CreationTool extends AbstractTool {
     Figure f = prototype.clone();
     getEditor().applyDefaultAttributesTo(f);
     if (prototypeAttributes != null) {
-      for (Map.Entry<AttributeKey<?>, Object> entry : prototypeAttributes.entrySet()) {
-        f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-      }
+      f.attr().setAttributes(prototypeAttributes);
     }
     return f;
   }
@@ -298,7 +378,7 @@ public class CreationTool extends AbstractTool {
    * has been created. The implementation of this class just invokes fireToolDone.
    */
   protected void creationFinished(Figure createdFigure) {
-    if (createdFigure.isSelectable()) {
+    if (createdFigure.isSelectable() && selectFigureAfterCreation) {
       getView().addToSelection(createdFigure);
     }
     if (isToolDoneAfterCreation()) {
@@ -327,5 +407,21 @@ public class CreationTool extends AbstractTool {
     } else {
       view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
     }
+  }
+
+  @Override
+  public CoordinateData getConstrainerCoordinates(int before, int after) {
+    if (this.createdFigure == null) {
+      return null;
+    }
+    var b = this.createdFigure.getBounds();
+
+    List<Point2D.Double> list = new ArrayList<>();
+    list.add(new Point2D.Double(b.x, b.y));
+    if (b.width != 0 || b.height != 0) {
+      list.add(new Point2D.Double(b.x + b.width, b.y + b.height));
+    }
+
+    return new CoordinateData(list.toArray(Point2D.Double[]::new), list.size());
   }
 }

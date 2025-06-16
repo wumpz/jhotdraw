@@ -34,7 +34,7 @@ import org.jhotdraw.draw.AttributeKeys;
 /** implementation of Attribute storage and processing. */
 public final class Attributes {
 
-  private HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
+  private final HashMap<AttributeKey<?>, Object> attributes = new HashMap<>();
 
   /**
    * Forbidden attributes can't be put by the put() operation. They can only be changed by put().
@@ -83,9 +83,18 @@ public final class Attributes {
     return forbiddenAttributes == null || !forbiddenAttributes.contains(key);
   }
 
+  /**
+   * Copy attribute values from a map of attribute values. This detects also the use of
+   * UserData sub maps and copy only those values and creates a new instance of UserData itself.
+   * @param map
+   */
   public void setAttributes(Map<AttributeKey<?>, Object> map) {
     for (Map.Entry<AttributeKey<?>, Object> entry : map.entrySet()) {
-      set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+      if (entry.getValue() instanceof AttributeKeys.UserData ud) {
+        getAndInclude(AttributeKeys.USER_DATA).data().putAll(ud.data());
+      } else {
+        set((AttributeKey<Object>) entry.getKey(), entry.getValue());
+      }
     }
   }
 
@@ -100,12 +109,12 @@ public final class Attributes {
   public Object getAttributesRestoreData() {
     List<Attributes> dependent = DEPENDENT.get();
     if (dependent.isEmpty()) {
-      return getAttributes();
+      return new HashMap<>(attributes);
     } else {
       List<Map<AttributeKey<?>, Object>> list = new ArrayList<>();
-      list.add(getAttributes());
+      list.add(new HashMap<>(attributes));
       for (Attributes attr : dependent) {
-        list.add(attr.getAttributes());
+        list.add(new HashMap<>(attr.getAttributes()));
       }
       return list;
     }
@@ -163,6 +172,17 @@ public final class Attributes {
    */
   public <T> T get(AttributeKey<T> key) {
     return key.get(attributes);
+  }
+
+  /**
+   * Gets an attribute from the Figure. Includes this attribute, if it was not there.
+   *
+   * @see AttributeKey#get
+   * @return Returns the attribute value. If the Figure does not have an attribute with the
+   *     specified key, returns key.getDefaultValue().
+   */
+  public <T> T getAndInclude(AttributeKey<T> key) {
+    return key.getAndInclude(attributes);
   }
 
   public static AttributeKey<?> getAttributeKey(String name) {

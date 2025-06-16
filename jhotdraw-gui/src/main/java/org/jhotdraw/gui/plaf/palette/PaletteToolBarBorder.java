@@ -20,10 +20,9 @@ public class PaletteToolBarBorder extends AbstractBorder implements SwingConstan
   private static final Color[] ENABLED_STOP_COLORS =
       new Color[] {new Color(0xf8f8f8), new Color(0xc8c8c8), new Color(0xf8f8f8)};
   private static final float[] SELECTED_STOPS = new float[] {0f, 0.1f, 0.9f, 1f};
-  private static final Color[] SELECTED_STOP_COLORS =
-      new Color[] {
-        new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)
-      };
+  private static final Color[] SELECTED_STOP_COLORS = new Color[] {
+    new Color(0x666666), new Color(0xcccccc), new Color(0x999999), new Color(0xb1b1b1)
+  };
   private static final Color BRIGHT = new Color(0x999999, true);
   private static final Color DARK = new Color(0x8c8c8c);
   private static final Color DIVIDER = new Color(0x9f9f9f);
@@ -61,13 +60,12 @@ public class PaletteToolBarBorder extends AbstractBorder implements SwingConstan
             Color[] stopColors = ENABLED_STOP_COLORS;
             g.setColor(new Color(borderColor, true));
             g.drawRect(barX, barY, barW - 1, barH - 1);
-            LinearGradientPaint lgp =
-                new LinearGradientPaint(
-                    new Point2D.Float(1, 1),
-                    new Point2D.Float(19, 1),
-                    stops,
-                    stopColors,
-                    MultipleGradientPaint.CycleMethod.REPEAT);
+            LinearGradientPaint lgp = new LinearGradientPaint(
+                new Point2D.Float(1, 1),
+                new Point2D.Float(19, 1),
+                stops,
+                stopColors,
+                MultipleGradientPaint.CycleMethod.REPEAT);
             g.setPaint(lgp);
             g.fillRect(barX + 1, barX + 1, barW - 2, barH - 2);
             // paint the icon

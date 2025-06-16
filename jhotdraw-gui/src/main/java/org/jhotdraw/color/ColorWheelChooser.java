@@ -32,13 +32,12 @@ public class ColorWheelChooser extends AbstractColorChooserPanel implements UIRe
     add(colorWheel);
     ccModel.configureSlider(2, brightnessSlider);
     colorWheel.setModel(ccModel);
-    ccModel.addChangeListener(
-        new ChangeListener() {
-          @Override
-          public void stateChanged(ChangeEvent evt) {
-            setColorToModel(ccModel.getColor());
-          }
-        });
+    ccModel.addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent evt) {
+        setColorToModel(ccModel.getColor());
+      }
+    });
   }
 
   /**

@@ -10,7 +10,7 @@ package org.jhotdraw.draw.action;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.GroupFigure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** UngroupAction. */
 public class UngroupAction extends GroupAction {

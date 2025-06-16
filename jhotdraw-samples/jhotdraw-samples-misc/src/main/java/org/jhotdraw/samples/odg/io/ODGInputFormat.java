@@ -24,8 +24,6 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.io.StreamPosTokenizer;
 import org.jhotdraw.samples.odg.figures.ODGBezierFigure;
 import org.jhotdraw.samples.odg.figures.ODGEllipseFigure;
 import org.jhotdraw.samples.odg.figures.ODGFigure;
@@ -33,6 +31,8 @@ import org.jhotdraw.samples.odg.figures.ODGGroupFigure;
 import org.jhotdraw.samples.odg.figures.ODGPathFigure;
 import org.jhotdraw.samples.odg.figures.ODGRectFigure;
 import org.jhotdraw.samples.odg.geom.EnhancedPath;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.io.StreamPosTokenizer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -69,10 +69,8 @@ public class ODGInputFormat implements InputFormat {
   @Override
   public void read(Transferable t, Drawing drawing, boolean replace)
       throws UnsupportedFlavorException, IOException {
-    InputStream in =
-        (InputStream)
-            t.getTransferData(
-                new DataFlavor("application/vnd.oasis.opendocument.graphics", "Image SVG"));
+    InputStream in = (InputStream) t.getTransferData(
+        new DataFlavor("application/vnd.oasis.opendocument.graphics", "Image SVG"));
     try {
       read(in, drawing, replace);
     } finally {
@@ -399,14 +397,13 @@ public class ODGInputFormat implements InputFormat {
     String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
     Map<AttributeKey<?>, Object> a = styles.getAttributes(styleName, "graphic");
 
-    Rectangle2D.Double figureBounds =
-        new Rectangle2D.Double(
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x")).orElse("0"), 1),
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y")).orElse("0"), 1),
-            toLength(
-                Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "width")).orElse("0"), 1),
-            toLength(
-                Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "height")).orElse("0"), 1));
+    Rectangle2D.Double figureBounds = new Rectangle2D.Double(
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x")).orElse("0"), 1),
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y")).orElse("0"), 1),
+        toLength(
+            Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "width")).orElse("0"), 1),
+        toLength(
+            Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "height")).orElse("0"), 1));
 
     ODGFigure figure = null;
     NodeList list = elem.getElementsByTagNameNS(DRAWING_NAMESPACE, "enhanced-geometry");
@@ -436,8 +433,8 @@ public class ODGInputFormat implements InputFormat {
     String type =
         Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "type")).orElse("non-primitive");
 
-    String pathAttr =
-        Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "enhanced-path")).orElse(null);
+    String pathAttr = Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "enhanced-path"))
+        .orElse(null);
     EnhancedPath path = pathAttr != null ? toEnhancedPath(pathAttr) : null;
 
     /* The svg:viewBox attribute establishes a user coordinate system inside
@@ -449,16 +446,14 @@ public class ODGInputFormat implements InputFormat {
      * spaces, which define the left, top, right, and bottom dimensions
      * of the user coordinate system.
      */
-    String[] viewBoxValues =
-        toWSOrCommaSeparatedArray(
-            Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "viewBox"))
-                .orElse("0 0 100 100"));
-    Rectangle2D.Double viewBox =
-        new Rectangle2D.Double(
-            toNumber(viewBoxValues[0]),
-            toNumber(viewBoxValues[1]),
-            toNumber(viewBoxValues[2]),
-            toNumber(viewBoxValues[3]));
+    String[] viewBoxValues = toWSOrCommaSeparatedArray(
+        Optional.ofNullable(elem.getAttributeNS(DRAWING_NAMESPACE, "viewBox"))
+            .orElse("0 0 100 100"));
+    Rectangle2D.Double viewBox = new Rectangle2D.Double(
+        toNumber(viewBoxValues[0]),
+        toNumber(viewBoxValues[1]),
+        toNumber(viewBoxValues[2]),
+        toNumber(viewBoxValues[3]));
     AffineTransform viewTx = new AffineTransform();
     if (!viewBox.isEmpty()) {
       viewTx.scale(figureBounds.width / viewBox.width, figureBounds.height / viewBox.height);
@@ -633,14 +628,12 @@ public class ODGInputFormat implements InputFormat {
    * Text – see section 9.2.17.
    */
   private ODGFigure readLineElement(Element elem) throws IOException {
-    Point2D.Double p1 =
-        new Point2D.Double(
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x1")).orElse("0"), 1),
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y1")).orElse("0"), 1));
-    Point2D.Double p2 =
-        new Point2D.Double(
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x2")).orElse("0"), 1),
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y2")).orElse("0"), 1));
+    Point2D.Double p1 = new Point2D.Double(
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x1")).orElse("0"), 1),
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y1")).orElse("0"), 1));
+    Point2D.Double p2 = new Point2D.Double(
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x2")).orElse("0"), 1),
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y2")).orElse("0"), 1));
 
     String styleName = elem.getAttributeNS(DRAWING_NAMESPACE, "style-name");
     Map<AttributeKey<?>, Object> a = styles.getAttributes(styleName, "graphic");
@@ -1063,11 +1056,10 @@ public class ODGInputFormat implements InputFormat {
           path.quadTo(x1, y1, x, y);
           break;
         default:
-          LOG.fine(
-              "ODGInputFormat.toEnhancedPath aborting after illegal path command: "
-                  + command
-                  + " found in path "
-                  + str);
+          LOG.fine("ODGInputFormat.toEnhancedPath aborting after illegal path command: "
+              + command
+              + " found in path "
+              + str);
 
           break Commands;
       }
@@ -1121,14 +1113,13 @@ public class ODGInputFormat implements InputFormat {
 
   private AffineTransform readViewBoxTransform(Element elem) throws IOException {
     AffineTransform tx = new AffineTransform();
-    Rectangle2D.Double figureBounds =
-        new Rectangle2D.Double(
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x")).orElse("0"), 1),
-            toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y")).orElse("0"), 1),
-            toLength(
-                Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "width")).orElse("0"), 1),
-            toLength(
-                Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "height")).orElse("0"), 1));
+    Rectangle2D.Double figureBounds = new Rectangle2D.Double(
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "x")).orElse("0"), 1),
+        toLength(Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "y")).orElse("0"), 1),
+        toLength(
+            Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "width")).orElse("0"), 1),
+        toLength(
+            Optional.ofNullable(elem.getAttributeNS(SVG_NAMESPACE, "height")).orElse("0"), 1));
 
     tx.translate(figureBounds.x, figureBounds.y);
 
@@ -1147,12 +1138,11 @@ public class ODGInputFormat implements InputFormat {
     String[] viewBoxValues =
         toWSOrCommaSeparatedArray(elem.getAttributeNS(SVG_NAMESPACE, "viewBox"));
     if (viewBoxValues.length == 4) {
-      Rectangle2D.Double viewBox =
-          new Rectangle2D.Double(
-              toNumber(viewBoxValues[0]),
-              toNumber(viewBoxValues[1]),
-              toNumber(viewBoxValues[2]),
-              toNumber(viewBoxValues[3]));
+      Rectangle2D.Double viewBox = new Rectangle2D.Double(
+          toNumber(viewBoxValues[0]),
+          toNumber(viewBoxValues[1]),
+          toNumber(viewBoxValues[2]),
+          toNumber(viewBoxValues[3]));
       if (!viewBox.isEmpty() && !figureBounds.isEmpty()) {
         tx.scale(figureBounds.width / viewBox.width, figureBounds.height / viewBox.height);
         tx.translate(-viewBox.x, -viewBox.y);
@@ -1212,15 +1202,14 @@ public class ODGInputFormat implements InputFormat {
           double[] m = new double[6];
           for (int i = 0; i < 6; i++) {
             if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-              throw new IOException(
-                  "Matrix value "
-                      + i
-                      + " not found in transform "
-                      + str
-                      + " token:"
-                      + tt.ttype
-                      + " "
-                      + tt.sval);
+              throw new IOException("Matrix value "
+                  + i
+                  + " not found in transform "
+                  + str
+                  + " token:"
+                  + tt.ttype
+                  + " "
+                  + tt.sval);
             }
             m[i] = tt.nval;
           }
@@ -1371,19 +1360,17 @@ public class ODGInputFormat implements InputFormat {
           path = new BezierPath();
 
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'm' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'm' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'm' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'm' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.moveTo(p.x, p.y);
@@ -1432,19 +1419,17 @@ public class ODGInputFormat implements InputFormat {
         case 'l':
           // relative-lineto dx dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'l' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'l' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'l' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'l' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.lineTo(p.x, p.y);
@@ -1465,11 +1450,10 @@ public class ODGInputFormat implements InputFormat {
         case 'h':
           // relative-horizontal-lineto dx
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'h' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'h' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           path.lineTo(p.x, p.y);
@@ -1490,11 +1474,10 @@ public class ODGInputFormat implements InputFormat {
         case 'v':
           // relative-vertical-lineto dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'v' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'v' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.lineTo(p.x, p.y);
@@ -1504,35 +1487,31 @@ public class ODGInputFormat implements InputFormat {
         case 'C':
           // absolute-curveto x1 y1 x2 y2 x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x1 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x1 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y1 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y1 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x2 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x2 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y2 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y2 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1552,51 +1531,45 @@ public class ODGInputFormat implements InputFormat {
         case 'c':
           // relative-curveto dx1 dy1 dx2 dy2 dx dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx1 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx1 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy1 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy1 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx2 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx2 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy2 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy2 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1609,19 +1582,17 @@ public class ODGInputFormat implements InputFormat {
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x2 coordinate missing for 'S' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x2 coordinate missing for 'S' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y2 coordinate missing for 'S' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y2 coordinate missing for 'S' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1644,35 +1615,31 @@ public class ODGInputFormat implements InputFormat {
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx2 coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx2 coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy2 coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy2 coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1682,19 +1649,17 @@ public class ODGInputFormat implements InputFormat {
         case 'Q':
           // absolute-quadto x1 y1 x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x1 coordinate missing for 'Q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x1 coordinate missing for 'Q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y1 coordinate missing for 'Q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y1 coordinate missing for 'Q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1715,35 +1680,31 @@ public class ODGInputFormat implements InputFormat {
         case 'q':
           // relative-quadto dx1 dy1 dx dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx1 coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx1 coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy1 coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy1 coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1776,19 +1737,17 @@ public class ODGInputFormat implements InputFormat {
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 't' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 't' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 't' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 't' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1799,37 +1758,33 @@ public class ODGInputFormat implements InputFormat {
         case 'A':
           // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "rx coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("rx coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           // If rX or rY have negative signs, these are dropped;
           // the absolute value is used instead.
           double rx = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "ry coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("ry coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           double ry = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x-axis-rotation missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x-axis-rotation missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           double xAxisRotation = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "large-arc-flag missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("large-arc-flag missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           boolean largeArcFlag = tt.nval != 0;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1856,37 +1811,33 @@ public class ODGInputFormat implements InputFormat {
         case 'a':
           // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "rx coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("rx coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           // If rX or rY have negative signs, these are dropped;
           // the absolute value is used instead.
           rx = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "ry coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("ry coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           ry = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x-axis-rotation missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x-axis-rotation missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           xAxisRotation = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "large-arc-flag missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("large-arc-flag missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           largeArcFlag = tt.nval != 0;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1910,11 +1861,10 @@ public class ODGInputFormat implements InputFormat {
           nextCommand = 'a';
           break;
         default:
-          LOG.fine(
-              "SVGInputFormat.toPath aborting after illegal path command: "
-                  + command
-                  + " found in path "
-                  + str);
+          LOG.fine("SVGInputFormat.toPath aborting after illegal path command: "
+              + command
+              + " found in path "
+              + str);
           break Commands;
           // throw new IOException("Illegal command: "+command);
       }

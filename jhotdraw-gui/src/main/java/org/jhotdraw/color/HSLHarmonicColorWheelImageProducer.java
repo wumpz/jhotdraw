@@ -138,10 +138,9 @@ public class HSLHarmonicColorWheelImageProducer extends PolarColorWheelImageProd
     float radius = Math.min(w, h) / 2f;
     brightness = Math.max(0f, Math.min(1f, brightness));
     Point p;
-    p =
-        new Point(
-            w / 2 + (int) ((radius - radius * brightness) * Math.cos(hue * Math.PI * 2d)),
-            h / 2 - (int) ((radius - radius * brightness) * Math.sin(hue * Math.PI * 2d)));
+    p = new Point(
+        w / 2 + (int) ((radius - radius * brightness) * Math.cos(hue * Math.PI * 2d)),
+        h / 2 - (int) ((radius - radius * brightness) * Math.sin(hue * Math.PI * 2d)));
     return p;
   }
 

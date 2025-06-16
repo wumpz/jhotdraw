@@ -8,7 +8,7 @@
 package org.jhotdraw.draw.figure;
 
 import org.jhotdraw.draw.layouter.VerticalLayouter;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /** A ListFigure consists of a list of Figures and a RectangleFigure. */
 public class ListFigure extends GraphicalCompositeFigure {

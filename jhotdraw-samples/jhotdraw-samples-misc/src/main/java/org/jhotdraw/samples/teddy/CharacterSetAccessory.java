@@ -11,7 +11,7 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.prefs.*;
 import javax.swing.*;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /** CharacterSetAccessory. */
 public class CharacterSetAccessory extends javax.swing.JPanel {
@@ -109,59 +109,53 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
     lineSepCombo = new javax.swing.JComboBox();
     setBorder(javax.swing.BorderFactory.createTitledBorder(""));
     charSetLabel.setText("Character Set:");
-    charSetCombo.setModel(
-        new javax.swing.DefaultComboBoxModel(
-            new String[] {"Item 1", "Item 2", "Item 3", "Item 4"}));
+    charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(
+        new String[] {"Item 1", "Item 2", "Item 3", "Item 4"}));
     lineSepLabel.setText("Line Separator:");
     lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"CR", "LF", "CR LF"}));
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
-    layout.setHorizontalGroup(
-        layout
-            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(
-                layout
-                    .createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(charSetLabel)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(
-                        charSetCombo,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(lineSepLabel)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(
-                        lineSepCombo,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()));
-    layout.setVerticalGroup(
-        layout
-            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(
-                layout
-                    .createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(charSetLabel)
-                            .addComponent(
-                                charSetCombo,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lineSepLabel)
-                            .addComponent(
-                                lineSepCombo,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap()));
+    layout.setHorizontalGroup(layout
+        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout
+            .createSequentialGroup()
+            .addContainerGap()
+            .addComponent(charSetLabel)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(
+                charSetCombo,
+                javax.swing.GroupLayout.PREFERRED_SIZE,
+                javax.swing.GroupLayout.DEFAULT_SIZE,
+                javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(lineSepLabel)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(
+                lineSepCombo,
+                javax.swing.GroupLayout.PREFERRED_SIZE,
+                javax.swing.GroupLayout.DEFAULT_SIZE,
+                javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap()));
+    layout.setVerticalGroup(layout
+        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout
+            .createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(charSetLabel)
+                .addComponent(
+                    charSetCombo,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lineSepLabel)
+                .addComponent(
+                    lineSepCombo,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap()));
   } // </editor-fold>//GEN-END:initComponents
 
   private void initComponentsWin() {
@@ -171,44 +165,41 @@ public class CharacterSetAccessory extends javax.swing.JPanel {
     lineSepCombo = new javax.swing.JComboBox();
     setBorder(javax.swing.BorderFactory.createTitledBorder(""));
     charSetLabel.setText("Character Set:");
-    charSetCombo.setModel(
-        new javax.swing.DefaultComboBoxModel(
-            new String[] {"Item 1", "Item 2", "Item 3", "Item 4"}));
+    charSetCombo.setModel(new javax.swing.DefaultComboBoxModel(
+        new String[] {"Item 1", "Item 2", "Item 3", "Item 4"}));
     lineSepLabel.setText("Line Separator:");
     lineSepCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"CR", "LF", "CR LF"}));
     GroupLayout layout = new GroupLayout(this);
     this.setLayout(layout);
-    layout.setHorizontalGroup(
-        layout
-            .createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(charSetLabel)
-            .addComponent(
-                charSetCombo,
-                GroupLayout.PREFERRED_SIZE,
-                GroupLayout.DEFAULT_SIZE,
-                GroupLayout.PREFERRED_SIZE)
-            .addComponent(lineSepLabel)
-            .addComponent(
-                lineSepCombo,
-                GroupLayout.PREFERRED_SIZE,
-                GroupLayout.DEFAULT_SIZE,
-                GroupLayout.PREFERRED_SIZE));
-    layout.setVerticalGroup(
-        layout
-            .createSequentialGroup()
-            .addComponent(charSetLabel)
-            .addComponent(
-                charSetCombo,
-                GroupLayout.PREFERRED_SIZE,
-                GroupLayout.DEFAULT_SIZE,
-                GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(lineSepLabel)
-            .addComponent(
-                lineSepCombo,
-                GroupLayout.PREFERRED_SIZE,
-                GroupLayout.DEFAULT_SIZE,
-                GroupLayout.PREFERRED_SIZE));
+    layout.setHorizontalGroup(layout
+        .createParallelGroup(GroupLayout.Alignment.LEADING)
+        .addComponent(charSetLabel)
+        .addComponent(
+            charSetCombo,
+            GroupLayout.PREFERRED_SIZE,
+            GroupLayout.DEFAULT_SIZE,
+            GroupLayout.PREFERRED_SIZE)
+        .addComponent(lineSepLabel)
+        .addComponent(
+            lineSepCombo,
+            GroupLayout.PREFERRED_SIZE,
+            GroupLayout.DEFAULT_SIZE,
+            GroupLayout.PREFERRED_SIZE));
+    layout.setVerticalGroup(layout
+        .createSequentialGroup()
+        .addComponent(charSetLabel)
+        .addComponent(
+            charSetCombo,
+            GroupLayout.PREFERRED_SIZE,
+            GroupLayout.DEFAULT_SIZE,
+            GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+        .addComponent(lineSepLabel)
+        .addComponent(
+            lineSepCombo,
+            GroupLayout.PREFERRED_SIZE,
+            GroupLayout.DEFAULT_SIZE,
+            GroupLayout.PREFERRED_SIZE));
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

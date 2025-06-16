@@ -54,14 +54,13 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
         componentModels[i].setMaximum((int) (colorSpace.getMaxValue(i) * 100f));
       }
       final int componentIndex = i;
-      componentModels[i].addChangeListener(
-          new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-              fireColorChanged(componentIndex);
-              fireStateChanged();
-            }
-          });
+      componentModels[i].addChangeListener(new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+          fireColorChanged(componentIndex);
+          fireStateChanged();
+        }
+      });
     }
   }
 
@@ -145,11 +144,10 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     float[] c = new float[getComponentCount()];
     int i = 0;
     for (DefaultBoundedRangeModel brm : componentModels) {
-      c[i] =
-          (brm.getValue() - brm.getMinimum())
-                  / (float) (brm.getMaximum() - brm.getMinimum())
-                  * (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i))
-              + colorSpace.getMinValue(i);
+      c[i] = (brm.getValue() - brm.getMinimum())
+              / (float) (brm.getMaximum() - brm.getMinimum())
+              * (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i))
+          + colorSpace.getMinValue(i);
       i++;
     }
     try {
@@ -168,10 +166,9 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     float[] c = new float[Math.max(3, getComponentCount())];
     int j = 0;
     for (DefaultBoundedRangeModel brm : componentModels) {
-      c[j] =
-          ((brm.getValue() - brm.getMinimum()) / (float) (brm.getMaximum() - brm.getMinimum()))
-                  * (colorSpace.getMaxValue(j) - colorSpace.getMinValue(j))
-              + colorSpace.getMinValue(j);
+      c[j] = ((brm.getValue() - brm.getMinimum()) / (float) (brm.getMaximum() - brm.getMinimum()))
+              * (colorSpace.getMaxValue(j) - colorSpace.getMinValue(j))
+          + colorSpace.getMinValue(j);
       j++;
     }
     c[i] = componentValue;
@@ -181,12 +178,10 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
   @Override
   public void setComponent(int i, float newValue) {
     BoundedRangeModel brm = componentModels[i];
-    brm.setValue(
-        (int)
-                (((newValue - colorSpace.getMinValue(i))
-                        / (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i)))
-                    * (brm.getMaximum() - brm.getMinimum()))
-            + brm.getMinimum());
+    brm.setValue((int) (((newValue - colorSpace.getMinValue(i))
+                / (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i)))
+            * (brm.getMaximum() - brm.getMinimum()))
+        + brm.getMinimum());
   }
 
   @Override
@@ -203,12 +198,10 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     float[] c = ColorUtil.fromColor(colorSpace, newValue);
     int i = 0;
     for (DefaultBoundedRangeModel brm : componentModels) {
-      brm.setValue(
-          (int)
-              (((c[i] - colorSpace.getMinValue(i))
-                          / (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i)))
-                      * (brm.getMaximum() - brm.getMinimum())
-                  + brm.getMinimum()));
+      brm.setValue((int) (((c[i] - colorSpace.getMinValue(i))
+                  / (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i)))
+              * (brm.getMaximum() - brm.getMinimum())
+          + brm.getMinimum()));
       i++;
     }
   }
@@ -218,11 +211,10 @@ public class DefaultColorSliderModel extends AbstractColorSlidersModel {
     float[] c = new float[getComponentCount()];
     for (int i = 0; i < c.length; i++) {
       BoundedRangeModel brm = componentModels[i];
-      c[i] =
-          (brm.getValue() - brm.getMinimum())
-                  / (float) (brm.getMaximum() - brm.getMinimum())
-                  * (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i))
-              + colorSpace.getMinValue(i);
+      c[i] = (brm.getValue() - brm.getMinimum())
+              / (float) (brm.getMaximum() - brm.getMinimum())
+              * (colorSpace.getMaxValue(i) - colorSpace.getMinValue(i))
+          + colorSpace.getMinValue(i);
     }
     return c;
   }

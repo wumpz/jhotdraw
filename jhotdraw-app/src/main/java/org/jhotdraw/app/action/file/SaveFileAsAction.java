@@ -9,7 +9,7 @@ package org.jhotdraw.app.action.file;
 
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Presents an {@code URIChooser} and then saves the active view to the specified location.

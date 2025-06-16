@@ -79,10 +79,10 @@ import org.jhotdraw.app.action.file.PrintFileAction;
 import org.jhotdraw.app.action.file.SaveFileAction;
 import org.jhotdraw.app.action.file.SaveFileAsAction;
 import org.jhotdraw.gui.JMDIDesktopPane;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.ActionUtil;
-import org.jhotdraw.util.ReversedList;
-import org.jhotdraw.util.prefs.PreferencesUtil;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.ActionUtil;
+import org.jhotdraw.utils.util.ReversedList;
+import org.jhotdraw.utils.util.prefs.PreferencesUtil;
 
 /**
  * {@code MDIApplication} handles the lifecycle of multiple {@link View}s using a Windows multiple
@@ -186,9 +186,8 @@ public class MDIApplication extends AbstractApplication {
   public void init() {
     super.init();
     initLookAndFeel();
-    prefs =
-        PreferencesUtil.userNodeForPackage(
-            (getModel() == null) ? getClass() : getModel().getClass());
+    prefs = PreferencesUtil.userNodeForPackage(
+        (getModel() == null) ? getClass() : getModel().getClass());
     initLabels();
     parentFrame = new JFrame(getName());
     parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -200,15 +199,14 @@ public class MDIApplication extends AbstractApplication {
     toolBarActions = new LinkedList<>();
     setActionMap(createModelActionMap(model));
     parentFrame.getContentPane().add(wrapDesktopPane(scrollPane, toolBarActions));
-    parentFrame.addWindowListener(
-        new WindowAdapter() {
-          @Override
-          public void windowClosing(final WindowEvent evt) {
-            getAction(null, ExitAction.ID)
-                .actionPerformed(
-                    new ActionEvent(parentFrame, ActionEvent.ACTION_PERFORMED, "windowClosing"));
-          }
-        });
+    parentFrame.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(final WindowEvent evt) {
+        getAction(null, ExitAction.ID)
+            .actionPerformed(
+                new ActionEvent(parentFrame, ActionEvent.ACTION_PERFORMED, "windowClosing"));
+      }
+    });
     parentFrame.setJMenuBar(createMenuBar(null));
     PreferencesUtil.installFramePrefsHandler(prefs, "parentFrame", parentFrame);
     parentFrame.setVisible(true);
@@ -303,12 +301,11 @@ public class MDIApplication extends AbstractApplication {
                   .getParent()
                   .getLocation()
                   .equals(loc)) {
-            Point offset =
-                SwingUtilities.convertPoint(
-                    SwingUtilities.getRootPane(aView.getComponent()),
-                    0,
-                    0,
-                    SwingUtilities.getRootPane(aView.getComponent()).getParent());
+            Point offset = SwingUtilities.convertPoint(
+                SwingUtilities.getRootPane(aView.getComponent()),
+                0,
+                0,
+                SwingUtilities.getRootPane(aView.getComponent()).getParent());
             loc.x += Math.max(offset.x, offset.y);
             loc.y += Math.max(offset.x, offset.y);
             moved = true;
@@ -318,49 +315,45 @@ public class MDIApplication extends AbstractApplication {
       } while (moved);
       f.setLocation(loc);
       // paletteHandler.add(f, v);
-      f.addInternalFrameListener(
-          new InternalFrameAdapter() {
-            @Override
-            public void internalFrameClosing(final InternalFrameEvent evt) {
-              getAction(v, CloseFileAction.ID)
-                  .actionPerformed(
-                      new ActionEvent(f, ActionEvent.ACTION_PERFORMED, "windowClosing"));
-            }
+      f.addInternalFrameListener(new InternalFrameAdapter() {
+        @Override
+        public void internalFrameClosing(final InternalFrameEvent evt) {
+          getAction(v, CloseFileAction.ID)
+              .actionPerformed(new ActionEvent(f, ActionEvent.ACTION_PERFORMED, "windowClosing"));
+        }
 
-            @Override
-            public void internalFrameClosed(final InternalFrameEvent evt) {
-              v.stop();
-            }
-          });
-      v.addPropertyChangeListener(
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              String name = evt.getPropertyName();
-              if (((name == null && View.HAS_UNSAVED_CHANGES_PROPERTY == null)
-                      || (name != null && name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)))
-                  || ((name == null && View.URI_PROPERTY == null)
-                      || (name != null && name.equals(View.URI_PROPERTY)))) {
-                updateViewTitle(v, f);
+        @Override
+        public void internalFrameClosed(final InternalFrameEvent evt) {
+          v.stop();
+        }
+      });
+      v.addPropertyChangeListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          String name = evt.getPropertyName();
+          if (((name == null && View.HAS_UNSAVED_CHANGES_PROPERTY == null)
+                  || (name != null && name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)))
+              || ((name == null && View.URI_PROPERTY == null)
+                  || (name != null && name.equals(View.URI_PROPERTY)))) {
+            updateViewTitle(v, f);
+          }
+        }
+      });
+      f.addPropertyChangeListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          String name = evt.getPropertyName();
+          if ("selected".equals(name)) {
+            if (evt.getNewValue().equals(Boolean.TRUE)) {
+              setActiveView(v);
+            } else {
+              if (v == getActiveView()) {
+                setActiveView(null);
               }
             }
-          });
-      f.addPropertyChangeListener(
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              String name = evt.getPropertyName();
-              if ("selected".equals(name)) {
-                if (evt.getNewValue().equals(Boolean.TRUE)) {
-                  setActiveView(v);
-                } else {
-                  if (v == getActiveView()) {
-                    setActiveView(null);
-                  }
-                }
-              }
-            }
-          });
+          }
+        }
+      });
       // f.setJMenuBar(createMenuBar(v));
       f.getContentPane().add(v.getComponent());
       f.setVisible(true);
@@ -386,7 +379,8 @@ public class MDIApplication extends AbstractApplication {
   @Override
   public void hide(View v) {
     if (v.isShowing()) {
-      JInternalFrame f = (JInternalFrame) SwingUtilities.getRootPane(v.getComponent()).getParent();
+      JInternalFrame f =
+          (JInternalFrame) SwingUtilities.getRootPane(v.getComponent()).getParent();
       if (getActiveView() == v) {
         setActiveView(null);
       }

@@ -22,22 +22,21 @@ public class FontChooserMain extends javax.swing.JPanel {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
-              UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Throwable t) {
-              // allow empty
-            }
-            JFrame f = new JFrame("FontChooser");
-            f.add(new FontChooserMain());
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.pack();
-            f.setVisible(true);
-          }
-        });
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Throwable t) {
+          // allow empty
+        }
+        JFrame f = new JFrame("FontChooser");
+        f.add(new FontChooserMain());
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.pack();
+        f.setVisible(true);
+      }
+    });
   }
 
   /**

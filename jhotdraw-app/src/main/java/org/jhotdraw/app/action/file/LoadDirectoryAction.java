@@ -10,7 +10,7 @@ package org.jhotdraw.app.action.file;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.api.gui.URIChooser;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Les the user save unsaved changes of the active view, then presents an {@code URIChooser} and

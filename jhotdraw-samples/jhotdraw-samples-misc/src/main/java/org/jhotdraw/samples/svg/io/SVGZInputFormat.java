@@ -25,10 +25,9 @@ public class SVGZInputFormat extends SVGInputFormat {
 
   @Override
   public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
-    BufferedInputStream bin =
-        (in instanceof BufferedInputStream)
-            ? (BufferedInputStream) in
-            : new BufferedInputStream(in);
+    BufferedInputStream bin = (in instanceof BufferedInputStream)
+        ? (BufferedInputStream) in
+        : new BufferedInputStream(in);
     bin.mark(2);
     int magic = (bin.read() & 0xff) | ((bin.read() & 0xff) << 8);
     bin.reset();

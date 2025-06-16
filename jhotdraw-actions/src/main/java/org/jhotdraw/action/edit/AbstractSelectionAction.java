@@ -13,7 +13,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import org.jhotdraw.api.gui.EditableComponent;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /**
  * {@code AbstractSelectionAction} acts on the selection of a target component.
@@ -53,18 +53,17 @@ public abstract class AbstractSelectionAction extends AbstractAction {
     this.target = target;
     if (target != null) {
       // Register with a weak reference on the JComponent.
-      propertyHandler =
-          new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-              String n = evt.getPropertyName();
-              if ("enabled".equals(n)) {
-                updateEnabled();
-              } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
-                updateEnabled();
-              }
-            }
-          };
+      propertyHandler = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          String n = evt.getPropertyName();
+          if ("enabled".equals(n)) {
+            updateEnabled();
+          } else if (n.equals(EditableComponent.SELECTION_EMPTY_PROPERTY)) {
+            updateEnabled();
+          }
+        }
+      };
       target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
     }
   }

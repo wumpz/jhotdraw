@@ -17,7 +17,7 @@ import javax.swing.DefaultBoundedRangeModel;
 import org.jhotdraw.api.gui.ActivityModel;
 import org.jhotdraw.gui.event.ActivityManagerEvent;
 import org.jhotdraw.gui.event.ActivityManagerListener;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * This indicator displays a progress bar when an {@code ActivityModel} is active.

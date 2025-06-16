@@ -13,7 +13,7 @@ import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * This abstract class can be extended to implement a {@link Connector}.

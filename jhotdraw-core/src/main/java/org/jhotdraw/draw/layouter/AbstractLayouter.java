@@ -9,7 +9,7 @@ package org.jhotdraw.draw.layouter;
 
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /**
  * This abstract class can be extended to implement a {@link Layouter} which has its own attribute

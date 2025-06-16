@@ -10,8 +10,8 @@ package org.jhotdraw.gui.action;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.jhotdraw.draw.constrainer.GridConstrainer;
-import org.jhotdraw.formatter.JavaNumberFormatter;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The EditGridPanel can be used to edit the properties of a GridConstrainer.
@@ -32,39 +32,36 @@ public class EditGridPanel extends javax.swing.JPanel {
     heightField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 1000, 1));
     thetaField.setFormatterFactory(JavaNumberFormatter.createFormatterFactory(0, 180, 1));
     constrainer = new GridConstrainer(10, 10);
-    widthField.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if ("value".equals(evt.getPropertyName())) {
-              if (evt.getNewValue() != null) {
-                constrainer.setWidth((Double) evt.getNewValue());
-              }
-            }
+    widthField.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if ("value".equals(evt.getPropertyName())) {
+          if (evt.getNewValue() != null) {
+            constrainer.setWidth((Double) evt.getNewValue());
           }
-        });
-    heightField.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if ("value".equals(evt.getPropertyName())) {
-              if (evt.getNewValue() != null) {
-                constrainer.setHeight((Double) evt.getNewValue());
-              }
-            }
+        }
+      }
+    });
+    heightField.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if ("value".equals(evt.getPropertyName())) {
+          if (evt.getNewValue() != null) {
+            constrainer.setHeight((Double) evt.getNewValue());
           }
-        });
-    thetaField.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            if ("value".equals(evt.getPropertyName())) {
-              if (evt.getNewValue() != null) {
-                constrainer.setTheta((Double) evt.getNewValue() * Math.PI / 180d);
-              }
-            }
+        }
+      }
+    });
+    thetaField.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if ("value".equals(evt.getPropertyName())) {
+          if (evt.getNewValue() != null) {
+            constrainer.setTheta((Double) evt.getNewValue() * Math.PI / 180d);
           }
-        });
+        }
+      }
+    });
   }
 
   /**
@@ -108,76 +105,67 @@ public class EditGridPanel extends javax.swing.JPanel {
     thetaField.setColumns(5);
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
-    layout.setHorizontalGroup(
-        layout
-            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(
-                layout
-                    .createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(heightLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(widthLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(thetaLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addGap(4, 4, 4)
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(
-                                thetaField,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(
-                                heightField,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(
-                                widthField,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(67, Short.MAX_VALUE)));
-    layout.setVerticalGroup(
-        layout
-            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(
-                layout
-                    .createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(widthLabel)
-                            .addComponent(
-                                widthField,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(heightLabel)
-                            .addComponent(
-                                heightField,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(thetaLabel)
-                            .addComponent(
-                                thetaField,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+    layout.setHorizontalGroup(layout
+        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout
+            .createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(heightLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(widthLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(thetaLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addGap(4, 4, 4)
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(
+                    thetaField,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(
+                    heightField,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(
+                    widthField,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(67, Short.MAX_VALUE)));
+    layout.setVerticalGroup(layout
+        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout
+            .createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(widthLabel)
+                .addComponent(
+                    widthField,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(heightLabel)
+                .addComponent(
+                    heightField,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(thetaLabel)
+                .addComponent(
+                    thetaField,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
   } // </editor-fold>//GEN-END:initComponents
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

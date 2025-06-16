@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
 import java.util.*;
+import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.FontSizeHandle;
@@ -27,11 +28,11 @@ import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.locator.RelativeLocator;
 import org.jhotdraw.draw.tool.TextEditingTool;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /**
  * SVGText.
@@ -144,17 +145,17 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   public Rectangle2D.Double getDrawingArea(double scale) {
     if (cachedDrawingArea == null) {
       Rectangle2D rx = getTextShape().getBounds2D();
-      Rectangle2D.Double r =
-          (rx instanceof Rectangle2D.Double)
-              ? (Rectangle2D.Double) rx
-              : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+      Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+          ? (Rectangle2D.Double) rx
+          : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
       double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) + 1;
       Geom.grow(r, g, g);
       if (attr().get(TRANSFORM) == null) {
         cachedDrawingArea = r;
       } else {
         cachedDrawingArea = new Rectangle2D.Double();
-        cachedDrawingArea.setRect(attr().get(TRANSFORM).createTransformedShape(r).getBounds2D());
+        cachedDrawingArea.setRect(
+            attr().get(TRANSFORM).createTransformedShape(r).getBounds2D());
       }
     }
     return (Rectangle2D.Double) cachedDrawingArea.clone();
@@ -326,7 +327,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public void setFontSize(float size) {
+  public void setFontSize(double size) {
     // put(FONT_SIZE,  new Double(size));
     Point2D.Double p = new Point2D.Double(0, size);
     AffineTransform tx = attr().get(TRANSFORM);
@@ -344,7 +345,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
   }
 
   @Override
-  public float getFontSize() {
+  public double getFontSize() {
     //   return get(FONT_SIZE).floatValue();
     Point2D.Double p = new Point2D.Double(0, attr().get(FONT_SIZE));
     AffineTransform tx = attr().get(TRANSFORM);
@@ -360,7 +361,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
       ex.printStackTrace();
       }*/
     }
-    return (float) Math.abs(p.y);
+    return Math.abs(p.y);
   }
 
   // EDITING
@@ -409,7 +410,7 @@ public class SVGTextFigure extends SVGAttributedFigure implements TextHolderFigu
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     if (isEditable() && contains(p)) {
       TextEditingTool tool = new TextEditingTool(this);
       return tool;

@@ -13,7 +13,7 @@ import org.jhotdraw.action.AbstractViewAction;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.samples.teddy.TeddyView;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** ToggleLineWrapAction. */
 public class ToggleLineWrapAction extends AbstractViewAction {

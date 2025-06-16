@@ -28,7 +28,7 @@ import javax.swing.JRadioButtonMenuItem;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /**
  * A SelectionTool, which recognizes double clicks and popup menu triggers. If a double click or
@@ -53,6 +53,8 @@ public class DelegationSelectionTool extends SelectionTool {
    * without moving the mouse.
    */
   private javax.swing.Timer popupTimer;
+
+  private boolean usePopupTimer = true;
 
   /** When the popup menu is visible, we do not track mouse movements. */
   private JPopupMenu popupMenu;
@@ -85,6 +87,11 @@ public class DelegationSelectionTool extends SelectionTool {
     this.selectionActions = selectionActions;
   }
 
+  public DelegationSelectionTool withUsePopupTimer(boolean flag) {
+    this.usePopupTimer = flag;
+    return this;
+  }
+
   /**
    * MouseListener method for mousePressed events. If the popup trigger has been activated, then the
    * appropriate hook method is called.
@@ -104,18 +111,17 @@ public class DelegationSelectionTool extends SelectionTool {
       handlePopupMenu(evt);
     } else {
       super.mousePressed(evt);
-      popupTimer =
-          new javax.swing.Timer(
-              1000,
-              new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent aevt) {
-                  handlePopupMenu(evt);
-                  popupTimer = null;
-                }
-              });
-      popupTimer.setRepeats(false);
-      popupTimer.start();
+      if (usePopupTimer) {
+        popupTimer = new javax.swing.Timer(1000, new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent aevt) {
+            handlePopupMenu(evt);
+            popupTimer = null;
+          }
+        });
+        popupTimer.setRepeats(false);
+        popupTimer.start();
+      }
     }
   }
 
@@ -282,11 +288,11 @@ public class DelegationSelectionTool extends SelectionTool {
       }
       Figure outerFigure = figure;
       if (figure != null && figure.isSelectable()) {
-        Tool figureTool = figure.getTool(p);
+        Tool figureTool = figure.getTool(v, p);
         if (figureTool == null) {
           figure = getDrawing().findFigureInside(p);
           if (figure != null) {
-            figureTool = figure.getTool(p);
+            figureTool = figure.getTool(v, p);
           }
         }
         if (figureTool != null) {

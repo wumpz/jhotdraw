@@ -15,8 +15,8 @@ import javax.swing.text.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.path.BezierPath;
 import org.jhotdraw.samples.svg.Gradient;
+import org.jhotdraw.utils.geom.path.BezierPath;
 
 /**
  * Creates Figures for SVG elements.

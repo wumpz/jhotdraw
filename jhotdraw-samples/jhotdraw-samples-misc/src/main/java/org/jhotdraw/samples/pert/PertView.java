@@ -34,8 +34,8 @@ import org.jhotdraw.gui.action.ButtonFactory;
 import org.jhotdraw.io.DOMStorableInputFormat;
 import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.jhotdraw.io.ImageOutputFormat;
-import org.jhotdraw.undo.UndoRedoManager;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.undo.UndoRedoManager;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Provides a view on a Pert drawing.
@@ -68,13 +68,12 @@ public class PertView extends AbstractView {
     view.setDrawing(createDrawing());
     view.getDrawing().addUndoableEditListener(undo);
     initActions();
-    undo.addPropertyChangeListener(
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            setHasUnsavedChanges(undo.hasSignificantEdits());
-          }
-        });
+    undo.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        setHasUnsavedChanges(undo.hasSignificantEdits());
+      }
+    });
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
     JPanel placardPanel = new JPanel(new BorderLayout());
     javax.swing.AbstractButton pButton;
@@ -176,16 +175,15 @@ public class PertView extends AbstractView {
       final Drawing drawing = createDrawing();
       InputFormat inputFormat = drawing.getInputFormats().get(0);
       inputFormat.read(f, drawing, true);
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              view.getDrawing().removeUndoableEditListener(undo);
-              view.setDrawing(drawing);
-              view.getDrawing().addUndoableEditListener(undo);
-              undo.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          view.getDrawing().removeUndoableEditListener(undo);
+          view.setDrawing(drawing);
+          view.getDrawing().addUndoableEditListener(undo);
+          undo.discardAllEdits();
+        }
+      });
     } catch (InterruptedException e) {
       InternalError error = new InternalError();
       e.initCause(e);
@@ -202,16 +200,15 @@ public class PertView extends AbstractView {
   public void clear() {
     final Drawing newDrawing = createDrawing();
     try {
-      SwingUtilities.invokeAndWait(
-          new Runnable() {
-            @Override
-            public void run() {
-              view.getDrawing().removeUndoableEditListener(undo);
-              view.setDrawing(newDrawing);
-              view.getDrawing().addUndoableEditListener(undo);
-              undo.discardAllEdits();
-            }
-          });
+      SwingUtilities.invokeAndWait(new Runnable() {
+        @Override
+        public void run() {
+          view.getDrawing().removeUndoableEditListener(undo);
+          view.setDrawing(newDrawing);
+          view.getDrawing().addUndoableEditListener(undo);
+          undo.discardAllEdits();
+        }
+      });
     } catch (InvocationTargetException ex) {
       ex.printStackTrace();
     } catch (InterruptedException ex) {

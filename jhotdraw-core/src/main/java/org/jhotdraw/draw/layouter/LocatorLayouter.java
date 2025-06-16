@@ -16,7 +16,7 @@ import org.jhotdraw.draw.figure.Origin;
 import org.jhotdraw.draw.figure.Rotation;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.Locator.Position;
-import org.jhotdraw.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
 
 /**
  * A layouter which lays out all children of a CompositeFigure according to their LayoutLocator
@@ -87,12 +87,11 @@ public class LocatorLayouter implements Layouter {
       }
       if (position != null) {
         if (child instanceof Rotation rotateChild) {
-          rotateChild.setRotation(position.angle());
+          rotateChild.setAngle(position.angle());
         } else {
           ((Figure) child)
-              .transform(
-                  AffineTransform.getRotateInstance(
-                      -position.angle(), position.location().x, position.location().y));
+              .transform(AffineTransform.getRotateInstance(
+                  -position.angle(), position.location().x, position.location().y));
         }
       }
 

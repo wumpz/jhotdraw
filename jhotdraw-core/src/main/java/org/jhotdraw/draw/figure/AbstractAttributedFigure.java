@@ -9,6 +9,7 @@ package org.jhotdraw.draw.figure;
 
 import static org.jhotdraw.draw.AttributeKeys.*;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -40,15 +41,12 @@ import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.tool.Tool;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * This abstract class can be extended to implement a {@link Figure} which has its own attribute
  * set.
- *
- * @author Werner Randelshofer
- * @version $Id: AbstractAttributedFigure.java 778 2012-04-13 15:37:19Z rawcoder $
  */
 public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
@@ -60,6 +58,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   private boolean isVisible = true;
   private boolean isTransformable = true;
   private boolean isConnectable = true;
+  private boolean isDraggable = true;
 
   private Attributes attributes = new Attributes(this::fireAttributeChanged);
 
@@ -77,7 +76,12 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   @Override
   public void draw(Graphics2D g) {
     if (attr().get(FILL_COLOR) != null) {
-      g.setColor(attr().get(FILL_COLOR));
+      var fillColor = attr().get(FILL_COLOR);
+      Float opacity = attr().get(OPACITY);
+      if (opacity < 1) {
+        fillColor = new Color(fillColor.getRGB() & 0xffffff | ((int) (opacity * 256) << 24), true);
+      }
+      g.setColor(fillColor);
       drawFill(g);
     }
     if (attr().get(STROKE_COLOR) != null && attr().get(STROKE_WIDTH) >= 0d) {
@@ -115,14 +119,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
 
   @Override
   public Rectangle2D.Double getDrawingArea(double scale) {
-    //    double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, factor);
-    //    double width = strokeTotalWidth / 2d;
-    //    if (attr().get(STROKE_JOIN) == BasicStroke.JOIN_MITER) {
-    //      width *= attr().get(STROKE_MITER_LIMIT);
-    //    } else if (attr().get(STROKE_CAP) != BasicStroke.CAP_BUTT) {
-    //      width += strokeTotalWidth * 2;
-    //    }
-    //    width++;
     Rectangle2D.Double r = getBounds(scale);
     double grow = AttributeKeys.getPerpendicularHitGrowth(this, scale) * 1.1 + 1;
     Geom.grow(r, grow, grow);
@@ -193,8 +189,20 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     return drawing;
   }
 
+  /**
+   * Sometimes basicAdd is used to initiale include elements into a drawing. This method can then be used, to
+   * connect this figure with a Drawing.
+   * @param d
+   */
+  public void setDrawing(Drawing d) {
+    if (this.drawing != null)
+      throw new IllegalStateException("figure is already part of a drawing");
+    this.drawing = d;
+  }
+
   private boolean modified = false;
 
+  @Override
   public final boolean isModified() {
     return modified;
   }
@@ -441,7 +449,7 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
    * <p>Returns null, if no specialized tool is available.
    */
   @Override
-  public Tool getTool(Point2D.Double p) {
+  public Tool getTool(DrawingView view, Point2D.Double p) {
     return null;
   }
 
@@ -488,7 +496,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setConnectable(boolean newValue) {
-    boolean oldValue = isConnectable;
     isConnectable = newValue;
   }
 
@@ -501,7 +508,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setSelectable(boolean newValue) {
-    boolean oldValue = isSelectable;
     isSelectable = newValue;
   }
 
@@ -512,7 +518,6 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setRemovable(boolean newValue) {
-    boolean oldValue = isRemovable;
     isRemovable = newValue;
   }
 
@@ -526,8 +531,16 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
   }
 
   public void setTransformable(boolean newValue) {
-    boolean oldValue = isTransformable;
     isTransformable = newValue;
+  }
+
+  @Override
+  public boolean isDraggable() {
+    return isDraggable;
+  }
+
+  public void setDraggable(boolean isDraggable) {
+    this.isDraggable = isDraggable;
   }
 
   /** Checks whether this figure is visible. By default {@code AbstractFigure} is visible. */

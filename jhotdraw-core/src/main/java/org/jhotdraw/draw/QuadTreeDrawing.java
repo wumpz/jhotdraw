@@ -18,14 +18,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import org.jhotdraw.draw.event.FigureEvent;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.geom.QuadTree;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.geom.QuadTree;
+import org.jhotdraw.utils.util.*;
 
 /**
- * An implementation of {@link Drawing} which uses a {@link org.jhotdraw.geom.QuadTree} to provide a
+ * An implementation of {@link Drawing} which uses a {@link org.jhotdraw.utils.geom.QuadTree} to provide a
  * good responsiveness for drawings which contain many figures.
  */
 public class QuadTreeDrawing extends AbstractDrawing {
@@ -172,11 +173,14 @@ public class QuadTreeDrawing extends AbstractDrawing {
   }
 
   @Override
-  public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+  public Figure findFigureBehind(
+      Point2D.Double p, double scaleDenominator, Figure figure, Predicate<Figure> filter) {
     boolean isBehind = false;
     for (Figure f : getFiguresFrontToBack()) {
       if (isBehind) {
-        if (f.isVisible() && f.contains(p)) {
+        if (f.isVisible()
+            && f.contains(p, scaleDenominator)
+            && (filter == null || filter.test(f))) {
           return f;
         }
       } else {
@@ -187,11 +191,17 @@ public class QuadTreeDrawing extends AbstractDrawing {
   }
 
   @Override
-  public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
+  public Figure findFigureBehind(
+      Point2D.Double p,
+      double scaleDenominator,
+      Collection<? extends Figure> children,
+      Predicate<Figure> filter) {
     int inFrontOf = children.size();
     for (Figure f : getFiguresFrontToBack()) {
       if (inFrontOf == 0) {
-        if (f.isVisible() && f.contains(p)) {
+        if (f.isVisible()
+            && f.contains(p, scaleDenominator)
+            && (filter == null || filter.test(f))) {
           return f;
         }
       } else {
@@ -224,10 +234,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
       Rectangle2D.Double r = f.getBounds(scale);
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
-        r =
-            (rt instanceof Rectangle2D.Double)
-                ? (Rectangle2D.Double) rt
-                : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
+        r = (rt instanceof Rectangle2D.Double)
+            ? (Rectangle2D.Double) rt
+            : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
       }
       if (f.isVisible() && Geom.contains(bounds, r)) {
         contained.add(f);
@@ -290,22 +299,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
     return null;
   }
 
-  @Override
-  public Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure behindFigure) {
-    double tolerance = 10 / 2 / scaleDenominator;
-    Rectangle2D.Double rect =
-        new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
-    boolean check = false;
-    for (Figure figure : findFigures(rect)) {
-      if (check && figure.isVisible() && figure.contains(p, scaleDenominator)) {
-        return figure;
-      } else if (figure == behindFigure) {
-        check = true;
-      }
-    }
-    return null;
-  }
-
   /** Handles all figure events fired by Figures contained in the Drawing. */
   protected class QuadTreeEventHandler extends AbstractDrawing.EventHandler {
 
@@ -313,6 +306,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
 
     @Override
     public void figureChanged(FigureEvent e) {
+      fireFigureChanged(e.getFigure(), 0);
       if (!isChanging()) {
         quadTree.remove(e.getFigure());
         quadTree.add(e.getFigure(), e.getFigure().getDrawingArea());

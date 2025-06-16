@@ -16,13 +16,13 @@ import javax.swing.undo.*;
 import org.jhotdraw.draw.figure.TextHolderFigure;
 import org.jhotdraw.draw.locator.FontSizeLocator;
 import org.jhotdraw.draw.locator.Locator;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** A {@link Handle} which can be used to change the font size of a {@link TextHolderFigure}. */
 public class FontSizeHandle extends LocatorHandle {
 
-  private float oldSize;
-  private float newSize;
+  private double oldSize;
+  private double newSize;
   private Object restoreData;
 
   public FontSizeHandle(TextHolderFigure owner) {
@@ -77,33 +77,32 @@ public class FontSizeHandle extends LocatorHandle {
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     final TextHolderFigure textOwner = (TextHolderFigure) getOwner();
     final Object editRestoreData = restoreData;
-    final float editNewSize = newSize;
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    final double editNewSize = newSize;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            return labels.getString("attribute.fontSize.text");
-          }
+      @Override
+      public String getPresentationName() {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        return labels.getString("attribute.fontSize.text");
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            textOwner.willChange();
-            textOwner.attr().restoreAttributesTo(editRestoreData);
-            textOwner.changed();
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        textOwner.willChange();
+        textOwner.attr().restoreAttributesTo(editRestoreData);
+        textOwner.changed();
+      }
 
-          @Override
-          public void redo() {
-            super.redo();
-            textOwner.willChange();
-            textOwner.setFontSize(newSize);
-            textOwner.changed();
-          }
-        };
+      @Override
+      public void redo() {
+        super.redo();
+        textOwner.willChange();
+        textOwner.setFontSize(newSize);
+        textOwner.changed();
+      }
+    };
     fireUndoableEditHappened(edit);
   }
 
@@ -135,33 +134,32 @@ public class FontSizeHandle extends LocatorHandle {
       textOwner.setFontSize(newSize);
       textOwner.changed();
       final Object editRestoreData = restoreData;
-      final float editNewSize = newSize;
-      UndoableEdit edit =
-          new AbstractUndoableEdit() {
-            private static final long serialVersionUID = 1L;
+      final double editNewSize = newSize;
+      UndoableEdit edit = new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getPresentationName() {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              return labels.getString("attribute.fontSize");
-            }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("attribute.fontSize");
+        }
 
-            @Override
-            public void undo() {
-              super.undo();
-              textOwner.willChange();
-              textOwner.attr().restoreAttributesTo(editRestoreData);
-              textOwner.changed();
-            }
+        @Override
+        public void undo() {
+          super.undo();
+          textOwner.willChange();
+          textOwner.attr().restoreAttributesTo(editRestoreData);
+          textOwner.changed();
+        }
 
-            @Override
-            public void redo() {
-              super.redo();
-              textOwner.willChange();
-              textOwner.setFontSize(newSize);
-              textOwner.changed();
-            }
-          };
+        @Override
+        public void redo() {
+          super.redo();
+          textOwner.willChange();
+          textOwner.setFontSize(newSize);
+          textOwner.changed();
+        }
+      };
       fireUndoableEditHappened(edit);
     }
   }

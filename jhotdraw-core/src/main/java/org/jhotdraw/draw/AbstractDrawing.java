@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EventListener;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -75,6 +76,13 @@ public abstract class AbstractDrawing implements Drawing {
   @Override
   public void addDrawingListener(DrawingListener listener) {
     listenerList.add(DrawingListener.class, listener);
+  }
+
+  /**
+   * Allow to get a list of attached listeners. If you do not want to maintain an external listener list yourself.
+   */
+  public final <T extends EventListener> T[] findDrawingListener(Class<T> type) {
+    return listenerList.getListeners(type);
   }
 
   @Override
@@ -372,6 +380,12 @@ public abstract class AbstractDrawing implements Drawing {
         () -> new DrawingEvent(this, index, figure));
   }
 
+  protected void fireFigureChanged(Figure figure, int index) {
+    fireDrawingEvent(
+        (listener, event) -> listener.figureChanged(event),
+        () -> new DrawingEvent(this, index, figure));
+  }
+
   protected int getChangingDepth() {
     return changingDepth;
   }
@@ -387,7 +401,7 @@ public abstract class AbstractDrawing implements Drawing {
 
   protected void validate() {}
 
-  private final void addAll(int index, Collection<? extends Figure> figures) {
+  private void addAll(int index, Collection<? extends Figure> figures) {
     for (Figure f : figures) {
       basicAdd(index++, f);
       f.addNotify(this);
@@ -408,6 +422,7 @@ public abstract class AbstractDrawing implements Drawing {
 
     @Override
     public void figureChanged(FigureEvent e) {
+      fireFigureChanged(e.getFigure(), 0);
       if (!isChanging()) {
         Rectangle2D.Double invalidatedArea = getDrawingArea();
         invalidatedArea.add(e.getInvalidatedArea());

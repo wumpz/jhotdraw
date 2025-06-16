@@ -35,20 +35,16 @@ public class AnimationSample extends javax.swing.JFrame {
     ellipse.attr().set(STROKE_WIDTH, 7d);
     d.add(ellipse);
     view.setDrawing(d);
-    Timer t =
-        new Timer(
-            10,
-            new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                double alpha = 2d * Math.PI * (System.currentTimeMillis() % 1000) / 1000d;
-                ellipse.willChange();
-                ellipse.setBounds(
-                    new Rectangle2D.Double(
-                        160 + Math.sin(alpha) * 100, 160 + Math.cos(alpha) * 100, 80, 80));
-                ellipse.changed();
-              }
-            });
+    Timer t = new Timer(10, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        double alpha = 2d * Math.PI * (System.currentTimeMillis() % 1000) / 1000d;
+        ellipse.willChange();
+        ellipse.setBounds(new Rectangle2D.Double(
+            160 + Math.sin(alpha) * 100, 160 + Math.cos(alpha) * 100, 80, 80));
+        ellipse.changed();
+      }
+    });
     t.setRepeats(true);
     t.start();
   }
@@ -69,13 +65,12 @@ public class AnimationSample extends javax.swing.JFrame {
    */
   public static void main(String args[]) {
     System.setProperty("apple.awt.graphics.UseQuartz", "false");
-    java.awt.EventQueue.invokeLater(
-        new Runnable() {
-          @Override
-          public void run() {
-            new AnimationSample().setVisible(true);
-          }
-        });
+    java.awt.EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new AnimationSample().setVisible(true);
+      }
+    });
   }
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables

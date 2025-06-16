@@ -14,8 +14,8 @@ import org.jhotdraw.api.app.Application;
 import org.jhotdraw.api.app.ApplicationModel;
 import org.jhotdraw.api.app.View;
 import org.jhotdraw.api.gui.URIChooser;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.gui.JFileURIChooser;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /** This abstract class can be extended to implement an {@link ApplicationModel}. */
 public abstract class AbstractApplicationModel extends AbstractBean implements ApplicationModel {

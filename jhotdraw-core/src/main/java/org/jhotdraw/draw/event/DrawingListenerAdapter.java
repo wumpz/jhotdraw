@@ -34,4 +34,7 @@ public class DrawingListenerAdapter implements DrawingListener {
 
   @Override
   public void drawingAttributeChanged(DrawingEvent e) {}
+
+  @Override
+  public void figureChanged(DrawingEvent e) {}
 }

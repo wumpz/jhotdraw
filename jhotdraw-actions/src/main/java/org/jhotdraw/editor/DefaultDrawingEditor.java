@@ -25,7 +25,6 @@ import org.jhotdraw.action.edit.CutAction;
 import org.jhotdraw.action.edit.DeleteAction;
 import org.jhotdraw.action.edit.PasteAction;
 import org.jhotdraw.action.edit.SelectAllAction;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingEditor;
@@ -35,6 +34,7 @@ import org.jhotdraw.draw.event.ToolAdapter;
 import org.jhotdraw.draw.event.ToolEvent;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /**
  * A default implementation of {@link DrawingEditor}.
@@ -44,13 +44,13 @@ import org.jhotdraw.draw.tool.Tool;
 public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor {
 
   private static final long serialVersionUID = 1L;
-  private HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<>();
-  private HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<>();
+  private final HashMap<AttributeKey<?>, Object> defaultAttributes = new HashMap<>();
+  private final HashMap<AttributeKey<?>, Object> handleAttributes = new HashMap<>();
   private Tool tool;
-  private HashSet<DrawingView> views;
+  private final HashSet<DrawingView> views;
   private DrawingView activeView;
   private boolean isEnabled = true;
-  private ToolHandler toolHandler;
+  private final ToolHandler toolHandler;
 
   private class ToolHandler extends ToolAdapter {
 
@@ -84,21 +84,20 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   private ActionMap actionMap;
 
   /** The focus handler. */
-  private FocusListener focusHandler =
-      new FocusListener() {
-        @Override
-        public void focusGained(FocusEvent e) {
-          setActiveView(findView((Container) e.getSource()));
-        }
+  private final FocusListener focusHandler = new FocusListener() {
+    @Override
+    public void focusGained(FocusEvent e) {
+      setActiveView(findView((Container) e.getSource()));
+    }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-          /*
-          if (! e.isTemporary()) {
-          setFocusedView(null);
-          }*/
-        }
-      };
+    @Override
+    public void focusLost(FocusEvent e) {
+      /*
+      if (! e.isTemporary()) {
+      setFocusedView(null);
+      }*/
+    }
+  };
 
   public DefaultDrawingEditor() {
     toolHandler = new ToolHandler();
@@ -176,9 +175,7 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   @SuppressWarnings("unchecked")
   @Override
   public void applyDefaultAttributesTo(Figure f) {
-    for (Map.Entry<AttributeKey<?>, Object> entry : defaultAttributes.entrySet()) {
-      f.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
-    }
+    f.attr().setAttributes(defaultAttributes);
   }
 
   @Override
@@ -191,9 +188,15 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
   }
 
   @Override
-  public <T> void setDefaultAttribute(AttributeKey<T> key, T newValue) {
+  public final <T> void setDefaultAttribute(AttributeKey<T> key, T newValue) {
     Object oldValue = defaultAttributes.put(key, newValue);
     firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), oldValue, newValue);
+  }
+
+  @Override
+  public final void removeDefaultAttribute(AttributeKey key) {
+    Object oldValue = defaultAttributes.remove(key);
+    firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), oldValue, null);
   }
 
   @Override
@@ -263,6 +266,20 @@ public class DefaultDrawingEditor extends AbstractBean implements DrawingEditor 
     Map<AttributeKey<?>, Object> m =
         (Map<AttributeKey<?>, Object>) Collections.unmodifiableMap(defaultAttributes);
     return m;
+  }
+
+  @Override
+  public void resetDefaultAttributes(Map<AttributeKey<?>, Object> attributes) {
+    removeAllDefaultAttributes();
+    attributes.forEach((key, value) -> {
+      defaultAttributes.put(key, value);
+      firePropertyChange(DEFAULT_ATTRIBUTE_PROPERTY_PREFIX + key.getKey(), null, value);
+    });
+  }
+
+  public void removeAllDefaultAttributes() {
+    new HashSet<AttributeKey>(defaultAttributes.keySet())
+        .forEach(key -> removeDefaultAttribute(key));
   }
 
   @Override

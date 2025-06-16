@@ -13,9 +13,9 @@ import javax.swing.text.*;
 import org.jhotdraw.api.app.Application;
 import org.jhotdraw.samples.teddy.regex.MatchType;
 import org.jhotdraw.samples.teddy.regex.Matcher;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.*;
-import org.jhotdraw.util.prefs.*;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.*;
+import org.jhotdraw.utils.util.prefs.*;
 
 /**
  * @author werni
@@ -37,36 +37,30 @@ public class FindDialog extends javax.swing.JDialog {
     setAlwaysOnTop(true);
     prefs = PreferencesUtil.userNodeForPackage(getClass());
     PreferencesUtil.installFramePrefsHandler(prefs, "find", this);
-    modeCombo.setModel(
-        new DefaultComboBoxModel(
-            new Object[] {
-              labels.getString("find.contains.text"),
-              labels.getString("find.startsWith.text"),
-              labels.getString("find.word.text")
-            }));
+    modeCombo.setModel(new DefaultComboBoxModel(new Object[] {
+      labels.getString("find.contains.text"),
+      labels.getString("find.startsWith.text"),
+      labels.getString("find.word.text")
+    }));
     ignoreCaseCheck.setSelected(prefs.getBoolean("find.ignoreCase", true));
     wrapAroundCheck.setSelected(prefs.getBoolean("find.wrapAround", true));
     modeCombo.setSelectedIndex(
         Math.min(0, Math.max(modeCombo.getModel().getSize() - 1, prefs.getInt("find.mode", 0))));
     getRootPane().setDefaultButton(nextButton);
     InputMap im = new InputMap();
-    LookAndFeel.loadKeyBindings(
-        im,
-        new String[] {
-          "shift ENTER", DefaultEditorKit.insertBreakAction,
-          "alt ENTER", DefaultEditorKit.insertBreakAction,
-          "ENTER", JTextField.notifyAction
-        });
+    LookAndFeel.loadKeyBindings(im, new String[] {
+      "shift ENTER", DefaultEditorKit.insertBreakAction,
+      "alt ENTER", DefaultEditorKit.insertBreakAction,
+      "ENTER", JTextField.notifyAction
+    });
     im.setParent(findField.getInputMap(JComponent.WHEN_FOCUSED));
     findField.setInputMap(JComponent.WHEN_FOCUSED, im);
     im = new InputMap();
-    LookAndFeel.loadKeyBindings(
-        im,
-        new String[] {
-          "shift ENTER", DefaultEditorKit.insertBreakAction,
-          "alt ENTER", DefaultEditorKit.insertBreakAction,
-          "ENTER", JTextField.notifyAction
-        });
+    LookAndFeel.loadKeyBindings(im, new String[] {
+      "shift ENTER", DefaultEditorKit.insertBreakAction,
+      "alt ENTER", DefaultEditorKit.insertBreakAction,
+      "ENTER", JTextField.notifyAction
+    });
     im.setParent(replaceField.getInputMap(JComponent.WHEN_FOCUSED));
     replaceField.setInputMap(JComponent.WHEN_FOCUSED, im);
     pack();
@@ -110,78 +104,71 @@ public class FindDialog extends javax.swing.JDialog {
     replaceLabel.setText(labels.getString("find.replaceWithLabel.text")); // NOI18N
     buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 0));
     replaceAllButton.setText(labels.getString("find.replaceAll.text")); // NOI18N
-    replaceAllButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            replaceAll(evt);
-          }
-        });
+    replaceAllButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        replaceAll(evt);
+      }
+    });
     buttonPanel.add(replaceAllButton);
     replaceButton.setText(labels.getString("find.replace.text")); // NOI18N
-    replaceButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            replace(evt);
-          }
-        });
+    replaceButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        replace(evt);
+      }
+    });
     buttonPanel.add(replaceButton);
-    replaceAndFindButton.setMnemonic(labels.getString("find.replaceAndFind.mnemonic").charAt(0));
+    replaceAndFindButton.setMnemonic(
+        labels.getString("find.replaceAndFind.mnemonic").charAt(0));
     replaceAndFindButton.setText(labels.getString("find.replaceAndFind.text")); // NOI18N
-    replaceAndFindButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            replaceAndFind(evt);
-          }
-        });
+    replaceAndFindButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        replaceAndFind(evt);
+      }
+    });
     buttonPanel.add(replaceAndFindButton);
     previousButton.setMnemonic(labels.getString("find.previous.mnemonic").charAt(0));
     previousButton.setText(labels.getString("find.previous.text")); // NOI18N
-    previousButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            previous(evt);
-          }
-        });
+    previousButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        previous(evt);
+      }
+    });
     buttonPanel.add(previousButton);
     nextButton.setMnemonic(labels.getString("find.next.mnemonic").charAt(0));
     nextButton.setText(labels.getString("find.next.text")); // NOI18N
-    nextButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            next(evt);
-          }
-        });
+    nextButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        next(evt);
+      }
+    });
     buttonPanel.add(nextButton);
     optionsPanel.setLayout(new java.awt.GridBagLayout());
     ignoreCaseCheck.setText(labels.getString("find.ignoreCase.text")); // NOI18N
-    ignoreCaseCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ignoreCasePerformed(evt);
-          }
-        });
+    ignoreCaseCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ignoreCasePerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
     gridBagConstraints.weightx = 1.0;
     optionsPanel.add(ignoreCaseCheck, gridBagConstraints);
     wrapAroundCheck.setText(labels.getString("find.wrapAround.text")); // NOI18N
-    wrapAroundCheck.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            wrapAroundPerformed(evt);
-          }
-        });
+    wrapAroundCheck.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        wrapAroundPerformed(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
     optionsPanel.add(wrapAroundCheck, gridBagConstraints);
     modeCombo.setModel(
         new javax.swing.DefaultComboBoxModel(new String[] {"Contains", "Starts with", "Word"}));
-    modeCombo.addItemListener(
-        new java.awt.event.ItemListener() {
-          public void itemStateChanged(java.awt.event.ItemEvent evt) {
-            modeChanged(evt);
-          }
-        });
+    modeCombo.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        modeChanged(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
     optionsPanel.add(modeCombo, gridBagConstraints);
@@ -193,87 +180,73 @@ public class FindDialog extends javax.swing.JDialog {
     replaceScrollPane.setViewportView(replaceField);
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout
-            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(
-                layout
-                    .createSequentialGroup()
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(
-                                layout
-                                    .createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(
-                                        buttonPanel,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE))
-                            .addGroup(
-                                layout
-                                    .createSequentialGroup()
-                                    .addGap(11, 11, 11)
-                                    .addGroup(
-                                        layout
-                                            .createParallelGroup(
-                                                javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(replaceLabel)
-                                            .addComponent(findLabel))
-                                    .addPreferredGap(
-                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(
-                                        layout
-                                            .createParallelGroup(
-                                                javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(
-                                                optionsPanel,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                Short.MAX_VALUE)
-                                            .addComponent(replaceScrollPane)
-                                            .addComponent(findScrollPane))))
-                    .addContainerGap()));
-    layout.setVerticalGroup(
-        layout
-            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(
-                layout
+    layout.setHorizontalGroup(layout
+        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout
+            .createSequentialGroup()
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout
                     .createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(findLabel)
-                            .addComponent(
-                                findScrollPane,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(
-                        layout
-                            .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(replaceLabel)
-                            .addComponent(
-                                replaceScrollPane,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(
-                        optionsPanel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(14, 14, 14)
                     .addComponent(
                         buttonPanel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(30, Short.MAX_VALUE)));
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE))
+                .addGroup(layout
+                    .createSequentialGroup()
+                    .addGap(11, 11, 11)
+                    .addGroup(layout
+                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(replaceLabel)
+                        .addComponent(findLabel))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout
+                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(
+                            optionsPanel,
+                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                            Short.MAX_VALUE)
+                        .addComponent(replaceScrollPane)
+                        .addComponent(findScrollPane))))
+            .addContainerGap()));
+    layout.setVerticalGroup(layout
+        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout
+            .createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(findLabel)
+                .addComponent(
+                    findScrollPane,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(replaceLabel)
+                .addComponent(
+                    replaceScrollPane,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(
+                optionsPanel,
+                javax.swing.GroupLayout.PREFERRED_SIZE,
+                javax.swing.GroupLayout.DEFAULT_SIZE,
+                javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(14, 14, 14)
+            .addComponent(
+                buttonPanel,
+                javax.swing.GroupLayout.PREFERRED_SIZE,
+                javax.swing.GroupLayout.DEFAULT_SIZE,
+                javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(30, Short.MAX_VALUE)));
     pack();
   } // </editor-fold>//GEN-END:initComponents
 
@@ -368,7 +341,8 @@ public class FindDialog extends javax.swing.JDialog {
           view.fireEdit(edit);
           view.select(pos, matcher.getFindString().length() + pos);
           do {
-            view.replaceRange(replaceField.getText(), pos, pos + matcher.getFindString().length());
+            view.replaceRange(
+                replaceField.getText(), pos, pos + matcher.getFindString().length());
             pos = matcher.findNext(pos + replaceField.getText().length());
           } while (pos != -1);
           view.fireEdit(edit);
@@ -393,9 +367,8 @@ public class FindDialog extends javax.swing.JDialog {
           matchType = MatchType.FULL_WORD;
           break;
       }
-      matcher =
-          new Matcher(
-              view.getDocument(), findField.getText(), !ignoreCaseCheck.isSelected(), matchType);
+      matcher = new Matcher(
+          view.getDocument(), findField.getText(), !ignoreCaseCheck.isSelected(), matchType);
     } else {
       matcher = null;
     }

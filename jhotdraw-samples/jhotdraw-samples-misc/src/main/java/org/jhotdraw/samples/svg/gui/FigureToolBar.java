@@ -20,12 +20,12 @@ import org.jhotdraw.draw.event.SelectionComponentDisplayer;
 import org.jhotdraw.draw.event.SelectionComponentRepainter;
 import org.jhotdraw.draw.gui.JAttributeSlider;
 import org.jhotdraw.draw.gui.JAttributeTextField;
-import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.gui.JPopupButton;
 import org.jhotdraw.gui.plaf.palette.PaletteButtonUI;
 import org.jhotdraw.gui.plaf.palette.PaletteFormattedTextFieldUI;
 import org.jhotdraw.gui.plaf.palette.PaletteSliderUI;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.*;
 
 /** FigureToolBar. */
 public class FigureToolBar extends AbstractToolBar {
@@ -74,15 +74,14 @@ public class FigureToolBar extends AbstractToolBar {
         opacityPopupButton.add(opacitySlider);
         labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
         opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
-        opacityPopupButton.setIcon(
-            new SelectionOpacityIcon(
-                editor,
-                OPACITY,
-                FILL_COLOR,
-                STROKE_COLOR,
-                Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
-                new Rectangle(5, 5, 6, 6),
-                new Rectangle(4, 4, 7, 7)));
+        opacityPopupButton.setIcon(new SelectionOpacityIcon(
+            editor,
+            OPACITY,
+            FILL_COLOR,
+            STROKE_COLOR,
+            Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
+            new Rectangle(5, 5, 6, 6),
+            new Rectangle(4, 4, 7, 7)));
         opacityPopupButton.setPopupAnchor(SOUTH_EAST);
         disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
         gbc = new GridBagConstraints();
@@ -132,15 +131,14 @@ public class FigureToolBar extends AbstractToolBar {
         opacityPopupButton.add(opacitySlider);
         labels.configureToolBarButton(opacityPopupButton, "attribute.figureOpacity");
         opacityPopupButton.setUI((PaletteButtonUI) PaletteButtonUI.createUI(opacityPopupButton));
-        opacityPopupButton.setIcon(
-            new SelectionOpacityIcon(
-                editor,
-                OPACITY,
-                FILL_COLOR,
-                STROKE_COLOR,
-                Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
-                new Rectangle(5, 5, 6, 6),
-                new Rectangle(4, 4, 7, 7)));
+        opacityPopupButton.setIcon(new SelectionOpacityIcon(
+            editor,
+            OPACITY,
+            FILL_COLOR,
+            STROKE_COLOR,
+            Images.createImage(getClass(), labels.getString("attribute.figureOpacity.icon")),
+            new Rectangle(5, 5, 6, 6),
+            new Rectangle(4, 4, 7, 7)));
         opacityPopupButton.setPopupAnchor(SOUTH_EAST);
         disposables.add(new SelectionComponentRepainter(editor, opacityPopupButton));
         gbc = new GridBagConstraints();

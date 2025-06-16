@@ -9,7 +9,7 @@ package org.jhotdraw.samples.svg.action;
 
 import org.jhotdraw.draw.*;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** SplitPathsAction. */
 public class SplitAction extends CombineAction {

@@ -12,7 +12,7 @@ import static org.jhotdraw.draw.AttributeKeys.*;
 import java.awt.geom.*;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /** A locator that specfies a point that is relative to the bounds of a figure. */
 public class RelativeLocator extends AbstractLocator {
@@ -54,6 +54,27 @@ public class RelativeLocator extends AbstractLocator {
     this.isTransform = isTransform;
   }
 
+  public void setRelativePosition(double relativeX, double relativeY) {
+    this.relativeX = relativeX;
+    this.relativeY = relativeY;
+  }
+
+  public double getRelativeX() {
+    return relativeX;
+  }
+
+  public double getRelativeY() {
+    return relativeY;
+  }
+
+  public boolean isTransform() {
+    return isTransform;
+  }
+
+  public void setIsTransform(boolean transformable) {
+    this.isTransform = transformable;
+  }
+
   @Override
   public Locator.Position locate(Figure owner, double scale) {
     Rectangle2D.Double bounds = owner.getBounds(scale);
@@ -65,23 +86,22 @@ public class RelativeLocator extends AbstractLocator {
     }
     Point2D.Double location;
     if (isTransform) {
-      location =
-          new Point2D.Double(
-              bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
+      location = new Point2D.Double(
+          bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
       if (owner.attr().get(TRANSFORM) != null) {
         owner.attr().get(TRANSFORM).transform(location, location);
       }
     } else {
       if (owner.attr().get(TRANSFORM) != null) {
-        Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
+        Rectangle2D r =
+            owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
         bounds.x = r.getX();
         bounds.y = r.getY();
         bounds.width = r.getWidth();
         bounds.height = r.getHeight();
       }
-      location =
-          new Point2D.Double(
-              bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
+      location = new Point2D.Double(
+          bounds.x + bounds.width * relativeX, bounds.y + bounds.height * relativeY);
     }
     return new Position(location);
   }
@@ -254,16 +274,12 @@ public class RelativeLocator extends AbstractLocator {
   @Override
   public int hashCode() {
     int hash = 7;
-    hash =
-        71 * hash
-            + (int)
-                (Double.doubleToLongBits(this.relativeX)
-                    ^ (Double.doubleToLongBits(this.relativeX) >>> 32));
-    hash =
-        71 * hash
-            + (int)
-                (Double.doubleToLongBits(this.relativeY)
-                    ^ (Double.doubleToLongBits(this.relativeY) >>> 32));
+    hash = 71 * hash
+        + (int) (Double.doubleToLongBits(this.relativeX)
+            ^ (Double.doubleToLongBits(this.relativeX) >>> 32));
+    hash = 71 * hash
+        + (int) (Double.doubleToLongBits(this.relativeY)
+            ^ (Double.doubleToLongBits(this.relativeY) >>> 32));
     return hash;
   }
 }

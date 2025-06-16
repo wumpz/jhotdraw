@@ -36,11 +36,9 @@ public class ClipboardUtil {
       // Fall back to JNLP ClipboardService
       try {
         Class<?> serviceManager = Class.forName("javax.jnlp.ServiceManager");
-        instance =
-            new JNLPClipboard(
-                serviceManager
-                    .getMethod("lookup", String.class)
-                    .invoke(null, "javax.jnlp.ClipboardService"));
+        instance = new JNLPClipboard(serviceManager
+            .getMethod("lookup", String.class)
+            .invoke(null, "javax.jnlp.ClipboardService"));
       } catch (Exception e2) {
         // Fall back to JVM local clipboard
         instance = new AWTClipboard(new Clipboard("JVM Local Clipboard"));

@@ -16,9 +16,9 @@ import javax.swing.undo.AbstractUndoableEdit;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.event.DrawingAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.formatter.JavaNumberFormatter;
 import org.jhotdraw.gui.Dialogs;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The EditCanvasPanel can be used to edit the attributes of a Drawing.
@@ -82,29 +82,28 @@ public class EditCanvasPanel extends javax.swing.JPanel {
       drawing.willChange();
       drawing.attr().set(CANVAS_FILL_COLOR, colorButton.getBackground());
 
-      drawing.fireUndoableEditHappened(
-          new AbstractUndoableEdit() {
-            @Override
-            public String getPresentationName() {
-              return CANVAS_FILL_COLOR.getPresentationName();
-            }
+      drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+        @Override
+        public String getPresentationName() {
+          return CANVAS_FILL_COLOR.getPresentationName();
+        }
 
-            @Override
-            public void undo() {
-              super.undo();
-              drawing.willChange();
-              drawing.attr().set(CANVAS_FILL_COLOR, oldColor);
-              drawing.changed();
-            }
+        @Override
+        public void undo() {
+          super.undo();
+          drawing.willChange();
+          drawing.attr().set(CANVAS_FILL_COLOR, oldColor);
+          drawing.changed();
+        }
 
-            @Override
-            public void redo() {
-              super.redo();
-              drawing.willChange();
-              drawing.attr().set(CANVAS_FILL_COLOR, colorButton.getBackground());
-              drawing.changed();
-            }
-          });
+        @Override
+        public void redo() {
+          super.redo();
+          drawing.willChange();
+          drawing.attr().set(CANVAS_FILL_COLOR, colorButton.getBackground());
+          drawing.changed();
+        }
+      });
 
       drawing.changed();
     }
@@ -158,26 +157,22 @@ public class EditCanvasPanel extends javax.swing.JPanel {
     add(colorLabel, new java.awt.GridBagConstraints());
     colorButton.setText(" ");
     colorButton.setToolTipText(labels.getString("attribute.backgroundColor.toolTipText")); // NOI18N
-    colorButton.addActionListener(
-        new java.awt.event.ActionListener() {
-          public void actionPerformed(java.awt.event.ActionEvent evt) {
-            colorButtonPerformed(evt);
-          }
-        });
+    colorButton.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        colorButtonPerformed(evt);
+      }
+    });
     add(colorButton, new java.awt.GridBagConstraints());
-    opacityLabel.setIcon(
-        new javax.swing.ImageIcon(
-            getClass()
-                .getResource("/org/jhotdraw/draw/action/images/attributeOpacity.png"))); // NOI18N
+    opacityLabel.setIcon(new javax.swing.ImageIcon(
+        getClass().getResource("/org/jhotdraw/draw/action/images/attributeOpacity.png"))); // NOI18N
     opacityLabel.setToolTipText(labels.getString("attribute.opacity.toolTipText")); // NOI18N
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
     add(opacityLabel, gridBagConstraints);
     opacityField.setColumns(3);
     add(opacityField, new java.awt.GridBagConstraints());
-    opacityPopupButton.setIcon(
-        new javax.swing.ImageIcon(
-            getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
+    opacityPopupButton.setIcon(new javax.swing.ImageIcon(
+        getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
     opacityPopupButton.setToolTipText(labels.getString("attribute.opacity.toolTipText")); // NOI18N
     add(opacityPopupButton, new java.awt.GridBagConstraints());
   } // </editor-fold>//GEN-END:initComponents
@@ -185,12 +180,11 @@ public class EditCanvasPanel extends javax.swing.JPanel {
   private void colorButtonPerformed(
       java.awt.event.ActionEvent evt) { // GEN-FIRST:event_colorButtonPerformed
     if (drawing != null) {
-      Color color =
-          Dialogs.showColorChooserDialog(
-              colorChooser,
-              this,
-              labels.getString("attribute.backgroundColor"),
-              drawing.attr().get(CANVAS_FILL_COLOR));
+      Color color = Dialogs.showColorChooserDialog(
+          colorChooser,
+          this,
+          labels.getString("attribute.backgroundColor"),
+          drawing.attr().get(CANVAS_FILL_COLOR));
       colorButton.setBackground(color);
       updateDrawing();
     }

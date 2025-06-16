@@ -103,12 +103,10 @@ public class ColorSquareImageProducer extends AbstractColorWheelImageProducer {
 
   @Override
   public Point getColorLocation(float[] components) {
-    float radial =
-        (components[radialIndex] - colorSpace.getMinValue(radialIndex))
-            / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
-    float angular =
-        (components[angularIndex] - colorSpace.getMinValue(angularIndex))
-            / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
+    float radial = (components[radialIndex] - colorSpace.getMinValue(radialIndex))
+        / (colorSpace.getMaxValue(radialIndex) - colorSpace.getMinValue(radialIndex));
+    float angular = (components[angularIndex] - colorSpace.getMinValue(angularIndex))
+        / (colorSpace.getMaxValue(angularIndex) - colorSpace.getMinValue(angularIndex));
     if (flipX) {
       radial = 1f - radial;
     }

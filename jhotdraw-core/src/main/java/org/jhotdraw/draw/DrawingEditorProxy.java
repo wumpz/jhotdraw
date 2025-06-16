@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.Map;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import org.jhotdraw.beans.AbstractBean;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.tool.Tool;
+import org.jhotdraw.utils.beans.AbstractBean;
 
 /**
  * DrawingEditorProxy. <hr> <b>Design Patterns</b>
@@ -31,6 +31,21 @@ public class DrawingEditorProxy extends AbstractBean implements DrawingEditor {
 
   private static final long serialVersionUID = 1L;
   private DrawingEditor target;
+
+  @Override
+  public void resetDefaultAttributes(Map<AttributeKey<?>, Object> attributes) {
+    target.resetDefaultAttributes(attributes);
+  }
+
+  @Override
+  public void removeDefaultAttribute(AttributeKey key) {
+    target.removeDefaultAttribute(key);
+  }
+
+  @Override
+  public void removeAllDefaultAttributes() {
+    target.removeAllDefaultAttributes();
+  }
 
   private class Forwarder implements PropertyChangeListener, Serializable {
 

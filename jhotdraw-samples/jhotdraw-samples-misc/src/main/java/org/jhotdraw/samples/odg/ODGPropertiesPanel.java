@@ -15,8 +15,8 @@ import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.FigureAttributeEditorHandler;
 import org.jhotdraw.draw.gui.JAttributeSlider;
-import org.jhotdraw.formatter.JavaNumberFormatter;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.formatter.JavaNumberFormatter;
+import org.jhotdraw.utils.util.*;
 
 /**
  * The ODGPropertiesPanel allows to edit properties (attributes and other things) of a ODGFigure.
@@ -88,19 +88,16 @@ public class ODGPropertiesPanel extends javax.swing.JPanel {
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.weightx = 1.0;
     add(linkField, gridBagConstraints);
-    opacityLabel.setIcon(
-        new javax.swing.ImageIcon(
-            getClass()
-                .getResource("/org/jhotdraw/draw/action/images/attributeOpacity.png"))); // NOI18N
+    opacityLabel.setIcon(new javax.swing.ImageIcon(
+        getClass().getResource("/org/jhotdraw/draw/action/images/attributeOpacity.png"))); // NOI18N
     opacityLabel.setToolTipText(labels.getString("opacity")); // NOI18N
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
     add(opacityLabel, gridBagConstraints);
     opacityField.setColumns(3);
     add(opacityField, new java.awt.GridBagConstraints());
-    opacityPopupButton.setIcon(
-        new javax.swing.ImageIcon(
-            getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
+    opacityPopupButton.setIcon(new javax.swing.ImageIcon(
+        getClass().getResource("/org/jhotdraw/draw/action/images/popupIcon.png"))); // NOI18N
     add(opacityPopupButton, new java.awt.GridBagConstraints());
   } // </editor-fold>//GEN-END:initComponents
 

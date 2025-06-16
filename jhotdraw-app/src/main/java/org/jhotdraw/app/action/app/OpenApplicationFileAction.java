@@ -21,8 +21,8 @@ import org.jhotdraw.api.app.View;
 import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Opens a file for which an open-request was sent to the application.

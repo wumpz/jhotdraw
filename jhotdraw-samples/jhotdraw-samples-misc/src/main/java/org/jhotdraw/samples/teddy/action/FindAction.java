@@ -30,16 +30,15 @@ public class FindAction extends AbstractFindAction {
     if (findDialog == null) {
       findDialog = new FindDialog(getApplication());
       if (getApplication() instanceof OSXApplication) {
-        findDialog.addWindowListener(
-            new WindowAdapter() {
-              @Override
-              public void windowClosing(WindowEvent evt) {
-                if (findDialog != null) {
-                  ((OSXApplication) getApplication()).removePalette(findDialog);
-                  findDialog.setVisible(false);
-                }
-              }
-            });
+        findDialog.addWindowListener(new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent evt) {
+            if (findDialog != null) {
+              ((OSXApplication) getApplication()).removePalette(findDialog);
+              findDialog.setVisible(false);
+            }
+          }
+        });
       }
     }
     findDialog.setVisible(true);

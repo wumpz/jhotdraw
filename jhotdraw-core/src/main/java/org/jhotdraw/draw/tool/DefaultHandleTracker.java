@@ -219,7 +219,7 @@ public class DefaultHandleTracker extends AbstractTool implements HandleTracker 
         figure = view.findFigure(point);
         Drawing drawing = view.getDrawing();
         while (figure != null && !figure.isSelectable()) {
-          figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure);
+          figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
         }
       }
       updateHoverHandles(view, figure);

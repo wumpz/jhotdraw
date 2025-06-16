@@ -18,7 +18,7 @@ import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.locator.Locator;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * A set of utility methods to create handles which resize a Figure by using its <code>setBounds
@@ -54,10 +54,26 @@ public class ResizeHandleKit {
    * Fills the given collection with handles at each the north, south, east, and west of the figure.
    */
   public static void addResizeHandles(Figure f, Collection<Handle> handles) {
+    addResizeHandles(f, handles, false);
+  }
+
+  /**
+   * Fills the given collection with handles at each the north, south, east, and west of the figure.
+   */
+  public static void addResizeHandles(
+      Figure f, Collection<Handle> handles, boolean anchorIsCenter) {
     handles.add(new BoundsOutlineHandle(f));
     if (f.isTransformable()) {
-      addCornerResizeHandles(f, handles);
-      addEdgeResizeHandles(f, handles);
+      Collection<Handle> additionalHandles = new ArrayList<>();
+      addCornerResizeHandles(f, additionalHandles);
+      addEdgeResizeHandles(f, additionalHandles);
+
+      if (anchorIsCenter) {
+        additionalHandles.forEach(
+            h -> ((ResizeHandle) h).withAchorIsCenterOfBoundingBox(anchorIsCenter));
+      }
+
+      handles.addAll(additionalHandles);
     }
   }
 
@@ -110,8 +126,19 @@ public class ResizeHandleKit {
     /** Caches the value returned by getOwner().isTransformable(): */
     private boolean isTransformableCache;
 
+    private boolean anchorIsCenterOfBoundingBox = false;
+
     ResizeHandle(Figure owner, Locator loc) {
       super(owner, loc);
+    }
+
+    /**
+     * Bounding box is now constructed around anchor as center and lead as path to one edge. The main calculation is
+     * done within setFigureBounds to make more specific adaptions.
+     */
+    public ResizeHandle withAchorIsCenterOfBoundingBox(boolean flag) {
+      this.anchorIsCenterOfBoundingBox = flag;
+      return this;
     }
 
     @Override
@@ -203,8 +230,35 @@ public class ResizeHandleKit {
     protected void setBounds(Point2D.Double anchor, Point2D.Double lead) {
       Figure f = getOwner();
       f.willChange();
-      f.setBounds(anchor, lead);
+      if (anchorIsCenterOfBoundingBox) {
+        if (sb.getX() == anchor.getX()) anchor.x = sb.getCenterX() - (lead.x - sb.getCenterX());
+        if (sb.getY() == anchor.getY()) anchor.y = sb.getCenterY() - (lead.y - sb.getCenterY());
+
+        if (sb.getX() + sb.width == lead.getX())
+          lead.x = sb.getCenterX() + (sb.getCenterX() - anchor.getX());
+        if (sb.getY() + sb.height == lead.getY())
+          lead.y = sb.getCenterY() + (sb.getCenterY() - anchor.getY());
+        f.setBounds(anchor, lead);
+      } else {
+        f.setBounds(anchor, lead);
+      }
       f.changed();
+    }
+
+    protected final int cursor(int cid) {
+      if (getView().getDrawingToViewTransform() != null) {
+        if (getView().getDrawingToViewTransform().getScaleY() < 0) {
+          // switch SE, NW, SW, NE Cursors
+          return switch (cid) {
+            case Cursor.NE_RESIZE_CURSOR -> Cursor.NW_RESIZE_CURSOR;
+            case Cursor.NW_RESIZE_CURSOR -> Cursor.NE_RESIZE_CURSOR;
+            case Cursor.SE_RESIZE_CURSOR -> Cursor.SW_RESIZE_CURSOR;
+            case Cursor.SW_RESIZE_CURSOR -> Cursor.SE_RESIZE_CURSOR;
+            default -> cid;
+          };
+        }
+      }
+      return cid;
     }
   }
 
@@ -269,7 +323,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.NE_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.NE_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
@@ -430,7 +484,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.NW_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.NW_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
@@ -495,7 +549,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.SE_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.SE_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 
@@ -610,7 +664,7 @@ public class ResizeHandleKit {
     @Override
     public Cursor getCursor() {
       return Cursor.getPredefinedCursor(
-          getOwner().isTransformable() ? Cursor.SW_RESIZE_CURSOR : Cursor.DEFAULT_CURSOR);
+          getOwner().isTransformable() ? cursor(Cursor.SW_RESIZE_CURSOR) : Cursor.DEFAULT_CURSOR);
     }
   }
 

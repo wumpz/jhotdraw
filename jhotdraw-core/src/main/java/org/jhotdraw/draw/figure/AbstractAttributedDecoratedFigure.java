@@ -12,7 +12,7 @@ import static org.jhotdraw.draw.AttributeKeys.DECORATOR_INSETS;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import org.jhotdraw.geom.Insets2D;
+import org.jhotdraw.utils.geom.Insets2D;
 
 /**
  * This abstract class can be extended to implement a {@link DecoratedFigure} which has an attribute

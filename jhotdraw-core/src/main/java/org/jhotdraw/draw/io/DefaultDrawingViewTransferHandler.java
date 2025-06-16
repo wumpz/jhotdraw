@@ -58,8 +58,8 @@ import org.jhotdraw.draw.event.DrawingEvent;
 import org.jhotdraw.draw.event.DrawingListener;
 import org.jhotdraw.draw.event.DrawingListenerAdapter;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * Delegates Clipboard Actions to the sending JComponent or reroutes to a possible DrawingView that
@@ -136,29 +136,28 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
                     moveToDropPoint(comp, transferFigures, dropPoint);
-                    drawing.fireUndoableEditHappened(
-                        new AbstractUndoableEdit() {
-                          private static final long serialVersionUID = 1L;
+                    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+                      private static final long serialVersionUID = 1L;
 
-                          @Override
-                          public String getPresentationName() {
-                            ResourceBundleUtil labels =
-                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                            return labels.getString("edit.paste.text");
-                          }
+                      @Override
+                      public String getPresentationName() {
+                        ResourceBundleUtil labels =
+                            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("edit.paste.text");
+                      }
 
-                          @Override
-                          public void undo() throws CannotUndoException {
-                            super.undo();
-                            drawing.removeAll(importedFigures);
-                          }
+                      @Override
+                      public void undo() throws CannotUndoException {
+                        super.undo();
+                        drawing.removeAll(importedFigures);
+                      }
 
-                          @Override
-                          public void redo() throws CannotRedoException {
-                            super.redo();
-                            drawing.addAll(importedFigures);
-                          }
-                        });
+                      @Override
+                      public void redo() throws CannotRedoException {
+                        super.redo();
+                        drawing.addAll(importedFigures);
+                      }
+                    });
                     retValue = true;
                     break SearchLoop;
                   } catch (IOException e) {
@@ -183,29 +182,28 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
                     moveToDropPoint(comp, transferFigures, dropPoint);
-                    drawing.fireUndoableEditHappened(
-                        new AbstractUndoableEdit() {
-                          private static final long serialVersionUID = 1L;
+                    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+                      private static final long serialVersionUID = 1L;
 
-                          @Override
-                          public String getPresentationName() {
-                            ResourceBundleUtil labels =
-                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                            return labels.getString("edit.paste.text");
-                          }
+                      @Override
+                      public String getPresentationName() {
+                        ResourceBundleUtil labels =
+                            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("edit.paste.text");
+                      }
 
-                          @Override
-                          public void undo() throws CannotUndoException {
-                            super.undo();
-                            drawing.removeAll(importedFigures);
-                          }
+                      @Override
+                      public void undo() throws CannotUndoException {
+                        super.undo();
+                        drawing.removeAll(importedFigures);
+                      }
 
-                          @Override
-                          public void redo() throws CannotRedoException {
-                            super.redo();
-                            drawing.addAll(importedFigures);
-                          }
-                        });
+                      @Override
+                      public void redo() throws CannotRedoException {
+                        super.redo();
+                        drawing.addAll(importedFigures);
+                      }
+                    });
                     retValue = true;
                     break SearchLoop;
                   } catch (IOException e) {
@@ -248,29 +246,28 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
                     moveToDropPoint(comp, transferFigures, dropPoint);
-                    drawing.fireUndoableEditHappened(
-                        new AbstractUndoableEdit() {
-                          private static final long serialVersionUID = 1L;
+                    drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+                      private static final long serialVersionUID = 1L;
 
-                          @Override
-                          public String getPresentationName() {
-                            ResourceBundleUtil labels =
-                                ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                            return labels.getString("edit.paste.text");
-                          }
+                      @Override
+                      public String getPresentationName() {
+                        ResourceBundleUtil labels =
+                            ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+                        return labels.getString("edit.paste.text");
+                      }
 
-                          @Override
-                          public void undo() throws CannotUndoException {
-                            super.undo();
-                            drawing.removeAll(importedFigures);
-                          }
+                      @Override
+                      public void undo() throws CannotUndoException {
+                        super.undo();
+                        drawing.removeAll(importedFigures);
+                      }
 
-                          @Override
-                          public void redo() throws CannotRedoException {
-                            super.redo();
-                            drawing.addAll(importedFigures);
-                          }
-                        });
+                      @Override
+                      public void redo() throws CannotRedoException {
+                        super.redo();
+                        drawing.addAll(importedFigures);
+                      }
+                    });
                   }
 
                   view.getEditor().setEnabled(true);
@@ -332,10 +329,9 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     int retValue;
     DrawingView view = extractDrawingView(c);
     if (view != null) {
-      retValue =
-          (view.getDrawing().getOutputFormats().size() > 0 && view.getSelectionCount() > 0)
-              ? COPY | MOVE
-              : NONE;
+      retValue = (view.getDrawing().getOutputFormats().size() > 0 && view.getSelectionCount() > 0)
+          ? COPY | MOVE
+          : NONE;
     } else {
       retValue = super.getSourceActions(c);
     }
@@ -403,49 +399,46 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
           }
         }
         // view.clearSelection();
-        DrawingListener removeListener =
-            new DrawingListenerAdapter() {
-              @Override
-              public void figureAdded(DrawingEvent e) {}
+        DrawingListener removeListener = new DrawingListenerAdapter() {
+          @Override
+          public void figureAdded(DrawingEvent e) {}
 
-              @Override
-              public void figureRemoved(DrawingEvent evt) {
-                deletionEvents.add(0, evt);
-              }
-            };
+          @Override
+          public void figureRemoved(DrawingEvent evt) {
+            deletionEvents.add(0, evt);
+          }
+        };
         drawing.addDrawingListener(removeListener);
         drawing.removeAll(selectedFigures);
         drawing.removeDrawingListener(removeListener);
         drawing.removeAll(selectedFigures);
-        drawing.fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+        drawing.fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("edit.delete.text");
-              }
+          @Override
+          public String getPresentationName() {
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("edit.delete.text");
+          }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                view.clearSelection();
-                for (DrawingEvent evt : deletionEvents) {
-                  drawing.add(evt.getFigureIndex(), evt.getFigure());
-                }
-                view.addToSelection(selectedFigures);
-              }
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            view.clearSelection();
+            for (DrawingEvent evt : deletionEvents) {
+              drawing.add(evt.getFigureIndex(), evt.getFigure());
+            }
+            view.addToSelection(selectedFigures);
+          }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                for (DrawingEvent evt : new ReversedList<>(deletionEvents)) {
-                  drawing.remove(evt.getFigure());
-                }
-              }
-            });
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            for (DrawingEvent evt : new ReversedList<>(deletionEvents)) {
+              drawing.remove(evt.getFigure());
+            }
+          }
+        });
       }
     } else {
       super.exportDone(source, data, action);
@@ -478,9 +471,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
       imageOffset.x = viewArea.x - imageOffset.x;
       imageOffset.y = viewArea.y - imageOffset.y;
       int srcActions = getSourceActions(comp);
-      SwingDragGestureRecognizer recognizer =
-          new SwingDragGestureRecognizer(
-              new DragHandler(createTransferable(view, transferFigures), imageOffset));
+      SwingDragGestureRecognizer recognizer = new SwingDragGestureRecognizer(
+          new DragHandler(createTransferable(view, transferFigures), imageOffset));
       recognizer.gestured(comp, me, srcActions, action);
       // XXX - What kind of drag gesture can we support for this??
     } else {
@@ -555,9 +547,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
           if (icon instanceof ImageIcon) {
             dragImage = ((ImageIcon) icon).getImage();
           } else {
-            dragImage =
-                new BufferedImage(
-                    icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+            dragImage = new BufferedImage(
+                icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics g = ((BufferedImage) dragImage).createGraphics();
             icon.paintIcon(c, g, 0, 0);
             g.dispose();

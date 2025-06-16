@@ -35,24 +35,23 @@ import org.jhotdraw.draw.figure.Figure;
 /** This abstract class can be extended to implement a {@link Handle}. */
 public abstract class AbstractHandle implements Handle {
 
-  protected final FigureListener FIGURE_LISTENER =
-      new FigureListenerAdapter() {
-        /**
-         * Sent when a region used by the figure needs to be repainted. The implementation of this
-         * method assumes that the handle is located on the bounds of the figure or inside the
-         * figure. If the handle is located elsewhere this method must be reimpleted by the
-         * subclass.
-         */
-        @Override
-        public void areaInvalidated(FigureEvent evt) {
-          updateBounds();
-        }
+  protected final FigureListener FIGURE_LISTENER = new FigureListenerAdapter() {
+    /**
+     * Sent when a region used by the figure needs to be repainted. The implementation of this
+     * method assumes that the handle is located on the bounds of the figure or inside the
+     * figure. If the handle is located elsewhere this method must be reimpleted by the
+     * subclass.
+     */
+    @Override
+    public void areaInvalidated(FigureEvent evt) {
+      updateBounds();
+    }
 
-        @Override
-        public void figureChanged(FigureEvent evt) {
-          updateBounds();
-        }
-      };
+    @Override
+    public void figureChanged(FigureEvent evt) {
+      updateBounds();
+    }
+  };
 
   protected EventListenerList listenerList = new EventListenerList();
   protected DrawingView view;

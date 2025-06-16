@@ -19,9 +19,9 @@ import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.ResizeHandleKit;
 import org.jhotdraw.draw.handle.TransformHandleKit;
-import org.jhotdraw.geom.Geom;
 import org.jhotdraw.samples.odg.Gradient;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
+import org.jhotdraw.utils.geom.Geom;
 
 /** ODGEllipse represents a ODG ellipse and a ODG circle element. */
 public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
@@ -87,10 +87,9 @@ public class ODGEllipseFigure extends ODGAttributedFigure implements ODGFigure {
   @Override
   public Rectangle2D.Double getDrawingArea(double scale) {
     Rectangle2D rx = getTransformedShape().getBounds2D();
-    Rectangle2D.Double r =
-        (rx instanceof Rectangle2D.Double)
-            ? (Rectangle2D.Double) rx
-            : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
+    Rectangle2D.Double r = (rx instanceof Rectangle2D.Double)
+        ? (Rectangle2D.Double) rx
+        : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
     if (attr().get(TRANSFORM) == null) {
       double g = ODGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2;
       Geom.grow(r, g, g);

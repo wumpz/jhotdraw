@@ -13,8 +13,8 @@ import java.util.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.FigureSelectionEvent;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** ApplyAttributesAction. */
 public class ApplyAttributesAction extends AbstractSelectedAction {
@@ -49,7 +49,8 @@ public class ApplyAttributesAction extends AbstractSelectedAction {
     view.getDrawing().fireUndoableEditHappened(edit);
     for (Figure figure : view.getSelectedFigures()) {
       figure.willChange();
-      for (Map.Entry<AttributeKey<?>, Object> entry : editor.getDefaultAttributes().entrySet()) {
+      for (Map.Entry<AttributeKey<?>, Object> entry :
+          editor.getDefaultAttributes().entrySet()) {
         if (!excludedAttributes.contains(entry.getKey())) {
           figure.attr().set((AttributeKey<Object>) entry.getKey(), entry.getValue());
         }

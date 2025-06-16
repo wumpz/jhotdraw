@@ -36,9 +36,9 @@ import org.jhotdraw.draw.handle.BoundsOutlineHandle;
 import org.jhotdraw.draw.handle.Handle;
 import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.draw.layouter.Layouter;
-import org.jhotdraw.geom.Dimension2DDouble;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.geom.Dimension2DDouble;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * This abstract class can be extended to implement a {@link CompositeFigure}.
@@ -53,6 +53,9 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   protected Layouter layouter;
 
   protected List<Figure> children = new ArrayList<>();
+
+  /** cache only workd for one specific scale factor, since drawing area and bounding box are scale depenedent*/
+  protected transient double cachedScaleFactor = 0.0;
 
   /** Caches the drawing area to improve the performance of method {@link #getDrawingArea}. */
   protected transient Rectangle2D.Double cachedDrawingArea;
@@ -298,12 +301,11 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
     Rectangle2D.Double oldBounds = getBounds();
-    Rectangle2D.Double newBounds =
-        new Rectangle2D.Double(
-            Math.min(anchor.x, lead.x),
-            Math.min(anchor.y, lead.y),
-            Math.abs(anchor.x - lead.x),
-            Math.abs(anchor.y - lead.y));
+    Rectangle2D.Double newBounds = new Rectangle2D.Double(
+        Math.min(anchor.x, lead.x),
+        Math.min(anchor.y, lead.y),
+        Math.abs(anchor.x - lead.x),
+        Math.abs(anchor.y - lead.y));
     double sx = newBounds.width / oldBounds.width;
     double sy = newBounds.height / oldBounds.height;
     AffineTransform tx = new AffineTransform();
@@ -525,11 +527,8 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   @Override
   public AbstractAttributedCompositeFigure clone() {
     AbstractAttributedCompositeFigure that = (AbstractAttributedCompositeFigure) super.clone();
-    that.attributes =
-        Attributes.from(
-            attributes,
-            that::fireAttributeChanged,
-            Attributes.attrSupplier(() -> that.getChildren()));
+    that.attributes = Attributes.from(
+        attributes, that::fireAttributeChanged, Attributes.attrSupplier(() -> that.getChildren()));
     that.children = new ArrayList<>();
     that.eventHandler = that.createEventHandler();
     for (Figure thisChild : this.children) {
@@ -551,6 +550,7 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   protected void invalidate() {
     cachedBounds = null;
     cachedDrawingArea = null;
+    cachedScaleFactor = 0;
   }
 
   @Override
@@ -584,16 +584,18 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
   }
 
   @Override
-  public Rectangle2D.Double getDrawingArea(double factor) {
-    if (cachedDrawingArea == null) {
+  public Rectangle2D.Double getDrawingArea(double scale) {
+    if (cachedDrawingArea == null || scale != cachedScaleFactor) {
+      cachedScaleFactor = scale;
       if (getChildCount() == 0) {
         cachedDrawingArea = new Rectangle2D.Double();
       } else {
+        cachedDrawingArea = null;
         for (Figure f : children) {
           if (cachedDrawingArea == null) {
-            cachedDrawingArea = f.getDrawingArea(factor);
+            cachedDrawingArea = f.getDrawingArea(scale);
           } else {
-            cachedDrawingArea.add(f.getDrawingArea(factor));
+            cachedDrawingArea.add(f.getDrawingArea(scale));
           }
         }
       }
@@ -607,10 +609,12 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
 
   @Override
   public Rectangle2D.Double getBounds(double scale) {
-    if (cachedBounds == null) {
+    if (cachedBounds == null || scale != cachedScaleFactor) {
+      cachedScaleFactor = scale;
       if (getChildCount() == 0) {
         cachedBounds = new Rectangle2D.Double();
       } else {
+        cachedBounds = null;
         for (Figure f : children) {
           if (cachedBounds == null) {
             cachedBounds = f.getBounds(scale);
@@ -664,10 +668,9 @@ public abstract class AbstractAttributedCompositeFigure extends AbstractAttribut
     listenerList.add(CompositeFigureListener.class, listener);
   }
 
-  private Attributes attributes =
-      new Attributes(
-          this::fireAttributeChanged,
-          Attributes.attrSupplier(() -> AbstractAttributedCompositeFigure.this.getChildren()));
+  private Attributes attributes = new Attributes(
+      this::fireAttributeChanged,
+      Attributes.attrSupplier(() -> AbstractAttributedCompositeFigure.this.getChildren()));
 
   @Override
   public Attributes attr() {

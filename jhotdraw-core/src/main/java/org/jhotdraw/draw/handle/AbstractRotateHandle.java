@@ -18,8 +18,8 @@ import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.event.TransformRestoreEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.Rotation;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * This abstract class can be extended to implement a {@link Handle} which can rotate a {@link
@@ -27,12 +27,12 @@ import org.jhotdraw.util.ResourceBundleUtil;
  */
 public abstract class AbstractRotateHandle extends AbstractHandle {
 
-  private Point location;
+  // private Point location;
   private Object restoreData;
   private AffineTransform transform;
   private Point2D.Double center;
   private double startTheta;
-  private double startLength;
+  // private double startLength;
 
   public AbstractRotateHandle(Figure owner) {
     super(owner);
@@ -67,7 +67,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
 
   protected Rectangle2D.Double getTransformedBounds() {
     Figure owner = getOwner();
-    Rectangle2D.Double bounds = owner.getBounds();
+    Rectangle2D.Double bounds = owner.getBounds(view.getScaleFactor());
     if (owner.attr().get(TRANSFORM) != null) {
       Rectangle2D r = owner.attr().get(TRANSFORM).createTransformedShape(bounds).getBounds2D();
       bounds.x = r.getX();
@@ -90,24 +90,25 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
 
   @Override
   public void trackStart(Point anchor, int modifiersEx) {
-    location = new Point(anchor.x, anchor.y);
     restoreData = getOwner().getTransformRestoreData();
     transform = new AffineTransform();
     center = getCenter();
+    //    if (getOwner() instanceof Rotation rotateOwner) {
+    //      startTheta = rotateOwner.getAngle();
+    //    } else {
     Point2D.Double anchorPoint = view.viewToDrawing(anchor);
     startTheta = Geom.angle(center.x, center.y, anchorPoint.x, anchorPoint.y);
-    startLength = Geom.length(center.x, center.y, anchorPoint.x, anchorPoint.y);
+    // }
   }
 
   @Override
   public void trackStep(Point anchor, Point lead, int modifiersEx) {
-    location = new Point(lead.x, lead.y);
+    // location = new Point(lead.x, lead.y);
     Point2D.Double leadPoint = view.viewToDrawing(lead);
     double stepTheta = Geom.angle(center.x, center.y, leadPoint.x, leadPoint.y);
-    double currentTheta =
-        view.getConstrainer() == null
-            ? (stepTheta - startTheta)
-            : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
+    double currentTheta = view.getConstrainer() == null
+        ? (stepTheta - startTheta)
+        : view.getConstrainer().constrainAngle(stepTheta - startTheta, getOwner());
     transform.setToIdentity();
     transform.translate(center.x, center.y);
     transform.rotate(currentTheta);
@@ -115,7 +116,7 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
     getOwner().willChange();
     getOwner().restoreTransformTo(restoreData);
     if (getOwner() instanceof Rotation rotateOwner) {
-      rotateOwner.setRotation(currentTheta);
+      rotateOwner.setAngle(currentTheta);
     } else {
       getOwner().transform(transform);
     }
@@ -125,11 +126,10 @@ public abstract class AbstractRotateHandle extends AbstractHandle {
   @Override
   public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     view.getDrawing()
-        .fireUndoableEditHappened(
-            new TransformRestoreEdit(
-                getOwner(), restoreData, getOwner().getTransformRestoreData()));
+        .fireUndoableEditHappened(new TransformRestoreEdit(
+            getOwner(), restoreData, getOwner().getTransformRestoreData()));
     fireAreaInvalidated(getDrawingArea());
-    location = null;
+    // location = null;
     invalidate();
     fireAreaInvalidated(getDrawingArea());
   }

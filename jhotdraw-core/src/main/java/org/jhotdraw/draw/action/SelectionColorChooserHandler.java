@@ -65,47 +65,46 @@ public class SelectionColorChooserHandler extends AbstractSelectedAction impleme
     }
     getEditor().setDefaultAttribute(key, selectedColor);
     final Color undoValue = selectedColor;
-    UndoableEdit edit =
-        new AbstractUndoableEdit() {
-          private static final long serialVersionUID = 1L;
+    UndoableEdit edit = new AbstractUndoableEdit() {
+      private static final long serialVersionUID = 1L;
 
-          @Override
-          public String getPresentationName() {
-            return AttributeKeys.FONT_FACE.getPresentationName();
-            /*
-            String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
-            if (name == null) {
-            name = (String) getValue(AbstractAction.NAME);
-            }
-            if (name == null) {
-            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-            name = labels.getString("attribute.text");
-            }
-            return name;*/
-          }
+      @Override
+      public String getPresentationName() {
+        return AttributeKeys.FONT_FACE.getPresentationName();
+        /*
+        String name = (String) getValue(Actions.UNDO_PRESENTATION_NAME_KEY);
+        if (name == null) {
+        name = (String) getValue(AbstractAction.NAME);
+        }
+        if (name == null) {
+        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+        name = labels.getString("attribute.text");
+        }
+        return name;*/
+      }
 
-          @Override
-          public void undo() {
-            super.undo();
-            Iterator<Object> iRestore = restoreData.iterator();
-            for (Figure figure : selectedFigures) {
-              figure.willChange();
-              figure.attr().restoreAttributesTo(iRestore.next());
-              figure.changed();
-            }
-          }
+      @Override
+      public void undo() {
+        super.undo();
+        Iterator<Object> iRestore = restoreData.iterator();
+        for (Figure figure : selectedFigures) {
+          figure.willChange();
+          figure.attr().restoreAttributesTo(iRestore.next());
+          figure.changed();
+        }
+      }
 
-          @Override
-          public void redo() {
-            super.redo();
-            for (Figure figure : selectedFigures) {
-              // restoreData.add(figure.getAttributesRestoreData());
-              figure.willChange();
-              figure.attr().set(key, undoValue);
-              figure.changed();
-            }
-          }
-        };
+      @Override
+      public void redo() {
+        super.redo();
+        for (Figure figure : selectedFigures) {
+          // restoreData.add(figure.getAttributesRestoreData());
+          figure.willChange();
+          figure.attr().set(key, undoValue);
+          figure.changed();
+        }
+      }
+    };
     fireUndoableEditHappened(edit);
   }
 

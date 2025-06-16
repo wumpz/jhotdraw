@@ -12,8 +12,8 @@ import java.util.HashSet;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** Moves the selected figures by one unit. */
 public abstract class MoveAction extends AbstractSelectedAction {

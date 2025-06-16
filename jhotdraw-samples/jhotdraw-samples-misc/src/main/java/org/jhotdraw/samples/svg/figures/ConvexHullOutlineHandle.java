@@ -13,7 +13,7 @@ import java.awt.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.geom.ConvexHull;
+import org.jhotdraw.utils.geom.ConvexHull;
 
 /** Draws the outline of the Figure bounds to make adjustment easier. */
 public class ConvexHullOutlineHandle extends AbstractHandle {

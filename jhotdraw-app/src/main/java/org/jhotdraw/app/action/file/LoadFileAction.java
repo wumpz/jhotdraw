@@ -25,8 +25,8 @@ import org.jhotdraw.app.action.AbstractSaveUnsavedChangesAction;
 import org.jhotdraw.gui.JSheet;
 import org.jhotdraw.gui.event.SheetEvent;
 import org.jhotdraw.gui.event.SheetListener;
-import org.jhotdraw.net.URIUtil;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.net.URIUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * Lets the user save unsaved changes of the active view, then presents an {@code URIChooser} and
@@ -83,32 +83,29 @@ public class LoadFileAction extends AbstractSaveUnsavedChangesAction {
     URIChooser fileChooser = getChooser(view);
     Window wAncestor = SwingUtilities.getWindowAncestor(view.getComponent());
     final Component oldFocusOwner = (wAncestor == null) ? null : wAncestor.getFocusOwner();
-    JSheet.showOpenSheet(
-        fileChooser,
-        view.getComponent(),
-        new SheetListener() {
-          @Override
-          public void optionSelected(final SheetEvent evt) {
-            if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-              final URI uri = evt.getChooser().getSelectedURI();
-              // Prevent same URI from being opened more than once
-              if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
-                for (View v : getApplication().getViews()) {
-                  if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
-                    v.getComponent().requestFocus();
-                    return;
-                  }
-                }
-              }
-              loadViewFromURI(view, uri, evt.getChooser());
-            } else {
-              view.setEnabled(true);
-              if (oldFocusOwner != null) {
-                oldFocusOwner.requestFocus();
+    JSheet.showOpenSheet(fileChooser, view.getComponent(), new SheetListener() {
+      @Override
+      public void optionSelected(final SheetEvent evt) {
+        if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+          final URI uri = evt.getChooser().getSelectedURI();
+          // Prevent same URI from being opened more than once
+          if (!getApplication().getModel().isAllowMultipleViewsPerURI()) {
+            for (View v : getApplication().getViews()) {
+              if (v != view && v.getURI() != null && v.getURI().equals(uri)) {
+                v.getComponent().requestFocus();
+                return;
               }
             }
           }
-        });
+          loadViewFromURI(view, uri, evt.getChooser());
+        } else {
+          view.setEnabled(true);
+          if (oldFocusOwner != null) {
+            oldFocusOwner.requestFocus();
+          }
+        }
+      }
+    });
   }
 
   public void loadViewFromURI(final View view, final URI uri, final URIChooser chooser) {

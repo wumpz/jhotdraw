@@ -122,7 +122,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
       if (figure == null) {
         figure = view.findFigure(point);
         while (figure != null && !figure.isSelectable()) {
-          figure = view.getDrawing().findFigureBehind(p, view.getScaleFactor(), figure);
+          figure = view.getDrawing().findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
         }
       }
       updateHoverHandles(view, figure);

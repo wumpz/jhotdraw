@@ -20,18 +20,22 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import org.jhotdraw.draw.constrainer.CoordinateData;
+import org.jhotdraw.draw.constrainer.CoordinateDataReceiver;
+import org.jhotdraw.draw.constrainer.CoordinateDataSupplier;
 import org.jhotdraw.draw.event.BezierNodeEdit;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.undo.CompositeEdit;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.undo.CompositeEdit;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** A {@link Handle} which allows to interactively change a node of a bezier path. */
-public class BezierNodeHandle extends AbstractHandle {
+public class BezierNodeHandle extends AbstractHandle implements CoordinateDataSupplier {
 
   protected int index;
   private CompositeEdit edit;
@@ -71,12 +75,10 @@ public class BezierNodeHandle extends AbstractHandle {
       strokeColor =
           getEditor().getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR);
     } else {
-      fillColor =
-          getEditor()
-              .getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED);
-      strokeColor =
-          getEditor()
-              .getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED);
+      fillColor = getEditor()
+          .getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_FILL_COLOR_DISABLED);
+      strokeColor = getEditor()
+          .getHandleAttribute(HandleAttributeKeys.BEZIER_NODE_HANDLE_STROKE_COLOR_DISABLED);
     }
     if (size > index) {
       BezierPath.Node v = f.getNode(index);
@@ -127,16 +129,19 @@ public class BezierNodeHandle extends AbstractHandle {
     view.getDrawing().fireUndoableEditHappened(edit = new CompositeEdit("Punkt verschieben"));
     oldNode = figure.getNode(index);
     fireHandleRequestSecondaryHandles();
+    if (view.getConstrainer() != null
+        && view.getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.setCoordinateSupplier(this);
+    }
   }
 
   @Override
   public void trackStep(Point anchor, Point lead, int modifiersEx) {
     BezierFigure figure = getOwner();
     figure.willChange();
-    Point2D.Double p =
-        view.getConstrainer() == null
-            ? view.viewToDrawing(lead)
-            : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
+    Point2D.Double p = view.getConstrainer() == null
+        ? view.viewToDrawing(lead)
+        : view.getConstrainer().constrainPoint(view.viewToDrawing(lead));
     if (getTransformOwner().attr().get(TRANSFORM) != null) {
       try {
         getTransformOwner().attr().get(TRANSFORM).inverseTransform(p, p);
@@ -187,24 +192,26 @@ public class BezierNodeHandle extends AbstractHandle {
       f.changed();
       fireHandleRequestSecondaryHandles();
     }
-    view.getDrawing()
-        .fireUndoableEditHappened(
-            new BezierNodeEdit(f, index, oldValue, newValue) {
-              private static final long serialVersionUID = 1L;
+    view.getDrawing().fireUndoableEditHappened(new BezierNodeEdit(f, index, oldValue, newValue) {
+      private static final long serialVersionUID = 1L;
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                fireHandleRequestSecondaryHandles();
-              }
+      @Override
+      public void redo() throws CannotRedoException {
+        super.redo();
+        fireHandleRequestSecondaryHandles();
+      }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                fireHandleRequestSecondaryHandles();
-              }
-            });
+      @Override
+      public void undo() throws CannotUndoException {
+        super.undo();
+        fireHandleRequestSecondaryHandles();
+      }
+    });
     view.getDrawing().fireUndoableEditHappened(edit);
+    if (view.getConstrainer() != null
+        && view.getConstrainer() instanceof CoordinateDataReceiver receiver) {
+      receiver.clearCoordinateSupplier();
+    }
   }
 
   @Override
@@ -233,36 +240,35 @@ public class BezierNodeHandle extends AbstractHandle {
       final BezierPath.Node removedNode = f.removeNode(index);
       f.changed();
       fireHandleRequestRemove(invalidatedArea);
-      fireUndoableEditHappened(
-          new AbstractUndoableEdit() {
-            private static final long serialVersionUID = 1L;
+      fireUndoableEditHappened(new AbstractUndoableEdit() {
+        private static final long serialVersionUID = 1L;
 
-            @Override
-            public String getPresentationName() {
-              ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-              return labels.getString("edit.bezierPath.joinSegments.text");
-            }
+        @Override
+        public String getPresentationName() {
+          ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+          return labels.getString("edit.bezierPath.joinSegments.text");
+        }
 
-            @Override
-            public void redo() throws CannotRedoException {
-              super.redo();
-              view.removeFromSelection(f);
-              f.willChange();
-              f.removeNode(index);
-              f.changed();
-              view.addToSelection(f);
-            }
+        @Override
+        public void redo() throws CannotRedoException {
+          super.redo();
+          view.removeFromSelection(f);
+          f.willChange();
+          f.removeNode(index);
+          f.changed();
+          view.addToSelection(f);
+        }
 
-            @Override
-            public void undo() throws CannotUndoException {
-              super.undo();
-              view.removeFromSelection(f);
-              f.willChange();
-              f.addNode(index, removedNode);
-              f.changed();
-              view.addToSelection(f);
-            }
-          });
+        @Override
+        public void undo() throws CannotUndoException {
+          super.undo();
+          view.removeFromSelection(f);
+          f.willChange();
+          f.addNode(index, removedNode);
+          f.changed();
+          view.addToSelection(f);
+        }
+      });
     }
   }
 
@@ -354,42 +360,50 @@ public class BezierNodeHandle extends AbstractHandle {
         final BezierPath.Node removedNode = f.removeNode(index);
         f.changed();
         fireHandleRequestRemove(invalidatedArea);
-        fireUndoableEditHappened(
-            new AbstractUndoableEdit() {
-              private static final long serialVersionUID = 1L;
+        fireUndoableEditHappened(new AbstractUndoableEdit() {
+          private static final long serialVersionUID = 1L;
 
-              @Override
-              public String getPresentationName() {
-                ResourceBundleUtil labels =
-                    ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-                return labels.getString("edit.bezierPath.joinSegments.text");
-              }
+          @Override
+          public String getPresentationName() {
+            ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
+            return labels.getString("edit.bezierPath.joinSegments.text");
+          }
 
-              @Override
-              public void redo() throws CannotRedoException {
-                super.redo();
-                view.removeFromSelection(f);
-                f.willChange();
-                f.removeNode(index);
-                f.changed();
-                view.addToSelection(f);
-              }
+          @Override
+          public void redo() throws CannotRedoException {
+            super.redo();
+            view.removeFromSelection(f);
+            f.willChange();
+            f.removeNode(index);
+            f.changed();
+            view.addToSelection(f);
+          }
 
-              @Override
-              public void undo() throws CannotUndoException {
-                super.undo();
-                view.removeFromSelection(f);
-                f.willChange();
-                f.addNode(index, removedNode);
-                f.changed();
-                view.addToSelection(f);
-              }
-            });
+          @Override
+          public void undo() throws CannotUndoException {
+            super.undo();
+            view.removeFromSelection(f);
+            f.willChange();
+            f.addNode(index, removedNode);
+            f.changed();
+            view.addToSelection(f);
+          }
+        });
         evt.consume();
         // At this point, the handle is no longer valid, and
         // handles at higher node indices have become invalid too.
         fireHandleRequestRemove(invalidatedArea);
         break;
     }
+  }
+
+  @Override
+  public CoordinateData getConstrainerCoordinates(int before, int after) {
+    if (this.getOwner() == null) return null;
+    List<Point2D.Double> list = new ArrayList<>();
+    for (int idx = 0; idx < this.getOwner().getNodeCount(); idx++) {
+      list.add(this.getOwner().getPoint(idx));
+    }
+    return new CoordinateData(list.toArray(Point2D.Double[]::new), index);
   }
 }

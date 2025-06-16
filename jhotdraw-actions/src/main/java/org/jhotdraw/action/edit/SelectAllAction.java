@@ -12,7 +12,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import org.jhotdraw.api.gui.EditableComponent;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Selects all items.
@@ -67,9 +67,8 @@ public class SelectAllAction extends AbstractSelectionAction {
     if (c == null
         && (KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner()
             instanceof JComponent)) {
-      c =
-          (JComponent)
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+      c = (JComponent)
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
     }
     if (c != null && c.isEnabled()) {
       if (c instanceof EditableComponent) {

@@ -15,7 +15,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.AttributeChangeEdit;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.TriangleFigure;
-import org.jhotdraw.geom.Geom;
+import org.jhotdraw.utils.geom.Geom;
 
 /**
  * A {@link Handle} to change the value of the figure attribute {@link

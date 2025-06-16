@@ -21,9 +21,9 @@ import org.jhotdraw.draw.figure.GroupFigure;
 import org.jhotdraw.draw.figure.LineConnectionFigure;
 import org.jhotdraw.draw.figure.TextAreaFigure;
 import org.jhotdraw.draw.locator.RelativeLocator;
-import org.jhotdraw.geom.Insets2D;
 import org.jhotdraw.io.DOMDefaultDrawFigureFactory;
 import org.jhotdraw.samples.net.figures.NodeFigure;
+import org.jhotdraw.utils.geom.Insets2D;
 import org.jhotdraw.xml.*;
 
 /** NetFactory. */

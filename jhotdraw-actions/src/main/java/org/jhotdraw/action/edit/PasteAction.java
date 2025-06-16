@@ -12,7 +12,7 @@ import java.awt.datatransfer.*;
 import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.datatransfer.ClipboardUtil;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Pastes the contents of the system clipboard at the caret position.
@@ -54,9 +54,8 @@ public class PasteAction extends AbstractSelectionAction {
     if (c == null
         && (KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner()
             instanceof JComponent)) {
-      c =
-          (JComponent)
-              KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+      c = (JComponent)
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
     }
     if (c != null && c.isEnabled()) {
       Transferable t = ClipboardUtil.getClipboard().getContents(c);

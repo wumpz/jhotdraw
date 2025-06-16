@@ -34,14 +34,14 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.io.InputFormat;
-import org.jhotdraw.formatter.FontFormatter;
-import org.jhotdraw.geom.path.BezierPath;
-import org.jhotdraw.io.Base64;
-import org.jhotdraw.io.StreamPosTokenizer;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys.TextAnchor;
 import org.jhotdraw.samples.svg.figures.SVGFigure;
-import org.jhotdraw.util.LocaleUtil;
+import org.jhotdraw.utils.formatter.FontFormatter;
+import org.jhotdraw.utils.geom.path.BezierPath;
+import org.jhotdraw.utils.io.Base64;
+import org.jhotdraw.utils.io.StreamPosTokenizer;
+import org.jhotdraw.utils.util.LocaleUtil;
 import org.jhotdraw.xml.css.CSSParser;
 import org.jhotdraw.xml.css.StyleManager;
 import org.w3c.dom.Element;
@@ -479,17 +479,15 @@ public class SVGInputFormat implements InputFormat {
     }
     viewport.widthPercentFactor = viewport.viewBox.width / 100d;
     viewport.heightPercentFactor = viewport.viewBox.height / 100d;
-    viewport.numberFactor =
-        Math.min(
-            viewport.width / viewport.viewBox.width, viewport.height / viewport.viewBox.height);
+    viewport.numberFactor = Math.min(
+        viewport.width / viewport.viewBox.width, viewport.height / viewport.viewBox.height);
     AffineTransform viewBoxTransform = new AffineTransform();
     viewBoxTransform.translate(
         -viewport.viewBox.x * viewport.width / viewport.viewBox.width,
         -viewport.viewBox.y * viewport.height / viewport.viewBox.height);
     if (viewport.isPreserveAspectRatio) {
-      double factor =
-          Math.min(
-              viewport.width / viewport.viewBox.width, viewport.height / viewport.viewBox.height);
+      double factor = Math.min(
+          viewport.width / viewport.viewBox.width, viewport.height / viewport.viewBox.height);
       viewBoxTransform.scale(factor, factor);
     } else {
       viewBoxTransform.scale(
@@ -855,44 +853,42 @@ public class SVGInputFormat implements InputFormat {
   }
 
   private static final HashSet<String> SUPPORTED_FEATURES =
-      new HashSet<String>(
-          Arrays.asList(
-              new String[] {
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-animated",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-all",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#CoreAttribute",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#NavigationAttribute",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Structure",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessing",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessingAttribute",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Image",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Prefetch",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Discard",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Shape",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Text",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#PaintAttribute",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#OpacityAttribute",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
-                "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking", // "http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Font",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
-                // "http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
-              }));
+      new HashSet<String>(Arrays.asList(new String[] {
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-static-DOM",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-animated",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#SVG-all",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#CoreAttribute",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#NavigationAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Structure",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessing",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#ConditionalProcessingAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Image",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Prefetch",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Discard",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Shape",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Text",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#PaintAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#OpacityAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#GraphicsAttribute",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Gradient",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#SolidColor",
+        "http://www.w3.org/Graphics/SVG/feature/1.2/#Hyperlinking", // "http://www.w3.org/Graphics/SVG/feature/1.2/#XlinkAttribute",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#ExternalResourcesRequired",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Scripting",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Handler",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Listener",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#TimedAnimation",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Animation",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Audio",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Video",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Font",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#Extensibility",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#MediaAttribute",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#TransformedVideo",
+        // "http://www.w3.org/Graphics/SVG/feature/1.2/#ComposedVideo",
+      }));
 
   /** Evaluates an SVG "switch" element. */
   private Figure readSwitchElement(Element elem) throws IOException {
@@ -909,11 +905,10 @@ public class SVGInputFormat implements InputFormat {
           toWSOrCommaSeparatedArray(readAttribute(child, "requiredFormats", ""));
       String[] requiredFonts = toWSOrCommaSeparatedArray(readAttribute(child, "requiredFonts", ""));
       boolean isMatch;
-      isMatch =
-          SUPPORTED_FEATURES.containsAll(Arrays.asList(requiredFeatures))
-              && requiredExtensions.length == 0
-              && requiredFormats.length == 0
-              && requiredFonts.length == 0;
+      isMatch = SUPPORTED_FEATURES.containsAll(Arrays.asList(requiredFeatures))
+          && requiredExtensions.length == 0
+          && requiredFormats.length == 0
+          && requiredFonts.length == 0;
       if (isMatch && systemLanguage.length > 0) {
         isMatch = false;
         Locale locale = LocaleUtil.getDefault();
@@ -1281,19 +1276,17 @@ public class SVGInputFormat implements InputFormat {
           }
           path = new BezierPath();
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'm' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'm' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'm' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'm' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.moveTo(p.x, p.y);
@@ -1338,19 +1331,17 @@ public class SVGInputFormat implements InputFormat {
         case 'l':
           // relative-lineto dx dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'l' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'l' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'l' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'l' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.lineTo(p.x, p.y);
@@ -1369,11 +1360,10 @@ public class SVGInputFormat implements InputFormat {
         case 'h':
           // relative-horizontal-lineto dx
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'h' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'h' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           path.lineTo(p.x, p.y);
@@ -1392,11 +1382,10 @@ public class SVGInputFormat implements InputFormat {
         case 'v':
           // relative-vertical-lineto dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'v' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'v' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.lineTo(p.x, p.y);
@@ -1405,35 +1394,31 @@ public class SVGInputFormat implements InputFormat {
         case 'C':
           // absolute-curveto x1 y1 x2 y2 x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x1 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x1 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y1 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y1 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x2 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x2 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y2 coordinate missing for 'C' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y2 coordinate missing for 'C' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1452,51 +1437,45 @@ public class SVGInputFormat implements InputFormat {
         case 'c':
           // relative-curveto dx1 dy1 dx2 dy2 dx dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx1 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx1 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy1 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy1 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx2 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx2 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy2 coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy2 coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'c' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'c' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1508,19 +1487,17 @@ public class SVGInputFormat implements InputFormat {
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x2 coordinate missing for 'S' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x2 coordinate missing for 'S' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y2 coordinate missing for 'S' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y2 coordinate missing for 'S' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1542,35 +1519,31 @@ public class SVGInputFormat implements InputFormat {
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx2 coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx2 coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy2 coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy2 coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c2.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 's' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 's' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.curveTo(c1.x, c1.y, c2.x, c2.y, p.x, p.y);
@@ -1579,19 +1552,17 @@ public class SVGInputFormat implements InputFormat {
         case 'Q':
           // absolute-quadto x1 y1 x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x1 coordinate missing for 'Q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x1 coordinate missing for 'Q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "y1 coordinate missing for 'Q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("y1 coordinate missing for 'Q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1610,35 +1581,31 @@ public class SVGInputFormat implements InputFormat {
         case 'q':
           // relative-quadto dx1 dy1 dx dy
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx1 coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx1 coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.x = p.x + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy1 coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy1 coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           c1.y = p.y + tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 'q' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 'q' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1668,19 +1635,17 @@ public class SVGInputFormat implements InputFormat {
           c1.x = node.x[0] * 2d - node.x[1];
           c1.y = node.y[0] * 2d - node.y[1];
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dx coordinate missing for 't' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dx coordinate missing for 't' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.x += tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "dy coordinate missing for 't' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("dy coordinate missing for 't' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           p.y += tt.nval;
           path.quadTo(c1.x, c1.y, p.x, p.y);
@@ -1689,37 +1654,33 @@ public class SVGInputFormat implements InputFormat {
         case 'A':
           // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "rx coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("rx coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           // If rX or rY have negative signs, these are dropped;
           // the absolute value is used instead.
           double rx = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "ry coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("ry coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           double ry = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x-axis-rotation missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x-axis-rotation missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           double xAxisRotation = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "large-arc-flag missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("large-arc-flag missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           boolean largeArcFlag = tt.nval != 0;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1744,37 +1705,33 @@ public class SVGInputFormat implements InputFormat {
         case 'a':
           // absolute-elliptical-arc rx ry x-axis-rotation large-arc-flag sweep-flag x y
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "rx coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("rx coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           // If rX or rY have negative signs, these are dropped;
           // the absolute value is used instead.
           rx = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "ry coordinate missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("ry coordinate missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           ry = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "x-axis-rotation missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("x-axis-rotation missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           xAxisRotation = tt.nval;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-            throw new IOException(
-                "large-arc-flag missing for 'A' at position "
-                    + tt.getStartPosition()
-                    + " in "
-                    + str);
+            throw new IOException("large-arc-flag missing for 'A' at position "
+                + tt.getStartPosition()
+                + " in "
+                + str);
           }
           largeArcFlag = tt.nval != 0;
           if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
@@ -1797,11 +1754,10 @@ public class SVGInputFormat implements InputFormat {
           break;
 
         default:
-          LOG.fine(
-              "SVGInputFormat.toPath aborting after illegal path command: "
-                  + command
-                  + " found in path "
-                  + str);
+          LOG.fine("SVGInputFormat.toPath aborting after illegal path command: "
+              + command
+              + " found in path "
+              + str);
           break Commands;
           // throw new IOException("Illegal command: "+command);
       }
@@ -2126,9 +2082,8 @@ public class SVGInputFormat implements InputFormat {
     // Media:    visual
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
-    doubleValue =
-        toDouble(
-            elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
+    doubleValue = toDouble(
+        elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
     STROKE_MITER_LIMIT.put(a, doubleValue);
     IS_STROKE_MITER_LIMIT_FACTOR.put(a, false);
     // 'stroke-opacity'
@@ -2503,9 +2458,8 @@ public class SVGInputFormat implements InputFormat {
     // Media:    visual
     // Animatable:    yes
     // Computed value:    Specified value, except inherit
-    doubleValue =
-        toDouble(
-            elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
+    doubleValue = toDouble(
+        elem, readInheritAttribute(elem, "stroke-miterlimit", "4"), 4d, 1d, Double.MAX_VALUE);
     STROKE_MITER_LIMIT.put(a, doubleValue);
     IS_STROKE_MITER_LIMIT_FACTOR.put(a, false);
     // 'stroke-opacity'
@@ -2540,11 +2494,10 @@ public class SVGInputFormat implements InputFormat {
     Double doubleValue;
     // width of the viewport
     value = readAttribute(elem, "width", null);
-    LOG.fine(
-        "SVGInputFormat READ viewport w/h factors:"
-            + viewportStack.peek().widthPercentFactor
-            + ","
-            + viewportStack.peek().heightPercentFactor);
+    LOG.fine("SVGInputFormat READ viewport w/h factors:"
+        + viewportStack.peek().widthPercentFactor
+        + ","
+        + viewportStack.peek().heightPercentFactor);
     if (value != null) {
       doubleValue = toLength(elem, (String) value, viewportStack.peek().widthPercentFactor);
       VIEWPORT_WIDTH.put(a, doubleValue);
@@ -2692,10 +2645,9 @@ public class SVGInputFormat implements InputFormat {
       // FIXME - Implement xlink support throughouth SVGInputFormat
       String xlink = readAttribute(elem, "xlink:href", "");
       if (xlink.startsWith("#") && identifiedElements.get(xlink.substring(1)) != null) {
-        stops =
-            identifiedElements
-                .get(xlink.substring(1))
-                .getElementsByTagNameNS(SVG_NAMESPACE, "stop");
+        stops = identifiedElements
+            .get(xlink.substring(1))
+            .getElementsByTagNameNS(SVG_NAMESPACE, "stop");
         if (stops.getLength() == 0) {
           stops = identifiedElements.get(xlink.substring(1)).getElementsByTagName("stop");
         }
@@ -2742,9 +2694,8 @@ public class SVGInputFormat implements InputFormat {
       stopOpacities[i] = toDouble(stopElem, readAttribute(stopElem, "stop-opacity", "1"), 1, 0, 1);
     }
     AffineTransform tx = toTransform(elem, readAttribute(elem, "gradientTransform", "none"));
-    Gradient gradient =
-        factory.createLinearGradient(
-            x1, y1, x2, y2, stopOffsets, stopColors, stopOpacities, isRelativeToFigureBounds, tx);
+    Gradient gradient = factory.createLinearGradient(
+        x1, y1, x2, y2, stopOffsets, stopColors, stopOpacities, isRelativeToFigureBounds, tx);
     elementObjects.put(elem, gradient);
   }
 
@@ -2767,10 +2718,9 @@ public class SVGInputFormat implements InputFormat {
       // FIXME - Implement xlink support throughout SVGInputFormat
       String xlink = readAttribute(elem, "xlink:href", "");
       if (xlink.startsWith("#") && identifiedElements.get(xlink.substring(1)) != null) {
-        stops =
-            identifiedElements
-                .get(xlink.substring(1))
-                .getElementsByTagNameNS(SVG_NAMESPACE, "stop");
+        stops = identifiedElements
+            .get(xlink.substring(1))
+            .getElementsByTagNameNS(SVG_NAMESPACE, "stop");
         if (stops.getLength() == 0) {
           stops = identifiedElements.get(xlink.substring(1)).getElementsByTagName("stop");
         }
@@ -2814,18 +2764,8 @@ public class SVGInputFormat implements InputFormat {
       stopOpacities[i] = toDouble(stopElem, readAttribute(stopElem, "stop-opacity", "1"), 1, 0, 1);
     }
     AffineTransform tx = toTransform(elem, readAttribute(elem, "gradientTransform", "none"));
-    Gradient gradient =
-        factory.createRadialGradient(
-            cx,
-            cy,
-            fx,
-            fy,
-            r,
-            stopOffsets,
-            stopColors,
-            stopOpacities,
-            isRelativeToFigureBounds,
-            tx);
+    Gradient gradient = factory.createRadialGradient(
+        cx, cy, fx, fy, r, stopOffsets, stopColors, stopOpacities, isRelativeToFigureBounds, tx);
     elementObjects.put(elem, gradient);
   }
 
@@ -2971,13 +2911,12 @@ public class SVGInputFormat implements InputFormat {
     } else if (str.startsWith("#") && str.length() == 4) {
       // Three digits hex value
       int th = Integer.decode(str);
-      return new Color(
-          (th & 0xf)
-              | ((th & 0xf) << 4)
-              | ((th & 0xf0) << 4)
-              | ((th & 0xf0) << 8)
-              | ((th & 0xf00) << 8)
-              | ((th & 0xf00) << 12));
+      return new Color((th & 0xf)
+          | ((th & 0xf) << 4)
+          | ((th & 0xf0) << 4)
+          | ((th & 0xf0) << 8)
+          | ((th & 0xf00) << 8)
+          | ((th & 0xf00) << 12));
     } else if (str.startsWith("rgb")) {
       try {
         StringTokenizer tt = new StringTokenizer(str, "() ,");
@@ -2985,17 +2924,16 @@ public class SVGInputFormat implements InputFormat {
         String r = tt.nextToken();
         String g = tt.nextToken();
         String b = tt.nextToken();
-        Color c =
-            new Color(
-                r.endsWith("%")
-                    ? (int) (Double.parseDouble(r.substring(0, r.length() - 1)) * 2.55)
-                    : Integer.decode(r),
-                g.endsWith("%")
-                    ? (int) (Double.parseDouble(g.substring(0, g.length() - 1)) * 2.55)
-                    : Integer.decode(g),
-                b.endsWith("%")
-                    ? (int) (Double.parseDouble(b.substring(0, b.length() - 1)) * 2.55)
-                    : Integer.decode(b));
+        Color c = new Color(
+            r.endsWith("%")
+                ? (int) (Double.parseDouble(r.substring(0, r.length() - 1)) * 2.55)
+                : Integer.decode(r),
+            g.endsWith("%")
+                ? (int) (Double.parseDouble(g.substring(0, g.length() - 1)) * 2.55)
+                : Integer.decode(g),
+            b.endsWith("%")
+                ? (int) (Double.parseDouble(b.substring(0, b.length() - 1)) * 2.55)
+                : Integer.decode(b));
         return c;
       } catch (Exception e) {
         /*if (DEBUG)*/ System.out.println("SVGInputFormat.toPaint illegal RGB value " + str);
@@ -3041,13 +2979,12 @@ public class SVGInputFormat implements InputFormat {
     } else if (str.startsWith("#") && str.length() == 4) {
       // Three digits hex value
       int th = Integer.decode(str);
-      return new Color(
-          (th & 0xf)
-              | ((th & 0xf) << 4)
-              | ((th & 0xf0) << 4)
-              | ((th & 0xf0) << 8)
-              | ((th & 0xf00) << 8)
-              | ((th & 0xf00) << 12));
+      return new Color((th & 0xf)
+          | ((th & 0xf) << 4)
+          | ((th & 0xf0) << 4)
+          | ((th & 0xf0) << 8)
+          | ((th & 0xf00) << 8)
+          | ((th & 0xf00) << 12));
     } else if (str.startsWith("rgb")) {
       try {
         StringTokenizer tt = new StringTokenizer(str, "() ,");
@@ -3055,17 +2992,16 @@ public class SVGInputFormat implements InputFormat {
         String r = tt.nextToken();
         String g = tt.nextToken();
         String b = tt.nextToken();
-        Color c =
-            new Color(
-                r.endsWith("%")
-                    ? (int) (Integer.decode(r.substring(0, r.length() - 1)) * 2.55)
-                    : Integer.decode(r),
-                g.endsWith("%")
-                    ? (int) (Integer.decode(g.substring(0, g.length() - 1)) * 2.55)
-                    : Integer.decode(g),
-                b.endsWith("%")
-                    ? (int) (Integer.decode(b.substring(0, b.length() - 1)) * 2.55)
-                    : Integer.decode(b));
+        Color c = new Color(
+            r.endsWith("%")
+                ? (int) (Integer.decode(r.substring(0, r.length() - 1)) * 2.55)
+                : Integer.decode(r),
+            g.endsWith("%")
+                ? (int) (Integer.decode(g.substring(0, g.length() - 1)) * 2.55)
+                : Integer.decode(g),
+            b.endsWith("%")
+                ? (int) (Integer.decode(b.substring(0, b.length() - 1)) * 2.55)
+                : Integer.decode(b));
         return c;
       } catch (Exception e) {
         return null;
@@ -3139,15 +3075,14 @@ public class SVGInputFormat implements InputFormat {
           double[] m = new double[6];
           for (int i = 0; i < 6; i++) {
             if (tt.nextToken() != StreamPosTokenizer.TT_NUMBER) {
-              throw new IOException(
-                  "Matrix value "
-                      + i
-                      + " not found in transform "
-                      + str
-                      + " token:"
-                      + tt.ttype
-                      + " "
-                      + tt.sval);
+              throw new IOException("Matrix value "
+                  + i
+                  + " not found in transform "
+                  + str
+                  + " token:"
+                  + tt.ttype
+                  + " "
+                  + tt.sval);
             }
             m[i] = tt.nval;
           }

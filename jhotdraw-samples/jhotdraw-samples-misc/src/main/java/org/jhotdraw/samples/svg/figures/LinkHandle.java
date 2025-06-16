@@ -15,7 +15,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.handle.AbstractHandle;
 import org.jhotdraw.draw.handle.HandleAttributeKeys;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** The LinkHandle indicates when a figure has a link. */
 public class LinkHandle extends AbstractHandle {
@@ -40,16 +40,10 @@ public class LinkHandle extends AbstractHandle {
       g.drawLine(r.x, r.y, r.x, r.y + r.height - 1);
       g.drawLine(r.x, r.y + r.height - 1, r.x + (r.width / 2) - 1, r.y + r.height - 1);
       g.drawLine(r.x + (r.width / 3), r.y + r.height / 2, r.x + r.width - 1, r.y + r.height / 2);
-      g.drawLine(
-          r.x + r.width - 1,
-          r.y + r.height / 2,
-          (int) (r.x + r.width * .75 - 1),
-          (int) (r.y + r.height * .25));
-      g.drawLine(
-          r.x + r.width - 1,
-          r.y + r.height / 2,
-          (int) (r.x + r.width * .75 - 1),
-          (int) (r.y + r.height * .75));
+      g.drawLine(r.x + r.width - 1, r.y + r.height / 2, (int) (r.x + r.width * .75 - 1), (int)
+          (r.y + r.height * .25));
+      g.drawLine(r.x + r.width - 1, r.y + r.height / 2, (int) (r.x + r.width * .75 - 1), (int)
+          (r.y + r.height * .75));
     }
   }
 

@@ -10,7 +10,7 @@ package org.jhotdraw.draw.action;
 import java.util.*;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /** SelectSameAction. */
 public class SelectSameAction extends AbstractSelectedAction {

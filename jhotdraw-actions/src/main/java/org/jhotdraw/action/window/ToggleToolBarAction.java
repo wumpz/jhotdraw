@@ -10,7 +10,7 @@ package org.jhotdraw.action.window;
 import java.awt.event.*;
 import java.beans.*;
 import javax.swing.*;
-import org.jhotdraw.util.ActionUtil;
+import org.jhotdraw.utils.util.ActionUtil;
 
 /** ToggleToolBarAction. */
 public class ToggleToolBarAction extends AbstractAction {
@@ -21,16 +21,15 @@ public class ToggleToolBarAction extends AbstractAction {
 
   public ToggleToolBarAction(JToolBar toolBar, String label) {
     super(label);
-    propertyHandler =
-        new PropertyChangeListener() {
-          @Override
-          public void propertyChange(PropertyChangeEvent evt) {
-            String name = evt.getPropertyName();
-            if ("visible".equals(name)) {
-              putValue(ActionUtil.SELECTED_KEY, evt.getNewValue());
-            }
-          }
-        };
+    propertyHandler = new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        String name = evt.getPropertyName();
+        if ("visible".equals(name)) {
+          putValue(ActionUtil.SELECTED_KEY, evt.getNewValue());
+        }
+      }
+    };
     putValue(ActionUtil.SELECTED_KEY, true);
     setToolBar(toolBar);
   }

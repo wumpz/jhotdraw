@@ -12,7 +12,7 @@ import java.util.*;
 import javax.swing.*;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.util.ResourceBundleUtil;
+import org.jhotdraw.utils.util.ResourceBundleUtil;
 
 /**
  * The DrawingColorChooserAction changes a color attribute of the Drawing object in the current view
@@ -59,9 +59,8 @@ public class DrawingColorChooserAction extends EditorColorChooserAction {
     Color initialColor = getInitialColor();
     // FIXME - Reuse colorChooser object instead of calling static method here.
     ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
-    Color chosenColor =
-        JColorChooser.showDialog(
-            (Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
+    Color chosenColor = JColorChooser.showDialog(
+        (Component) e.getSource(), labels.getString("attribute.color.text"), initialColor);
     if (chosenColor != null) {
       HashMap<AttributeKey<?>, Object> attr = new HashMap<>(attributes);
       attr.put(key, chosenColor);

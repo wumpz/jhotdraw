@@ -20,7 +20,7 @@ import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.samples.odg.ODGAttributeKeys;
 import org.jhotdraw.samples.odg.ODGConstants;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /** ODGAttributedFigure. */
 public abstract class ODGAttributedFigure extends AbstractAttributedFigure implements ODGFigure {
@@ -41,11 +41,10 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
           Rectangle2D.intersect(drawingArea, clipBounds, drawingArea);
         }
         if (!drawingArea.isEmpty()) {
-          BufferedImage buf =
-              new BufferedImage(
-                  (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
-                  (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
-                  BufferedImage.TYPE_INT_ARGB);
+          BufferedImage buf = new BufferedImage(
+              (int) ((2 + drawingArea.width) * g.getTransform().getScaleX()),
+              (int) ((2 + drawingArea.height) * g.getTransform().getScaleY()),
+              BufferedImage.TYPE_INT_ARGB);
           Graphics2D gr = buf.createGraphics();
           gr.scale(g.getTransform().getScaleX(), g.getTransform().getScaleY());
           gr.translate((int) -drawingArea.x, (int) -drawingArea.y);
@@ -101,16 +100,15 @@ public abstract class ODGAttributedFigure extends AbstractAttributedFigure imple
     LinkedList<Action> actions = new LinkedList<Action>();
     if (attr().get(TRANSFORM) != null) {
       ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.odg.Labels");
-      actions.add(
-          new AbstractAction(labels.getString("edit.removeTransform.text")) {
-            private static final long serialVersionUID = 1L;
+      actions.add(new AbstractAction(labels.getString("edit.removeTransform.text")) {
+        private static final long serialVersionUID = 1L;
 
-            public void actionPerformed(ActionEvent evt) {
-              willChange();
-              fireUndoableEditHappened(TRANSFORM.setUndoable(ODGAttributedFigure.this, null));
-              changed();
-            }
-          });
+        public void actionPerformed(ActionEvent evt) {
+          willChange();
+          fireUndoableEditHappened(TRANSFORM.setUndoable(ODGAttributedFigure.this, null));
+          changed();
+        }
+      });
     }
     return actions;
   }

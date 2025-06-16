@@ -22,11 +22,11 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoableEdit;
 import org.jhotdraw.api.app.Disposable;
 import org.jhotdraw.api.gui.AttributeEditor;
-import org.jhotdraw.beans.WeakPropertyChangeListener;
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.utils.beans.WeakPropertyChangeListener;
 
 /**
  * AbstractAttributeEditorHandler mediates between an AttributeEditor and the currently selected
@@ -188,9 +188,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
       DrawingEditor drawingEditor,
       boolean updateDrawingEditorDefaults) {
     eventHandler = new EventHandler();
-    this.defaultAttributes =
-        (Map<AttributeKey<?>, Object>)
-            ((defaultAttributes == null) ? Collections.emptyMap() : defaultAttributes);
+    this.defaultAttributes = (Map<AttributeKey<?>, Object>)
+        ((defaultAttributes == null) ? Collections.emptyMap() : defaultAttributes);
     attributeEditor.setAttributeValue(key.getDefaultValue());
     setAttributeKey(key);
     setAttributeEditor(attributeEditor);
@@ -294,10 +293,9 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
   }
 
   protected void updateActiveView() {
-    DrawingView newValue =
-        (view != null)
-            ? view
-            : ((editor != null && editor.getActiveView() != null) ? editor.getActiveView() : null);
+    DrawingView newValue = (view != null)
+        ? view
+        : ((editor != null && editor.getActiveView() != null) ? editor.getActiveView() : null);
     DrawingView oldValue = activeView;
     if (activeView != null) {
       activeView.removePropertyChangeListener(eventHandler);
@@ -378,9 +376,8 @@ public abstract class AbstractAttributeEditorHandler<T> implements Disposable {
         }
         getActiveView()
             .getDrawing()
-            .fireUndoableEditHappened(
-                new UndoableAttributeEdit<>(
-                    new HashSet<>(figures), attributeKey, value, attributeRestoreData));
+            .fireUndoableEditHappened(new UndoableAttributeEdit<>(
+                new HashSet<>(figures), attributeKey, value, attributeRestoreData));
         if (!attributeEditor.getValueIsAdjusting()) {
           attributeRestoreData = null;
         }

@@ -32,8 +32,7 @@ public class CMYKGenericColorSpace extends ICC_ColorSpace {
   }
 
   public CMYKGenericColorSpace() throws IOException {
-    super(
-        ICC_Profile.getInstance(
-            CMYKGenericColorSpace.class.getResourceAsStream("Generic CMYK Profile.icc")));
+    super(ICC_Profile.getInstance(
+        CMYKGenericColorSpace.class.getResourceAsStream("Generic CMYK Profile.icc")));
   }
 }

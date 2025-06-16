@@ -12,7 +12,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import org.jhotdraw.action.AbstractApplicationAction;
 import org.jhotdraw.api.app.Application;
-import org.jhotdraw.util.*;
+import org.jhotdraw.utils.util.*;
 
 /**
  * Displays a dialog showing information about the application.

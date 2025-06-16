@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import org.jhotdraw.gui.plaf.palette.*;
-import org.jhotdraw.util.Images;
+import org.jhotdraw.utils.util.Images;
 
 /**
  * A UI delegate for color sliders. The track of the slider visualizes how changing the value of the
@@ -291,9 +291,8 @@ public class ColorSliderUI extends BasicSliderUI {
       if (colorTrackImage != null) {
         colorTrackImage.flush();
       }
-      colorTrackImageProducer =
-          new ColorTrackImageProducer(
-              width, height, buffer + 2, slider.getOrientation() == JSlider.HORIZONTAL);
+      colorTrackImageProducer = new ColorTrackImageProducer(
+          width, height, buffer + 2, slider.getOrientation() == JSlider.HORIZONTAL);
       if (slider.getClientProperty("colorSliderModel") != null) {
         colorTrackImageProducer.setColorSliderModel(
             (ColorSliderModel) slider.getClientProperty("colorSliderModel"));

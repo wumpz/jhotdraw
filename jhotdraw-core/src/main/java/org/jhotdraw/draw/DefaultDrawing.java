@@ -21,9 +21,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import org.jhotdraw.draw.figure.Figure;
-import org.jhotdraw.geom.Geom;
-import org.jhotdraw.util.ReversedList;
+import org.jhotdraw.utils.geom.Geom;
+import org.jhotdraw.utils.util.ReversedList;
 
 /**
  * A default implementation of {@link Drawing} useful for drawings which contain only a few figures.
@@ -91,10 +92,12 @@ public class DefaultDrawing extends AbstractDrawing {
         unsorted.remove(f);
       }
     }
-    for (Figure f : c) {
-      if (unsorted.contains(f)) {
-        sorted.add(f);
-        unsorted.remove(f);
+    if (!unsorted.isEmpty()) {
+      for (Figure f : c) {
+        if (unsorted.contains(f)) {
+          sorted.add(f);
+          unsorted.remove(f);
+        }
       }
     }
     return sorted;
@@ -131,11 +134,14 @@ public class DefaultDrawing extends AbstractDrawing {
   }
 
   @Override
-  public Figure findFigureBehind(Point2D.Double p, Figure figure) {
+  public Figure findFigureBehind(
+      Point2D.Double p, double scaleDenominator, Figure figure, Predicate<Figure> filter) {
     boolean isBehind = false;
     for (Figure f : getFiguresFrontToBack()) {
       if (isBehind) {
-        if (f.isVisible() && f.contains(p)) {
+        if (f.isVisible()
+            && f.contains(p, scaleDenominator)
+            && (filter == null || filter.test(f))) {
           return f;
         }
       } else {
@@ -146,26 +152,17 @@ public class DefaultDrawing extends AbstractDrawing {
   }
 
   @Override
-  public Figure findFigureBehind(Point2D.Double p, double scaleDenominator, Figure figure) {
-    boolean isBehind = false;
-    for (Figure f : getFiguresFrontToBack()) {
-      if (isBehind) {
-        if (f.isVisible() && f.contains(p, scaleDenominator)) {
-          return f;
-        }
-      } else {
-        isBehind = figure == f;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public Figure findFigureBehind(Point2D.Double p, Collection<? extends Figure> children) {
+  public Figure findFigureBehind(
+      Point2D.Double p,
+      double scaleDenominator,
+      Collection<? extends Figure> children,
+      Predicate<Figure> filter) {
     int inFrontOf = children.size();
     for (Figure f : getFiguresFrontToBack()) {
       if (inFrontOf == 0) {
-        if (f.isVisible() && f.contains(p)) {
+        if (f.isVisible()
+            && f.contains(p, scaleDenominator)
+            && (filter == null || filter.test(f))) {
           return f;
         }
       } else {
@@ -207,10 +204,9 @@ public class DefaultDrawing extends AbstractDrawing {
       Rectangle2D.Double r = f.getBounds(scale);
       if (f.attr().get(TRANSFORM) != null) {
         Rectangle2D rt = f.attr().get(TRANSFORM).createTransformedShape(r).getBounds2D();
-        r =
-            (rt instanceof Rectangle2D.Double)
-                ? (Rectangle2D.Double) rt
-                : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
+        r = (rt instanceof Rectangle2D.Double)
+            ? (Rectangle2D.Double) rt
+            : new Rectangle2D.Double(rt.getX(), rt.getY(), rt.getWidth(), rt.getHeight());
       }
       if (f.isVisible() && Geom.contains(bounds, r)) {
         contained.add(f);
