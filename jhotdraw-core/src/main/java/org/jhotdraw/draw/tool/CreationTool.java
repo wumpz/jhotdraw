@@ -130,7 +130,7 @@ public class CreationTool extends AbstractTool implements CoordinateDataSupplier
    * Bounding box is now constructed around anchor as center and lead as path to one edge. The main calculation is
    * done within setFigureBounds to make more specific adaptions.
    */
-  public CreationTool withAchorIsCenterOfBoundingBox(boolean flag) {
+  public CreationTool withAnchorIsCenterOfBoundingBox(boolean flag) {
     this.anchorIsCenterOfBoundingBox = flag;
     return this;
   }
