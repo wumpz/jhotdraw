@@ -178,6 +178,8 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     format.read(t, drawing, false);
                     final List<Figure> importedFigures = new ArrayList<>(drawing.getChildren());
                     importedFigures.removeAll(existingFigures);
+										preprocessFiguresToInsert(importedFigures);
+										
                     view.clearSelection();
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
@@ -287,6 +289,13 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
     return retValue;
   }
+	
+	/**
+	 * preprocess figures from clipboard. 
+	 */
+	protected boolean preprocessFiguresToInsert(List<Figure> figures) {
+		return true;
+	}
 
   protected void moveToDropPoint(
       JComponent component, HashSet<Figure> transferFigures, Point dropPoint) {
