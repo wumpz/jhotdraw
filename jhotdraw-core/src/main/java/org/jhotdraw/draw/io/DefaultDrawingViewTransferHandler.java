@@ -135,7 +135,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     final List<Figure> importedFigures =
                         new ArrayList<>(dummyDrawing.getChildren());
                     importedFigures.removeAll(existingFigures);
-                    preprocessFiguresToInsert(importedFigures);
+                    if (!preprocessFiguresToInsert(importedFigures)) {
+                      // Veto due to false from preprocess method
+                      break SearchLoop;
+                    }
                     drawing.addAll(importedFigures);
                     view.clearSelection();
                     view.addToSelection(importedFigures);
@@ -184,7 +187,10 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                     final List<Figure> importedFigures =
                         new ArrayList<>(dummyDrawing.getChildren());
                     importedFigures.removeAll(existingFigures);
-                    preprocessFiguresToInsert(importedFigures);
+                    if (!preprocessFiguresToInsert(importedFigures)) {
+                      // Veto due to false from preprocess method
+                      break SearchLoop;
+                    }
                     drawing.addAll(importedFigures);
 
                     view.clearSelection();
@@ -299,8 +305,12 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
 
   /**
    * preprocess figures from clipboard.
+   *
+   * @return true then import should proceed, false insert should be blocked
    */
-  protected void preprocessFiguresToInsert(List<Figure> figures) {}
+  protected boolean preprocessFiguresToInsert(List<Figure> figures) {
+    return true;
+  }
 
   protected void moveToDropPoint(
       JComponent component, HashSet<Figure> transferFigures, Point dropPoint) {
