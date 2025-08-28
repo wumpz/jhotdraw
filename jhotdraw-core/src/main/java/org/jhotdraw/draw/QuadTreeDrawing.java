@@ -133,6 +133,32 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return null;
     }
   }
+	
+	@Override
+  public Figure findFigure(Point2D.Double p, double scaleDenominator) {
+    double tolerance = 10 / 2 / scaleDenominator;
+    Rectangle2D.Double rect =
+        new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
+    for (Figure figure : findFigures(rect)) {
+      if (figure.isVisible() && figure.contains(p, scaleDenominator)) {
+        return figure;
+      }
+    }
+    return null;
+  }
+	
+	@Override
+  public List<Figure> findFigures(Point2D.Double p) {
+    return quadTree.findContains(p).stream().filter(f -> f.contains(p)).toList();
+  }
+	
+	@Override
+  public List<Figure> findFigures(Point2D.Double p, double scaleDenominator) {
+    double tolerance = 10 / 2 / scaleDenominator;
+    Rectangle2D.Double rect =
+        new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
+    return findFigures(rect).stream().filter(figure -> figure.isVisible() && figure.contains(p, scaleDenominator)).toList();
+  }
 
   @Override
   public Figure findFigureExcept(Point2D.Double p, Figure ignore) {
@@ -284,19 +310,6 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   protected EventHandler createEventHandler() {
     return new QuadTreeEventHandler();
-  }
-
-  @Override
-  public Figure findFigure(Point2D.Double p, double scaleDenominator) {
-    double tolerance = 10 / 2 / scaleDenominator;
-    Rectangle2D.Double rect =
-        new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
-    for (Figure figure : findFigures(rect)) {
-      if (figure.isVisible() && figure.contains(p, scaleDenominator)) {
-        return figure;
-      }
-    }
-    return null;
   }
 
   /** Handles all figure events fired by Figures contained in the Drawing. */
