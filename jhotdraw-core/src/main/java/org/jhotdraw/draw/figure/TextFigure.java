@@ -163,7 +163,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
             this, AttributeKeys.getGlobalSizeFactor(this, scale))
         + 1d;
     Rectangle2D.Double r = getBounds(scale);
-    Geom.grow(r, grow, grow);
+    // Geom.grow(r, grow, grow);
     return r.contains(p);
   }
 

@@ -52,6 +52,7 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import org.jhotdraw.datatransfer.CompositeTransferable;
+import org.jhotdraw.draw.DefaultDrawing;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.event.DrawingEvent;
@@ -113,6 +114,7 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     DrawingView view = extractDrawingView(comp);
     if (view != null) {
       final Drawing drawing = view.getDrawing();
+      final Drawing dummyDrawing = new DefaultDrawing();
       if (drawing.getInputFormats() == null || drawing.getInputFormats().size() == 0) {
         retValue = false;
       } else {
@@ -129,9 +131,15 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 if (format.isDataFlavorSupported(flavor)) {
                   List<Figure> existingFigures = new ArrayList<>(drawing.getChildren());
                   try {
-                    format.read(t, drawing, false);
-                    final List<Figure> importedFigures = new ArrayList<>(drawing.getChildren());
+                    format.read(t, dummyDrawing, false);
+                    final List<Figure> importedFigures =
+                        new ArrayList<>(dummyDrawing.getChildren());
                     importedFigures.removeAll(existingFigures);
+                    if (!preprocessFiguresToInsert(importedFigures)) {
+                      // Veto due to false from preprocess method
+                      break SearchLoop;
+                    }
+                    drawing.addAll(importedFigures);
                     view.clearSelection();
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
@@ -175,9 +183,16 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                 if (format.isDataFlavorSupported(flavor)) {
                   List<Figure> existingFigures = new ArrayList<>(drawing.getChildren());
                   try {
-                    format.read(t, drawing, false);
-                    final List<Figure> importedFigures = new ArrayList<>(drawing.getChildren());
+                    format.read(t, dummyDrawing, false);
+                    final List<Figure> importedFigures =
+                        new ArrayList<>(dummyDrawing.getChildren());
                     importedFigures.removeAll(existingFigures);
+                    if (!preprocessFiguresToInsert(importedFigures)) {
+                      // Veto due to false from preprocess method
+                      break SearchLoop;
+                    }
+                    drawing.addAll(importedFigures);
+
                     view.clearSelection();
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
@@ -286,6 +301,15 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
       retValue = super.importData(comp, t);
     }
     return retValue;
+  }
+
+  /**
+   * preprocess figures from clipboard.
+   *
+   * @return true then import should proceed, false insert should be blocked
+   */
+  protected boolean preprocessFiguresToInsert(List<Figure> figures) {
+    return true;
   }
 
   protected void moveToDropPoint(
