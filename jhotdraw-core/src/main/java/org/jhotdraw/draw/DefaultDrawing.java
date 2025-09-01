@@ -122,15 +122,19 @@ public class DefaultDrawing extends AbstractDrawing {
     }
     return null;
   }
-	
-	@Override
+
+  @Override
   public List<Figure> findFigures(Point2D.Double p) {
-		return getFiguresFrontToBack().stream().filter(f -> f.isVisible() && f.contains(p)).toList();
+    return getFiguresFrontToBack().stream()
+        .filter(f -> f.isVisible() && f.contains(p))
+        .toList();
   }
 
   @Override
   public List<Figure> findFigures(Point2D.Double p, double scaleDenominator) {
-		return getFiguresFrontToBack().stream().filter(f -> f.isVisible() && f.contains(p, scaleDenominator)).toList();
+    return getFiguresFrontToBack().stream()
+        .filter(f -> f.isVisible() && f.contains(p, scaleDenominator))
+        .toList();
   }
 
   @Override

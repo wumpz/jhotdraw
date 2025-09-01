@@ -133,8 +133,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
         return null;
     }
   }
-	
-	@Override
+
+  @Override
   public Figure findFigure(Point2D.Double p, double scaleDenominator) {
     double tolerance = 10 / 2 / scaleDenominator;
     Rectangle2D.Double rect =
@@ -146,18 +146,20 @@ public class QuadTreeDrawing extends AbstractDrawing {
     }
     return null;
   }
-	
-	@Override
+
+  @Override
   public List<Figure> findFigures(Point2D.Double p) {
     return quadTree.findContains(p).stream().filter(f -> f.contains(p)).toList();
   }
-	
-	@Override
+
+  @Override
   public List<Figure> findFigures(Point2D.Double p, double scaleDenominator) {
     double tolerance = 10 / 2 / scaleDenominator;
     Rectangle2D.Double rect =
         new Rectangle2D.Double(p.x - tolerance, p.y - tolerance, 2 * tolerance, 2 * tolerance);
-    return findFigures(rect).stream().filter(figure -> figure.isVisible() && figure.contains(p, scaleDenominator)).toList();
+    return findFigures(rect).stream()
+        .filter(figure -> figure.isVisible() && figure.contains(p, scaleDenominator))
+        .toList();
   }
 
   @Override

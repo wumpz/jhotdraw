@@ -261,17 +261,17 @@ public interface Drawing extends AttributeProvider {
    * <p>Use {@link #findFigureInside} If you need to descend into children of composite figures.
    */
   Figure findFigure(Point2D.Double p, double scaleDenominator);
-	
-	/**
-   * Finds all Figures that are near a given point. 
+
+  /**
+   * Finds all Figures that are near a given point.
    */
-	List<Figure> findFigures(Point2D.Double p);
-	
-	/**
+  List<Figure> findFigures(Point2D.Double p);
+
+  /**
    * Finds all Figures that are near a given point. Using the scaleDenominator a litte rectangle is constructed
-	 * to find lines and points as well without having the exact point.
+   * to find lines and points as well without having the exact point.
    */
-	List<Figure> findFigures(Point2D.Double p, double scaleDenominator);
+  List<Figure> findFigures(Point2D.Double p, double scaleDenominator);
 
   /**
    * Finds a top level Figure. Use this call for hit detection that should not descend into the
