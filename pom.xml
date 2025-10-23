@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jhotdraw</groupId>
   <artifactId>jhotdraw</artifactId>
-  <version>10.2.2</version>
+  <version>10.2.3</version>
   <packaging>pom</packaging>
   <description>This is a fork of jhotdraw from http://sourceforge.net/projects/jhotdraw</description>
   <organization>
