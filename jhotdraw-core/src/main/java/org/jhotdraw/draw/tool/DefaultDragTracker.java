@@ -131,33 +131,37 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         updateCursor(
             editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
       }
-			
-      Point2D.Double currentPoint = view.viewToDrawing(new Point(evt.getX(), evt.getY()));
-      dragRect.x += currentPoint.x - previousPoint.x;
-      dragRect.y += currentPoint.y - previousPoint.y;
-      Rectangle2D.Double constrainedRect = (Rectangle2D.Double) dragRect.clone();
-      if (view.getConstrainer() != null) {
-        view.getConstrainer().constrainRectangle(constrainedRect);
-      }
-      AffineTransform tx = new AffineTransform();
-      tx.translate(constrainedRect.x - previousOrigin.x, constrainedRect.y - previousOrigin.y);
-      for (Figure f : transformedFigures) {
-        f.willChange();
-				
-				if (f instanceof Origin origin) {
-					// point figures are not moved by there bounding box but by their origin
-					Point2D.Double org = origin.getOrigin();
 
-					Point2D.Double newP = new Point2D.Double(org.x + currentPoint.x - previousPoint.x, org.y + currentPoint.y - previousPoint.y);
-					if (view.getConstrainer() != null) {
-						view.getConstrainer().constrainPoint(newP, f);
-					}
-					origin.setOrigin(newP);
-				} else {
-					f.transform(tx);
-				}
-				
+      Point2D.Double currentPoint = view.viewToDrawing(new Point(evt.getX(), evt.getY()));
+      Rectangle2D.Double constrainedRect = null;
+
+      if (transformedFigures.size() == 1
+          && transformedFigures.iterator().next() instanceof Origin origin) {
+        // point figures are not moved by there bounding box but by their origin
+        // and by design those figures are placed at the currentPoint.
+        // the separation is needed since any constrainPoint call will change the cursor
+        Figure f = (Figure) origin;
+        f.willChange();
+        if (view.getConstrainer() != null) {
+          origin.setOrigin(view.getConstrainer().constrainPoint(currentPoint, f));
+        } else {
+          origin.setOrigin(currentPoint);
+        }
         f.changed();
+      } else {
+        dragRect.x += currentPoint.x - previousPoint.x;
+        dragRect.y += currentPoint.y - previousPoint.y;
+        constrainedRect = (Rectangle2D.Double) dragRect.clone();
+        if (view.getConstrainer() != null) {
+          view.getConstrainer().constrainRectangle(constrainedRect);
+        }
+        AffineTransform tx = new AffineTransform();
+        tx.translate(constrainedRect.x - previousOrigin.x, constrainedRect.y - previousOrigin.y);
+        for (Figure f : transformedFigures) {
+          f.willChange();
+          f.transform(tx);
+          f.changed();
+        }
       }
       previousPoint = currentPoint;
       previousOrigin = new Point2D.Double(constrainedRect.x, constrainedRect.y);
