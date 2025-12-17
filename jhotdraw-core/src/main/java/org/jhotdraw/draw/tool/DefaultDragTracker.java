@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.TransformEdit;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.draw.figure.Origin;
 
 /**
  * <code>DefaultDragTracker</code> implements interactions with the content area of a <code>Figure
@@ -130,6 +131,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         updateCursor(
             editor.findView((Container) evt.getSource()), new Point(evt.getX(), evt.getY()));
       }
+			
       Point2D.Double currentPoint = view.viewToDrawing(new Point(evt.getX(), evt.getY()));
       dragRect.x += currentPoint.x - previousPoint.x;
       dragRect.y += currentPoint.y - previousPoint.y;
@@ -141,7 +143,20 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
       tx.translate(constrainedRect.x - previousOrigin.x, constrainedRect.y - previousOrigin.y);
       for (Figure f : transformedFigures) {
         f.willChange();
-        f.transform(tx);
+				
+				if (f instanceof Origin origin) {
+					// point figures are not moved by there bounding box but by their origin
+					Point2D.Double org = origin.getOrigin();
+
+					Point2D.Double newP = new Point2D.Double(org.x + currentPoint.x - previousPoint.x, org.y + currentPoint.y - previousPoint.y);
+					if (view.getConstrainer() != null) {
+						view.getConstrainer().constrainPoint(newP, f);
+					}
+					origin.setOrigin(newP);
+				} else {
+					f.transform(tx);
+				}
+				
         f.changed();
       }
       previousPoint = currentPoint;
