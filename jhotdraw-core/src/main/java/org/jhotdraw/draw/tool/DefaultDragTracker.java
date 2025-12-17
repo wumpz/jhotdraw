@@ -164,7 +164,7 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
         }
       }
       previousPoint = currentPoint;
-      previousOrigin = new Point2D.Double(constrainedRect.x, constrainedRect.y);
+      previousOrigin = constrainedRect != null ? new Point2D.Double(constrainedRect.x, constrainedRect.y): null;
     }
   }
 
