@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import org.jhotdraw.draw.event.FigureEvent;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.utils.geom.Geom;
 import org.jhotdraw.utils.geom.QuadTree;
@@ -82,14 +83,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
     }
   }
 
-  public List<Figure> getChildren(Rectangle2D.Double bounds) {
-    return new ArrayList<>(quadTree.findInside(bounds));
-  }
-
-  @Override
-  public List<Figure> getChildren() {
-    return UNMODIFIABLE_CHILDREN;
-  }
+  //  public List<Figure> getChildren(Rectangle2D.Double bounds) {
+  //    return new ArrayList<>(quadTree.findInside(bounds));
+  //  }
 
   @Override
   public Figure findFigureInside(Point2D.Double p) {
@@ -276,6 +272,9 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   public void bringToFront(Figure figure) {
     if (CHILDREN.remove(figure)) {
+			var maxLayer = CHILDREN.stream().mapToInt(f-> f.getLayer()).max().orElse(0) + 1;
+			
+			
       CHILDREN.add(figure);
       needsSorting = true;
       fireDrawingChanged(figure.getDrawingArea());
