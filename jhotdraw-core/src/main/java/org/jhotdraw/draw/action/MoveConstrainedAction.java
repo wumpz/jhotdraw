@@ -55,9 +55,9 @@ public abstract class MoveConstrainedAction extends AbstractSelectedAction {
       if (getView().getConstrainer() != null) {
         getView().getConstrainer().translateRectangle(r, dir);
       } else {
-				int flipY = 1;
-				if ( getView().getDrawingToViewTransform() != null && getView().getDrawingToViewTransform().getScaleY() < 0 ) 
-					flipY = -1;
+        int flipY = 1;
+        if (getView().getDrawingToViewTransform() != null
+            && getView().getDrawingToViewTransform().getScaleY() < 0) flipY = -1;
         switch (dir) {
           case NORTH:
             r.y -= 1 * flipY;
