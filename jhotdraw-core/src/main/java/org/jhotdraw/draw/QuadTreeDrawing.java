@@ -20,7 +20,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import org.jhotdraw.draw.event.FigureEvent;
-import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.utils.geom.Geom;
 import org.jhotdraw.utils.geom.QuadTree;
@@ -272,9 +271,8 @@ public class QuadTreeDrawing extends AbstractDrawing {
   @Override
   public void bringToFront(Figure figure) {
     if (CHILDREN.remove(figure)) {
-			var maxLayer = CHILDREN.stream().mapToInt(f-> f.getLayer()).max().orElse(0) + 1;
-			
-			
+      var maxLayer = CHILDREN.stream().mapToInt(f -> f.getLayer()).max().orElse(0) + 1;
+
       CHILDREN.add(figure);
       needsSorting = true;
       fireDrawingChanged(figure.getDrawingArea());
