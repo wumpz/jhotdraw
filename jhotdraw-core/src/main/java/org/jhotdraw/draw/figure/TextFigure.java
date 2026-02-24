@@ -104,10 +104,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
         // to avoid float imprecisions
         AffineTransform at2 = new AffineTransform();
-        at2.translate(origin.x, origin.y);
+        at2.translate(origin.x - alignDeltaX, origin.y + alignDeltaY + layout.getAscent());
         g2.transform(at2);
 
-        layout.draw(g2, (float) (-alignDeltaX), (float) (+alignDeltaY + layout.getAscent()));
+        layout.draw(g2, 0, 0);
       } finally {
         g2.dispose();
       }
