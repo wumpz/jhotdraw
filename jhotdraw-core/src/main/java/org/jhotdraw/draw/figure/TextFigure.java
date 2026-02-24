@@ -93,9 +93,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         // unmirror it.
         if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
           AffineTransform at = new AffineTransform();
-          at.translate(0, origin.y + layout.getAscent() / 2);
+          at.translate(0, origin.y + layout.getAscent() / 2.0);
           at.scale(1, -1);
-          at.translate(0, -origin.y - layout.getAscent() / 2);
+          at.translate(0, -origin.y - layout.getAscent() / 2.0);
           at.rotate(direction.x, -direction.y, origin.x, origin.y + layout.getAscent());
           g2.transform(at);
         } else {
@@ -104,10 +104,10 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
         // to avoid float imprecisions
         AffineTransform at2 = new AffineTransform();
-        at2.translate(origin.x, origin.y);
+        at2.translate(origin.x - alignDeltaX, origin.y + alignDeltaY + layout.getAscent());
         g2.transform(at2);
 
-        layout.draw(g2, (float) (-alignDeltaX), (float) (+alignDeltaY + layout.getAscent()));
+        layout.draw(g2, 0, 0);
       } finally {
         g2.dispose();
       }
