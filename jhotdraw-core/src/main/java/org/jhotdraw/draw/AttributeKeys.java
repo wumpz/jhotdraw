@@ -526,7 +526,12 @@ public class AttributeKeys {
    * @return
    */
   public static double getScaleFactorFromGraphics(Graphics2D g) {
-    return getScaleFactor(g.getTransform());
+    double scale = getScaleFactor(g.getTransform());
+    if (g.getRenderingHint(JHotdrawRenderingKeys.GLOBAL_PRECISION) instanceof Double globPrec) {
+      // do something
+      scale /= globPrec;
+    }
+    return scale;
   }
 
   /**
