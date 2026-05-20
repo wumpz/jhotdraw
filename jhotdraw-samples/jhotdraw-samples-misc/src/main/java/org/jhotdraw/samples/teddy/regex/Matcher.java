@@ -134,7 +134,7 @@ public class Matcher {
               switch (matchType) {
                 case CONTAINS:
                   return foundIndex;
-                  // break; <- never reached
+                // break; <- never reached
                 case STARTS_WITH:
                   if (!isWordChar(foundIndex - 1)) {
                     return foundIndex;

@@ -619,7 +619,7 @@ public class AttributeKeys {
             Math.max(1, miterLimit),
             dashes,
             Math.max(0, (float) (dashPhase * dashFactor)));
-        // not reached
+      // not reached
       case DOUBLE:
         return new DoubleStroke(
             (float) (f.attr().get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
@@ -629,7 +629,7 @@ public class AttributeKeys {
             Math.max(1, miterLimit),
             dashes,
             Math.max(0, (float) (dashPhase * dashFactor)));
-        // not reached
+      // not reached
     }
   }
 
@@ -654,7 +654,7 @@ public class AttributeKeys {
             miterLimit,
             null,
             Math.max(0, (float) (f.attr().get(STROKE_DASH_PHASE) * dashFactor)));
-        // not reached
+      // not reached
       case DOUBLE:
         return new DoubleStroke(
             (float) (f.attr().get(STROKE_INNER_WIDTH_FACTOR) * strokeWidth),
@@ -664,7 +664,7 @@ public class AttributeKeys {
             miterLimit,
             null,
             Math.max(0, (float) (f.attr().get(STROKE_DASH_PHASE).floatValue() * dashFactor)));
-        // not reached
+      // not reached
     }
   }
 
