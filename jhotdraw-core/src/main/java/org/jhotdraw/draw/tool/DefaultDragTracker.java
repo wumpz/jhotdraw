@@ -135,19 +135,36 @@ public class DefaultDragTracker extends AbstractTool implements DragTracker {
       Point2D.Double currentPoint = view.viewToDrawing(new Point(evt.getX(), evt.getY()));
       Rectangle2D.Double constrainedRect = null;
 
-      if (transformedFigures.size() == 1
-          && transformedFigures.iterator().next() instanceof Origin origin) {
-        // point figures are not moved by there bounding box but by their origin
-        // and by design those figures are placed at the currentPoint.
-        // the separation is needed since any constrainPoint call will change the cursor
-        Figure f = (Figure) origin;
-        f.willChange();
-        if (view.getConstrainer() != null) {
-          origin.setOrigin(view.getConstrainer().constrainPoint(currentPoint, f));
+      if (transformedFigures.size() == 1) {
+        if (transformedFigures.iterator().next() instanceof Origin origin) {
+          // point figures are not moved by there bounding box but by their origin
+          // and by design those figures are placed at the currentPoint.
+          // the separation is needed since any constrainPoint call will change the cursor
+          Figure f = (Figure) origin;
+          f.willChange();
+          if (view.getConstrainer() != null) {
+            origin.setOrigin(view.getConstrainer().constrainPoint(currentPoint, f));
+          } else {
+            origin.setOrigin(currentPoint);
+          }
+          f.changed();
         } else {
-          origin.setOrigin(currentPoint);
+          // Somehow this multi translation using the previous origin point results
+          // in a difference between the figures position and the actual checked rectangle.
+          dragRect.x += currentPoint.x - previousPoint.x;
+          dragRect.y += currentPoint.y - previousPoint.y;
+          constrainedRect = (Rectangle2D.Double) dragRect.clone();
+          if (view.getConstrainer() != null) {
+            view.getConstrainer().constrainRectangle(constrainedRect);
+          }
+          for (Figure f : transformedFigures) {
+            f.willChange();
+            AffineTransform tx = new AffineTransform();
+            tx.translate(constrainedRect.x - f.getBounds().x, constrainedRect.y - f.getBounds().y);
+            f.transform(tx);
+            f.changed();
+          }
         }
-        f.changed();
       } else {
         dragRect.x += currentPoint.x - previousPoint.x;
         dragRect.y += currentPoint.y - previousPoint.y;
