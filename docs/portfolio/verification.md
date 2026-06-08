@@ -48,6 +48,42 @@ After refactoring:   Tests run: 6, Failures: 0, Errors: 0  ✓
 BDD scenario:        Tests run: 1, Failures: 0, Errors: 0  ✓
 ```
 
+---
+
+## Refactoring 2 — `BezierFigure.contains`
+
+### Characterization Tests (`BezierFigureContainsTest`) — commit `1057d270`
+
+Seven JUnit 5 + AssertJ tests, located at:  
+`jhotdraw-core/src/test/java/org/jhotdraw/draw/figure/BezierFigureContainsTest.java`
+
+Fixture figures:
+
+| Figure | Description |
+|---|---|
+| `closedSquare` | Closed BezierFigure, nodes at (10,10), (110,10), (110,110), (10,110) |
+| `openLine` | Open BezierFigure, nodes at (0,0) and (100,0) |
+
+| Test | Scenario | Expected |
+|---|---|---|
+| `closedFigure_pointDeepInside_returnsTrue` | (60,60) inside square | `true` |
+| `closedFigure_pointClearlyOutside_returnsFalse` | (300,300) far outside | `false` |
+| `closedFigure_pointOnCornerNode_returnsTrue` | (10,10) on a corner | `true` |
+| `closedFigure_pointJustOutsideButWithinStrokeTolerance_returnsTrue` | (60,9) 1px outside edge | `true` |
+| `closedFigure_pointFarOutsideStrokeTolerance_returnsFalse` | (60,−50) 50px outside | `false` |
+| `openFigure_pointOnPathMidpoint_returnsTrue` | (50,0) on the outline | `true` |
+| `openFigure_pointFarFromPath_returnsFalse` | (50,200) far away | `false` |
+
+### Behaviour-Preservation Argument (Refactoring 2)
+
+The 7 characterization tests were written at commit `1057d270`, run **green against the original code**, and run again after the refactoring at `98e9223b`—**green without any test modification**. The public method shrank from 45 lines to 11, but all observable hit-test results are unchanged.
+
+```
+Before refactoring:  Tests run: 7, Failures: 0, Errors: 0  ✓
+After refactoring:   Tests run: 7, Failures: 0, Errors: 0  ✓
+Full suite (core):   Tests run: 21, Failures: 0, Errors: 0 ✓
+```
+
 ## Test Infrastructure Notes
 
 `DrawingView` is a large Swing-coupled interface (~55 methods). Rather than wiring a real `DefaultDrawingView` (which requires a Swing component tree), the tests use a `DrawingViewStub` inner class that implements only `getSelectedFigures()` meaningfully; all other methods are either no-ops or throw `UnsupportedOperationException`. The action subclass is constructed with `null` editor (safe: `AbstractSelectedAction.setEditor(null)` skips event-handler registration) and has `fireUndoableEditHappened` overridden to a no-op, removing the `Drawing` dependency.
