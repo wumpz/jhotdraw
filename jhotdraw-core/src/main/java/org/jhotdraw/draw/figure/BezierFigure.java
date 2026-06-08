@@ -176,44 +176,60 @@ public class BezierFigure extends AbstractAttributedFigure {
   public boolean contains(Point2D.Double p, double scaleDenominator) {
     double tolerance =
         Math.max(1f, 2 * AttributeKeys.getPerpendicularHitGrowth(this, scaleDenominator));
-    if (isClosed() || attr().get(FILL_COLOR) != null && attr().get(UNCLOSED_PATH_FILLED)) {
-      if (path.contains(p)) {
+    if (isFilledOrClosed()) {
+      if (containsInFilledRegion(p, scaleDenominator, tolerance)) {
         return true;
       }
-      double grow = tolerance;
-      GrowStroke gs = new GrowStroke(
-          grow,
-          AttributeKeys.getStrokeTotalWidth(this, scaleDenominator)
-              * attr().get(STROKE_MITER_LIMIT));
-      if (gs.createStrokedShape(path).contains(p)) {
-        return true;
-      } else {
-        if (isClosed()) {
-          return false;
-        }
+      if (isClosed()) {
+        return false;
       }
     }
-    if (!isClosed()) {
-      if (getCappedPath(scaleDenominator).outlineContains(p, tolerance)) {
+    return !isClosed() && containsOnOpenPath(p, scaleDenominator, tolerance);
+  }
+
+  /** Returns true when the path should be tested as a filled/closed area. */
+  private boolean isFilledOrClosed() {
+    return isClosed() || (attr().get(FILL_COLOR) != null && attr().get(UNCLOSED_PATH_FILLED));
+  }
+
+  /**
+   * Hit-tests {@code p} against the filled interior and the stroked outline of the path.
+   * Used when the figure is closed or its unclosed path is explicitly filled.
+   */
+  private boolean containsInFilledRegion(
+      Point2D.Double p, double scaleDenominator, double tolerance) {
+    if (path.contains(p)) {
+      return true;
+    }
+    GrowStroke gs = new GrowStroke(
+        tolerance,
+        AttributeKeys.getStrokeTotalWidth(this, scaleDenominator) * attr().get(STROKE_MITER_LIMIT));
+    return gs.createStrokedShape(path).contains(p);
+  }
+
+  /**
+   * Hit-tests {@code p} against the capped outline of an open path and its end decorations.
+   */
+  private boolean containsOnOpenPath(Point2D.Double p, double scaleDenominator, double tolerance) {
+    if (getCappedPath(scaleDenominator).outlineContains(p, tolerance)) {
+      return true;
+    }
+    if (attr().get(START_DECORATION) != null) {
+      BezierPath cp = getCappedPath(scaleDenominator);
+      Point2D.Double p1 = path.get(0, 0);
+      Point2D.Double p2 = cp.get(0, 0);
+      // FIXME - Check here, if caps path contains the point
+      if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, p.x, p.y, tolerance)) {
         return true;
       }
-      if (attr().get(START_DECORATION) != null) {
-        BezierPath cp = getCappedPath(scaleDenominator);
-        Point2D.Double p1 = path.get(0, 0);
-        Point2D.Double p2 = cp.get(0, 0);
-        // FIXME - Check here, if caps path contains the point
-        if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, p.x, p.y, tolerance)) {
-          return true;
-        }
-      }
-      if (attr().get(END_DECORATION) != null) {
-        BezierPath cp = getCappedPath(scaleDenominator);
-        Point2D.Double p1 = path.get(path.size() - 1, 0);
-        Point2D.Double p2 = cp.get(path.size() - 1, 0);
-        // FIXME - Check here, if caps path contains the point
-        if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, p.x, p.y, tolerance)) {
-          return true;
-        }
+    }
+    if (attr().get(END_DECORATION) != null) {
+      BezierPath cp = getCappedPath(scaleDenominator);
+      Point2D.Double p1 = path.get(path.size() - 1, 0);
+      Point2D.Double p2 = cp.get(path.size() - 1, 0);
+      // FIXME - Check here, if caps path contains the point
+      if (Geom.lineContainsPoint(p1.x, p1.y, p2.x, p2.y, p.x, p.y, tolerance)) {
+        return true;
       }
     }
     return false;
