@@ -232,7 +232,7 @@ public class AttributeKeys {
 
   /** Text color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> TEXT_COLOR =
-      new AttributeKey<>("textColor", Color.class, Color.BLACK, false, LABELS);
+      new AttributeKey<>("textColor", Color.class, Color.BLACK, true, LABELS);
 
   /** Text shadow color. The value of this attribute is a Color object. */
   public static final AttributeKey<Color> TEXT_SHADOW_COLOR =
