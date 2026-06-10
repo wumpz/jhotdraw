@@ -1866,7 +1866,7 @@ public class ODGInputFormat implements InputFormat {
               + " found in path "
               + str);
           break Commands;
-          // throw new IOException("Illegal command: "+command);
+        // throw new IOException("Illegal command: "+command);
       }
     }
     if (path != null) {

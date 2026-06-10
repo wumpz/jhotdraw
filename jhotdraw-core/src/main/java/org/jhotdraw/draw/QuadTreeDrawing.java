@@ -241,7 +241,7 @@ public class QuadTreeDrawing extends AbstractDrawing {
     List<Figure> c = new ArrayList<>(quadTree.findIntersects(r));
     switch (c.size()) {
       case 0:
-        // fall through
+      // fall through
       case 1:
         return c;
       default:

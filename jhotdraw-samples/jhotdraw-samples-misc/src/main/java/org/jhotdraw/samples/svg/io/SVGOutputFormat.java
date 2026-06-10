@@ -1210,25 +1210,25 @@ public class SVGOutputFormat implements OutputFormat {
         }
         buf.append(')');
         break;
-        /*
-        case AffineTransform.TYPE_GENERAL_ROTATION :
-        case AffineTransform.TYPE_QUADRANT_ROTATION :
-        case AffineTransform.TYPE_MASK_ROTATION :
-        // rotate(<rotate-angle> [<cx> <cy>]), specifies a rotation by
-        // <rotate-angle> degrees about a given point.
-        // If optional parameters <cx> and <cy> are not supplied, the
-        // rotate is about the origin of the current user coordinate
-        // system. The operation corresponds to the matrix
-        // [cos(a) sin(a) -sin(a) cos(a) 0 0].
-        // If optional parameters <cx> and <cy> are supplied, the rotate
-        // is about the point (<cx>, <cy>). The operation represents the
-        // equivalent of the following specification:
-        // translate(<cx>, <cy>) rotate(<rotate-angle>)
-        // translate(-<cx>, -<cy>).
-        buf.append("rotate(");
-        buf.append(toNumber(t.getScaleX()));
-        buf.append(')');
-        break;*/
+      /*
+      case AffineTransform.TYPE_GENERAL_ROTATION :
+      case AffineTransform.TYPE_QUADRANT_ROTATION :
+      case AffineTransform.TYPE_MASK_ROTATION :
+      // rotate(<rotate-angle> [<cx> <cy>]), specifies a rotation by
+      // <rotate-angle> degrees about a given point.
+      // If optional parameters <cx> and <cy> are not supplied, the
+      // rotate is about the origin of the current user coordinate
+      // system. The operation corresponds to the matrix
+      // [cos(a) sin(a) -sin(a) cos(a) 0 0].
+      // If optional parameters <cx> and <cy> are supplied, the rotate
+      // is about the point (<cx>, <cy>). The operation represents the
+      // equivalent of the following specification:
+      // translate(<cx>, <cy>) rotate(<rotate-angle>)
+      // translate(-<cx>, -<cy>).
+      buf.append("rotate(");
+      buf.append(toNumber(t.getScaleX()));
+      buf.append(')');
+      break;*/
       case AffineTransform.TYPE_UNIFORM_SCALE:
         // scale(<sx> [<sy>]), specifies a scale operation by sx
         // and sy. If <sy> is not provided, it is assumed to be equal
