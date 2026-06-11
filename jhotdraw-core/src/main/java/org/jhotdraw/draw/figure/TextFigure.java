@@ -91,7 +91,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
         // Test if world to screen transformation mirrors the text. If so it tries to
         // unmirror it.
-        if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
+        if (g2.getTransform().getDeterminant() < 0) {
           AffineTransform at = new AffineTransform();
           at.translate(0, origin.y + layout.getAscent() / 2.0);
           at.scale(1, -1);
