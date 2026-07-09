@@ -16,10 +16,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package org.jhotdraw.draw.figure;
+package org.jhotdraw.draw.figure.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.jhotdraw.draw.figure.TextFigure;
 import org.junit.jupiter.api.Test;
 
 public class TextFigureTest {

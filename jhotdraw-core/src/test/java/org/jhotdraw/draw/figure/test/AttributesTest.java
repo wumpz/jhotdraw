@@ -17,13 +17,14 @@
  * MA 02110-1301  USA
  */
 
-package org.jhotdraw.draw.figure;
+package org.jhotdraw.draw.figure.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.figure.Attributes;
 import org.junit.jupiter.api.Test;
 
 /**

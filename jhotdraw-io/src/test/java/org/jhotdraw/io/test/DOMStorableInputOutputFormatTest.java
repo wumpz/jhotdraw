@@ -17,7 +17,7 @@
  * MA 02110-1301  USA
  */
 
-package org.jhotdraw.io;
+package org.jhotdraw.io.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,6 +35,9 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.RectangleFigure;
 import org.jhotdraw.draw.io.InputFormat;
 import org.jhotdraw.draw.io.OutputFormat;
+import org.jhotdraw.io.DOMDefaultDrawFigureFactory;
+import org.jhotdraw.io.DOMStorableInputFormat;
+import org.jhotdraw.io.DOMStorableOutputFormat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

@@ -140,7 +140,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                       break SearchLoop;
                     }
                     drawing.addAll(importedFigures);
-                    importDataSuccess(importedFigures);
                     view.clearSelection();
                     view.addToSelection(importedFigures);
                     transferFigures.addAll(importedFigures);
@@ -193,7 +192,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
                       break SearchLoop;
                     }
                     drawing.addAll(importedFigures);
-                    importDataSuccess(importedFigures);
 
                     view.clearSelection();
                     view.addToSelection(importedFigures);
@@ -539,12 +537,6 @@ public class DefaultDrawingViewTransferHandler extends TransferHandler {
     }
     return retValue;
   }
-
-  /**
-   * Called after successful figure transfer.
-   * @param importedFigures
-   */
-  public void importDataSuccess(List<Figure> importedFigures) {}
 
   /**
    * This is the default drag handler for drag and drop operations that use the <code>

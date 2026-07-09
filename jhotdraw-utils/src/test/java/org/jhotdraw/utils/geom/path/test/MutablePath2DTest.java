@@ -16,12 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package org.jhotdraw.utils.geom.path;
+package org.jhotdraw.utils.geom.path.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
+import org.jhotdraw.utils.geom.path.MutablePath2D;
 import org.junit.jupiter.api.Test;
 
 /**

@@ -60,8 +60,7 @@ public class PasteAction extends AbstractSelectionAction {
     if (c != null && c.isEnabled()) {
       Transferable t = ClipboardUtil.getClipboard().getContents(c);
       if (t != null && c.getTransferHandler() != null) {
-        if (c.getTransferHandler().importData(c, t)) importDataSuccess();
-        else importDataError();
+        c.getTransferHandler().importData(c, t);
       }
     }
   }
@@ -72,8 +71,4 @@ public class PasteAction extends AbstractSelectionAction {
       setEnabled(target.isEnabled());
     }
   }
-
-  public void importDataSuccess() {}
-
-  public void importDataError() {}
 }
