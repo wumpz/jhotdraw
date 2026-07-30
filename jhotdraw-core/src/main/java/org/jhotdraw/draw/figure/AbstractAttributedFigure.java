@@ -570,13 +570,19 @@ public abstract class AbstractAttributedFigure implements Figure, Cloneable {
     fireFigureRequestRemove();
   }
 
+  private int layer = 0;
+
   /**
    * AbstractFigure always returns 0. Override this method if your figure needs to be on a different
    * layer.
    */
   @Override
   public int getLayer() {
-    return 0;
+    return layer;
+  }
+
+  public void setLayer(int layer) {
+    this.layer = layer;
   }
 
   @Override
