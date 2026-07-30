@@ -25,6 +25,7 @@ import org.jhotdraw.draw.connector.ChopTriangleConnector;
 import org.jhotdraw.draw.connector.Connector;
 import org.jhotdraw.draw.connector.LocatorConnector;
 import org.jhotdraw.draw.decoration.ArrowTip;
+import org.jhotdraw.draw.figure.AbstractAttributedFigure;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.DecoratedFigure;
 import org.jhotdraw.draw.figure.DiamondFigure;
@@ -542,7 +543,13 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
 
   public static void readBaseData(Figure figure, DOMInput domInput) throws IOException {
     readBounds(figure, domInput);
+    readLayer(figure, domInput);
     readAttributes(figure, domInput);
+  }
+
+  public static void readLayer(Figure figure, DOMInput domInput) {
+    if (figure instanceof AbstractAttributedFigure af)
+      af.setLayer(domInput.getAttribute("layer", 0));
   }
 
   public static void readBounds(Figure figure, DOMInput domInput) {
@@ -571,6 +578,7 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
 
   public static void writeBaseData(Figure figure, DOMOutput domOutput) throws IOException {
     writeBounds(figure, domOutput);
+    writeLayer(figure, domOutput);
     writeAttributes(figure, domOutput);
   }
 
@@ -598,6 +606,10 @@ public class DOMDefaultDrawFigureFactory extends DefaultDOMFactory {
     if (isElementOpen) {
       domOutput.closeElement();
     }
+  }
+
+  public static void writeLayer(Figure figure, DOMOutput domOutput) {
+    if (figure.getLayer() != 0) domOutput.addAttribute("layer", figure.getLayer());
   }
 
   public static void writeBounds(Figure figure, DOMOutput domOutput) {
