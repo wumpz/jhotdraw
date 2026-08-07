@@ -70,11 +70,20 @@ public class DelegationSelectionTool extends SelectionTool {
   private boolean isMousePressedPopupTrigger;
 
   public DelegationSelectionTool() {
-    this(new ArrayList<Action>(), new ArrayList<Action>());
+    this(new ArrayList<>(), new ArrayList<>());
   }
 
   public DelegationSelectionTool(
       Collection<Action> drawingActions, Collection<Action> selectionActions) {
+    this.drawingActions = drawingActions;
+    this.selectionActions = selectionActions;
+  }
+
+  public DelegationSelectionTool(
+      Collection<Action> drawingActions,
+      Collection<Action> selectionActions,
+      SelectionFigureFilter figureFilter) {
+    super(figureFilter);
     this.drawingActions = drawingActions;
     this.selectionActions = selectionActions;
   }
