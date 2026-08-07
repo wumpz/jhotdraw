@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.figure.Figure;
@@ -59,6 +60,8 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
   /** Rubberband stroke. */
   private Stroke rubberbandStroke = new BasicStroke();
 
+  private final SelectionFigureFilter figureFilter;
+
   /**
    * The hover handles, are the handles of the figure over which the mouse pointer is currently
    * hovering.
@@ -68,7 +71,13 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
   /** The hover Figure is the figure, over which the mouse is currently hovering. */
   private Figure hoverFigure = null;
 
-  public DefaultSelectAreaTracker() {}
+  public DefaultSelectAreaTracker() {
+    this((pnt, figure, scale) -> true);
+  }
+
+  public DefaultSelectAreaTracker(SelectionFigureFilter figureFilter) {
+    this.figureFilter = Objects.requireNonNull(figureFilter);
+  }
 
   @Override
   public void mousePressed(MouseEvent evt) {
@@ -121,7 +130,9 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
       }
       if (figure == null) {
         figure = view.findFigure(point);
-        while (figure != null && !figure.isSelectable()) {
+        while (figure != null
+            && (!figure.isSelectable()
+                || !figureFilter.allowFigure(p, figure, view.getScaleFactor()))) {
           figure = view.getDrawing().findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
         }
       }

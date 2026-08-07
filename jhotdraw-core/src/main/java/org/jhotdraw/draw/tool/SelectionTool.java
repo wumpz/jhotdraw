@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import org.jhotdraw.draw.*;
 import org.jhotdraw.draw.event.ToolAdapter;
 import org.jhotdraw.draw.event.ToolEvent;
@@ -58,6 +59,8 @@ public class SelectionTool extends AbstractTool {
 
   private int pixelTolerance = 10;
 
+  private final SelectionFigureFilter figureFilter;
+
   private class TrackerHandler extends ToolAdapter {
 
     @Override
@@ -101,6 +104,11 @@ public class SelectionTool extends AbstractTool {
   private boolean isSelectBehindEnabled = true;
 
   public SelectionTool() {
+    this((pnt, figure, scale) -> true);
+  }
+
+  public SelectionTool(SelectionFigureFilter figureFilter) {
+    this.figureFilter = Objects.requireNonNull(figureFilter);
     tracker = getSelectAreaTracker();
     trackerHandler = new TrackerHandler();
     tracker.addToolListener(trackerHandler);
@@ -252,7 +260,9 @@ public class SelectionTool extends AbstractTool {
           // search for a figure in the drawing.
           if (figure == null) {
             figure = drawing.findFigure(p, view.getScaleFactor());
-            while (figure != null && !figure.isSelectable()) {
+            while (figure != null
+                && (!figure.isSelectable()
+                    || !figureFilter.allowFigure(p, figure, view.getScaleFactor()))) {
               figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
             }
           }
@@ -315,7 +325,7 @@ public class SelectionTool extends AbstractTool {
    */
   protected SelectAreaTracker getSelectAreaTracker() {
     if (selectAreaTracker == null) {
-      selectAreaTracker = new DefaultSelectAreaTracker();
+      selectAreaTracker = new DefaultSelectAreaTracker(figureFilter);
     }
     return selectAreaTracker;
   }
