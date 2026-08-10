@@ -33,5 +33,6 @@ public interface SelectionFigureFilter {
    * @param scale actual drawing to screen scale
    * @param fromSelection does this check come from the selection part
    */
-  boolean allowFigure(Point2D.Double drawingPoint, Figure figure, double scale, boolean fromSelection);
+  boolean allowFigure(
+      Point2D.Double drawingPoint, Figure figure, double scale, boolean fromSelection);
 }
