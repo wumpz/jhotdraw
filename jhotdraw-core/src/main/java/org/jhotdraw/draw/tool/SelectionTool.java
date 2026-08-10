@@ -104,7 +104,7 @@ public class SelectionTool extends AbstractTool {
   private boolean isSelectBehindEnabled = true;
 
   public SelectionTool() {
-    this((pnt, figure, scale) -> true);
+    this((pnt, figure, scale, selected) -> true);
   }
 
   public SelectionTool(SelectionFigureFilter figureFilter) {
@@ -250,7 +250,8 @@ public class SelectionTool extends AbstractTool {
           if (isSelectBehindEnabled()) {
             // this will never happen
             for (Figure f : view.getSelectedFigures()) {
-              if (f.contains(p, view.getScaleFactor())) {
+              if (f.contains(p, view.getScaleFactor())
+                  && figureFilter.allowFigure(p, f, view.getScaleFactor(), true)) {
                 figure = f;
                 break;
               }
@@ -262,7 +263,7 @@ public class SelectionTool extends AbstractTool {
             figure = drawing.findFigure(p, view.getScaleFactor());
             while (figure != null
                 && (!figure.isSelectable()
-                    || !figureFilter.allowFigure(p, figure, view.getScaleFactor()))) {
+                    || !figureFilter.allowFigure(p, figure, view.getScaleFactor(), false))) {
               figure = drawing.findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
             }
           }

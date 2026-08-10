@@ -72,7 +72,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
   private Figure hoverFigure = null;
 
   public DefaultSelectAreaTracker() {
-    this((pnt, figure, scale) -> true);
+    this((pnt, figure, scale, selected) -> true);
   }
 
   public DefaultSelectAreaTracker(SelectionFigureFilter figureFilter) {
@@ -124,7 +124,8 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
       Figure figure = null;
       Point2D.Double p = view.viewToDrawing(point);
       for (Figure f : view.getSelectedFigures()) {
-        if (f.contains(p, view.getScaleFactor())) {
+        if (f.contains(p, view.getScaleFactor())
+            && figureFilter.allowFigure(p, f, view.getScaleFactor(), true)) {
           figure = f;
         }
       }
@@ -132,7 +133,7 @@ public class DefaultSelectAreaTracker extends AbstractTool implements SelectArea
         figure = view.findFigure(point);
         while (figure != null
             && (!figure.isSelectable()
-                || !figureFilter.allowFigure(p, figure, view.getScaleFactor()))) {
+                || !figureFilter.allowFigure(p, figure, view.getScaleFactor(), false))) {
           figure = view.getDrawing().findFigureBehind(p, view.getScaleFactor(), figure, f -> true);
         }
       }
